@@ -1,0 +1,208 @@
+:root {
+    --navy: #0A1628;
+    --gold: #C9A230;
+    --cream: #FAF7F0;
+    --charcoal: #1C1C1C;
+    --white: #FFFFFF;
+    --gray: #E0E0E0;
+    --font-main: 'Inter', system-ui, sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-main);
+    background-color: var(--cream);
+    color: var(--charcoal);
+    line-height: 1.6;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Header & Nav */
+header {
+    background-color: var(--navy);
+    color: var(--white);
+    padding: 1rem 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--gold);
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+}
+
+nav a:hover {
+    color: var(--gold);
+}
+
+/* Hero Section */
+.hero {
+    background-color: var(--navy);
+    color: var(--white);
+    padding: 4rem 5%;
+    text-align: center;
+}
+
+.hero h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.hero p {
+    font-size: 1.25rem;
+    color: var(--gray);
+    max-width: 800px;
+    margin: 0 auto 2rem;
+}
+
+/* Buttons */
+.btn {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s;
+    border: none;
+}
+
+.btn-primary {
+    background-color: var(--gold);
+    color: var(--navy);
+}
+
+.btn-primary:hover {
+    background-color: #b08e28;
+}
+
+.btn-outline {
+    background-color: transparent;
+    border: 2px solid var(--gold);
+    color: var(--gold);
+}
+
+/* Dashboard Layout */
+.dashboard-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 250px;
+    background-color: var(--charcoal);
+    color: var(--white);
+    padding: 2rem 1rem;
+}
+
+.sidebar nav ul {
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.sidebar nav a {
+    display: block;
+    padding: 0.75rem 1rem;
+    border-radius: 4px;
+}
+
+.sidebar nav a.active {
+    background-color: var(--gold);
+    color: var(--navy);
+}
+
+.main-content {
+    flex: 1;
+    padding: 2rem;
+}
+
+/* Forms */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--gray);
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+/* Cards */
+.card {
+    background: var(--white);
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 1.5rem;
+}
+
+/* Print Specific */
+@media print {
+    header, .sidebar, .btn, .no-print {
+        display: none !important;
+    }
+    .main-content {
+        padding: 0;
+    }
+    .contract-preview {
+        box-shadow: none;
+        border: none;
+    }
+}
+
+/* FAQ Accordion */
+.faq-item {
+    border-bottom: 1px solid var(--gray);
+    padding: 1rem 0;
+}
+
+.faq-question {
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+}
+
+.faq-answer {
+    margin-top: 0.5rem;
+    display: none;
+}
+
+.faq-item.open .faq-answer {
+    display: block;
+}
+
+/* Rate Calculator Result */
+#rate-result {
+    font-size: 2rem;
+    color: var(--gold);
+    font-weight: 800;
+    margin-top: 1rem;
+}
