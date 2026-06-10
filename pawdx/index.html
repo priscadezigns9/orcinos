@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PawDx | AI-Powered Pet Health Assistant</title>
-    <link rel="stylesheet" href="./shared/style.css">
+    <link rel="stylesheet" href="../shared/style.css">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="./shared/app.js"></script>
+    <script src="../shared/app.js"></script>
 </head>
 <body>
     <header>
@@ -58,7 +58,34 @@
         </div>
     </section>
 
-    
+    <section id="pricing" style="background: var(--navy); color: var(--white); padding: 60px 0;">
+        <div class="container text-center">
+            <h2 class="mb-20">Simple Pricing</h2>
+            <div style="display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; margin-top: 40px;">
+                <div class="card" style="color: var(--navy); width: 300px;">
+                    <h3>Free</h3>
+                    <p style="font-size: 24px; font-weight: 800; margin: 10px 0;">$0</p>
+                    <ul style="text-align: left; list-style: none; margin: 20px 0;">
+                        <li>✓ 3 Symptom checks / day</li>
+                        <li>✓ 1 Pet profile</li>
+                        <li>✓ Breed Library access</li>
+                    </ul>
+                    <a href="../app/dashboard.html" class="btn btn-outline" style="width: 100%;">Start Free</a>
+                </div>
+                <div class="card" style="color: var(--navy); width: 300px; border: 3px solid var(--coral);">
+                    <h3 style="color: var(--coral);">Pro</h3>
+                    <p style="font-size: 24px; font-weight: 800; margin: 10px 0;">$5.99<small style="font-size: 14px;">/mo</small></p>
+                    <ul style="text-align: left; list-style: none; margin: 20px 0;">
+                        <li>✓ Unlimited checks</li>
+                        <li>✓ 5 Pet profiles</li>
+                        <li>✓ Vaccine Tracker</li>
+                        <li>✓ Health Log Export (PDF)</li>
+                    </ul>
+                    <a href="../app/dashboard.html" class="btn btn-primary" style="width: 100%;">Upgrade Now</a>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <footer style="padding: 40px 0; text-align: center;">
         <div class="container">
