@@ -1,1 +1,118 @@
-PKFET
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>SOVSYGNAL | Headlines</title>
+    <meta name='description' content='SOVSYGNAL - Global Intelligence Hub. High-fidelity geopolitical, financial, and technological signals. Institutional-grade data for the Priscion Network.'>
+    <meta name='keywords' content='global intelligence, geopolitics, blockchain, biohacking, market news, forex, stocks, real estate, anime intelligence, priscion, orcinos, sovereign signal'>
+    <meta name='author' content='Prisca Dezigns / Priscion'>
+    <meta name='geo.region' content='TT-SFO'>
+    <meta name='geo.placename' content='San Fernando, Trinidad and Tobago'>
+    <meta name='geo.position' content='10.2840933;-61.4585256'>
+    <meta name='ICBM' content='10.2840933, -61.4585256'>
+    <link rel="icon" type="image/png" href="https://priscadezigns.org/assets/logos/sovereign_favicon.png">
+    <link rel='preconnect' href='https://fonts.googleapis.com'>
+    <link href='https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;600;800&display=swap' rel='stylesheet'>
+    <style>
+        :root { --primary: #8B0000; --bg: #F9F9F9; --text: #1A1A1A; --accent: #111; --font-heading: 'Playfair Display', serif; --font-body: 'Inter', sans-serif; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: var(--bg); color: var(--text); font-family: var(--font-body); line-height: 1.6; }
+        
+        .ticker-wrap { width: 100%; overflow: hidden; background: #000; color: #fff; padding: 12px 0; border-bottom: 2px solid var(--primary); }
+        .ticker { display: inline-block; white-space: nowrap; padding-right: 100%; animation: ticker 240s linear infinite; }
+        @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
+        .ticker-item { display: inline-block; padding: 0 40px; font-weight: 800; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px; }
+        .ticker-item span { color: var(--primary); margin-right: 10px; }
+
+        header { background: #fff; padding: 30px 6%; border-bottom: 3px solid #000; text-align: center; position: sticky; top: 0; z-index: 1000; }
+        header h1 { font-family: var(--font-heading); font-size: 3.5rem; letter-spacing: -2px; line-height: 1; }
+        header h1 a { text-decoration: none; color: black; }
+        header p { text-transform: uppercase; letter-spacing: 6px; font-size: 0.7rem; font-weight: 800; color: #444; margin: 10px 0 20px; }
+        
+        nav { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; border-top: 1px solid #eee; padding-top: 15px; align-items: center; }
+        nav a { text-decoration: none; color: #000; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
+        nav a:hover, nav a.active { color: var(--primary); }
+        
+        .main-container { display: grid; grid-template-columns: 1fr 350px; gap: 60px; padding: 40px 6%; max-width: 1500px; margin: 0 auto; }
+        .category-tag { color: var(--primary); font-weight: 800; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; display: block; }
+        
+        .data-grid { display: grid; gap: 15px; margin-bottom: 40px; padding: 20px; border-radius: 4px; }
+        .grid-4 { grid-template-columns: repeat(4, 1fr); }
+        @media (max-width: 1100px) { .grid-4 { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 600px) { .grid-4 { grid-template-columns: 1fr; } .main-container { grid-template-columns: 1fr; } header h1 { font-size: 2.5rem; } }
+
+        .news-card { margin-bottom: 40px; padding-bottom: 40px; border-bottom: 1px solid #eee; }
+        .news-card h3 { font-family: var(--font-heading); font-size: 2rem; margin-bottom: 15px; line-height: 1.2; }
+        .news-card h3 a { text-decoration: none; color: #000; }
+        .news-card p { color: #555; font-size: 1rem; }
+        
+        .sidebar-ad { padding: 30px; margin-bottom: 30px; border-radius: 4px; }
+        .sidebar-ad h4 { text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem; margin-bottom: 15px; }
+        .sidebar-ad .btn { display: block; text-decoration: none; padding: 12px; text-align: center; font-weight: 800; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; margin-top: 20px; border-radius: 2px; }
+        
+        .source-tag { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1px; color: #999; margin-bottom: 10px; }
+        .sentiment-tag { font-size: 0.6rem; padding: 2px 10px; border-radius: 2px; font-weight: 800; margin-left: 12px; vertical-align: middle; text-transform: uppercase; }
+        .bullish { background: #000; color: #00FF00; border: 1px solid #00FF00; }
+        .neutral { background: #000; color: #FFFF00; border: 1px solid #FFFF00; }
+        .bearish { background: #000; color: #FF0000; border: 1px solid #FF0000; }
+
+        footer { background: #000; color: white; padding: 80px 6%; text-align: center; }
+        footer img { height: 80px; margin-bottom: 20px; }
+        footer p { font-size: 0.7rem; letter-spacing: 2px; opacity: 0.5; }
+    </style>
+</head>
+<body>
+    <div class='ticker-wrap'><div class='ticker'><div class='ticker-item'><span>GEOPOLITICS</span> Diplomatic Strategy: Omani Mediators Relay Tehran’s Formal Counteroffer to US.</div><div class='ticker-item'><span>BLOCKCHAIN</span> Digital Rules: SEC Finalizes Innovation Exemption for Tokenized Stocks.</div><div class='ticker-item'><span>BIOHACKING</span> Metabolic Benchmarks: Roche Obesity Drug outpaces Industry Targets.</div><div class='ticker-item'><span>MARKETS</span> Nasdaq Rebound: Chipmakers Lead High-Fidelity Recovery Post-Selloff.</div><div class='ticker-item'><span>LIFESTYLE</span> Resilient Habitat: Lord Norman Foster addresses Madrid CityLab.</div><div class='ticker-item'><span>INTELLIGENCE</span> Defense AI Directives: White House mandates expedited Battlefield Deployment.</div><div class='ticker-item'><span>FOREX</span> Currency Defense: Traders maintain Risk Rally despite Geopolitics.</div><div class='ticker-item'><span>STOCKS</span> IPO Surge: SpaceX Infrastructure Test signals Institutional Strength.</div><div class='ticker-item'><span>REALESTATE</span> Inflection Point: Global Real Estate Outlook turns Positive for 2026.</div><div class='ticker-item'><span>ANIME</span> Crunchyroll Summer 2026: Most Stacked Season in Years.</div><div class='ticker-item'><span>EUR</span> 0.87 <span style='color:#00FF00'>0.05%</span></div><div class='ticker-item'><span>GBP</span> 0.75 <span style='color:#00FF00'>0.05%</span></div><div class='ticker-item'><span>JPY</span> 160.28 <span style='color:#00FF00'>0.05%</span></div><div class='ticker-item'><span>CAD</span> 1.39 <span style='color:#00FF00'>0.05%</span></div><div class='ticker-item'><span>AUD</span> 1.42 <span style='color:#00FF00'>0.05%</span></div><div class='ticker-item'><span>CHF</span> 0.80 <span style='color:#00FF00'>0.05%</span></div><div class='ticker-item'><span>NZD</span> 1.72 <span style='color:#00FF00'>0.05%</span></div><div class='ticker-item'><span>ZAR</span> 16.50 <span style='color:#00FF00'>0.05%</span></div></div></div>
+    <header>
+        <div id='google_translate_element' style='margin-bottom: 20px;'></div>
+        <script type='text/javascript'>
+            function googleTranslateElementInit() {
+                new google.translate.TranslateElement({pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
+            }
+        </script>
+        <script type='text/javascript' src='//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit'></script>
+        
+        <h1><a href='index.html'>SOVSYGNAL</a></h1>
+        <p>Global Intelligence Hub</p>
+        <nav>
+            <a href='index.html'>Headlines</a>
+            <a href='geopolitics.html'>Geopolitics</a>
+            <a href='blockchain.html'>Blockchain</a>
+            <a href='biohacking.html'>Biohacking</a>
+            <a href='markets.html'>Markets</a>
+            <a href='lifestyle.html'>Lifestyle</a>
+            <a href='intelligence.html'>Intelligence</a>
+            <a href='forex.html'>Forex</a>
+            <a href='stocks.html'>Stocks</a>
+            <a href='realestate.html'>Real Estate</a>
+            <a href='anime.html'>Anime</a>
+        </nav>
+    </header>
+    <div class='main-container'>
+        <main><article class='news-card'><span class='category-tag'>Geopolitics | 13:30 EST</span><h3><a href='geopolitics.html'>Diplomatic Strategy: Omani Mediators Relay Tehran’s Formal Counteroffer to US.</a></h3><p>Tehran has officially formalized its counter-proposal concerning the nuclear deal framework, seeking conditional sanctions relief.</p></article><article class='news-card'><span class='category-tag'>Blockchain | 13:30 EST</span><h3><a href='blockchain.html'>Digital Rules: SEC Finalizes Innovation Exemption for Tokenized Stocks.</a><span class='sentiment-tag bearish'>BEARISH</span></h3><p>The SEC has finalized a plan for trading crypto versions of stocks, providing a new framework for institutional innovation.</p></article><article class='news-card'><span class='category-tag'>Biohacking | 13:30 EST</span><h3><a href='biohacking.html'>Metabolic Benchmarks: Roche Obesity Drug outpaces Industry Targets.</a></h3><p>New clinical data shows high-fidelity performance in metabolic engineering, with results exceeding prior industry benchmarks.</p></article><article class='news-card'><span class='category-tag'>Markets | 13:30 EST</span><h3><a href='markets.html'>Nasdaq Rebound: Chipmakers Lead High-Fidelity Recovery Post-Selloff.</a><span class='sentiment-tag bearish'>BEARISH</span></h3><p>Technological infrastructure stocks are leading a strong market recovery as institutional confidence returns to the sector.</p></article><article class='news-card'><span class='category-tag'>Lifestyle | 13:30 EST</span><h3><a href='lifestyle.html'>Resilient Habitat: Lord Norman Foster addresses Madrid CityLab.</a></h3><p>Architectural protocols for high-fidelity urban engineering were discussed, focusing on autonomous utility architecture.</p></article><article class='news-card'><span class='category-tag'>Intelligence | 13:30 EST</span><h3><a href='intelligence.html'>Defense AI Directives: White House mandates expedited Battlefield Deployment.</a></h3><p>Executive actions are accelerating the deployment of high-fidelity AI models in national security and defense.</p></article><article class='news-card'><span class='category-tag'>Forex | 13:30 EST</span><h3><a href='forex.html'>Currency Defense: Traders maintain Risk Rally despite Geopolitics.</a><span class='sentiment-tag bullish'>BULLISH</span></h3><p>Global currency markets show resilience as traders navigate geopolitical tensions and shifting interest rate expectations.</p></article><article class='news-card'><span class='category-tag'>Stocks | 13:30 EST</span><h3><a href='stocks.html'>IPO Surge: SpaceX Infrastructure Test signals Institutional Strength.</a><span class='sentiment-tag bullish'>BULLISH</span></h3><p>Successful infrastructure milestones are driving significant interest in high-fidelity IPOs and space technology.</p></article><article class='news-card'><span class='category-tag'>RealEstate | 13:30 EST</span><h3><a href='realestate.html'>Inflection Point: Global Real Estate Outlook turns Positive for 2026.</a></h3><p>Real estate markets are reaching an inflection point, with institutional sentiment turning positive for the second half of the year.</p></article><article class='news-card'><span class='category-tag'>Anime | 13:30 EST</span><h3><a href='anime.html'>Crunchyroll Summer 2026: Most Stacked Season in Years.</a></h3><p>The upcoming summer season features a record number of sequels and high-profile new titles for the global market.</p></article></main>
+        <aside>
+            <div class='sidebar-ad' style='background:#111; color:white; text-align:center; border:2px solid var(--primary);'>
+                <h4>SOVSYGNAL PRO</h4>
+                <p style='font-size:0.8rem; opacity:0.8;'>Institutional grade intelligence feeds. Real-time neural analysis.</p>
+                <a href='#' class='btn' style='background:var(--primary); color:white;'>Upgrade Now</a>
+            </div>
+            <div class='sidebar-ad' style='background:#fff; border:1px solid #ff9900;'><img src='https://sktpjacowqaedddtrhuz.supabase.co/storage/v1/object/public/avatars/airpods_max.jpg' alt='AirPods Max' style='width:100%; margin-bottom:10px;'><h4>AirPods Max</h4><a href='https://www.amazon.com/dp/B08PZHYWJS?tag=priscadezigns-20' class='btn' style='background:#ff9900; color:#000;'>View on Amazon</a></div>
+            <div class='sidebar-ad' style='background:#fff; border:1px solid #eee;'>
+                <h4>BOOK SIGNAL</h4>
+                <p style='font-size:0.8rem;'>The 2026 Sovereign Brand Strategy Guide.</p>
+                <a href='https://orcinos.com/' class='btn' style='background:#000; color:white;'>Book Signal</a>
+            </div>
+            <div class='sidebar-ad' style='background:#fff; color:#000; border:1px solid #000;'>
+                <h4>ORCINOS</h4>
+                <p>Apex intelligence SaaS. Automated digital agency protocols.</p>
+                <a href='https://orcinos.com/' class='btn' style='background:#000; color:white;'>Launch Dashboard</a>
+            </div>
+        </aside>
+    </div>
+    <footer>
+        <img src='assets/logos/sovereign_footer_logo.jpg' alt='Sovereign'>
+        <p>&copy; 2026 SOVSYGNAL &middot; PRISCA DEZIGNS EMPIRE MEDIA</p>
+    </footer>
+</body>
+</html>
