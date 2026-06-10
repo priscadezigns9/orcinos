@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OptiScout | Neural Intelligence Dashboard</title>
+    <style>
+        :root {
+            --bg: #FFFFFF; --text: #000000; --muted: #666666; --accent: #FF9500; --border: rgba(0,0,0,0.08);
+            --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: var(--bg); color: var(--text); font-family: var(--font-body); line-height: 1.6; }
+        nav { background: rgba(255,255,255,0.9); padding: 20px 6%; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); }
+        .logo img { height: 70px; }
+        .nav-btns { display: flex; align-items: center; gap: 15px; }
+        
+        .heartbeat-container { background: #000; color: #FFF; padding: 10px 20px; border-radius: 100px; display: flex; align-items: center; gap: 15px; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
+        .pulse-dot { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; box-shadow: 0 0 10px var(--accent); animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0% { opacity: 0.4; } 50% { opacity: 1; } 100% { opacity: 0.4; } }
+
+        .container { padding: 60px 6%; max-width: 1200px; margin: 0 auto; }
+        .dash-header { margin-bottom: 50px; display: flex; justify-content: space-between; align-items: flex-end; }
+        .dash-title h1 { font-size: 2.5rem; font-weight: 900; letter-spacing: -1px; text-transform: uppercase; }
+        .dash-title p { color: var(--muted); font-size: 1rem; }
+
+        .search-area { background: #F9F9F9; padding: 45px; border-radius: 24px; border: 1px solid var(--border); margin-bottom: 40px; text-align: center; }
+        .scout-input { width: 100%; max-width: 600px; padding: 22px; border-radius: 15px; border: 1px solid var(--border); background: #FFF; font-size: 1rem; margin-bottom: 20px; outline: none; transition: 0.3s; text-align: center; }
+        .btn-scan { padding: 20px 60px; background: #000; color: #FFF; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; transition: 0.3s; text-transform: uppercase; letter-spacing: 2px; font-size: 1.1rem; }
+        
+        table { width: 100%; border-collapse: collapse; text-align: left; }
+        th { padding: 20px 35px; font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid var(--border); }
+        td { padding: 25px 35px; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+        
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(20px); z-index: 2000; justify-content: center; align-items: center; }
+        .payment-modal { background: #FFF; border: 2px solid var(--accent); width: 100%; max-width: 480px; padding: 50px; border-radius: 40px; position: relative; text-align: center; }
+        .modal-close { position: absolute; top: 25px; right: 25px; color: var(--muted); font-size: 1.5rem; cursor: pointer; }
+        .pay-option { background: #F9F9F9; border: 1px solid rgba(0,0,0,0.05); padding: 20px; border-radius: 15px; margin-bottom: 15px; display: flex; align-items: center; gap: 20px; cursor: pointer; transition: 0.2s; text-decoration: none; color: #000; text-align: left; }
+        .tier-badge { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: #FFF; background: #000; padding: 4px 12px; border-radius: 100px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo"><img src="../logos/OPTISCOUT_DEFINITIVE_2026.png" alt="OptiScout"></div>
+        <div class="nav-btns">
+            <a href="/" style="text-decoration:none; color:#000; font-weight:800; font-size:0.8rem; text-transform:uppercase;">Home</a>
+            <div id="tier-badge" class="tier-badge" onclick="openPayment()">Standard</div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="dash-header">
+            <div class="dash-title"><p>Neural Arbitrage Intelligence</p><h1>Scout Dashboard</h1></div>
+            <div class="heartbeat-container"><div class="pulse-dot"></div><span id="heartbeat-text">Neural Heartbeat: STABLE | 12h Sync</span></div>
+        </div>
+
+        <div class="search-area">
+            <h3 style="margin-bottom:20px;">Initialize Asset Monitor</h3>
+            <input type="text" id="scout-url" class="scout-input" placeholder="Paste Amazon Product URL here...">
+            <br><button class="btn-scan" onclick="initializeScout()">Initialize Neural Scout</button>
+        </div>
+
+        <table>
+            <thead><tr><th>Product Shard</th><th>Status</th><th>Scout Alpha</th><th>Last Sync</th></tr></thead>
+            <tbody id="monitor-body">
+                <tr id="no-assets"><td colspan="4" style="text-align:center; padding:60px; color:var(--muted);">No active monitors in current shard.</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="paymentModal" class="modal-overlay">
+        <div class="payment-modal">
+            <div class="modal-close" onclick="closePayment()">×</div>
+            <h2>Sovereign Payment</h2>
+            <p style="margin-bottom:30px; color:#666;">Select your OptiScout Apex subscription.</p>
+            <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_xclick-subscriptions&business=priscadezigns9@gmail.com&item_name=OptiScout%20Apex%20Monthly&a3=29.99&p3=1&t3=M&src=1&currency_code=USD" target="_blank" class="pay-option">
+                <div class="pay-icon">💳</div><div class="pay-text"><b>PayPal Monthly ($29.99)</b><span>Auto-renew monthly.</span></div>
+            </a>
+            <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_xclick-subscriptions&business=priscadezigns9@gmail.com&item_name=OptiScout%20Apex%20Yearly&a3=299.99&p3=1&t3=Y&src=1&currency_code=USD" target="_blank" class="pay-option" style="border-color:var(--accent);">
+                <div class="pay-icon">💎</div><div class="pay-text"><b>PayPal Yearly ($299.99)</b><span>Save 20% · Yearly Alpha.</span></div>
+            </a>
+            <a href="dashboard.html?premium=true" style="display:block; margin-top:20px; color:var(--accent); text-decoration:none; font-size:0.8rem; opacity:0.5;">Enter Dashboard</a>
+        </div>
+    </div>
+
+    <script>
+        function openPayment() { document.getElementById('paymentModal').style.display = 'flex'; }
+        function closePayment() { document.getElementById('paymentModal').style.display = 'none'; }
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('premium') === 'true') {
+                document.getElementById('tier-badge').textContent = 'Apex Scout';
+                document.getElementById('heartbeat-text').textContent = 'Neural Heartbeat: ACTIVE | 15m Sync';
+            }
+        };
+        function initializeScout() {
+            const val = document.getElementById('scout-url').value.trim();
+            if(!val) return;
+            const tbody = document.getElementById('monitor-body');
+            if(document.getElementById('no-assets')) document.getElementById('no-assets').remove();
+            const row = document.createElement('tr');
+            row.innerHTML = `<td><div style="font-weight:700;">${val.substring(0,40)}...</div></td><td><span style="color:var(--accent);">SCOUTING...</span></td><td>Searching...</td><td>Just Now</td>`;
+            tbody.prepend(row);
+            document.getElementById('scout-url').value = '';
+        }
+    </script>
+</body>
+</html>
+
