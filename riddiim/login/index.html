@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Sovereign Vault | RIDDIIM</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #050508;
+      --bg2: #0a0a0f;
+      --white: #FFFFFF;
+      --muted: #888899;
+      --border: rgba(255,255,255,0.08);
+      --font-mono: 'Space Mono', monospace;
+    }
+    
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: var(--bg);
+      color: var(--white);
+      font-family: 'Space Grotesk', sans-serif;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .login-container {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      padding: 60px 40px;
+      width: 100%;
+      max-width: 440px;
+      border-radius: 4px;
+      text-align: center;
+      box-shadow: 0 40px 100px rgba(0,0,0,0.5);
+    }
+
+    .nav-vinyl {
+      width: 60px; height: 60px; border-radius: 50%; 
+      background: radial-gradient(circle,#1a1a22 30%,#0a0a0f 30%,#0a0a0f 35%,#1a1a22 35%,#1a1a22 55%,#0a0a0f 55%);
+      border: 1px solid rgba(255,255,255,0.15);
+      animation: spin 8s linear infinite;
+      margin: 0 auto 40px;
+    }
+    @keyframes spin{to{transform:rotate(360deg)}}
+
+    h1 { font-family: var(--font-mono); font-size: 24px; letter-spacing: 4px; margin-bottom: 12px; }
+    p { color: var(--muted); font-size: 11px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 40px; }
+
+    input {
+      width: 100%; background: #000; border: 1px solid var(--border);
+      padding: 16px; color: #fff; font-family: var(--font-mono);
+      font-size: 13px; border-radius: 2px; margin-bottom: 16px; outline: none;
+      transition: border-color 0.2s;
+    }
+    input:focus { border-color: rgba(255,255,255,0.3); }
+
+    .btn-primary {
+      width: 100%; background: var(--white); color: var(--bg);
+      padding: 16px; font-weight: 800; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 2px; border: none;
+      cursor: pointer; transition: opacity 0.2s; margin-top: 12px;
+    }
+    .btn-primary:hover { opacity: 0.85; }
+
+    .btn-ghost {
+      background: transparent; color: var(--muted); border: none;
+      font-size: 10px; text-transform: uppercase; letter-spacing: 2px;
+      margin-top: 30px; cursor: pointer; transition: color 0.2s;
+    }
+    .btn-ghost:hover { color: var(--white); }
+  </style>
+</head>
+<body>
+
+<div class="login-container">
+  <div class="nav-vinyl"></div>
+  <h1>SOVEREIGN VAULT</h1>
+  <p>Identify to Access Neural Deck</p>
+
+  <form id="login-form">
+    <input type="email" id="email" placeholder="NEURAL_EMAIL" required>
+    <input type="password" id="password" placeholder="VAULT_KEY" required>
+    <button type="submit" id="auth-btn" class="btn-primary">SIGN_IN</button>
+  </form>
+  
+  <button class="btn-ghost" onclick="toggleMode()" id="mode-btn">Create New Identity</button>
+  <div style="margin-top: 10px;">
+    <button class="btn-ghost" onclick="window.location.href='https://riddiim.com'" style="font-weight: 700; color: var(--white);">HOME</button>
+  </div>
+</div>
+
+<script>
+  const sb = supabase.createClient("https://sktpjacowqaedddtrhuz.supabase.co","eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNrdHBqYWNvd3FhZWRkZHRyaHV6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2NDk5MzEsImV4cCI6MjA5NDIyNTkzMX0.FK4N_ATFTaUuGXrYu_7OBn3qCdlo0rOzxk-E6TxJxqs");
+  
+  let mode = 'signin';
+  const form = document.getElementById('login-form');
+  const authBtn = document.getElementById('auth-btn');
+  const modeBtn = document.getElementById('mode-btn');
+
+  function toggleMode() {
+    mode = mode === 'signin' ? 'signup' : 'signin';
+    authBtn.textContent = mode === 'signin' ? 'SIGN_IN' : 'CREATE_IDENTITY';
+    modeBtn.textContent = mode === 'signin' ? 'Create New Identity' : 'Already have an Identity?';
+  }
+
+  form.onsubmit = async (e) => {
+    e.preventDefault();
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    
+    authBtn.textContent = 'CONNECTING...';
+    authBtn.disabled = true;
+
+    try {
+      const { data, error } = mode === 'signup'
+        ? await sb.auth.signUp({ email, password })
+        : await sb.auth.signInWithPassword({ email, password });
+
+      if(error) throw error;
+      
+      if(mode === 'signup') {
+        alert('IDENTITY_CREATED. PLEASE CHECK EMAIL TO CONFIRM.');
+      } else {
+        window.location.href = '../player/';
+      }
+    } catch(err) {
+      alert(`AUTH_ERROR: ${err.message}`);
+    } finally {
+      authBtn.textContent = mode === 'signin' ? 'SIGN_IN' : 'CREATE_IDENTITY';
+      authBtn.disabled = false;
+    }
+  };
+
+  // Redirect if already logged in
+  sb.auth.getSession().then(({data}) => {
+    if(data.session) window.location.href = '../player/';
+  });
+</script>
+
+</body>
+</html>
+
