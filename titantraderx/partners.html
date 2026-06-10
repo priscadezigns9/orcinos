@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Titan Partners | Sovereign Liquidity</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #00A36C;
+            --bg: #0A0A0B;
+            --surface: #161618;
+            --border: rgba(255, 255, 255, 0.08);
+            --text: #FFFFFF;
+            --muted: #A0A0A5;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            line-height: 1.6;
+        }
+        header { 
+            padding: 20px 5%; display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid var(--border); backdrop-filter: blur(10px);
+            position: sticky; top: 0; z-index: 1000; background: rgba(10,10,11,0.8);
+        }
+        .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+        .logo img { height: 32px; }
+        .logo span { font-weight: 800; font-size: 1.2rem; color: #fff; }
+        
+        nav { display: flex; gap: 20px; }
+        nav a { text-decoration: none; color: var(--muted); font-weight: 600; font-size: 0.85rem; }
+        nav a:hover { color: #fff; }
+
+        .hero { padding: 80px 5% 40px; text-align: center; }
+        .hero h1 { font-size: 3rem; font-weight: 800; margin-bottom: 15px; }
+        .hero p { color: var(--muted); max-width: 600px; margin: 0 auto; }
+
+        .nav-categories { 
+            display: flex; justify-content: center; gap: 10px; margin-bottom: 50px; 
+            padding: 10px; position: sticky; top: 73px; z-index: 999; background: var(--bg);
+        }
+        .cat-btn { 
+            padding: 10px 25px; border-radius: 50px; background: var(--surface); 
+            border: 1px solid var(--border); color: #fff; text-decoration: none;
+            font-size: 0.85rem; font-weight: 700; transition: all 0.2s;
+        }
+        .cat-btn:hover, .cat-btn.active { background: var(--primary); border-color: var(--primary); }
+
+        .section { padding: 60px 5%; max-width: 1400px; margin: 0 auto; scroll-margin-top: 130px; }
+        .section-header { margin-bottom: 40px; }
+        .section-header h2 { font-size: 2rem; font-weight: 800; border-left: 4px solid var(--primary); padding-left: 20px; }
+
+        .tile-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+        .tile { 
+            background: var(--surface); border: 1px solid var(--border);
+            padding: 30px; border-radius: 24px; transition: all 0.3s;
+            display: flex; flex-direction: column; justify-content: space-between;
+        }
+        .tile:hover { transform: scale(1.02); border-color: var(--primary); background: rgba(255,255,255,0.02); }
+        .tile h3 { font-size: 1.4rem; margin-bottom: 10px; }
+        .tile p { color: var(--muted); font-size: 0.9rem; margin-bottom: 20px; }
+        
+        .join-btn {
+            padding: 12px; background: var(--primary); color: #fff;
+            text-decoration: none; border-radius: 12px; text-align: center;
+            font-weight: 700; font-size: 0.85rem;
+        }
+
+        footer { padding: 40px 5%; text-align: center; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+    
+    .logo-container img { 
+        height: 40px; 
+        width: 40px;
+        object-fit: contain;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 50%; 
+        box-shadow: 0 0 15px rgba(0, 255, 127, 0.3);
+        border: 1px solid rgba(0, 255, 127, 0.2);
+    }
+</style>
+</head>
+<body>
+    <header>
+        <a href="index.html" class="logo">
+            <img src="../logos/TITAN_TRADERX_LOGO.png" alt="ORCINOS">
+            <span>TITAN PARTNERS</span>
+        </a>
+        <nav>
+            <a href="index.html">HOME</a>
+            <a href="charts.html">TERMINAL</a>
+            <a href="academy.html">ACADEMY</a>
+            <a href="dashboard.html" style="color:var(--primary);">LOGIN</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h1>Sovereign Liquidity</h1>
+        <p>Connect with the world's most reliable financial infrastructure providers.</p>
+    </section>
+
+    <div class="nav-categories">
+        <a href="#prop-firms" class="cat-btn">PROP FIRMS</a>
+        <a href="#exchanges" class="cat-btn">CRYPTO EXCHANGES</a>
+        <a href="#brokers" class="cat-btn">BROKERS</a>
+    </div>
+
+    <section id="prop-firms" class="section">
+        <div class="section-header">
+            <h2>Proprietary Trading Firms</h2>
+        </div>
+        <div class="tile-grid">
+            <div class="tile">
+                <h3>Goat Funded Trader</h3>
+                <p>Innovative scaling and high-leverage accounts for professional traders.</p>
+                <a href="https://goatfundedtrader.com/ref/priscadezigns" class="btn join-btn">GET FUNDED</a>
+            </div>
+            <div class="tile">
+                <h3>Funding Pips</h3>
+                <p>Simple rules, fast payouts, and institutional-grade trading conditions.</p>
+                <a href="https://app.fundingpips.com/register?referral_code=4b6bcdfc" class="btn join-btn">GET FUNDED</a>
+            </div>
+            <div class="tile">
+                <h3>Funded Hive</h3>
+                <p>The hive for elite traders. Competitive challenges and massive capital.</p>
+                <a href="https://fundedhive.com/?ref=T439A3B0BL" class="btn join-btn">GET FUNDED</a>
+            </div>
+            <div class="tile">
+                <h3>FTMO</h3>
+                <p>The industry benchmark for reliability and professional evaluation.</p>
+                <a href="https://ftmo.com" class="btn join-btn">GET FUNDED</a>
+            </div>
+            <div class="tile">
+                <h3>The 5%ers</h3>
+                <p>Direct funding models and hyper-scaling for consistent traders.</p>
+                <a href="https://the5ers.com" class="btn join-btn">GET FUNDED</a>
+            
+            <div class="tile">
+                <h3>Funding Hive</h3>
+                <p>Proprietary trading firm with advanced technology and flexible funding options.</p>
+                <a href="#" class="btn join-btn">GET FUNDED</a>
+            </div>
+            <div class="tile">
+                <h3>Binance</h3>
+                <p>The world’s leading cryptocurrency exchange by trading volume and users.</p>
+                <a href="#" class="btn join-btn">TRADE CRYPTO</a>
+            </div>
+            <div class="tile">
+                <h3>eToro</h3>
+                <p>Social trading and multi-asset brokerage company focused on financial and copy trading services.</p>
+                <a href="#" class="btn join-btn">COPY TRADE</a>
+            </div>
+            <div class="tile">
+                <h3>Bybit</h3>
+                <p>Professional trading platform with ultra-fast matching engine and excellent customer service.</p>
+                <a href="#" class="btn join-btn">TRADE DERIVATIVES</a>
+            </div>
+</div>
+        </div>
+    </section>
+
+    <section id="exchanges" class="section">
+        <div class="section-header">
+            <h2>Global Crypto Exchanges</h2>
+        </div>
+        <div class="tile-grid">
+            <div class="tile">
+                <h3>Binance</h3>
+                <p>The world's largest liquidity hub for spot and derivative crypto trading.</p>
+                <a href="https://www.binance.com/referral/earn-together/refer2earn-usdc/claim?hl=en&ref=GRO_28502_RRBZ9&utm_source=referral_entrance" class="btn join-btn">START TRADING</a>
+            </div>
+            <div class="tile">
+                <h3>eToro</h3>
+                <p>Social trading and institutional crypto access for global residents.</p>
+                <a href="https://etoro.tw/43JFUR7" class="btn join-btn">START TRADING</a>
+            </div>
+            <div class="tile">
+                <h3>Bybit</h3>
+                <p>Premier destination for derivatives and high-fidelity crypto execution.</p>
+                <a href="https://bybit.com" class="btn join-btn">START TRADING</a>
+            
+            <div class="tile">
+                <h3>Funding Hive</h3>
+                <p>Proprietary trading firm with advanced technology and flexible funding options.</p>
+                <a href="#" class="btn join-btn">GET FUNDED</a>
+            </div>
+            <div class="tile">
+                <h3>Binance</h3>
+                <p>The world’s leading cryptocurrency exchange by trading volume and users.</p>
+                <a href="#" class="btn join-btn">TRADE CRYPTO</a>
+            </div>
+            <div class="tile">
+                <h3>eToro</h3>
+                <p>Social trading and multi-asset brokerage company focused on financial and copy trading services.</p>
+                <a href="#" class="btn join-btn">COPY TRADE</a>
+            </div>
+            <div class="tile">
+                <h3>Bybit</h3>
+                <p>Professional trading platform with ultra-fast matching engine and excellent customer service.</p>
+                <a href="#" class="btn join-btn">TRADE DERIVATIVES</a>
+            </div>
+</div>
+        </div>
+    </section>
+
+    <section id="brokers" class="section">
+        <div class="section-header">
+            <h2>Institutional Brokers</h2>
+        </div>
+        <div class="tile-grid">
+            <div class="tile">
+                <h3>Interactive Brokers</h3>
+                <p>The gold standard for global access to stocks, options, and futures.</p>
+                <a href="https://interactivebrokers.com" class="btn join-btn">OPEN ACCOUNT</a>
+            </div>
+            <div class="tile">
+                <h3>IC Markets</h3>
+                <p>True ECN connectivity with raw spreads for the active day trader.</p>
+                <a href="https://icmarkets.com" class="btn join-btn">OPEN ACCOUNT</a>
+            </div>
+            <div class="tile">
+                <h3>Pepperstone</h3>
+                <p>Low latency and deep liquidity pools for sovereign forex trading.</p>
+                <a href="https://pepperstone.com" class="btn join-btn">OPEN ACCOUNT</a>
+            
+            <div class="tile">
+                <h3>Funding Hive</h3>
+                <p>Proprietary trading firm with advanced technology and flexible funding options.</p>
+                <a href="#" class="btn join-btn">GET FUNDED</a>
+            </div>
+            <div class="tile">
+                <h3>Binance</h3>
+                <p>The world’s leading cryptocurrency exchange by trading volume and users.</p>
+                <a href="#" class="btn join-btn">TRADE CRYPTO</a>
+            </div>
+            <div class="tile">
+                <h3>eToro</h3>
+                <p>Social trading and multi-asset brokerage company focused on financial and copy trading services.</p>
+                <a href="#" class="btn join-btn">COPY TRADE</a>
+            </div>
+            <div class="tile">
+                <h3>Bybit</h3>
+                <p>Professional trading platform with ultra-fast matching engine and excellent customer service.</p>
+                <a href="#" class="btn join-btn">TRADE DERIVATIVES</a>
+            </div>
+</div>
+        </div>
+    </section>
+
+    <footer>
+        &copy; 2026 Priscion Orcinos. Built for the Sovereign Trader.
+    </footer>
+</body>
+</html>
+
+
