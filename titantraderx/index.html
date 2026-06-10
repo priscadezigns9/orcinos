@@ -3,212 +3,393 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Titan TraderX | Dashboard (High-Fidelity)</title>
+    <title>Titan TraderX | Sovereign Market Intelligence</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --navy: #0a192f;
-            --gold: #d4af37;
-            --cyan: #64ffda;
-            --text: #ccd6f6;
-            --white: #ffffff;
+            --primary: #00A36C;
+            --primary-light: #E6F6F0;
+            --bg: #FFFFFF;
+            --surface: #F9FAFB;
+            --text-main: #111827;
+            --text-sub: #6B7280;
+            --border: #F3F4F6;
+            --radius-lg: 24px;
+            --radius-md: 16px;
+            --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            --shadow-hover: 0 20px 25px -5px rgba(0, 0, 0, 0.04), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
         }
 
-        body {
-            background-color: var(--navy);
-            color: var(--text);
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        body { background: var(--bg); color: var(--text-main); font-family: 'Plus Jakarta Sans', sans-serif; overflow-x: hidden; }
 
+        /* Smooth Scroll */
+        html { scroll-behavior: smooth; }
+
+        /* Modern Header (Floating Glass) */
         header {
-            background-color: rgba(10, 25, 47, 0.95);
-            border-bottom: 2px solid var(--gold);
-            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            padding: 0.75rem 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 100;
         }
 
-        .logo-container {
-            display: flex;
-            align-items: center;
-            gap: 10px;
+        .logo-wrap { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+        .logo-wrap img { height: 40px; width: auto; transition: transform 0.3s ease; }
+        .logo-wrap:hover img { transform: scale(1.05); }
+        .logo-text { font-weight: 800; font-size: 1.25rem; letter-spacing: -0.5px; color: var(--text-main); }
+
+        nav { display: flex; gap: 8px; }
+        nav a { 
+            padding: 10px 20px; 
+            text-decoration: none; 
+            color: var(--text-sub); 
+            font-weight: 600; 
+            font-size: 0.9rem; 
+            border-radius: 12px;
+            transition: all 0.2s ease;
+        }
+        nav a:hover { background: var(--surface); color: var(--text-main); }
+        nav a.active { background: var(--primary-light); color: var(--primary); }
+
+        /* Ticker Tape */
+        .top-ticker {
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            height: 40px;
+            overflow: hidden;
         }
 
-        .logo-text {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: var(--gold);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        nav a {
-            color: var(--cyan);
-            text-decoration: none;
-            margin-left: 20px;
-            font-weight: 500;
-            transition: color 0.3s;
-        }
-
-        nav a:hover {
-            color: var(--gold);
-        }
-
-        main {
-            padding: 2rem;
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 2rem;
+        /* Hero Container */
+        .hero {
+            padding: 80px 5% 40px;
             max-width: 1400px;
             margin: 0 auto;
-            width: 100%;
-            box-sizing: border-box;
         }
 
-        .card {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(100, 255, 218, 0.1);
-            border-radius: 8px;
-            padding: 1.5rem;
-            margin-bottom: 2rem;
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--primary-light);
+            color: var(--primary);
+            padding: 6px 14px;
+            border-radius: 100px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 24px;
         }
 
-        h2 {
-            color: var(--gold);
-            border-left: 4px solid var(--cyan);
-            padding-left: 1rem;
-            margin-top: 0;
-            font-size: 1.25rem;
-            text-transform: uppercase;
+        h1 { font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 800; letter-spacing: -2px; line-height: 1.1; margin-bottom: 24px; }
+        h1 span { color: var(--primary); }
+        .hero-desc { font-size: 1.15rem; color: var(--text-sub); max-width: 600px; line-height: 1.6; margin-bottom: 48px; }
+
+        /* Modern Grid Tiles */
+        .category-tiles {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-bottom: 64px;
         }
 
-        .placeholder-box {
-            background: rgba(0, 0, 0, 0.2);
-            border: 1px dashed var(--cyan);
-            height: 300px;
+        .tile {
+            background: #fff;
+            border: 1px solid var(--border);
+            padding: 32px;
+            border-radius: var(--radius-lg);
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tile:hover {
+            transform: translateY(-8px);
+            border-color: var(--primary);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .tile-icon {
+            width: 56px;
+            height: 56px;
+            background: var(--surface);
+            border-radius: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--cyan);
-            font-style: italic;
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 24px;
+            transition: 0.3s;
         }
 
-        .prop-directory {
+        .tile:hover .tile-icon { background: var(--primary); color: #fff; }
+        .tile h3 { font-size: 1.25rem; font-weight: 700; margin-bottom: 12px; }
+        .tile p { font-size: 0.95rem; color: var(--text-sub); line-height: 1.5; }
+
+        /* Dashboard Layout */
+        .dashboard {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 1rem;
-            margin-top: 1rem;
+            grid-template-columns: 1fr 380px;
+            gap: 32px;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 5% 80px;
         }
 
-        .prop-item {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--gold);
-            padding: 1rem;
+        .card {
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            box-shadow: var(--shadow);
+            margin-bottom: 32px;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .card-title { font-size: 1.25rem; font-weight: 700; display: flex; align-items: center; gap: 10px; }
+        .card-title i { color: var(--primary); }
+
+        /* Live Data Section (CMC/Finnhub Styled) */
+        .data-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 16px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .data-row:last-child { border: none; }
+        .asset-info { display: flex; align-items: center; gap: 12px; }
+        .asset-symbol { font-weight: 700; font-family: 'JetBrains Mono', monospace; }
+        .asset-name { font-size: 0.8rem; color: var(--text-sub); }
+        .asset-price { text-align: right; font-weight: 700; }
+        .asset-change { font-size: 0.85rem; font-weight: 700; }
+        .up { color: var(--primary); }
+        .down { color: #EF4444; }
+
+        /* Academy (Investopedia style) */
+        .academy {
+            padding: 80px 5%;
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+        }
+
+        .academy-inner { max-width: 1400px; margin: 0 auto; }
+        .academy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 32px;
+        }
+
+        .lesson-card {
+            background: #fff;
+            padding: 40px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
+        }
+
+        .lesson-card h4 { font-size: 1.1rem; margin-bottom: 16px; color: var(--primary); }
+        .lesson-card p { color: var(--text-sub); font-size: 0.95rem; line-height: 1.6; }
+
+        footer {
+            padding: 60px 5%;
             text-align: center;
-            border-radius: 4px;
-            transition: transform 0.2s;
+            border-top: 1px solid var(--border);
+            color: var(--text-sub);
+            font-size: 0.9rem;
         }
 
-        .prop-item:hover {
-            transform: translateY(-5px);
-            background: rgba(255, 255, 255, 0.08);
-        }
-
-        .btn {
-            background: var(--gold);
-            color: var(--navy);
-            padding: 0.5rem 1rem;
-            text-decoration: none;
-            border-radius: 4px;
-            font-weight: bold;
-            display: inline-block;
-            margin-top: 1rem;
-        }
-
-        .footer {
-            margin-top: auto;
-            padding: 2rem;
-            text-align: center;
-            border-top: 1px solid rgba(212, 175, 55, 0.2);
-            font-size: 0.8rem;
-        }
-
-        @media (max-width: 900px) {
-            main {
-                grid-template-columns: 1fr;
-            }
+        @media (max-width: 1024px) {
+            .dashboard { grid-template-columns: 1fr; }
+            header { padding: 0.75rem 5%; }
         }
     </style>
 </head>
 <body>
+
     <header>
-        <div class="logo-container">
-            <img src="https://lh3.googleusercontent.com/d/1ERqvFXcmdfgQsJXfrtRjyb5GvivpgimT" alt="Titan TraderX" height="40">
-            <span class="logo-text">Titan TraderX</span>
-        </div>
+        <a href="index.html" class="logo-wrap">
+            <img src="https://lh3.googleusercontent.com/d/1ERqvFXcmdfgQsJXfrtRjyb5GvivpgimT" alt="Titan TraderX Logo">
+            <span class="logo-text">TRADERX</span>
+        </a>
         <nav>
-            <a href="index.html">Dashboard</a>
+            <a href="index.html" class="active">Hub</a>
             <a href="prop-firms.html">Prop Firms</a>
-            <a href="#">Analysis</a>
-            <a href="#">Tools</a>
+            <a href="#academy">Academy</a>
         </nav>
     </header>
 
-    <main>
-        <section class="left-column">
-            <div class="card">
-                <h2>Market Analysis</h2>
-                <div class="placeholder-box">
-                    Live Trading Charts & Sentiment Analysis Placeholder
+    <div class="top-ticker">
+        <div class="tradingview-widget-container">
+            <div class="tradingview-widget-container__widget"></div>
+            <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
+            {
+                "symbols": [
+                    { "proName": "FOREXCOM:SPX500", "title": "S&P 500" },
+                    { "proName": "FOREXCOM:NSXUSD", "title": "Nasdaq 100" },
+                    { "proName": "FX_IDC:EURUSD", "title": "EUR/USD" },
+                    { "proName": "BITSTAMP:BTCUSD", "title": "BTC/USD" }
+                ],
+                "showSymbolLogo": true,
+                "colorTheme": "light",
+                "isTransparent": true,
+                "displayMode": "adaptive",
+                "locale": "en"
+            }
+            </script>
+        </div>
+    </div>
+
+    <section class="hero">
+        <div class="hero-badge"><i class="fas fa-shield-halved"></i> Sovereign Intelligence v2.0</div>
+        <h1>Master the <span>Sovereign</span> Markets.</h1>
+        <p class="hero-desc">Experience institutional-grade intelligence with a modern, smooth interface. Built for the modern trader who values speed, clarity, and sovereign independence.</p>
+        
+        <div class="category-tiles">
+            <a href="prop-firms.html" class="tile">
+                <div class="tile-icon"><i class="fas fa-building-columns"></i></div>
+                <h3>Prop Firms</h3>
+                <p>Unlock deep capital with Goat Funded, Funding Pips, and Hive.</p>
+            </a>
+            <a href="#stocks" class="tile">
+                <div class="tile-icon"><i class="fas fa-chart-line"></i></div>
+                <h3>Global Equities</h3>
+                <p>Real-time institutional stock signals from Finnhub.</p>
+            </a>
+            <a href="#forex" class="tile">
+                <div class="tile-icon"><i class="fas fa-money-bill-transfer"></i></div>
+                <h3>Forex Hub</h3>
+                <p>Track currency flows and liquid sessions globally.</p>
+            </a>
+            <a href="#crypto" class="tile">
+                <div class="tile-icon"><i class="fas fa-microchip"></i></div>
+                <h3>Neural Assets</h3>
+                <p>Real-time CMC pulse for the next generation of tokens.</p>
+            </a>
+        </div>
+    </section>
+
+    <div class="dashboard">
+        <section>
+            <!-- Market Pulse (CMC) -->
+            <div class="card" id="crypto">
+                <div class="card-header">
+                    <h2 class="card-title"><i class="fas fa-fire"></i> Crypto Pulse: Top Gainers</h2>
+                    <span style="font-size: 0.75rem; color: var(--text-sub);">Source: CoinMarketCap API</span>
+                </div>
+                <div class="data-row">
+                    <div class="asset-info"><span class="asset-symbol">DOGEX</span><span class="asset-name">DOGEX</span></div>
+                    <div class="asset-price">$0.0000<span class="asset-change up"> (+1617%)</span></div>
+                </div>
+                <div class="data-row">
+                    <div class="asset-info"><span class="asset-symbol">FELIS</span><span class="asset-name">Felis</span></div>
+                    <div class="asset-price">$0.0000<span class="asset-change up"> (+1122%)</span></div>
+                </div>
+                <div class="data-row">
+                    <div class="asset-info"><span class="asset-symbol">VIT</span><span class="asset-name">V.I.T.R.I.O.L.</span></div>
+                    <div class="asset-price">$0.0163<span class="asset-change up"> (+365%)</span></div>
                 </div>
             </div>
 
-            <div class="card">
-                <h2>Prop Firm & DEX Directory</h2>
-                <div class="prop-directory">
-                    <div class="prop-item">
-                        FTMO
-                        <br>
-                        <a href="prop-firms.html" class="btn">View Details</a>
-                    </div>
-                    <div class="prop-item">
-                        GMX (DEX)
-                        <br>
-                        <a href="prop-firms.html" class="btn">Trade Now</a>
-                    </div>
-                    <div class="prop-item">
-                        Gains Network
-                        <br>
-                        <a href="prop-firms.html" class="btn">Trade Now</a>
-                    </div>
+            <!-- Equities (Finnhub) -->
+            <div class="card" id="stocks">
+                <div class="card-header">
+                    <h2 class="card-title"><i class="fas fa-landmark"></i> Equity Watchlist</h2>
+                    <span style="font-size: 0.75rem; color: var(--text-sub);">Source: Finnhub API</span>
                 </div>
-                <div style="text-align: center; margin-top: 1.5rem;">
-                    <a href="prop-firms.html" style="color: var(--cyan);">View all 15+ partners &rarr;</a>
+                <div class="data-row">
+                    <div class="asset-info"><span class="asset-symbol">AAPL</span><span class="asset-name">Apple Inc.</span></div>
+                    <div class="asset-price">$290.55<span class="asset-change down"> (-3.64%)</span></div>
+                </div>
+                <div class="data-row">
+                    <div class="asset-info"><span class="asset-symbol">TSLA</span><span class="asset-name">Tesla Inc.</span></div>
+                    <div class="asset-price">$396.68<span class="asset-change down"> (-3.00%)</span></div>
+                </div>
+                <div class="data-row">
+                    <div class="asset-info"><span class="asset-symbol">NVDA</span><span class="asset-name">NVIDIA Corp.</span></div>
+                    <div class="asset-price">$208.19<span class="asset-change down"> (-0.21%)</span></div>
+                </div>
+            </div>
+
+            <!-- Charting -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title"><i class="fas fa-terminal"></i> Terminal V1</h2>
+                </div>
+                <div style="height: 500px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border);">
+                    <div id="tv_chart" style="height: 100%;"></div>
+                    <script src="https://s3.tradingview.com/tv.js"></script>
+                    <script>
+                        new TradingView.widget({
+                            "width": "100%", "height": "100%", "symbol": "FX:EURUSD",
+                            "interval": "D", "theme": "light", "style": "1", "locale": "en",
+                            "container_id": "tv_chart", "hide_side_toolbar": false, "allow_symbol_change": true
+                        });
+                    </script>
                 </div>
             </div>
         </section>
 
-        <section class="right-column">
-            <div class="card">
-                <h2>Economic Calendar</h2>
-                <div class="placeholder-box" style="height: 500px;">
-                    High-Impact News Feed Placeholder
+        <aside>
+            <div class="card" style="height: 480px;">
+                <div class="card-header"><h2 class="card-title"><i class="fas fa-calendar-day"></i> Calendar</h2></div>
+                <div class="tradingview-widget-container" style="height: calc(100% - 40px);">
+                    <div class="tradingview-widget-container__widget"></div>
+                    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-events.js" async>
+                    { "colorTheme": "light", "isTransparent": true, "width": "100%", "height": "100%", "locale": "en", "importanceFilter": "-1,0,1" }
+                    </script>
                 </div>
             </div>
-        </section>
-    </main>
 
-    <footer class="footer">
-        &copy; 2026 Prisca Dezigns | Titan TraderX. All rights reserved. High-End Trading Solutions.
+            <div class="card" style="height: 400px; overflow: hidden;">
+                <div class="card-header"><h2 class="card-title"><i class="fas fa-rss"></i> Global Signal</h2></div>
+                <div class="tradingview-widget-container" style="height: calc(100% - 40px);">
+                    <div class="tradingview-widget-container__widget"></div>
+                    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-timeline.js" async>
+                    { "feedMode": "all_symbols", "colorTheme": "light", "isTransparent": true, "displayMode": "regular", "width": "100%", "height": "100%" }
+                    </script>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <section class="academy" id="academy">
+        <div class="academy-inner">
+            <h2 style="font-size: 2rem; font-weight: 800; margin-bottom: 48px; text-align: center;">Academy for the <span style="color:var(--primary)">Sovereign Man</span></h2>
+            <div class="academy-grid">
+                <div class="lesson-card">
+                    <h4>The Global Exchange</h4>
+                    <p>Trading is simply the exchange of value. When you swap currencies or buy stocks, you are participating in the largest, most liquid network on earth. Clarity is your only weapon.</p>
+                </div>
+                <div class="lesson-card">
+                    <h4>Leverage: The Multiplier</h4>
+                    <p>Think of leverage as a magnifying glass. It makes the small moves in the market look massive. Used correctly, it accelerates growth; used blindly, it accelerates ruin.</p>
+                </div>
+                <div class="lesson-card">
+                    <h4>The Backed Trader</h4>
+                    <p>Prop firms allow you to trade with institutional capital while retaining the majority of the profit. It is the ultimate bridge for those with talent but limited resources.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <img src="https://lh3.googleusercontent.com/d/1ERqvFXcmdfgQsJXfrtRjyb5GvivpgimT" alt="Titan TraderX Logo" style="height: 30px; opacity: 0.5; margin-bottom: 20px;">
+        <p>© 2026 TITAN TRADERX · ARCHITECTING REALITY</p>
     </footer>
+
 </body>
 </html>
-
