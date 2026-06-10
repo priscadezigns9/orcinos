@@ -232,8 +232,23 @@
             <a href="index.html" class="active">Hub</a>
             <a href="prop-firms.html">Prop Firms</a>
             <a href="#academy">Academy</a>
-        </nav>
+        <a href="charts.html" style="background: #00A36C; color: #fff; padding: 8px 20px; border-radius: 100px; text-decoration: none; font-weight: 700; margin-left: 15px; font-size: 0.8rem;">CHART TERMINAL</a></nav>
     </header>
+    <section style="padding: 30px 6%; text-align: center; background: #F9FAFB; border-bottom: 1px solid #EEE;">
+        <div style="max-width: 800px; margin: 0 auto;">
+            <div style="display: flex; gap: 10px; padding: 8px; background: #FFF; border-radius: 12px; border: 1px solid #DDD;">
+                <input type="text" id="assetSearch" placeholder="Search Forex, Stocks, Indices..." style="flex: 1; border: none; padding: 12px; font-size: 1rem; outline: none;">
+                <button onclick="executeSearch()" style="background: #00A36C; color: #FFF; border: none; padding: 0 25px; border-radius: 8px; font-weight: 700; cursor: pointer;">SEARCH</button>
+            </div>
+        </div>
+    </section>
+    <script>
+    function executeSearch() {
+        const val = document.getElementById('assetSearch').value.toUpperCase();
+        if(val) window.location.href = 'charts.html?symbol=' + val;
+    }
+    </script>
+
 
     <div class="top-ticker">
         <div class="tradingview-widget-container">
