@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sovereign Access | Titan Trader X</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0A0A0B;
+            --primary: #00A36C;
+            --surface: #161618;
+            --text: #FFFFFF;
+            --muted: #A0A0A5;
+            --border: rgba(255,255,255,0.08);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+        .auth-card { background: var(--surface); padding: 40px; border-radius: 24px; width: 100%; max-width: 400px; border: 1px solid var(--border); text-align: center; }
+        .logo { font-weight: 800; font-size: 1.6rem; color: #FFFFFF; margin-bottom: 30px; display: block; text-decoration: none; }
+        .logo-accent { color: var(--primary); }
+        h1 { font-size: 1.5rem; font-weight: 800; margin-bottom: 10px; }
+        p { color: var(--muted); margin-bottom: 30px; font-size: 0.9rem; }
+        form { text-align: left; }
+        .input-group { margin-bottom: 15px; }
+        label { display: block; font-size: 0.75rem; font-weight: 700; color: var(--muted); margin-bottom: 5px; text-transform: uppercase; }
+        input { width: 100%; padding: 14px; background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 12px; color: #fff; outline: none; }
+        .btn-enter { width: 100%; padding: 16px; background: var(--primary); color: #fff; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; margin-top: 10px; }
+        #user-profile { display: none; }
+        .nav-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 20px; }
+        .nav-item { background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 20px; border-radius: 16px; text-decoration: none; color: #fff; font-weight: 700; text-align: center; font-size: 0.8rem; }
+        .nav-item:hover { background: var(--primary); border-color: var(--primary); }
+    </style>
+</head>
+<body>
+    <div class="auth-card" id="auth-ui">
+        <a href="index.html" class="logo">TITAN <span class="logo-accent">TRADERX</span></a>
+        <h1>Sovereign Access</h1>
+        <p>Institutional login for the Orcinos terminal.</p>
+        <form id="login-form">
+            <div class="input-group"><label>Email</label><input type="email" id="email" placeholder="trader@orcinos.com"></div>
+            <div class="input-group"><label>Password</label><input type="password" id="password" placeholder="••••••••"></div>
+            <button type="button" class="btn-enter" onclick="handleLogin()">ENTER TERMINAL</button>
+        </form>
+    </div>
+    <div class="auth-card" id="user-profile">
+        <a href="index.html" class="logo">TITAN <span class="logo-accent">TRADERX</span></a>
+        <h3 id="user-name">Sovereign Trader</h3>
+        <div class="nav-grid">
+            <a href="charts.html" class="nav-item">TERMINAL</a>
+            <a href="academy.html" class="nav-item">ACADEMY</a>
+            <a href="prop-firms.html" class="nav-item)PARTNERS</a>
+            <a href="#" onclick="handleLogout()" class="nav-item" style="color:#FF4B4B;">LOGOUT</a>
+        </div>
+    </div>
+    <script>
+        const _supabase = supabase.createClient('https://zqxsvxtshqxvxpxvxpxv.supabase.co', 'anon-key');
+        async function handleLogin() { 
+            const { error } = await _supabase.auth.signInWithPassword({ email: document.getElementById('email').value, password: document.getElementById('password').value });
+            if (error) alert(error.message);
+        }
+        async function handleLogout() { await _supabase.auth.signOut(); window.location.reload(); }
+        _supabase.auth.onAuthStateChange((event, session) => {
+            if (session) { document.getElementById('auth-ui').style.display = 'none'; document.getElementById('user-profile').style.display = 'block'; }
+        });
+    </script>
+</body>
+</html>
