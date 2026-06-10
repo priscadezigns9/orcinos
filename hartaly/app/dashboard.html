@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | Hartaly</title>
+    <link rel="stylesheet" href="../shared/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <div class="sidebar">
+        <a href="../landing/index.html" class="logo">Hartaly</a>
+        <nav class="sidebar-nav">
+            <a href="dashboard.html" class="active">🏠 Dashboard</a>
+            <a href="chat.html">💬 Hartaly Chat</a>
+            <a href="mood.html">📈 Mood Tracker</a>
+            <a href="journal.html">✍️ Guided Journal</a>
+            <a href="cbt.html">📚 CBT Toolkit</a>
+            <a href="breathing.html">🫁 Breathing Room</a>
+        </nav>
+        <a href="crisis.html" class="btn btn-danger" style="margin-top: auto; padding: 10px;">I need help now</a>
+    </div>
+
+    <main class="main-content">
+        <header style="background: transparent; box-shadow: none; padding: 0; margin-bottom: 40px;">
+            <h1 id="welcome-msg">Welcome back.</h1>
+            <p style="color: #666;">How are you feeling in this moment?</p>
+        </header>
+
+        <div class="dashboard-grid">
+            <div class="card">
+                <h3>Daily Check-in</h3>
+                <p>Track your mood to see patterns over time.</p>
+                <div style="margin: 20px 0;">
+                    <input type="range" min="1" max="10" value="5" class="slider" id="mood-slider" style="width: 100%;">
+                    <div style="display: flex; justify-content: space-between; font-size: 12px; color: #888;">
+                        <span>Struggling</span>
+                        <span>Balanced</span>
+                        <span>Great</span>
+                    </div>
+                </div>
+                <button class="btn btn-primary" style="width: 100%;" onclick="saveMood()">Log Mood</button>
+            </div>
+
+            <div class="card">
+                <h3>Recent Journal</h3>
+                <div id="latest-journal">
+                    <p style="font-style: italic; color: #888;">No recent entries. Start reflecting today.</p>
+                </div>
+                <a href="journal.html" class="btn btn-secondary" style="margin-top: 15px; width: 100%;">New Entry</a>
+            </div>
+
+            <div class="card" style="grid-column: span 1;">
+                <h3>Mood Average (7 days)</h3>
+                <div style="font-size: 48px; font-weight: 600; color: var(--calm-sage); margin: 10px 0;">7.2</div>
+                <div class="heatmap" id="mood-heatmap">
+                    <!-- Heatmap cells injected here -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="../shared/app.js"></script>
+    <script>
+        async function saveMood() {
+            const score = document.getElementById('mood-slider').value;
+            const { error } = await logMood(score, "Logged from dashboard");
+            if (!error) alert("Mood logged. Be kind to yourself today.");
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const heatmap = document.getElementById('mood-heatmap');
+            for(let i=0; i<28; i++) {
+                const cell = document.createElement('div');
+                cell.className = 'heatmap-cell';
+                const opacity = Math.random();
+                cell.style.backgroundColor = `rgba(135, 169, 107, ${opacity})`;
+                heatmap.appendChild(cell);
+            }
+        });
+    </script>
+</body>
+</html>
