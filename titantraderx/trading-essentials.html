@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trading Essentials | Titan Academy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #00A36C; --bg: #0A0A0B; --surface: #161618; --border: rgba(255,255,255,0.08); --text: #FFFFFF; --muted: #A0A0A5; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+        header { padding: 20px 5%; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); position: sticky; top: 0; background: rgba(10,10,11,0.9); backdrop-filter: blur(10px); z-index: 1000; }
+        .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; color: #fff; font-weight: 800; }
+        .logo img { height: 32px; }
+        nav a { text-decoration: none; color: var(--muted); font-weight: 600; margin-left: 20px; font-size: 0.85rem; }
+        .content-wrap { max-width: 900px; margin: 60px auto; padding: 0 5%; }
+        .section { margin-bottom: 80px; scroll-margin-top: 100px; }
+        .section h2 { font-size: 2.2rem; font-weight: 800; margin-bottom: 20px; color: var(--primary); }
+        .section p { font-size: 1.1rem; color: var(--muted); margin-bottom: 20px; }
+        .infobox { background: var(--surface); padding: 30px; border-radius: 20px; border: 1px solid var(--border); margin-top: 20px; }
+        .infobox h4 { margin-bottom: 10px; color: #fff; }
+        footer { text-align: center; padding: 40px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="index.html" class="logo">
+            <img src="../logos/TITAN_TRADERX_LOGO.png" alt="TITAN">
+            <span>TITAN ACADEMY</span>
+        </a>
+        <nav>
+            <a href="academy.html">BACK TO HUB</a>
+            <a href="dashboard.html" style="color:var(--primary);">LOGIN</a>
+        </nav>
+    </header>
+
+    <div class="content-wrap">
+        <section class="section" id="liquidity">
+            <h2>Liquidity Concepts</h2>
+            <p>Liquidity is the fuel for the market. It represents the pools of buy and sell orders that banks and institutions use to fill their large positions.</p>
+            <div class="infobox">
+                <h4>Smart Money Logic</h4>
+                <p>Price seeks liquidity. It moves from one pool of liquidity to another. Identifying where retail stop losses are clustered is the key to predicting institutional expansion.</p>
+            </div>
+        </section>
+
+        <section class="section" id="order-blocks">
+            <h2>Order Blocks & FVG</h2>
+            <p>An Order Block is a specific candle or price area where institutional players have placed massive orders, leaving a "footprint" in the market.</p>
+            <div class="infobox">
+                <h4>Fair Value Gaps (FVG)</h4>
+                <p>When price moves too fast, it creates an imbalance. This is an FVG. The market almost always returns to "fill" these gaps before continuing its trend.</p>
+            </div>
+        </section>
+
+        <section class="section" id="psychology">
+            <h2>Session Psychology</h2>
+            <p>Each trading session (London, New York, Asia) has its own DNA and psychological profile.</p>
+            <div class="infobox">
+                <h4>The London Judas Swing</h4>
+                <p>The London open often creates a fake move (the "Judas") to trap retail traders before the true expansion of the day begins.</p>
+            </div>
+        </section>
+    </div>
+
+    <footer>&copy; 2026 Priscion Orcinos. Sovereign Knowledge.</footer>
+</body>
+</html>
