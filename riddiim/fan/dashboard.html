@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fan Dashboard | Riddiim</title>
+    <link rel="stylesheet" href="../shared/style.css">
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+    <div class="dashboard-layout">
+        <!-- Left Sidebar: Subscribed Artists -->
+        <aside class="sidebar">
+            <div class="logo-area">
+                <a href="../landing/index.html" class="logo">RIDDIIM</a>
+            </div>
+            <nav class="artist-list">
+                <div class="nav-label">YOUR ARTISTS</div>
+                <div class="artist-nav-item active">
+                    <img src="https://images.unsplash.com/photo-1493225255756-d9584f8606e9?auto=format&fit=crop&q=80&w=100" alt="Kofee">
+                    <div class="artist-info">
+                        <span class="name">Kofee Blaze</span>
+                        <span class="status">Online</span>
+                    </div>
+                    <div class="unread-dot"></div>
+                </div>
+                <div class="artist-nav-item">
+                    <img src="https://images.unsplash.com/photo-1520127877038-66286866f8e7?auto=format&fit=crop&q=80&w=100" alt="Soca">
+                    <div class="artist-info">
+                        <span class="name">Soca Queen</span>
+                        <span class="status">Offline</span>
+                    </div>
+                </div>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="nav-label">SETTINGS</div>
+                <a href="#" class="nav-link">Account</a>
+                <a href="#" class="nav-link">Billing</a>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Listening Party Banner -->
+            <div class="party-banner">
+                <div class="party-info">
+                    <div class="live-indicator"></div>
+                    <span class="party-title">LIVE: Kofee Blaze Album Listening Party</span>
+                </div>
+                <button class="btn btn-primary" id="join-party">Join Now</button>
+            </div>
+
+            <!-- The Wave: Discovery Strip -->
+            <section class="wave-section">
+                <div class="section-header">
+                    <h2>The Wave</h2>
+                    <div class="genre-filters">
+                        <button class="chip active">All</button>
+                        <button class="chip">Soca</button>
+                        <button class="chip">Dancehall</button>
+                        <button class="chip">Afrobeats</button>
+                    </div>
+                </div>
+                <div class="wave-scroll">
+                    <div class="wave-card">
+                        <div class="wave-visual">
+                            <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+                        </div>
+                        <img src="https://images.unsplash.com/photo-1493225255756-d9584f8606e9?auto=format&fit=crop&q=80&w=200" alt="Kofee">
+                        <h3>Kofee Blaze</h3>
+                    </div>
+                    <div class="wave-card">
+                        <div class="wave-visual">
+                            <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+                        </div>
+                        <img src="https://images.unsplash.com/photo-1520127877038-66286866f8e7?auto=format&fit=crop&q=80&w=200" alt="Soca">
+                        <h3>Soca Queen</h3>
+                    </div>
+                    <!-- More cards... -->
+                </div>
+            </section>
+
+            <!-- Feed -->
+            <section class="feed">
+                <div class="section-header">
+                    <h2>Feed</h2>
+                </div>
+                
+                <!-- Audio Post -->
+                <div class="feed-card">
+                    <div class="feed-header">
+                        <img src="https://images.unsplash.com/photo-1493225255756-d9584f8606e9?auto=format&fit=crop&q=80&w=100" alt="Kofee">
+                        <div>
+                            <h4>Kofee Blaze <span class="exclusive-badge">Exclusive</span></h4>
+                            <span class="timestamp">2 hours ago</span>
+                        </div>
+                    </div>
+                    <div class="feed-body">
+                        <p>Raw dubplate of "Fire Rhythm". Only for my Riddiim family!</p>
+                        <div class="audio-player-ui">
+                            <button class="play-btn">▶</button>
+                            <div class="waveform-scrubber">
+                                <div class="scrub-bar active" style="width: 30%;"></div>
+                                <div class="scrub-background"></div>
+                            </div>
+                            <span class="duration">3:45</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Voice Note Post -->
+                <div class="feed-card">
+                    <div class="feed-header">
+                        <img src="https://images.unsplash.com/photo-1520127877038-66286866f8e7?auto=format&fit=crop&q=80&w=100" alt="Soca">
+                        <div>
+                            <h4>Soca Queen</h4>
+                            <span class="timestamp">5 hours ago</span>
+                        </div>
+                    </div>
+                    <div class="feed-body">
+                        <div class="voice-note-bubble">
+                            <button class="play-btn">▶</button>
+                            <div class="voice-waveform">
+                                <span></span><span></span><span></span><span></span><span></span>
+                            </div>
+                            <span class="duration">0:15</span>
+                        </div>
+                        <p style="margin-top: 10px;">Just landed in London for the tour! Can't wait to see you all. ❤️</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Right Panel: Messages -->
+        <aside class="message-panel">
+            <div class="panel-header">
+                <h3>Direct with Kofee</h3>
+            </div>
+            <div class="chat-history">
+                <div class="msg received">
+                    <div class="bubble">Yo! Thanks for the support. What you think of the new track?</div>
+                </div>
+                <div class="msg sent">
+                    <div class="bubble">Absolute fire! Need more of that energy.</div>
+                </div>
+                <div class="msg received">
+                    <div class="voice-note-bubble">
+                        <button class="play-btn">▶</button>
+                        <div class="voice-waveform"><span></span><span></span><span></span></div>
+                        <span class="duration">0:08</span>
+                    </div>
+                </div>
+            </div>
+            <div class="chat-input">
+                <input type="text" placeholder="Type a message...">
+                <button class="mic-btn">🎙️</button>
+                <button class="send-btn">Send</button>
+            </div>
+        </aside>
+
+        <!-- Global Player Bar -->
+        <footer class="player-bar">
+            <div class="now-playing">
+                <img src="https://images.unsplash.com/photo-1493225255756-d9584f8606e9?auto=format&fit=crop&q=80&w=100" alt="Thumb">
+                <div class="track-info">
+                    <span class="track-name">Fire Rhythm (Dub)</span>
+                    <span class="artist-name">Kofee Blaze</span>
+                </div>
+            </div>
+            <div class="player-controls">
+                <div class="main-controls">
+                    <button>⏮</button>
+                    <button class="play-pause">▶</button>
+                    <button>⏭</button>
+                </div>
+                <div class="waveform-scrubber-global">
+                    <div class="scrub-bar" style="width: 45%;"></div>
+                </div>
+            </div>
+            <div class="volume-controls">
+                <span>🔊</span>
+                <input type="range" min="0" max="100" value="80">
+            </div>
+        </footer>
+    </div>
+
+    <script src="dashboard.js"></script>
+</body>
+</html>
