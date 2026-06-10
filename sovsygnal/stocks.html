@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>SOVSYGNAL | Stocks</title>
+    <link rel="icon" type="image/png" href="https://priscadezigns.org/assets/logos/sovereign_favicon.png">
+    <link rel='preconnect' href='https://fonts.googleapis.com'>
+    <link href='https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;600;800&display=swap' rel='stylesheet'>
+    <style>
+        :root { --primary: #D0021B; --bg: #F9F9F9; --text: #1A1A1A; --accent: #111; --font-heading: 'Playfair Display', serif; --font-body: 'Inter', sans-serif; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: var(--bg); color: var(--text); font-family: var(--font-body); line-height: 1.6; }
+        
+        .ticker-wrap { width: 100%; overflow: hidden; background: #000; color: #fff; padding: 12px 0; border-bottom: 2px solid var(--primary); }
+        .ticker { display: inline-block; white-space: nowrap; padding-right: 100%; animation: ticker 240s linear infinite; }
+        @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
+        .ticker-item { display: inline-block; padding: 0 40px; font-weight: 800; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px; }
+        .ticker-item span { color: var(--primary); margin-right: 10px; }
+
+        header { background: #fff; padding: 30px 6%; border-bottom: 3px solid #000; text-align: center; position: sticky; top: 0; z-index: 1000; }
+        header h1 { font-family: var(--font-heading); font-size: 3.5rem; letter-spacing: -2px; line-height: 1; }
+        header h1 a { text-decoration: none; color: black; }
+        header p { text-transform: uppercase; letter-spacing: 6px; font-size: 0.7rem; font-weight: 800; color: #444; margin: 10px 0 20px; }
+        
+        nav { display: flex; justify-content: center; gap: 25px; flex-wrap: wrap; border-top: 1px solid #eee; padding-top: 15px; align-items: center; }
+        nav a { text-decoration: none; color: #000; font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
+        nav a:hover, nav a.active { color: var(--primary); }
+        
+        .btn-muse { background: #000; color: #fff; border: none; padding: 8px 15px; font-weight: 900; font-size: 0.7rem; letter-spacing: 2px; cursor: pointer; border-radius: 2px; }
+
+        .main-container { display: grid; grid-template-columns: 1fr 350px; gap: 60px; padding: 40px 6%; max-width: 1500px; margin: 0 auto; }
+        .category-tag { color: var(--primary); font-weight: 800; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; display: block; }
+        
+        .data-grid { display: grid; gap: 15px; margin-bottom: 40px; padding: 20px; border-radius: 4px; }
+        .grid-4 { grid-template-columns: repeat(4, 1fr); }
+        @media (max-width: 1100px) { .grid-4 { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 600px) { .grid-4 { grid-template-columns: 1fr; } .main-container { grid-template-columns: 1fr; } }
+
+        .news-card { margin-bottom: 40px; padding-bottom: 40px; border-bottom: 1px solid #eee; }
+        .news-card h3 { font-family: var(--font-heading); font-size: 1.8rem; line-height: 1.2; margin-bottom: 10px; }
+        .news-card h3 a { text-decoration: none; color: black; }
+        .source-tag { font-size: 0.7rem; font-weight: 800; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px; }
+        .source-tag a { color: var(--primary); text-decoration: none; }
+        
+        aside { padding-left: 40px; border-left: 1px solid #eee; }
+        .sidebar-ad { background: #000; color: white; padding: 30px; border-radius: 4px; margin-bottom: 30px; }
+        .sidebar-ad h4 { font-family: var(--font-heading); font-size: 1.4rem; margin-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 10px; }
+        .sidebar-ad .btn { width: 100%; padding: 15px; background: var(--primary); color: white; border: none; font-weight: 800; cursor: pointer; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; display: block; text-align: center; text-decoration: none; }
+        
+        footer { background: #000; color: white; padding: 80px 6%; text-align: center; }
+        footer img { height: 80px; margin-bottom: 20px; }
+        footer p { font-size: 0.7rem; letter-spacing: 2px; opacity: 0.5; }
+        
+        .sentiment-tag { font-size: 0.6rem; padding: 2px 10px; border-radius: 2px; font-weight: 800; margin-left: 12px; vertical-align: middle; text-transform: uppercase; }
+        .bullish { background: #000; color: #00FF00; border: 1px solid #00FF00; }
+        .neutral { background: #000; color: #FFFF00; border: 1px solid #FFFF00; }
+        .bearish { background: #000; color: #FF0000; border: 1px solid #FF0000; }
+    </style>
+</head>
+<body>
+    <div class='ticker-wrap'><div class='ticker'><div class='ticker-item'><span>FOREX</span> Currency Defense: Traders maintain Risk Rally despite Geopolitics.</div><div class='ticker-item'><span>STOCKS</span> IPO Surge: SpaceX Infrastructure Test signals Institutional Strength.</div><div class='ticker-item'><span>REALESTATE</span> Inflection Point: Global Real Estate Outlook turns Positive for 2026.</div><div class='ticker-item'><span>ANIME</span> Crunchyroll Summer 2026: Most Stacked Season in Years.</div><div class='ticker-item'><span>Apple</span> 290.55 <span style='color:#FF0000'>-3.64%</span></div><div class='ticker-item'><span>Tesla</span> 396.68 <span style='color:#FF0000'>-3.00%</span></div><div class='ticker-item'><span>Nvidia</span> 208.19 <span style='color:#FF0000'>-0.22%</span></div><div class='ticker-item'><span>Microsoft</span> 403.41 <span style='color:#FF0000'>-2.02%</span></div><div class='ticker-item'><span>Amazon</span> 185.20 <span style='color:#00FF00'>1.15%</span></div><div class='ticker-item'><span>Google</span> 175.40 <span style='color:#FF0000'>-0.85%</span></div><div class='ticker-item'><span>Meta</span> 490.10 <span style='color:#00FF00'>0.45%</span></div><div class='ticker-item'><span>Netflix</span> 610.30 <span style='color:#FF0000'>-1.10%</span></div><div class='ticker-item'><span>Euro</span> 0.87 <span style='color:#00FF00'>0.05%</span></div><div class='ticker-item'><span>Pound</span> 0.75 <span style='color:#00FF00'>0.05%</span></div><div class='ticker-item'><span>Yen</span> 160.28 <span style='color:#00FF00'>0.05%</span></div><div class='ticker-item'><span>CAD</span> 1.39 <span style='color:#00FF00'>0.05%</span></div><div class='ticker-item'><span>AUD</span> 1.42 <span style='color:#00FF00'>0.05%</span></div><div class='ticker-item'><span>Swiss</span> 0.80 <span style='color:#00FF00'>0.05%</span></div><div class='ticker-item'><span>NZD</span> 1.72 <span style='color:#00FF00'>0.05%</span></div><div class='ticker-item'><span>ZAR</span> 16.50 <span style='color:#00FF00'>0.05%</span></div><div class='ticker-item'><span>ANIME</span> Youjo Senki II</div><div class='ticker-item'><span>ANIME</span> Mushoku Tensei III: Isekai Ittara Honki Dasu</div><div class='ticker-item'><span>ANIME</span> Dandadan 3rd Season</div><div class='ticker-item'><span>ANIME</span> Dandadan 3rd Season</div><div class='ticker-item'><span>ANIME</span> Kage no Jitsuryokusha ni Naritakute! Movie: Zankyou-hen</div><div class='ticker-item'><span>ANIME</span> Dungeon Meshi 2nd Season</div><div class='ticker-item'><span>ANIME</span> Bocchi the Rock! 2nd Season</div><div class='ticker-item'><span>ANIME</span> Tokidoki Bosotto Russia-go de Dereru Tonari no Alya-san Season 2</div><div class='ticker-item'><span>MANGA</span> Berserk</div><div class='ticker-item'><span>MANGA</span> JoJo no Kimyou na Bouken Part 7: Steel Ball Run</div><div class='ticker-item'><span>MANGA</span> Vagabond</div><div class='ticker-item'><span>MANGA</span> One Piece</div><div class='ticker-item'><span>MANGA</span> Guimi Zhi Zhu</div><div class='ticker-item'><span>MANGA</span> Monster</div><div class='ticker-item'><span>MANGA</span> The Greatest Estate Developer</div><div class='ticker-item'><span>MANGA</span> Vinland Saga</div></div></div>
+    <header>
+        <h1><a href='index.html'>SOVSYGNAL</a></h1>
+        <p>Global Intelligence Hub</p>
+        <nav>
+            <a href='index.html'>Headlines</a>
+            <a href='forex.html'>Forex</a>
+            <a href='stocks.html'>Stocks</a>
+            <a href='realestate.html'>Real Estate</a>
+            <a href='anime.html'>Anime</a>
+            <button class="btn-muse" onclick="alert('MUSE Wallet Handshake Active...')">MUSE WALLET</button>
+        </nav>
+    </header>
+    <div class='main-container'>
+        <main><div class='data-grid grid-4' style='background:#FF0000;'><div style='text-align:center; background:rgba(255,255,255,0.1); padding:15px; border-radius:4px; border:1px solid rgba(0,0,0,0.1);'><div style='color:#000; font-size:0.75rem; font-weight:900; text-transform:uppercase;'>Apple</div><div style='color:#000; font-size:1.6rem; font-weight:900;'>$290.55</div><div style='color:#000; font-size:0.85rem; font-weight:900;'>-3.64%</div></div><div style='text-align:center; background:rgba(255,255,255,0.1); padding:15px; border-radius:4px; border:1px solid rgba(0,0,0,0.1);'><div style='color:#000; font-size:0.75rem; font-weight:900; text-transform:uppercase;'>Tesla</div><div style='color:#000; font-size:1.6rem; font-weight:900;'>$396.68</div><div style='color:#000; font-size:0.85rem; font-weight:900;'>-3.00%</div></div><div style='text-align:center; background:rgba(255,255,255,0.1); padding:15px; border-radius:4px; border:1px solid rgba(0,0,0,0.1);'><div style='color:#000; font-size:0.75rem; font-weight:900; text-transform:uppercase;'>Nvidia</div><div style='color:#000; font-size:1.6rem; font-weight:900;'>$208.19</div><div style='color:#000; font-size:0.85rem; font-weight:900;'>-0.22%</div></div><div style='text-align:center; background:rgba(255,255,255,0.1); padding:15px; border-radius:4px; border:1px solid rgba(0,0,0,0.1);'><div style='color:#000; font-size:0.75rem; font-weight:900; text-transform:uppercase;'>Microsoft</div><div style='color:#000; font-size:1.6rem; font-weight:900;'>$403.41</div><div style='color:#000; font-size:0.85rem; font-weight:900;'>-2.02%</div></div><div style='text-align:center; background:rgba(255,255,255,0.1); padding:15px; border-radius:4px; border:1px solid rgba(0,0,0,0.1);'><div style='color:#000; font-size:0.75rem; font-weight:900; text-transform:uppercase;'>Amazon</div><div style='color:#000; font-size:1.6rem; font-weight:900;'>$185.20</div><div style='color:#000; font-size:0.85rem; font-weight:900;'>1.15%</div></div><div style='text-align:center; background:rgba(255,255,255,0.1); padding:15px; border-radius:4px; border:1px solid rgba(0,0,0,0.1);'><div style='color:#000; font-size:0.75rem; font-weight:900; text-transform:uppercase;'>Google</div><div style='color:#000; font-size:1.6rem; font-weight:900;'>$175.40</div><div style='color:#000; font-size:0.85rem; font-weight:900;'>-0.85%</div></div><div style='text-align:center; background:rgba(255,255,255,0.1); padding:15px; border-radius:4px; border:1px solid rgba(0,0,0,0.1);'><div style='color:#000; font-size:0.75rem; font-weight:900; text-transform:uppercase;'>Meta</div><div style='color:#000; font-size:1.6rem; font-weight:900;'>$490.10</div><div style='color:#000; font-size:0.85rem; font-weight:900;'>0.45%</div></div><div style='text-align:center; background:rgba(255,255,255,0.1); padding:15px; border-radius:4px; border:1px solid rgba(0,0,0,0.1);'><div style='color:#000; font-size:0.75rem; font-weight:900; text-transform:uppercase;'>Netflix</div><div style='color:#000; font-size:1.6rem; font-weight:900;'>$610.30</div><div style='color:#000; font-size:0.85rem; font-weight:900;'>-1.10%</div></div></div><section style='border-bottom: 2px solid #eee; padding-bottom: 40px; margin-bottom: 40px;'><span class='category-tag'>Signal 1 | 09:32 EST</span><h2 style='font-family: var(--font-heading); font-size: 2.5rem;'>IPO Surge: SpaceX Infrastructure Test signals Institutional Strength.</h2><div class='source-tag'>Source: Reuters Business</div><p style='font-size: 1.3rem; font-weight: 300; line-height: 1.6;'>The upcoming SpaceX listing is being monitored as the definitive benchmark for market appetite for high-fidelity space infrastructure assets.</p></section><section style='border-bottom: 2px solid #eee; padding-bottom: 40px; margin-bottom: 40px;'><span class='category-tag'>Signal 2 | 09:32 EST</span><h2 style='font-family: var(--font-heading); font-size: 2.5rem;'>Tech Correction: Broadcom and Micron see Volatility amid Supply Pivot.</h2><div class='source-tag'>Source: Reuters Technology</div><p style='font-size: 1.3rem; font-weight: 300; line-height: 1.6;'>Semiconductor stocks are adjusting to a shifting supply chain landscape, with high-volume rotation out of secondary technical nodes into primary AI anchors.</p></section></main>
+        <aside>
+            <div class='sidebar-ad' style='background:#111; color:white; text-align:center; border:2px solid var(--primary);'>
+                <h4 style='color:var(--primary);'>SOVEREIGN SLOT</h4>
+                <p style='font-size:1.5rem; font-weight:800; margin-bottom:5px;'>$297/mo</p>
+                <a href='mailto:priscadezigns9@gmail.com' class='btn'>Book Signal</a>
+            </div>
+            <div class='sidebar-ad' style='background:#fff; color:#000; border:1px solid #000;'>
+                <h4>ORCINOS</h4>
+                <p>Apex intelligence SaaS. Automated digital agency protocols.</p>
+                <a href='https://orcinos.com/' class='btn' style='background:#000;'>Launch Dashboard</a>
+            </div>
+        </aside>
+    </div>
+    <footer>
+        <img src='https://priscadezigns.org/assets/logos/sovereign_footer_logo.jpg' alt='Sovereign'>
+        <p>&copy; 2026 SOVSYGNAL &middot; PRISCA DEZIGNS EMPIRE MEDIA</p>
+    </footer>
+</body>
+</html>
