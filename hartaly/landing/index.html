@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hartaly | Your 2 AM Calm</title>
+    <link rel="stylesheet" href="../shared/style.css">
+    <link rel="stylesheet" href="../../shared-components/payment-modal/payment-modal.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <header>
+        <div class="container nav">
+            <a href="index.html" class="logo"><img src="/media/1780897033040.jpg" alt="Hartaly Logo" style="height: 40px; vertical-align: middle;"></a>
+            <div class="nav-links">
+                <a href="#features">Features</a>
+                <a href="#pricing">Pricing</a>
+                <a href="../app/dashboard.html" class="btn btn-primary">Open App</a>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero" style="padding: 100px 0; text-align: center; background: linear-gradient(180deg, var(--white) 0%, var(--warm-sand) 100%);">
+        <div class="container">
+            <h1 style="font-size: 48px; margin-bottom: 20px;">Your 2 AM Calm.</h1>
+            <p style="font-size: 20px; max-width: 600px; margin: 0 auto 30px; color: #555;">
+                An empathetic AI companion for when the world feels too loud. Evidence-based support for stress, anxiety, and burnout.
+            </p>
+            <div style="display: flex; gap: 15px; justify-content: center;">
+                <a href="../app/chat.html" class="btn btn-primary">Start Talking</a>
+                <a href="#features" class="btn btn-secondary">Learn More</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="features" style="padding: 80px 0;">
+        <div class="container">
+            <h2 style="text-align: center; margin-bottom: 50px;">Private. Safe. Trusted.</h2>
+            <div class="dashboard-grid">
+                <div class="card">
+                    <h3>Hartaly Chat</h3>
+                    <p>Real-time conversations with an AI coach trained in CBT and mindfulness. No judgments, just support.</p>
+                </div>
+                <div class="card">
+                    <h3>Mood Tracking</h3>
+                    <p>Visualize your emotional journey with our intuitive heatmap. Understand your triggers and patterns.</p>
+                </div>
+                <div class="card">
+                    <h3>Guided Journal</h3>
+                    <p>AI-generated prompts tailored to your current mood, helping you process thoughts effectively.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="pricing" style="padding: 80px 0; background-color: var(--white);">
+        <div class="container">
+            <h2 style="text-align: center; margin-bottom: 50px;">Choose Your Path to Peace</h2>
+            <div class="dashboard-grid">
+                <div class="card">
+                    <h3>Free</h3>
+                    <p style="font-size: 24px; font-weight: 600; margin: 15px 0;">$0 <small>/mo</small></p>
+                    <ul style="list-style: none; margin-bottom: 25px;">
+                        <li>✓ 5 chat sessions/day</li>
+                        <li>✓ Basic mood tracker</li>
+                        <li>✓ 1 journal prompt/day</li>
+                    </ul>
+                    <a href="#" class="btn btn-secondary" style="width: 100%;">Get Started</a>
+                </div>
+                <div class="card" style="border: 2px solid var(--calm-sage);">
+                    <h3>Bloom</h3>
+                    <p style="font-size: 24px; font-weight: 600; margin: 15px 0;">$9.99 <small>/mo</small></p>
+                    <ul style="list-style: none; margin-bottom: 25px;">
+                        <li>✓ Unlimited chat</li>
+                        <li>✓ Full Mood Heatmap</li>
+                        <li>✓ CBT Toolkit Access</li>
+                        <li>✓ Breathing Room</li>
+                    </ul>
+                    <a href="javascript:void(0)" onclick="openBloom()" class="btn btn-primary" style="width: 100%;">Go Bloom</a>
+                </div>
+                <div class="card">
+                    <h3>Trusted</h3>
+                    <p style="font-size: 24px; font-weight: 600; margin: 15px 0;">$19.99 <small>/mo</small></p>
+                    <ul style="list-style: none; margin-bottom: 25px;">
+                        <li>✓ Everything in Bloom</li>
+                        <li>✓ Priority AI Response</li>
+                        <li>✓ Extended Session Memory</li>
+                        <li>✓ Direct Support Access</li>
+                    </ul>
+                    <a href="javascript:void(0)" onclick="openTrusted()" class="btn btn-secondary" style="width: 100%;">Go Trusted</a>
+                </div>
+            </div>
+            
+            <div style="margin-top: 50px; text-align: center;">
+                <p>We accept <strong>PayPal</strong>, <strong>Payoneer</strong>, and <strong>Crypto (ERC-20)</strong>.</p>
+                <p style="font-size: 12px; color: #777; margin-top: 10px;">0xcef857e82c306b3d0f2db080e7794f4bb376049e</p>
+            </div>
+        </div>
+    </section>
+
+    <footer style="padding: 50px 0; text-align: center; background: var(--midnight-indigo); color: var(--white);">
+        <img src="/media/1780897033040.jpg" alt="Hartaly Logo" style="height: 50px; filter: brightness(0) invert(1); opacity: 0.8; margin-bottom: 20px;">
+        <div style="margin-bottom: 20px; font-size: 14px;">
+            <a href="../onboarding/index.html" style="color: var(--white); text-decoration: none; margin: 0 15px; opacity: 0.8;">Get Started</a>
+            <a href="../legal/terms.html" style="color: var(--white); text-decoration: none; margin: 0 15px; opacity: 0.8;">Terms of Service</a>
+            <a href="../legal/privacy.html" style="color: var(--white); text-decoration: none; margin: 0 15px; opacity: 0.8;">Privacy Policy</a>
+        </div>
+        <p>&copy; 2026 Hartaly. An Orcinos Product by Priscion Network.</p>
+    </footer>
+
+    <script src="../shared/app.js"></script>
+    <script src="../../shared-components/payment-modal/payment-modal.js"></script>
+    <script>
+        const config = {
+            paypalClientId: "sb",
+            payoneerLink: "https://www.payoneer.com/accounts/",
+            cryptoAddress: "0xcef857e82c306b3d0f2db080e7794f4bb376049e"
+        };
+
+        function openBloom() {
+            openPaymentModal({
+                ...config,
+                productName: "Hartaly Bloom Plan",
+                price: "$9.99/month"
+            });
+        }
+
+        function openTrusted() {
+            openPaymentModal({
+                ...config,
+                productName: "Hartaly Trusted Plan",
+                price: "$19.99/month"
+            });
+        }
+    </script>
+</body>
+</html>
