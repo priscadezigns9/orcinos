@@ -1,0 +1,133 @@
+{
+  "products": [
+    {
+      "name": "Captio AI",
+      "slug": "captio-ai",
+      "description": "AI-powered social media caption generator for creators and managers.",
+      "price_monthly": 7.99,
+      "category": "AI Tools",
+      "status": "ready",
+      "path": "captio_ai_final/"
+    },
+    {
+      "name": "OptiScout",
+      "slug": "optiscout",
+      "description": "High-fidelity Amazon price tracker and deal scouting engine.",
+      "price_monthly": 3.99,
+      "category": "Shopping",
+      "status": "ready",
+      "path": "/pricepulse_final/"
+    },
+    {
+      "name": "Nurasen",
+      "slug": "nurasen",
+      "description": "Next-generation neural cybersecurity and antivirus defense.",
+      "price_monthly": 9.99,
+      "category": "Cybersecurity",
+      "status": "ready",
+      "path": "nurasen/"
+    },
+    {
+      "name": "PrayerBlock",
+      "slug": "prayerblock",
+      "description": "Distraction-free environment for prayer and meditation.",
+      "price_monthly": 4.99,
+      "category": "Wellness",
+      "status": "ready",
+      "path": "prayerblock/"
+    },
+    {
+      "name": "PawDX",
+      "slug": "pawdx",
+      "description": "AI-driven pet health symptom analyzer and tracking.",
+      "price_monthly": 5.99,
+      "category": "Pet Care",
+      "status": "ready",
+      "path": "pawdx/"
+    },
+    {
+      "name": "Slumber",
+      "slug": "slumber",
+      "description": "AI-powered sleep science and coaching platform.",
+      "price_monthly": 6.99,
+      "category": "Wellness",
+      "status": "ready",
+      "path": "slumber/"
+    },
+    {
+      "name": "Skillbit",
+      "slug": "skillbit",
+      "description": "Micro-learning platform for rapid skill acquisition.",
+      "price_monthly": 8.99,
+      "category": "Education",
+      "status": "ready",
+      "path": "skillbit/"
+    },
+    {
+      "name": "Clausify",
+      "slug": "clausify",
+      "description": "Legal automation and contract generation for creators.",
+      "price_monthly": 14.99,
+      "category": "Legal",
+      "status": "ready",
+      "path": "clausify/"
+    },
+    {
+      "name": "Syla",
+      "slug": "syla",
+      "description": "Intelligent logistics and asset management dashboard.",
+      "price_monthly": 19.99,
+      "category": "Logistics",
+      "status": "ready",
+      "path": "syla/"
+    },
+    {
+      "name": "Hartaly",
+      "slug": "hartaly",
+      "description": "AI mental wellness coach \u2014 Your 2 AM Calm",
+      "price_monthly": 9.99,
+      "category": "Wellness",
+      "status": "ready",
+      "path": "hartaly/",
+      "logo": "/media/1780897033040.jpg"
+    },
+    {
+      "name": "D'Panyard",
+      "slug": "dpanyard",
+      "description": "Global home for Steelpan music and culture.",
+      "price_monthly": 14.99,
+      "category": "Music",
+      "status": "ready",
+      "path": "dpanyard/"
+    },
+    {
+      "name": "Riddiim",
+      "slug": "riddiim",
+      "description": "Music super-app for production and distribution.",
+      "price_monthly": 14.99,
+      "category": "Music",
+      "status": "ready",
+      "path": "riddiim/"
+    },
+    {
+      "name": "Dricil",
+      "slug": "dricil",
+      "description": "Fully autonomous AI-powered digital marketing agency.",
+      "price_monthly": 297.0,
+      "category": "Marketing",
+      "status": "ready",
+      "path": "dricil/landing/",
+      "logo": "/media/1780896281986.jpg"
+    },
+    {
+      "name": "Titan TraderX",
+      "slug": "titan-traderx",
+      "category": "Trading Intelligence",
+      "description": "AI-powered trading strategy notepad, real-time alert engine, and backtesting suite.",
+      "price_monthly": 9.99,
+      "status": "ready",
+      "path": "/titantraderx/"
+    }
+  ],
+  "total_count": 14
+}
