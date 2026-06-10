@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contract Generator | Clausify</title>
+    <link rel="stylesheet" href="../shared/style.css">
+    <style>
+        .generator-layout {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 2rem;
+        }
+        .contract-preview {
+            background: white;
+            padding: 2rem;
+            min-height: 800px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            border: 1px solid #ddd;
+            overflow-y: auto;
+        }
+        @media (max-width: 900px) {
+            .generator-layout { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar no-print">
+            <div class="logo" style="margin-bottom: 2rem;">CLAUSIFY</div>
+            <nav>
+                <ul>
+                    <li><a href="dashboard.html">Overview</a></li>
+                    <li><a href="contract-generator.html" class="active">Contract Generator</a></li>
+                    <li><a href="rate-calculator.html">Rate Calculator</a></li>
+                    <li><a href="dmca-generator.html">DMCA Takedown</a></li>
+                    <li><a href="ip-guide.html">IP Protection</a></li>
+                    <li><a href="vault.html">Contract Vault</a></li>
+                    <li><a href="faq.html">Legal FAQ</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <h1 class="no-print">Contract Generator</h1>
+            <p class="no-print" style="margin-bottom: 2rem;">Fill in the details below to generate your professional contract.</p>
+
+            <div class="generator-layout">
+                <div class="no-print">
+                    <form id="contract-form">
+                        <div class="form-group">
+                            <label>Contract Type</label>
+                            <select id="contract-type">
+                                <option value="brand-deal">Brand Deal Agreement</option>
+                                <option value="freelance-project">Freelance Project</option>
+                                <option value="content-license">Content License</option>
+                                <option value="photography">Photography Agreement</option>
+                                <option value="coaching-agreement">Coaching Agreement</option>
+                                <option value="affiliate-agreement">Affiliate Agreement</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Your Name (Creator)</label>
+                            <input type="text" id="creator-name" placeholder="Full Legal Name">
+                        </div>
+                        <div class="form-group">
+                            <label>Client Name</label>
+                            <input type="text" id="client-name" placeholder="Company or Individual Name">
+                        </div>
+                        <div class="form-group">
+                            <label>Deliverables</label>
+                            <textarea id="deliverables" rows="4" placeholder="e.g. 1x Instagram Reel, 3x Stories..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Payment Amount</label>
+                            <input type="text" id="payment-amount" placeholder="e.g. $500.00 USD">
+                        </div>
+                        <div class="form-group">
+                            <label>Deadline</label>
+                            <input type="date" id="deadline">
+                        </div>
+                        <div class="form-group">
+                            <label>Jurisdiction (Law)</label>
+                            <input type="text" id="jurisdiction" placeholder="e.g. California, USA">
+                        </div>
+                        
+                        <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                            <button type="button" id="download-contract" class="btn btn-primary">Download PDF</button>
+                            <button type="button" id="save-contract" class="btn btn-outline">Save to Vault</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div id="contract-preview" class="contract-preview">
+                    <!-- Template will be injected here -->
+                    <p style="color: #999; text-align: center; margin-top: 50px;">Your contract preview will appear here as you type...</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../shared/app.js"></script>
+</body>
+</html>
