@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sleep Library | Slumber</title>
+    <link rel="stylesheet" href="../shared/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="../shared/app.js"></script>
+</head>
+<body>
+    <nav>
+        <div class="logo">SLUMBER</div>
+        <div class="nav-links">
+            <a href="dashboard.html">Home</a>
+            <a href="logger.html">Log</a>
+            <a href="coach.html">Coach</a>
+            <a href="library.html">Library</a>
+            <a href="sounds.html">Sounds</a>
+        </div>
+    </nav>
+
+    <main class="container">
+        <header class="mb-2">
+            <h1>Sleep Library</h1>
+            <p>Evidence-based sleep science.</p>
+        </header>
+
+        <div id="article-container" class="article-list">
+            <!-- Articles will be injected here -->
+        </div>
+    </main>
+
+    <!-- Article Modal -->
+    <div id="article-modal" class="hidden" style="position: fixed; inset: 0; background: rgba(0,0,0,0.9); display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 2rem;">
+        <div class="card" style="width: 100%; max-width: 600px; max-height: 80vh; overflow-y: auto;">
+            <h2 id="modal-title"></h2>
+            <div id="modal-content" style="margin: 1.5rem 0;"></div>
+            <button class="btn btn-outline" onclick="document.getElementById('article-modal').classList.add('hidden')">Close</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const articles = await loadArticles();
+            const container = document.getElementById('article-container');
+            
+            container.innerHTML = articles.map(art => `
+                <div class="card article-item" onclick="openArticle(${art.id})">
+                    <span class="category-tag">${art.category}</span>
+                    <h3>${art.title}</h3>
+                    <p style="font-size: 0.9rem; color: var(--silver);">${art.content.substring(0, 60)}...</p>
+                </div>
+            `).join('');
+
+            window.openArticle = (id) => {
+                const art = articles.find(a => a.id === id);
+                document.getElementById('modal-title').textContent = art.title;
+                document.getElementById('modal-content').textContent = art.content;
+                document.getElementById('article-modal').classList.remove('hidden');
+            };
+        });
+    </script>
+</body>
+</html>
