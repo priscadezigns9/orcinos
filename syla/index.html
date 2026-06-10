@@ -1,76 +1,26 @@
 <!DOCTYPE html>
-<html lang='en'>
+<html lang="en">
 <head>
-    <meta charset='UTF-8'>
-    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-    <title>Syla | ORCINOS</title>
-    <style>
-        :root {
-            --light-blue: #E0F2FE;
-            --accent-blue: #0ea5e9;
-            --navy: #0f172a;
-            --white: #FFFFFF;
-            --gray: #64748b;
-        }
-        body {
-            background-color: var(--white);
-            color: var(--navy);
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            margin: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            text-align: center;
-        }
-        .container {
-            max-width: 600px;
-            padding: 40px;
-        }
-        h1 {
-            font-size: 3.5rem;
-            font-weight: 900;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            letter-spacing: -1px;
-        }
-        p {
-            color: var(--gray);
-            font-size: 1.25rem;
-            line-height: 1.6;
-            margin-bottom: 40px;
-        }
-        .btn {
-            background-color: var(--accent-blue);
-            color: var(--white);
-            padding: 16px 32px;
-            border-radius: 100px;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 1rem;
-            transition: transform 0.2s;
-            display: inline-block;
-        }
-        .btn:hover {
-            transform: translateY(-2px);
-        }
-        footer {
-            position: absolute;
-            bottom: 40px;
-            color: var(--gray);
-            font-size: 0.9rem;
-            width: 100%;
-        }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Syla - Your Friendly Assistant</title>
+    <link rel="stylesheet" href="../shared/style.css">
 </head>
 <body>
-    <div class='container'>
-        <h1>Syla</h1>
-        <p>Intelligent logistics and asset management dashboard for high-fidelity operations.</p>
-        <a href='/' class='btn'>Return to Hub</a>
+    <a href="tel:911" class="emergency-btn">EMERGENCY HELP</a>
+
+    <div class="container" style="margin-top: 100px; text-align: center;">
+        <h1 style="font-size: 48px;">Hello, I'm Syla.</h1>
+        <p style="font-size: 28px;">I am here to help you with your phone, your medicine, and talking to your family.</p>
+        
+        <div class="card">
+            <h2 style="color: #333;">Would you like to start?</h2>
+            <a href="../app/dashboard.html" class="big-btn">Yes, let's start</a>
+        </div>
+
+        <div style="margin-top: 50px; color: var(--text-gray);">
+            <p>Syla is made with love by Orcinos.</p>
+        </div>
     </div>
-    <footer>
-        &copy; 2026 ORCINOS · ARCHITECTING SOVEREIGNTY
-    </footer>
 </body>
 </html>
