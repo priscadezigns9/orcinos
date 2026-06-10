@@ -67,14 +67,23 @@
 <body>
     <div class="auth-card" id="auth-ui">
         <div class="logo-box">
-            <img src="../logos/ORCINOS_DEFINITIVE_2026.png" alt="ORCINOS">
+            <img src="../logos/TITAN_TRADERX_LOGO.png" alt="ORCINOS">
         </div>
         <h1>Welcome to Titan</h1>
         <p>Access your sovereign trading dashboard and academy.</p>
-        <button class="btn-google" onclick="login()">
-            <img src="https://www.google.com/favicon.ico" width="20">
-            Sign in with Google
-        </button>
+        
+        <form id="sovereign-form" style="text-align: left;">
+            <div style="margin-bottom: 15px;">
+                <label style="display:block; font-size:0.8rem; margin-bottom:5px; color:var(--muted);">USERNAME</label>
+                <input type="text" id="email" style="width:100%; padding:12px; background:rgba(255,255,255,0.05); border:1px solid var(--border); border-radius:8px; color:#fff; outline:none;">
+            </div>
+            <div style="margin-bottom: 20px;">
+                <label style="display:block; font-size:0.8rem; margin-bottom:5px; color:var(--muted);">PASSWORD</label>
+                <input type="password" id="password" style="width:100%; padding:12px; background:rgba(255,255,255,0.05); border:1px solid var(--border); border-radius:8px; color:#fff; outline:none;">
+            </div>
+            <button type="button" onclick="login()" style="width:100%; padding:14px; background:var(--primary); color:#fff; border:none; border-radius:12px; font-weight:700; cursor:pointer;">ENTER TERMINAL</button>
+        </form>
+
     </div>
 
     <div class="auth-card" id="user-profile">
@@ -98,8 +107,14 @@
         const supabaseKey = 'public-anon-key'; // Placeholder
         const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
+        
         async function login() {
-            await supabase.auth.signInWithOAuth({ provider: 'google' });
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+            if (error) alert(error.message);
+        }
+);
         }
 
         async function logout() {
