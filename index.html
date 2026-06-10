@@ -3,73 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ORCINOS | Trusted Software Division</title>
-    <link rel="icon" href="/logos/TITAN_ICON.png" type="image/png">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <title>ORCINOS | Smart Software Tools</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --bg: #050505;
-            --primary: #00A36C;
-            --surface: #0F0F11;
-            --text: #FFFFFF;
-            --muted: #888888;
-            --border: rgba(255,255,255,0.05);
-        }
+        :root { --bg: #F0F7FF; --text: #0A192F; --muted: #5A7184; --accent: #2E5BBA; --card: #FFFFFF; --border: rgba(46, 91, 186, 0.1); }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
-        header { padding: 80px 6%; text-align: center; border-bottom: 1px solid var(--border); }
-        header img { height: 100px; margin-bottom: 24px; }
-        header h1 { font-weight: 800; letter-spacing: -1px; margin-bottom: 12px; }
-        .subtitle { color: var(--primary); font-weight: 600; text-transform: uppercase; letter-spacing: 2px; font-size: 0.9rem; }
-        .container { padding: 80px 6%; max-width: 1400px; margin: 0 auto; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 30px; }
-        .card { background: var(--surface); border: 1px solid var(--border); padding: 40px; border-radius: 24px; text-decoration: none; color: inherit; transition: 0.3s; }
-        .card:hover { border-color: var(--primary); transform: translateY(-5px); }
-        .card h3 { font-size: 1.5rem; margin-bottom: 15px; }
-        .card p { color: var(--muted); font-size: 0.95rem; }
-        .price { font-size: 0.8rem; font-weight: 700; color: var(--primary); text-transform: uppercase; margin-bottom: 10px; display: block; }
-        footer { padding: 60px 6%; text-align: center; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.8rem; }
-        footer img { height: 30px; margin-bottom: 20px; opacity: 0.5; }
+        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; text-align: center; line-height: 1.6; }
+        nav { display: flex; justify-content: center; padding: 25px; border-bottom: 1px solid var(--border); gap: 40px; background: rgba(240,247,255,0.8); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 1000; }
+        nav a { color: var(--muted); text-decoration: none; font-size: 0.75rem; text-transform: uppercase; font-weight: 800; letter-spacing: 2px; }
+        .logo-section { padding: 80px 0 40px; }
+        .logo-img { height: 120px; }
+        .hero { padding: 0 6% 60px; }
+        .hero h1 { font-size: 4rem; font-weight: 900; letter-spacing: -2px; text-transform: uppercase; margin-bottom: 20px; }
+        .hero p { font-size: 1.2rem; color: var(--muted); max-width: 600px; margin: 0 auto 30px; }
+        .about-section { padding: 60px 6%; background: white; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); margin-bottom: 60px; }
+        .about-section h2 { font-size: 2rem; margin-bottom: 20px; text-transform: uppercase; font-weight: 900; }
+        .about-section p { max-width: 800px; margin: 0 auto; color: var(--muted); }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; padding: 0 6% 100px; max-width: 1400px; margin: 0 auto; }
+        .card { background: var(--card); border: 1px solid var(--border); padding: 35px; border-radius: 20px; text-align: left; transition: transform 0.3s; }
+        .card:hover { transform: translateY(-5px); border-color: var(--accent); }
+        .card span { font-size: 0.65rem; font-weight: 900; text-transform: uppercase; color: var(--accent); letter-spacing: 1px; display: block; margin-bottom: 10px; }
+        .card h3 { font-size: 1.4rem; font-weight: 800; margin-bottom: 10px; }
+        .card p { font-size: 0.9rem; color: var(--muted); margin-bottom: 20px; }
+        .btn-launch { text-decoration: none; color: var(--accent); font-size: 0.75rem; text-transform: uppercase; font-weight: 900; letter-spacing: 1px; }
+        footer { padding: 80px 0; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; }
     </style>
 </head>
 <body>
-    <header>
-        <img src="/logos/TITAN_TRADERX_LOGO.png" alt="ORCINOS">
-        <h1>ORCINOS</h1>
-        <div class="subtitle">Trusted Software Division</div>
-    </header>
+    <nav><a href="/">Orcinos Home</a></nav>
+    <div class="logo-section"><img src="/logos/ORCINOS_DEFINITIVE_2026.png" alt="Orcinos" class="logo-img"></div>
+    <section class="hero">
+        <h1>Smart Tools.</h1>
+        <p>Simple and powerful software tools designed to help your business grow automatically.</p>
+    </section>
 
-    <nav style="padding: 20px 6%; text-align: right; border-bottom: 1px solid var(--border);">
-        <a href="titantraderx/dashboard.html" style="text-decoration: none; color: var(--primary); font-weight: 800; font-size: 0.9rem; letter-spacing: 1px;">LOGIN</a>
-    </nav>
+    <section class="about-section">
+        <h2>What is Orcinos?</h2>
+        <p>Orcinos is the smart software part of Prisca Dezigns. We build tools that handle the hard work for you—from tracking prices and securing your data to creating content and managing your brand. Everything we build is designed to be simple, fast, and high quality.</p>
+    </section>
 
-    <div class="container">
-        <div class="grid">
-            <a href="./titantraderx/" class="card">
-                <span class="price">9.99/mo</span>
-                <h3>Titan TraderX</h3>
-                <p>High-fidelity trading solutions, market analysis, and professional prop firm directory.</p>
-            </a>
-            <a href="./captioai/" class="card">
-                <span class="price">$7.99/mo</span>
-                <h3>Captio AI</h3>
-                <p>High-fidelity AI social media engine for caption generation and management.</p>
-            </a>
-            <a href="./optiscout/" class="card">
-                <span class="price">$3.99/mo</span>
-                <h3>OptiScout</h3>
-                <p>Autonomous market intelligence and real-time deal discovery engine.</p>
-            </a>
-            <a href="./nurasen/" class="card">
-                <span class="price">$9.99/mo</span>
-                <h3>Nurasen</h3>
-                <p>Neural cybersecurity and antivirus defense for sovereign data protection.</p>
-            </a>
-        </div>
+    <div class="grid" id="product-grid">
+        <!-- Products will be injected here -->
     </div>
-    <footer>
-        <img src="/logos/TITAN_ICON.png" alt="ORCINOS Icon"><br>
-        <p>&copy; 2026 ORCINOS NETWORK · ORCINOS DIVISION · ANCHORED TO ETERNITY</p>
-    </footer>
+
+    <script>
+        const products = [
+            { name: "Captio AI", cat: "Marketing", desc: "A smart tool for creating perfect social media captions automatically.", url: "./captioai/" },
+            { name: "OptiScout", cat: "Shopping", desc: "Track Amazon prices and find the best deals easily.", url: "./optiscout/" },
+            { name: "Nurasen", cat: "Security", desc: "Top quality protection for your business data and private info.", url: "./nurasen/" },
+            { name: "Titan TraderX", cat: "Trading", desc: "A smart dashboard for tracking your trading strategies and alerts.", url: "./titantraderx/" },
+            { name: "PrayerBlock", cat: "Wellness", desc: "A quiet space for prayer and thinking without distractions.", url: "./prayerblock/" },
+            { name: "PawDX", cat: "Pet Care", desc: "Check your pet's health and track their well-being with smart tools.", url: "./pawdx/" },
+            { name: "Slumber", cat: "Sleep Tech", desc: "Understand your sleep better and wake up feeling your best.", url: "./slumber/" },
+            { name: "Skillbit", cat: "Learning", desc: "Learn new skills fast with easy, short lessons.", url: "./skillbit/" },
+            { name: "Clausify", cat: "Legal Tools", desc: "Create simple legal documents and contracts for your business.", url: "./clausify/" },
+            { name: "Syla", cat: "Logistics", desc: "A simple way to track your business assets and tools.", url: "./syla/" },
+            { name: "Hartaly", cat: "Wellness", desc: "A smart helper to keep your mind calm and focused.", url: "./hartaly/" },
+            { name: "D'Panyard", cat: "Culture", desc: "The home for Steelpan music and Caribbean culture.", url: "./dpanyard/" },
+            { name: "Riddiim", cat: "Music", desc: "Tools for making and sharing great music easily.", url: "./riddiim/" },
+            { name: "Dricil", cat: "Agency", desc: "An automatic helper that handles your digital marketing for you.", url: "./dricil/" }
+        ];
+        const grid = document.getElementById('product-grid');
+        products.forEach(p => {
+            grid.innerHTML += `<div class="card"><span>${p.cat}</span><h3>${p.name}</h3><p>${p.desc}</p><a href="${p.url}" class="btn-launch">Explore Tool →</a></div>`;
+        });
+    </script>
+    <footer>© 2026 ORCINOS · PRISCA DEZIGNS NETWORK</footer>
 </body>
 </html>
+
