@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sovereign Access | Titan TraderX</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
+    async function handleSignUp() {
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        const { error } = await _supabase.auth.signUp({ email, password });
+        if (error) alert(error.message);
+        else alert('Check your email for confirmation!');
+    }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505;
+            --primary: #00FF7F;
+            --surface: #121212;
+            --text: #ccd6f6;
+            --border: rgba(255, 255, 255, 0.08);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .auth-card {
+            background: var(--surface);
+            padding: 40px;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 400px;
+            border: 1px solid var(--border);
+            text-align: center;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+        }
+
+        .logo-text {
+            font-weight: 800;
+            font-size: 1.8rem;
+            color: #FFFFFF;
+            margin-bottom: 30px;
+            display: block;
+            text-decoration: none;
+            letter-spacing: -1px;
+        }
+        .logo-span { color: var(--primary); }
+
+        h1 { font-size: 1.4rem; margin-bottom: 10px; color: #fff; }
+        p { color: #888; margin-bottom: 30px; font-size: 0.9rem; }
+
+        form { text-align: left; }
+        .input-group { margin-bottom: 20px; }
+        label { display: block; font-size: 0.7rem; font-weight: 800; color: #888; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
+        input {
+            width: 100%;
+            padding: 14px;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: #fff;
+            outline: none;
+            transition: all 0.2s;
+        }
+        input:focus { border-color: var(--primary); background: rgba(0,255,127,0.05); }
+
+        .btn-enter {
+            width: 100%;
+            padding: 16px;
+            background: var(--primary);
+            color: #000;
+            border: none;
+            border-radius: 10px;
+            font-weight: 800;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: transform 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .btn-enter:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,255,127,0.3); }
+
+        .footer {
+            margin-top: 40px;
+            font-size: 0.65rem;
+            color: #444;
+            letter-spacing: 1px;
+        }
+
+        #user-profile { display: none; }
+        .profile-header { text-align: left; margin-bottom: 30px; border-bottom: 1px solid var(--border); padding-bottom: 20px; }
+        .profile-header h3 { font-size: 1.2rem; color: #fff; }
+        .nav-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .nav-item {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border);
+            padding: 15px;
+            border-radius: 12px;
+            text-decoration: none;
+            color: #fff;
+            font-weight: 700;
+            font-size: 0.75rem;
+            transition: 0.2s;
+        }
+        .nav-item:hover { background: var(--primary); color: #000; border-color: var(--primary); }
+    </style>
+</head>
+<body>
+    <div class="auth-card" id="auth-ui">
+        <a href="index.html"><img src="https://lh3.googleusercontent.com/d/1ERqvFXcmdfgQsJXfrtRjyb5GvivpgimT" alt="Titan TraderX" style="height: 40px;"></a>
+        <h1>Sovereign Access</h1>
+        <p>Login to your institutional dashboard.</p>
+        
+        <form id="login-form">
+            <div class="input-group">
+                <label>Institutional Email</label>
+                <input type="email" id="email" placeholder="trader@orcinos.com">
+            </div>
+            <div class="input-group">
+                <label>Access Key</label>
+                <input type="password" id="password" placeholder="••••••••">
+            </div>
+            
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px;">
+        <button type="button" onclick="handleLogin()" style="padding: 14px; background: #00A36C; color: #fff; border: none; border-radius: 8px; font-weight: 800; cursor: pointer;">SIGN IN</button>
+        <button type="button" onclick="handleSignUp()" style="padding: 14px; background: transparent; border: 1px solid #333; color: #fff; border-radius: 8px; font-weight: 800; cursor: pointer;">SIGN UP</button>
+    </div>
+
+        </form>
+        
+        <div class="footer">ORCINOS | TITAN TRADERX | SECURE NODE</div>
+    </div>
+
+    <div class="auth-card" id="user-profile">
+        <div class="profile-header">
+            <h3 id="user-name">Sovereign Trader</h3>
+            <p id="user-email" style="margin:0; font-size:0.75rem; color:#888;"></p>
+        </div>
+        <div class="nav-grid">
+            <a href="index.html" class="nav-item">DASHBOARD</a>
+            <a href="charts.html" class="nav-item">TERMINAL</a>
+            <a href="prop-firms.html" class="nav-item">PARTNERS</a>
+            <a href="#" onclick="handleLogout()" class="nav-item" style="color:#ff4d4d;">LOGOUT</a>
+        </div>
+        <div class="footer">ORCINOS | TITAN TRADERX</div>
+    </div>
+
+    <script>
+        const supabaseUrl = 'https://zqxsvxtshqxvxpxvxpxv.supabase.co'; 
+        const supabaseKey = 'public-anon-key'; 
+        const _supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+        async function handleLogin() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const { data, error } = await _supabase.auth.signInWithPassword({ email, password });
+            if (error) alert(error.message);
+        }
+
+        async function handleLogout() {
+            await _supabase.auth.signOut();
+            window.location.reload();
+        }
+
+        _supabase.auth.onAuthStateChange((event, session) => {
+            if (session) {
+                document.getElementById('auth-ui').style.display = 'none';
+                document.getElementById('user-profile').style.display = 'block';
+                document.getElementById('user-name').innerText = session.user.user_metadata.full_name || 'Sovereign Trader';
+                document.getElementById('user-email').innerText = session.user.email;
+            }
+        });
+    
+    async function handleSignUp() {
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        const { error } = await _supabase.auth.signUp({ email, password });
+        if (error) alert(error.message);
+        else alert('Check your email for confirmation!');
+    }
+    </script>
+</body>
+</html>
