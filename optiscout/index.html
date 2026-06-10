@@ -1,76 +1,146 @@
 <!DOCTYPE html>
-<html lang='en'>
+<html lang="en">
 <head>
-    <meta charset='UTF-8'>
-    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-    <title>OptiScout | ORCINOS</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OptiScout | Smart Arbitrage Engine</title>
     <style>
         :root {
-            --light-blue: #E0F2FE;
-            --accent-blue: #0ea5e9;
-            --navy: #0f172a;
-            --white: #FFFFFF;
-            --gray: #64748b;
+            --bg: #FFFFFF; --text: #000000; --muted: #666666; --accent: #FF9500; --border: rgba(0,0,0,0.08);
+            --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
-        body {
-            background-color: var(--white);
-            color: var(--navy);
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            margin: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            text-align: center;
-        }
-        .container {
-            max-width: 600px;
-            padding: 40px;
-        }
-        h1 {
-            font-size: 3.5rem;
-            font-weight: 900;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            letter-spacing: -1px;
-        }
-        p {
-            color: var(--gray);
-            font-size: 1.25rem;
-            line-height: 1.6;
-            margin-bottom: 40px;
-        }
-        .btn {
-            background-color: var(--accent-blue);
-            color: var(--white);
-            padding: 16px 32px;
-            border-radius: 100px;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 1rem;
-            transition: transform 0.2s;
-            display: inline-block;
-        }
-        .btn:hover {
-            transform: translateY(-2px);
-        }
-        footer {
-            position: absolute;
-            bottom: 40px;
-            color: var(--gray);
-            font-size: 0.9rem;
-            width: 100%;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: var(--bg); color: var(--text); font-family: var(--font-body); line-height: 1.6; overflow-x: hidden; }
+        header { padding: 25px 6%; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); position: sticky; top: 0; background: rgba(255,255,255,0.8); backdrop-filter: blur(15px); z-index: 100; }
+        .logo img { height: 85px; }
+        .hero { padding: 120px 6% 80px; text-align: center; }
+        .hero h1 { font-size: 4.5rem; font-weight: 900; letter-spacing: -3px; text-transform: uppercase; margin-bottom: 20px; }
+        .hero p { font-size: 1.3rem; color: var(--muted); max-width: 700px; margin: 0 auto 40px; }
+        .hero-search { max-width: 600px; margin: 0 auto 60px; display: flex; gap: 10px; padding: 10px; background: #F9F9F9; border-radius: 20px; border: 1px solid var(--border); }
+        .hero-input { flex: 1; border: none; background: transparent; padding: 15px; font-size: 1rem; outline: none; }
+        .btn-scout { background: #000; color: #FFF; border: none; padding: 15px 30px; border-radius: 12px; font-weight: 800; text-transform: uppercase; cursor: pointer; }
+
+        .intelligence-suite { padding: 100px 6% 60px; background: #FAFAFA; text-align: center; }
+        .intelligence-suite h2 { font-size: 3rem; font-weight: 900; margin-bottom: 60px; letter-spacing: -2px; }
+        .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 40px; max-width: 1200px; margin: 0 auto; }
+        .metric-item { background: #FFF; padding: 45px; border-radius: 30px; border: 1px solid rgba(0,0,0,0.05); text-align: left; transition: 0.3s; }
+        .metric-item:hover { transform: translateY(-10px); box-shadow: 0 30px 60px rgba(0,0,0,0.04); }
+        .metric-icon { font-size: 2.5rem; margin-bottom: 25px; color: var(--accent); }
+        .metric-item h3 { font-size: 1.5rem; font-weight: 800; margin-bottom: 15px; color: #000; text-transform: uppercase; letter-spacing: 1px; }
+        .metric-item p { font-size: 1rem; color: var(--muted); line-height: 1.6; }
+        .metric-tag { display: inline-block; padding: 5px 12px; background: #000; color: #FFF; font-size: 0.7rem; font-weight: 900; border-radius: 5px; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; }
+
+        .premium-comparison { padding: 100px 6% 140px; text-align: center; background: #FFF; }
+        .tier-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 40px; max-width: 1100px; margin: 0 auto; }
+        .tier-card { background: #FAFAFA; padding: 60px 45px; border-radius: 40px; border: 1px solid var(--border); text-align: left; position: relative; }
+        .tier-card.premium-tier { border: 2px solid var(--accent); background: #FFF; }
+        .tier-badge { position: absolute; top: 35px; right: 35px; background: #000; color: #FFF; padding: 7px 18px; border-radius: 100px; font-size: 0.7rem; font-weight: 900; text-transform: uppercase; letter-spacing: 1.5px; }
+        .tier-price { font-size: 3.5rem; font-weight: 900; margin-bottom: 40px; color: #000; }
+        .tier-price span { font-size: 1.1rem; color: var(--muted); font-weight: 400; }
+        .tier-list { list-style: none; margin-bottom: 50px; }
+        .tier-list li { margin-bottom: 22px; display: flex; align-items: center; gap: 15px; font-size: 1.05rem; color: #333; }
+        .tier-list li::before { content: '✓'; color: var(--accent); font-weight: 900; }
+        .btn-tier { width: 100%; text-align: center; padding: 22px; border-radius: 18px; font-weight: 800; text-transform: uppercase; text-decoration: none; display: inline-block; transition: 0.3s; font-size: 1.1rem; letter-spacing: 2px; }
+        .btn-black { background: #000; color: #FFF; border: none; }
+        .btn-outline { border: 1.5px solid #000; color: #000; background: transparent; }
+        
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(20px); z-index: 2000; justify-content: center; align-items: center; }
+        .payment-modal { background: #FFF; border: 2px solid var(--accent); width: 100%; max-width: 450px; padding: 40px; border-radius: 35px; text-align: center; position: relative; }
+        .modal-close { position: absolute; top: 20px; right: 20px; cursor: pointer; font-size: 1.5rem; color: #888; }
+        .pay-option { background: #F9F9F9; border: 1px solid rgba(0,0,0,0.05); padding: 18px; border-radius: 12px; margin-bottom: 12px; display: flex; align-items: center; gap: 15px; cursor: pointer; transition: 0.2s; text-decoration: none; color: #000; text-align: left; }
+        footer { padding: 80px 6%; text-align: center; border-top: 1px solid var(--border); font-size: 0.8rem; color: var(--muted); text-transform: uppercase; letter-spacing: 2px; }
     </style>
 </head>
 <body>
-    <div class='container'>
-        <h1>OptiScout</h1>
-        <p>Autonomous market intelligence and real-time deal discovery engine.</p>
-        <a href='/' class='btn'>Return to Hub</a>
+    <header><div class="logo"><img src="../logos/OPTISCOUT_DEFINITIVE_2026.png" alt="OptiScout"></div></header>
+    
+    <section class="hero">
+        <h1>Master the Amazon Shard.</h1>
+        <p>The definitive smart commerce intelligence engine. Track price oscillations, identify high-quality signals, and execute at the Fair Market Floor.</p>
+        <form action="dashboard.html" method="GET" class="hero-search">
+            <input type="text" name="url" class="hero-input" placeholder="Paste Amazon Product URL here..." required>
+            <button type="submit" class="btn-scout">Scout</button>
+        </form>
+    </section>
+
+    <section class='intelligence-suite'>
+        <div class='metric-tag'>Core Metrics</div>
+        <h2>The Smart Intelligence Suite</h2>
+        <div class='metrics-grid'>
+            <div class='metric-item'>
+                <div class='metric-icon'>🛡️</div>
+                <h3>Scout Alpha</h3>
+                <p><strong>The Measure of Market Inefficiency.</strong> Most shoppers pay the "Volatility Tax." Scout Alpha calculates the Fair Market Floor—the lowest realistic price based on historical data. It represents the money you keep by waiting for our high-quality entry signal.</p>
+            </div>
+            <div class='metric-item'>
+                <div class='metric-icon'>⚔️</div>
+                <h3>Market Volatility</h3>
+                <p><strong>The Pulse of the Asset.</strong> Prices on the Amazon shard shift constantly. We track the frequency and scale of these oscillations. High Volatility items require our 15-minute Premium sync to ensure you catch the drop before the algorithm self-corrects.</p>
+            </div>
+            <div class='metric-item'>
+                <div class='metric-icon'>⚡</div>
+                <h3>Smart Confidence</h3>
+                <p><strong>Pattern Recognition at Scale.</strong> Not every price drop is a signal. Our engine analyzes 12 months of price behavior to differentiate between a "Fake Drop" and a genuine high-quality entry point. A 94% score means the target is secure; 60% warns of further drops.</p>
+            </div>
+            <div class='metric-item'>
+                <div class='metric-icon'>🌐</div>
+                <h3>Signal Strength</h3>
+                <p><strong>Aggressive Temporal Density.</strong> Information is only valuable if it is fresh. Standard parts operate on a 12-hour heartbeat. Premium Signal Strength activates a 15-minute high-quality stream, turning your monitor into a "Sniper" for instant execution.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="premium-comparison">
+        <div class="tier-grid">
+            <div class="tier-card">
+                <h3>Standard</h3>
+                <div class="tier-price">$0<span> / mo</span></div>
+                <ul class="tier-list">
+                    <li>Manual Dashboard</li>
+                    <li>Standard Scans (12h)</li>
+                    <li>Track up to 5 assets</li>
+                    <li>Basic Market Signals</li>
+                </ul>
+                <a href="dashboard.html" class="btn-tier btn-outline">Initialize</a>
+            </div>
+            <div class="tier-card premium-tier">
+                <div class="tier-badge">Private Access</div>
+                <h3>Apex Scout</h3>
+                <div class="tier-price" style="margin-bottom: 25px;">$29.99<span> / mo</span>
+                    <div style="font-size: 0.85rem; color: var(--muted); margin-top: 8px; font-weight: 400; text-transform: none; letter-spacing: 0;">or $299.99 / yearly (Save 20%)</div>
+                </div>
+                <ul class="tier-list">
+                    <li><strong>15-Min Scans:</strong> Instant captures</li>
+                    <li><strong>Instant Alerts:</strong> High-priority</li>
+                    <li><strong>Smart Predictions:</strong> Drop foresight</li>
+                    <li><strong>Infinite Registry:</strong> Unlimited tracks</li>
+                </ul>
+                <a href="javascript:void(0)" onclick="openPayment()" class="btn-tier btn-black">Upgrade to Apex</a>
+            </div>
+        </div>
+    </section>
+
+    <div id="paymentModal" class="modal-overlay">
+        <div class="payment-modal">
+            <div class="modal-close" onclick="closePayment()">×</div>
+            <h2>Private Payment</h2>
+            <p style="margin-bottom: 25px; color: #666;">Select your preferred subscription tier.</p>
+            <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_xclick-subscriptions&business=priscadezigns9@gmail.com&item_name=OptiScout%20Apex%20Monthly&a3=29.99&p3=1&t3=M&src=1&currency_code=USD" target="_blank" class="pay-option">
+                <div class="pay-icon">💳</div><div class="pay-text"><b>PayPal Monthly ($29.99)</b><span>Auto-renew monthly.</span></div>
+            </a>
+            <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_xclick-subscriptions&business=priscadezigns9@gmail.com&item_name=OptiScout%20Apex%20Yearly&a3=299.99&p3=1&t3=Y&src=1&currency_code=USD" target="_blank" class="pay-option" style="border-color: var(--accent);">
+                <div class="pay-icon">💎</div><div class="pay-text"><b>PayPal Yearly ($299.99)</b><span>Save 20% · Yearly Alpha.</span></div>
+            </a>
+            <a href="dashboard.html?premium=true" style="display:block; margin-top:15px; color:var(--accent); text-decoration:none; font-size:0.75rem; opacity:0.5;">Enter Dashboard</a>
+        </div>
     </div>
-    <footer>
-        &copy; 2026 ORCINOS · ARCHITECTING SOVEREIGNTY
-    </footer>
+
+    <footer>© 2026 OPTISCOUT</footer>
+
+    <script>
+        function openPayment() { document.getElementById('paymentModal').style.display = 'flex'; }
+        function closePayment() { document.getElementById('paymentModal').style.display = 'none'; }
+    </script>
 </body>
 </html>
+
