@@ -25,9 +25,9 @@
             position: sticky; top: 0; z-index: 1000;
             border-bottom: 1px solid var(--border);
         }
-        .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-        .logo img { height: 35px; }
-        .logo span { font-weight: 800; font-size: 1.3rem; color: var(--text-dark); letter-spacing: -0.5px; }
+        .logo { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+        .logo span { font-weight: 800; font-size: 1.4rem; color: var(--text-dark); letter-spacing: -1px; }
+        .logo-accent { color: var(--primary); }
 
         nav { display: flex; gap: 30px; align-items: center; }
         nav a { text-decoration: none; color: var(--text-dark); font-weight: 700; font-size: 0.85rem; transition: color 0.2s; }
@@ -47,23 +47,20 @@
             transition: all 0.3s;
         }
         .btn-main:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
-        .btn-sec { 
-            padding: 18px 40px; background: transparent; border: 2px solid var(--text-dark); 
-            color: var(--text-dark); text-decoration: none; border-radius: 100px; font-weight: 800; 
-        }
 
-        .features { padding: 100px 5%; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; max-width: 1400px; margin: 0 auto; }
-        .f-card { padding: 40px; border-radius: 32px; background: var(--surface); border: 1px solid var(--border); transition: all 0.3s; }
-        .f-card:hover { border-color: var(--primary); transform: translateY(-5px); }
-        .f-card h3 { font-size: 1.5rem; margin-bottom: 15px; }
-        .f-card p { color: var(--text-muted); line-height: 1.6; }
+        .market-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; padding: 80px 5%; max-width: 1400px; margin: 0 auto; }
+        .card { background: var(--surface); padding: 40px; border-radius: 24px; border: 1px solid var(--border); }
+        .card h3 { font-size: 1.5rem; margin-bottom: 15px; font-weight: 800; }
+        .card p { color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; }
 
-        footer { padding: 60px 5%; border-top: 1px solid var(--border); text-align: center; color: var(--text-muted); font-size: 0.9rem; }
+        footer { padding: 60px 5%; border-top: 1px solid var(--border); text-align: center; color: var(--text-muted); font-size: 0.8rem; }
     </style>
 </head>
 <body>
     <header>
-        <a href="index.html" class="logo" style="text-decoration: none;"><span style="font-weight: 800; font-size: 1.4rem; color: #0A0A0B;">TITAN <span style="color: #00A36C;">TRADERX</span></span></a>
+        <a href="index.html" class="logo">
+            <span>TITAN <span class="logo-accent">TRADERX</span></span>
+        </a>
         <nav>
             <a href="charts.html">TERMINAL</a>
             <a href="academy.html">ACADEMY</a>
@@ -74,31 +71,29 @@
 
     <section class="hero">
         <h1>Sovereign Market Intelligence</h1>
-        <p>Institutional-grade analysis, real-time liquidity tracking, and professional education for the modern sovereign trader.</p>
+        <p>The elite dashboard for high-fidelity trading. Institutional signals, live market pulse, and decentralised prop-firm connectivity.</p>
         <div class="hero-btns">
-            <a href="charts.html" class="btn-main">LAUNCH TERMINAL</a>
-            <a href="academy.html" class="btn-sec">ENTER ACADEMY</a>
+            <a href="dashboard.html" class="btn-main">ENTER HUB</a>
         </div>
     </section>
 
-    <div class="features">
-        <div class="f-card">
-            <h3>Advanced Terminal</h3>
-            <p>Full-screen TradingView integration with 100+ indicators and real-time institutional data feeds.</p>
+    <div class="market-grid">
+        <div class="card">
+            <h3>Terminal 2.0</h3>
+            <p>100% full-screen institutional trading interface with real-time liquidity heatmaps.</p>
         </div>
-        <div class="f-card">
-            <h3>Titan Academy</h3>
-            <p>Decoupled education hub focused on Prop Firm mastery and capital scaling strategies.</p>
+        <div class="card">
+            <h3>Partners</h3>
+            <p>Direct connectivity to vetted Prop Firms, Exchanges, and Brokers with sovereign conditions.</p>
         </div>
-        <div class="f-card">
-            <h3>Liquidity Network</h3>
-            <p>Instant access to verified prop firms and exchanges with institutional reliability.</p>
+        <div class="card">
+            <h3>Academy</h3>
+            <p>Master the market with our Investopedia-style deep dive into institutional trading logic.</p>
         </div>
     </div>
 
     <footer>
-        &copy; 2026  Orcinos Division. High-Fidelity Software Engineering.
+        &copy; 2026 Orcinos Division. Sovereign Software Engineering.
     </footer>
 </body>
 </html>
-
