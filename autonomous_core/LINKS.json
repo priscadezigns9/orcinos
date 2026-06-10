@@ -1,0 +1,549 @@
+{
+  "last_updated": "2026-05-29T03:00:35.065287Z",
+  "brands": {
+    "peakfit": {
+      "products": [
+        {
+          "id": "B09P1GB319",
+          "name": "Product B09P1GB319",
+          "brand": "peakfit",
+          "tag": "Featured",
+          "price": "$32.00",
+          "rating": "\u2605\u2605\u2605\u2605\u00bd",
+          "reviews": "17,777",
+          "img_url": "https://m.media-amazon.com/images/I/61Isb40O6wL._AC_SX342_.jpg",
+          "affiliate_url": "https://www.amazon.com/dp/B09P1GB319?tag=priscadezigns-20"
+        },
+        {
+          "id": "B0DP2W7S8K",
+          "name": "Product B0DP2W7S8K",
+          "brand": "peakfit",
+          "tag": "Featured",
+          "price": "$119.95",
+          "rating": "\u2605\u2605\u2605\u2605\u00bd",
+          "reviews": "3,351",
+          "img_url": "https://m.media-amazon.com/images/I/71e82GwjDvL._AC_SY395_.jpg",
+          "affiliate_url": "https://www.amazon.com/dp/B0DP2W7S8K?tag=priscadezigns-20"
+        },
+        {
+          "id": "B0FCLKHVHW",
+          "name": "CAROTE 16 Piece Pots and Pans Set Nonstick",
+          "brand": "peakfit",
+          "tag": "Featured",
+          "price": "$99.99",
+          "rating": "\u2605\u2605\u2605\u2605\u00bd",
+          "reviews": "33,570",
+          "img_url": "https://m.media-amazon.com/images/I/71R2o5-Y9uL._AC_SX342_.jpg",
+          "affiliate_url": "https://www.amazon.com/dp/B0FCLKHVHW?tag=priscadezigns-20"
+        },
+        {
+          "id": "B01AVDVHTI",
+          "name": "Product B01AVDVHTI",
+          "brand": "peakfit",
+          "tag": "Featured",
+          "price": "Check Amazon",
+          "rating": "\u2605\u2605\u2605\u2605",
+          "reviews": "0",
+          "img_url": "",
+          "affiliate_url": "https://www.amazon.com/dp/B01AVDVHTI?tag=priscadezigns-20"
+        },
+        {
+          "id": "B00JUM4CT4",
+          "name": "Product B00JUM4CT4",
+          "brand": "peakfit",
+          "tag": "Featured",
+          "price": "Check Amazon",
+          "rating": "\u2605\u2605\u2605\u2605",
+          "reviews": "0",
+          "img_url": "",
+          "affiliate_url": "https://www.amazon.com/dp/B00JUM4CT4?tag=priscadezigns-20"
+        },
+        {
+          "id": "B0DQNFSW4Q",
+          "name": "Product B0DQNFSW4Q",
+          "brand": "peakfit",
+          "tag": "Featured",
+          "price": "Check Amazon",
+          "rating": "\u2605\u2605\u2605\u2605",
+          "reviews": "0",
+          "img_url": "",
+          "affiliate_url": "https://www.amazon.com/dp/B0DQNFSW4Q?tag=priscadezigns-20"
+        }
+      ]
+    },
+    "thewatchlist": {
+      "products": [
+        {
+          "id": "B000EQS1JW",
+          "name": "Product B000EQS1JW",
+          "brand": "thewatchlist",
+          "tag": "Featured",
+          "price": "Check Amazon",
+          "rating": "\u2605\u2605\u2605\u2605",
+          "reviews": "0",
+          "img_url": "",
+          "affiliate_url": "https://www.amazon.com/dp/B000EQS1JW?tag=priscadezigns-20"
+        },
+        {
+          "id": "B002BWUOXI",
+          "name": "Product B002BWUOXI",
+          "brand": "thewatchlist",
+          "tag": "Featured",
+          "price": "Check Amazon",
+          "rating": "\u2605\u2605\u2605\u2605",
+          "reviews": "0",
+          "img_url": "",
+          "affiliate_url": "https://www.amazon.com/dp/B002BWUOXI?tag=priscadezigns-20"
+        },
+        {
+          "id": "B0073J5J2I",
+          "name": "Product B0073J5J2I",
+          "brand": "thewatchlist",
+          "tag": "Featured",
+          "price": "Check Amazon",
+          "rating": "\u2605\u2605\u2605\u2605",
+          "reviews": "0",
+          "img_url": "",
+          "affiliate_url": "https://www.amazon.com/dp/B0073J5J2I?tag=priscadezigns-20"
+        },
+        {
+          "id": "B000GAWSDG",
+          "name": "Product B000GAWSDG",
+          "brand": "thewatchlist",
+          "tag": "Featured",
+          "price": "Check Amazon",
+          "rating": "\u2605\u2605\u2605\u2605",
+          "reviews": "0",
+          "img_url": "",
+          "affiliate_url": "https://www.amazon.com/dp/B000GAWSDG?tag=priscadezigns-20"
+        },
+        {
+          "id": "B00MV63DRS",
+          "name": "Product B00MV63DRS",
+          "brand": "thewatchlist",
+          "tag": "Featured",
+          "price": "Check Amazon",
+          "rating": "\u2605\u2605\u2605\u2605",
+          "reviews": "0",
+          "img_url": "",
+          "affiliate_url": "https://www.amazon.com/dp/B00MV63DRS?tag=priscadezigns-20"
+        },
+        {
+          "id": "B0194LW5BM",
+          "name": "Product B0194LW5BM",
+          "brand": "thewatchlist",
+          "tag": "Featured",
+          "price": "Check Amazon",
+          "rating": "\u2605\u2605\u2605\u2605",
+          "reviews": "0",
+          "img_url": "",
+          "affiliate_url": "https://www.amazon.com/dp/B0194LW5BM?tag=priscadezigns-20"
+        }
+      ]
+    },
+    "pawvault": {
+      "products": [
+        {
+          "id": "B0DHDF7QC8",
+          "name": "Waterproof Dog Boots with Leggings",
+          "brand": "pawvault",
+          "tag": "Featured",
+          "price": "$74.99",
+          "rating": "\u2605\u2605\u2605\u00bd",
+          "reviews": "2,659",
+          "img_url": "",
+          "affiliate_url": "https://www.amazon.com/dp/B0DHDF7QC8?tag=priscadezigns-20"
+        },
+        {
+          "id": "B0085F1SGO",
+          "name": "TEMPTATIONS Classic Crunchy and Soft Cat Treats",
+          "brand": "pawvault",
+          "tag": "Featured",
+          "price": "$16.98",
+          "rating": "\u2605\u2605\u2605\u2605\u2605",
+          "reviews": "100,000+",
+          "img_url": "",
+          "affiliate_url": "https://www.amazon.com/dp/B0085F1SGO?tag=priscadezigns-20"
+        },
+        {
+          "id": "B00BSYR7K8",
+          "name": "Product B00BSYR7K8",
+          "brand": "pawvault",
+          "tag": "Featured",
+          "price": "$13.99",
+          "rating": "\u2605\u2605\u2605\u2605",
+          "reviews": "228,849",
+          "img_url": "",
+          "affiliate_url": "https://www.amazon.com/dp/B00BSYR7K8?tag=priscadezigns-20"
+        },
+        {
+          "id": "B001650NNW",
+          "name": "Product B001650NNW",
+          "brand": "pawvault",
+          "tag": "Featured",
+          "price": "Check Amazon",
+          "rating": "\u2605\u2605\u2605\u2605",
+          "reviews": "0",
+          "img_url": "",
+          "affiliate_url": "https://www.amazon.com/dp/B001650NNW?tag=priscadezigns-20"
+        },
+        {
+          "id": "B014699LUW",
+          "name": "Product B014699LUW",
+          "brand": "pawvault",
+          "tag": "Featured",
+          "price": "Check Amazon",
+          "rating": "\u2605\u2605\u2605\u2605",
+          "reviews": "0",
+          "img_url": "",
+          "affiliate_url": "https://www.amazon.com/dp/B014699LUW?tag=priscadezigns-20"
+        },
+        {
+          "id": "B007R6G8JW",
+          "name": "Product B007R6G8JW",
+          "brand": "pawvault",
+          "tag": "Featured",
+          "price": "Check Amazon",
+          "rating": "\u2605\u2605\u2605\u2605",
+          "reviews": "0",
+          "img_url": "",
+          "affiliate_url": "https://www.amazon.com/dp/B007R6G8JW?tag=priscadezigns-20"
+        },
+        {
+          "id": "B009R96T3G",
+          "name": "Product B009R96T3G",
+          "brand": "pawvault",
+          "tag": "Featured",
+          "price": "Check Amazon",
+          "rating": "\u2605\u2605\u2605\u2605",
+          "reviews": "0",
+          "img_url": "",
+          "affiliate_url": "https://www.amazon.com/dp/B009R96T3G?tag=priscadezigns-20"
+        },
+        {
+          "id": "B08C2B8Z8R",
+          "name": "Product B08C2B8Z8R",
+          "brand": "pawvault",
+          "tag": "Featured",
+          "price": "Check Amazon",
+          "rating": "\u2605\u2605\u2605\u2605",
+          "reviews": "0",
+          "img_url": "",
+          "affiliate_url": "https://www.amazon.com/dp/B08C2B8Z8R?tag=priscadezigns-20"
+        },
+        {
+          "id": "B000XSC8R2",
+          "name": "Product B000XSC8R2",
+          "brand": "pawvault",
+          "tag": "Featured",
+          "price": "Check Amazon",
+          "rating": "\u2605\u2605\u2605\u2605",
+          "reviews": "0",
+          "img_url": "",
+          "affiliate_url": "https://www.amazon.com/dp/B000XSC8R2?tag=priscadezigns-20"
+        },
+        {
+          "id": "B083S2SD7D",
+          "name": "Product B083S2SD7D",
+          "brand": "pawvault",
+          "tag": "Featured",
+          "price": "Check Amazon",
+          "rating": "\u2605\u2605\u2605\u2605",
+          "reviews": "0",
+          "img_url": "",
+          "affiliate_url": "https://www.amazon.com/dp/B083S2SD7D?tag=priscadezigns-20"
+        },
+        {
+          "id": "B07NHL31CC",
+          "name": "Product B07NHL31CC",
+          "brand": "pawvault",
+          "tag": "Featured",
+          "price": "Check Amazon",
+          "rating": "\u2605\u2605\u2605\u2605",
+          "reviews": "0",
+          "img_url": "",
+          "affiliate_url": "https://www.amazon.com/dp/B07NHL31CC?tag=priscadezigns-20"
+        },
+        {
+          "id": "B001VIYAS2",
+          "name": "Product B001VIYAS2",
+          "brand": "pawvault",
+          "tag": "Featured",
+          "price": "Check Amazon",
+          "rating": "\u2605\u2605\u2605\u2605",
+          "reviews": "0",
+          "img_url": "",
+          "affiliate_url": "https://www.amazon.com/dp/B001VIYAS2?tag=priscadezigns-20"
+        },
+        {
+          "id": "B0002AR0I8",
+          "name": "Product B0002AR0I8",
+          "brand": "pawvault",
+          "tag": "Featured",
+          "price": "Check Amazon",
+          "rating": "\u2605\u2605\u2605\u2605",
+          "reviews": "0",
+          "img_url": "",
+          "affiliate_url": "https://www.amazon.com/dp/B0002AR0I8?tag=priscadezigns-20"
+        },
+        {
+          "id": "B000WFEKW8",
+          "name": "Product B000WFEKW8",
+          "brand": "pawvault",
+          "tag": "Featured",
+          "price": "Check Amazon",
+          "rating": "\u2605\u2605\u2605\u2605",
+          "reviews": "0",
+          "img_url": "",
+          "affiliate_url": "https://www.amazon.com/dp/B000WFEKW8?tag=priscadezigns-20"
+        },
+        {
+          "id": "B08P2D95G8",
+          "name": "Product B08P2D95G8",
+          "brand": "pawvault",
+          "tag": "Featured",
+          "price": "Check Amazon",
+          "rating": "\u2605\u2605\u2605\u2605",
+          "reviews": "0",
+          "img_url": "",
+          "affiliate_url": "https://www.amazon.com/dp/B08P2D95G8?tag=priscadezigns-20"
+        },
+        {
+          "id": "B0040QS3PO",
+          "name": "Product B0040QS3PO",
+          "brand": "pawvault",
+          "tag": "Featured",
+          "price": "Check Amazon",
+          "rating": "\u2605\u2605\u2605\u2605",
+          "reviews": "0",
+          "img_url": "",
+          "affiliate_url": "https://www.amazon.com/dp/B0040QS3PO?tag=priscadezigns-20"
+        },
+        {
+          "id": "B074V47V2H",
+          "name": "Product B074V47V2H",
+          "brand": "pawvault",
+          "tag": "Featured",
+          "price": "Check Amazon",
+          "rating": "\u2605\u2605\u2605\u2605",
+          "reviews": "0",
+          "img_url": "",
+          "affiliate_url": "https://www.amazon.com/dp/B074V47V2H?tag=priscadezigns-20"
+        },
+        {
+          "id": "B003XV9F8W",
+          "name": "Product B003XV9F8W",
+          "brand": "pawvault",
+          "tag": "Featured",
+          "price": "Check Amazon",
+          "rating": "\u2605\u2605\u2605\u2605",
+          "reviews": "0",
+          "img_url": "",
+          "affiliate_url": "https://www.amazon.com/dp/B003XV9F8W?tag=priscadezigns-20"
+        },
+        {
+          "id": "B0002ASWZW",
+          "name": "Product B0002ASWZW",
+          "brand": "pawvault",
+          "tag": "Featured",
+          "price": "Check Amazon",
+          "rating": "\u2605\u2605\u2605\u2605",
+          "reviews": "0",
+          "img_url": "",
+          "affiliate_url": "https://www.amazon.com/dp/B0002ASWZW?tag=priscadezigns-20"
+        },
+        {
+          "id": "B000I82DTU",
+          "name": "Product B000I82DTU",
+          "brand": "pawvault",
+          "tag": "Featured",
+          "price": "Check Amazon",
+          "rating": "\u2605\u2605\u2605\u2605",
+          "reviews": "0",
+          "img_url": "",
+          "affiliate_url": "https://www.amazon.com/dp/B000I82DTU?tag=priscadezigns-20"
+        },
+        {
+          "id": "B00MW8G62E",
+          "name": "Product B00MW8G62E",
+          "brand": "pawvault",
+          "tag": "Featured",
+          "price": "Check Amazon",
+          "rating": "\u2605\u2605\u2605\u2605",
+          "reviews": "0",
+          "img_url": "",
+          "affiliate_url": "https://www.amazon.com/dp/B00MW8G62E?tag=priscadezigns-20"
+        },
+        {
+          "id": "B07S2TDDCK",
+          "name": "Product B07S2TDDCK",
+          "brand": "pawvault",
+          "tag": "Featured",
+          "price": "Check Amazon",
+          "rating": "\u2605\u2605\u2605\u2605",
+          "reviews": "0",
+          "img_url": "",
+          "affiliate_url": "https://www.amazon.com/dp/B07S2TDDCK?tag=priscadezigns-20"
+        },
+        {
+          "id": "B09K8YYVWV",
+          "name": "Product B09K8YYVWV",
+          "brand": "pawvault",
+          "tag": "Featured",
+          "price": "Check Amazon",
+          "rating": "\u2605\u2605\u2605\u2605",
+          "reviews": "0",
+          "img_url": "",
+          "affiliate_url": "https://www.amazon.com/dp/B09K8YYVWV?tag=priscadezigns-20"
+        },
+        {
+          "id": "B0009YI4E6",
+          "name": "Product B0009YI4E6",
+          "brand": "pawvault",
+          "tag": "Featured",
+          "price": "Check Amazon",
+          "rating": "\u2605\u2605\u2605\u2605",
+          "reviews": "0",
+          "img_url": "",
+          "affiliate_url": "https://www.amazon.com/dp/B0009YI4E6?tag=priscadezigns-20"
+        },
+        {
+          "id": "B007BNE1S2",
+          "name": "Product B007BNE1S2",
+          "brand": "pawvault",
+          "tag": "Featured",
+          "price": "Check Amazon",
+          "rating": "\u2605\u2605\u2605\u2605",
+          "reviews": "0",
+          "img_url": "",
+          "affiliate_url": "https://www.amazon.com/dp/B007BNE1S2?tag=priscadezigns-20"
+        },
+        {
+          "id": "B0009X29WK",
+          "name": "Product B0009X29WK",
+          "brand": "pawvault",
+          "tag": "Featured",
+          "price": "Check Amazon",
+          "rating": "\u2605\u2605\u2605\u2605",
+          "reviews": "0",
+          "img_url": "",
+          "affiliate_url": "https://www.amazon.com/dp/B0009X29WK?tag=priscadezigns-20"
+        },
+        {
+          "id": "B0002AS5MK",
+          "name": "Product B0002AS5MK",
+          "brand": "pawvault",
+          "tag": "Featured",
+          "price": "Check Amazon",
+          "rating": "\u2605\u2605\u2605\u2605",
+          "reviews": "0",
+          "img_url": "",
+          "affiliate_url": "https://www.amazon.com/dp/B0002AS5MK?tag=priscadezigns-20"
+        },
+        {
+          "id": "B01N2Z9MIO",
+          "name": "Product B01N2Z9MIO",
+          "brand": "pawvault",
+          "tag": "Featured",
+          "price": "Check Amazon",
+          "rating": "\u2605\u2605\u2605\u2605",
+          "reviews": "0",
+          "img_url": "",
+          "affiliate_url": "https://www.amazon.com/dp/B01N2Z9MIO?tag=priscadezigns-20"
+        },
+        {
+          "id": "B00CU2CMOI",
+          "name": "Product B00CU2CMOI",
+          "brand": "pawvault",
+          "tag": "Featured",
+          "price": "Check Amazon",
+          "rating": "\u2605\u2605\u2605\u2605",
+          "reviews": "0",
+          "img_url": "",
+          "affiliate_url": "https://www.amazon.com/dp/B00CU2CMOI?tag=priscadezigns-20"
+        },
+        {
+          "id": "B07C22NTL4",
+          "name": "Product B07C22NTL4",
+          "brand": "pawvault",
+          "tag": "Featured",
+          "price": "Check Amazon",
+          "rating": "\u2605\u2605\u2605\u2605",
+          "reviews": "0",
+          "img_url": "",
+          "affiliate_url": "https://www.amazon.com/dp/B07C22NTL4?tag=priscadezigns-20"
+        }
+      ]
+    },
+    "shelfly": {
+      "products": [
+        {
+          "id": "B076Q6442Z",
+          "name": "Product B076Q6442Z",
+          "brand": "shelfly",
+          "tag": "Featured",
+          "price": "Check Amazon",
+          "rating": "\u2605\u2605\u2605\u2605",
+          "reviews": "0",
+          "img_url": "",
+          "affiliate_url": "https://www.amazon.com/dp/B076Q6442Z?tag=priscadezigns-20"
+        },
+        {
+          "id": "B000YJ2SKM",
+          "name": "Product B000YJ2SKM",
+          "brand": "shelfly",
+          "tag": "Featured",
+          "price": "Check Amazon",
+          "rating": "\u2605\u2605\u2605\u2605",
+          "reviews": "0",
+          "img_url": "",
+          "affiliate_url": "https://www.amazon.com/dp/B000YJ2SKM?tag=priscadezigns-20"
+        },
+        {
+          "id": "B00NR1YQHM",
+          "name": "Product B00NR1YQHM",
+          "brand": "shelfly",
+          "tag": "Featured",
+          "price": "Check Amazon",
+          "rating": "\u2605\u2605\u2605\u2605",
+          "reviews": "0",
+          "img_url": "",
+          "affiliate_url": "https://www.amazon.com/dp/B00NR1YQHM?tag=priscadezigns-20"
+        },
+        {
+          "id": "B01MR4Y0CZ",
+          "name": "Product B01MR4Y0CZ",
+          "brand": "shelfly",
+          "tag": "Featured",
+          "price": "$20.49",
+          "rating": "\u2605\u2605\u2605\u2605\u00bd",
+          "reviews": "70,483",
+          "img_url": "",
+          "affiliate_url": "https://www.amazon.com/dp/B01MR4Y0CZ?tag=priscadezigns-20"
+        },
+        {
+          "id": "B00TSTZQEY",
+          "name": "Product B00TSTZQEY",
+          "brand": "shelfly",
+          "tag": "Featured",
+          "price": "$8.99",
+          "rating": "\u2605\u2605\u2605\u2605\u00bd",
+          "reviews": "38,385",
+          "img_url": "",
+          "affiliate_url": "https://www.amazon.com/dp/B00TSTZQEY?tag=priscadezigns-20"
+        },
+        {
+          "id": "B09RQ9GLDJ",
+          "name": "Product B09RQ9GLDJ",
+          "brand": "shelfly",
+          "tag": "Featured",
+          "price": "Check Amazon",
+          "rating": "\u2605\u2605\u2605\u2605",
+          "reviews": "0",
+          "img_url": "",
+          "affiliate_url": "https://www.amazon.com/dp/B09RQ9GLDJ?tag=priscadezigns-20"
+        }
+      ]
+    }
+  }
+}
