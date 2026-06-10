@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson Library | Skillbit</title>
+    <link rel="stylesheet" href="../shared/style.css">
+</head>
+<body>
+    <header class="container">
+        <a href="dashboard.html" class="logo">Skillbit</a>
+        <nav>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="library.html">Library</a>
+            <a href="leaderboard.html">Leaderboard</a>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div style="margin: 40px 0;">
+            <h1>Skill Tracks</h1>
+            <p style="color: #AAA;">Select a track to start learning today.</p>
+        </div>
+
+        <div id="library-grid" class="track-grid">
+            <!-- Tracks Injected by app.js -->
+        </div>
+
+        <div class="card" style="margin-top: 40px; background: var(--electric-indigo);">
+            <h3>Pro Tracks</h3>
+            <p style="margin: 10px 0;">Upgrade to Pro to unlock all specialized tracks including AI Literacy and Personal Finance.</p>
+            <a href="../landing/index.html#pricing" class="btn btn-primary">Go Pro</a>
+        </div>
+    </main>
+
+    <script src="../shared/app.js"></script>
+</body>
+</html>
