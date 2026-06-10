@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ORCINOS | Trusted Software Division</title>
+    <link rel="icon" href="/logos/TITAN_ICON.png" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505;
+            --primary: #00A36C;
+            --surface: #0F0F11;
+            --text: #FFFFFF;
+            --muted: #888888;
+            --border: rgba(255,255,255,0.05);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+        header { padding: 80px 6%; text-align: center; border-bottom: 1px solid var(--border); }
+        header img { height: 100px; margin-bottom: 24px; }
+        header h1 { font-weight: 800; letter-spacing: -1px; margin-bottom: 12px; }
+        .subtitle { color: var(--primary); font-weight: 600; text-transform: uppercase; letter-spacing: 2px; font-size: 0.9rem; }
+        .container { padding: 80px 6%; max-width: 1400px; margin: 0 auto; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 30px; }
+        .card { background: var(--surface); border: 1px solid var(--border); padding: 40px; border-radius: 24px; text-decoration: none; color: inherit; transition: 0.3s; }
+        .card:hover { border-color: var(--primary); transform: translateY(-5px); }
+        .card h3 { font-size: 1.5rem; margin-bottom: 15px; }
+        .card p { color: var(--muted); font-size: 0.95rem; }
+        .price { font-size: 0.8rem; font-weight: 700; color: var(--primary); text-transform: uppercase; margin-bottom: 10px; display: block; }
+        footer { padding: 60px 6%; text-align: center; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.8rem; }
+        footer img { height: 30px; margin-bottom: 20px; opacity: 0.5; }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="/logos/TITAN_TRADERX_LOGO.png" alt="ORCINOS">
+        <h1>ORCINOS</h1>
+        <div class="subtitle">Trusted Software Division</div>
+    </header>
+    <div class="container">
+        <div class="grid">
+            <a href="./titantraderx/" class="card">
+                <span class="price">9.99/mo</span>
+                <h3>Titan TraderX</h3>
+                <p>High-fidelity trading solutions, market analysis, and professional prop firm directory.</p>
+            </a>
+            <a href="./captioai/" class="card">
+                <span class="price">$7.99/mo</span>
+                <h3>Captio AI</h3>
+                <p>High-fidelity AI social media engine for caption generation and management.</p>
+            </a>
+            <a href="./optiscout/" class="card">
+                <span class="price">$3.99/mo</span>
+                <h3>OptiScout</h3>
+                <p>Autonomous market intelligence and real-time deal discovery engine.</p>
+            </a>
+            <a href="./nurasen/" class="card">
+                <span class="price">$9.99/mo</span>
+                <h3>Nurasen</h3>
+                <p>Neural cybersecurity and antivirus defense for sovereign data protection.</p>
+            </a>
+        </div>
+    </div>
+    <footer>
+        <img src="/logos/TITAN_ICON.png" alt="ORCINOS Icon"><br>
+        <p>&copy; 2026 ORCINOS NETWORK · ORCINOS DIVISION · ANCHORED TO ETERNITY</p>
+    </footer>
+</body>
+</html>
