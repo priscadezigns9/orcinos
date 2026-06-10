@@ -220,7 +220,65 @@
 
     <meta name="keywords" content="Orcinos, Priscion, SaaS, AI, Captio AI, OptiScout, SovSygnal, Dricil, Nurasen, Syla, Slumber, Hartaly, PrayerBlock, Riddiim, DPanyard, Calalloo, PawDX, Clausify, Skillbit, Titan TraderX, Software, Artificial Intelligence, Cybersecurity, Music Player, Digital Agency, Relationship Coaching, Caribbean Tech, Smart Kitchen, Biohacking, Global News, Market Intelligence, Amazon Tracker, Health Tech, Sleep Coach, Legal AI, Vet AI, Learning Platform, Christian Apps, Blockchain, Web3, Automation, Digital Transformation, Enterprise Software, High-Fidelity Design, Caribbean SaaS, Neural Engine, Sovereign Software, Asset Management, Marketing AI, Data Privacy">
     <meta name="geo.placename" content="Trinidad and Tobago, Port of Spain, San Fernando, Kingston, Jamaica, Bridgetown, Barbados, Georgetown, Guyana, London, UK, New York, USA, San Francisco, USA, Austin, USA, Miami, USA, Toronto, Canada, Dubai, UAE, Singapore, Tokyo, Japan, Seoul, South Korea, Berlin, Germany, Paris, France, Sydney, Australia, São Paulo, Brazil, Mexico City, Mexico, Lagos, Nigeria, Nairobi, Kenya, Johannesburg, South Africa, Mumbai, India, Bangalore, India, Hong Kong, Madrid, Spain, Amsterdam, Netherlands, Dublin, Ireland, Tel Aviv, Israel, Stockholm, Sweden, Helsinki, Finland, Oslo, Norway, Copenhagen, Denmark, Barcelona, Spain, Milan, Italy, Rome, Italy, Zurich, Switzerland, Vienna, Austria, Prague, Czech Republic, Warsaw, Poland, Istanbul, Turkey, Riyadh, Saudi Arabia, Buenos Aires, Argentina, Santiago, Chile, Bogota, Colombia, Panama City, Panama, San Jose, Costa Rica, Hamilton, Bermuda">
-    </head>
+    
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const supabaseUrl = 'https://voflyqyzitpuzxzzunzs.supabase.co';
+        const supabaseKey = '{{credential:supabase-anon-key}}';
+        const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+
+        async function signIn() {
+            const { error } = await supabaseClient.auth.signInWithOAuth({
+                provider: 'google',
+                options: {
+                    redirectTo: window.location.href
+                }
+            });
+            if (error) console.error('Error signing in:', error.message);
+        }
+
+        async function signOut() {
+            const { error } = await supabaseClient.auth.signOut();
+            if (error) console.error('Error signing out:', error.message);
+        }
+
+        async function syncProfile(session) {
+            if (session?.user) {
+                const { user } = session;
+                const { error } = await supabaseClient
+                    .from('profiles')
+                    .upsert({ 
+                        id: user.id, 
+                        email: user.email,
+                        updated_at: new Date().toISOString()
+                    }, {
+                        onConflict: 'id'
+                    });
+                if (error) console.error('Error syncing profile:', error.message);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const loginBtn = document.getElementById('login-btn');
+            
+            supabaseClient.auth.onAuthStateChange((event, session) => {
+                if (event === 'SIGNED_IN') {
+                    syncProfile(session);
+                    if (loginBtn) {
+                        loginBtn.innerText = 'LOGOUT';
+                        loginBtn.onclick = signOut;
+                    }
+                } else if (event === 'SIGNED_OUT') {
+                    if (loginBtn) {
+                        loginBtn.innerText = 'LOGIN';
+                        loginBtn.onclick = signIn;
+                    }
+                }
+            });
+        });
+    </script>
+</head>
 <body>
 
     <header>
@@ -232,7 +290,7 @@
             <a href="index.html" class="active">Hub</a>
             <a href="prop-firms.html">Prop Firms</a>
             <a href="#academy">Academy</a>
-        <a href="charts.html" style="background: #00A36C; color: #fff; padding: 8px 20px; border-radius: 100px; text-decoration: none; font-weight: 700; margin-left: 15px; font-size: 0.8rem;">CHART TERMINAL</a></nav>
+        <a href="charts.html" style="background: #00A36C; color: #fff; padding: 8px 20px; border-radius: 100px; text-decoration: none; font-weight: 700; margin-left: 15px; font-size: 0.8rem;">CHART</a><button id="login-btn" style="background: transparent; color: var(--text-main); border: 1px solid var(--border); padding: 8px 20px; border-radius: 100px; cursor: pointer; font-weight: 700; margin-left: 15px; font-size: 0.8rem; font-family: inherit;">LOGIN</button></nav>
     </header>
     <section style="padding: 30px 6%; text-align: center; background: #F9FAFB; border-bottom: 1px solid #EEE;">
         <div style="max-width: 800px; margin: 0 auto;">
