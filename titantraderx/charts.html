@@ -5,24 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Titan Terminal | Sovereign Analysis</title>
     <style>
-        body, html { margin: 0; padding: 0; height: 100%; width: 100%; overflow: hidden; background: #000; }
-        header { 
-            position: absolute; top: 0; left: 0; right: 0; height: 35px; 
-            background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); 
-            display: flex; align-items: center; padding: 0 15px; z-index: 1000;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-        .back-btn { 
-            color: #00A36C; text-decoration: none; font-family: sans-serif; 
-            font-weight: 800; font-size: 0.65rem; letter-spacing: 1px; text-transform: uppercase;
-            opacity: 0.8; transition: opacity 0.2s;
-        }
-        .back-btn:hover { opacity: 1; }
-        #tradingview_terminal { height: 100%; width: 100%; }
+        body, html { margin: 0; padding: 0; height: 100vh; width: 100%; overflow: hidden; background: #000; }
+        #tradingview_terminal { height: 100vh; width: 100vw; }
     </style>
 </head>
 <body>
-    
     <div id="tradingview_terminal"></div>
     <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
     <script type="text/javascript">
