@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Titan Dashboard | Sovereign Control</title>
+    <title>Sovereign Access | Titan Trader X</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <style>
@@ -33,102 +33,110 @@
             text-align: center;
             box-shadow: 0 20px 40px rgba(0,0,0,0.4);
         }
-        .logo-box { margin-bottom: 30px; }
-        .logo-box img { height: 40px; }
-        h1 { font-size: 1.8rem; font-weight: 800; margin-bottom: 10px; }
-        p { color: var(--muted); margin-bottom: 30px; font-size: 0.95rem; }
+        .logo-text { font-weight: 800; font-size: 1.6rem; color: #FFFFFF; margin-bottom: 30px; display: block; text-decoration: none; }
+        .logo-span { color: var(--primary); }
         
-        .btn-google {
-            display: flex; align-items: center; justify-content: center;
-            width: 100%; padding: 14px;
-            background: #fff; color: #000;
-            border: none; border-radius: 12px;
-            font-weight: 700; cursor: pointer;
-            gap: 10px; transition: transform 0.2s;
+        h1 { font-size: 1.5rem; font-weight: 800; margin-bottom: 10px; }
+        p { color: var(--muted); margin-bottom: 30px; font-size: 0.9rem; }
+        
+        form { text-align: left; }
+        .input-group { margin-bottom: 15px; }
+        label { display: block; font-size: 0.75rem; font-weight: 700; color: var(--muted); margin-bottom: 5px; text-transform: uppercase; }
+        input { 
+            width: 100%; padding: 14px; 
+            background: rgba(255,255,255,0.03); 
+            border: 1px solid var(--border); 
+            border-radius: 12px; color: #fff; 
+            outline: none; transition: border-color 0.2s;
         }
-        .btn-google:hover { transform: scale(1.02); }
+        input:focus { border-color: var(--primary); }
         
+        .btn-enter {
+            width: 100%; padding: 16px; 
+            background: var(--primary); color: #fff; 
+            border: none; border-radius: 12px; 
+            font-weight: 800; cursor: pointer; 
+            margin-top: 10px; transition: transform 0.2s;
+        }
+        .btn-enter:hover { transform: translateY(-2px); }
+
         #user-profile { display: none; }
         .profile-header { display: flex; align-items: center; gap: 15px; text-align: left; margin-bottom: 30px; }
-        .profile-header img { width: 50px; height: 50px; border-radius: 50%; }
+        .profile-header img { width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--primary); }
         
-        .nav-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .nav-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
         .nav-item {
             background: rgba(255,255,255,0.03);
             border: 1px solid var(--border);
             padding: 20px; border-radius: 16px;
             text-decoration: none; color: #fff;
-            font-weight: 600; font-size: 0.9rem;
-            transition: all 0.2s;
+            font-weight: 700; font-size: 0.8rem;
+            transition: all 0.2s; text-align: center;
         }
         .nav-item:hover { background: var(--primary); border-color: var(--primary); }
     </style>
 </head>
 <body>
     <div class="auth-card" id="auth-ui">
-        <div class="logo-box">
-            <img src="../logos/TITAN_TRADERX_LOGO.png" alt="ORCINOS">
-        </div>
-        <h1>Welcome to Titan</h1>
-        <p>Access your sovereign trading dashboard and academy.</p>
+        <a href="index.html" class="logo-text">TITAN <span class="logo-span">TRADERX</span></a>
+        <h1>Sovereign Access</h1>
+        <p>Enter your credentials to access the terminal.</p>
         
-        <form id="sovereign-form" style="text-align: left;">
-            <div style="margin-bottom: 15px;">
-                <label style="display:block; font-size:0.8rem; margin-bottom:5px; color:var(--muted);">USERNAME</label>
-                <input type="text" id="email" style="width:100%; padding:12px; background:rgba(255,255,255,0.05); border:1px solid var(--border); border-radius:8px; color:#fff; outline:none;">
+        <form id="login-form">
+            <div class="input-group">
+                <label>Username / Email</label>
+                <input type="email" id="email" placeholder="trader@sovereign.com">
             </div>
-            <div style="margin-bottom: 20px;">
-                <label style="display:block; font-size:0.8rem; margin-bottom:5px; color:var(--muted);">PASSWORD</label>
-                <input type="password" id="password" style="width:100%; padding:12px; background:rgba(255,255,255,0.05); border:1px solid var(--border); border-radius:8px; color:#fff; outline:none;">
+            <div class="input-group">
+                <label>Password</label>
+                <input type="password" id="password" placeholder="••••••••">
             </div>
-            <button type="button" onclick="login()" style="width:100%; padding:14px; background:var(--primary); color:#fff; border:none; border-radius:12px; font-weight:700; cursor:pointer;">ENTER TERMINAL</button>
+            <button type="button" class="btn-enter" onclick="handleLogin()">ENTER TERMINAL</button>
         </form>
-
     </div>
 
     <div class="auth-card" id="user-profile">
         <div class="profile-header">
-            <img id="user-avatar" src="" alt="">
+            <img id="user-avatar" src="https://api.dicebear.com/7.x/avataaars/svg?seed=Trader" alt="">
             <div>
-                <h3 id="user-name">Trader</h3>
-                <p id="user-email" style="margin:0; font-size:0.8rem;"></p>
+                <h3 id="user-name">Sovereign Trader</h3>
+                <p id="user-email" style="margin:0; font-size:0.75rem; color:var(--muted);"></p>
             </div>
         </div>
         <div class="nav-grid">
-            <a href="charts.html" class="nav-item">CHARTS</a>
+            <a href="charts.html" class="nav-item">TERMINAL</a>
             <a href="academy.html" class="nav-item">ACADEMY</a>
             <a href="prop-firms.html" class="nav-item">PARTNERS</a>
-            <a href="#" onclick="logout()" class="nav-item" style="color:#FF4B4B;">LOGOUT</a>
+            <a href="#" onclick="handleLogout()" class="nav-item" style="color:#FF4B4B;">LOGOUT</a>
         </div>
     </div>
 
     <script>
-        const supabaseUrl = 'https://zqxsvxtshqxvxpxvxpxv.supabase.co'; // Example placeholder
-        const supabaseKey = 'public-anon-key'; // Placeholder
-        const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+        const supabaseUrl = 'https://zqxsvxtshqxvxpxvxpxv.supabase.co'; 
+        const supabaseKey = 'public-anon-key'; 
+        const _supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
-        
-        async function login() {
+        async function handleLogin() {
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
-            const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+            const { data, error } = await _supabase.auth.signInWithPassword({ email, password });
             if (error) alert(error.message);
         }
-);
-        }
 
-        async function logout() {
-            await supabase.auth.signOut();
+        async function handleLogout() {
+            await _supabase.auth.signOut();
             window.location.reload();
         }
 
-        supabase.auth.onAuthStateChange((event, session) => {
+        _supabase.auth.onAuthStateChange((event, session) => {
             if (session) {
                 document.getElementById('auth-ui').style.display = 'none';
                 document.getElementById('user-profile').style.display = 'block';
-                document.getElementById('user-name').innerText = session.user.user_metadata.full_name;
+                document.getElementById('user-name').innerText = session.user.user_metadata.full_name || 'Sovereign Trader';
                 document.getElementById('user-email').innerText = session.user.email;
-                document.getElementById('user-avatar').src = session.user.user_metadata.avatar_url;
+                if(session.user.user_metadata.avatar_url) {
+                    document.getElementById('user-avatar').src = session.user.user_metadata.avatar_url;
+                }
             }
         });
     </script>
