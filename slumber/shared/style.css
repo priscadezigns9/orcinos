@@ -1,0 +1,271 @@
+/* Slumber Design System */
+:root {
+    --midnight: #0A0A1A;
+    --lavender: #9B8EC4;
+    --silver: #C8C8D8;
+    --amber: #E8B84B;
+    --dark-grey: #1A1A2E;
+    --glass: rgba(255, 255, 255, 0.05);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--midnight);
+    color: var(--silver);
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+h1, h2, h3 {
+    color: var(--lavender);
+    font-weight: 400;
+}
+
+a {
+    color: var(--amber);
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+a:hover {
+    opacity: 0.8;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+/* Nav */
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 2rem;
+    background: var(--dark-grey);
+    border-bottom: 1px solid var(--glass);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: var(--lavender);
+}
+
+.nav-links {
+    display: flex;
+    gap: 2rem;
+}
+
+/* Cards */
+.card {
+    background: var(--dark-grey);
+    border: 1px solid var(--glass);
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    transition: 0.3s;
+}
+
+.card:hover {
+    border-color: var(--lavender);
+}
+
+/* Buttons */
+.btn {
+    display: inline-block;
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: 0.3s;
+    text-align: center;
+}
+
+.btn-primary {
+    background: var(--lavender);
+    color: var(--midnight);
+}
+
+.btn-outline {
+    background: transparent;
+    color: var(--lavender);
+    border: 1px solid var(--lavender);
+}
+
+.btn-amber {
+    background: var(--amber);
+    color: var(--midnight);
+}
+
+/* Forms */
+input, textarea, select {
+    width: 100%;
+    padding: 0.8rem;
+    background: var(--midnight);
+    border: 1px solid var(--glass);
+    border-radius: 8px;
+    color: var(--silver);
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+    font-family: inherit;
+}
+
+label {
+    font-size: 0.9rem;
+    color: var(--lavender);
+}
+
+/* Score Gauge */
+.gauge-container {
+    width: 200px;
+    height: 200px;
+    margin: 2rem auto;
+    position: relative;
+}
+
+.gauge-svg {
+    transform: rotate(-90deg);
+}
+
+.gauge-bg {
+    fill: none;
+    stroke: var(--glass);
+    stroke-width: 10;
+}
+
+.gauge-fill {
+    fill: none;
+    stroke: var(--lavender);
+    stroke-width: 10;
+    stroke-dasharray: 565.48; /* 2 * PI * 90 */
+    stroke-dashoffset: 565.48;
+    transition: stroke-dashoffset 1s ease-out;
+}
+
+.gauge-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.score-val {
+    font-size: 3rem;
+    font-weight: 600;
+    display: block;
+}
+
+.score-label {
+    font-size: 0.8rem;
+    color: var(--silver);
+    text-transform: uppercase;
+}
+
+/* Grid */
+.grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+@media (max-width: 768px) {
+    .grid-2 {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Chat */
+.chat-container {
+    height: 400px;
+    overflow-y: auto;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.msg {
+    max-width: 80%;
+    padding: 1rem;
+    border-radius: 12px;
+}
+
+.msg-ai {
+    background: var(--glass);
+    align-self: flex-start;
+}
+
+.msg-user {
+    background: var(--lavender);
+    color: var(--midnight);
+    align-self: flex-end;
+}
+
+/* Sound Grid */
+.sound-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1rem;
+}
+
+.sound-item {
+    background: var(--dark-grey);
+    border-radius: 12px;
+    padding: 1rem;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.sound-item:hover {
+    background: var(--glass);
+}
+
+.sound-item.active {
+    border: 1px solid var(--amber);
+}
+
+.sound-icon {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Library */
+.article-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.article-item {
+    cursor: pointer;
+}
+
+.category-tag {
+    font-size: 0.7rem;
+    background: var(--glass);
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    margin-bottom: 0.5rem;
+    display: inline-block;
+}
+
+/* Utils */
+.hidden { display: none; }
+.mb-2 { margin-bottom: 2rem; }
+.text-center { text-align: center; }
