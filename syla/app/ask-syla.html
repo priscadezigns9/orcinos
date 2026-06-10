@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ask Syla</title>
+    <link rel="stylesheet" href="../shared/style.css">
+</head>
+<body>
+    <a href="tel:911" class="emergency-btn">EMERGENCY HELP</a>
+
+    <nav class="nav-bar">
+        <a href="dashboard.html" class="nav-item">Home</a>
+        <a href="ask-syla.html" class="nav-item active">Ask Syla</a>
+        <a href="medications.html" class="nav-item">Medicine</a>
+        <a href="family.html" class="nav-item">Family</a>
+        <a href="tech-help.html" class="nav-item">Tech Help</a>
+    </nav>
+
+    <div class="container">
+        <h1>Ask Syla a Question</h1>
+        <p>You can type your question below, or press the green button to speak to me.</p>
+
+        <div id="chat-display" class="card" style="height: 400px; overflow-y: auto; display: flex; flex-direction: column;">
+            <div class="chat-bubble syla">Hello! I am Syla. How can I help you today?</div>
+        </div>
+
+        <div class="card">
+            <textarea id="chat-input" placeholder="Type your question here..."></textarea>
+            <button onclick="handleChatInput()" class="big-btn">Send My Question</button>
+            <p style="text-align: center;">OR</p>
+            <button onclick="startListening((text) => { document.getElementById('chat-input').value = text; handleChatInput(); })" class="voice-btn">🎤</button>
+            <p style="text-align: center; font-weight: bold;">Press to Speak</p>
+        </div>
+    </div>
+
+    <script src="../shared/app.js"></script>
+</body>
+</html>
