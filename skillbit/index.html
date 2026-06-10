@@ -1,76 +1,89 @@
 <!DOCTYPE html>
-<html lang='en'>
+<html lang="en">
 <head>
-    <meta charset='UTF-8'>
-    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-    <title>Skillbit | ORCINOS</title>
-    <style>
-        :root {
-            --light-blue: #E0F2FE;
-            --accent-blue: #0ea5e9;
-            --navy: #0f172a;
-            --white: #FFFFFF;
-            --gray: #64748b;
-        }
-        body {
-            background-color: var(--white);
-            color: var(--navy);
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            margin: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            text-align: center;
-        }
-        .container {
-            max-width: 600px;
-            padding: 40px;
-        }
-        h1 {
-            font-size: 3.5rem;
-            font-weight: 900;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            letter-spacing: -1px;
-        }
-        p {
-            color: var(--gray);
-            font-size: 1.25rem;
-            line-height: 1.6;
-            margin-bottom: 40px;
-        }
-        .btn {
-            background-color: var(--accent-blue);
-            color: var(--white);
-            padding: 16px 32px;
-            border-radius: 100px;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 1rem;
-            transition: transform 0.2s;
-            display: inline-block;
-        }
-        .btn:hover {
-            transform: translateY(-2px);
-        }
-        footer {
-            position: absolute;
-            bottom: 40px;
-            color: var(--gray);
-            font-size: 0.9rem;
-            width: 100%;
-        }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skillbit | Micro-Learning for Pros</title>
+    <link rel="stylesheet" href="../shared/style.css">
 </head>
 <body>
-    <div class='container'>
-        <h1>Skillbit</h1>
-        <p>Micro-learning platform for rapid high-fidelity skill acquisition.</p>
-        <a href='/' class='btn'>Return to Hub</a>
+    <header class="container">
+        <a href="index.html" class="logo">Skillbit</a>
+        <nav>
+            <a href="#features">Features</a>
+            <a href="#pricing">Pricing</a>
+            <a href="#" class="btn btn-primary" onclick="toggleAuth()">Get Started</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero container">
+            <h1>Master new skills in <span>5 minutes</span> a day.</h1>
+            <p>The daily habit for high-performers. Coding, design, marketing, and more. Gamified lessons that actually stick.</p>
+            <div class="hero-btns">
+                <a href="#" class="btn btn-primary btn-lg" onclick="toggleAuth()">Start Learning Free</a>
+                <a href="#pricing" class="btn btn-outline btn-lg" style="margin-left: 10px;">View Pro Plans</a>
+            </div>
+        </section>
+
+        <section id="features" class="container" style="padding: 100px 0;">
+            <h2 style="text-align: center; margin-bottom: 50px; font-size: 36px;">Why Skillbit?</h2>
+            <div class="track-grid">
+                <div class="card">
+                    <h3>⚡️ 5-Minute Lessons</h3>
+                    <p>Designed for busy schedules. Learn one key concept per day.</p>
+                </div>
+                <div class="card">
+                    <h3>🎮 Gamified XP</h3>
+                    <p>Earn XP, maintain streaks, and climb the leaderboard.</p>
+                </div>
+                <div class="card">
+                    <h3>🎯 Real Skills</h3>
+                    <p>Curated tracks from industry experts in tech and business.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="pricing" class="container" style="padding: 100px 0; border-top: 1px solid #333;">
+            <h2 style="text-align: center; margin-bottom: 50px; font-size: 36px;">Choose Your Track</h2>
+            <div class="dashboard-grid">
+                <div class="card" style="text-align: center;">
+                    <h3>Free</h3>
+                    <div style="font-size: 48px; margin: 20px 0;">$0</div>
+                    <ul style="list-style: none; margin-bottom: 30px; color: #AAA;">
+                        <li>1 Skill Track</li>
+                        <li>Basic Streak Tracking</li>
+                        <li>Daily Lesson</li>
+                    </ul>
+                    <button class="btn btn-outline" style="width: 100%;" onclick="toggleAuth()">Join Free</button>
+                </div>
+                <div class="card" style="text-align: center; border: 2px solid var(--lemon-lime);">
+                    <div style="background: var(--lemon-lime); color: var(--dark); display: inline-block; padding: 2px 10px; border-radius: 20px; font-size: 12px; font-weight: 800; margin-bottom: 10px;">BEST VALUE</div>
+                    <h3>Pro</h3>
+                    <div style="font-size: 48px; margin: 20px 0;">$4.99<small style="font-size: 16px;">/mo</small></div>
+                    <ul style="list-style: none; margin-bottom: 30px; color: #AAA;">
+                        <li>All 8 Skill Tracks</li>
+                        <li>Global Leaderboard</li>
+                        <li>Advanced Analytics</li>
+                        <li>Offline Access</li>
+                    </ul>
+                    <button class="btn btn-primary" style="width: 100%;" onclick="toggleAuth()">Go Pro</button>
+                    <p style="font-size: 10px; margin-top: 10px; color: #777;">Pay with PayPal, Crypto, or Payoneer</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="auth-modal">
+        <div class="modal-content">
+            <h2 style="margin-bottom: 20px;">Join Skillbit</h2>
+            <input type="email" id="email" placeholder="Email Address">
+            <input type="password" id="pass" placeholder="Password">
+            <button class="btn btn-primary" style="width: 100%;" onclick="mockLogin()">Login / Sign Up</button>
+            <button class="btn" style="width: 100%; color: #AAA;" onclick="toggleAuth()">Cancel</button>
+        </div>
     </div>
-    <footer>
-        &copy; 2026 ORCINOS · ARCHITECTING SOVEREIGNTY
-    </footer>
+
+    <script src="../shared/app.js"></script>
 </body>
 </html>
