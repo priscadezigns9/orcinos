@@ -1,106 +1,193 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="icon" href="../logos/TITAN_ICON.png" type="image/png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Titan Trader X | Sovereign Market Intelligence</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <title>Priscion | Architecting Independent Reality</title>
+    <link rel="icon" type="image/png" href="assets/priscion_logo.png">
+    <meta name="description" content="Priscion is a global AI brand builder helping you create high quality private digital networks." />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;400;500;600;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #00A36C;
-            --text-dark: #0A0A0B;
-            --text-muted: #666666;
             --bg: #FFFFFF;
-            --surface: #F8F9FA;
-            --border: #EEEEEE;
+            --text: #1A1A1A;
+            --muted: #666666;
+            --accent: #7B35D4;
+            --muze-blue: #5AC8FA;
+            --border: rgba(0,0,0,0.08);
+            --surface: #F9F9F9;
+            --font-heading: 'Playfair Display', serif;
+            --font-body: 'Inter', sans-serif;
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; color: var(--text-dark); background: var(--bg); overflow-x: hidden; }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; transition: none !important; animation: none !important; }
         
-        header {
-            padding: 20px 5%;
+        body { font-family: var(--font-body); background: var(--bg); color: var(--text); line-height: 1.6; overflow-x: hidden; }
+
+        nav {
+            height: 120px; padding: 0 8%;
             display: flex; justify-content: space-between; align-items: center;
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(20px);
-            position: sticky; top: 0; z-index: 1000;
             border-bottom: 1px solid var(--border);
-        }
-        .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-        .logo img { height: 35px; }
-        .logo span { font-weight: 800; font-size: 1.3rem; color: var(--text-dark); letter-spacing: -0.5px; }
-
-        nav { display: flex; gap: 30px; align-items: center; }
-        nav a { text-decoration: none; color: var(--text-dark); font-weight: 700; font-size: 0.85rem; transition: color 0.2s; }
-        nav a:hover { color: var(--primary); }
-        .btn-login { 
-            background: var(--primary); color: #fff; padding: 10px 24px; 
-            border-radius: 50px; text-decoration: none; font-weight: 700; 
+            position: sticky; top: 0; background: rgba(255,255,255,0.9);
+            backdrop-filter: blur(20px); z-index: 1000;
         }
 
-        .hero { padding: 120px 5% 80px; text-align: center; background: radial-gradient(circle at center, #f0fff4 0%, #ffffff 100%); }
-        .hero h1 { font-size: 4.5rem; font-weight: 800; line-height: 1; margin-bottom: 25px; letter-spacing: -2px; }
-        .hero p { font-size: 1.25rem; color: var(--text-muted); max-width: 700px; margin: 0 auto 40px; }
-        .hero-btns { display: flex; justify-content: center; gap: 20px; }
-        .btn-main { 
-            padding: 18px 40px; background: var(--text-dark); color: #fff; 
-            text-decoration: none; border-radius: 100px; font-weight: 800; font-size: 1rem; 
-            transition: all 0.3s;
-        }
-        .btn-main:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
-        .btn-sec { 
-            padding: 18px 40px; background: transparent; border: 2px solid var(--text-dark); 
-            color: var(--text-dark); text-decoration: none; border-radius: 100px; font-weight: 800; 
+        .nav-logo { display: flex; align-items: center; }
+        .nav-logo img { height: 45px; cursor: pointer; }
+
+        .nav-links { display: flex; gap: 40px; align-items: center; }
+        .nav-links a { 
+            text-decoration: none; color: var(--text); font-weight: 600; font-size: 0.75rem; 
+            letter-spacing: 2px; text-transform: uppercase; 
         }
 
-        .features { padding: 100px 5%; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; max-width: 1400px; margin: 0 auto; }
-        .f-card { padding: 40px; border-radius: 32px; background: var(--surface); border: 1px solid var(--border); transition: all 0.3s; }
-        .f-card:hover { border-color: var(--primary); transform: translateY(-5px); }
-        .f-card h3 { font-size: 1.5rem; margin-bottom: 15px; }
-        .f-card p { color: var(--text-muted); line-height: 1.6; }
+        .btn-muze-nav {
+            background: var(--muze-blue); color: #fff !important; padding: 14px 28px; border-radius: 100px;
+            font-weight: 900; font-size: 0.7rem; letter-spacing: 2px;
+        }
 
-        footer { padding: 60px 5%; border-top: 1px solid var(--border); text-align: center; color: var(--text-muted); font-size: 0.9rem; }
+        .hero {
+            padding: 120px 8% 100px; text-align: center;
+            display: flex; flex-direction: column; align-items: center;
+        }
+        .p-logo-hero { width: 60px; margin-bottom: 40px; }
+        
+        .kicker { font-weight: 900; font-size: 0.7rem; letter-spacing: 5px; color: var(--muted); text-transform: uppercase; margin-bottom: 20px; }
+        h1 { font-family: var(--font-heading); font-size: 5rem; line-height: 1.1; margin-bottom: 30px; letter-spacing: -2px; }
+        .hero p { max-width: 600px; color: var(--muted); font-size: 1.1rem; margin-bottom: 40px; }
+
+        .dapp-grid {
+            display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; padding: 0 8% 100px;
+            max-width: 1200px; margin: 0 auto;
+        }
+        .dapp-card {
+            background: var(--surface); border: 1px solid var(--border); padding: 50px 40px;
+            border-radius: 24px; text-decoration: none; color: inherit;
+            position: relative; overflow: hidden;
+        }
+        .status-badge {
+            position: absolute; top: 30px; right: 30px; font-weight: 900; font-size: 0.6rem;
+            letter-spacing: 2px; text-transform: uppercase; color: var(--accent);
+        }
+        .dapp-logo { height: 45px; margin-bottom: 25px; object-fit: contain; }
+        .dapp-card h3 { font-weight: 900; font-size: 0.9rem; letter-spacing: 3px; margin-bottom: 15px; text-transform: uppercase; }
+        .dapp-card p { color: var(--muted); font-size: 0.9rem; line-height: 1.6; }
+
+        .services { padding: 100px 8%; background: #000; color: #fff; border-radius: 60px 60px 0 0; }
+        .service-header { text-align: center; margin-bottom: 80px; }
+        .service-header h2 { font-family: var(--font-heading); font-size: 3.5rem; margin-bottom: 20px; }
+
+        .service-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+        .service-card {
+            background: #080808; border: 1px solid #111; padding: 60px; border-radius: 40px;
+        }
+        .service-card h3 { font-weight: 900; font-size: 1.2rem; letter-spacing: 2px; margin-bottom: 20px; text-transform: uppercase; }
+        .service-card .price { font-size: 2.5rem; font-weight: 300; margin-bottom: 20px; color: var(--accent); }
+        .service-card p { color: #888; margin-bottom: 30px; font-size: 1rem; }
+        .service-list { list-style: none; margin-bottom: 40px; }
+        .service-list li { color: #666; margin-bottom: 10px; font-size: 0.9rem; display: flex; align-items: center; gap: 10px; }
+        .service-list li::before { content: '✓'; color: var(--accent); font-weight: bold; }
+
+        .btn-acquire {
+            width: 100%; padding: 20px; background: #fff; color: #000; border: none;
+            border-radius: 100px; font-weight: 900; cursor: pointer;
+            text-decoration: none; display: block; text-align: center;
+        }
+
+        footer { padding: 80px 8%; text-align: center; border-top: 1px solid var(--border); }
+        .copyright { font-weight: 900; font-size: 0.6rem; letter-spacing: 3px; color: #CCC; text-transform: uppercase; }
+
+        @media (max-width: 1024px) {
+            .dapp-grid { grid-template-columns: 1fr; }
+            .service-grid { grid-template-columns: 1fr; }
+            h1 { font-size: 3rem; }
+        }
     </style>
 </head>
 <body>
-    <header>
-        <a href="index.html" class="logo" style="text-decoration: none;"><img src="../logos/TITAN_TRADERX_LOGO.png" alt="TITAN TRADERX" style="height: 40px;"></a>
-        <nav>
-            <a href="charts.html">TERMINAL</a>
-            <a href="academy.html">ACADEMY</a>
-            <a href="prop-firms.html">PARTNERS</a>
-            <a href="dashboard.html" class="btn-login">LOGIN</a>
-        </nav>
-    </header>
+
+    <nav>
+        <div class="nav-logo">
+            <img src="assets/priscion_logo.png" alt="Priscion Logo" onclick="location.href='index.html'">
+        </div>
+        <div class="nav-links">
+            <a href="affiliates/">Share to Earn</a>
+            <a href="pulse/">Explorer</a>
+            <a href="muzewallet/" class="btn-muze-nav">MUZE WALLET</a>
+        </div>
+    </nav>
 
     <section class="hero">
-        <h1>Sovereign Market Intelligence</h1>
-        <p>Institutional-grade analysis, real-time liquidity tracking, and professional education for the modern sovereign trader.</p>
-        <div class="hero-btns">
-            <a href="charts.html" class="btn-main">LAUNCH TERMINAL</a>
-            <a href="academy.html" class="btn-sec">ENTER ACADEMY</a>
+        <img src="assets/priscion_logo.png" class="p-logo-hero" alt="Priscion Logo">
+        <div class="kicker">The Independent Ledger</div>
+        <h1>Architecting<br>Reality.</h1>
+        <p>Global brand design and high quality digital systems. We build the automatic tools that power the 2026 digital age.</p>
+    </section>
+
+    <div class="dapp-grid">
+        <a href="pulse/" class="dapp-card">
+            <span class="status-badge">Live</span>
+            <img src="assets/pulse_logo.png" class="dapp-logo" alt="Pulse">
+            <h3>PULSE</h3>
+            <p>The official block explorer. Monitor transactions and ledger health in real-time.</p>
+        </a>
+        <a href="muzewallet/" class="dapp-card">
+            <span class="status-badge">Beta</span>
+            <img src="assets/muze_logo.png" class="dapp-logo" alt="Muze">
+            <h3>MUZE</h3>
+            <p>High quality independent wallet. Manage your $PRN, $NRL, and your .pri handles.</p>
+        </a>
+        <a href="chillata/" class="dapp-card">
+            <span class="status-badge">Live</span>
+            <img src="assets/chillata_logo.png" class="dapp-logo" alt="Chillata">
+            <h3>CHILLATA</h3>
+            <p>Independent Swap and liquidity engine. Private asset exchange and liquidity systems.</p>
+        </a>
+        <a href="mynt/" class="dapp-card">
+            <span class="status-badge">Dev</span>
+            <img src="assets/mynt_logo.png" class="dapp-logo" alt="Mynt">
+            <h3>MYNT</h3>
+            <p>The NFT Factory. Minting private digital networks and high quality story artifacts.</p>
+        </a>
+    </div>
+
+    <section class="services">
+        <div class="service-header">
+            <div class="kicker" style="color: #444;">Ecosystem Integration</div>
+            <h2>Independent Migration</h2>
+        </div>
+        <div class="service-grid">
+            <div class="service-card">
+                <h3>Private Onboarding</h3>
+                <div class="price">$1,500.00</div>
+                <p>Designed for emerging brands and private people looking for immediate entry into the network.</p>
+                <ul class="service-list">
+                    <li>Primary .pri handle registration</li>
+                    <li>Independent identity engineering</li>
+                    <li>MUZE Wallet handshake integration</li>
+                </ul>
+                <a href="muzewallet/" class="btn-acquire">Acquire Service</a>
+            </div>
+            <div class="service-card">
+                <h3>Network Migration</h3>
+                <div class="price">$7,900.00</div>
+                <p>High quality deep-tissue migration for established companies and history datasets.</p>
+                <ul class="service-list">
+                    <li>History anchoring</li>
+                    <li>Custom revenue-tithing smart contracts</li>
+                    <li>Deep neural security systems</li>
+                </ul>
+                <a href="muzewallet/" class="btn-acquire">Acquire Service</a>
+            </div>
         </div>
     </section>
 
-    <div class="features">
-        <div class="f-card">
-            <h3>Advanced Terminal</h3>
-            <p>Full-screen TradingView integration with 100+ indicators and real-time institutional data feeds.</p>
-        </div>
-        <div class="f-card">
-            <h3>Titan Academy</h3>
-            <p>Decoupled education hub focused on Prop Firm mastery and capital scaling strategies.</p>
-        </div>
-        <div class="f-card">
-            <h3>Liquidity Network</h3>
-            <p>Instant access to verified prop firms and exchanges with institutional reliability.</p>
-        </div>
-    </div>
+    <section id="signal" style="padding: 80px 8%; background: var(--surface); border-top: 1px solid var(--border);"><div style="max-width: 1200px; margin: 0 auto;"><span style="letter-spacing: 3px; text-transform: uppercase; font-size: 0.7rem; color: var(--accent); font-weight: 900; display: block; margin-bottom: 20px;">Deep Intelligence Signal</span><h2 style="font-family: var(--font-heading); font-size: 2.5rem; margin-bottom: 30px;">NVIDIA 'Vera Rubin' <br>Sovereign Infrastructure</h2><div style="background: rgba(255,255,255,0.8); backdrop-filter: blur(20px); border: 1px solid var(--border); padding: 40px; border-radius: 24px;"><p style="font-size: 1.1rem; color: var(--text); margin-bottom: 20px;">The production of the 'Vera Rubin' architecture marks the definitive shift toward Sovereign AI Infrastructure. Priscion is integrating these nodes as the primary compute core for our independent digital networks.</p><div style="display: flex; gap: 20px; align-items: center;"><span style="background: var(--muze-blue); color: white; padding: 5px 15px; border-radius: 100px; font-size: 0.7rem; font-weight: 900;">LIVE DEPLOYMENT</span><span style="color: var(--muted); font-size: 0.8rem;">Session ALPHA // 2026.06.10</span></div></div></div></section>
 
     <footer>
-        <img src="../logos/TITAN_ICON.png" alt="Orcinos" style="height: 30px; margin-bottom: 20px; display: block; margin-left: auto; margin-right: auto;">
-        &copy; 2026 Orcinos Orcinos Division. High-Fidelity Software Engineering.
+        <p class="copyright">PRISCION &copy; 2026 | ARCHITECTING REALITY</p>
     </footer>
+
 </body>
 </html>
-
