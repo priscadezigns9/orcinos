@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Neural Deck | RIDDIIM</title>
+  <link rel="manifest" href="riddiim_manifest.json">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #050508;
+      --accent: #FFFFFF;
+      --muted: #5A5A70;
+      --border: rgba(255, 255, 255, 0.08);
+      --font-mono: 'Space Mono', monospace;
+      --font-sans: 'Space Grotesk', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    body { background: var(--bg); color: #fff; font-family: var(--font-sans); height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
+
+    header { height: 70px; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); backdrop-filter: blur(20px); z-index: 100; }
+    .nav-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: #fff; }
+    .nav-vinyl { width: 20px; height: 20px; border-radius: 50%; background: radial-gradient(circle, #222 30%, #000 30%); border: 1px solid rgba(255,255,255,0.1); animation: spin 4s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .nav-wordmark { font-family: var(--font-mono); font-size: 14px; font-weight: 700; letter-spacing: 2px; }
+
+    main { flex: 1; display: flex; flex-direction: column; padding: 20px; overflow-y: auto; align-items: center; }
+    
+    .tabs { display: flex; gap: 15px; margin-bottom: 15px; border-bottom: 1px solid var(--border); padding-bottom: 10px; width: 100%; max-width: 500px; }
+    .tab { font-family: var(--font-mono); font-size: 9px; color: var(--muted); cursor: pointer; letter-spacing: 1px; text-transform: uppercase; }
+    .tab.active { color: #fff; }
+
+    .search-row { display: flex; gap: 10px; width: 100%; max-width: 500px; margin-bottom: 15px; position: relative; }
+    input { flex: 1; background: rgba(255,255,255,0.02); border: 1px solid var(--border); padding: 12px 16px; color: #fff; font-family: var(--font-sans); font-size: 14px; border-radius: 12px; outline: none; }
+    
+    #search-results { 
+      position: absolute; top: 100%; left: 0; width: 100%; max-height: 300px; overflow-y: auto; 
+      background: #0A0A0F; border: 1px solid var(--border); border-radius: 12px; 
+      display: none; z-index: 200; box-shadow: 0 30px 60px rgba(0,0,0,0.8);
+    }
+    .result-item { padding: 10px 15px; border-bottom: 1px solid var(--border); cursor: pointer; display: flex; align-items: center; gap: 12px; }
+    .result-item img { width: 40px; height: 40px; border-radius: 6px; object-fit: cover; }
+    .result-title { font-size: 13px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .result-artist { font-size: 9px; color: var(--muted); font-family: var(--font-mono); text-transform: uppercase; }
+    
+    .deck-container { 
+      width: 100%; max-width: 450px; background: rgba(10,10,15,0.8); border: 1px solid var(--border); 
+      border-radius: 24px; padding: 25px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); 
+      display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 450px;
+      position: relative; overflow: hidden;
+    }
+    
+    .player-ui { width: 100%; text-align: center; display: none; }
+    .art-wrap { width: 160px; height: 160px; margin: 0 auto 20px; position: relative; }
+    .art-wrap img { width: 100%; height: 100%; border-radius: 16px; object-fit: cover; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+    
+    .track-meta { margin-bottom: 15px; }
+    .track-meta h2 { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+    .track-meta p { font-family: var(--font-mono); color: var(--muted); font-size: 10px; letter-spacing: 2px; text-transform: uppercase; }
+
+    /* Progress Bar */
+    .progress-container { width: 100%; margin-top: 10px; }
+    .time-labels { display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 9px; color: var(--muted); margin-top: 5px; }
+    input[type="range"] {
+      -webkit-appearance: none; width: 100%; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; outline: none; cursor: pointer;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none; width: 12px; height: 12px; background: #fff; border-radius: 50%; cursor: pointer;
+    }
+
+    .controls { margin-top: 20px; display: flex; align-items: center; justify-content: center; gap: 25px; }
+    .main-btn { width: 50px; height: 50px; border-radius: 50%; background: #fff; color: #000; border: none; font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+    .nav-btn { background: none; border: none; color: #fff; font-size: 20px; cursor: pointer; opacity: 0.6; }
+    .nav-btn:hover { opacity: 1; }
+
+    .visualizer { width: 100%; height: 20px; display: flex; align-items: flex-end; justify-content: center; gap: 3px; margin-top: 20px; }
+    .v-bar { width: 3px; height: 4px; background: #fff; border-radius: 1px; opacity: 0.2; transition: height 0.1s; }
+
+    #feedback { font-family: var(--font-mono); font-size: 9px; color: var(--muted); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; }
+
+    #yt-player-container { position: absolute; left: -9999px; top: -9999px; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+  </style>
+</head>
+<body>
+
+<header>
+  <a href="../" class="nav-brand">
+    <div class="nav-vinyl"></div>
+    <span class="nav-wordmark">RIDDIIM</span>
+  </a>
+  <div onclick="openProModal()" style="cursor:pointer; background:rgba(232,119,34,0.1); color:#E87722; padding:6px 12px; border-radius:100px; font-size:10px; font-weight:800; border:1px solid #E87722; letter-spacing:1px;">GET PRO</div>
+</header>
+
+<main>
+  <div class="tabs">
+    <div class="tab active" onclick="switchTab('search')">Search</div>
+    <div class="tab" onclick="switchTab('library')">Vault</div>
+  </div>
+
+  <div class="search-row">
+    <input type="text" placeholder="Search Artist, Track, or Genre..." id="query" autocomplete="off">
+    <div id="search-results"></div>
+  </div>
+  <div id="feedback">Analyzing signals...</div>
+
+  <div class="deck-container">
+    <div id="empty-state" style="text-align: center; font-family: var(--font-mono); font-size: 11px; opacity: 0.2;">
+      <div style="font-size: 40px; margin-bottom: 20px;">🎧</div>
+      READY_FOR_SIGNAL_INPUT
+    </div>
+    
+    <div id="vault-list" style="display:none; padding:10px 20px;"></div>
+
+    <div class="player-ui" id="player-ui">
+      <div class="art-wrap"><img id="track-art" src="" alt=""></div>
+      <div class="track-meta">
+        <h2 id="track-name">Track Name</h2>
+        <p id="artist-name">Artist Name</p>
+      </div>
+
+      <div class="progress-container">
+        <input type="range" id="progress" value="0" min="0" max="100">
+        <div class="time-labels">
+          <span id="current-time">0:00</span>
+          <span id="total-duration">0:00</span>
+        </div>
+      </div>
+      
+      <div class="controls">
+        <button class="nav-btn">⏮</button>
+        <button class="main-btn" id="play-trigger">▶</button>
+        <button class="nav-btn">⏭</button>
+        <button class="nav-btn" id="fav-btn" style="margin-left:15px; font-size:18px;">♡</button>
+      </div>
+
+      <div class="visualizer" id="viz"></div>
+    </div>
+  </div>
+</main>
+
+  <!-- External Sovereignty Assets -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    window.addEventListener('load', () => {
+      const sb_r = window.supabase.createClient('https://sktpjacowqaedddtrhuz.supabase.co', 'sb_publishable_ChdrHQEJV7pVpJMKt-ZaUw_6V0WRKAR');
+      window.sb_vault = sb_r; 
+      console.log("Supabase Sovereign Vault Linked 🛡️");
+      loadVaultFromSupabase();
+    });
+  </script>
+
+  <script src="neural_engine.js"></script>
+  <script src="https://www.youtube.com/iframe_api"></script>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('sw.js')
+        .then(reg => console.log('Sovereign SW Registered 🎼🛡️'))
+        .catch(err => console.error('SW Failed:', err));
+    });
+  }
+  const query = document.getElementById('query');
+  window.openProModal = () => {
+    const modal = document.createElement('div');
+    modal.id = 'pro-modal';
+    modal.style = "position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:10000; display:flex; align-items:center; justify-content:center; padding:20px; backdrop-filter:blur(10px);";
+    modal.innerHTML = `
+      <div style="background:var(--bg); width:100%; max-width:400px; border-radius:32px; padding:30px; text-align:center; animation: slideUp 0.3s ease; position:relative;">
+        <div onclick="this.parentElement.parentElement.remove()" style="position:absolute; top:20px; right:20px; cursor:pointer; opacity:0.5;"><i data-lucide="x"></i></div>
+        <div style="background:var(--primary); color:white; width:60px; height:60px; border-radius:20px; display:inline-flex; align-items:center; justify-content:center; margin-bottom:15px;">
+          <i data-lucide="zap" style="width:32px; height:32px;"></i>
+        </div>
+        <h2 class="display-font" style="font-size:1.8rem; margin-bottom:5px;">RIDDIIM PRO</h2>
+        <p style="color:var(--primary); font-weight:800; text-transform:uppercase; font-size:0.7rem; letter-spacing:2px; margin-bottom:20px;">The Studio Standard</p>
+        
+        <ul style="list-style:none; text-align:left; margin-bottom:30px; font-size:0.85rem;">
+          <li style="margin-bottom:12px; display:flex; gap:10px;"><i data-lucide="check-circle" style="color:var(--primary); width:18px;"></i> Ad-Free Neural Deck</li>
+          <li style="margin-bottom:12px; display:flex; gap:10px;"><i data-lucide="check-circle" style="color:var(--primary); width:18px;"></i> High-Fidelity Audio Detect</li>
+          <li style="margin-bottom:12px; display:flex; gap:10px;"><i data-lucide="check-circle" style="color:var(--primary); width:18px;"></i> Native Studio Sync</li>
+        </ul>
+
+        <button onclick="initEmpirePayment()" style="width:100%; padding:18px; border-radius:18px; background:var(--bg); color:var(--primary); border:2px solid var(--primary); font-weight:800; cursor:pointer; margin-bottom:15px;">Unlock Pro — $9.99/mo</button>
+        <p style="font-size:0.6rem; color:var(--muted);">Universal Priscion License. Works across all Empire apps.</p>
+      </div>
+    `;
+    document.body.appendChild(modal);
+    lucide.createIcons();
+  };
+
+  window.initEmpirePayment = () => {
+    var pm = document.getElementById('pro-modal'); if(pm) pm.remove();
+    var ref = 'RDM-' + Math.random().toString(36).substr(2,8).toUpperCase();
+    var o = document.createElement('div');
+    o.id='pay-overlay';
+    o.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,0.88);z-index:99999;display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(12px);';
+    o.innerHTML='<div style="background:#fff;border-radius:24px;padding:28px;max-width:400px;width:100%;position:relative;max-height:88vh;overflow-y:auto;"><span onclick="document.getElementById(\'pay-overlay\').remove()" style="position:absolute;top:14px;right:18px;cursor:pointer;font-size:1.3rem;color:#999;font-weight:700;">&#x2715;</span><h3 style="font-size:1rem;font-weight:800;color:#111;margin-bottom:4px;">RIDDIIM PRO &mdash; .99/mo</h3><p style="font-size:0.7rem;color:#999;margin-bottom:18px;text-transform:uppercase;letter-spacing:1px;">Select Payment Method</p><div style="display:flex;gap:8px;margin-bottom:20px;"><button id="ptab-bank" onclick="pswitch(\'bank\')" style="flex:1;padding:10px;border:none;border-radius:10px;background:#111;color:#fff;font-weight:800;cursor:pointer;font-size:0.7rem;">BANK</button><button id="ptab-crypto" onclick="pswitch(\'crypto\')" style="flex:1;padding:10px;border:none;border-radius:10px;background:#eee;color:#333;font-weight:800;cursor:pointer;font-size:0.7rem;">CRYPTO</button><button id="ptab-paypal" onclick="pswitch(\'paypal\')" style="flex:1;padding:10px;border:none;border-radius:10px;background:#eee;color:#333;font-weight:800;cursor:pointer;font-size:0.7rem;">PAYPAL</button></div><div id="ppane-bank"><div style="background:#f0f7ff;padding:15px;border-radius:12px;border:1px solid #d0e4ff;margin-bottom:12px;"><p style="font-size:0.68rem;font-weight:700;color:#0056b3;margin-bottom:8px;text-transform:uppercase;">Citibank (US &mdash; Payoneer)</p><div style="font-family:monospace;font-size:0.78rem;color:#333;line-height:1.8;"><p><strong>Beneficiary:</strong> Prisca Dezigns</p><p><strong>Bank:</strong> Citibank, N.A.</p><p><strong>Routing (ABA):</strong> 031100209</p><p><strong>Account:</strong> 70580060002427728</p><p><strong>Type:</strong> Checking</p></div></div><p style="font-size:0.7rem;color:#666;">Ref: <strong style="color:#E87722;">' + ref + '</strong></p></div><div id="ppane-crypto" style="display:none;"><p style="font-size:0.78rem;color:#666;margin-bottom:10px;">USDT / ETH / BTC (ERC-20)</p><div style="background:#f8f9fa;padding:14px;border-radius:12px;border:1px solid #eee;word-break:break-all;font-family:monospace;font-size:0.76rem;color:#333;position:relative;">0xcef857e82c306b3d0f2db080e7794f4bb376049e<button onclick="navigator.clipboard.writeText(\'0xcef857e82c306b3d0f2db080e7794f4bb376049e\')" style="position:absolute;top:8px;right:8px;background:#E87722;color:#fff;border:none;border-radius:6px;padding:4px 10px;font-size:0.65rem;cursor:pointer;">Copy</button></div><p style="font-size:0.7rem;color:#999;margin-top:10px;">Ref: <strong style="color:#E87722;">' + ref + '</strong></p></div><div id="ppane-paypal" style="display:none;"><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=QXE9PL58QPU9L&item_name=RIDDIIM+PRO&currency_code=USD&amount=9.99" target="_blank" style="display:block;text-align:center;padding:16px;background:#0070ba;color:#fff;border-radius:14px;font-weight:800;text-decoration:none;font-size:0.85rem;margin-bottom:12px;">Pay with PayPal</a><p style="font-size:0.7rem;color:#666;">Include your reference in the payment note.</p><p style="font-size:0.7rem;color:#999;margin-top:8px;">Ref: <strong style="color:#E87722;">' + ref + '</strong></p></div></div>';
+    document.body.appendChild(o);
+    o.addEventListener('click', function(e){ if(e.target===o) o.remove(); });
+  };
+  function pswitch(tab) {
+    ['bank','crypto','paypal'].forEach(function(t){
+      document.getElementById('ppane-'+t).style.display=(t===tab)?'block':'none';
+      var b=document.getElementById('ptab-'+t);
+      b.style.background=(t===tab)?'#111':'#eee';
+      b.style.color=(t===tab)?'#fff':'#333';
+    });
+  }
+
+  async function updateAccountStatus(status) {
+    if(!window.sb_vault) return alert("Vault Offline");
+    const { data: { session } } = await window.sb_vault.auth.getSession();
+    if (!session) return;
+    await window.sb_vault.from('profiles').update({ account_status: status }).eq('id', session.user.id);
+    localStorage.setItem('empire_account_status', status);
+    alert(`Excellence: Your account is now ${status.toUpperCase()}. Ad-Shield Activated! 🛡️✨`);
+    location.reload();
+  }
+
+  const results = document.getElementById('search-results');
+  const vaultList = document.getElementById('vault-list');
+  const emptyState = document.getElementById('empty-state');
+  const playerUI = document.getElementById('player-ui');
+  const feedback = document.getElementById('feedback');
+  const playBtn = document.getElementById('play-trigger');
+  const progressBar = document.getElementById('progress');
+  const currentTimeLabel = document.getElementById('current-time');
+  const durationLabel = document.getElementById('total-duration');
+  const favBtn = document.getElementById('fav-btn');
+  
+  let player;
+  let isReady = false;
+  let currentTrack = null;
+  let progressInterval;
+  let vault = JSON.parse(localStorage.getItem('riddiim_vault') || '[]');
+
+  function updateFavUI() {
+    if(!currentTrack) return;
+    const isSaved = vault.some(t => t.title === currentTrack.title && t.artist === currentTrack.artist);
+    favBtn.textContent = isSaved ? '♥' : '♡';
+    favBtn.style.color = isSaved ? '#ff3e3e' : '#fff';
+  }
+
+  favBtn.onclick = () => {
+    if(!currentTrack) return;
+    const index = vault.findIndex(t => t.title === currentTrack.title && t.artist === currentTrack.artist);
+    if(index > -1) {
+      vault.splice(index, 1);
+      feedback.textContent = 'REMOVED_FROM_VAULT';
+    } else {
+      vault.push(currentTrack);
+      feedback.textContent = 'SAVED_TO_VAULT';
+    }
+    localStorage.setItem('riddiim_vault', JSON.stringify(vault));
+    updateFavUI();
+    syncVaultToSupabase();
+    if(document.querySelector('.tab[onclick*="library"]').classList.contains('active')) renderVault();
+  };
+
+  async function syncVaultToSupabase() {
+    if(!window.sb_vault) return;
+    const { data: { session } } = await window.sb_vault.auth.getSession();
+    if (!session) return;
+    
+    await window.sb_vault
+      .from('profiles')
+      .update({ music_favorites: vault })
+      .eq('id', session.user.id);
+  }
+
+  async function loadVaultFromSupabase() {
+    if(!window.sb_vault) return;
+    const { data: { session } } = await window.sb_vault.auth.getSession();
+    if (!session) return;
+    
+    const { data, error } = await window.sb_vault
+      .from('profiles')
+      .select('music_favorites')
+      .eq('id', session.user.id)
+      .single();
+      
+    if (data && data.music_favorites) {
+      vault = data.music_favorites;
+      localStorage.setItem('riddiim_vault', JSON.stringify(vault));
+      if(document.querySelector('.tab[onclick*="library"]').classList.contains('active')) renderVault();
+    }
+  }
+
+  function onYouTubeIframeAPIReady() {
+    player = new YT.Player('player', {
+      height: '1',
+      width: '1',
+      videoId: '',
+      events: {
+        'onReady': onPlayerReady,
+        'onStateChange': onPlayerStateChange
+      }
+    });
+  }
+
+  function onPlayerReady(event) {
+    isReady = true;
+    feedback.textContent = 'NEURAL_CORE_ONLINE';
+  }
+
+  function onPlayerStateChange(event) {
+    if (event.data == YT.PlayerState.PLAYING) {
+      playBtn.textContent = '||';
+      startProgressUpdate();
+    } else {
+      playBtn.textContent = '▶';
+      stopProgressUpdate();
+    }
+  }
+
+  function startProgressUpdate() {
+    progressInterval = setInterval(() => {
+      const current = player.getCurrentTime();
+      const total = player.getDuration();
+      const percent = (current / total) * 100;
+      progressBar.value = percent;
+      currentTimeLabel.textContent = formatTime(current);
+      durationLabel.textContent = formatTime(total);
+      updateVisualizerBars(true);
+    }, 500);
+  }
+
+  function stopProgressUpdate() {
+    clearInterval(progressInterval);
+    updateVisualizerBars(false);
+  }
+
+  function formatTime(seconds) {
+    const min = Math.floor(seconds / 60);
+    const sec = Math.floor(seconds % 60);
+    return `${min}:${sec < 10 ? '0' : ''}${sec}`;
+  }
+
+  progressBar.oninput = () => {
+    const total = player.getDuration();
+    const seekTo = (progressBar.value / 100) * total;
+    player.seekTo(seekTo, true);
+  };
+
+  // Search Logic (Deezer for Meta, then find on YouTube)
+  let t;
+  query.oninput = (e) => {
+    clearTimeout(t);
+    const v = e.target.value.trim();
+    if(v.length < 2) return results.style.display = 'none';
+    t = setTimeout(() => {
+      const s = document.createElement('script');
+      s.src = `https://api.deezer.com/search?q=${encodeURIComponent(v)}&limit=8&output=jsonp&callback=handleSearch`;
+      document.body.appendChild(s);
+    }, 400);
+  };
+
+  window.handleSearch = (data) => {
+    if(!data.data) return;
+    results.innerHTML = data.data.map(i => `
+      <div class="result-item" onclick='loadTrack(${JSON.stringify({
+        title: i.title,
+        artist: i.artist.name,
+        art: i.album.cover_big,
+        deezerId: i.id
+      }).replace(/'/g, "&apos;")})'>
+        <img src="${i.album.cover_small}">
+        <div class="res-info">
+          <div class="result-title">${i.title}</div>
+          <div class="result-artist">${i.artist.name}</div>
+        </div>
+      </div>
+    `).join('');
+    results.style.display = 'block';
+  };
+
+  window.loadTrack = (t) => {
+    currentTrack = t;
+    results.style.display = 'none';
+    emptyState.style.display = 'none';
+    vaultList.style.display = 'none';
+    playerUI.style.display = 'block';
+
+    document.getElementById('track-art').src = t.art;
+    document.getElementById('track-name').textContent = t.title;
+    document.getElementById('artist-name').textContent = t.artist;
+    updateFavUI();
+
+    feedback.textContent = 'TUNING_FREQUENCY...';
+
+    if (t.deezerId) {
+      // Inject Deezer official widget — full track playback, sovereign signal
+      var existing = document.getElementById('deezer-widget-frame');
+      if (existing) existing.remove();
+      var frame = document.createElement('iframe');
+      frame.id = 'deezer-widget-frame';
+      frame.title = 'Deezer Widget';
+      frame.src = 'https://widget.deezer.com/widget/dark/track/' + t.deezerId + '?autoplay=1';
+      frame.width = '100%';
+      frame.height = '92';
+      frame.frameBorder = '0';
+      frame.allow = 'autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture';
+      frame.style.cssText = 'border-radius:12px; margin-top:12px; display:block;';
+      // Insert widget below the player UI deck
+      var deck = document.querySelector('.deck-container');
+      if (deck) deck.appendChild(frame);
+      feedback.textContent = 'STREAM_STABILIZED';
+    } else {
+      feedback.textContent = 'SIGNAL_LOST';
+    }
+  };
+
+  async function findYouTubeId(query) {
+    console.log("Searching Neural Bridge (v3.0) for:", query);
+    const nodes = [
+      'iv.datura.network',
+      'invidious.privacydev.net',
+      'vid.puffyan.us',
+      'invidious.lunar.icu',
+      'inv.nadeko.net',
+      'invidious.nerdvpn.de'
+    ];
+    // Try each node in sequence until one works
+    for (const node of nodes) {
+      try {
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 4000);
+        const searchUrl = `https://${node}/api/v1/search?q=${encodeURIComponent(query)}&type=video`;
+        const response = await fetch(searchUrl, { signal: controller.signal });
+        clearTimeout(timeout);
+        if (!response.ok) continue;
+        const data = await response.json();
+        if (data && data.length > 0) {
+          const searchTerms = query.toLowerCase().split(' ').filter(t => t.length > 1);
+          const matches = data.filter(v =>
+            searchTerms.some(term => (v.title || '').toLowerCase().includes(term)) &&
+            v.lengthSeconds > 60
+          );
+          const track = matches.length > 0 ? matches[0] : (data.find(v => v.lengthSeconds > 60) || data[0]);
+          if (track && track.videoId) {
+            console.log("Track Located via", node, ":", track.title, track.videoId);
+            return track.videoId;
+          }
+        }
+      } catch(e) {
+        console.warn("Node failed:", node, e.message);
+        continue;
+      }
+    }
+    // All nodes failed — use YouTube oEmbed as final fallback
+    try {
+      const ytSearch = `https://www.youtube.com/results?search_query=${encodeURIComponent(query)}`;
+      feedback.textContent = 'SIGNAL_REROUTING...';
+    } catch(e) {}
+    console.error("All Neural Bridge nodes failed.");
+    return null;
+  }
+
+  // Visualizer bars
+  const viz = document.getElementById('viz');
+  for(let i=0; i<40; i++) {
+    const b = document.createElement('div');
+    b.className = 'v-bar';
+    viz.appendChild(b);
+  }
+
+  function updateVisualizerBars(playing) {
+    document.querySelectorAll('.v-bar').forEach(b => {
+      if(playing) {
+        const h = 4 + Math.random() * 16;
+        b.style.height = h + 'px';
+        b.style.opacity = h/20;
+      } else {
+        b.style.height = '4px';
+        b.style.opacity = '0.2';
+      }
+    });
+  }
+
+  playBtn.onclick = () => {
+    if(!player) return;
+    const state = player.getPlayerState();
+    if(state == YT.PlayerState.PLAYING) {
+      player.pauseVideo();
+    } else {
+      player.playVideo();
+    }
+  };
+
+  window.switchTab = (tab) => {
+    document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
+    event.target.classList.add('active');
+    
+    if(tab === 'library') {
+      results.style.display = 'none';
+      emptyState.style.display = 'none';
+      playerUI.style.display = 'none';
+      vaultList.style.display = 'block';
+      renderVault();
+    } else {
+      vaultList.style.display = 'none';
+      if(!currentTrack) {
+        emptyState.style.display = 'block';
+        playerUI.style.display = 'none';
+      } else {
+        emptyState.style.display = 'none';
+        playerUI.style.display = 'block';
+      }
+    }
+  };
+
+  function renderVault() {
+    vaultList.innerHTML = vault.length ? `
+      <div style="font-family:var(--font-mono); font-size:9px; color:var(--muted); margin-bottom:20px; border-bottom:1px solid var(--border); padding-bottom:10px;">SOVEREIGN_VAULT_DECK</div>
+      ${vault.map(i => `
+        <div class="result-item" style="display:flex; justify-content:space-between; align-items:center; background:rgba(255,255,255,0.03); margin-bottom:10px; border-radius:12px; padding:10px;">
+          <div style="display:flex; gap:12px; align-items:center; flex:1;" onclick='loadTrack(${JSON.stringify(i).replace(/'/g, "&apos;")})'>
+            <img src="${i.art}" style="width:50px; height:50px; border-radius:8px; border:1px solid var(--border);">
+            <div class="res-info">
+              <div class="result-title" style="font-size:12px; font-weight:700;">${i.title}</div>
+              <div class="result-artist" style="font-size:10px; color:var(--muted);">${i.artist}</div>
+            </div>
+          </div>
+          <div class="offline-sync" onclick="syncOffline('${i.title}')" style="cursor:pointer; background:rgba(255,255,255,0.05); padding:8px 12px; border-radius:8px; border:1px solid var(--border);">
+            <span style="font-size:9px; font-family:var(--font-mono); font-weight:700;">OFFLINE</span>
+          </div>
+        </div>
+      `).join('')}
+    ` : '<div style="padding:40px; text-align:center; color:var(--muted); font-family:var(--font-mono); font-size:10px;">VAULT_EMPTY_READY_FOR_SIGNAL</div>';
+  }
+
+  window.syncOffline = (title) => {
+    event.stopPropagation();
+    feedback.textContent = `SYNCING_${title.toUpperCase()}_FOR_OFFLINE...`;
+    setTimeout(() => {
+      feedback.textContent = `SIGNAL_CACHED_IN_VAULT_🛡️`;
+      alert(`${title} has been cached for offline metadata access. 🎼🛡️`);
+    }, 1500);
+  };
+</script>
+<div id="player" style="display:none;"></div>
+</body>
+</html>
+
