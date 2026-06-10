@@ -27,17 +27,9 @@
             background-color: var(--light-blue);
             border-bottom: 1px solid var(--border);
         }
-        .logo-container {
-            background-color: var(--white);
-            display: inline-block;
-            padding: 20px;
-            border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-            margin-bottom: 30px;
-        }
         header img {
-            height: 100px;
-            display: block;
+            height: 120px;
+            margin-bottom: 20px;
         }
         h1 {
             color: var(--navy);
@@ -58,6 +50,22 @@
             max-width: 1200px;
             margin: 0 auto;
             padding: 80px 20px;
+        }
+        .about-section {
+            margin-bottom: 80px;
+            text-align: center;
+        }
+        .about-section h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            color: var(--navy);
+        }
+        .about-section p {
+            font-size: 1.1rem;
+            color: var(--gray);
+            max-width: 800px;
+            margin: 0 auto;
         }
         .product-grid {
             display: grid;
@@ -104,40 +112,34 @@
             font-weight: 700;
             margin-bottom: 20px;
         }
-        .payment-info {
-            margin-top: 100px;
-            padding: 60px;
-            background: var(--light-blue);
-            border-radius: 24px;
-            text-align: center;
-        }
-        .payment-methods {
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-            margin-top: 30px;
-        }
-        .method {
-            font-size: 1.2rem;
-            font-weight: 700;
-        }
         footer {
             text-align: center;
-            padding: 60px 20px;
+            padding: 80px 20px;
             color: var(--gray);
             font-size: 0.95rem;
             background: #f8fafc;
+            border-top: 1px solid var(--border);
+        }
+        footer img {
+            height: 50px;
+            margin-bottom: 20px;
+            opacity: 0.8;
         }
     </style>
 </head>
 <body>
     <header>
-        <img src="/media/1780876030773.jpg" alt="ORCINOS" style="height: 120px; margin: 0 auto 30px;">
+        <img src="/logos/ORCINOS_DEFINITIVE_2026.png" alt="ORCINOS">
         <h1>ORCINOS</h1>
         <div class="subtitle">Trusted Software Division</div>
     </header>
 
     <div class="container">
+        <section class="about-section">
+            <h2>Architecting Digital Sovereignty</h2>
+            <p>Orcinos is the high-fidelity software branch of the Priscion Network. We build autonomous tools and AI-powered platforms designed to restore digital independence and engineering excellence to the sovereign individual.</p>
+        </section>
+
         <div class="product-grid">
             <a href="./captioai/" class="product-card">
                 <div class="price-tag">$7.99/mo</div>
@@ -179,21 +181,16 @@
                 <h3>Hartaly</h3>
                 <p>Empathetic AI companion designed for mental clarity and burnout recovery.</p>
             </a>
-        </div>
-
-        <div class="payment-info">
-            <h2 style="font-size: 2rem; font-weight: 900;">Unified Network Payments</h2>
-            <div class="payment-methods">
-                <div class="method">PayPal</div>
-                <div class="method">Crypto (ERC-20)</div>
-                <div class="method">Payoneer</div>
-            </div>
-            <p style="margin-top: 30px; font-family: monospace; font-size: 1.1rem; opacity: 0.6;">0xcef857e82c306b3d0f2db080e7794f4bb376049e</p>
-            <p style="margin-top: 20px; font-size: 0.9rem; font-weight: 600; color: #ef4444;">STRICT NO-STRIPE POLICY ENFORCED</p>
+            <a href="./calalloo/" class="product-card">
+                <div class="price-tag">Heritage Node</div>
+                <h3>Calalloo</h3>
+                <p>The ultimate Caribbean marketplace - everything Caribbean, in one sovereign hub.</p>
+            </a>
         </div>
     </div>
 
     <footer>
+        <img src="/logos/ORCINOS_DEFINITIVE_2026.png" alt="ORCINOS Icon"><br>
         <p>&copy; 2026 PRISCION NETWORK · ORCINOS DIVISION · ANCHORED TO ETERNITY</p>
     </footer>
 </body>
