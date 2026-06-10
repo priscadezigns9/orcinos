@@ -72,21 +72,20 @@
         footer { padding: 40px 5%; text-align: center; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
     
     .logo-container img { 
-        height: 40px; 
-        width: 40px;
-        object-fit: contain;
-        background: rgba(255, 255, 255, 0.05);
-        border-radius: 50%; 
-        box-shadow: 0 0 15px rgba(0, 255, 127, 0.3);
-        border: 1px solid rgba(0, 255, 127, 0.2);
-    }
+            height: 40px; 
+            width: 40px;
+            object-fit: cover;
+            border-radius: 50%; 
+            box-shadow: 0 0 15px rgba(0, 255, 127, 0.3);
+            border: 1px solid rgba(0, 255, 127, 0.2);
+        }
 </style>
 </head>
 <body>
     <header>
-        <a href="index.html" class="logo">
-            <img src="../logos/TITAN_TRADERX_LOGO.png" alt="ORCINOS">
-            <span>TITAN PARTNERS</span>
+        <a href="index.html" class="logo-container">
+            <img src="../logos/TITAN_TRADERX_LOGO.png" alt="TITAN">
+            <span class="logo-text">TITAN <span class="logo-span">TRADERX</span></span>
         </a>
         <nav>
             <a href="index.html">HOME</a>
@@ -254,5 +253,6 @@
     </footer>
 </body>
 </html>
+
 
 
