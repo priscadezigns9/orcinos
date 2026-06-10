@@ -1,0 +1,35 @@
+[
+  {
+    "certificate_id": "3D4EE8F0C9B0",
+    "status": "Verified Alpha Signal",
+    "timestamp": "2026-05-27T15:35:44.650717",
+    "product": {
+      "name": "Casio F91W-1",
+      "asin": "B000GAWSDG",
+      "brand": "The Watch List"
+    },
+    "registry": "Prisca Dezigns Laboratory - Neural Ledger"
+  },
+  {
+    "certificate_id": "ADB1E5B92D47",
+    "status": "Verified Alpha Signal",
+    "timestamp": "2026-05-27T15:35:44.650761",
+    "product": {
+      "name": "Seiko 5 Sports",
+      "asin": "B07ZJW6D7D",
+      "brand": "The Watch List"
+    },
+    "registry": "Prisca Dezigns Laboratory - Neural Ledger"
+  },
+  {
+    "certificate_id": "SEAM-B01X",
+    "status": "Verified Alpha Signal",
+    "timestamp": "2026-05-27T16:15:00Z",
+    "product": {
+      "name": "Bespoke Couture Piece",
+      "asin": "SEAM-BESPOKE",
+      "brand": "Seamrite Designs"
+    },
+    "registry": "Prisca Dezigns Laboratory - Neural Ledger"
+  }
+]
