@@ -2,26 +2,136 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Titan Academy | Education</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Titan Academy | High-Fidelity Education</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <style>
-        :root { --primary: #00A36C; --surface: #F8F9FA; }
-        body { font-family: sans-serif; margin: 0; color: #1A1A1A; }
-        header { border-bottom: 1px solid #EEE; padding: 1rem 5%; display: flex; justify-content: space-between; }
-        .hero { padding: 40px 5%; background: var(--surface); text-align: center; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; padding: 40px 5%; }
-        .card { border: 1px solid #EEE; padding: 25px; border-radius: 12px; }
-        .card h3 { color: var(--primary); margin-top: 0; }
-        .card ul { list-style: none; padding: 0; }
-        .card li { margin-bottom: 10px; border-bottom: 1px solid #F0F0F0; padding-bottom: 5px; }
+        :root {
+            --primary: #00A36C;
+            --bg: #0A0A0B;
+            --surface: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.08);
+            --text: #FFFFFF;
+            --muted: #A0A0A5;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            overflow-x: hidden;
+            background-image: radial-gradient(circle at 50% -20%, #1a1a1a 0%, #0a0a0b 100%);
+        }
+        header { 
+            padding: 20px 5%; 
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(10px);
+            position: sticky; top: 0; z-index: 1000;
+        }
+        .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+        .logo img { height: 32px; }
+        .logo span { font-weight: 800; font-size: 1.2rem; color: #fff; letter-spacing: -0.5px; }
+        
+        nav { display: flex; gap: 25px; }
+        nav a { text-decoration: none; color: var(--muted); font-weight: 600; font-size: 0.85rem; transition: color 0.2s; }
+        nav a:hover { color: #fff; }
+        nav a.active { color: var(--primary); }
+
+        .hero { padding: 100px 5% 60px; text-align: center; }
+        .hero h1 { font-size: 3.5rem; font-weight: 800; margin-bottom: 20px; line-height: 1; }
+        .hero p { color: var(--muted); max-width: 600px; margin: 0 auto; font-size: 1.1rem; }
+
+        .search-area { max-width: 600px; margin: 40px auto; position: relative; }
+        .search-area input { 
+            width: 100%; padding: 18px 30px; 
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 100px; color: #fff; font-size: 1rem; outline: none;
+            backdrop-filter: blur(5px);
+        }
+
+        .hub-grid { padding: 40px 5% 100px; display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; max-width: 1400px; margin: 0 auto; }
+        .hub-card { 
+            background: var(--surface); border: 1px solid var(--border);
+            padding: 40px; border-radius: 32px; transition: all 0.3s ease;
+            position: relative; overflow: hidden;
+        }
+        .hub-card:hover { transform: translateY(-10px); border-color: var(--primary); background: rgba(255,255,255,0.05); }
+        .hub-card::before {
+            content: ''; position: absolute; top: 0; right: 0; width: 100px; height: 100px;
+            background: var(--primary); filter: blur(80px); opacity: 0.1; transition: opacity 0.3s;
+        }
+        .hub-card:hover::before { opacity: 0.3; }
+
+        .hub-card h3 { font-size: 1.6rem; margin-bottom: 20px; color: #fff; }
+        .course-list { list-style: none; }
+        .course-list li { margin-bottom: 12px; border-bottom: 1px solid var(--border); padding-bottom: 12px; }
+        .course-list a { color: var(--muted); text-decoration: none; font-size: 0.95rem; display: flex; justify-content: space-between; align-items: center; }
+        .course-list a:hover { color: var(--primary); }
+        .course-list .tag { font-size: 0.7rem; font-weight: 800; background: rgba(255,255,255,0.1); padding: 4px 10px; border-radius: 50px; color: #fff; }
+
+        footer { padding: 60px 5%; border-top: 1px solid var(--border); text-align: center; color: var(--muted); font-size: 0.8rem; }
     </style>
 </head>
 <body>
-    <header><a href="index.html" style="font-weight:800; color:var(--primary); text-decoration:none;">TITAN ACADEMY</a><nav><a href="index.html" style="text-decoration:none; color:#111;">DASHBOARD</a></nav></header>
-    <section class="hero"><h1>Sovereign Wealth Education</h1><p>Master the markets with institutional-grade knowledge.</p></section>
-    <div class="grid">
-        <div class="card"><h3>Trading Essentials</h3><ul><li>What is Forex?</li><li>Understanding Candlesticks</li><li>Risk Management 101</li></ul></div>
-        <div class="card"><h3>Technical Analysis</h3><ul><li>Fibonacci Retracements</li><li>MACD & Indicators</li><li>Support and Resistance</li></ul></div>
-        <div class="card"><h3>Prop Firm Mastery</h3><ul><li><a href="prop-firm-mastery.html#passing">Passing Your First Challenge</a></li><li>Rules & Capital Management</li><li>Payout Cycles</li></ul></div>
+    <header>
+        <a href="index.html" class="logo">
+            <img src="../logos/ORCINOS_DEFINITIVE_2026.png" alt="ORCINOS">
+            <span>TITAN ACADEMY</span>
+        </a>
+        <nav>
+            <a href="index.html">DASHBOARD</a>
+            <a href="charts.html">TERMINAL</a>
+            <a href="prop-firms.html">PARTNERS</a>
+            <a href="dashboard.html" style="color: var(--primary);">LOGIN</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h1>Sovereign Knowledge</h1>
+        <p>Master the mechanics of capital. From liquidity engineering to professional scaling.</p>
+        <div class="search-area">
+            <input type="text" placeholder="Search: Liquidity, Prop Rules, Drawdown...">
+        </div>
+    </section>
+
+    <div class="hub-grid">
+        <div class="hub-card">
+            <div class="tag" style="color:var(--primary); font-weight:800; font-size:0.7rem; margin-bottom:10px;">LEVEL 01</div>
+            <h3>Prop Firm Mastery</h3>
+            <ul class="course-list">
+                <li><a href="prop-firm-mastery.html#passing">Evaluation Strategy <span class="tag">PASS</span></a></li>
+                <li><a href="prop-firm-mastery.html#rules">Drawdown Engineering <span class="tag">RISK</span></a></li>
+                <li><a href="prop-firm-mastery.html#capital">Capital Management <span class="tag">SCALE</span></a></li>
+                <li><a href="prop-firm-mastery.html#payouts">Payout Optimization <span class="tag">PROFIT</span></a></li>
+            </ul>
+        </div>
+
+        <div class="hub-card">
+            <div class="tag" style="color:var(--primary); font-weight:800; font-size:0.7rem; margin-bottom:10px;">CORE</div>
+            <h3>Trading Essentials</h3>
+            <ul class="course-list">
+                <li><a href="#">Liquidity Concepts <span class="tag">NEW</span></a></li>
+                <li><a href="#">Order Blocks & FVG <span class="tag">SMC</span></a></li>
+                <li><a href="#">Session Psychology <span class="tag">MIND</span></a></li>
+                <li><a href="#">Risk Management 2.0 <span class="tag">MATH</span></a></li>
+            </ul>
+        </div>
+
+        <div class="hub-card">
+            <div class="tag" style="color:var(--primary); font-weight:800; font-size:0.7rem; margin-bottom:10px;">ADVANCED</div>
+            <h3>Macro & Data</h3>
+            <ul class="course-list">
+                <li><a href="#">Central Bank Theory <span class="tag">MACRO</span></a></li>
+                <li><a href="#">Yield Curve Analysis <span class="tag">BOND</span></a></li>
+                <li><a href="#">Algorithmic Logic <span class="tag">CODE</span></a></li>
+                <li><a href="#">Sentiment Analysis <span class="tag">DATA</span></a></li>
+            </ul>
+        </div>
     </div>
+
+    <footer>
+        &copy; 2026 Priscion Orcinos. Sovereign Rights Reserved.
+    </footer>
 </body>
 </html>
