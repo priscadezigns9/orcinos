@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artist Dashboard | Riddiim</title>
+    <link rel="stylesheet" href="../shared/style.css">
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+    <div class="artist-layout">
+        <aside class="sidebar">
+            <div class="logo-area">
+                <a href="../landing/index.html" class="logo">RIDDIIM</a>
+            </div>
+            <nav class="nav-menu">
+                <a href="#" class="nav-item active" data-tab="studio">Content Studio</a>
+                <a href="#" class="nav-item" data-tab="analytics">Analytics</a>
+                <a href="#" class="nav-item" data-tab="messages">Messages</a>
+                <a href="#" class="nav-item" data-tab="monetization">Monetization</a>
+            </nav>
+            <div class="profile-preview">
+                <img src="https://images.unsplash.com/photo-1493225255756-d9584f8606e9?auto=format&fit=crop&q=80&w=100" alt="Avatar">
+                <div class="info">
+                    <span class="name">Kofee Blaze</span>
+                    <span class="plan">Gold Artist</span>
+                </div>
+            </div>
+        </aside>
+
+        <main class="content-area">
+            <!-- Profile Header -->
+            <header class="artist-header">
+                <div class="cover-photo">
+                    <div class="stats-overlay">
+                        <div class="stat">
+                            <span class="val">12,482</span>
+                            <span class="lbl">Subscribers</span>
+                        </div>
+                        <div class="stat">
+                            <span class="val">$4,280</span>
+                            <span class="lbl">This Month</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="header-bottom">
+                    <h1>Kofee Blaze</h1>
+                    <div class="actions">
+                        <button class="btn btn-secondary">Edit Profile</button>
+                        <button class="btn btn-primary" id="go-live">Go Live</button>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Sections -->
+            <div id="studio-tab" class="tab-content active">
+                <div class="grid">
+                    <!-- Create Post -->
+                    <section class="card content-studio">
+                        <h3>Drop Something New</h3>
+                        <div class="post-options">
+                            <button class="opt"><span class="icon">🎙️</span> Record Voice Note</button>
+                            <button class="opt"><span class="icon">🎵</span> Upload Audio</button>
+                            <button class="opt"><span class="icon">📸</span> Behind the Scenes</button>
+                        </div>
+                        <textarea placeholder="Tell your fans something..."></textarea>
+                        <div class="post-footer">
+                            <label><input type="checkbox" checked> Exclusive to Subscribers</label>
+                            <button class="btn btn-primary">Post to Feed</button>
+                        </div>
+                    </section>
+
+                    <!-- Scheduled Drops -->
+                    <section class="card">
+                        <h3>Upcoming Drops</h3>
+                        <div class="drop-item">
+                            <span class="date">Jun 12</span>
+                            <span class="title">Riddim Mix Vol. 4</span>
+                            <span class="status">Scheduled</span>
+                        </div>
+                        <div class="drop-item">
+                            <span class="date">Jun 15</span>
+                            <span class="title">Live from Kingston</span>
+                            <span class="status">Draft</span>
+                        </div>
+                    </section>
+                </div>
+            </div>
+
+            <div id="analytics-tab" class="tab-content">
+                <div class="card">
+                    <h3>Subscriber Growth</h3>
+                    <div class="chart-container">
+                        <svg viewBox="0 0 400 200" class="growth-chart">
+                            <path d="M0,180 Q50,150 100,160 T200,100 T300,80 T400,20" fill="none" stroke="#FF2D6B" stroke-width="4"></path>
+                            <circle cx="0" cy="180" r="4" fill="#FF2D6B"></circle>
+                            <circle cx="100" cy="160" r="4" fill="#FF2D6B"></circle>
+                            <circle cx="200" cy="100" r="4" fill="#FF2D6B"></circle>
+                            <circle cx="400" cy="20" r="4" fill="#FF2D6B"></circle>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <div id="monetization-tab" class="tab-content">
+                <div class="monetization-grid">
+                    <div class="card">
+                        <h3>Current Earnings</h3>
+                        <div class="big-money">$3,638.00</div>
+                        <p>Available for payout</p>
+                        <button class="btn btn-primary" style="width: 100%; margin-top: 20px;">Withdraw to Bank</button>
+                    </div>
+                    <div class="card">
+                        <h3>Subscription Tiers</h3>
+                        <div class="tier-item">
+                            <span>Basic Fan</span>
+                            <span>$4.99/mo</span>
+                        </div>
+                        <div class="tier-item active">
+                            <span>Inner Circle</span>
+                            <span>$9.99/mo</span>
+                        </div>
+                        <button class="btn btn-secondary" style="width: 100%; margin-top: 20px;">Manage Tiers</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="dashboard.js"></script>
+</body>
+</html>
