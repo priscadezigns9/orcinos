@@ -10,8 +10,11 @@
         body { background: var(--bg); color: var(--text); font-family: var(--font-body); display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; padding: 20px; box-sizing: border-box; }
         .card { background: white; padding: 40px; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); max-width: 450px; width: 100%; text-align: center; border-top: 5px solid var(--primary); }
         h1 { font-family: var(--font-heading); margin-bottom: 10px; font-size: 2rem; }
-        .price-tag { font-size: 1.5rem; font-weight: 700; color: var(--primary); margin-bottom: 5px; display: block; }
-        .price-sub { font-size: 0.8rem; opacity: 0.7; margin-bottom: 25px; display: block; }
+        .pricing-grid { display: flex; justify-content: space-around; margin-bottom: 25px; background: #fdfdfd; padding: 15px; border-radius: 4px; border: 1px solid #eee; }
+        .price-box { flex: 1; }
+        .price-tag { font-size: 1.2rem; font-weight: 700; color: var(--primary); display: block; }
+        .price-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; color: #666; }
+        .save-badge { font-size: 0.6rem; background: #E8F5E9; color: #2E7D32; padding: 2px 6px; border-radius: 10px; font-weight: 700; margin-top: 4px; display: inline-block; }
         p { margin-bottom: 25px; font-size: 0.95rem; color: #444; line-height: 1.5; }
         .form-group { text-align: left; margin-bottom: 15px; }
         label { display: block; font-size: 0.8rem; font-weight: 600; margin-bottom: 5px; color: #555; }
@@ -25,9 +28,18 @@
 <body>
     <div class="card">
         <h1>SOVSYGNAL</h1>
-        <span class="price-tag">$500 USD</span>
-        <span class="price-sub">per Intelligence Placement</span>
-        <p>Target a high-fidelity audience of sovereign professionals, institutional investors, and global analysts.</p>
+        <div class="pricing-grid">
+            <div class="price-box" style="border-right: 1px solid #eee;">
+                <span class="price-label">Monthly</span>
+                <span class="price-tag">$500</span>
+            </div>
+            <div class="price-box">
+                <span class="price-label">Yearly</span>
+                <span class="price-tag">$5,000</span>
+                <span class="save-badge">Save $1,000</span>
+            </div>
+        </div>
+        <p>Target institutional intelligence professionals with high-fidelity placements across the SOVSYGNAL network.</p>
         
         <form action="https://script.google.com/macros/s/AKfycbz_Placeholder/exec" method="POST">
             <input type="hidden" name="source" value="SOVSYGNAL_ADS">
@@ -40,7 +52,7 @@
             <div class="form-group">
                 <label>Business Type</label>
                 <select name="business_type" required>
-                    <option value="" disabled selected>Select Business Sector</option>
+                    <option value="" disabled selected>Select Sector</option>
                     <option value="Hedge Fund / VC">Hedge Fund / VC</option>
                     <option value="Crypto / Web3">Crypto / Web3</option>
                     <option value="Luxury Retail">Luxury Retail</option>
@@ -51,7 +63,15 @@
             </div>
 
             <div class="form-group">
-                <label>Phone Number (WhatsApp Preferred)</label>
+                <label>Placement Duration</label>
+                <select name="duration" required>
+                    <option value="Monthly ($500)">Monthly ($500)</option>
+                    <option value="Yearly ($5,000)">Yearly ($5,000) - Save $1,000</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Phone Number (WhatsApp Required)</label>
                 <input type="tel" name="phone" placeholder="+1 (555) 000-0000" required>
             </div>
 
