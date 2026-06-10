@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sound Library | Slumber</title>
+    <link rel="stylesheet" href="../shared/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="../shared/app.js"></script>
+</head>
+<body>
+    <nav>
+        <div class="logo">SLUMBER</div>
+        <div class="nav-links">
+            <a href="dashboard.html">Home</a>
+            <a href="logger.html">Log</a>
+            <a href="coach.html">Coach</a>
+            <a href="library.html">Library</a>
+            <a href="sounds.html">Sounds</a>
+        </div>
+    </nav>
+
+    <main class="container">
+        <header class="text-center mb-2">
+            <h1>Ambient Soundscapes</h1>
+            <p>Curated audio environments for deep relaxation.</p>
+        </header>
+
+        <div id="sound-container" class="sound-grid">
+            <!-- Sounds will be injected here -->
+        </div>
+
+        <div id="player-bar" class="card" style="margin-top: 2rem; display: flex; align-items: center; justify-content: space-between;">
+            <div>
+                <h4 id="playing-title">Select a soundscape</h4>
+                <p id="playing-status" style="font-size: 0.8rem; color: var(--lavender);">Stopped</p>
+            </div>
+            <div style="display: flex; gap: 1rem; align-items: center;">
+                <audio id="audio-player" loop></audio>
+                <button id="play-pause-btn" class="btn btn-amber" disabled>Play</button>
+                <input type="range" id="volume" min="0" max="1" step="0.1" value="0.5" style="width: 100px; margin: 0;">
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const sounds = await loadSounds();
+            const container = document.getElementById('sound-container');
+            const player = document.getElementById('audio-player');
+            const playBtn = document.getElementById('play-pause-btn');
+            const title = document.getElementById('playing-title');
+            const status = document.getElementById('playing-status');
+            const volume = document.getElementById('volume');
+
+            container.innerHTML = sounds.map(s => `
+                <div class="sound-item" onclick="selectSound(${s.id})" id="sound-${s.id}">
+                    <div class="sound-icon">${s.image}</div>
+                    <h4>${s.title}</h4>
+                </div>
+            `).join('');
+
+            window.selectSound = (id) => {
+                const s = sounds.find(x => x.id === id);
+                player.src = s.url;
+                title.textContent = s.title;
+                status.textContent = 'Buffering...';
+                playBtn.disabled = false;
+                
+                // Active UI
+                document.querySelectorAll('.sound-item').forEach(el => el.classList.remove('active'));
+                document.getElementById(`sound-${id}`).classList.add('active');
+
+                player.play();
+                playBtn.textContent = 'Pause';
+                status.textContent = 'Playing';
+            };
+
+            playBtn.onclick = () => {
+                if (player.paused) {
+                    player.play();
+                    playBtn.textContent = 'Pause';
+                    status.textContent = 'Playing';
+                } else {
+                    player.pause();
+                    playBtn.textContent = 'Play';
+                    status.textContent = 'Paused';
+                }
+            };
+
+            volume.oninput = (e) => {
+                player.volume = e.target.value;
+            };
+        });
+    </script>
+</body>
+</html>
