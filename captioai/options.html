@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Captio AI Settings</title>
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Captio AI Settings</h1>
+    </header>
+
+    <div class="section">
+      <h2>API Configuration</h2>
+      <p class="description">Enter your OpenAI API key to use GPT-4o-mini for better captions. Without a key, the extension uses a high-quality template engine.</p>
+      
+      <div class="input-group">
+        <label for="apiKey">OpenAI API Key</label>
+        <div class="password-wrapper">
+          <input type="password" id="apiKey" placeholder="sk-...">
+          <button id="toggleVisible" class="text-btn">Show</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Defaults</h2>
+      <div class="input-group">
+        <label for="defaultPlatform">Default Platform</label>
+        <select id="defaultPlatform">
+          <option value="Instagram">Instagram</option>
+          <option value="Threads">Threads</option>
+          <option value="Facebook">Facebook</option>
+          <option value="Twitter">Twitter</option>
+          <option value="LinkedIn">LinkedIn</option>
+        </select>
+      </div>
+
+      <div class="input-group">
+        <label for="defaultTone">Default Tone</label>
+        <select id="defaultTone">
+          <option value="Professional">Professional</option>
+          <option value="Hype">Hype</option>
+          <option value="Inspirational">Inspirational</option>
+          <option value="Luxury">Luxury</option>
+          <option value="Spiritual">Spiritual</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="section pro-section">
+      <h2>Captio AI Pro — $4.99/month</h2>
+      <p>Unlock GPT-4o-mini processing, unlimited captions, and custom brand voices.</p>
+      <p style="font-size:0.85rem;opacity:0.7;margin-bottom:12px;">Choose your payment method:</p>
+      <div class="payment-options">
+        <a href="https://paypal.me/priscadezigns" target="_blank" class="pay-btn paypal-btn">💳 Pay with PayPal</a>
+        <div class="crypto-box">
+          <span class="pay-label">⚡ Crypto (ERC-20)</span>
+          <code id="wallet-addr">0xcef857e82c306b3d0f2db080e7794f4bb376049e</code>
+          <button onclick="navigator.clipboard.writeText('0xcef857e82c306b3d0f2db080e7794f4bb376049e').then(()=>{this.textContent='Copied!';setTimeout(()=>this.textContent='Copy Address',2000)})" class="copy-addr-btn">Copy Address</button>
+        </div>
+        <div class="payoneer-box">
+          <span class="pay-label">🌍 Payoneer (International)</span>
+          <p style="font-size:0.8rem;opacity:0.7;">Send payment to Prisca Dezigns via Payoneer, then email receipt to support@priscadezigns.org</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-actions">
+      <button id="saveBtn" class="primary-btn">Save Settings</button>
+      <span id="saveStatus" class="status-msg"></span>
+    </div>
+  </div>
+
+  <script src="options.js"></script>
+</body>
+</html>
