@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log Sleep | Slumber</title>
+    <link rel="stylesheet" href="../shared/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@supabase/supabase-js"></script>
+    <script src="../shared/app.js"></script>
+</head>
+<body>
+    <nav>
+        <div class="logo">SLUMBER</div>
+        <div class="nav-links">
+            <a href="dashboard.html">Home</a>
+            <a href="logger.html">Log</a>
+            <a href="coach.html">Coach</a>
+            <a href="library.html">Library</a>
+            <a href="sounds.html">Sounds</a>
+        </div>
+    </nav>
+
+    <main class="container">
+        <header class="mb-2">
+            <h1>Log Tonight's Sleep</h1>
+            <p>Accuracy builds better analysis.</p>
+        </header>
+
+        <form id="log-form" class="card">
+            <div class="grid-2">
+                <div>
+                    <label>Bedtime</label>
+                    <input type="datetime-local" id="bedtime" required>
+                </div>
+                <div>
+                    <label>Wake Time</label>
+                    <input type="datetime-local" id="wake-time" required>
+                </div>
+            </div>
+
+            <label>Quality Rating (1-5)</label>
+            <select id="quality" required>
+                <option value="5">5 - Excellent (Deep, undisturbed)</option>
+                <option value="4">4 - Good</option>
+                <option value="3">3 - Fair</option>
+                <option value="2">2 - Poor</option>
+                <option value="1">1 - Terrible (Restless)</option>
+            </select>
+
+            <label>Notes (Optional)</label>
+            <textarea id="notes" placeholder="Dreams, caffeine, stress levels..."></textarea>
+
+            <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Save Log</button>
+        </form>
+    </main>
+
+    <script>
+        document.getElementById('log-form').onsubmit = async (e) => {
+            e.preventDefault();
+            const bedtime = document.getElementById('bedtime').value;
+            const wakeTime = document.getElementById('wake-time').value;
+            const quality = document.getElementById('quality').value;
+            const notes = document.getElementById('notes').value;
+
+            const { durationMins, efficiencyScore } = calculateSleepStats(bedtime, wakeTime);
+
+            const logEntry = {
+                date: new Date().toISOString().split('T')[0],
+                bedtime,
+                wake_time: wakeTime,
+                duration_mins: durationMins,
+                quality_rating: parseInt(quality),
+                notes,
+                efficiency_score: efficiencyScore
+            };
+
+            if (supabaseClient) {
+                const { error } = await supabaseClient.from('sleep_logs').insert([logEntry]);
+                if (error) alert(error.message);
+                else window.location.href = 'dashboard.html';
+            } else {
+                // Local Storage fallback for functional demo
+                const logs = JSON.parse(localStorage.getItem('mock_logs') || '[]');
+                logs.unshift(logEntry);
+                localStorage.setItem('mock_logs', JSON.stringify(logs));
+                window.location.href = 'dashboard.html';
+            }
+        };
+    </script>
+</body>
+</html>
