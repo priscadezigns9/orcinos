@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Call Guides</title>
+    <link rel="stylesheet" href="../shared/style.css">
+</head>
+<body>
+    <a href="tel:911" class="emergency-btn">EMERGENCY HELP</a>
+
+    <nav class="nav-bar">
+        <a href="dashboard.html" class="nav-item">Home</a>
+        <a href="ask-syla.html" class="nav-item">Ask Syla</a>
+        <a href="medications.html" class="nav-item">Medicine</a>
+        <a href="family.html" class="nav-item">Family</a>
+        <a href="tech-help.html" class="nav-item active">Tech Help</a>
+    </nav>
+
+    <div class="container">
+        <h1>How to Video Call</h1>
+        <p>Choose the app you want to use to see your family.</p>
+        
+        <div id="guide-selection">
+            <button onclick="loadGuide('WhatsApp')" class="big-btn">WhatsApp Video</button>
+            <button onclick="loadGuide('FaceTime')" class="big-btn">FaceTime (iPhone)</button>
+            <button onclick="loadGuide('Zoom')" class="big-btn">Zoom</button>
+            <button onclick="loadGuide('Google Meet')" class="big-btn">Google Meet</button>
+        </div>
+
+        <div id="guide-display" style="display: none;">
+            <button onclick="showSelection()" class="nav-item" style="margin-bottom: 20px; display: inline-block;">← Back to list</button>
+            <div id="steps-container"></div>
+        </div>
+    </div>
+
+    <script>
+        async function loadGuide(platform) {
+            const response = await fetch('../data/video-guides.json');
+            const data = await response.json();
+            const guide = data.find(g => g.platform === platform);
+            
+            document.getElementById('guide-selection').style.display = 'none';
+            document.getElementById('guide-display').style.display = 'block';
+            
+            const container = document.getElementById('steps-container');
+            container.innerHTML = `<h2>How to use ${platform}</h2>` + 
+                guide.steps.map((step, index) => `
+                    <div class="card">
+                        <h3>Step ${index + 1}</h3>
+                        <p>${step}</p>
+                    </div>
+                `).join('');
+        }
+
+        function showSelection() {
+            document.getElementById('guide-selection').style.display = 'block';
+            document.getElementById('guide-display').style.display = 'none';
+        }
+    </script>
+    <script src="../shared/app.js"></script>
+</body>
+</html>
