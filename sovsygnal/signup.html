@@ -7,24 +7,57 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <style>
         :root { --primary: #8B0000; --bg: #F9F9F9; --text: #1A1A1A; --font-heading: 'Playfair Display', serif; --font-body: 'Inter', sans-serif; }
-        body { background: var(--bg); color: var(--text); font-family: var(--font-body); display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; }
-        .card { background: white; padding: 40px; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); max-width: 400px; width: 100%; text-align: center; border-top: 5px solid var(--primary); }
-        h1 { font-family: var(--font-heading); margin-bottom: 10px; }
-        p { margin-bottom: 30px; font-size: 0.9rem; color: #666; }
-        input[type="email"] { width: 100%; padding: 12px; margin-bottom: 20px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
-        .btn { background: var(--primary); color: white; border: none; padding: 12px 24px; border-radius: 4px; cursor: pointer; width: 100%; font-weight: 600; text-decoration: none; display: block; }
-        .back-link { margin-top: 20px; display: block; font-size: 0.8rem; color: var(--primary); text-decoration: none; }
+        body { background: var(--bg); color: var(--text); font-family: var(--font-body); display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; padding: 20px; box-sizing: border-box; }
+        .card { background: white; padding: 40px; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); max-width: 450px; width: 100%; text-align: center; border-top: 5px solid var(--primary); }
+        h1 { font-family: var(--font-heading); margin-bottom: 10px; font-size: 2rem; }
+        .price-tag { font-size: 1.5rem; font-weight: 700; color: var(--primary); margin-bottom: 5px; display: block; }
+        .price-sub { font-size: 0.8rem; opacity: 0.7; margin-bottom: 25px; display: block; }
+        p { margin-bottom: 25px; font-size: 0.95rem; color: #444; line-height: 1.5; }
+        .form-group { text-align: left; margin-bottom: 15px; }
+        label { display: block; font-size: 0.8rem; font-weight: 600; margin-bottom: 5px; color: #555; }
+        input, select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; font-family: var(--font-body); }
+        .btn { background: var(--primary); color: white; border: none; padding: 15px 24px; border-radius: 4px; cursor: pointer; width: 100%; font-weight: 600; text-decoration: none; display: block; font-size: 1rem; transition: background 0.2s; }
+        .btn:hover { background: #660000; }
+        .back-link { margin-top: 25px; display: block; font-size: 0.8rem; color: var(--primary); text-decoration: none; font-weight: 600; }
+        .back-link:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
     <div class="card">
         <h1>SOVSYGNAL</h1>
-        <p>Subscribe to our intelligence placement network to receive exclusive advertising opportunities.</p>
+        <span class="price-tag">$500 USD</span>
+        <span class="price-sub">per Intelligence Placement</span>
+        <p>Target a high-fidelity audience of sovereign professionals, institutional investors, and global analysts.</p>
+        
         <form action="https://script.google.com/macros/s/AKfycbz_Placeholder/exec" method="POST">
             <input type="hidden" name="source" value="SOVSYGNAL_ADS">
-            <input type="email" name="email" placeholder="Institutional Email" required>
-            <button type="submit" class="btn">Join the Signal</button>
+            
+            <div class="form-group">
+                <label>Institutional Email</label>
+                <input type="email" name="email" placeholder="email@firm.com" required>
+            </div>
+
+            <div class="form-group">
+                <label>Business Type</label>
+                <select name="business_type" required>
+                    <option value="" disabled selected>Select Business Sector</option>
+                    <option value="Hedge Fund / VC">Hedge Fund / VC</option>
+                    <option value="Crypto / Web3">Crypto / Web3</option>
+                    <option value="Luxury Retail">Luxury Retail</option>
+                    <option value="Intelligence / Tech">Intelligence / Tech</option>
+                    <option value="Real Estate">Real Estate</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Phone Number (WhatsApp Preferred)</label>
+                <input type="tel" name="phone" placeholder="+1 (555) 000-0000" required>
+            </div>
+
+            <button type="submit" class="btn">Request Placement</button>
         </form>
+        
         <a href="index.html" class="back-link">Return to Headlines</a>
     </div>
 </body>
