@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboard | Skillbit</title>
+    <link rel="stylesheet" href="../shared/style.css">
+</head>
+<body>
+    <header class="container">
+        <a href="dashboard.html" class="logo">Skillbit</a>
+        <nav>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="library.html">Library</a>
+            <a href="leaderboard.html">Leaderboard</a>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div style="margin: 40px 0; text-align: center;">
+            <h1>Global Leaderboard</h1>
+            <p style="color: #AAA;">The top performers on Skillbit this week.</p>
+        </div>
+
+        <div class="card">
+            <table class="leaderboard-table">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>User</th>
+                        <th>XP</th>
+                        <th>Streak</th>
+                    </tr>
+                </thead>
+                <tbody id="leaderboard-body">
+                    <!-- Mock Data for Demo -->
+                    <tr>
+                        <td class="rank">#1</td>
+                        <td>prisca.adaa</td>
+                        <td>4,250</td>
+                        <td>🔥 45</td>
+                    </tr>
+                    <tr>
+                        <td class="rank">#2</td>
+                        <td>alex_dev</td>
+                        <td>3,120</td>
+                        <td>🔥 12</td>
+                    </tr>
+                    <tr>
+                        <td class="rank">#3</td>
+                        <td>sarah_ui</td>
+                        <td>2,890</td>
+                        <td>🔥 8</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="card" style="text-align: center; margin-top: 20px;">
+            <p>Your Rank: <span class="rank">#124</span></p>
+            <p style="font-size: 12px; color: #777;">Upgrade to Pro to see your full ranking history.</p>
+        </div>
+    </main>
+
+    <script src="../shared/app.js"></script>
+    <script>
+        // In a real app, this would fetch from the Supabase 'leaderboard' view
+        async function loadLeaderboard() {
+            // const { data, error } = await supabase.from('leaderboard').select('*');
+            // Render logic...
+        }
+    </script>
+</body>
+</html>
