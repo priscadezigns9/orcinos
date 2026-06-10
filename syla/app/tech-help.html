@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tech Help Library</title>
+    <link rel="stylesheet" href="../shared/style.css">
+</head>
+<body>
+    <a href="tel:911" class="emergency-btn">EMERGENCY HELP</a>
+
+    <nav class="nav-bar">
+        <a href="dashboard.html" class="nav-item">Home</a>
+        <a href="ask-syla.html" class="nav-item">Ask Syla</a>
+        <a href="medications.html" class="nav-item">Medicine</a>
+        <a href="family.html" class="nav-item">Family</a>
+        <a href="tech-help.html" class="nav-item active">Tech Help</a>
+    </nav>
+
+    <div class="container">
+        <h1>Technology Help</h1>
+        <p>Click on a question to see the answer in large print.</p>
+        
+        <div id="tech-list">
+            <!-- Questions will be loaded here -->
+        </div>
+    </div>
+
+    <script>
+        async function loadTechHelp() {
+            const response = await fetch('../data/tech-help.json');
+            const data = await response.json();
+            const container = document.getElementById('tech-list');
+            
+            container.innerHTML = data.map((item, index) => `
+                <div class="card">
+                    <h2 style="cursor: pointer;" onclick="toggleAnswer(${index})">${item.question}</h2>
+                    <div id="answer-${index}" style="display: none; margin-top: 20px; border-top: 1px solid #eee; padding-top: 20px;">
+                        <p>${item.answer}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function toggleAnswer(index) {
+            const ans = document.getElementById(`answer-${index}`);
+            ans.style.display = ans.style.display === 'none' ? 'block' : 'none';
+        }
+
+        loadTechHelp();
+    </script>
+    <script src="../shared/app.js"></script>
+</body>
+</html>
