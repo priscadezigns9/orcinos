@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Sleep Coach | Slumber</title>
+    <link rel="stylesheet" href="../shared/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@supabase/supabase-js"></script>
+    <script src="../shared/app.js"></script>
+</head>
+<body>
+    <nav>
+        <div class="logo">SLUMBER</div>
+        <div class="nav-links">
+            <a href="dashboard.html">Home</a>
+            <a href="logger.html">Log</a>
+            <a href="coach.html">Coach</a>
+            <a href="library.html">Library</a>
+            <a href="sounds.html">Sounds</a>
+        </div>
+    </nav>
+
+    <main class="container">
+        <header class="mb-2">
+            <h1>AI Sleep Coach</h1>
+            <p>Analysis powered by GPT-4o-mini.</p>
+        </header>
+
+        <div class="card">
+            <div id="chat-box" class="chat-container">
+                <div class="msg msg-ai">
+                    Hello! I'm your Slumber Coach. I've analyzed your logs from the past week. How can I help you improve your sleep today?
+                </div>
+            </div>
+            
+            <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+                <input type="text" id="user-input" placeholder="Ask about your sleep patterns..." style="margin: 0;">
+                <button id="send-btn" class="btn btn-primary">Send</button>
+            </div>
+        </div>
+
+        <section style="margin-top: 2rem;">
+            <h3>Quick Actions</h3>
+            <div style="display: flex; gap: 1rem; margin-top: 1rem; flex-wrap: wrap;">
+                <button class="btn btn-outline" onclick="askCoach('Analyze my last 7 days')">Analyze last 7 days</button>
+                <button class="btn btn-outline" onclick="askCoach('How can I improve my deep sleep?')">Improve deep sleep</button>
+                <button class="btn btn-outline" onclick="askCoach('Should I stop caffeine earlier?')">Caffeine advice</button>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const chatBox = document.getElementById('chat-box');
+        const userInput = document.getElementById('user-input');
+        const sendBtn = document.getElementById('send-btn');
+
+        async function askCoach(text) {
+            if (!text) return;
+            
+            // Add user message
+            const userMsg = document.createElement('div');
+            userMsg.className = 'msg msg-user';
+            userMsg.textContent = text;
+            chatBox.appendChild(userMsg);
+            chatBox.scrollTop = chatBox.scrollHeight;
+            userInput.value = '';
+
+            // Loading state
+            const loadingMsg = document.createElement('div');
+            loadingMsg.className = 'msg msg-ai';
+            loadingMsg.textContent = 'Thinking...';
+            chatBox.appendChild(loadingMsg);
+
+            // Get logs
+            let logs = [];
+            if (supabaseClient) {
+                const { data } = await supabaseClient.from('sleep_logs').select('*').limit(7);
+                logs = data || [];
+            } else {
+                logs = JSON.parse(localStorage.getItem('mock_logs') || '[]');
+            }
+
+            const response = await getAICoachResponse(logs, text);
+            loadingMsg.textContent = response;
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        sendBtn.onclick = () => askCoach(userInput.value);
+        userInput.onkeypress = (e) => { if (e.key === 'Enter') askCoach(userInput.value); };
+    </script>
+</body>
+</html>
