@@ -3,251 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Titan TraderX | Dashboard (High-Fidelity)</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <title>Titan Trader X | Sovereign Market Intelligence</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #050505;
-            --navy: #0a192f;
-            --gold: #d4af37;
-            --cyan: #64ffda;
-            --malachite: #00FF7F;
-            --text: #ccd6f6;
-            --white: #ffffff;
-            --glass: rgba(255, 255, 255, 0.03);
-            --border: rgba(255, 255, 255, 0.08);
+            --primary: #00A36C;
+            --text-dark: #0A0A0B;
+            --text-muted: #666666;
+            --bg: #FFFFFF;
+            --surface: #F8F9FA;
+            --border: #EEEEEE;
         }
-
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            background-color: var(--bg);
-            color: var(--text);
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-
+        body { font-family: 'Plus Jakarta Sans', sans-serif; color: var(--text-dark); background: var(--bg); overflow-x: hidden; }
+        
         header {
-            background-color: rgba(5, 5, 5, 0.9);
+            padding: 20px 5%;
+            display: flex; justify-content: space-between; align-items: center;
+            background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(20px);
+            position: sticky; top: 0; z-index: 1000;
             border-bottom: 1px solid var(--border);
-            padding: 1.2rem 6%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
+        }
+        .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+        .logo img { height: 35px; }
+        .logo span { font-weight: 800; font-size: 1.3rem; color: var(--text-dark); letter-spacing: -0.5px; }
+
+        nav { display: flex; gap: 30px; align-items: center; }
+        nav a { text-decoration: none; color: var(--text-dark); font-weight: 700; font-size: 0.85rem; transition: color 0.2s; }
+        nav a:hover { color: var(--primary); }
+        .btn-login { 
+            background: var(--primary); color: #fff; padding: 10px 24px; 
+            border-radius: 50px; text-decoration: none; font-weight: 700; 
         }
 
-        .logo-container {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            text-decoration: none;
+        .hero { padding: 120px 5% 80px; text-align: center; background: radial-gradient(circle at center, #f0fff4 0%, #ffffff 100%); }
+        .hero h1 { font-size: 4.5rem; font-weight: 800; line-height: 1; margin-bottom: 25px; letter-spacing: -2px; }
+        .hero p { font-size: 1.25rem; color: var(--text-muted); max-width: 700px; margin: 0 auto 40px; }
+        .hero-btns { display: flex; justify-content: center; gap: 20px; }
+        .btn-main { 
+            padding: 18px 40px; background: var(--text-dark); color: #fff; 
+            text-decoration: none; border-radius: 100px; font-weight: 800; font-size: 1rem; 
+            transition: all 0.3s;
+        }
+        .btn-main:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        .btn-sec { 
+            padding: 18px 40px; background: transparent; border: 2px solid var(--text-dark); 
+            color: var(--text-dark); text-decoration: none; border-radius: 100px; font-weight: 800; 
         }
 
-        .logo-text {
-            font-size: 1.4rem;
-            font-weight: 800;
-            color: var(--white);
-            letter-spacing: 1px;
-        }
+        .features { padding: 100px 5%; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; max-width: 1400px; margin: 0 auto; }
+        .f-card { padding: 40px; border-radius: 32px; background: var(--surface); border: 1px solid var(--border); transition: all 0.3s; }
+        .f-card:hover { border-color: var(--primary); transform: translateY(-5px); }
+        .f-card h3 { font-size: 1.5rem; margin-bottom: 15px; }
+        .f-card p { color: var(--text-muted); line-height: 1.6; }
 
-        .logo-span { color: var(--malachite); }
-
-        nav { display: flex; gap: 30px; }
-        nav a {
-            color: #888;
-            text-decoration: none;
-            font-size: 0.85rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: 0.3s;
-        }
-        nav a:hover, nav a.active { color: var(--malachite); }
-
-        .hero {
-            padding: 100px 6% 60px;
-            text-align: center;
-            background: radial-gradient(circle at top, rgba(0, 255, 127, 0.05) 0%, transparent 70%);
-        }
-
-        .hero h1 {
-            font-size: 4rem;
-            font-weight: 800;
-            letter-spacing: -2px;
-            margin-bottom: 20px;
-            color: var(--white);
-        }
-
-        .hero p {
-            color: #888;
-            font-size: 1.1rem;
-            max-width: 600px;
-            margin: 0 auto 40px;
-        }
-
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 30px;
-            padding: 0 6% 100px;
-        }
-
-        .card {
-            background: var(--glass);
-            border: 1px solid var(--border);
-            border-radius: 24px;
-            padding: 30px;
-            backdrop-filter: blur(10px);
-        }
-
-        .card h2 {
-            font-size: 1.2rem;
-            font-weight: 800;
-            margin-bottom: 25px;
-            color: var(--white);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .market-pulse {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-        }
-
-        .market-item {
-            background: rgba(255,255,255,0.02);
-            border: 1px solid var(--border);
-            padding: 20px;
-            border-radius: 16px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .coin-name { font-weight: 700; color: var(--white); }
-        .coin-price { font-family: monospace; color: var(--malachite); }
-
-        .terminal-box {
-            height: 500px;
-            width: 100%;
-            border-radius: 16px;
-            overflow: hidden;
-            border: 1px solid var(--border);
-        }
-
-        .btn {
-            background: var(--malachite);
-            color: #000;
-            padding: 12px 24px;
-            border-radius: 12px;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 0.9rem;
-            display: inline-block;
-            transition: 0.3s;
-        }
-
-        .btn:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0, 255, 127, 0.2); }
-
-        .footer {
-            padding: 60px 6%;
-            border-top: 1px solid var(--border);
-            text-align: center;
-            color: #444;
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
+        footer { padding: 60px 5%; border-top: 1px solid var(--border); text-align: center; color: var(--text-muted); font-size: 0.9rem; }
     </style>
 </head>
 <body>
     <header>
-        <a href="index.html" class="logo-container">
-            <img src="https://lh3.googleusercontent.com/d/1ERqvFXcmdfgQsJXfrtRjyb5GvivpgimT" alt="Titan TraderX" style="height: 40px;">
-        </a>
+        <a href="index.html" class="logo"><div class="logo-container" style="display: flex; align-items: center; gap: 8px;"><span style="font-weight: 800; font-size: 1.4rem; color: #0A0A0B;">TITAN <span style="color: #00A36C;">TRADERX</span></span></div></a>
         <nav>
-            <a href="index.html" class="active">Dashboard</a>
-            <a href="charts.html">Terminal</a>
-            <a href="prop-firms.html">Prop Firms</a>
-            <a href="academy/index.html">Academy</a>
-            <a href="dashboard.html" style="color: #00FF7F; font-weight: 800;">LOGIN</a>
+            <a href="charts.html">TERMINAL</a>
+            <a href="academy.html">ACADEMY</a>
+            <a href="prop-firms.html">PARTNERS</a>
+            <a href="dashboard.html" class="btn-login">LOGIN</a>
         </nav>
     </header>
 
     <section class="hero">
-        <h1>Market Intelligence.</h1>
-        <p>The sovereign dashboard for high-fidelity trading. Institutional signals, live market pulse, and decentralised prop-firm connectivity.</p>
-        <a href="charts.html" class="btn">Launch Terminal &rarr;</a>
+        <h1>Sovereign Market Intelligence</h1>
+        <p>Institutional-grade analysis, real-time liquidity tracking, and professional education for the modern sovereign trader.</p>
+        <div class="hero-btns">
+            <a href="charts.html" class="btn-main">LAUNCH TERMINAL</a>
+            <a href="academy.html" class="btn-sec">ENTER ACADEMY</a>
+        </div>
     </section>
 
-    <main class="dashboard-grid">
-        <section class="left-column">
-            <div class="card" style="margin-bottom: 30px;">
-                <h2>Live Market Terminal</h2>
-                <div class="terminal-box">
-                    <!-- TradingView Widget BEGIN -->
-                    <div class="tradingview-widget-container" style="height:100%;width:100%">
-                        <div id="tradingview_737e4" style="height:100%;width:100%"></div>
-                        <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
-                        <script type="text/javascript">
-                        new TradingView.widget({
-                            "autosize": true,
-                            "symbol": "BINANCE:BTCUSDT",
-                            "interval": "D",
-                            "timezone": "Etc/UTC",
-                            "theme": "dark",
-                            "style": "1",
-                            "locale": "en",
-                            "toolbar_bg": "#f1f3f6",
-                            "enable_publishing": false,
-                            "hide_top_toolbar": true,
-                            "save_image": false,
-                            "container_id": "tradingview_737e4"
-                        });
-                        </script>
-                    </div>
-                    <!-- TradingView Widget END -->
-                </div>
-            </div>
+    <div class="features">
+        <div class="f-card">
+            <h3>Advanced Terminal</h3>
+            <p>Full-screen TradingView integration with 100+ indicators and real-time institutional data feeds.</p>
+        </div>
+        <div class="f-card">
+            <h3>Titan Academy</h3>
+            <p>Decoupled education hub focused on Prop Firm mastery and capital scaling strategies.</p>
+        </div>
+        <div class="f-card">
+            <h3>Liquidity Network</h3>
+            <p>Instant access to verified prop firms and exchanges with institutional reliability.</p>
+        </div>
+    </div>
 
-            <div class="card">
-                <h2>Top Market Gainers (CMC Live)</h2>
-                <div class="market-pulse" id="cmc-pulse">
-                    <div class="market-item"><span class="coin-name">BTC</span><span class="coin-price">$68,432.12</span></div>
-                    <div class="market-item"><span class="coin-name">ETH</span><span class="coin-price">$3,842.50</span></div>
-                    <div class="market-item"><span class="coin-name">SOL</span><span class="coin-price">$164.20</span></div>
-                    <div class="market-item"><span class="coin-name">ADA</span><span class="coin-price">$0.482</span></div>
-                </div>
-            </div>
-        </section>
-
-        <section class="right-column">
-            <div class="card" style="margin-bottom: 30px;">
-                <h2>Equity Signals (Finnhub)</h2>
-                <div id="stock-signals" style="display: flex; flex-direction: column; gap: 15px;">
-                    <div class="market-item"><span>AAPL</span><span style="color: var(--malachite);">+1.2%</span></div>
-                    <div class="market-item"><span>TSLA</span><span style="color: #ff4d4d;">-0.8%</span></div>
-                    <div class="market-item"><span>NVDA</span><span style="color: var(--malachite);">+4.5%</span></div>
-                </div>
-            </div>
-
-            <div class="card">
-                <h2>Academy Preview</h2>
-                <p style="font-size: 0.9rem; color: #888; margin-bottom: 20px;">Master the Sovereign Liquidity engine with our curated trading modules.</p>
-                <a href="academy/index.html" style="color: var(--malachite); font-weight: 700; text-decoration: none; font-size: 0.8rem;">Enter Academy Hub &rarr;</a>
-            </div>
-        </section>
-    </main>
-
-    <footer class="footer">
-        &copy; 2026 ORCINOS | TITAN TRADERX
+    <footer>
+        &copy; 2026 Orcinos Division. High-Fidelity Software Engineering.
     </footer>
 </body>
 </html>
+
