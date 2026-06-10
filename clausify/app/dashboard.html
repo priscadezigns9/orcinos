@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | Clausify</title>
+    <link rel="stylesheet" href="../shared/style.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="logo" style="margin-bottom: 2rem;">CLAUSIFY</div>
+            <nav>
+                <ul>
+                    <li><a href="dashboard.html" class="active">Overview</a></li>
+                    <li><a href="contract-generator.html">Contract Generator</a></li>
+                    <li><a href="rate-calculator.html">Rate Calculator</a></li>
+                    <li><a href="dmca-generator.html">DMCA Takedown</a></li>
+                    <li><a href="ip-guide.html">IP Protection</a></li>
+                    <li><a href="vault.html">Contract Vault</a></li>
+                    <li><a href="faq.html">Legal FAQ</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="no-print" style="background: transparent; color: var(--charcoal); padding: 0; margin-bottom: 2rem;">
+                <h1>Welcome back, Creator</h1>
+                <div class="user-badge" style="background: var(--gold); padding: 0.5rem 1rem; border-radius: 20px; font-weight: bold;">PRO ACCOUNT</div>
+            </header>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+                <div class="card">
+                    <h3>Recent Contracts</h3>
+                    <p>You have 12 saved contracts.</p>
+                    <a href="vault.html" style="color: var(--gold); font-weight: bold; display: block; margin-top: 1rem;">View Vault →</a>
+                </div>
+                <div class="card">
+                    <h3>Legal Health</h3>
+                    <p>All your IP is currently documented.</p>
+                    <a href="ip-guide.html" style="color: var(--gold); font-weight: bold; display: block; margin-top: 1rem;">Check Guide →</a>
+                </div>
+                <div class="card">
+                    <h3>Quick Actions</h3>
+                    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 1rem;">
+                        <a href="contract-generator.html" class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.8rem;">New Contract</a>
+                        <a href="rate-calculator.html" class="btn btn-outline" style="padding: 0.5rem 1rem; font-size: 0.8rem;">Check Rates</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" style="margin-top: 2rem;">
+                <h3>Pro Tip</h3>
+                <p>"Work for Hire" means you give up ownership. Always check if you can negotiate a "Limited License" instead to keep your rights.</p>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
