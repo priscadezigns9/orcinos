@@ -34,11 +34,21 @@
         .btn-link { background: var(--primary); color: #000; padding: 10px 20px; border-radius: 12px; text-decoration: none; font-weight: 700; font-size: 0.8rem; display: inline-block; }
         
         footer { padding: 60px 6%; text-align: center; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.8rem; }
-    </style>
+    .logo-container img { 
+            height: 40px; 
+            width: 40px;
+            object-fit: cover;
+            border-radius: 50%; 
+            box-shadow: 0 0 15px rgba(0, 255, 127, 0.3);
+            border: 1px solid rgba(0, 255, 127, 0.2);
+        }</style>
 </head>
 <body>
     <header>
-        <a href="index.html" class="logo"><img src="../logos/TITAN_TRADERX_LOGO.png" alt="TITAN"> <span style="font-weight: 800; letter-spacing: 1px;">TITAN <span style="color: var(--primary);">TRADERX</span></span></a>
+        <a href="index.html" class="logo-container">
+            <img src="../logos/TITAN_TRADERX_LOGO.png" alt="TITAN">
+            <span class="logo-text">TITAN <span class="logo-span">TRADERX</span></span>
+        </a>
         <nav>
             <a href="index.html">Dashboard</a>
             <a href="charts.html">Terminal</a>
