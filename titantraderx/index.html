@@ -3,104 +3,231 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Titan Trader X | Sovereign Market Intelligence</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <title>Priscion | Sovereign AI Agency & Web3 Migration Hub</title>
+
+    <meta name="description" content="Leading the digital transformation through high-fidelity AI agency services and SaaS product development. Excellence in design, engineering, and automation." />
+    <meta name="keywords" content="AI Agency, SaaS Development, Priscion Network, Digital Transformation, Excellence, Strategic Intelligence, Trinidad and Tobago, San Fernando, Priscion, SaaS Builder" />
+    <meta name="geo.region" content="TT-SFO" />
+    <meta name="geo.placename" content="San Fernando" />
+    <meta name="geo.position" content="10.2840933;-61.4585256" />
+    <meta name="ICBM" content="10.2840933, -61.4585256" />
+
+    <!-- OG Tags -->
+    <meta property="og:title" content="Priscion | Sovereign AI Architecture" />
+    <meta property="og:description" content="Dominate your niche with elite-tier AI systems designed for brand dominance and sovereign excellence." />
+    <meta property="og:image" content="https://share.zapia.com/m0ta6s0yqlqkuv1214muow" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://priscion.com/" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;400;500;600;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #00A36C;
-            --text-dark: #0A0A0B;
-            --text-muted: #666666;
-            --bg: #FFFFFF;
-            --surface: #F8F9FA;
-            --border: #EEEEEE;
+            --bg: #fff;
+            --text: #000;
+            --muted: #666;
+            --accent: #7B35D4;
+            --muze-blue: #007AFF;
+            --border: #EEE;
+            --font-heading: 'Playfair Display', serif;
+            --font-body: 'Inter', sans-serif;
+            --card-bg: #FFF;
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; color: var(--text-dark); background: var(--bg); overflow-x: hidden; }
-        
+
+        * { box-sizing: border-box; margin: 0; padding: 0; transition: none !important; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: var(--font-body);
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
         header {
-            padding: 20px 5%;
-            display: flex; justify-content: space-between; align-items: center;
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(20px);
-            position: sticky; top: 0; z-index: 1000;
+            padding: 30px 6%;
             border-bottom: 1px solid var(--border);
-        }
-        .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-        .logo img { height: 35px; }
-        .logo span { font-weight: 800; font-size: 1.3rem; color: var(--text-dark); letter-spacing: -0.5px; }
-
-        nav { display: flex; gap: 30px; align-items: center; }
-        nav a { text-decoration: none; color: var(--text-dark); font-weight: 700; font-size: 0.85rem; transition: color 0.2s; }
-        nav a:hover { color: var(--primary); }
-        .btn-login { 
-            background: var(--primary); color: #fff; padding: 10px 24px; 
-            border-radius: 50px; text-decoration: none; font-weight: 700; 
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
         }
 
-        .hero { padding: 120px 5% 80px; text-align: center; background: radial-gradient(circle at center, #f0fff4 0%, #ffffff 100%); }
-        .hero h1 { font-size: 4.5rem; font-weight: 800; line-height: 1; margin-bottom: 25px; letter-spacing: -2px; }
-        .hero p { font-size: 1.25rem; color: var(--text-muted); max-width: 700px; margin: 0 auto 40px; }
-        .hero-btns { display: flex; justify-content: center; gap: 20px; }
-        .btn-main { 
-            padding: 18px 40px; background: var(--text-dark); color: #fff; 
-            text-decoration: none; border-radius: 100px; font-weight: 800; font-size: 1rem; 
-            transition: all 0.3s;
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: inherit;
         }
-        .btn-main:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
-        .btn-sec { 
-            padding: 18px 40px; background: transparent; border: 2px solid var(--text-dark); 
-            color: var(--text-dark); text-decoration: none; border-radius: 100px; font-weight: 800; 
+        
+        .logo img { height: 40px; width: auto; }
+
+        nav { display: flex; align-items: center; }
+        nav a {
+            margin-left: 30px;
+            text-decoration: none;
+            color: inherit;
+            font-size: 0.7rem;
+            font-weight: 900;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            opacity: 0.6;
         }
 
-        .features { padding: 100px 5%; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; max-width: 1400px; margin: 0 auto; }
-        .f-card { padding: 40px; border-radius: 32px; background: var(--surface); border: 1px solid var(--border); transition: all 0.3s; }
-        .f-card:hover { border-color: var(--primary); transform: translateY(-5px); }
-        .f-card h3 { font-size: 1.5rem; margin-bottom: 15px; }
-        .f-card p { color: var(--text-muted); line-height: 1.6; }
+        nav a:hover { opacity: 1; color: var(--accent); }
 
-        footer { padding: 60px 5%; border-top: 1px solid var(--border); text-align: center; color: var(--text-muted); font-size: 0.9rem; }
+        .section { padding: 120px 6%; }
+        .container { max-width: 1200px; margin: 0 auto; }
+
+        .hero {
+            padding: 180px 6% 120px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-family: var(--font-heading);
+            font-size: clamp(3rem, 10vw, 7rem);
+            margin-bottom: 30px;
+            line-height: 0.85;
+            letter-spacing: -3px;
+        }
+
+        .hero h1 span { color: var(--accent); }
+
+        .cta-btn {
+            background: #000;
+            color: #fff;
+            padding: 24px 50px;
+            border-radius: 100px;
+            text-decoration: none;
+            font-weight: 900;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            display: inline-block;
+            margin: 20px 10px;
+        }
+        
+        .cta-outline {
+            background: none;
+            border: 1px solid var(--border);
+            color: #000;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            padding: 40px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 30px;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover { border-color: var(--accent); }
+        .card h3 { font-family: var(--font-heading); font-size: 1.8rem; margin-bottom: 15px; }
+        .card p { color: var(--muted); font-size: 0.9rem; margin-bottom: 30px; }
+        
+        .badge {
+            background: var(--muze-blue);
+            color: #fff;
+            padding: 5px 12px;
+            border-radius: 100px;
+            font-size: 0.6rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: inline-block;
+            margin-bottom: 20px;
+            width: fit-content;
+        }
+
+        footer {
+            padding: 100px 6%;
+            border-top: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .copyright {
+            color: var(--muted);
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-top: 40px;
+        }
     </style>
 </head>
 <body>
+
     <header>
-        <a href="index.html" class="logo">
-            <img src="../logos/TITAN_TRADERX_LOGO.png" alt="ORCINOS">
-            <span>TITAN TRADER X</span>
+        <a href="/" class="logo">
+            <img src="https://share.zapia.com/m0ta6s0yqlqkuv1214muow" alt="Priscion">
         </a>
         <nav>
-            <a href="charts.html">TERMINAL</a>
-            <a href="academy.html">ACADEMY</a>
-            <a href="prop-firms.html">PARTNERS</a>
-            <a href="dashboard.html" class="btn-login">LOGIN</a>
+            <a href="/muzewallet/">Wallet</a>
+            <a href="/mynt/">Marketplace</a>
+            <a href="/pulse/">Explorer</a>
+            <a href="https://wa.me/447576505652">Connect</a>
         </nav>
     </header>
 
-    <section class="hero">
-        <h1>Sovereign Market Intelligence</h1>
-        <p>Institutional-grade analysis, real-time liquidity tracking, and professional education for the modern sovereign trader.</p>
-        <div class="hero-btns">
-            <a href="charts.html" class="btn-main">LAUNCH TERMINAL</a>
-            <a href="academy.html" class="btn-sec">ENTER ACADEMY</a>
-        </div>
-    </section>
+    <main>
+        <section class="hero">
+            <div class="container">
+                <div class="badge">The Migration Hub</div>
+                <h1>Sovereign AI <span>Architecture</span>.</h1>
+                <p style="max-width: 600px; margin: 0 auto 40px; color: var(--muted); font-size: 1.1rem;">Architecting the transition from fragmented Web2 landscapes to unified, independent Web3 realities.</p>
+                <div class="cta-row">
+                    <a href="/muzewallet/" class="cta-btn">Claim Identity</a>
+                    <a href="/mynt/" class="cta-btn cta-outline">Explore Products</a>
+                </div>
+            </div>
+        </section>
 
-    <div class="features">
-        <div class="f-card">
-            <h3>Advanced Terminal</h3>
-            <p>Full-screen TradingView integration with 100+ indicators and real-time institutional data feeds.</p>
-        </div>
-        <div class="f-card">
-            <h3>Titan Academy</h3>
-            <p>Decoupled education hub focused on Prop Firm mastery and capital scaling strategies.</p>
-        </div>
-        <div class="f-card">
-            <h3>Liquidity Network</h3>
-            <p>Instant access to verified prop firms and exchanges with institutional reliability.</p>
-        </div>
-    </div>
+        <section class="section">
+            <div class="container">
+                <div class="grid">
+                    <div class="card">
+                        <div class="badge">L1 Infrastructure</div>
+                        <h3>The Sovereign Ledger</h3>
+                        <p>High-fidelity infrastructure for the transition from Web2 to Web3. Transparent, secure, and independent.</p>
+                        <a href="/pulse/" style="font-weight: 900; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; color: var(--accent); text-decoration: none;">View Explorer →</a>
+                    </div>
+                    <div class="card">
+                        <div class="badge" style="background: #000;">Digital Commerce</div>
+                        <h3>MYNT Store</h3>
+                        <p>The premier marketplace for Sovereign Artifacts and Utility NFTs. Shop the ecosystem with $PRN.</p>
+                        <a href="/mynt/" style="font-weight: 900; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; color: var(--accent); text-decoration: none;">Launch Store →</a>
+                    </div>
+                    <div class="card">
+                        <div class="badge" style="background: var(--muze-blue);">Identity</div>
+                        <h3>MUZE Vault</h3>
+                        <p>Non-custodial gateway to the Priscion ecosystem. Secure your .pri handle and manage your assets.</p>
+                        <a href="/muzewallet/" style="font-weight: 900; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; color: var(--accent); text-decoration: none;">Open Vault →</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
 
     <footer>
-        &copy; 2026 Priscion Orcinos Division. High-Fidelity Software Engineering.
+        <img src="https://share.zapia.com/m0ta6s0yqlqkuv1214muow" alt="Priscion" style="height: 40px;">
+        <div style="margin-top: 40px; display: flex; justify-content: center; gap: 30px;">
+            <a href="https://facebook.com/priscilla.narine" style="text-decoration: none; color: #000; font-weight: 900; font-size: 0.7rem; letter-spacing: 1px;">FACEBOOK</a>
+            <a href="https://www.instagram.com/prisca.adaa/" style="text-decoration: none; color: #000; font-weight: 900; font-size: 0.7rem; letter-spacing: 1px;">INSTAGRAM</a>
+            <a href="https://www.threads.net/@prisca.adaa" style="text-decoration: none; color: #000; font-weight: 900; font-size: 0.7rem; letter-spacing: 1px;">THREADS</a>
+        </div>
+        <p class="copyright">© 2026 PRISCION · ARCHITECTING REALITY</p>
     </footer>
+
 </body>
 </html>
