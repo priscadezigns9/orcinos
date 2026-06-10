@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Titan Dashboard | Sovereign Control</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #00A36C;
+            --bg: #0A0A0B;
+            --surface: #161618;
+            --text: #FFFFFF;
+            --muted: #A0A0A5;
+            --border: rgba(255,255,255,0.1);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            display: flex; align-items: center; justify-content: center; 
+            min-height: 100vh;
+        }
+        .auth-card {
+            background: var(--surface);
+            padding: 40px;
+            border-radius: 24px;
+            width: 100%;
+            max-width: 400px;
+            border: 1px solid var(--border);
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+        .logo-box { margin-bottom: 30px; }
+        .logo-box img { height: 40px; }
+        h1 { font-size: 1.8rem; font-weight: 800; margin-bottom: 10px; }
+        p { color: var(--muted); margin-bottom: 30px; font-size: 0.95rem; }
+        
+        .btn-google {
+            display: flex; align-items: center; justify-content: center;
+            width: 100%; padding: 14px;
+            background: #fff; color: #000;
+            border: none; border-radius: 12px;
+            font-weight: 700; cursor: pointer;
+            gap: 10px; transition: transform 0.2s;
+        }
+        .btn-google:hover { transform: scale(1.02); }
+        
+        #user-profile { display: none; }
+        .profile-header { display: flex; align-items: center; gap: 15px; text-align: left; margin-bottom: 30px; }
+        .profile-header img { width: 50px; height: 50px; border-radius: 50%; }
+        
+        .nav-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .nav-item {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border);
+            padding: 20px; border-radius: 16px;
+            text-decoration: none; color: #fff;
+            font-weight: 600; font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+        .nav-item:hover { background: var(--primary); border-color: var(--primary); }
+    </style>
+</head>
+<body>
+    <div class="auth-card" id="auth-ui">
+        <div class="logo-box">
+            <img src="../logos/ORCINOS_DEFINITIVE_2026.png" alt="ORCINOS">
+        </div>
+        <h1>Welcome to Titan</h1>
+        <p>Access your sovereign trading dashboard and academy.</p>
+        <button class="btn-google" onclick="login()">
+            <img src="https://www.google.com/favicon.ico" width="20">
+            Sign in with Google
+        </button>
+    </div>
+
+    <div class="auth-card" id="user-profile">
+        <div class="profile-header">
+            <img id="user-avatar" src="" alt="">
+            <div>
+                <h3 id="user-name">Trader</h3>
+                <p id="user-email" style="margin:0; font-size:0.8rem;"></p>
+            </div>
+        </div>
+        <div class="nav-grid">
+            <a href="charts.html" class="nav-item">CHARTS</a>
+            <a href="academy.html" class="nav-item">ACADEMY</a>
+            <a href="prop-firms.html" class="nav-item">PARTNERS</a>
+            <a href="#" onclick="logout()" class="nav-item" style="color:#FF4B4B;">LOGOUT</a>
+        </div>
+    </div>
+
+    <script>
+        const supabaseUrl = 'https://zqxsvxtshqxvxpxvxpxv.supabase.co'; // Example placeholder
+        const supabaseKey = 'public-anon-key'; // Placeholder
+        const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+        async function login() {
+            await supabase.auth.signInWithOAuth({ provider: 'google' });
+        }
+
+        async function logout() {
+            await supabase.auth.signOut();
+            window.location.reload();
+        }
+
+        supabase.auth.onAuthStateChange((event, session) => {
+            if (session) {
+                document.getElementById('auth-ui').style.display = 'none';
+                document.getElementById('user-profile').style.display = 'block';
+                document.getElementById('user-name').innerText = session.user.user_metadata.full_name;
+                document.getElementById('user-email').innerText = session.user.email;
+                document.getElementById('user-avatar').src = session.user.user_metadata.avatar_url;
+            }
+        });
+    </script>
+</body>
+</html>
