@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Captio AI</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Captio AI</h1>
+      <span class="badge">Pro</span>
+    </header>
+
+    <div class="image-preview-container">
+      <img id="imagePreview" src="icons/icon128.png" alt="Selected Preview">
+    </div>
+
+    <div class="controls">
+      <div class="control-group">
+        <label for="platform">Platform</label>
+        <select id="platform">
+          <option value="Instagram">Instagram</option>
+          <option value="Threads">Threads</option>
+          <option value="Facebook">Facebook</option>
+          <option value="Twitter">Twitter</option>
+          <option value="LinkedIn">LinkedIn</option>
+        </select>
+      </div>
+
+      <div class="control-group">
+        <label for="tone">Tone</label>
+        <select id="tone">
+          <option value="Professional">Professional</option>
+          <option value="Hype">Hype</option>
+          <option value="Inspirational">Inspirational</option>
+          <option value="Luxury">Luxury</option>
+          <option value="Spiritual">Spiritual</option>
+        </select>
+      </div>
+    </div>
+
+    <button id="generateBtn" class="primary-btn">Generate Caption</button>
+
+    <div id="resultArea" class="hidden">
+      <div class="textarea-container">
+        <textarea id="captionText" placeholder="Your AI caption will appear here..."></textarea>
+        <div id="charCounter" class="char-counter">0 / 2200</div>
+      </div>
+
+      <div id="hashtagContainer" class="hashtag-container">
+        <!-- Hashtag chips will be injected here -->
+      </div>
+
+      <div class="action-buttons">
+        <button id="copyCaptionBtn" class="secondary-btn">Copy Caption</button>
+        <button id="copyAllBtn" class="secondary-btn">Copy All</button>
+      </div>
+    </div>
+
+    <footer>
+      <p id="dailyLimit">Daily Free: 5 / 5</p>
+      <a href="https://priscadezigns.org/captio-ai/pro" target="_blank" class="upgrade-link">Upgrade to Pro</a>
+      <button id="settingsBtn" class="icon-btn">⚙️</button>
+    </footer>
+  </div>
+
+  <script src="templates.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>
