@@ -1,1 +1,52 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Titan Terminal</title><style>body,html{margin:0;padding:0;height:100%;width:100%;overflow:hidden;background:#000;}header{position:absolute;top:0;left:0;right:0;height:50px;background:rgba(0,0,0,0.5);backdrop-filter:blur(10px);display:flex;align-items:center;padding:0 20px;z-index:100;border-bottom:1px solid rgba(255,255,255,0.1);}.back-btn{color:#00A36C;text-decoration:none;font-family:sans-serif;font-weight:bold;}</style></head><body><header><a href="index.html" class="back-btn">← EXIT TERMINAL</a></header><div id="tradingview_terminal" style="height:100%;width:100%;"></div><script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script><script type="text/javascript">const urlParams=new URLSearchParams(window.location.search);const symbol=urlParams.get("symbol")||"NASDAQ:AAPL";new TradingView.widget({"autosize":true,"symbol":symbol,"interval":"1","timezone":"Etc/UTC","theme":"dark","style":"1","locale":"en","toolbar_bg":"#f1f3f6","enable_publishing":false,"allow_symbol_change":true,"container_id":"tradingview_terminal"});</script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Titan Terminal | Sovereign Analysis</title>
+    <style>
+        body, html { margin: 0; padding: 0; height: 100%; width: 100%; overflow: hidden; background: #000; }
+        header { 
+            position: absolute; top: 0; left: 0; right: 0; height: 35px; 
+            background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); 
+            display: flex; align-items: center; padding: 0 15px; z-index: 1000;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .back-btn { 
+            color: #00A36C; text-decoration: none; font-family: sans-serif; 
+            font-weight: 800; font-size: 0.65rem; letter-spacing: 1px; text-transform: uppercase;
+            opacity: 0.8; transition: opacity 0.2s;
+        }
+        .back-btn:hover { opacity: 1; }
+        #tradingview_terminal { height: 100%; width: 100%; }
+    </style>
+</head>
+<body>
+    <header><a href="index.html" class="back-btn">← Exit</a></header>
+    <div id="tradingview_terminal"></div>
+    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+    <script type="text/javascript">
+        const urlParams = new URLSearchParams(window.location.search);
+        const symbol = urlParams.get('symbol') || 'BINANCE:BTCUSDT';
+        new TradingView.widget({
+            "autosize": true,
+            "symbol": symbol,
+            "interval": "1",
+            "timezone": "Etc/UTC",
+            "theme": "dark",
+            "style": "1",
+            "locale": "en",
+            "toolbar_bg": "#f1f3f6",
+            "enable_publishing": false,
+            "hide_side_toolbar": false,
+            "allow_symbol_change": true,
+            "watchlist": ["BINANCE:BTCUSDT","BINANCE:ETHUSDT","NASDAQ:AAPL","NASDAQ:TSLA","FX:EURUSD","FX:GBPUSD","OANDA:XAUUSD","INDEX:DXY"],
+            "details": true,
+            "hotlist": true,
+            "calendar": true,
+            "show_popup_button": true,
+            "container_id": "tradingview_terminal"
+        });
+    </script>
+</body>
+</html>
