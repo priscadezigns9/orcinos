@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | Slumber</title>
+    <link rel="stylesheet" href="../shared/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@supabase/supabase-js"></script>
+    <script src="../shared/app.js"></script>
+</head>
+<body>
+    <nav>
+        <div class="logo">SLUMBER</div>
+        <div class="nav-links">
+            <a href="dashboard.html">Home</a>
+            <a href="logger.html">Log</a>
+            <a href="coach.html">Coach</a>
+            <a href="library.html">Library</a>
+            <a href="sounds.html">Sounds</a>
+            <button id="logout-btn" class="btn btn-outline" style="padding: 0.5rem 1rem;">Logout</button>
+        </div>
+    </nav>
+
+    <main class="container">
+        <header class="text-center mb-2">
+            <h1>Weekly Sleep Score</h1>
+            <div class="gauge-container">
+                <svg class="gauge-svg" viewBox="0 0 200 200">
+                    <circle class="gauge-bg" cx="100" cy="100" r="90"></circle>
+                    <circle class="gauge-fill" cx="100" cy="100" r="90"></circle>
+                </svg>
+                <div class="gauge-text">
+                    <span class="score-val" id="display-score">0</span>
+                    <span class="score-label">Efficiency</span>
+                </div>
+            </div>
+            <p id="score-msg">Log more nights to see your average.</p>
+        </header>
+
+        <section class="grid-2">
+            <div class="card">
+                <h3>Last Night</h3>
+                <div id="last-night-stats">
+                    <p>No log found for last night.</p>
+                    <a href="logger.html" class="btn btn-primary" style="margin-top: 1rem;">Log Sleep</a>
+                </div>
+            </div>
+            <div class="card">
+                <h3>Weekly Trend</h3>
+                <div id="weekly-logs" style="max-height: 200px; overflow-y: auto;">
+                    <p style="color: var(--glass);">Empty logbook.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="card" style="margin-top: 1.5rem;">
+            <h3>Sleep Goals</h3>
+            <div id="goal-display">
+                <p>Target Bedtime: <span id="target-bedtime">--:--</span></p>
+                <p>Target Duration: <span id="target-duration">--</span> hours</p>
+            </div>
+            <button class="btn btn-outline" style="margin-top: 1rem;" onclick="document.getElementById('goal-modal').classList.remove('hidden')">Edit Goals</button>
+        </section>
+    </main>
+
+    <!-- Goal Modal -->
+    <div id="goal-modal" class="hidden" style="position: fixed; inset: 0; background: rgba(0,0,0,0.8); display: flex; align-items: center; justify-content: center; z-index: 1000;">
+        <div class="card" style="width: 90%; max-width: 400px;">
+            <h3>Update Goals</h3>
+            <label>Target Bedtime</label>
+            <input type="time" id="input-target-bed">
+            <label>Target Wake Time</label>
+            <input type="time" id="input-target-wake">
+            <div style="display: flex; gap: 1rem;">
+                <button class="btn btn-primary" onclick="saveGoals()">Save</button>
+                <button class="btn btn-outline" onclick="document.getElementById('goal-modal').classList.add('hidden')">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Check auth (simplified for demo)
+            const session = checkAuth();
+            
+            // Mock data for demo if no Supabase
+            let logs = [];
+            if (supabaseClient) {
+                const { data } = await supabaseClient.from('sleep_logs').select('*').order('date', { ascending: false }).limit(7);
+                logs = data || [];
+            } else {
+                logs = JSON.parse(localStorage.getItem('mock_logs') || '[]');
+            }
+
+            if (logs.length > 0) {
+                const avgScore = logs.reduce((acc, l) => acc + l.efficiency_score, 0) / logs.length;
+                updateGauge(avgScore);
+                
+                const last = logs[0];
+                document.getElementById('last-night-stats').innerHTML = `
+                    <p style="font-size: 1.5rem; color: var(--lavender);">${(last.duration_mins/60).toFixed(1)} hrs</p>
+                    <p>Quality: ${'⭐'.repeat(last.quality_rating)}</p>
+                `;
+
+                document.getElementById('weekly-logs').innerHTML = logs.map(l => `
+                    <div style="display: flex; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px solid var(--glass);">
+                        <span>${l.date}</span>
+                        <span>${l.efficiency_score}%</span>
+                    </div>
+                `).join('');
+            }
+
+            const goals = JSON.parse(localStorage.getItem('sleep_goals') || '{"bedtime":"22:30", "duration": 8}');
+            document.getElementById('target-bedtime').textContent = goals.bedtime;
+            document.getElementById('target-duration').textContent = goals.duration;
+        });
+
+        function saveGoals() {
+            const bed = document.getElementById('input-target-bed').value;
+            const wake = document.getElementById('input-target-wake').value;
+            // Simplified duration calculation
+            localStorage.setItem('sleep_goals', JSON.stringify({bedtime: bed, duration: 8}));
+            location.reload();
+        }
+    </script>
+</body>
+</html>
