@@ -3,74 +3,87 @@
 <head>
     <meta charset='UTF-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-    <title>Nurasen | ORCINOS</title>
+    <title>NURASEN | Smart Cybersecurity Defense</title>
     <style>
         :root {
-            --light-blue: #E0F2FE;
-            --accent-blue: #0ea5e9;
-            --navy: #0f172a;
-            --white: #FFFFFF;
-            --gray: #64748b;
+            --bg: #050505; 
+            --text: #FFFFFF; 
+            --muted: #888888; 
+            --accent: #00FFFF; /* NEON CYAN */
+            --border: rgba(0, 255, 255, 0.1);
+            --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
-        body {
-            background-color: var(--white);
-            color: var(--navy);
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            margin: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            text-align: center;
-        }
-        .container {
-            max-width: 600px;
-            padding: 40px;
-        }
-        h1 {
-            font-size: 3.5rem;
-            font-weight: 900;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            letter-spacing: -1px;
-        }
-        p {
-            color: var(--gray);
-            font-size: 1.25rem;
-            line-height: 1.6;
-            margin-bottom: 40px;
-        }
-        .btn {
-            background-color: var(--accent-blue);
-            color: var(--white);
-            padding: 16px 32px;
-            border-radius: 100px;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 1rem;
-            transition: transform 0.2s;
-            display: inline-block;
-        }
-        .btn:hover {
-            transform: translateY(-2px);
-        }
-        footer {
-            position: absolute;
-            bottom: 40px;
-            color: var(--gray);
-            font-size: 0.9rem;
-            width: 100%;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: var(--bg); color: var(--text); font-family: var(--font-body); line-height: 1.6; overflow-x: hidden; }
+        header { padding: 25px 6%; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); background: rgba(5,5,5,0.8); backdrop-filter: blur(15px); position: sticky; top: 0; z-index: 100; }
+        .logo img { height: 95px; width: auto; }
+        .hero { padding: 140px 6% 100px; text-align: center; background: radial-gradient(circle at center, rgba(0,255,255,0.05) 0%, transparent 70%); }
+        .hero h1 { font-size: 5rem; font-weight: 900; margin-bottom: 25px; color: #FFF; letter-spacing: -3px; line-height: 1; text-transform: uppercase; }
+        .hero p { font-size: 1.4rem; color: var(--muted); max-width: 800px; margin: 0 auto 50px; font-weight: 400; }
+        .intelligence-suite { padding: 100px 6% 60px; background: #080808; text-align: center; }
+        .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 40px; max-width: 1200px; margin: 0 auto; }
+        .metric-item { background: #0D0D0D; padding: 45px; border-radius: 30px; border: 1px solid var(--border); text-align: left; transition: 0.3s; position: relative; overflow: hidden; }
+        .metric-item:hover { transform: translateY(-10px); border-color: var(--accent); }
+        .metric-icon { font-size: 2.5rem; margin-bottom: 25px; color: var(--accent); }
+        .metric-tag { display: inline-block; padding: 5px 12px; background: var(--accent); color: #000; font-size: 0.7rem; font-weight: 900; border-radius: 5px; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; }
+        .premium-comparison { padding: 120px 6% 160px; text-align: center; }
+        .tier-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 40px; max-width: 1100px; margin: 0 auto; }
+        .tier-card { background: #0D0D0D; padding: 60px 45px; border-radius: 40px; border: 1px solid var(--border); text-align: left; transition: 0.5s; position: relative; }
+        .tier-card.premium-tier { border: 2px solid var(--accent); }
+        .tier-badge { position: absolute; top: 35px; right: 35px; background: var(--accent); color: #000; padding: 7px 18px; border-radius: 100px; font-size: 0.7rem; font-weight: 900; text-transform: uppercase; letter-spacing: 1.5px; }
+        .tier-price { font-size: 4rem; font-weight: 900; margin-bottom: 45px; color: #FFF; display: flex; align-items: baseline; gap: 8px; }
+        .tier-price span { font-size: 1.2rem; color: var(--muted); }
+        .tier-list { list-style: none; margin-bottom: 50px; }
+        .tier-list li { margin-bottom: 22px; display: flex; align-items: center; gap: 15px; font-size: 1.05rem; color: #CCC; }
+        .tier-list li::before { content: '✓'; color: var(--accent); font-weight: 900; }
+        .btn-nurasen { width: 100%; text-align: center; padding: 22px; border-radius: 18px; font-size: 1.1rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; border: none; display: inline-block; text-decoration: none; }
+        .btn-cyan { background: var(--accent); color: #000; }
+        .btn-outline { background: transparent; color: #FFF; border: 1.5px solid #FFF; }
+        footer { padding: 80px 6%; text-align: center; border-top: 1px solid var(--border); font-size: 0.8rem; color: var(--muted); text-transform: uppercase; letter-spacing: 2px; }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); backdrop-filter: blur(20px); z-index: 2000; justify-content: center; align-items: center; }
+        .payment-modal { background: #0D0D0D; border: 2px solid var(--accent); width: 100%; max-width: 480px; padding: 50px; border-radius: 40px; position: relative; text-align: center; }
+        .modal-close { position: absolute; top: 25px; right: 25px; color: var(--muted); font-size: 1.5rem; cursor: pointer; }
+        .pay-option { background: rgba(255,255,255,0.03); border: 1px solid rgba(0,255,255,0.1); padding: 20px; border-radius: 15px; margin-bottom: 15px; display: flex; align-items: center; gap: 20px; cursor: pointer; transition: 0.2s; text-decoration: none; color: #FFF; text-align: left; }
     </style>
 </head>
 <body>
-    <div class='container'>
-        <h1>Nurasen</h1>
-        <p>Neural cybersecurity and antivirus defense for sovereign data protection.</p>
-        <a href='/' class='btn'>Return to Hub</a>
+    <header><div class='logo'><img src='../logos/NURASEN_DEFINITIVE_2026.png' alt='Nurasen'></div></header>
+    <section class='hero'>
+        <h1>Zero-Trust Smart Defense.</h1>
+        <p>The definitive automatic cybersecurity shield using smart pattern recognition to neutralize threats before they reach your private hub.</p>
+        <a href="https://share.zapia.com/xl4rkhvfcd99b1tw9cgwli" class="btn-nurasen btn-outline" style="width: auto; padding: 15px 30px;">Download Sentinel Extension</a>
+    </section>
+    <section class='premium-comparison'>
+        <div class='tier-grid'>
+            <div class='tier-card'><h3>Sentinel Free</h3><div class='tier-price'>$0<span> / mo</span></div><ul class='tier-list'><li>Smart Shield</li><li>Manual Scans</li></ul><a href='dashboard.html' class='btn-nurasen btn-outline'>Initialize</a></div>
+            <div class='tier-card premium-tier'>
+                <div class='tier-badge'>FULL ACCESS</div>
+                <h3>Sentinel Apex</h3>
+                <div class='tier-price'>$19.99<span> / mo</span></div>
+                <ul class='tier-list'><li>15-min Scans</li><li>Smart Predictions</li><li>Private Bridge</li></ul>
+                <a href='javascript:void(0)' onclick="openPayment()" class='btn-nurasen btn-cyan'>Unlock Apex Defense</a>
+            </div>
+        </div>
+    </section>
+    <footer>© 2026 NURASEN</footer>
+    <div id="paymentModal" class="modal-overlay">
+        <div class="payment-modal">
+            <div class="modal-close" onclick="closePayment()">×</div>
+            <h2>Private Payment</h2>
+            <p style="margin-bottom: 30px; color: #888;">Select your preferred subscription tier.</p>
+            <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_xclick-subscriptions&business=priscadezigns9@gmail.com&item_name=Nurasen%20Apex%20Monthly&a3=19.99&p3=1&t3=M&src=1&currency_code=USD" target="_blank" class="pay-option">
+                <div class="pay-icon">💳</div><div class="pay-text"><b>PayPal Monthly ($19.99)</b><span>Auto-renew monthly.</span></div>
+            </a>
+            <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_xclick-subscriptions&business=priscadezigns9@gmail.com&item_name=Nurasen%20Apex%20Yearly&a3=199.99&p3=1&t3=Y&src=1&currency_code=USD" target="_blank" class="pay-option" style="border-color: var(--accent);">
+                <div class="pay-icon">💎</div><div class="pay-text"><b>PayPal Yearly ($199.99)</b><span>Save 20%.</span></div>
+            </a>
+            <a href="dashboard.html?premium=true" style="display:block; margin-top:20px; color:var(--accent); text-decoration:none; font-size:0.8rem; opacity:0.5;">Enter Dashboard</a>
+        </div>
     </div>
-    <footer>
-        &copy; 2026 ORCINOS · ARCHITECTING SOVEREIGNTY
-    </footer>
+    <script>
+        function openPayment() { document.getElementById('paymentModal').style.display = 'flex'; }
+        function closePayment() { document.getElementById('paymentModal').style.display = 'none'; }
+    </script>
 </body>
 </html>
+
