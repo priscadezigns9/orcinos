@@ -1,0 +1,86 @@
+/* D'Panyard Design Tokens */
+:root {
+    --steel-silver: #C0C8D0;
+    --deep-navy: #0A1628;
+    --warm-amber: #E8940A;
+    --rich-black: #080808;
+    --cream-white: #F8F4EE;
+    --whatsapp-green: #25D366;
+    --inter-font: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+body {
+    font-family: var(--inter-font);
+    background-color: var(--cream-white);
+    color: var(--rich-black);
+    margin: 0;
+    padding: 0;
+}
+
+h1, h2, h3, h4 {
+    color: var(--deep-navy);
+    font-weight: 600;
+}
+
+.btn {
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background-color: var(--warm-amber);
+    color: white;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #d18308;
+}
+
+.btn-outline {
+    background-color: transparent;
+    border: 2px solid var(--deep-navy);
+    color: var(--deep-navy);
+}
+
+.btn-outline:hover {
+    background-color: var(--deep-navy);
+    color: white;
+}
+
+.btn-whatsapp {
+    background-color: var(--whatsapp-green);
+    color: white;
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.badge {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.badge-navy {
+    background-color: var(--deep-navy);
+    color: white;
+}
+
+.stars {
+    color: var(--warm-amber);
+}
