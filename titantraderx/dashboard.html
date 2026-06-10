@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="icon" href="../logos/TITAN_ICON.png" type="image/png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Titan Dashboard | Sovereign Control</title>
@@ -35,25 +34,25 @@
             box-shadow: 0 20px 40px rgba(0,0,0,0.4);
         }
         .logo-box { margin-bottom: 30px; }
-        .logo-box img { height: 45px; }
+        .logo-box img { height: 40px; }
         h1 { font-size: 1.8rem; font-weight: 800; margin-bottom: 10px; }
         p { color: var(--muted); margin-bottom: 30px; font-size: 0.95rem; }
         
-        form { text-align: left; }
-        .input-group { margin-bottom: 20px; }
-        label { display: block; font-size: 0.75rem; font-weight: 700; color: var(--muted); margin-bottom: 8px; text-transform: uppercase; }
-        input { 
-            width: 100%; padding: 14px; background: rgba(255,255,255,0.03); 
-            border: 1px solid var(--border); border-radius: 12px; color: #fff; outline: none; 
+        .btn-google {
+            display: flex; align-items: center; justify-content: center;
+            width: 100%; padding: 14px;
+            background: #fff; color: #000;
+            border: none; border-radius: 12px;
+            font-weight: 700; cursor: pointer;
+            gap: 10px; transition: transform 0.2s;
         }
-        
-        .btn-enter { 
-            width: 100%; padding: 16px; background: var(--primary); color: #fff; 
-            border: none; border-radius: 12px; font-weight: 800; cursor: pointer; 
-        }
+        .btn-google:hover { transform: scale(1.02); }
         
         #user-profile { display: none; }
-        .nav-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
+        .profile-header { display: flex; align-items: center; gap: 15px; text-align: left; margin-bottom: 30px; }
+        .profile-header img { width: 50px; height: 50px; border-radius: 50%; }
+        
+        .nav-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .nav-item {
             background: rgba(255,255,255,0.03);
             border: 1px solid var(--border);
@@ -61,90 +60,62 @@
             text-decoration: none; color: #fff;
             font-weight: 600; font-size: 0.9rem;
             transition: all 0.2s;
-            text-align: center;
         }
         .nav-item:hover { background: var(--primary); border-color: var(--primary); }
-        
-        footer { margin-top: 30px; color: var(--muted); font-size: 0.8rem; }
     </style>
 </head>
 <body>
     <div class="auth-card" id="auth-ui">
         <div class="logo-box">
-            <a href="index.html"><img src="../logos/TITAN_TRADERX_LOGO.png" alt="TITAN TRADERX"></a>
+            <img src="../logos/ORCINOS_DEFINITIVE_2026.png" alt="ORCINOS">
         </div>
-        <h1>Sovereign Access</h1>
-        <p>Institutional login for the Orcinos terminal.</p>
-        
-        <form id="login-form">
-            <div class="input-group">
-                <label>Email Address</label>
-                <input type="email" id="email" placeholder="trader@orcinos.com">
-            </div>
-            <div class="input-group">
-                <label>Password</label>
-                <input type="password" id="password" placeholder="••••••••">
-            </div>
-            
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
-                <button type="button" class="btn-enter" onclick="handleLogin()">SIGN IN</button>
-                <button type="button" class="btn-enter" style="background: #161618; border: 1px solid var(--border);" onclick="handleSignUp()">SIGN UP</button>
-            </div>
-        </form>
+        <h1>Welcome to Titan</h1>
+        <p>Access your sovereign trading dashboard and academy.</p>
+        <button class="btn-google" onclick="login()">
+            <img src="https://www.google.com/favicon.ico" width="20">
+            Sign in with Google
+        </button>
     </div>
 
     <div class="auth-card" id="user-profile">
-        <div class="logo-box">
-            <img src="../logos/TITAN_TRADERX_LOGO.png" alt="TITAN TRADERX">
+        <div class="profile-header">
+            <img id="user-avatar" src="" alt="">
+            <div>
+                <h3 id="user-name">Trader</h3>
+                <p id="user-email" style="margin:0; font-size:0.8rem;"></p>
+            </div>
         </div>
-        <h3 id="user-display">Sovereign Trader</h3>
-        <p id="user-email-display" style="font-size: 0.8rem; margin-top: 5px;"></p>
-        
         <div class="nav-grid">
-            <a href="charts.html" class="nav-item">TERMINAL</a>
+            <a href="charts.html" class="nav-item">CHARTS</a>
             <a href="academy.html" class="nav-item">ACADEMY</a>
             <a href="prop-firms.html" class="nav-item">PARTNERS</a>
-            <a href="#" onclick="handleLogout()" class="nav-item" style="color:#FF4B4B;">LOGOUT</a>
+            <a href="#" onclick="logout()" class="nav-item" style="color:#FF4B4B;">LOGOUT</a>
         </div>
     </div>
 
     <script>
-        // Supabase configuration
-        const _supabase = supabase.createClient('https://zqxsvxtshqxvxpxvxpxv.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...');
+        const supabaseUrl = 'https://zqxsvxtshqxvxpxvxpxv.supabase.co'; // Example placeholder
+        const supabaseKey = 'public-anon-key'; // Placeholder
+        const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
-        async function handleLogin() {
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            const { error } = await _supabase.auth.signInWithPassword({ email, password });
-            if (error) alert(error.message);
+        async function login() {
+            await supabase.auth.signInWithOAuth({ provider: 'google' });
         }
 
-        async function handleSignUp() {
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            const { error } = await _supabase.auth.signUp({ email, password });
-            if (error) alert(error.message);
-            else alert('Sovereign account initiated. Check email for confirmation.');
-        }
-
-        async function handleLogout() {
-            await _supabase.auth.signOut();
+        async function logout() {
+            await supabase.auth.signOut();
             window.location.reload();
         }
 
-        _supabase.auth.onAuthStateChange((event, session) => {
+        supabase.auth.onAuthStateChange((event, session) => {
             if (session) {
                 document.getElementById('auth-ui').style.display = 'none';
                 document.getElementById('user-profile').style.display = 'block';
-                document.getElementById('user-display').innerText = session.user.email.split('@')[0].toUpperCase();
-                document.getElementById('user-email-display').innerText = session.user.email;
+                document.getElementById('user-name').innerText = session.user.user_metadata.full_name;
+                document.getElementById('user-email').innerText = session.user.email;
+                document.getElementById('user-avatar').src = session.user.user_metadata.avatar_url;
             }
         });
     </script>
-    
-    <footer>
-        <img src="../logos/TITAN_ICON.png" alt="Orcinos" style="height: 30px; margin-bottom: 10px; display: block; margin-left: auto; margin-right: auto;">
-        &copy; 2026 Orcinos Division.
-    </footer>
 </body>
 </html>
