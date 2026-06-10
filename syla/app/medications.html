@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medicine Reminders</title>
+    <link rel="stylesheet" href="../shared/style.css">
+</head>
+<body>
+    <a href="tel:911" class="emergency-btn">EMERGENCY HELP</a>
+
+    <nav class="nav-bar">
+        <a href="dashboard.html" class="nav-item">Home</a>
+        <a href="ask-syla.html" class="nav-item">Ask Syla</a>
+        <a href="medications.html" class="nav-item active">Medicine</a>
+        <a href="family.html" class="nav-item">Family</a>
+        <a href="tech-help.html" class="nav-item">Tech Help</a>
+    </nav>
+
+    <div class="container">
+        <h1>My Medicine</h1>
+        
+        <div class="card">
+            <h2>Add New Medicine</h2>
+            <label>Name of Medicine:</label>
+            <input type="text" id="med-name" placeholder="e.g. Vitamin D">
+            
+            <label>How much to take:</label>
+            <input type="text" id="med-dosage" placeholder="e.g. 1 pill">
+            
+            <label>What time:</label>
+            <input type="time" id="med-time">
+            
+            <button onclick="addMedication()" class="big-btn big-btn-green">Save Medicine</button>
+        </div>
+
+        <h2>My Current Schedule</h2>
+        <div id="med-list">
+            <!-- Meds will show up here -->
+            <p>You haven't added any medicine yet.</p>
+        </div>
+    </div>
+
+    <script src="../shared/app.js"></script>
+</body>
+</html>
