@@ -3,74 +3,380 @@
 <head>
     <meta charset='UTF-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-    <title>SovSygnal | ORCINOS</title>
+    <title>SOVSYGNAL | Global News Intelligence</title>
+    
+    <!-- SEO METADATA - 50 KEYWORDS -->
+    <meta name="keywords" content="Geopolitics, Blockchain, Biohacking, Sovereign Signal, Global News Intelligence, Priscion Ledger, $PRN Token, Neural Economy, High-Fidelity Reporting, National Security, Decentralized Finance, Web3 News, Digital Sovereignty, Empire Advertising, Prisca Dezigns, AI Brand Architecture, Autonomous Media, Geopolitical Risk, Market Intelligence, DNA Skincare, Regenerative Beauty, Nurturing Essentials, Caribbean Tech, Luxury Assets, Sustainable Infrastructure, Cybersecurity Defense, Gaming Utility, Atelia Gaming Lab, Global Trade Fragmentation, Economic Sovereignty, Financial Technology, Innovation News, SaaS Products, Digital Agency, SEO Marketing, Advertising Logistics, PayPal Payments, Crypto Payments, Payoneer Transfers, The Way Made Known, Biblical Archaeology, Evidence of Faith, Analytical Theology, Intelligence Reports, Global Signal, Sovereign Frequency, Media Empire, News Hub, Real Estate Investment, Biohacking Trends">
+    <meta name="description" content="The Authority of the Empire. Global News Intelligence on Geopolitics, Blockchain, Biohacking, and the Eternal Signal. Autonomous Reporting for the Sovereign Architect.">
+    
+    <!-- GEOTAGS & REGIONAL SEO -->
+    <meta name="geo.region" content="US, GB, CA, AU, TT, BB, JM, GY, NG, ZA, DE, FR, AE, SG, HK, JP, KR, IN, BR, MX, IT, ES, CH, NL, SE, NO, DK, IE, NZ, IL">
+    <meta name="geo.placename" content="Global - United States, United Kingdom, Canada, Australia, Caribbean, Nigeria, South Africa, Germany, France, UAE, Singapore, Hong Kong, Japan, South Korea, India, Brazil, Mexico, Europe">
+    <meta name="author" content="Prisca Dezigns AI Labs">
+    
+    <link rel='preconnect' href='https://fonts.googleapis.com'>
+    <link href='https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;600;800&display=swap' rel='stylesheet'>
     <style>
         :root {
-            --light-blue: #E0F2FE;
-            --accent-blue: #0ea5e9;
-            --navy: #0f172a;
-            --white: #FFFFFF;
-            --gray: #64748b;
+            --bg: #FFFFFF;
+            --text: #000000;
+            --muted: #666666;
+            --accent: #1A1A1A;
+            --sygnal-red: #D0021B;
+            --border: rgba(0,0,0,0.1);
+            --font-heading: 'Playfair Display', serif;
+            --font-body: 'Inter', sans-serif;
         }
-        body {
-            background-color: var(--white);
-            color: var(--navy);
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            margin: 0;
-            display: flex;
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: var(--bg); color: var(--text); font-family: var(--font-body); line-height: 1.5; scroll-behavior: smooth; }
+        .utility-bar { background: var(--accent); color: white; padding: 8px 6%; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 2px; display: flex; justify-content: space-between; }
+        
+        header { padding: 40px 6% 20px; border-bottom: 4px solid var(--text); text-align: center; }
+        .main-logo { font-family: var(--font-heading); font-size: 3.5rem; letter-spacing: -2px; line-height: 1; margin-bottom: 10px; cursor: default; }
+        .main-logo span { color: var(--sygnal-red); }
+        .tagline { text-transform: uppercase; letter-spacing: 5px; font-size: 0.75rem; margin-bottom: 20px; font-weight: 800; color: var(--muted); }
+        
+        nav { display: flex; justify-content: center; gap: 30px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 12px 0; margin-top: 20px; flex-wrap: wrap; position: sticky; top: 0; background: white; z-index: 1000; }
+        nav a { text-decoration: none; color: var(--text); font-weight: 800; font-size: 0.75rem; text-transform: uppercase; white-space: nowrap; }
+        nav a:hover { color: var(--sygnal-red); }
+
+        .main-container { display: grid; grid-template-columns: 1fr 300px; gap: 40px; padding: 40px 6%; }
+        
+        .lead-story { border-bottom: 1px solid var(--border); padding-bottom: 40px; margin-bottom: 40px; }
+        .category-tag { color: var(--sygnal-red); font-weight: 800; text-transform: uppercase; font-size: 0.7rem; margin-bottom: 10px; display: block; }
+        .lead-story h2 { font-family: var(--font-heading); font-size: 2.5rem; margin-bottom: 15px; line-height: 1.1; }
+        .lead-story img { width: 100%; height: 400px; object-fit: cover; background: #eee; margin-bottom: 20px; }
+        .lead-story p { font-size: 1.1rem; color: #333; margin-bottom: 20px; }
+
+        .section-header { font-family: var(--font-heading); font-size: 1.8rem; margin: 60px 0 30px; border-bottom: 2px solid var(--text); padding-bottom: 10px; text-transform: uppercase; }
+
+        .secondary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+        .news-card { border-bottom: 1px solid var(--border); padding-bottom: 20px; margin-bottom: 20px; }
+        .news-card img { width: 100%; height: 200px; object-fit: cover; background: #eee; margin-bottom: 15px; }
+        .news-card h3 { font-family: var(--font-heading); font-size: 1.4rem; margin-bottom: 10px; }
+
+        aside h4 { font-family: var(--font-heading); font-size: 1.2rem; border-bottom: 2px solid var(--text); padding-bottom: 10px; margin-bottom: 20px; text-transform: uppercase; }
+        .ticker-item { margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 15px; }
+        .ticker-item span { font-weight: 800; font-size: 0.7rem; color: var(--muted); }
+        .ticker-item p { font-weight: 600; font-size: 0.9rem; margin-top: 5px; }
+        .ticker-item.brand { border-left: 3px solid var(--sygnal-red); padding-left: 10px; }
+
+        .ad-space { background: #f9f9f9; padding: 20px; border: 1px dashed var(--border); text-align: center; font-size: 0.75rem; color: var(--muted); margin-bottom: 30px; }
+        .ad-space strong { color: black; display: block; margin-bottom: 10px; }
+        .ad-group { display: flex; flex-direction: column; gap: 10px; }
+        .btn-ad { background: var(--accent); color: white; border: none; padding: 8px 16px; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; cursor: pointer; display: block; width: 100%; text-align: center; transition: background 0.3s; }
+        .btn-ad:hover { background: var(--sygnal-red); }
+
+        .empire-ad { background: var(--accent); color: white; padding: 20px; margin-bottom: 30px; border-radius: 4px; }
+        .empire-ad h5 { font-family: var(--font-heading); font-size: 1rem; margin-bottom: 10px; color: white; }
+        .empire-ad p { font-size: 0.8rem; color: rgba(255,255,255,0.7); margin-bottom: 15px; }
+        .empire-ad a { color: white; font-weight: 800; font-size: 0.75rem; text-decoration: none; border-bottom: 1px solid white; }
+
+        footer { background: #000; color: white; padding: 60px 6%; text-align: center; }
+        footer p { font-size: 0.75rem; letter-spacing: 1px; opacity: 0.6; }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6);
+            display: none;
             align-items: center;
             justify-content: center;
-            min-height: 100vh;
-            text-align: center;
+            z-index: 2000;
+            backdrop-filter: blur(5px);
         }
-        .container {
-            max-width: 600px;
+        .modal {
+            background: white;
             padding: 40px;
+            border-radius: 24px;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+            color: black;
+            text-align: left;
         }
-        h1 {
-            font-size: 3.5rem;
-            font-weight: 900;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            letter-spacing: -1px;
-        }
-        p {
-            color: var(--gray);
-            font-size: 1.25rem;
-            line-height: 1.6;
-            margin-bottom: 40px;
-        }
-        .btn {
-            background-color: var(--accent-blue);
-            color: var(--white);
-            padding: 16px 32px;
-            border-radius: 100px;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 1rem;
-            transition: transform 0.2s;
-            display: inline-block;
-        }
-        .btn:hover {
-            transform: translateY(-2px);
-        }
-        footer {
+        .modal-close {
             position: absolute;
-            bottom: 40px;
-            color: var(--gray);
+            top: 20px; right: 20px;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: #999;
+        }
+        .modal-tabs {
+            display: flex;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 25px;
+        }
+        .modal-tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
             font-size: 0.9rem;
-            width: 100%;
+            font-weight: 600;
+            color: #666;
+            background: none;
+            border: none;
+            outline: none;
+        }
+        .modal-tab.active {
+            color: #1A1A1A;
+            border-bottom-color: #1A1A1A;
+        }
+        .pay-detail { display: none; }
+        .pay-detail.open { display: block; }
+        .modal-copy-btn {
+            background: #1A1A1A;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.7rem;
+            margin-left: 10px;
+        }
+
+        @media (max-width: 900px) {
+            .main-container { grid-template-columns: 1fr; }
+            .secondary-grid { grid-template-columns: 1fr; }
+            .main-logo { font-size: 2.5rem; }
         }
     </style>
 </head>
 <body>
-    <div class='container'>
-        <h1>SovSygnal</h1>
-        <p>Global intelligence hub for data analysis and news signal processing.</p>
-        <a href='/' class='btn'>Return to Hub</a>
+    <div class='utility-bar'>
+        <div>Mon, June 8, 2026 · Sovereign Frequency 104.2</div>
+        <div>MARKET: $PRN +4.2% · Intelligence: ACTIVE</div>
     </div>
+    
+    <header>
+        <div class='main-logo'>SOV<span>SYGNAL</span></div>
+        <p class='tagline'>Global Intelligence for the Sovereign Architect</p>
+        <nav>
+            <a href='geopolitics.html'>Geopolitics</a>
+            <a href='blockchain.html'>Blockchain</a>
+            <a href='biohacking.html'>Biohacking</a>
+            <a href='markets.html'>Markets</a>
+            <a href='lifestyle.html'>Lifestyle</a>
+            <a href='intelligence.html'>Intelligence</a>
+            <a href='eternalsignal.html'>Eternal Signal</a>
+        </nav>
+    </header>
+
+    <div class='main-container'>
+        <main>
+            <section id="world-geopolitics">
+                <article class='lead-story'>
+                    <span class='category-tag'>World Geopolitics · Breaking</span>
+                    <img src='https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?auto=format&fit=crop&q=80&w=1200' alt='Global Trade'>
+                    <h2>The Hormuz Impasse: Oil Prices Surge as Negotiations Stall.</h2>
+                    <p>International energy markets are in a state of whiplash following the failure of the latest round of US-Iran negotiations. With the Strait of Hormuz remaining a flashpoint of tension, crude prices have climbed, prompting a global reassessment of maritime insurance protocols and sovereign economic security.</p>
+                </article>
+            </section>
+
+            <h2 class="section-header" id="world-blockchain">Blockchain Intelligence</h2>
+            <div class='secondary-grid'>
+                <article class='news-card'>
+                    <span class='category-tag'>Global Markets</span>
+                    <img src='https://images.unsplash.com/photo-1518546305927-5a555bb7020d?auto=format&fit=crop&q=80&w=600' alt='Digital Asset'>
+                    <h3>Institutional Migration: Strategy Acquires 1,550 BTC.</h3>
+                    <p>Institutional accumulation continues despite market volatility. Strategy's latest acquisition of 1,550 Bitcoin underscores the shifting role of digital assets as a hedge against traditional financial fragmentation.</p>
+                </article>
+                <article class='news-card'>
+                    <span class='category-tag'>World Tech</span>
+                    <img src='https://images.unsplash.com/photo-1639762681485-074b7f938ba0?auto=format&fit=crop&q=80&w=600' alt='Ledger Tech'>
+                    <h3>European Central Bank Prepares Euro Role Report.</h3>
+                    <p>The ECB is set to release its latest findings on the international role of the euro, with analysts closely watching the integration of digital currency indicators into global use metrics.</p>
+                </article>
+            </div>
+
+            <h2 class="section-header" id="world-biohacking">Biohacking & Longevity</h2>
+            <div class='secondary-grid'>
+                <article class='news-card'>
+                    <span class='category-tag'>World Science</span>
+                    <img src='https://images.unsplash.com/photo-1559757175-5700dde675bc?auto=format&fit=crop&q=80&w=600' alt='Regen Beauty'>
+                    <h3>Regenerative Breakthroughs: The Rise of Neural Calibration.</h3>
+                    <p>New scientific consensus is emerging around the effectiveness of neural-calibrated regenerative treatments. International labs report a surge in personalized diagnostic demand as DNA-optimized skincare hits the mainstream.</p>
+                </article>
+                <article class='news-card'>
+                    <span class='category-tag'>Global Health</span>
+                    <img src='https://images.unsplash.com/photo-1530210124550-912dc1381cb8?auto=format&fit=crop&q=80&w=600' alt='Lab Bio'>
+                    <h3>The Bio-Resonance Shift: Recovery Metrics Reach New Peaks.</h3>
+                    <p>Clinical trials in developed health hubs indicate a 40% improvement in metabolic reset efficiency when utilizing advanced bio-resonance sanctuary pods and intent-based diagnostics.</p>
+                </article>
+            </div>
+
+            <h2 class="section-header" id="world-lifestyle">World Lifestyle</h2>
+            <div class='secondary-grid'>
+                <article class='news-card'>
+                    <span class='category-tag'>Design Trend</span>
+                    <img src='https://images.unsplash.com/photo-1616489953149-86470087796d?auto=format&fit=crop&q=80&w=600' alt='Minimalist'>
+                    <h3>The Sanctuary Era: Minimalist Architecture Trends.</h3>
+                    <p>Luxury design is shifting toward "Sanctuary Engineering," with high-end residential projects prioritizing architectural lighting and minimalist atmospheres to combat digital fatigue.</p>
+                </article>
+                <article class='news-card'>
+                    <span class='category-tag'>Global Fashion</span>
+                    <img src='https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&q=80&w=600' alt='Couture'>
+                    <h3>Archival Craftsmanship: The Return to Leather Permanence.</h3>
+                    <p>In a world of fast fashion, global elite markets are returning to archival leather craftsmanship and editorial-grade accessories that favor permanence over trends.</p>
+                </article>
+            </div>
+
+            <h2 class="section-header" id="world-archaeology">The Eternal Signal</h2>
+            <article class='lead-story'>
+                <span class='category-tag'>World Archaeology</span>
+                <img src='https://images.unsplash.com/photo-1507413245164-6160d8298b31?auto=format&fit=crop&q=80&w=1200' alt='Archaeology'>
+                <h2>Rewriting History: Early Saw Technology and Egyptian Capitals.</h2>
+                <p>New findings in Japan have uncovered early saw technology that challenges existing timelines of human engineering. Concurrently, investigative archaeology at the ancient Egyptian capital city has provided fresh evidence of urban signals and historical intent.</p>
+            </article>
+        </main>
+
+        <aside>
+            <h4>Empire Intelligence</h4>
+            <div class='ticker-item brand'>
+                <span>PRISCA DEZIGNS</span>
+                <p>Launch of 'Generative UI' framework for high-fidelity neural design.</p>
+            </div>
+            <div class='ticker-item brand'>
+                <span>PRISCION</span>
+                <p>Global expansion showcases luxury engineering at Mumbai Supercar Launch.</p>
+            </div>
+            <div class='ticker-item brand'>
+                <span>DREAMING ANIME</span>
+                <p>Grand Blue Dreaming Season 3 confirmed for July 2026 debut.</p>
+            </div>
+            <div class='ticker-item brand'>
+                <span>GLOW PROTOCOL</span>
+                <p>DNA-Skincare diagnostics reach 100% stable deployment status.</p>
+            </div>
+            <div class='ticker-item brand'>
+                <span>PEAK FIT</span>
+                <p>Recovery trials indicate 40% efficiency boost in sanctuary pods.</p>
+            </div>
+            <div class='ticker-item brand'>
+                <span>TWMK</span>
+                <p>Intelligence report released: 'The Archaeology of Hope'.</p>
+            </div>
+
+            <div class='ad-space'>
+                <strong>PROCLAIM THE SIGNAL</strong>
+                <div class='ad-group'>
+                    <button class='btn-ad' onclick="openPayModal('Sovereign Ads Monthly', '$297')">Monthly Slot ($297)</button>
+                    <button class='btn-ad' onclick="openPayModal('Sovereign Ads Yearly', '$2,970')">Yearly Package ($2,970)</button>
+                </div>
+            </div>
+
+            <div class='empire-ad'>
+                <h5>Orcinos Intelligence</h5>
+                <p>Apex Intelligence for the sovereign architect. Build your own digital empire.</p>
+                <a href='https://priscadezigns.org/orcinos/'>Enter the Hub →</a>
+            </div>
+
+            <div class='empire-ad' style='background: #D0021B;'>
+                <h5>The Way Made Known</h5>
+                <p>Analytical faith and archaeological evidence. Read the latest mission report.</p>
+                <a href='https://thewaymadeknown.com/'>Read Report →</a>
+            </div>
+            
+            <div class='empire-ad' style='background: #1565C0;'>
+                <h5>Atelia Gaming Lab</h5>
+                <p>The sovereign economy of play. Enter the high-fidelity metaverse.</p>
+                <a href='https://priscion.com/ateliagaming/'>Play Now →</a>
+            </div>
+        </aside>
+    </div>
+
     <footer>
-        &copy; 2026 ORCINOS · ARCHITECTING SOVEREIGNTY
+        <img src='https://priscadezigns.org/logos/PRISCION_nav_logo_2026.png' alt='Prisca Dezigns' style='height: 40px; margin-bottom: 20px; filter: brightness(0) invert(1);'>
+        <p>&copy; 2026 SOVSYGNAL &middot; A PRISCA DEZIGNS EMPIRE MEDIA COMPANY</p>
     </footer>
+
+    <!-- Payment Modal -->
+    <div class="modal-overlay" id="payModal">
+      <div class="modal">
+        <span class="modal-close" onclick="closePayModal()">✕</span>
+        <div class="modal-tabs">
+          <button class="modal-tab active" onclick="togglePay('bank', this)">Bank</button>
+          <button class="modal-tab" onclick="togglePay('eth', this)">Crypto</button>
+          <button class="modal-tab" onclick="togglePay('intl', this)">PayPal</button>
+        </div>
+        <h3 id="modal-plan-name" style="font-size: 1.1rem; margin-bottom: 20px; color: #111;">Sovereign Ad Payment</h3>
+        
+        <!-- Bank Detail -->
+        <div id="pay-bank" class="pay-detail open">
+          <div style="background:#f0f7ff; padding:15px; border-radius:12px; border:1px solid #d0e4ff; margin-bottom: 15px;">
+            <p style="font-size:0.75rem; font-weight:700; color:#0056b3; margin-bottom:8px; text-transform: uppercase;">Citibank (US Payoneer)</p>
+            <div style="font-family:monospace; font-size:0.8rem; color:#333; line-height: 1.6;">
+              <p><strong>Beneficiary:</strong> Prisca Dezigns</p>
+              <p><strong>Bank:</strong> Citibank, N.A.</p>
+              <p><strong>Routing (ABA):</strong> 031100209</p>
+              <p><strong>Account:</strong> 70580060002427728</p>
+              <p><strong>Type:</strong> Checking</p>
+            </div>
+          </div>
+          <p style="font-size:0.75rem; color:#666;">Ref: <span id="auto-ref-bank" style="font-weight:700; color:#1A1A1A;">[REF]</span></p>
+        </div>
+
+        <!-- Crypto Detail -->
+        <div id="pay-eth" class="pay-detail">
+          <p style="font-size:0.8rem;color:#666;margin-bottom:12px;">Settlement via USDT / ETH / BTC (ERC-20)</p>
+          <div style="background:#f8f9fa;padding:15px;border-radius:12px;border:1px solid #eee;word-break:break-all;font-family:monospace;font-size:0.8rem; position: relative;">
+            <span id="eth-addr">0xcef857e82c306b3d0f2db080e7794f4bb376049e</span>
+            <button class="modal-copy-btn" onclick="copyAddr('eth-addr', event)">Copy</button>
+          </div>
+          <p style="font-size:0.75rem;color:#999;margin-top:10px;">Ref: <span id="auto-ref-eth" style="font-weight:700; color:#1A1A1A;">[REF]</span></p>
+        </div>
+
+        <!-- PayPal Detail -->
+        <div id="pay-intl" class="pay-detail">
+          <a id="paypal-btn" href="#" class="btn-ad" style="display:block; text-align:center; margin-bottom:15px; width: 100%; text-decoration: none; padding: 15px;">Proceed to PayPal</a>
+          <p style="font-size:0.75rem;color:#666;">Please include the reference ID in the payment note.</p>
+          <p style="font-size:0.75rem;color:#999;margin-top:10px;">Ref: <span id="auto-ref-intl" style="font-weight:700; color:#1A1A1A;">[REF]</span></p>
+        </div>
+      </div>
+    </div>
+
+    <script>
+    function openPayModal(plan, type) {
+      var el = document.getElementById('modal-plan-name');
+      if (el) el.textContent = plan + (type && type !== plan ? ' — ' + type : '');
+      var modal = document.getElementById('payModal');
+      if (modal) { modal.style.display = 'flex'; document.body.style.overflow = 'hidden'; }
+      var ref = plan.replace(/[^A-Z0-9]/gi,'').toUpperCase().slice(0,6) + '-' + Date.now().toString(36).toUpperCase().slice(-4);
+      ['bank','eth','intl'].forEach(function(k){ var el2=document.getElementById('auto-ref-'+k); if(el2) el2.textContent=ref; });
+      var ppBtn = document.getElementById('paypal-btn');
+      if (ppBtn) {
+        var rawAmt = type.replace(/[^0-9.]/g,'');
+        var itemName = encodeURIComponent(plan);
+        var base = 'https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=priscadezigns9%40gmail.com&currency_code=USD';
+        ppBtn.href = base + '&item_name=' + itemName + (rawAmt ? '&amount=' + rawAmt : '');
+      }
+      if (type==='PayPal') togglePay('intl');
+      else if (type==='Web3'||type==='Crypto') togglePay('eth');
+      else togglePay('bank');
+    }
+    function closePayModal() {
+      var modal = document.getElementById('payModal');
+      if (modal) { modal.style.display='none'; document.body.style.overflow=''; }
+    }
+    function togglePay(tab) {
+      document.querySelectorAll('.pay-detail').forEach(function(d){ d.classList.remove('open'); });
+      document.querySelectorAll('.modal-tab').forEach(function(b){ b.classList.remove('active'); });
+      var el=document.getElementById('pay-'+tab); if(el) el.classList.add('open');
+      var ab=document.querySelector('.modal-tab[onclick*="' + tab + '"]'); if(ab) ab.classList.add('active');
+    }
+    function copyAddr(id, ev) {
+      var el=document.getElementById(id);
+      if(el) navigator.clipboard.writeText(el.textContent).then(function(){
+        var btn=ev?ev.target:null;
+        if(btn){var orig=btn.textContent;btn.textContent='Copied!';setTimeout(function(){btn.textContent=orig;},1800);}
+      });
+    }
+    document.addEventListener('DOMContentLoaded',function(){
+      var mo=document.getElementById('payModal');
+      if(mo) mo.addEventListener('click',function(e){if(e.target===mo)closePayModal();});
+    });
+    </script>
 </body>
 </html>
