@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DMCA Takedown Generator | Clausify</title>
+    <link rel="stylesheet" href="../shared/style.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="logo" style="margin-bottom: 2rem;">CLAUSIFY</div>
+            <nav>
+                <ul>
+                    <li><a href="dashboard.html">Overview</a></li>
+                    <li><a href="contract-generator.html">Contract Generator</a></li>
+                    <li><a href="rate-calculator.html">Rate Calculator</a></li>
+                    <li><a href="dmca-generator.html" class="active">DMCA Takedown</a></li>
+                    <li><a href="ip-guide.html">IP Protection</a></li>
+                    <li><a href="vault.html">Contract Vault</a></li>
+                    <li><a href="faq.html">Legal FAQ</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <h1>DMCA Takedown Generator</h1>
+            <p style="margin-bottom: 2rem;">Stop content theft. Generate a formal notice to send to platform hosting services.</p>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                <div>
+                    <form id="dmca-form" class="card">
+                        <div class="form-group">
+                            <label>Your Full Name</label>
+                            <input type="text" id="my-name" placeholder="Legal Name">
+                        </div>
+                        <div class="form-group">
+                            <label>Infringing URL</label>
+                            <input type="url" id="infringing-url" placeholder="https://site.com/stolen-content">
+                        </div>
+                        <div class="form-group">
+                            <label>Description of Your Original Work</label>
+                            <textarea id="content-desc" rows="4" placeholder="Describe the video, photo, or text that was stolen."></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">Generate Notice</button>
+                    </form>
+                </div>
+
+                <div>
+                    <div id="dmca-preview" class="card" style="display: none; white-space: pre-wrap; font-family: monospace; font-size: 0.9rem; background: #f9f9f9; border: 1px solid #ccc;">
+                        <!-- Generated notice here -->
+                    </div>
+                    <button id="copy-dmca" class="btn btn-outline" style="display: none; width: 100%; margin-top: 1rem;">Copy to Clipboard</button>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="../shared/app.js"></script>
+</body>
+</html>
