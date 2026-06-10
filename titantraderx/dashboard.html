@@ -4,16 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Titan Dashboard | Sovereign Control</title>
+    <link rel="icon" href="../logos/TITAN_ICON.png" type="image/png">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary: #00A36C;
-            --bg: #0A0A0B;
-            --surface: #161618;
+            --bg: #050505;
+            --surface: #0F0F11;
             --text: #FFFFFF;
-            --muted: #A0A0A5;
-            --border: rgba(255,255,255,0.1);
+            --muted: #888888;
+            --border: rgba(255,255,255,0.05);
+            --malachite: #00FF7F;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { 
@@ -38,19 +40,38 @@
         h1 { font-size: 1.8rem; font-weight: 800; margin-bottom: 10px; }
         p { color: var(--muted); margin-bottom: 30px; font-size: 0.95rem; }
         
-        .btn-google {
-            display: flex; align-items: center; justify-content: center;
+        .input-group { margin-bottom: 20px; text-align: left; }
+        .input-group label { display: block; font-size: 0.8rem; font-weight: 600; color: var(--muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
+        .input-group input { 
+            width: 100%; padding: 14px; 
+            background: rgba(255,255,255,0.03); 
+            border: 1px solid var(--border); 
+            border-radius: 12px; color: #fff; 
+            font-family: inherit; outline: none;
+            transition: border-color 0.3s;
+        }
+        .input-group input:focus { border-color: var(--malachite); }
+
+        .auth-buttons { display: flex; flex-direction: column; gap: 12px; margin-top: 10px; }
+        .btn {
             width: 100%; padding: 14px;
-            background: #fff; color: #000;
             border: none; border-radius: 12px;
             font-weight: 700; cursor: pointer;
-            gap: 10px; transition: transform 0.2s;
+            transition: all 0.2s;
+            font-family: inherit;
         }
-        .btn-google:hover { transform: scale(1.02); }
+        .btn-signin { background: var(--malachite); color: #000; }
+        .btn-signup { background: transparent; color: var(--malachite); border: 1px solid var(--malachite); }
+        .btn:hover { transform: translateY(-2px); opacity: 0.9; }
         
         #user-profile { display: none; }
         .profile-header { display: flex; align-items: center; gap: 15px; text-align: left; margin-bottom: 30px; }
-        .profile-header img { width: 50px; height: 50px; border-radius: 50%; }
+        .profile-header .avatar-placeholder { 
+            width: 50px; height: 50px; 
+            background: var(--malachite); color: #000;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: 800; font-size: 1.2rem;
+        }
         
         .nav-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .nav-item {
@@ -60,29 +81,42 @@
             text-decoration: none; color: #fff;
             font-weight: 600; font-size: 0.9rem;
             transition: all 0.2s;
+            text-align: center;
         }
-        .nav-item:hover { background: var(--primary); border-color: var(--primary); }
+        .nav-item:hover { background: var(--malachite); color: #000; border-color: var(--malachite); }
+        .error-msg { color: #ff4d4d; font-size: 0.8rem; margin-top: 15px; display: none; }
     </style>
 </head>
 <body>
     <div class="auth-card" id="auth-ui">
         <div class="logo-box">
-            <img src="../logos/ORCINOS_DEFINITIVE_2026.png" alt="ORCINOS">
+            <img src="../logos/TITAN_TRADERX_LOGO.png" alt="TITAN TRADERX">
         </div>
         <h1>Welcome to Titan</h1>
         <p>Access your sovereign trading dashboard and academy.</p>
-        <button class="btn-google" onclick="login()">
-            <img src="https://www.google.com/favicon.ico" width="20">
-            Sign in with Google
-        </button>
+        
+        <div class="input-group">
+            <label>Email Address</label>
+            <input type="email" id="email" placeholder="name@company.com">
+        </div>
+        <div class="input-group">
+            <label>Password</label>
+            <input type="password" id="password" placeholder="••••••••">
+        </div>
+
+        <div class="auth-buttons">
+            <button class="btn btn-signin" onclick="signIn()">Sign In</button>
+            <button class="btn btn-signup" onclick="signUp()">Create Account</button>
+        </div>
+        <div id="error-message" class="error-msg"></div>
     </div>
 
     <div class="auth-card" id="user-profile">
         <div class="profile-header">
-            <img id="user-avatar" src="" alt="">
+            <div class="avatar-placeholder" id="user-initials">T</div>
             <div>
                 <h3 id="user-name">Trader</h3>
-                <p id="user-email" style="margin:0; font-size:0.8rem;"></p>
+                <p id="user-email" style="margin:0; font-size:0.8rem; color: var(--muted);"></p>
             </div>
         </div>
         <div class="nav-grid">
@@ -94,12 +128,23 @@
     </div>
 
     <script>
-        const supabaseUrl = 'https://zqxsvxtshqxvxpxvxpxv.supabase.co'; // Example placeholder
+        const supabaseUrl = 'https://zqxsvxtshqxvxpxvxpxv.supabase.co'; // Updated with provided URL from history summary if available, else placeholder
         const supabaseKey = 'public-anon-key'; // Placeholder
         const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
-        async function login() {
-            await supabase.auth.signInWithOAuth({ provider: 'google' });
+        async function signIn() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const { error } = await supabase.auth.signInWithPassword({ email, password });
+            if (error) showError(error.message);
+        }
+
+        async function signUp() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const { error } = await supabase.auth.signUp({ email, password });
+            if (error) showError(error.message);
+            else alert('Check your email for a confirmation link!');
         }
 
         async function logout() {
@@ -107,13 +152,18 @@
             window.location.reload();
         }
 
+        function showError(msg) {
+            const err = document.getElementById('error-message');
+            err.innerText = msg;
+            err.style.display = 'block';
+        }
+
         supabase.auth.onAuthStateChange((event, session) => {
             if (session) {
                 document.getElementById('auth-ui').style.display = 'none';
                 document.getElementById('user-profile').style.display = 'block';
-                document.getElementById('user-name').innerText = session.user.user_metadata.full_name;
                 document.getElementById('user-email').innerText = session.user.email;
-                document.getElementById('user-avatar').src = session.user.user_metadata.avatar_url;
+                document.getElementById('user-initials').innerText = session.user.email[0].toUpperCase();
             }
         });
     </script>
