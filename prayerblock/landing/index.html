@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Prayerblock | Faith + Productivity</title>
+    <link rel="stylesheet" href="../shared/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <h1 class="bible-font" style="color: var(--gold);">PRAYERBLOCK</h1>
+            <div id="auth-links">
+                <a href="#login">Login</a> | <a href="#signup" class="btn btn-gold" style="padding: 5px 15px;">Get Started</a>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <section class="text-center mt-20">
+            <h2 style="font-size: 3rem; margin-bottom: 20px;">Productivity Rooted in Faith.</h2>
+            <p style="font-size: 1.2rem; color: var(--forest-green);">A daily planner built for the Christian life. Organize your schedule around scripture and prayer.</p>
+            <div class="mt-20">
+                <a href="#signup" class="btn btn-gold">Join the Trusted Movement</a>
+            </div>
+        </section>
+
+        <section class="app-grid mt-20" style="grid-template-columns: 1fr 1fr;">
+            <div class="card">
+                <h3>The Planner</h3>
+                <p>Time-blocked schedule with a daily "Anchor Verse" to keep your mind on the Word while you work.</p>
+            </div>
+            <div class="card">
+                <h3>Prayer & Praise</h3>
+                <p>Log prayer requests, track answered prayers, and share with a community of believers.</p>
+            </div>
+        </section>
+
+        <section id="pricing" class="mt-20 text-center">
+            <h2 class="mb-20">Choose Your Walk</h2>
+            <div style="display: flex; gap: 20px; justify-content: center;">
+                <div class="card" style="width: 300px;">
+                    <h3>Free Tier</h3>
+                    <p class="gold-text">$0 / Month</p>
+                    <ul style="list-style: none; padding: 20px 0; text-align: left;">
+                        <li>✓ Daily Planner</li>
+                        <li>✓ Prayer Tracker</li>
+                        <li>✓ Gratitude Journal</li>
+                    </ul>
+                    <a href="#signup" class="btn">Get Started</a>
+                </div>
+                <div class="card" style="width: 300px; border: 2px solid var(--gold);">
+                    <h3>Pro Tier</h3>
+                    <p class="gold-text">$4.99 / Month</p>
+                    <ul style="list-style: none; padding: 20px 0; text-align: left;">
+                        <li>✓ Daily Devotionals</li>
+                        <li>✓ Scripture Memory</li>
+                        <li>✓ Community Prayer Wall</li>
+                    </ul>
+                    <div id="payment-options">
+                        <p style="font-size: 0.8rem; margin-bottom: 10px;">Pay via PayPal, Crypto, or Payoneer</p>
+                        <!-- PayPal Button Placeholder -->
+                        <div style="background: #0070ba; color: white; padding: 10px; border-radius: 4px; margin-bottom: 10px; cursor: pointer;">PayPal Checkout</div>
+                        <p style="font-size: 0.8rem;">Crypto: 0xcef857e82c306b3d0f2db080e7794f4bb376049e</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="signup" class="card mt-20" style="max-width: 500px; margin: 40px auto;">
+            <h3 class="text-center">Create Your Account</h3>
+            <form id="signup-form">
+                <input type="text" id="signup-name" placeholder="Full Name" required>
+                <input type="email" id="signup-email" placeholder="Email" required>
+                <input type="password" id="signup-password" placeholder="Password" required>
+                <button type="submit" class="btn btn-gold" style="width:100%">Register</button>
+            </form>
+            <p class="text-center mt-20">Already have an account? <a href="#login" style="color: var(--gold);">Login</a></p>
+        </section>
+
+        <section id="login" class="card mt-20" style="max-width: 500px; margin: 40px auto; display: none;">
+            <h3 class="text-center">Welcome Back</h3>
+            <form id="login-form">
+                <input type="email" id="login-email" placeholder="Email" required>
+                <input type="password" id="login-password" placeholder="Password" required>
+                <button type="submit" class="btn btn-gold" style="width:100%">Login</button>
+            </form>
+        </section>
+    </div>
+
+    <footer class="text-center mt-20" style="padding: 40px; background: var(--forest-green); color: var(--cream);">
+        <p>&copy; 2026 Prayerblock - An Orcinos Product. Priscion Network.</p>
+    </footer>
+
+    <script src="../shared/app.js"></script>
+    <script>
+        // Toggle Login/Signup
+        window.addEventListener('hashchange', () => {
+            if(window.location.hash === '#login') {
+                document.getElementById('signup').style.display = 'none';
+                document.getElementById('login').style.display = 'block';
+            } else {
+                document.getElementById('signup').style.display = 'block';
+                document.getElementById('login').style.display = 'none';
+            }
+        });
+
+        document.getElementById('signup-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = document.getElementById('signup-name').value;
+            const email = document.getElementById('signup-email').value;
+            const pass = document.getElementById('signup-password').value;
+            try {
+                await handleSignUp(email, pass, name);
+                alert('Account created! Please check your email for confirmation.');
+            } catch (err) { alert(err.message); }
+        });
+
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const pass = document.getElementById('login-password').value;
+            try {
+                await handleSignIn(email, pass);
+                window.location.href = '../app/dashboard.html';
+            } catch (err) { alert(err.message); }
+        });
+
+        checkUser().then(user => updateGlobalUI(user));
+    </script>
+</body>
+</html>
