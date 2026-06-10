@@ -1,76 +1,71 @@
 <!DOCTYPE html>
-<html lang='en'>
+<html lang="en">
 <head>
-    <meta charset='UTF-8'>
-    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-    <title>Dricil | ORCINOS</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DRICIL | Autonomous Digital Agency</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --light-blue: #E0F2FE;
-            --accent-blue: #0ea5e9;
-            --navy: #0f172a;
-            --white: #FFFFFF;
-            --gray: #64748b;
+            --bg: #0A0A0A; --text: #FFFFFF; --muted: #888888; --accent: #E5E5E5; --gold: #D4AF37; --border: rgba(255,255,255,0.1);
+            --font-heading: 'Playfair Display', serif; --font-body: 'Inter', sans-serif;
         }
-        body {
-            background-color: var(--white);
-            color: var(--navy);
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            margin: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            text-align: center;
-        }
-        .container {
-            max-width: 600px;
-            padding: 40px;
-        }
-        h1 {
-            font-size: 3.5rem;
-            font-weight: 900;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            letter-spacing: -1px;
-        }
-        p {
-            color: var(--gray);
-            font-size: 1.25rem;
-            line-height: 1.6;
-            margin-bottom: 40px;
-        }
-        .btn {
-            background-color: var(--accent-blue);
-            color: var(--white);
-            padding: 16px 32px;
-            border-radius: 100px;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 1rem;
-            transition: transform 0.2s;
-            display: inline-block;
-        }
-        .btn:hover {
-            transform: translateY(-2px);
-        }
-        footer {
-            position: absolute;
-            bottom: 40px;
-            color: var(--gray);
-            font-size: 0.9rem;
-            width: 100%;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: var(--bg); color: var(--text); font-family: var(--font-body); line-height: 1.6; overflow-x: hidden; }
+        header { padding: 30px 6%; display: flex; justify-content: space-between; align-items: center; position: fixed; width: 100%; top: 0; z-index: 1000; backdrop-filter: blur(10px); background: rgba(10,10,10,0.8); border-bottom: 1px solid var(--border); }
+        .logo img { height: 40px; }
+        .nav-links { display: flex; gap: 40px; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 600; }
+        .nav-links a { color: var(--text); text-decoration: none; transition: 0.3s; }
+        .nav-links a:hover { color: var(--gold); }
+        .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 0 6%; background: radial-gradient(circle at center, #1a1a1a 0%, #0a0a0a 100%); }
+        .hero h1 { font-family: var(--font-heading); font-size: clamp(3.5rem, 12vw, 7rem); line-height: 1.1; margin-bottom: 20px; letter-spacing: -2px; }
+        .hero p { font-size: 1.2rem; color: var(--muted); max-width: 600px; margin-bottom: 40px; font-weight: 300; }
+        .cta-group { display: flex; gap: 20px; }
+        .btn { padding: 18px 40px; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; font-weight: 700; text-decoration: none; transition: 0.3s; border-radius: 4px; }
+        .btn-primary { background: var(--text); color: var(--bg); }
+        .btn-outline { border: 1px solid var(--border); color: var(--text); }
+        .section { padding: 120px 6%; }
+        .section-header { margin-bottom: 80px; }
+        .section-header span { color: var(--gold); text-transform: uppercase; font-size: 0.7rem; letter-spacing: 4px; font-weight: 800; }
+        .section-header h2 { font-family: var(--font-heading); font-size: 3.5rem; margin-top: 10px; }
+        .grid-agency { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; }
+        .card-agency { padding: 50px; background: #111; border: 1px solid var(--border); transition: 0.4s; }
+        .card-agency:hover { border-color: var(--gold); transform: translateY(-10px); }
+        .card-agency h3 { font-family: var(--font-heading); font-size: 1.8rem; margin-bottom: 20px; }
+        .card-agency p { color: var(--muted); font-size: 0.95rem; }
+        .stats-strip { display: flex; justify-content: space-around; padding: 80px 6%; background: #111; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+        .stat-item h4 { font-size: 3rem; font-family: var(--font-heading); color: var(--gold); }
+        .stat-item p { text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px; color: var(--muted); }
+        footer { padding: 100px 6%; background: #050505; border-top: 1px solid var(--border); text-align: center; }
+        .footer-logo { font-family: var(--font-heading); font-size: 2rem; margin-bottom: 30px; }
+        .copyright { font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 2px; }
     </style>
 </head>
 <body>
-    <div class='container'>
-        <h1>Dricil</h1>
-        <p>Fully autonomous AI digital marketing agency for automated growth.</p>
-        <a href='/' class='btn'>Return to Hub</a>
-    </div>
-    <footer>
-        &copy; 2026 ORCINOS · ARCHITECTING SOVEREIGNTY
-    </footer>
+    <header>
+        <div class="logo"><img src="/logos/PRISCA_DEZIGNS_DEFINITIVE_2026.png" alt="Dricil Logo"></div>
+        <nav class="nav-links"><a href="#services">Services</a><a href="#about">Philosophy</a><a href="#pricing">Pricing</a><a href="#">Launch</a></nav>
+    </header>
+    <section class="hero">
+        <p style="text-transform: uppercase; letter-spacing: 6px; margin-bottom: 10px; color: var(--gold);">Sovereign Marketing Node</p>
+        <h1>Dricil Autonomous.</h1>
+        <p>A fully autonomous AI-powered digital agency. We research, build, and deploy your entire marketing ecosystem while you sleep.</p>
+        <div class="cta-group"><a href="#" class="btn btn-primary">Onboard Brand</a><a href="#" class="btn btn-outline">View Laboratory</a></div>
+    </section>
+    <section class="stats-strip">
+        <div class="stat-item"><h4>100%</h4><p>Autonomous</p></div>
+        <div class="stat-item"><h4>24/7</h4><p>Real-time SEO</p></div>
+        <div class="stat-item"><h4>0</h4><p>Ad Fatigue</p></div>
+    </section>
+    <section class="section" id="services">
+        <div class="section-header"><span>The Suite</span><h2>Done-for-you Excellence.</h2></div>
+        <div class="grid-agency">
+            <div class="card-agency"><h3>Autonomous SEO</h3><p>AI agents continuously optimize your technical stack and content signals for 2026 search paradigms.</p></div>
+            <div class="card-agency"><h3>Sovereign Content</h3><p>High-fidelity visuals and neural copy generated and signed to the ledger before deployment.</p></div>
+            <div class="card-agency"><h3>Signal Ads</h3><p>Adaptive ad creative that evolves based on real-time community sentiment and market intelligence.</p></div>
+        </div>
+    </section>
+    <footer><div class="footer-logo">DRICIL<span>.</span></div><p class="copyright">© 2026 DRICIL · A PRISCA DEZIGNS EMPIRE PILLAR</p></footer>
 </body>
 </html>
