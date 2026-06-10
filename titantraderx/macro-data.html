@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Macro & Data | Titan Academy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #00A36C; --bg: #0A0A0B; --surface: #161618; --border: rgba(255,255,255,0.08); --text: #FFFFFF; --muted: #A0A0A5; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+        header { padding: 20px 5%; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); position: sticky; top: 0; background: rgba(10,10,11,0.9); backdrop-filter: blur(10px); z-index: 1000; }
+        .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; color: #fff; font-weight: 800; }
+        .logo img { height: 32px; }
+        nav a { text-decoration: none; color: var(--muted); font-weight: 600; margin-left: 20px; font-size: 0.85rem; }
+        .content-wrap { max-width: 900px; margin: 60px auto; padding: 0 5%; }
+        .section { margin-bottom: 80px; scroll-margin-top: 100px; }
+        .section h2 { font-size: 2.2rem; font-weight: 800; margin-bottom: 20px; color: var(--primary); }
+        .section p { font-size: 1.1rem; color: var(--muted); margin-bottom: 20px; }
+        .infobox { background: var(--surface); padding: 30px; border-radius: 20px; border: 1px solid var(--border); margin-top: 20px; }
+        .infobox h4 { margin-bottom: 10px; color: #fff; }
+        footer { text-align: center; padding: 40px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="index.html" class="logo">
+            <img src="../logos/TITAN_TRADERX_LOGO.png" alt="TITAN">
+            <span>TITAN ACADEMY</span>
+        </a>
+        <nav>
+            <a href="academy.html">BACK TO HUB</a>
+            <a href="dashboard.html" style="color:var(--primary);">LOGIN</a>
+        </nav>
+    </header>
+
+    <div class="content-wrap">
+        <section class="section" id="central-banks">
+            <h2>Central Bank Theory</h2>
+            <p>The Federal Reserve and other central banks control the cost of money through interest rates.</p>
+            <div class="infobox">
+                <h4>Interest Rate Parity</h4>
+                <p>Currencies move toward higher yield. When the Fed hikes rates, the USD becomes more attractive to global investors, leading to a stronger dollar.</p>
+            </div>
+        </section>
+
+        <section class="section" id="yield-curve">
+            <h2>Yield Curve Analysis</h2>
+            <p>The relationship between short-term and long-term interest rates is the market's most accurate recession predictor.</p>
+            <div class="infobox">
+                <h4>The Inversion</h4>
+                <p>When short-term rates are higher than long-term rates (Inversion), the market is signaling that a downturn is imminent.</p>
+            </div>
+        </section>
+
+        <section class="section" id="algorithms">
+            <h2>Algorithmic Logic</h2>
+            <p>High-frequency algorithms (HFTs) execute 80%+ of global market volume.</p>
+            <div class="infobox">
+                <h4>Time & Price</h4>
+                <p>Algorithms operate on specific time windows. Understanding the "Interbank Price Delivery Algorithm" (IPDA) windows is crucial for high-fidelity entries.</p>
+            </div>
+        </section>
+    </div>
+
+    <footer>&copy; 2026 Priscion Orcinos. Sovereign Knowledge.</footer>
+</body>
+</html>
