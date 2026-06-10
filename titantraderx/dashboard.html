@@ -85,7 +85,14 @@
         }
         .nav-item:hover { background: var(--malachite); color: #000; border-color: var(--malachite); }
         .error-msg { color: #ff4d4d; font-size: 0.8rem; margin-top: 15px; display: none; }
-    </style>
+    .logo-container img { 
+            height: 40px; 
+            width: 40px;
+            object-fit: cover;
+            border-radius: 50%; 
+            box-shadow: 0 0 15px rgba(0, 255, 127, 0.3);
+            border: 1px solid rgba(0, 255, 127, 0.2);
+        }</style>
 </head>
 <body>
     <div class="auth-card" id="auth-ui">
@@ -169,3 +176,4 @@
     </script>
 </body>
 </html>
+
