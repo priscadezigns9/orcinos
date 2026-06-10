@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | Skillbit</title>
+    <link rel="stylesheet" href="../shared/style.css">
+</head>
+<body>
+    <header class="container">
+        <a href="../landing/index.html" class="logo">Skillbit</a>
+        <nav id="user-menu">
+            <a href="dashboard.html">Dashboard</a>
+            <a href="library.html">Library</a>
+            <a href="leaderboard.html">Leaderboard</a>
+            <a href="#" onclick="supabase.auth.signOut()">Logout</a>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="dashboard-grid" style="margin-top: 40px;">
+            <div class="main-col">
+                <div class="stats-bar">
+                    <div class="stat-item">
+                        <span class="stat-value" id="stats-streak">0</span>
+                        <span class="stat-label">🔥 Streak</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value" id="stats-xp">0</span>
+                        <span class="stat-label">✨ Total XP</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value" id="stats-lessons">0</span>
+                        <span class="stat-label">📚 Lessons</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2 style="margin-bottom: 20px;">Ready for your daily lesson?</h2>
+                    <p style="margin-bottom: 30px; color: #AAA;">Consistent learning is the key to mastery. Spend 5 minutes today to keep your streak alive!</p>
+                    <a href="lesson.html" class="btn btn-primary">Start Today's Lesson</a>
+                </div>
+
+                <div class="card">
+                    <h3>Your Progress</h3>
+                    <div class="progress-container">
+                        <div class="progress-fill" id="xp-progress" style="width: 45%;"></div>
+                    </div>
+                    <p style="margin-top: 10px; font-size: 14px; color: #AAA;">Level: <span id="user-level" style="color: var(--lemon-lime); font-weight: 700;">Beginner</span></p>
+                </div>
+            </div>
+
+            <div class="side-col">
+                <div class="card">
+                    <h3>Current Track</h3>
+                    <p id="current-track-name" style="color: var(--lemon-lime); font-weight: 700; margin: 10px 0;">Web Dev</p>
+                    <a href="library.html" style="font-size: 12px; color: #777;">Change Track →</a>
+                </div>
+
+                <div class="card" style="border: 1px solid var(--electric-indigo);">
+                    <h3>Orcinos Pro</h3>
+                    <p style="font-size: 14px; color: #AAA; margin: 10px 0;">Unlock all 8 tracks and global rankings.</p>
+                    <a href="../landing/index.html#pricing" class="btn btn-secondary btn-sm" style="width: 100%; font-size: 14px;">Upgrade $4.99</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="../shared/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const track = localStorage.getItem('selected_track') || 'Web Dev';
+            document.getElementById('current-track-name').innerText = track;
+            
+            // Calculate progress to next level
+            const xp = profile.xp_total;
+            let nextLevelXp = 100;
+            if (xp >= 100) nextLevelXp = 500;
+            if (xp >= 500) nextLevelXp = 2000;
+            
+            const progress = (xp / nextLevelXp) * 100;
+            document.getElementById('xp-progress').style.width = Math.min(progress, 100) + '%';
+        });
+    </script>
+</body>
+</html>
