@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scam Detector</title>
+    <link rel="stylesheet" href="../shared/style.css">
+</head>
+<body>
+    <a href="tel:911" class="emergency-btn">EMERGENCY HELP</a>
+
+    <nav class="nav-bar">
+        <a href="dashboard.html" class="nav-item">Home</a>
+        <a href="ask-syla.html" class="nav-item">Ask Syla</a>
+        <a href="medications.html" class="nav-item">Medicine</a>
+        <a href="family.html" class="nav-item">Family</a>
+        <a href="tech-help.html" class="nav-item">Tech Help</a>
+    </nav>
+
+    <div class="container">
+        <h1>Scam Detector</h1>
+        <p>Did you get a strange email, text message, or phone call? Paste it here and I will check if it is safe.</p>
+        
+        <div class="card">
+            <textarea id="scam-input" style="height: 200px;" placeholder="Paste the message here..."></textarea>
+            <button onclick="checkScam()" class="big-btn" style="background-color: #f39c12;">Check Message</button>
+        </div>
+
+        <div id="scam-result"></div>
+    </div>
+
+    <script src="../shared/app.js"></script>
+</body>
+</html>
