@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NURASEN | Neural Defense</title>
+    <script src="../../wallet-core.js"></script>
+    <style>
+        :root { --accent: #00f2ff; --bg: #050505; --surface: #0a0a0a; --text: #fff; --pr-purple: #7B35D4; }
+        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; margin: 0; display: flex; flex-direction: column; min-height: 100vh; }
+        header { padding: 25px 5%; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #111; }
+        .logo { font-weight: 900; color: var(--accent); letter-spacing: 2px; }
+        nav { display: flex; gap: 25px; }
+        nav a { color: #666; text-decoration: none; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; transition: 0.3s; }
+        nav a:hover { color: var(--accent); }
+        
+        .hero { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 60px 5%; text-align: center; }
+        .shield { width: 180px; height: 180px; border: 2px solid var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 40px; box-shadow: 0 0 40px rgba(0,242,255,0.1); font-weight: 900; letter-spacing: 2px; }
+        
+        .status-card { background: var(--surface); padding: 30px 60px; border-radius: 20px; border: 1px solid #1a1a1a; margin-bottom: 50px; }
+        
+        .payment-box { background: #000; border: 1px solid var(--pr-purple); padding: 30px; border-radius: 24px; max-width: 400px; width: 100%; box-shadow: 0 0 30px rgba(123,53,212,0.1); }
+        .btn-wallet { display: block; width: 100%; padding: 18px; background: var(--pr-purple); color: white; text-decoration: none; border-radius: 15px; font-weight: 900; text-align: center; margin-top: 20px; border: none; cursor: pointer; }
+        
+        /* Wallet Sidebar Integration */
+        .sidebar { position: fixed; top: 0; right: -420px; width: 420px; height: 100vh; background: rgba(5,5,5,0.98); backdrop-filter: blur(30px); border-left: 1px solid #222; transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1); z-index: 1000; display: flex; flex-direction: column; text-align: left; }
+        .sidebar.active { right: 0; }
+        .sidebar-header { padding: 30px; display: flex; justify-content: space-between; align-items: center; }
+        .sidebar-tabs { display: flex; border-bottom: 1px solid #111; }
+        .sidebar-tabs button { flex: 1; background: none; border: none; color: #444; padding: 15px; font-size: 0.6rem; font-weight: 800; text-transform: uppercase; cursor: pointer; }
+        .sidebar-content { flex: 1; overflow-y: auto; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">NURASEN</div>
+        <nav>
+            <a href="#">Security Scan</a>
+            <a href="javascript:void(0)" onclick="toggleSidebar()">My Wallet</a>
+            <a href="#">Portal</a>
+        </nav>
+    </header>
+
+    <main class="hero">
+        <div class="shield">ACTIVE</div>
+        <div class="status-card">
+            <h2 style="margin-bottom:10px;">NEURAL NODE SECURE</h2>
+            <p style="color:#666; font-size:0.8rem;">Your identity is anchored and encrypted via $PRN.</p>
+        </div>
+
+        <div class="payment-box">
+            <h3 style="font-size:0.9rem; margin-bottom:15px;">Defense Subscription</h3>
+            <p style="color:#888; font-size:0.75rem; margin-bottom:25px;">Level: <b>MAXIMUM</b><br>Renewal: 2026-07-06</p>
+            <button onclick="toggleSidebar()" class="btn-wallet">Pay with Sovereign Wallet</button>
+        </div>
+    </main>
+
+    <!-- Wallet Sidebar -->
+    <div id="sidebar" class="sidebar">
+        <div class="sidebar-header">
+            <h2 style="font-family:'Playfair Display'; font-size:1.1rem; color:white;">PRISCION WALLET</h2>
+            <button onclick="toggleSidebar()" style="background:none; border:none; color:#555; font-size:2rem; cursor:pointer;">&times;</button>
+        </div>
+        <div class="sidebar-tabs">
+            <button id="tab-assets" onclick="switchWalletTabCore('assets')">Assets</button>
+            <button id="tab-vault" onclick="switchWalletTabCore('vault')">Vault</button>
+            <button id="tab-shop" onclick="switchWalletTabCore('shop')">Hub</button>
+            <button id="tab-sync" onclick="switchWalletTabCore('sync')">Security</button>
+        </div>
+        <div class="sidebar-content" id="wallet-main-view"></div>
+    </div>
+
+    <script>
+        function toggleSidebar() { 
+            const s = document.getElementById('sidebar');
+            s.classList.toggle('active'); 
+            if(s.classList.contains('active')) initializeWallet('sidebar');
+        }
+    </script>
+</body>
+</html>
