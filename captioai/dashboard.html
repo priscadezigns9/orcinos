@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="icon" type="image/png" href="/logos/CAPTIOAI_ICON_LOGO.png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CAPTIO AI | Neural Copy Dashboard</title>
@@ -33,7 +34,7 @@
 </head>
 <body>
     <nav>
-        <div class="logo"><img src='/logos/CAPTIO_DEFINITIVE_2026.png' alt="Captio AI"></div>
+        <div class="logo"><img src='/logos/CAPTIOAI_DEFINITIVE_LOGO.png' alt="Captio AI"></div>
         <div id="tier-badge" class="tier-badge">Neural Node Active</div>
     </nav>
     <div class="container">
@@ -59,10 +60,54 @@
         </div>
     </div>
     <script>
+        
         const urlParams = new URLSearchParams(window.location.search);
         const isPremium = urlParams.get('premium') === 'true';
         const tierBadge = document.getElementById('tier-badge');
-        if (isPremium) { tierBadge.textContent = 'Premium Intelligence Active'; tierBadge.style.background = 'var(--accent)'; }
+        if (isPremium) { 
+            tierBadge.textContent = 'Premium Intelligence Active'; 
+            tierBadge.style.background = '#2E5BBA'; 
+        } else { 
+            tierBadge.textContent = 'Freemium Node (Standard)'; 
+            tierBadge.style.background = '#000'; 
+        }
+
+        async function generateCopy() {
+            const input = document.getElementById('neural-input').value;
+            if (!input) { alert('Please enter an input signal.'); return; }
+            const output = document.getElementById('neural-output');
+            const copyBtn = document.getElementById('copy-btn');
+            output.innerHTML = '<span class="loading-text">Neural Engine Syncing...</span>';
+            copyBtn.style.display = 'none';
+            
+            setTimeout(() => {
+                let final = '';
+                if (isPremium) {
+                    // High-Fidelity Professional Archetypes
+                    const premiumResults = [
+                        "Architectural purity in every line. Precision-engineered for the modern workflow. #HighFidelity #Orcinos",
+                        "Neural processing meets sovereign design. Elevate your brand architecture with precision. 🛡️⚡",
+                        "The intersection of autonomous intelligence and high-fidelity aesthetics. 📈🌐"
+                    ];
+                    final = premiumResults[Math.floor(Math.random() * premiumResults.length)];
+                    final += "
+
+[Neural Analysis: High Performance Detection Verified]";
+                } else {
+                    // Generic Standard Results
+                    const standardResults = [
+                        "Check out this cool setup! #AI #Marketing",
+                        "Working hard on new projects. Stay tuned.",
+                        "Focusing on growth and innovation every day."
+                    ];
+                    final = standardResults[Math.floor(Math.random() * standardResults.length)];
+                }
+                
+                output.innerHTML = final;
+                copyBtn.style.display = 'block';
+            }, 2000);
+        }
+
         else { tierBadge.textContent = 'Freemium Node (Standard)'; tierBadge.style.background = '#000'; }
 
         async function generateCopy() {
@@ -90,3 +135,4 @@
     </script>
 </body>
 </html>
+
