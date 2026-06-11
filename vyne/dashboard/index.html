@@ -103,7 +103,7 @@
         const SUPABASE_KEY = 'your-anon-key';
         
         // Initialize Supabase Client
-        const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
         document.getElementById('btn-stock').addEventListener('click', async () => {
             const link = document.getElementById('product-link').value;
@@ -119,7 +119,7 @@
 
             try {
                 // Call the real Supabase Edge Function
-                const { data, error } = await supabase.functions.invoke('index-amazon', {
+                const { data, error } = await supabaseClient.functions.invoke('index-amazon', {
                     body: { url: link, store_id: storeId }
                 });
 
