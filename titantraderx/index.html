@@ -107,7 +107,7 @@
             <a href='index.html' class='active'>Dashboard</a>
             <a href='charts.html'>Terminal</a>
             <a href='partners.html'>Partners</a>
-            <a href='academy/index.html'>Academy</a>
+            <a href='academy.html'>Academy</a>
             <a href='dashboard.html' style='color: var(--malachite); margin-left: 20px;'>LOGIN</a>
         </nav>
         <div class='hamburger' onclick='toggleMenu()'>
@@ -124,8 +124,8 @@
 
     <main class='dashboard-grid'>
         <section class='left-column'>
-            <div class='card' style='margin-bottom: 30px;'>
-                <h2>Live Market Terminal</h2>
+            <div class='card' style='margin-bottom: 30px; cursor: pointer;' onclick='location.href="charts.html"'>
+                <h2>Live Market Terminal &rarr;</h2>
                 <div class='terminal-box'>
                     <div class='tradingview-widget-container' style='height:100%;width:100%'>
                         <div id='tradingview_737e4' style='height:100%;width:100%'></div>
@@ -145,8 +145,8 @@
                 </div>
             </div>
 
-            <div class='card'>
-                <h2>Institutional Crypto Pulse</h2>
+            <div class='card' style='cursor: pointer;' onclick='location.href="market-intelligence.html"'>
+                <h2>Institutional Crypto Pulse &rarr;</h2>
                 <div class='market-pulse' id='cmc-pulse'>
                     <div class='market-item'><span class='coin-name'>BTC</span><span class='coin-price'>8,432.12</span></div>
                     <div class='market-item'><span class='coin-name'>ETH</span><span class='coin-price'>,842.50</span></div>
@@ -156,8 +156,8 @@
         </section>
 
         <section class='right-column'>
-            <div class='card' style='margin-bottom: 30px;'>
-                <h2>Institutional Equity Signals</h2>
+            <div class='card' style='margin-bottom: 30px; cursor: pointer;' onclick='location.href="market-intelligence.html"'>
+                <h2>Institutional Equity Signals &rarr;</h2>
                 <div id='stock-signals' style='display: flex; flex-direction: column; gap: 15px;'>
                     <div class='market-item'><span>AAPL</span><span style='color: var(--malachite);'>+1.2%</span></div>
                     <div class='market-item'><span>TSLA</span><span style='color: #ff4d4d;'>-0.8%</span></div>
@@ -165,10 +165,10 @@
                 </div>
             </div>
 
-            <div class='card'>
-                <h2>Academy Preview</h2>
+            <div class='card' style='cursor: pointer;' onclick='location.href="academy.html"'>
+                <h2>Academy Preview &rarr;</h2>
                 <p style='font-size: 0.9rem; color: #888; margin-bottom: 20px;'>Master the Sovereign Liquidity engine with our curated trading modules.</p>
-                <a href='academy/index.html' style='color: var(--malachite); font-weight: 700; text-decoration: none; font-size: 0.8rem;'>Enter Academy Hub &rarr;</a>
+                <a href='academy.html' style='color: var(--malachite); font-weight: 700; text-decoration: none; font-size: 0.8rem;'>Enter Academy Hub &rarr;</a>
             </div>
         </section>
     </main>
