@@ -86,37 +86,36 @@
     <script>
         function openPayment() { document.getElementById('paymentModal').style.display = 'flex'; }
         function closePayment() { document.getElementById('paymentModal').style.display = 'none'; }
+        
         window.onload = function() {
             const urlParams = new URLSearchParams(window.location.search);
             if (urlParams.get('premium') === 'true') {
-                document.getElementById('tier-badge').textContent = 'Apex Scout';
-                document.getElementById('heartbeat-text').textContent = 'Neural Heartbeat: ACTIVE | 15m Sync';
+                const badge = document.getElementById('tier-badge');
+                if(badge) badge.textContent = 'Apex Scout';
+                const heart = document.getElementById('heartbeat-text');
+                if(heart) heart.textContent = 'Neural Heartbeat: ACTIVE | 15m Sync';
             }
         };
-                        async function initializeScout() {
-            const val = document.getElementById('scout-url').value.trim();
-            if(!val) return;
-            const tbody = document.getElementById('monitor-body');
-            if(document.getElementById('no-assets')) document.getElementById('no-assets').remove();
-            
-            const rowId = 'scout-' + Date.now();
-            const row = document.createElement('tr');
-            row.id = rowId;
-            row.innerHTML = '<td><div style="font-weight:700;">' + (val.split('/')[3] || 'Amazon Asset') + '</div><div style="font-size:0.7rem; color:var(--muted);">' + val.substring(0,30) + '...</div></td>' +
-                            '<td class="status-cell"><span style="color:#666;">AWAITING SIGNAL...</span></td>' +
-                            '<td class="alpha-cell">--</td>' +
-                            '<td class="sync-cell">PENDING</td>';
-            tbody.prepend(row);
-            document.getElementById('scout-url').value = '';
 
-            // Note: Simulation engine removed by Architect mandate.
-            // Awaiting secure API handshake for live Neural data.
-        }, 3000);
-        }...</div></td><td><span style="color:var(--accent);">SCOUTING...</span></td><td>Searching...</td><td>Just Now</td>`;
+        function initializeScout() {
+            const val = document.getElementById('scout-url').value.trim();
+            if (!val) return;
+            
+            const tbody = document.getElementById('monitor-body');
+            const noAssets = document.getElementById('no-assets');
+            if (noAssets) noAssets.remove();
+            
+            const row = document.createElement('tr');
+            row.innerHTML = '<td>' +
+                    '<div style="font-weight:700;">' + (val.split("/")[3] || "Amazon Asset") + '</div>' +
+                    '<div style="font-size:0.7rem; color:var(--muted);">' + val.substring(0,30) + '...</div>' +
+                '</td>' +
+                '<td><span style="color:#666;">AWAITING SIGNAL</span></td>' +
+                '<td>--</td>' +
+                '<td>PENDING</td>';
             tbody.prepend(row);
             document.getElementById('scout-url').value = '';
         }
     </script>
 </body>
 </html>
-
