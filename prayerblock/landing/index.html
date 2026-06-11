@@ -2,133 +2,183 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Prayerblock | Faith + Productivity</title>
-    <link rel="stylesheet" href="../shared/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PrayerBlock | Faith Planner & Tracker</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap');
+        body {
+            background-color: #F8F4E8;
+            color: #1A3A2A;
+            font-family: 'Crimson Pro', Georgia, serif;
+            margin: 0;
+            line-height: 1.8;
+        }
+        .parchment {
+            background-color: #FDFAF4;
+            border: 1px solid #E0DCC8;
+            box-shadow: 0 4px 20px rgba(26, 58, 42, 0.05);
+            border-radius: 4px;
+            position: relative;
+        }
+        .parchment::after {
+            content: "";
+            position: absolute;
+            top: 5px; right: 5px; bottom: 5px; left: 5px;
+            border: 1px solid rgba(201, 168, 76, 0.3);
+            pointer-events: none;
+        }
+        .hero-title {
+            font-size: 3.5rem;
+            color: #1A3A2A;
+            font-weight: 600;
+        }
+        .accent-gold { color: #C9A84C; }
+        .bg-gold { background-color: #C9A84C; }
+        .border-gold { border-color: #C9A84C; }
+        .verse-card {
+            background: white;
+            border: 2px solid #C9A84C;
+            padding: 30px;
+            text-align: center;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+        .btn-forest { background-color: #1A3A2A; color: #F8F4E8; }
+        .watermark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-100%, -50%);
+            opacity: 0.03;
+            font-size: 40rem;
+            z-index: -1;
+            pointer-events: none;
+        }
+        .pricing-tier {
+            padding: 40px;
+            border: 1px solid #E0DCC8;
+            background: #FDFAF4;
+            transition: all 0.3s ease;
+        }
+        .pricing-tier:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(26, 58, 42, 0.1);
+        }
+        footer {
+            background-color: #1A3A2A;
+            color: #F8F4E8;
+            padding: 60px 20px;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <nav>
-            <h1 class="bible-font" style="color: var(--gold);">PRAYERBLOCK</h1>
-            <div id="auth-links">
-                <a href="#login">Login</a> | <a href="#signup" class="btn btn-gold" style="padding: 5px 15px;">Get Started</a>
-            </div>
-        </nav>
+    <div class="watermark">†</div>
+
+    <nav class="max-w-6xl mx-auto flex justify-between items-center py-10 px-6">
+        <div class="text-3xl font-bold tracking-tight">Prayer<span class="accent-gold">Block</span></div>
+        <div class="hidden md:flex space-x-12 italic text-lg">
+            <a href="#about" class="hover:text-gold transition">Our Mission</a>
+            <a href="#features" class="hover:text-gold transition">The Planner</a>
+            <a href="#pricing" class="hover:text-gold transition">Commitment</a>
+        </div>
+        <a href="#pricing" class="btn-forest px-8 py-3 rounded-md font-bold hover:bg-opacity-90 transition">Join Us</a>
+    </nav>
+
+    <header class="max-w-4xl mx-auto text-center py-24 px-6">
+        <div class="accent-gold text-2xl mb-6">"Commit your work to the Lord, and your plans will be established."</div>
+        <h1 class="hero-title mb-8">Start every day anchored in faith.</h1>
+        <p class="text-2xl mb-12 opacity-80 italic">Plan your day, track your prayers, memorize scripture. Your faith, organized and flourishing.</p>
+        <div class="flex justify-center gap-6">
+            <a href="#pricing" class="bg-gold text-white px-10 py-4 rounded-md font-bold text-xl shadow-lg">Begin Your Walk</a>
+        </div>
     </header>
 
-    <div class="container">
-        <section class="text-center mt-20">
-            <h2 style="font-size: 3rem; margin-bottom: 20px;">Productivity Rooted in Faith.</h2>
-            <p style="font-size: 1.2rem; color: var(--forest-green);">A daily planner built for the Christian life. Organize your schedule around scripture and prayer.</p>
-            <div class="mt-20">
-                <a href="#signup" class="btn btn-gold">Join the Trusted Movement</a>
+    <section id="features" class="py-24 px-6 max-w-6xl mx-auto">
+        <div class="grid md:grid-cols-2 gap-16 items-center">
+            <div class="parchment p-12">
+                <h2 class="text-4xl font-bold mb-8">Devoted Planning</h2>
+                <p class="text-xl mb-6">Beyond simple tasks. Align your daily schedule with your spiritual goals. Track your prayer requests and see how the Lord moves in your life over time.</p>
+                <ul class="space-y-4 text-lg">
+                    <li class="flex items-center gap-4"><span class="accent-gold">✦</span> Daily Prayer Journaling</li>
+                    <li class="flex items-center gap-4"><span class="accent-gold">✦</span> Scripture Memory Cards</li>
+                    <li class="flex items-center gap-4"><span class="accent-gold">✦</span> Spiritual Habit Tracking</li>
+                </ul>
             </div>
-        </section>
-
-        <section class="app-grid mt-20" style="grid-template-columns: 1fr 1fr;">
-            <div class="card">
-                <h3>The Planner</h3>
-                <p>Time-blocked schedule with a daily "Anchor Verse" to keep your mind on the Word while you work.</p>
-            </div>
-            <div class="card">
-                <h3>Prayer & Praise</h3>
-                <p>Log prayer requests, track answered prayers, and share with a community of believers.</p>
-            </div>
-        </section>
-
-        <section id="pricing" class="mt-20 text-center">
-            <h2 class="mb-20">Choose Your Walk</h2>
-            <div style="display: flex; gap: 20px; justify-content: center;">
-                <div class="card" style="width: 300px;">
-                    <h3>Free Tier</h3>
-                    <p class="gold-text">/bin/bash / Month</p>
-                    <ul style="list-style: none; padding: 20px 0; text-align: left;">
-                        <li>✓ Daily Planner</li>
-                        <li>✓ Prayer Tracker</li>
-                        <li>✓ Gratitude Journal</li>
-                    </ul>
-                    <a href="#signup" class="btn">Get Started</a>
+            <div class="space-y-8">
+                <div class="verse-card">
+                    <p class="italic text-2xl mb-4">"The Lord is my shepherd; I shall not want."</p>
+                    <p class="font-bold accent-gold text-lg">Psalm 23:1</p>
                 </div>
-                <div class="card" style="width: 300px; border: 2px solid var(--gold);">
-                    <h3>Pro Tier</h3>
-                    <p class="gold-text">.99 / Month</p>
-                    <ul style="list-style: none; padding: 20px 0; text-align: left;">
-                        <li>✓ Daily Devotionals</li>
-                        <li>✓ Scripture Memory</li>
-                        <li>✓ Community Prayer Wall</li>
-                    </ul>
-                    <div id="payment-options">
-                        <p style="font-size: 0.8rem; margin-bottom: 10px;">Pay via PayPal, Crypto, or Payoneer</p>
-                        <!-- PayPal Button Placeholder -->
-                        <div style="background: #0070ba; color: white; padding: 10px; border-radius: 4px; margin-bottom: 10px; cursor: pointer;">PayPal Checkout</div>
-                        <p style="font-size: 0.8rem;">Crypto: 0xcef857e82c306b3d0f2db080e7794f4bb376049e</p>
-                    </div>
+                <div class="verse-card bg-gold bg-opacity-5">
+                    <p class="italic text-2xl mb-4">"Pray without ceasing."</p>
+                    <p class="font-bold accent-gold text-lg">1 Thessalonians 5:17</p>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section id="signup" class="card mt-20" style="max-width: 500px; margin: 40px auto;">
-            <h3 class="text-center">Create Your Account</h3>
-            <form id="signup-form">
-                <input type="text" id="signup-name" placeholder="Full Name" required>
-                <input type="email" id="signup-email" placeholder="Email" required>
-                <input type="password" id="signup-password" placeholder="Password" required>
-                <button type="submit" class="btn btn-gold" style="width:100%">Register</button>
-            </form>
-            <p class="text-center mt-20">Already have an account? <a href="#login" style="color: var(--gold);">Login</a></p>
-        </section>
+    <section id="pricing" class="py-24 bg-[#FAF7EF]">
+        <div class="max-w-6xl mx-auto px-6">
+            <h2 class="text-5xl font-bold text-center mb-20">Support the Ministry</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="pricing-tier text-center">
+                    <h3 class="text-3xl font-bold mb-2">Seeker</h3>
+                    <div class="text-2xl accent-gold mb-8">Free</div>
+                    <ul class="space-y-4 mb-12 opacity-80">
+                        <li>Daily Planner</li>
+                        <li>Prayer Tracker (10 requests)</li>
+                        <li>Anchor Verse of the Day</li>
+                    </ul>
+                    <button class="w-full border-2 border-forest py-3 font-bold hover:bg-forest hover:text-white transition">Choose Path</button>
+                </div>
+                <div class="pricing-tier text-center border-gold border-2 bg-white relative">
+                    <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-gold text-white px-6 py-1 rounded-full text-sm font-bold uppercase">Devoted</div>
+                    <h3 class="text-3xl font-bold mb-2 mt-4">Devoted</h3>
+                    <div class="text-2xl accent-gold mb-8">.99/mo</div>
+                    <ul class="space-y-4 mb-12">
+                        <li>Unlimited Prayers</li>
+                        <li>Gratitude Journal</li>
+                        <li>Devotional Feed</li>
+                        <li>Spiritual Goals</li>
+                    </ul>
+                    <button class="w-full bg-gold text-white py-4 font-bold shadow-lg">Support Ministry</button>
+                </div>
+                <div class="pricing-tier text-center">
+                    <h3 class="text-3xl font-bold mb-2">Ministry</h3>
+                    <div class="text-2xl accent-gold mb-8">.99/mo</div>
+                    <ul class="space-y-4 mb-12 opacity-80">
+                        <li>Community Prayer Wall</li>
+                        <li>Small Group Sharing</li>
+                        <li>Scripture Memory Tools</li>
+                        <li>Printable Journals</li>
+                    </ul>
+                    <button class="w-full border-2 border-forest py-3 font-bold hover:bg-forest hover:text-white transition">Scale Outreach</button>
+                </div>
+            </div>
+        </div>
+    </section>
 
-        <section id="login" class="card mt-20" style="max-width: 500px; margin: 40px auto; display: none;">
-            <h3 class="text-center">Welcome Back</h3>
-            <form id="login-form">
-                <input type="email" id="login-email" placeholder="Email" required>
-                <input type="password" id="login-password" placeholder="Password" required>
-                <button type="submit" class="btn btn-gold" style="width:100%">Login</button>
-            </form>
-        </section>
-    </div>
+    <section class="py-24 px-6 text-center max-w-4xl mx-auto">
+        <h2 class="text-3xl font-bold mb-12">Grace & Truth</h2>
+        <div class="space-y-12">
+            <p class="text-2xl italic">"PrayerBlock has turned my morning chaos into a quiet time of deep reflection and connection with Christ. I can't start my day without it."</p>
+            <div class="font-bold text-xl accent-gold">— Sarah Miller, Worship Leader</div>
+        </div>
+    </section>
 
-    <footer class="text-center mt-20" style="padding: 40px; background: var(--forest-green); color: var(--cream);">
-        <p>&copy; 2026 Prayerblock - An Orcinos Product. Priscion Network.</p>
+    <footer>
+        <div class="max-w-6xl mx-auto">
+            <div class="text-2xl font-bold mb-6">PrayerBlock</div>
+            <p class="mb-8 opacity-70">A product of <a href="../../index.html" class="underline hover:text-gold">Orcinos</a></p>
+            <div class="flex justify-center gap-10 text-sm opacity-60 mb-10">
+                <span>PayPal</span>
+                <span>Crypto (ERC-20: 0xcef857e82c306b3d0f2db080e7794f4bb376049e)</span>
+                <span>Payoneer</span>
+            </div>
+            <p class="text-xs opacity-40">"He is no fool who gives what he cannot keep to gain what he cannot lose."</p>
+        </div>
     </footer>
-
-    <script src="../shared/app.js"></script>
-    <script>
-        // Toggle Login/Signup
-        window.addEventListener('hashchange', () => {
-            if(window.location.hash === '#login') {
-                document.getElementById('signup').style.display = 'none';
-                document.getElementById('login').style.display = 'block';
-            } else {
-                document.getElementById('signup').style.display = 'block';
-                document.getElementById('login').style.display = 'none';
-            }
-        });
-
-        document.getElementById('signup-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const name = document.getElementById('signup-name').value;
-            const email = document.getElementById('signup-email').value;
-            const pass = document.getElementById('signup-password').value;
-            try {
-                // handleSignUp from shared/app.js
-                await handleSignUp(email, pass, name);
-                alert('Account created! Please check your email for confirmation.');
-            } catch (err) { alert(err.message); }
-        });
-
-        document.getElementById('login-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const email = document.getElementById('login-email').value;
-            const pass = document.getElementById('login-password').value;
-            try {
-                // handleSignIn from shared/app.js
-                await handleSignIn(email, pass);
-                // Redirecting to the app dashboard if it exists, otherwise root
-                window.location.href = '../index.html'; 
-            } catch (err) { alert(err.message); }
-        });
-    </script>
 </body>
 </html>
