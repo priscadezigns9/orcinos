@@ -8,8 +8,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #050505; --surface: #0F0F11; --text: #ccd6f6; --white: #ffffff; 
-            --accent: #FF9500; --border: rgba(255,255,255,0.08); --muted: #888;
+            --bg: #FFFFFF; --surface: #F9F9FB; --text: #000000; --muted: #666666; 
+            --accent: #FF9500; --border: rgba(0,0,0,0.06); --white: #ffffff;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { 
@@ -18,7 +18,7 @@
         }
 
         nav {
-            background: rgba(5,5,5,0.95); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border);
+            background: rgba(255,255,255,0.9); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border);
             padding: 0 6%; display: flex; justify-content: space-between; align-items: center;
             position: sticky; top: 0; z-index: 2000; height: 80px;
         }
@@ -27,7 +27,7 @@
         .heartbeat-container { 
             background: #000; color: #FFF; padding: 10px 20px; border-radius: 100px; 
             display: flex; align-items: center; gap: 15px; font-size: 0.7rem; font-weight: 800; 
-            text-transform: uppercase; letter-spacing: 1px; border: 1px solid rgba(255,149,0,0.3);
+            text-transform: uppercase; letter-spacing: 1px;
         }
         .pulse-dot { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; box-shadow: 0 0 10px var(--accent); animation: pulse 1.5s infinite; }
         @keyframes pulse { 0% { opacity: 0.4; } 50% { opacity: 1; } 100% { opacity: 0.4; } }
@@ -40,16 +40,18 @@
         .search-area { background: var(--surface); padding: 45px; border-radius: 24px; border: 1px solid var(--border); margin-bottom: 40px; text-align: center; }
         .scout-input { 
             width: 100%; max-width: 600px; padding: 22px; border-radius: 15px; border: 1px solid var(--border); 
-            background: #111; color: #FFF; font-size: 1rem; margin-bottom: 20px; outline: none; transition: 0.3s; text-align: center; 
+            background: #FFF; color: #000; font-size: 1rem; margin-bottom: 20px; outline: none; transition: 0.3s; text-align: center; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
         }
         .btn-scan { 
-            padding: 20px 60px; background: var(--accent); color: #000; border: none; border-radius: 12px; 
+            padding: 20px 60px; background: #000; color: #FFF; border: none; border-radius: 12px; 
             font-weight: 800; cursor: pointer; transition: 0.3s; text-transform: uppercase; letter-spacing: 2px; font-size: 1.1rem; 
         }
+        .btn-scan:hover { background: var(--accent); color: #000; }
         
-        .monitor-area { background: var(--surface); border-radius: 24px; border: 1px solid var(--border); overflow: hidden; }
+        .monitor-area { background: #FFF; border-radius: 24px; border: 1px solid var(--border); overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,0.02); }
         table { width: 100%; border-collapse: collapse; text-align: left; }
-        th { padding: 20px 35px; font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid var(--border); }
+        th { padding: 20px 35px; font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid var(--border); background: #FAFAFB; }
         td { padding: 25px 35px; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
         
         .status-tag { padding: 4px 10px; border-radius: 5px; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; }
@@ -87,7 +89,7 @@
         </div>
 
         <div class="search-area">
-            <h3 style="margin-bottom:20px; text-transform:uppercase; letter-spacing:1px;">Initialize Asset Handshake</h3>
+            <h3 style="margin-bottom:20px; text-transform:uppercase; letter-spacing:1px; color:#666;">Initialize Asset Handshake</h3>
             <input type="text" id="scout-url" class="scout-input" placeholder="Paste Amazon Product URL here...">
             <br><button class="btn-scan" onclick="initializeScout()">Initialize Neural Scout</button>
         </div>
@@ -106,7 +108,6 @@
     <div id="architect-console">
         <div class="god-header">ORCINOS | ARCHITECT GOD MODE</div>
         <div style="font-size: 0.6rem; margin-bottom: 15px;">STATUS: AUTHORIZED | MODE: LIVE</div>
-        <div class="god-label">Manual Signal Override:</div>
         <input type="text" id="god-alpha" class="god-input" placeholder="Override Alpha ($)">
         <button class="btn-god" onclick="injectGodSignal()">Force Signal Deployment</button>
         <div id="god-status" style="margin-top:15px; font-size:0.6rem; color:#FFF;"></div>
@@ -125,10 +126,10 @@
             const row = document.createElement('tr');
             row.id = rowId;
             row.innerHTML = '<td>' +
-                    '<div style="font-weight:700; color:#FFF;">' + (val.split("/")[3] || "Amazon Asset") + '</div>' +
+                    '<div style="font-weight:700; color:#000;">' + (val.split("/")[3] || "Amazon Asset") + '</div>' +
                     '<div style="font-size:0.7rem; color:var(--muted);">' + val.substring(0,40) + '...</div>' +
                 '</td>' +
-                '<td class="status-cell"><span style="color:var(--accent); font-weight:600;">AWAITING SIGNAL</span></td>' +
+                '<td class="status-cell"><span style="color:#666; font-weight:600;">AWAITING SIGNAL</span></td>' +
                 '<td class="alpha-cell">--</td>' +
                 '<td class="sync-cell">PENDING</td>';
             tbody.prepend(row);
@@ -154,8 +155,8 @@
             status.innerText = "INITIATING OVERRIDE...";
             
             setTimeout(() => {
-                targetRow.querySelector('.status-cell').innerHTML = '<span style="color:#00FF7F; font-weight:900;">SIGNAL SECURED</span>';
-                targetRow.querySelector('.alpha-cell').innerHTML = '<span style="color:#00FF7F; font-weight:900;">$' + alpha + '</span>';
+                targetRow.querySelector('.status-cell').innerHTML = '<span style="color:#00AD69; font-weight:900;">SIGNAL SECURED</span>';
+                targetRow.querySelector('.alpha-cell').innerHTML = '<span style="color:#00AD69; font-weight:900;">$' + alpha + '</span>';
                 targetRow.querySelector('.sync-cell').innerText = 'LIVE';
                 status.innerText = "SIGNAL DEPLOYED SUCCESSFULLY";
             }, 1500);
