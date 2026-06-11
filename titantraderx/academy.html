@@ -71,7 +71,15 @@
         .course-list .tag { font-size: 0.7rem; font-weight: 800; background: rgba(255,255,255,0.1); padding: 4px 10px; border-radius: 50px; color: #fff; }
 
         footer { padding: 60px 5%; border-top: 1px solid var(--border); text-align: center; color: var(--muted); font-size: 0.8rem; }
-    </style>
+    
+        .hamburger { display: none; cursor: pointer; z-index: 1001; flex-direction: column; gap: 5px; }
+        .hamburger div { width: 25px; height: 2px; background-color: var(--text); transition: 0.3s; }
+        @media screen and (max-width: 968px) {
+            nav { position: fixed; right: -100%; top: 0; width: 70%; height: 100vh; background: rgba(5, 5, 5, 0.98); backdrop-filter: blur(20px); flex-direction: column; align-items: center; justify-content: center; gap: 40px; transition: 0.5s; z-index: 1000; border-left: 1px solid var(--border); }
+            nav.nav-active { right: 0; }
+            .hamburger { display: flex; }
+        }
+</style>
 </head>
 <body>
     <header>
@@ -85,7 +93,7 @@
             <a href="prop-firms.html">PARTNERS</a>
             <a href="dashboard.html" style="color: var(--primary);">LOGIN</a>
         </nav>
-    </header>
+    <div class="hamburger" onclick="toggleMenu()"><div></div><div></div><div></div></div></header>
 
     <section class="hero">
         <h1>Sovereign Knowledge</h1>
@@ -133,5 +141,6 @@
     <footer>
         &copy; 2026 Priscion Orcinos. Sovereign Rights Reserved.
     </footer>
-</body>
+<script>function toggleMenu(){const nav=document.querySelector('nav');const ham=document.querySelector('.hamburger');nav.classList.toggle('nav-active');const lines=ham.querySelectorAll('div');if(nav.classList.contains('nav-active')){lines[0].style.transform='rotate(-45deg) translate(-5px, 6px)';lines[1].style.opacity='0';lines[2].style.transform='rotate(45deg) translate(-5px, -6px)';}else{lines[0].style.transform='none';lines[1].style.opacity='1';lines[2].style.transform='none';}}</script></body>
 </html>
+
