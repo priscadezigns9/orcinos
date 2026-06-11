@@ -108,6 +108,12 @@
 
             <div class="action-container">
                 <div class="section-box">
+                    <h3>Your Live Boutique</h3>
+                    <p>View your shop exactly as customers see it. Use this to check your curation and template styling.</p>
+                    <a href="../shop/preview/" target="_blank" class="btn" style="display: block; text-align: center; text-decoration: none; margin-bottom: 0;">View My Live Shop</a>
+                </div>
+
+                <div class="section-box">
                     <h3>Add High-Fidelity Product</h3>
                     <p>Paste an Amazon URL to instantly stock your boutique. Our indexer handles the images and metadata.</p>
                     <input type="text" id="product-link" placeholder="https://www.amazon.com/dp/...">
@@ -306,12 +312,42 @@
             card.onclick = function() {
                 document.querySelectorAll('.template-card').forEach(c => c.classList.remove('active'));
                 card.classList.add('active');
+                
+                const templateName = card.querySelector('h4').innerText.toLowerCase().replace(' ', '-');
+                localStorage.setItem('vyne_active_template', templateName);
+                
+                // Update preview links to include template parameter
+                const previewLinks = document.querySelectorAll('a[href="../shop/preview/"]');
+                previewLinks.forEach(link => {
+                    link.href = `../shop/preview/?template=${templateName}`;
+                });
+
                 alert("Shop Template Updated: " + card.querySelector('h4').innerText);
             };
         });
 
         // Initial Load
-        document.addEventListener('DOMContentLoaded', loadInventory);
+        document.addEventListener('DOMContentLoaded', () => {
+            loadInventory();
+            
+            // Restore active template preview link
+            const savedTemplate = localStorage.getItem('vyne_active_template');
+            if (savedTemplate) {
+                const previewLinks = document.querySelectorAll('a[href="../shop/preview/"]');
+                previewLinks.forEach(link => {
+                    link.href = `../shop/preview/?template=${savedTemplate}`;
+                });
+                
+                // Highlight active card
+                document.querySelectorAll('.template-card').forEach(card => {
+                    const name = card.querySelector('h4').innerText.toLowerCase().replace(' ', '-');
+                    if (name === savedTemplate) {
+                        document.querySelectorAll('.template-card').forEach(c => c.classList.remove('active'));
+                        card.classList.add('active');
+                    }
+                });
+            }
+        });
         console.log("VYNE Platform Dashboard: Local Storage Persistence Active.");
     </script>
 </body>
