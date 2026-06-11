@@ -14,7 +14,7 @@
         nav { background: rgba(5,5,5,0.9); padding: 20px 6%; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); }
         .logo img { height: 80px; }
         .nav-btns { display: flex; align-items: center; gap: 15px; }
-        .btn-home { font-size: 0.75rem; font-weight: 800; color: #FFF; text-decoration: none; text-transform: uppercase; letter-spacing: 1px; padding: 8px 16px; border: 1.5px solid var(--accent); border-radius: 8px; transition: 0.2s; }
+        .btn-home { font-size: 0.75rem; font-weight: 800; color: #000; background: var(--accent); text-decoration: none; text-transform: uppercase; letter-spacing: 1px; padding: 8px 16px; border: 1.5px solid var(--accent); border-radius: 8px; transition: 0.2s; cursor: pointer; }
         .btn-home:hover { background: var(--accent); color: #000; }
         .tier-badge { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: #000; background: var(--accent); padding: 4px 12px; border-radius: 100px; }
         
@@ -86,7 +86,7 @@
         <div class="monitor-area">
             <div class="monitor-header">
                 <h2>Real-Time Threat Monitor</h2>
-                <button class="btn-home" onclick="initializeScan()" style="padding: 10px 25px;">Initialize Manual Scan</button>
+                <button class="btn-home" onclick="initializeScan()" style="padding: 10px 25px; background: var(--accent); color: #000;">Initialize Manual Scan</button>
             </div>
             <table>
                 <thead><tr><th>Detection Source</th><th>Status</th><th>Neural Confidence</th><th>Last Pulse</th></tr></thead>
@@ -152,4 +152,5 @@
     </script>
 </body>
 </html>
+
 
