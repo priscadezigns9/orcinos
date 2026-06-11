@@ -1,123 +1,187 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang='en'>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
     <title>Titan Dashboard | Sovereign Control</title>
-    <link rel="icon" href="../logos/TITAN_ICON.png" type="image/png">
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
-        
-        function toggleMenu() {
-            const nav = document.getElementById('main-nav');
-            const hamburger = document.querySelector('.hamburger');
-            nav.classList.toggle('nav-active');
-            const lines = hamburger.querySelectorAll('div');
-            if (nav.classList.contains('nav-active')) {
-                lines[0].style.transform = 'rotate(-45deg) translate(-5px, 6px)';
-                lines[1].style.opacity = '0';
-                lines[2].style.transform = 'rotate(45deg) translate(-5px, -6px)';
-            } else {
-                lines[0].style.transform = 'none'; lines[1].style.opacity = '1'; lines[2].style.transform = 'none';
-            }
-        }
- else {
-                lines[0].style.transform = 'none';
-                lines[1].style.opacity = '1';
-                lines[2].style.transform = 'none';
-            }
-        }
-    </script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel='icon' href='../logos/TITAN_ICON.png' type='image/png'>
+    <link href='https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap' rel='stylesheet'>
     <style>
-        :root { --bg: #050505; --surface: #0F0F11; --text: #ccd6f6; --white: #ffffff; --malachite: #00FF7F; --border: rgba(255,255,255,0.08); --muted: #888; }
-        header { background: rgba(5,5,5,0.9); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 0 6%; display: flex; justify-content: space-between; align-items: center; position: fixed; top: 0; left: 0; right: 0; z-index: 2000; height: 80px; }
-        .logo-container img { height: 32px; }
+        :root {
+            --bg: #050505; --surface: #0F0F11; --text: #ccd6f6; --white: #ffffff; 
+            --malachite: #00FF7F; --border: rgba(255,255,255,0.08); --muted: #888;
+            --error: #ff4b4b;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); 
+            min-height: 100vh; display: flex; align-items: center; justify-content: center;
+            padding-top: 100px; overflow-x: hidden;
+        }
+
+        header {
+            background: rgba(5,5,5,0.9); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border);
+            padding: 0 6%; display: flex; justify-content: space-between; align-items: center;
+            position: fixed; top: 0; left: 0; right: 0; z-index: 2000; height: 80px;
+        }
+        .logo-container { display: flex; align-items: center; text-decoration: none; }
+        .logo-container img { height: 32px; width: auto; }
+        
         nav { display: flex; gap: 30px; align-items: center; }
         nav a { text-decoration: none; color: var(--text); font-weight: 600; font-size: 0.85rem; opacity: 0.7; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px; }
-        nav a:hover { opacity: 1; color: var(--malachite); }
-        .hamburger { display: none; cursor: pointer; flex-direction: column; gap: 6px; padding: 10px; z-index: 2001; background: transparent; border: none; }
+        nav a:hover, nav a.active { opacity: 1; color: var(--malachite); }
+        
+        .hamburger { 
+            display: none; cursor: pointer; flex-direction: column; gap: 6px; padding: 10px; z-index: 2001; 
+            background: transparent; border: none;
+        }
         .hamburger div { width: 24px; height: 2px; background-color: var(--white); transition: 0.3s; }
+
         @media screen and (max-width: 968px) {
-            nav { position: fixed; right: -100%; top: 0; width: 85%; height: 100vh; background: #0A0A0C; flex-direction: column; align-items: center; justify-content: center; gap: 40px; transition: 0.4s; z-index: 2000; border-left: 1px solid var(--border); }
+            nav { 
+                position: fixed; right: -100%; top: 0; width: 85%; height: 100vh; 
+                background: #0A0A0C; flex-direction: column; align-items: center; 
+                justify-content: center; gap: 40px; transition: 0.4s; z-index: 2000; 
+                border-left: 1px solid var(--border);
+            }
             nav.nav-active { right: 0; }
             .hamburger { display: flex; }
         }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); padding-top: 100px; display: flex; align-items: center; justify-content: center; min-height: 100vh; overflow-x: hidden; }
-</style>
+
+        .auth-card {
+            background: var(--surface);
+            padding: 40px;
+            border-radius: 24px;
+            width: 100%;
+            max-width: 400px;
+            border: 1px solid var(--border);
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            display: block; /* Shown by default, hidden by script if logged in */
+        }
+        #user-profile { display: none; }
+
+        .logo-box { margin-bottom: 30px; }
+        .logo-box img { 
+            height: 80px; 
+            width: auto; 
+            border-radius: 12px;
+            /* If the image has a white background, we can try to blend it or just keep it clean */
+            background: white; 
+            padding: 10px;
+        }
+        
+        h1 { font-size: 1.8rem; font-weight: 800; margin-bottom: 10px; color: var(--white); }
+        p { color: var(--muted); margin-bottom: 30px; font-size: 0.95rem; }
+
+        .input-group { margin-bottom: 20px; text-align: left; }
+        .input-group label { display: block; font-size: 0.8rem; font-weight: 600; margin-bottom: 8px; color: var(--muted); text-transform: uppercase; }
+        .input-group input {
+            width: 100%; background: rgba(255,255,255,0.03); border: 1px solid var(--border);
+            padding: 14px; border-radius: 12px; color: var(--white); font-size: 0.95rem; transition: 0.3s;
+        }
+        .input-group input:focus { outline: none; border-color: var(--malachite); background: rgba(0,255,127,0.05); }
+
+        .auth-buttons { display: flex; flex-direction: column; gap: 12px; margin-top: 30px; }
+        .btn {
+            width: 100%; padding: 14px; border-radius: 12px; font-weight: 700; cursor: pointer; transition: 0.3s; border: none; font-family: inherit;
+        }
+        .btn-signin { background: var(--malachite); color: #000; }
+        .btn-signin:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0,255,127,0.2); }
+        .btn-signup { background: transparent; border: 1px solid var(--border); color: var(--white); }
+        .btn-signup:hover { background: rgba(255,255,255,0.05); }
+
+        .error-msg { color: var(--error); font-size: 0.85rem; margin-top: 15px; display: none; }
+
+        /* Profile Styles */
+        .profile-header { display: flex; align-items: center; gap: 15px; text-align: left; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
+        .avatar-placeholder { width: 50px; height: 50px; background: var(--malachite); color: #000; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.2rem; }
+        
+        .nav-grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
+        .nav-item {
+            text-decoration: none; color: var(--text); background: rgba(255,255,255,0.03);
+            padding: 15px; border-radius: 12px; font-weight: 600; font-size: 0.9rem; transition: 0.3s; text-align: left; border: 1px solid transparent;
+        }
+        .nav-item:hover { background: rgba(255,255,255,0.06); border-color: var(--border); }
+    </style>
 </head>
 <body>
-    
     <header>
-        <a href='index.html' class='logo-container'><img src='../logos/TITAN_TRADERX_LOGO.png'></a>
+        <a href='index.html' class='logo-container'>
+            <img src='../logos/TITAN_ICON.png' alt='TITAN' style='height: 40px;'>
+        </a>
         <nav id='main-nav'>
-            <a href='index.html'>Home</a><a href='terminal.html'>Terminal</a><a href='academy.html'>Academy</a><a href='partners.html'>Partners</a>
+            <a href='index.html'>Home</a>
+            <a href='terminal.html'>Terminal</a>
+            <a href='academy.html'>Academy</a>
+            <a href='partners.html'>Partners</a>
             <a href='dashboard.html' style='background: var(--malachite); color: #000; padding: 10px 20px; border-radius: 8px; opacity: 1; font-weight: 800;'>LOGIN</a>
         </nav>
         <button class='hamburger' onclick='toggleMenu()'><div></div><div></div><div></div></button>
     </header>
 
-
-    <div class="auth-card" id="auth-ui">
-        <div class="logo-box">
-            <img src="../logos/TITAN_TRADERX_LOGO.png" alt="TITAN TRADERX">
+    <div class='auth-card' id='auth-ui'>
+        <div class='logo-box'>
+            <img src='../logos/TITAN_TRADERX_LOGO.png' alt='TITAN TRADERX'>
         </div>
         <h1>Welcome to Titan</h1>
         <p>Access your sovereign trading dashboard and academy.</p>
         
-        <div class="input-group">
+        <div class='input-group'>
             <label>Email Address</label>
-            <input type="email" id="email" placeholder="name@company.com">
+            <input type='email' id='email' placeholder='name@company.com'>
         </div>
-        <div class="input-group">
+        <div class='input-group'>
             <label>Password</label>
-            <input type="password" id="password" placeholder="••••••••">
+            <input type='password' id='password' placeholder='••••••••'>
         </div>
 
-        <div class="auth-buttons">
-            <button class="btn btn-signin" onclick="signIn()">LOGIN</button>
-            <button class="btn btn-signup" onclick="signUp()">Create Account</button>
+        <div class='auth-buttons'>
+            <button class='btn btn-signin' onclick='signIn()'>LOGIN</button>
+            <button class='btn btn-signup' onclick='signUp()'>Create Account</button>
         </div>
-        <div id="error-message" class="error-msg"></div>
+        <div id='error-message' class='error-msg'></div>
     </div>
 
-    <div class="auth-card" id="user-profile">
-        <div class="profile-header">
-            <div class="avatar-placeholder" id="user-initials">T</div>
+    <div class='auth-card' id='user-profile'>
+        <div class='profile-header'>
+            <div class='avatar-placeholder' id='user-initials'>T</div>
             <div>
-                <h3 id="user-name">Trader</h3>
-                <p id="user-email" style="margin:0; font-size:0.8rem; color: var(--muted);"></p>
+                <h3 id='user-name' style='color: var(--white);'>Trader</h3>
+                <p id='user-email' style='margin:0; font-size:0.8rem; color: var(--muted);'></p>
             </div>
         </div>
-        <div class="nav-grid">
-            <a href="charts.html" class="nav-item">CHARTS</a>
-            <a href="academy.html" class="nav-item">ACADEMY</a>
-            <a href="partners.html" class="nav-item">PARTNERS</a>
-            <a href="#" onclick="logout()" class="nav-item" style="color:#FF4B4B;">LOGOUT</a>
+        <div class='nav-grid'>
+            <a href='terminal.html' class='nav-item'>OPEN TERMINAL</a>
+            <a href='academy.html' class='nav-item'>ACADEMY</a>
+            <a href='partners.html' class='nav-item'>PARTNERS</a>
+            <a href='#' onclick='logout()' class='nav-item' style='color: var(--error); margin-top: 10px;'>LOGOUT</a>
         </div>
     </div>
 
+    <script src='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2'></script>
     <script>
-        const supabaseUrl = 'https://sazhdnqzaxppcralmthh.supabase.co'; // Updated with provided URL from history summary if available, else placeholder
-        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNhemhkbnF6YXFwcWNyYWxtdGhoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxNzE5NjYsImV4cCI6MjA5Mzc0Nzk2Nn0.uTyw31uWTNOTV5-HzNpm46vpAJABAsHLMzW-sYOkRhc'; // Placeholder
-        const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+        const supabaseUrl = 'https://sazhdnqzaxppcralmthh.supabase.co';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNhemhkbnF6YXFwcWNyYWxtdGhoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxNzE5NjYsImV4cCI6MjA5Mzc0Nzk2Nn0.uTyw31uWTNOTV5-HzNpm46vpAJABAsHLMzW-sYOkRhc';
+        const _supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
         async function signIn() {
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
-            const { error } = await supabase.auth.signInWithPassword({ email, password });
+            const { error } = await _supabase.auth.signInWithPassword({ email, password });
             if (error) showError(error.message);
         }
 
         async function signUp() {
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
-            const { error } = await supabase.auth.signUp({ email, password });
+            const { error } = await _supabase.auth.signUp({ email, password });
             if (error) showError(error.message);
-            else alert('Account created successfully! You can now log in.');
+            else alert('Check your email for confirmation!');
         }
 
         async function logout() {
-            await supabase.auth.signOut();
+            await _supabase.auth.signOut();
             window.location.reload();
         }
 
@@ -127,16 +191,18 @@
             err.style.display = 'block';
         }
 
-        supabase.auth.onAuthStateChange((event, session) => {
+        _supabase.auth.onAuthStateChange((event, session) => {
             if (session) {
-                window.location.href = 'terminal.html';
+                document.getElementById('auth-ui').style.display = 'none';
                 document.getElementById('user-profile').style.display = 'block';
                 document.getElementById('user-email').innerText = session.user.email;
                 document.getElementById('user-initials').innerText = session.user.email[0].toUpperCase();
+            } else {
+                document.getElementById('auth-ui').style.display = 'block';
+                document.getElementById('user-profile').style.display = 'none';
             }
         });
-    
-        
+
         function toggleMenu() {
             const nav = document.getElementById('main-nav');
             const hamburger = document.querySelector('.hamburger');
@@ -150,19 +216,6 @@
                 lines[0].style.transform = 'none'; lines[1].style.opacity = '1'; lines[2].style.transform = 'none';
             }
         }
- else {
-                lines[0].style.transform = 'none';
-                lines[1].style.opacity = '1';
-                lines[2].style.transform = 'none';
-            }
-        }
     </script>
 </body>
 </html>
-
-
-
-
-
-
-
