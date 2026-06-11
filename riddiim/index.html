@@ -338,3 +338,4 @@
 
 <div id="sidebar" class="sidebar"><div class="sidebar-header"><h2 style="font-size:1.1rem; margin:0; font-weight: 900;">PRISCION WALLET</h2><button onclick="toggleSidebar()" class="close-btn">&times;</button></div><div class="sidebar-tabs"><button id="tab-assets" onclick="switchWalletTabCore('assets')">Assets</button><button id="tab-vault" onclick="switchWalletTabCore('vault')">Vault</button><button id="tab-shop" onclick="switchWalletTabCore('shop')">Hub</button><button id="tab-sync" onclick="switchWalletTabCore('sync')">Security</button></div><div id="wallet-main-view"></div></div><script src="wallet-core.js"></script><script>function toggleSidebar(){ const s=document.getElementById('sidebar'); s.classList.toggle('active'); if(s.classList.contains('active')){ if(typeof initializeWallet==='function') initializeWallet('sidebar'); } }</script></body>
 </html>
+
