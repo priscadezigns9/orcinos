@@ -169,6 +169,41 @@
                 setTimeout(() => location.reload(), 1500);
             }
         }
+    
+        // Establish Connection with Supabase
+        async function checkSubscription() {
+            const { data: { user } } = await _supabase.auth.getUser();
+            if (!user) return;
+
+            // Check if user just returned from PayPal (URL contains premium=true)
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('premium') === 'true') {
+                // Update User Metadata in Supabase
+                const { data, error } = await _supabase.auth.updateUser({
+                    data: { 
+                        tier: 'apex',
+                        product: 'nurasen',
+                        last_payment: new Date().toISOString()
+                    }
+                });
+                if (!error) {
+                    alert('Nurasen Apex Activated. Your identity is now secured with high-fidelity 15m scanning.');
+                    window.history.replaceState({}, document.title, window.location.pathname);
+                }
+            }
+            
+            // Check metadata to set the UI
+            const tier = user.user_metadata.tier;
+            if (tier === 'apex') {
+                document.getElementById('tier-display').innerText = 'APEX SECURE';
+                document.getElementById('tier-display').style.background = 'var(--accent)';
+                document.getElementById('upgrade-btn').style.display = 'none';
+            }
+        }
+        
+        // Run on load
+        window.addEventListener('load', checkSubscription);
+
     </script>
 
     <div id='authOverlay' style='display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(5,5,5,0.95); backdrop-filter:blur(20px); z-index:9999; align-items:center; justify-content:center;'>
@@ -183,6 +218,7 @@
     </div>
 </body>
 </html>
+
 
 
 
