@@ -41,7 +41,7 @@
         .academy-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 40px; }
         .academy-card { background: var(--surface); padding: 25px; border-radius: 18px; border: 1px solid var(--border); transition: 0.3s; }
         .academy-card:hover { border-color: var(--accent); transform: translateY(-5px); }
-        .academy-card h4 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; color: var(--accent); }
+        .academy-card h4 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; color: var(--accent); }
         .academy-card p { font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
 
         .search-area { background: var(--surface); padding: 45px; border-radius: 24px; border: 1px solid var(--border); margin-bottom: 40px; text-align: center; }
@@ -79,7 +79,7 @@
 <body>
     <nav>
         <div class="logo"><img src="/logos/OPTISCOUT_DEFINITIVE_2026.png" alt="OptiScout"></div>
-        <div class="heartbeat-container" title="The frequency of price synchronization with the Amazon Shard.">
+        <div class="heartbeat-container">
             <div class="pulse-dot"></div>
             <span id="heartbeat-text">Neural Heartbeat: ACTIVE | Signal Secured</span>
         </div>
@@ -97,7 +97,7 @@
         <div class="academy-grid">
             <div class="academy-card">
                 <h4>Scout Alpha</h4>
-                <p>Calculates the Fair Market Floor—the lowest realistic price based on 12 months of historical data oscillations.</p>
+                <p>Calculates the Fair Market Floor—the lowest realistic price based on 12 months of historical oscillations.</p>
             </div>
             <div class="academy-card">
                 <h4>Market Volatility</h4>
@@ -139,13 +139,20 @@
     </div>
 
     <script>
+        let isPremium = false;
+        let countdownSeconds = 900; // 15 minutes default for Apex
+
         window.onload = function() {
             const urlParams = new URLSearchParams(window.location.search);
             
             if (urlParams.get('premium') === 'true') {
+                isPremium = true;
                 document.getElementById('tier-badge').textContent = 'Apex Scout';
-                document.getElementById('heartbeat-text').textContent = 'Neural Heartbeat: ACTIVE | 15m Sync';
+                document.getElementById('heartbeat-text').textContent = 'Neural Heartbeat: ACTIVE | Next Sync: 15:00';
                 document.querySelector('.heartbeat-container').style.border = '1px solid var(--accent)';
+                startHeartbeatCountdown();
+            } else {
+                document.getElementById('heartbeat-text').textContent = 'Neural Heartbeat: ACTIVE | 12h Sync';
             }
 
             const targetUrl = urlParams.get('url');
@@ -154,6 +161,30 @@
                 initializeScout();
             }
         };
+
+        function startHeartbeatCountdown() {
+            setInterval(() => {
+                if (countdownSeconds > 0) {
+                    countdownSeconds--;
+                    const mins = Math.floor(countdownSeconds / 60);
+                    const secs = countdownSeconds % 60;
+                    document.getElementById('heartbeat-text').textContent = ;
+                } else {
+                    countdownSeconds = 900; // Reset to 15m
+                    triggerNeuralSync();
+                }
+            }, 1000);
+        }
+
+        function triggerNeuralSync() {
+            const statusCells = document.querySelectorAll('.sync-cell');
+            statusCells.forEach(cell => {
+                if(cell.innerText !== 'LIVE') {
+                    cell.innerText = 'SYNCING...';
+                    setTimeout(() => cell.innerText = 'Just Now', 2000);
+                }
+            });
+        }
 
         function handleKeyPress(e) {
             if (e.key === 'Enter') initializeScout();
