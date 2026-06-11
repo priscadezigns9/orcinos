@@ -5,47 +5,59 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PrayerBlock | Sacred Workspace</title>
     <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         :root {
             --bg: #F8F4E8; --parchment: #FDFAF4; --forest: #1A3A2A; --gold: #C9A84C;
             --border: #E0DCC8; --text: #1A3A2A;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Crimson Pro', serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+        body { font-family: 'Crimson Pro', serif; background: var(--bg); color: var(--text); min-height: 100vh; line-height: 1.6; }
         
         header { 
             background: var(--forest); color: var(--bg); padding: 20px 6%; display: flex; 
             justify-content: space-between; align-items: center; box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            position: sticky; top: 0; z-index: 1000;
         }
         .logo { font-size: 1.5rem; font-weight: 600; }
         .logo span { color: var(--gold); }
         .user-nav { font-family: 'Inter', sans-serif; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; }
 
-        .workspace { max-width: 1200px; margin: 40px auto; padding: 0 6%; display: grid; grid-template-columns: 2fr 1fr; gap: 40px; }
+        .workspace { max-width: 1400px; margin: 40px auto; padding: 0 6%; display: grid; grid-template-columns: 2fr 1fr; gap: 40px; }
         
         .parchment-card {
             background: var(--parchment); border: 1px solid var(--border); padding: 40px;
             box-shadow: 0 10px 30px rgba(26, 58, 42, 0.05); position: relative; border-radius: 4px;
+            margin-bottom: 40px;
         }
         .parchment-card::after {
             content: ""; position: absolute; top: 10px; right: 10px; bottom: 10px; left: 10px;
             border: 1px solid rgba(201, 168, 76, 0.2); pointer-events: none;
         }
         
-        h2 { font-size: 2rem; margin-bottom: 25px; border-bottom: 1px solid var(--border); padding-bottom: 10px; }
-        
-        .planner-row { display: flex; border-bottom: 1px solid var(--border); padding: 15px 0; align-items: center; }
-        .time-label { width: 80px; font-family: 'Inter', sans-serif; font-weight: 700; font-size: 0.75rem; color: var(--gold); }
-        .task-input { flex: 1; border: none; background: transparent; font-size: 1.1rem; color: var(--text); outline: none; }
-        .task-input::placeholder { opacity: 0.3; italic: true; }
+        h2, h3 { font-family: 'Crimson Pro', serif; margin-bottom: 25px; border-bottom: 1px solid var(--border); padding-bottom: 10px; }
         
         .anchor-verse { text-align: center; margin-bottom: 40px; padding: 30px; border: 2px solid var(--gold); border-radius: 8px; }
         .anchor-verse p { font-style: italic; font-size: 1.4rem; margin-bottom: 10px; }
         .anchor-verse cite { font-weight: 600; color: var(--gold); }
 
+        .planner-row { display: flex; border-bottom: 1px solid var(--border); padding: 15px 0; align-items: center; }
+        .time-label { width: 80px; font-family: 'Inter', sans-serif; font-weight: 700; font-size: 0.75rem; color: var(--gold); }
+        .task-input { flex: 1; border: none; background: transparent; font-size: 1.1rem; color: var(--text); outline: none; }
+        .task-input::placeholder { opacity: 0.3; font-style: italic; }
+        
         .sidebar-section { margin-bottom: 40px; }
-        .sidebar-section h3 { font-size: 1.2rem; margin-bottom: 15px; color: var(--gold); text-transform: uppercase; letter-spacing: 2px; }
+        .sidebar-section h3 { font-size: 1.1rem; margin-bottom: 15px; color: var(--gold); text-transform: uppercase; letter-spacing: 2px; border-bottom: none; padding: 0; }
         .prayer-item { background: #FFF; padding: 15px; border: 1px solid var(--border); margin-bottom: 10px; border-radius: 4px; font-size: 0.95rem; }
+        
+        .module-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; }
+        .flashcard-card { background: #FFF; border: 1px solid var(--border); padding: 30px; text-align: center; border-radius: 8px; }
+        .flashcard-text { font-size: 1.2rem; font-style: italic; margin-bottom: 20px; min-height: 80px; display: flex; align-items: center; justify-content: center; }
+        
+        .outreach-badge { display: inline-block; padding: 4px 12px; background: rgba(201, 168, 76, 0.1); color: var(--gold); border-radius: 100px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; margin-bottom: 10px; }
+        
+        .mustard-tree-container { text-align: center; padding: 40px; border: 1px dashed var(--gold); border-radius: 8px; background: #FFF; margin-top: 20px; }
+        .tree-visual { font-size: 5rem; transition: transform 0.3s ease; cursor: default; }
         
         .btn-add { 
             width: 100%; padding: 12px; background: var(--forest); color: #FFF; border: none;
@@ -54,49 +66,6 @@
         }
         .btn-add:hover { background: #2A5A3A; }
 
-        @media (max-width: 900px) {
-            .workspace { grid-template-columns: 1fr; }
-        }
-    
-        .module-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; margin-top: 40px; }
-        .flashcard-card { background: #FFF; border: 1px solid var(--border); padding: 30px; text-align: center; border-radius: 8px; }
-        .flashcard-text { font-size: 1.2rem; font-style: italic; margin-bottom: 20px; min-height: 80px; display: flex; align-items: center; justify-content: center; }
-        .outreach-badge { display: inline-block; padding: 4px 12px; background: rgba(201, 168, 76, 0.1); color: var(--gold); border-radius: 100px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; margin-bottom: 10px; }
-        .mustard-tree-container { text-align: center; padding: 40px; border: 1px dashed var(--gold); border-radius: 8px; margin-top: 40px; }
-        .tree-visual { font-size: 4rem; transition: transform 0.3s ease; }
-        .tree-visual:hover { transform: scale(1.1); }
-
-    </style>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
-        function revealVerse() {
-            const card = document.getElementById('flashcard');
-            if(card.innerText.includes('John 3:16')) {
-                card.innerText = '"I can do all things through Christ..."';
-            } else {
-                card.innerText = 'John 3:16';
-            }
-        }
-
-        function addOutreach() {
-            const text = prompt("Who did you share hope with today?");
-            if(text) {
-                const item = document.createElement('div');
-                item.className = 'prayer-item';
-                item.innerText = "Planted seed with: " + text;
-                document.getElementById('outreach-list').appendChild(item);
-                growTree();
-            }
-        }
-
-        function growTree() {
-            const tree = document.getElementById('tree');
-            const stages = ['🌱', '🌿', '🌳', '🌲'];
-            let current = stages.indexOf(tree.innerText);
-            if(current < stages.length - 1) tree.innerText = stages[current + 1];
-        }
-
-    </script>
-    <style>
         .auth-overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(26, 58, 42, 0.95); z-index: 10000; align-items: center; justify-content: center;
@@ -113,26 +82,14 @@
             width: 100%; padding: 15px; background: var(--forest); color: #FFF; border: none;
             font-weight: 700; cursor: pointer; text-transform: uppercase; letter-spacing: 1px;
         }
-        .upgrade-banner {
-            background: var(--gold); color: #FFF; padding: 10px; text-align: center;
-            font-family: 'Inter', sans-serif; font-weight: 700; font-size: 0.7rem;
-            text-transform: uppercase; letter-spacing: 1px; cursor: pointer;
-        }
-    
-        .module-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; margin-top: 40px; }
-        .flashcard-card { background: #FFF; border: 1px solid var(--border); padding: 30px; text-align: center; border-radius: 8px; }
-        .flashcard-text { font-size: 1.2rem; font-style: italic; margin-bottom: 20px; min-height: 80px; display: flex; align-items: center; justify-content: center; }
-        .outreach-badge { display: inline-block; padding: 4px 12px; background: rgba(201, 168, 76, 0.1); color: var(--gold); border-radius: 100px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; margin-bottom: 10px; }
-        .mustard-tree-container { text-align: center; padding: 40px; border: 1px dashed var(--gold); border-radius: 8px; margin-top: 40px; }
-        .tree-visual { font-size: 4rem; transition: transform 0.3s ease; }
-        .tree-visual:hover { transform: scale(1.1); }
 
+        @media (max-width: 1000px) { .workspace { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
     <div id="auth-overlay" class="auth-overlay">
         <div class="auth-modal">
-            <h2 style="font-size: 1.5rem; margin-bottom: 10px;">Secure Your Path</h2>
+            <h2 style="border:none;">Secure Your Path</h2>
             <p style="font-size: 0.9rem; margin-bottom: 25px; opacity: 0.7;">Create a free account to sync your planner across all devices.</p>
             <input type="email" id="auth-email" placeholder="Email Address">
             <input type="password" id="auth-password" placeholder="Password">
@@ -141,50 +98,79 @@
             <button onclick="closeAuth()" style="margin-top: 20px; background: none; border: none; font-size: 0.7rem; text-transform: uppercase; cursor: pointer; opacity: 0.5;">Continue as Guest</button>
         </div>
     </div>
+
     <header>
         <div class="logo">Prayer<span>Block</span></div>
-        
         <div class="user-nav" id="user-status">
             <button onclick="openAuth()" style="background:var(--gold); color:#FFF; border:none; padding:5px 15px; border-radius:100px; cursor:pointer; font-weight:700;">SECURE ACCOUNT</button>
         </div>
     </header>
 
     <div class="workspace">
-        <div class="parchment-card">
-            <div class="anchor-verse">
-                <p>"Commit your work to the Lord, and your plans will be established."</p>
-                <cite>Proverbs 16:3</cite>
+        <div class="main-content">
+            <div class="parchment-card">
+                <div class="anchor-verse">
+                    <p>"Commit your work to the Lord, and your plans will be established."</p>
+                    <cite>Proverbs 16:3</cite>
+                </div>
+                
+                <h2>Daily Planner</h2>
+                <div class="planner-row"><div class="time-label">08:00 AM</div><input type="text" class="task-input" placeholder="Morning Devotional"></div>
+                <div class="planner-row"><div class="time-label">09:00 AM</div><input type="text" class="task-input" placeholder="Deep Work Block"></div>
+                <div class="planner-row"><div class="time-label">11:00 AM</div><input type="text" class="task-input" placeholder="Scripture Meditation"></div>
+                <div class="planner-row"><div class="time-label">12:00 PM</div><input type="text" class="task-input" placeholder="Mid-day Intercession"></div>
+                <div class="planner-row"><div class="time-label">01:00 PM</div><input type="text" class="task-input" placeholder="Strategic Scaling"></div>
+                <div class="planner-row"><div class="time-label">03:00 PM</div><input type="text" class="task-input" placeholder="Project Review"></div>
+                <div class="planner-row"><div class="time-label">05:00 PM</div><input type="text" class="task-input" placeholder="Evening Gratitude"></div>
             </div>
-            
-            <h2>Daily Planner</h2>
-            <div class="planner-row"><div class="time-label">08:00 AM</div><input type="text" class="task-input" placeholder="Morning Devotional"></div>
-            <div class="planner-row"><div class="time-label">09:00 AM</div><input type="text" class="task-input" placeholder="Deep Work Block"></div>
-            <div class="planner-row"><div class="time-label">11:00 AM</div><input type="text" class="task-input" placeholder="Scripture Meditation"></div>
-            <div class="planner-row"><div class="time-label">12:00 PM</div><input type="text" class="task-input" placeholder="Mid-day Intercession"></div>
-            <div class="planner-row"><div class="time-label">01:00 PM</div><input type="text" class="task-input" placeholder="Strategic Scaling"></div>
-            <div class="planner-row"><div class="time-label">03:00 PM</div><input type="text" class="task-input" placeholder="Project Review"></div>
-            <div class="planner-row"><div class="time-label">05:00 PM</div><input type="text" class="task-input" placeholder="Evening Gratitude"></div>
+
+            <div class="module-grid">
+                <div class="parchment-card">
+                    <div class="outreach-badge">Scripture Memory</div>
+                    <h3>Spaced Repetition</h3>
+                    <div class="flashcard-card">
+                        <div class="flashcard-text" id="flashcard">"For God so loved the world..."</div>
+                        <button class="btn-add" style="background: var(--gold);" onclick="revealVerse()">Reveal Reference</button>
+                    </div>
+                </div>
+                
+                <div class="parchment-card">
+                    <div class="outreach-badge">Outreach Tracker</div>
+                    <h3>Faith Seeds Planted</h3>
+                    <div id="outreach-list" style="margin-bottom: 15px;">
+                        <div class="prayer-item">Shared hope with a colleague.</div>
+                    </div>
+                    <button class="btn-add" onclick="addOutreach()">Log Conversation</button>
+                </div>
+            </div>
         </div>
 
         <div class="sidebar">
-            <div class="sidebar-section">
-                <h3>Intercessions</h3>
-                <div id="prayer-list">
-                    <div class="prayer-item">Grace for the 12-hour shift.</div>
-                    <div class="prayer-item">Clarity for Orcinos expansion.</div>
+            <div class="parchment-card">
+                <div class="sidebar-section">
+                    <h3>Intercessions</h3>
+                    <div id="prayer-list">
+                        <div class="prayer-item">Grace for the 12-hour shift.</div>
+                        <div class="prayer-item">Clarity for Orcinos expansion.</div>
+                    </div>
+                    <input type="text" id="new-prayer" placeholder="Enter request..." style="width:100%; padding:10px; margin-bottom:10px; border:1px solid var(--border); outline:none; font-family:inherit;">
+                    <button class="btn-add" onclick="addPrayer()">Log Request</button>
                 </div>
-                <input type="text" id="new-prayer" placeholder="Enter request..." style="width:100%; padding:10px; margin-bottom:10px; border:1px solid var(--border); outline:none;">
-                <button class="btn-add" onclick="addPrayer()">Log Request</button>
-            </div>
 
-            <div class="sidebar-section">
-                <h3>Gratitude Journal</h3>
-                <textarea placeholder="I am grateful for..." style="width:100%; height:100px; padding:15px; border:1px solid var(--border); font-family:inherit; font-size:1rem; outline:none;"></textarea>
+                <div class="sidebar-section">
+                    <h3>Gratitude Journal</h3>
+                    <textarea id="gratitude-text" placeholder="I am grateful for..." style="width:100%; height:100px; padding:15px; border:1px solid var(--border); font-family:inherit; font-size:1rem; outline:none;"></textarea>
+                </div>
+
+                <div class="mustard-tree-container">
+                    <h3>The Mustard Tree</h3>
+                    <div class="tree-visual" id="tree">🌱</div>
+                    <p style="font-size: 0.8rem; margin-top: 10px; opacity: 0.6;">Your tree grows as you commit to your walk.</p>
+                </div>
             </div>
         </div>
     </div>
 
-    
     <script>
         const supabaseUrl = 'https://sazhdnqzaxppcralmthh.supabase.co';
         const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNhemhkbnF6YXFwcWNyYWxtdGhoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxNzE5NjYsImV4cCI6MjA5Mzc0Nzk2Nn0.uTyw31uWTNOTV5-HzNpm46vpAJABAsHLMzW-sYOkRhc';
@@ -198,7 +184,6 @@
             const password = document.getElementById('auth-password').value;
             const msg = document.getElementById('auth-msg');
             msg.innerText = "ESTABLISHING TUNNEL...";
-
             const { data, error } = await _supabase.auth.signUp({ email, password });
             if (error) {
                 const { data: logIn, error: logError } = await _supabase.auth.signInWithPassword({ email, password });
@@ -224,42 +209,7 @@
             item.className = 'prayer-item';
             item.innerText = prayerText;
             document.getElementById('prayer-list').appendChild(item);
-            if (!text) {
-                input.value = '';
-                saveToLocal();
-            }
-        }
-
-        function saveToLocal() {
-            const prayers = Array.from(document.querySelectorAll('.prayer-item')).map(p => p.innerText);
-            const tasks = Array.from(document.querySelectorAll('.task-input')).map(t => t.value);
-            localStorage.setItem('prayerblock_data', JSON.stringify({ prayers, tasks }));
-        }
-
-        function loadFromLocal() {
-            const data = JSON.parse(localStorage.getItem('prayerblock_data'));
-            if(data) {
-                if(data.prayers) data.prayers.forEach(p => addPrayer(p));
-                if(data.tasks) {
-                    const inputs = document.querySelectorAll('.task-input');
-                    data.tasks.forEach((t, i) => { if(inputs[i]) inputs[i].value = t; });
-                }
-            }
-        }
-
-        document.querySelectorAll('.task-input').forEach(input => {
-            input.oninput = saveToLocal;
-        });
-
-        window.onload = loadFromLocal;
-    
-        function revealVerse() {
-            const card = document.getElementById('flashcard');
-            if(card.innerText.includes('John 3:16')) {
-                card.innerText = '"I can do all things through Christ..."';
-            } else {
-                card.innerText = 'John 3:16';
-            }
+            if (!text) { input.value = ''; saveToLocal(); growTree(); }
         }
 
         function addOutreach() {
@@ -269,8 +219,16 @@
                 item.className = 'prayer-item';
                 item.innerText = "Planted seed with: " + text;
                 document.getElementById('outreach-list').appendChild(item);
+                saveToLocal();
                 growTree();
             }
+        }
+
+        function revealVerse() {
+            const card = document.getElementById('flashcard');
+            if(card.innerText.includes('John 3:16')) {
+                card.innerText = '"I can do all things through Christ..."';
+            } else { card.innerText = 'John 3:16'; }
         }
 
         function growTree() {
@@ -278,38 +236,43 @@
             const stages = ['🌱', '🌿', '🌳', '🌲'];
             let current = stages.indexOf(tree.innerText);
             if(current < stages.length - 1) tree.innerText = stages[current + 1];
+            saveToLocal();
         }
 
+        function saveToLocal() {
+            const prayers = Array.from(document.querySelectorAll('#prayer-list .prayer-item')).map(p => p.innerText);
+            const outreach = Array.from(document.querySelectorAll('#outreach-list .prayer-item')).map(p => p.innerText);
+            const tasks = Array.from(document.querySelectorAll('.task-input')).map(t => t.value);
+            const gratitude = document.getElementById('gratitude-text').value;
+            const treeState = document.getElementById('tree').innerText;
+            localStorage.setItem('prayerblock_data', JSON.stringify({ prayers, outreach, tasks, gratitude, treeState }));
+        }
+
+        function loadFromLocal() {
+            const data = JSON.parse(localStorage.getItem('prayerblock_data'));
+            if(data) {
+                document.getElementById('prayer-list').innerHTML = '';
+                if(data.prayers) data.prayers.forEach(p => addPrayer(p));
+                document.getElementById('outreach-list').innerHTML = '';
+                if(data.outreach) data.outreach.forEach(p => {
+                    const item = document.createElement('div');
+                    item.className = 'prayer-item';
+                    item.innerText = p;
+                    document.getElementById('outreach-list').appendChild(item);
+                });
+                if(data.tasks) {
+                    const inputs = document.querySelectorAll('.task-input');
+                    data.tasks.forEach((t, i) => { if(inputs[i]) inputs[i].value = t; });
+                }
+                if(data.gratitude) document.getElementById('gratitude-text').value = data.gratitude;
+                if(data.treeState) document.getElementById('tree').innerText = data.treeState;
+            }
+        }
+
+        document.querySelectorAll('.task-input').forEach(input => { input.oninput = saveToLocal; });
+        document.getElementById('gratitude-text').oninput = saveToLocal;
+
+        window.onload = loadFromLocal;
     </script>
-
-    <div class="workspace" style="margin-top: 0; padding-top: 0;">
-        <div class="module-grid" style="grid-column: 1 / -1;">
-            <div class="parchment-card">
-                <div class="outreach-badge">Scripture Memory</div>
-                <h3>Spaced Repetition</h3>
-                <div class="flashcard-card">
-                    <div class="flashcard-text" id="flashcard">"For God so loved the world..."</div>
-                    <button class="btn-add" style="background: var(--gold);" onclick="revealVerse()">Reveal Reference</button>
-                </div>
-            </div>
-            
-            <div class="parchment-card">
-                <div class="outreach-badge">Outreach Tracker</div>
-                <h3>Faith Seeds Planted</h3>
-                <div id="outreach-list" style="margin-bottom: 15px;">
-                    <div class="prayer-item">Shared hope with a colleague.</div>
-                </div>
-                <button class="btn-add" onclick="addOutreach()">Log Conversation</button>
-            </div>
-        </div>
-
-        <div class="mustard-tree-container" style="grid-column: 1 / -1;">
-            <h3>The Mustard Tree</h3>
-            <div class="tree-visual" id="tree">🌱</div>
-            <p style="font-size: 0.8rem; margin-top: 10px; opacity: 0.6;">Your tree grows as you commit to your walk.</p>
-        </div>
-    </div>
-
 </body>
 </html>
-
