@@ -29,7 +29,14 @@
         .nav-item.active { border-left: 3px solid var(--malachite); color: var(--malachite); }
 
         .btn-logout { background: transparent; border: 1px solid #ff4d4d; color: #ff4d4d; padding: 5px 12px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; }
-    </style>
+    
+        @media screen and (max-width: 968px) {
+            .workspace { grid-template-columns: 1fr; overflow-y: auto; height: auto; }
+            .sidebar, .watchlist { display: none; } /* Hide sidebars on mobile for focus */
+            .main-terminal { height: 70vh; }
+            body { overflow-y: auto; height: auto; }
+        }
+</style>
 </head>
 <body>
     <header>
