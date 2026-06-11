@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nurasen | Secure Access</title>
+    <title>Nurasen | Neural Access</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         :root {
@@ -11,34 +11,27 @@
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background: var(--bg); color: var(--text); font-family: -apple-system, sans-serif; height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden; }
-        
         .auth-card {
             background: #0D0D0D; padding: 50px; border-radius: 30px; border: 1px solid var(--accent);
-            width: 100%; max-width: 400px; text-align: center; position: relative;
+            width: 100%; max-width: 420px; text-align: center; box-shadow: 0 0 50px rgba(0,255,255,0.05);
         }
-        .logo img { height: 60px; margin-bottom: 30px; }
-        h2 { text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; font-weight: 900; }
-        p { color: var(--muted); font-size: 0.9rem; margin-bottom: 30px; }
-        
+        .logo img { height: 65px; margin-bottom: 30px; }
+        h2 { text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; font-weight: 900; font-size: 1.5rem; }
+        p { color: var(--muted); font-size: 0.9rem; margin-bottom: 35px; letter-spacing: 0.5px; }
         input {
-            width: 100%; padding: 15px; background: transparent; border: 1px solid var(--border);
-            border-radius: 10px; color: #FFF; margin-bottom: 15px; outline: none; transition: 0.3s;
+            width: 100%; padding: 18px; background: rgba(255,255,255,0.03); border: 1px solid var(--border);
+            border-radius: 12px; color: #FFF; margin-bottom: 15px; outline: none; transition: 0.3s; font-size: 1rem;
         }
-        input:focus { border-color: var(--accent); }
-        
+        input:focus { border-color: var(--accent); background: rgba(255,255,255,0.05); }
         .btn-auth {
-            width: 100%; padding: 15px; background: var(--accent); color: #000; border: none;
-            border-radius: 10px; font-weight: 900; text-transform: uppercase; cursor: pointer;
-            transition: 0.3s; margin-top: 10px;
+            width: 100%; padding: 18px; background: var(--accent); color: #000; border: none;
+            border-radius: 12px; font-weight: 900; text-transform: uppercase; cursor: pointer;
+            transition: 0.3s; margin-top: 10px; font-size: 1rem; letter-spacing: 1px;
         }
-        .btn-auth:hover { transform: scale(1.02); box-shadow: 0 0 20px rgba(0,255,255,0.2); }
-        
-        .toggle-link {
-            margin-top: 20px; font-size: 0.8rem; color: var(--muted); cursor: pointer; display: block;
-        }
+        .btn-auth:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0,255,255,0.2); }
+        .toggle-link { margin-top: 25px; font-size: 0.85rem; color: var(--muted); cursor: pointer; display: block; }
         .toggle-link span { color: var(--accent); font-weight: 700; }
-        
-        #auth-msg { margin-top: 20px; font-size: 0.8rem; color: var(--accent); min-height: 20px; }
+        #auth-msg { margin-top: 25px; font-size: 0.85rem; color: #FF4444; min-height: 20px; font-weight: 600; text-transform: uppercase; }
     </style>
 </head>
 <body>
@@ -46,25 +39,26 @@
         <div class="logo"><img src="../logos/NURASEN_DEFINITIVE_2026.png" alt="Nurasen"></div>
         <h2 id="auth-title">Neural Access</h2>
         <p id="auth-subtitle">Establish your identity to start scanning.</p>
-        
         <input type="email" id="email" placeholder="Pulse Address (Email)">
         <input type="password" id="pass" placeholder="Keycode">
-        
         <button class="btn-auth" id="auth-btn" onclick="handleAuth()">Sign Up</button>
-        
         <div id="auth-msg"></div>
-        
         <div class="toggle-link" onclick="toggleAuth()">
             <span id="toggle-text">Already have a profile? Login</span>
         </div>
-        
-        <a href="index.html" style="display:block; margin-top:30px; color:var(--muted); text-decoration:none; font-size:0.7rem; text-transform:uppercase;">Return Home</a>
+        <a href="index.html" style="display:block; margin-top:35px; color:var(--muted); text-decoration:none; font-size:0.75rem; text-transform:uppercase; letter-spacing:1px; opacity:0.6;">Return Home</a>
     </div>
 
     <script>
         const supabaseUrl = 'https://sazhdnqzaxppcralmthh.supabase.co';
         const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNhemhkbnF6YXFwcWNyYWxtdGhoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxNzE5NjYsImV4cCI6MjA5Mzc0Nzk2Nn0.uTyw31uWTNOTV5-HzNpm46vpAJABAsHLMzW-sYOkRhc';
-        const _supabase = supabase.createClient(supabaseUrl, supabaseKey);
+        
+        let client;
+        try {
+            client = supabase.createClient(supabaseUrl, supabaseKey);
+        } catch (e) {
+            console.error("Supabase Init Error:", e);
+        }
 
         let isLogin = false;
 
@@ -74,6 +68,7 @@
             document.getElementById('auth-subtitle').innerText = isLogin ? 'Access your existing profile.' : 'Establish your identity to start scanning.';
             document.getElementById('auth-btn').innerText = isLogin ? 'Login' : 'Sign Up';
             document.getElementById('toggle-text').innerText = isLogin ? "Don't have a profile? Sign Up" : "Already have a profile? Login";
+            document.getElementById('auth-msg').innerText = "";
         }
 
         async function handleAuth() {
@@ -86,16 +81,29 @@
                 return;
             }
 
+            msg.style.color = "var(--accent)";
             msg.innerText = isLogin ? 'SYNCHRONIZING...' : 'INITIALIZING HANDSHAKE...';
             
-            if (isLogin) {
-                const { data, error } = await _supabase.auth.signInWithPassword({ email, password });
-                if(error) msg.innerText = 'ERROR: ' + error.message;
-                else window.location.href = 'dashboard.html';
-            } else {
-                const { data, error } = await _supabase.auth.signUp({ email, password });
-                if(error) msg.innerText = 'ERROR: ' + error.message;
-                else msg.innerText = 'PROFILE ESTABLISHED. CHECK EMAIL.';
+            try {
+                if (isLogin) {
+                    const { data, error } = await client.auth.signInWithPassword({ email, password });
+                    if(error) throw error;
+                    window.location.href = 'dashboard.html';
+                } else {
+                    const { data, error } = await client.auth.signUp({ 
+                        email, 
+                        password,
+                        options: {
+                            emailRedirectTo: window.location.origin + '/nurasen/dashboard.html'
+                        }
+                    });
+                    if(error) throw error;
+                    msg.innerText = 'PROFILE ESTABLISHED. CHECK EMAIL.';
+                }
+            } catch (err) {
+                console.error("Auth Error:", err);
+                msg.style.color = "#FF4444";
+                msg.innerText = "ERROR: " + (err.message || "Failed to establish connection");
             }
         }
     </script>
