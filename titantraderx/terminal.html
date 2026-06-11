@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <link rel='icon' href='../logos/TITAN_ICON.png' type='image/png'>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>Titan Terminal | Sovereign Workspace</title>
+    <script src='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2'></script>
+    <link href='https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap' rel='stylesheet'>
+    <style>
+        :root {
+            --bg: #050505; --surface: #0F0F11; --text: #FFFFFF; --muted: #888; --malachite: #00FF7F; --border: rgba(255,255,255,0.05);
+            --error: #ff4d4d;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); overflow: hidden; height: 100vh; display: flex; flex-direction: column; }
+        
+        header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 20px; display: flex; justify-content: space-between; align-items: center; height: 60px; z-index: 1000; }
+        .header-left { display: flex; align-items: center; gap: 20px; }
+        .logo img { height: 24px; width: auto; border-radius: 6px; }
+        
+        .header-right { display: flex; align-items: center; gap: 15px; }
+        .user-pill { 
+            background: rgba(255,255,255,0.03); border: 1px solid var(--border); 
+            padding: 6px 12px; border-radius: 100px; display: flex; align-items: center; gap: 8px;
+            font-size: 0.8rem; font-weight: 600;
+        }
+        .status-dot { width: 8px; height: 8px; background: var(--malachite); border-radius: 50%; box-shadow: 0 0 10px var(--malachite); }
+        
+        .btn-exit { 
+            background: transparent; border: 1px solid var(--border); color: var(--muted); 
+            padding: 6px 12px; border-radius: 8px; cursor: pointer; font-size: 0.75rem; 
+            font-weight: 800; transition: 0.3s;
+        }
+        .btn-exit:hover { border-color: var(--error); color: var(--error); background: rgba(255,77,77,0.05); }
+        
+        .workspace { display: grid; grid-template-columns: 260px 1fr 300px; flex-grow: 1; overflow: hidden; }
+        .sidebar { background: var(--surface); border-right: 1px solid var(--border); padding: 20px; display: flex; flex-direction: column; }
+        .main-terminal { background: #000; position: relative; border-right: 1px solid var(--border); }
+        .watchlist { background: var(--surface); padding: 20px; display: flex; flex-direction: column; }
+        
+        h3 { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); margin-bottom: 20px; font-weight: 800; }
+        .nav-item { padding: 12px; border-radius: 12px; cursor: pointer; transition: 0.2s; font-size: 0.85rem; color: var(--muted); margin-bottom: 5px; font-weight: 600; display: flex; align-items: center; gap: 10px; }
+        .nav-item:hover, .nav-item.active { background: rgba(255,255,255,0.05); color: var(--white); }
+        .nav-item.active { color: var(--malachite); background: rgba(0,255,127,0.05); }
+
+        .watchlist-container { flex-grow: 1; overflow-y: auto; }
+        .watchlist-item { 
+            display: flex; justify-content: space-between; align-items: center; 
+            padding: 12px; border-radius: 10px; margin-bottom: 5px; 
+            background: rgba(255,255,255,0.01); border: 1px solid transparent; transition: 0.2s;
+        }
+        .watchlist-item:hover { background: rgba(255,255,255,0.03); border-color: var(--border); }
+        .symbol { font-weight: 700; font-size: 0.85rem; }
+        .price { font-family: monospace; font-weight: 600; color: var(--malachite); }
+        .remove-btn { opacity: 0; cursor: pointer; color: var(--error); font-size: 0.8rem; transition: 0.3s; }
+        .watchlist-item:hover .remove-btn { opacity: 1; }
+
+        .add-symbol-box { margin-top: 20px; display: flex; gap: 8px; }
+        .add-input { 
+            flex-grow: 1; background: rgba(0,0,0,0.2); border: 1px solid var(--border); 
+            border-radius: 8px; padding: 10px; color: #fff; font-size: 0.8rem; outline: none;
+        }
+        .add-input:focus { border-color: var(--malachite); }
+        .add-btn { background: var(--malachite); color: #000; border: none; padding: 0 15px; border-radius: 8px; font-weight: 800; cursor: pointer; }
+
+        @media screen and (max-width: 1200px) {
+            .workspace { grid-template-columns: 200px 1fr 250px; }
+        }
+        @media screen and (max-width: 968px) {
+            .workspace { grid-template-columns: 1fr; overflow-y: auto; }
+            .sidebar, .watchlist { display: none; }
+            .main-terminal { height: 80vh; }
+            body { overflow-y: auto; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class='header-left'>
+            <a href='index.html' class='logo'><img src='../logos/TITAN_ICON.png' alt='Titan'></a>
+            <h2 style='font-size: 0.9rem; font-weight: 800; letter-spacing: 1px;'>TERMINAL</h2>
+        </div>
+        <div class='header-right'>
+            <div class='user-pill'>
+                <div class='status-dot'></div>
+                <span id='user-email'>...</span>
+            </div>
+            <button class='btn-exit' onclick='logout()'>LOGOUT</button>
+        </div>
+    </header>
+
+    <div class='workspace'>
+        <aside class='sidebar'>
+            <h3>Navigation</h3>
+            <div class='nav-item active'>📊 Charts</div>
+            <div class='nav-item'>📖 Academy</div>
+            <div class='nav-item'>🤝 Partners</div>
+            
+            <h3 style='margin-top: 30px;'>Workspace</h3>
+            <div class='nav-item'>🛠️ Risk Calc</div>
+            <div class='nav-item'>🧠 Neural Desk</div>
+        </aside>
+
+        <main class='main-terminal'>
+            <div id='tv_chart_container' style='height: 100%; width: 100%;'></div>
+        </main>
+
+        <aside class='watchlist'>
+            <h3>Watchlist</h3>
+            <div class='watchlist-container' id='watchlist-items'>
+                <!-- Symbols injected here -->
+            </div>
+            <div class='add-symbol-box'>
+                <input type='text' id='symbol-input' class='add-input' placeholder='BTCUSDT'>
+                <button class='add-btn' onclick='addSymbol()'>+</button>
+            </div>
+        </aside>
+    </div>
+
+    <script type='text/javascript' src='https://s3.tradingview.com/tv.js'></script>
+    <script>
+        const supabaseUrl = 'https://sazhdnqzaxppcralmthh.supabase.co';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNhemhkbnF6YXFwcWNyYWxtdGhoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxNzE5NjYsImV4cCI6MjA5Mzc0Nzk2Nn0.uTyw31uWTNOTV5-HzNpm46vpAJABAsHLMzW-sYOkRhc';
+        const _supabase = supabase.createClient(supabaseUrl, supabaseKey);
+        
+        let currentUser = null;
+        let tvWidget = null;
+
+        _supabase.auth.onAuthStateChange((event, session) => {
+            if (!session) { 
+                window.location.href = 'dashboard.html'; 
+            } else { 
+                currentUser = session.user;
+                document.getElementById('user-email').innerText = currentUser.email.split('@')[0];
+                initChart('BINANCE:BTCUSDT');
+                loadWatchlist();
+            }
+        });
+
+        function initChart(symbol) {
+            tvWidget = new TradingView.widget({
+              'autosize': true,
+              'symbol': symbol,
+              'interval': '60',
+              'theme': 'dark',
+              'style': '1',
+              'locale': 'en',
+              'container_id': 'tv_chart_container',
+              'enable_publishing': false,
+              'hide_side_toolbar': false,
+              'allow_symbol_change': true,
+              'save_image': false,
+              'backgroundColor': '#000000',
+              'gridColor': '#0F0F11'
+            });
+        }
+
+        async function loadWatchlist() {
+            const { data, error } = await _supabase
+                .from('user_watchlists')
+                .select('*')
+                .eq('user_id', currentUser.id);
+            
+            const container = document.getElementById('watchlist-items');
+            container.innerHTML = '';
+            
+            if (data && data.length > 0) {
+                data.forEach(item => {
+                    renderSymbol(item.symbol, item.id);
+                });
+            } else {
+                ['BTCUSDT', 'ETHUSDT'].forEach(s => renderSymbol(s, null));
+            }
+        }
+
+        function renderSymbol(symbol, id) {
+            const div = document.createElement('div');
+            div.className = 'watchlist-item';
+            div.innerHTML = `
+                <span class='symbol' onclick='initChart("BINANCE:" + "${symbol}")' style='cursor:pointer;'>${symbol}</span>
+                <span class='price'>LIVE</span>
+                <span class='remove-btn' onclick='removeSymbol(\"${id}\", \"${symbol}\")'>✕</span>
+            `;
+            document.getElementById('watchlist-items').appendChild(div);
+        }
+
+        async function addSymbol() {
+            const input = document.getElementById('symbol-input');
+            const symbol = input.value.toUpperCase().trim();
+            if (!symbol) return;
+
+            const { data, error } = await _supabase
+                .from('user_watchlists')
+                .insert([{ user_id: currentUser.id, symbol: symbol }]);
+            
+            input.value = '';
+            loadWatchlist();
+        }
+
+        async function removeSymbol(id, symbol) {
+            if (id && id !== 'null') {
+                await _supabase.from('user_watchlists').delete().eq('id', id);
+            }
+            loadWatchlist();
+        }
+
+        async function logout() {
+            await _supabase.auth.signOut();
+            window.location.href = 'dashboard.html';
+        }
+    </script>
+</body>
+</html>
