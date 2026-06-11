@@ -71,16 +71,32 @@
             padding: 60px 20px;
             text-align: center;
         }
+        
+        /* Live Handshake Overlay */
+        #handshake-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(26, 58, 42, 0.98); z-index: 9999; flex-direction: column;
+            align-items: center; justify-content: center; color: #F8F4E8; text-align: center;
+        }
+        .handshake-log { font-family: monospace; font-size: 0.9rem; margin-top: 30px; line-height: 1.5; color: #C9A84C; }
+        .handshake-progress { width: 300px; height: 2px; background: rgba(201, 168, 76, 0.2); margin-top: 20px; position: relative; overflow: hidden; }
+        .handshake-bar { position: absolute; height: 100%; background: #C9A84C; width: 0%; transition: width 0.3s; }
     </style>
 </head>
 <body>
+    <div id="handshake-overlay">
+        <div class="text-3xl font-bold italic mb-4">ESTABLISHING SACRED TUNNEL</div>
+        <div class="handshake-log" id="handshake-log"></div>
+        <div class="handshake-progress"><div class="handshake-bar" id="handshake-bar"></div></div>
+    </div>
+
     <div class="watermark">†</div>
 
     <nav class="max-w-6xl mx-auto flex justify-between items-center py-10 px-6">
         <div class="text-3xl font-bold tracking-tight">Prayer<span class="accent-gold">Block</span></div>
         <div class="hidden md:flex space-x-12 italic text-lg">
-            <a href="#about" class="hover:text-gold transition">Our Mission</a>
-            <a href="#features" class="hover:text-gold transition">The Planner</a>
+            <a href="#" class="hover:text-gold transition">Our Mission</a>
+            <a href="#" class="hover:text-gold transition">The Planner</a>
             <a href="#pricing" class="hover:text-gold transition">Commitment</a>
         </div>
         <a href="#pricing" class="btn-forest px-8 py-3 rounded-md font-bold hover:bg-opacity-90 transition">Join Us</a>
@@ -131,7 +147,7 @@
                         <li>Prayer Tracker (10 requests)</li>
                         <li>Anchor Verse of the Day</li>
                     </ul>
-                    <button class="w-full border-2 border-forest py-3 font-bold hover:bg-forest hover:text-white transition">Choose Path</button>
+                    <button onclick="initiateCommitment('Seeker')" class="w-full border-2 border-forest py-3 font-bold hover:bg-forest hover:text-white transition">Choose Path</button>
                 </div>
                 <div class="pricing-tier text-center border-gold border-2 bg-white relative">
                     <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-gold text-white px-6 py-1 rounded-full text-sm font-bold uppercase">Devoted</div>
@@ -143,7 +159,7 @@
                         <li>Devotional Feed</li>
                         <li>Spiritual Goals</li>
                     </ul>
-                    <button class="w-full bg-gold text-white py-4 font-bold shadow-lg">Support Ministry</button>
+                    <button onclick="initiateCommitment('Devoted')" class="w-full bg-gold text-white py-4 font-bold shadow-lg">Support Ministry</button>
                 </div>
                 <div class="pricing-tier text-center">
                     <h3 class="text-3xl font-bold mb-2">Ministry</h3>
@@ -154,7 +170,7 @@
                         <li>Scripture Memory Tools</li>
                         <li>Printable Journals</li>
                     </ul>
-                    <button class="w-full border-2 border-forest py-3 font-bold hover:bg-forest hover:text-white transition">Scale Outreach</button>
+                    <button onclick="initiateCommitment('Ministry')" class="w-full border-2 border-forest py-3 font-bold hover:bg-forest hover:text-white transition">Scale Outreach</button>
                 </div>
             </div>
         </div>
@@ -180,5 +196,38 @@
             <p class="text-xs opacity-40">"He is no fool who gives what he cannot keep to gain what he cannot lose."</p>
         </div>
     </footer>
+
+    <script>
+        function initiateCommitment(tier) {
+            const overlay = document.getElementById('handshake-overlay');
+            const log = document.getElementById('handshake-log');
+            const bar = document.getElementById('handshake-bar');
+            overlay.style.display = 'flex';
+            
+            const lines = [
+                '>> OPENING SACRED TUNNEL...',
+                '>> VERIFYING MINISTRY ENDOWMENT NODE...',
+                '>> SECURING TRANSACTION SHARD...',
+                '>> SIGNALING ORCINOS PAYMENT GATEWAY...',
+                '>> COMMITMENT ACKNOWLEDGED.'
+            ];
+            
+            let i = 0;
+            log.innerHTML = '';
+            const interval = setInterval(() => {
+                if(i < lines.length) {
+                    log.innerHTML += lines[i] + '<br>';
+                    bar.style.width = ((i+1) / lines.length * 100) + '%';
+                    i++;
+                } else {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        alert("Commitment to " + tier + " Tier Received. Please proceed with payment via the Crypto Address in the footer or contact the Architect for PayPal/Payoneer setup.");
+                        overlay.style.display = 'none';
+                    }, 1000);
+                }
+            }, 800);
+        }
+    </script>
 </body>
 </html>
