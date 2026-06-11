@@ -4,12 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OptiScout | Neural Intelligence Dashboard</title>
-    <link rel="icon" href="../logos/TITAN_ICON.png" type="image/png">
+    <link rel="icon" href="../logos/OPTISCOUT_DEFINITIVE_2026.png" type="image/png">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg: #FFFFFF; --surface: #F9F9FB; --text: #000000; --muted: #666666; 
             --accent: #FF9500; --border: rgba(0,0,0,0.06); --white: #ffffff;
+            --live: #00AD69;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { 
@@ -75,7 +76,7 @@
         <div class="logo"><img src="/logos/OPTISCOUT_DEFINITIVE_2026.png" alt="OptiScout"></div>
         <div class="heartbeat-container">
             <div class="pulse-dot"></div>
-            <span id="heartbeat-text">Neural Heartbeat: STABLE | 12h Sync</span>
+            <span id="heartbeat-text">Neural Heartbeat: ACTIVE | Signal Secured</span>
         </div>
     </nav>
 
@@ -129,9 +130,9 @@
                     '<div style="font-weight:700; color:#000;">' + (val.split("/")[3] || "Amazon Asset") + '</div>' +
                     '<div style="font-size:0.7rem; color:var(--muted);">' + val.substring(0,40) + '...</div>' +
                 '</td>' +
-                '<td class="status-cell"><span style="color:#666; font-weight:600;">AWAITING SIGNAL</span></td>' +
-                '<td class="alpha-cell">--</td>' +
-                '<td class="sync-cell">PENDING</td>';
+                '<td class="status-cell"><span style="color:var(--live); font-weight:800;">SCOUTING...</span></td>' +
+                '<td class="alpha-cell">Searching...</td>' +
+                '<td class="sync-cell">Just Now</td>';
             tbody.prepend(row);
             document.getElementById('scout-url').value = '';
         }
@@ -155,8 +156,8 @@
             status.innerText = "INITIATING OVERRIDE...";
             
             setTimeout(() => {
-                targetRow.querySelector('.status-cell').innerHTML = '<span style="color:#00AD69; font-weight:900;">SIGNAL SECURED</span>';
-                targetRow.querySelector('.alpha-cell').innerHTML = '<span style="color:#00AD69; font-weight:900;">$' + alpha + '</span>';
+                targetRow.querySelector('.status-cell').innerHTML = '<span style="color:var(--live); font-weight:900;">SIGNAL SECURED</span>';
+                targetRow.querySelector('.alpha-cell').innerHTML = '<span style="color:var(--live); font-weight:900;">$' + alpha + '</span>';
                 targetRow.querySelector('.sync-cell').innerText = 'LIVE';
                 status.innerText = "SIGNAL DEPLOYED SUCCESSFULLY";
             }, 1500);
