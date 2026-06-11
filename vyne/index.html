@@ -107,22 +107,18 @@
         .card-info p { font-size: 0.85rem; color: var(--muted); font-weight: 500; }
         .card-info .price { margin-top: 8px; color: var(--highlight); font-weight: 700; }
 
-        footer { padding: 80px 6% 40px; border-top: 1px solid var(--border); max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: flex-start; }
-        .footer-logo { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; margin-bottom: 20px; }
-        .footer-links { display: flex; gap: 60px; }
-        .footer-col h4 { font-size: 0.8rem; color: var(--muted); text-transform: uppercase; margin-bottom: 20px; letter-spacing: 1px; }
-        .footer-col ul { list-style: none; }
-        .footer-col li { margin-bottom: 12px; }
-        .footer-col a { text-decoration: none; color: var(--muted); font-size: 0.9rem; font-weight: 500; }
-        .footer-col a:hover { color: var(--text); text-decoration: underline; }
-
-        .copyright { padding: 40px 6%; text-align: left; font-size: 0.75rem; color: var(--muted); max-width: 1200px; margin: 0 auto; border-top: 1px solid var(--border); margin-top: 40px; }
-
-        @media (max-width: 768px) {
-            .hero h1 { font-size: 2.5rem; }
-            .nav-actions { gap: 16px; }
-            .footer-links { flex-direction: column; gap: 30px; }
+        footer { padding: 40px 6%; border-top: 1px solid var(--border); max-width: 1200px; margin: 100px auto 0; text-align: center; }
+        .footer-link { 
+            text-decoration: none; 
+            color: var(--muted); 
+            font-size: 0.9rem; 
+            font-weight: 700; 
+            display: inline-block;
+            padding: 10px 25px; /* Added padding */
         }
+        .footer-link:hover { color: var(--text); text-decoration: underline; }
+        
+        .copyright { padding: 40px 6%; text-align: center; font-size: 0.75rem; color: var(--muted); }
     </style>
 </head>
 <body>
@@ -130,7 +126,7 @@
         <div class="logo">VYNE</div>
         <div class="nav-actions">
             <a href="#marketplace" class="nav-link">Marketplace</a>
-            <a href="#" class="nav-link">Merchants</a>
+            <a href="/vyne/about/" class="nav-link">About</a>
             <div style="width: 1px; height: 32px; background: var(--border); margin: 0 8px;"></div>
             <a href="/vyne/dashboard/" class="btn-signup">Sign up</a>
             <a href="/vyne/dashboard/" class="btn-login">Log in</a>
@@ -190,7 +186,7 @@
     </footer>
 
     <div class="copyright">
-        &copy; 2026 VYNE · POWERED BY PRISCION
+        &copy; 2026 VYNE · POWERED BY ORCINOS
     </div>
 </body>
 </html>
