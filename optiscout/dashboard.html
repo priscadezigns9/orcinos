@@ -1,52 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>OptiScout | Neural Intelligence Dashboard</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root {
-      --blush: #FFF0F5;
-      --cream: #FFF8FC;
-      --pink: #FF4D8D;
-      --pink-dark: #e03578;
-      --text: #2d1b2e;
-      --text-light: #7a5e7e;
-      --white: #ffffff;
-      --shadow: 0 10px 30px rgba(255, 77, 141, 0.1);
-    }
-    body { font-family: 'Inter', sans-serif; background-color: var(--cream); color: var(--text); line-height: 1.6; }
-    header { background: #fff; padding: 1rem 6%; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--blush); }
-    .logo-container { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-    .logo-img { height: 45px; width: 45px; border-radius: 50%; object-fit: cover; border: 2px solid var(--pink); }
-    .logo-text { font-size: 1.6rem; font-weight: 700; color: var(--pink); font-family: 'Playfair Display', serif; }
-    .container { max-width: 1000px; margin: 80px auto; padding: 0 20px; }
-    .scanner-box { background: #fff; border-radius: 30px; padding: 60px; border: 1px solid var(--blush); box-shadow: var(--shadow); text-align: center; }
-    h1 { font-family: 'Playfair Display', serif; font-size: 3rem; margin-bottom: 20px; color: var(--text); }
-    p.subtitle { color: var(--text-light); margin-bottom: 40px; font-size: 1.1rem; }
-    .input-wrapper { margin-bottom: 40px; text-align: left; }
-    label { display: block; margin-bottom: 10px; font-weight: 600; font-size: 0.9rem; color: var(--pink); letter-spacing: 1px; }
-    textarea { width: 100%; height: 200px; padding: 25px; border-radius: 20px; border: 1px solid var(--blush); background: var(--cream); font-family: 'Inter', sans-serif; font-size: 1rem; color: var(--text); resize: none; outline: none; transition: 0.3s; }
-    textarea:focus { border-color: var(--pink); box-shadow: 0 0 10px rgba(255, 77, 141, 0.1); }
-    .btn-scan { background: var(--pink); color: #fff; padding: 18px 60px; border: none; border-radius: 50px; font-size: 1.1rem; font-weight: 700; cursor: pointer; transition: 0.3s; box-shadow: 0 4px 15px rgba(255, 77, 141, 0.3); }
-    .btn-scan:hover { background: var(--pink-dark); transform: translateY(-2px); }
-    .results-area { display: none; margin-top: 60px; text-align: left; }
-    .score-card { display: flex; align-items: center; gap: 30px; background: var(--blush); padding: 40px; border-radius: 24px; margin-bottom: 40px; }
-    .score-circle { width: 120px; height: 120px; border-radius: 50%; background: #fff; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; font-weight: 800; color: var(--pink); border: 5px solid var(--pink); }
-    .score-info h3 { font-family: 'Playfair Display', serif; font-size: 1.8rem; margin-bottom: 5px; }
-    .score-info p { color: var(--text-light); font-size: 0.95rem; }
-    .analysis-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
-    .analysis-card { background: #fff; border: 1px solid var(--blush); padding: 30px; border-radius: 20px; }
-    .analysis-card h4 { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; color: var(--text-light); margin-bottom: 15px; }
-    .ingredient-tag { display: inline-block; padding: 6px 14px; border-radius: 50px; font-size: 0.8rem; font-weight: 600; margin: 0 8px 8px 0; }
-    .tag-good { background: #e8f5e9; color: #2e7d32; }
-    .tag-bad { background: #ffebee; color: #c62828; }
-    footer { margin-top: 100px; text-align: center; color: var(--text-light); font-size: 0.8rem; padding-bottom: 40px; }
-  
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OptiScout | Neural Intelligence Dashboard</title>
+    <link rel="icon" href="../logos/TITAN_ICON.png" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505; --surface: #0F0F11; --text: #ccd6f6; --white: #ffffff; 
+            --accent: #FF9500; --border: rgba(255,255,255,0.08); --muted: #888;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); 
+            min-height: 100vh; overflow-x: hidden;
+        }
+
+        nav {
+            background: rgba(5,5,5,0.95); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border);
+            padding: 0 6%; display: flex; justify-content: space-between; align-items: center;
+            position: sticky; top: 0; z-index: 2000; height: 80px;
+        }
+        .logo img { height: 65px; width: auto; }
+        
+        .heartbeat-container { 
+            background: #000; color: #FFF; padding: 10px 20px; border-radius: 100px; 
+            display: flex; align-items: center; gap: 15px; font-size: 0.7rem; font-weight: 800; 
+            text-transform: uppercase; letter-spacing: 1px; border: 1px solid rgba(255,149,0,0.3);
+        }
+        .pulse-dot { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; box-shadow: 0 0 10px var(--accent); animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0% { opacity: 0.4; } 50% { opacity: 1; } 100% { opacity: 0.4; } }
+
+        .container { padding: 60px 6%; max-width: 1200px; margin: 0 auto; }
+        .dash-header { margin-bottom: 50px; display: flex; justify-content: space-between; align-items: flex-end; }
+        .dash-title h1 { font-size: 2.5rem; font-weight: 900; letter-spacing: -1px; text-transform: uppercase; }
+        .dash-title p { color: var(--muted); font-size: 1rem; }
+
+        .search-area { background: var(--surface); padding: 45px; border-radius: 24px; border: 1px solid var(--border); margin-bottom: 40px; text-align: center; }
+        .scout-input { 
+            width: 100%; max-width: 600px; padding: 22px; border-radius: 15px; border: 1px solid var(--border); 
+            background: #111; color: #FFF; font-size: 1rem; margin-bottom: 20px; outline: none; transition: 0.3s; text-align: center; 
+        }
+        .btn-scan { 
+            padding: 20px 60px; background: var(--accent); color: #000; border: none; border-radius: 12px; 
+            font-weight: 800; cursor: pointer; transition: 0.3s; text-transform: uppercase; letter-spacing: 2px; font-size: 1.1rem; 
+        }
+        
+        .monitor-area { background: var(--surface); border-radius: 24px; border: 1px solid var(--border); overflow: hidden; }
+        table { width: 100%; border-collapse: collapse; text-align: left; }
+        th { padding: 20px 35px; font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid var(--border); }
+        td { padding: 25px 35px; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+        
+        .status-tag { padding: 4px 10px; border-radius: 5px; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; }
+        .status-active { background: rgba(255,149,0,0.1); color: var(--accent); }
+
         /* Architect God Mode Overlay */
         #architect-console { 
             display: none; position: fixed; bottom: 30px; right: 30px; 
@@ -61,116 +69,71 @@
     </style>
 </head>
 <body>
-<nav><div class="logo"><img src="/logos/OPTISCOUT_DEFINITIVE_2026.png" alt="OptiScout"></div><div class="nav-btns"><div class="heartbeat-container"><div class="pulse-dot"></div><span id="heartbeat-text">Neural Heartbeat: ACTIVE | 12h Sync</span></div><div id="tier-badge" class="tier-badge" onclick="openPayment()">Standard</div></div></nav>
-<div class="container"><div class="scanner-box"><h1>Molecular Scanner</h1><p class="subtitle">Paste your product ingredients to reveal their biological DNA and safety profile.</p>
-<div class="input-wrapper"><label>INGREDIENT LIST (INCI)</label><textarea id="ingredientsInput" placeholder="Aqua, Glycerin, Niacinamide, Phenoxyethanol..."></textarea></div>
-<button class="btn-scan" onclick="performMolecularScan()">GENERATE DIAGNOSTIC ✨</button>
-<div id="results" class="results-area"><div class="score-card"><div id="scoreCircle" class="score-circle">--</div><div class="score-info"><h3 id="scoreTitle">Analyzing Architecture...</h3><p id="scoreDesc">We are sequencing the raw data against the Gold Standard index.</p></div></div>
-<div class="analysis-grid"><div class="analysis-card"><h4>Biological Heroes</h4><div id="heroList"></div></div><div class="analysis-card"><h4>Potential Disruptors</h4><div id="disruptorList"></div></div></div></div></div></div>
-<footer><p>© 2026 PRISCION | NEURAL DIAGNOSTICS v1.0</p></footer>
-<script>
-const HERO_LIST = ["niacinamide", "glycerin", "hyaluronic acid", "retinol", "peptides", "ceramides", "panthenol", "squalane", "centella asiatica", "vitamin c", "ascorbic acid", "tocopherol", "ferulic acid", "green tea", "allantoin"];
-const DISRUPTOR_LIST = ["alcohol denat", "fragrance", "parfum", "paraben", "sulfate", "sls", "essential oil", "lemon oil", "lavender oil", "menthol", "eucalyptus", "oxybenzone", "formaldehyde"];
+    <nav>
+        <div class="logo"><img src="/logos/OPTISCOUT_DEFINITIVE_2026.png" alt="OptiScout"></div>
+        <div class="heartbeat-container">
+            <div class="pulse-dot"></div>
+            <span id="heartbeat-text">Neural Heartbeat: STABLE | 12h Sync</span>
+        </div>
+    </nav>
 
-async function performMolecularScan() {
-  const input = document.getElementById('ingredientsInput').value;
-  if (!input.trim()) return alert("Please enter ingredients first.");
-  
-  const resultsArea = document.getElementById('results');
-  const heroList = document.getElementById('heroList');
-  const disruptorList = document.getElementById('disruptorList');
-  const scoreCircle = document.getElementById('scoreCircle');
-  const scoreTitle = document.getElementById('scoreTitle');
-  const scoreDesc = document.getElementById('scoreDesc');
+    <div class="container">
+        <div class="dash-header">
+            <div class="dash-title">
+                <p>Autonomous Market Intelligence</p>
+                <h1>Neural Shard Monitor</h1>
+            </div>
+            <div id="tier-badge" class="status-tag status-active">Standard Tier</div>
+        </div>
 
-  resultsArea.style.display = 'block';
-  heroList.innerHTML = '';
-  disruptorList.innerHTML = '';
-  scoreCircle.innerText = '--';
-  scoreTitle.innerText = "Analyzing Components...";
-  scoreDesc.innerText = "We are sequencing the raw data against the Gold Standard index.";
-  
-  resultsArea.scrollIntoView({ behavior: 'smooth' });
+        <div class="search-area">
+            <h3 style="margin-bottom:20px; text-transform:uppercase; letter-spacing:1px;">Initialize Asset Handshake</h3>
+            <input type="text" id="scout-url" class="scout-input" placeholder="Paste Amazon Product URL here...">
+            <br><button class="btn-scan" onclick="initializeScout()">Initialize Neural Scout</button>
+        </div>
 
-  try {
-    const response = await fetch('https://sktpjacowqaeddtrhuz.supabase.co/functions/v1/cosdna-proxy', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ingredients: input })
-    });
+        <div class="monitor-area">
+            <table>
+                <thead><tr><th>Product Shard</th><th>Status</th><th>Scout Alpha</th><th>Last Sync</th></tr></thead>
+                <tbody id="monitor-body">
+                    <tr id="no-assets"><td colspan="4" style="text-align:center; padding:60px; color:var(--muted);">No active monitors in current shard.</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 
-    if (!response.ok) throw new Error('Network response was not ok');
-    
-    const data = await response.json();
-    const ingredients = data.ingredients || (Array.isArray(data) ? data : []);
-    
-    let heroesFound = [];
-    let disruptorsFound = [];
-    let totalHazard = 0;
-    let count = 0;
+    <div id="god-toggle" onclick="toggleGodMode()"></div>
+    <div id="architect-console">
+        <div class="god-header">ORCINOS | ARCHITECT GOD MODE</div>
+        <div style="font-size: 0.6rem; margin-bottom: 15px;">STATUS: AUTHORIZED | MODE: LIVE</div>
+        <div class="god-label">Manual Signal Override:</div>
+        <input type="text" id="god-alpha" class="god-input" placeholder="Override Alpha ($)">
+        <button class="btn-god" onclick="injectGodSignal()">Force Signal Deployment</button>
+        <div id="god-status" style="margin-top:15px; font-size:0.6rem; color:#FFF;"></div>
+    </div>
 
-    const lowerInput = input.toLowerCase();
-
-    // Fallback local check + API integration
-    HERO_LIST.forEach(h => { if (lowerInput.includes(h)) heroesFound.push(h); });
-    DISRUPTOR_LIST.forEach(d => { if (lowerInput.includes(d)) disruptorsFound.push(d); });
-
-    if (ingredients.length > 0) {
-      ingredients.forEach(ing => {
-        const hazard = parseInt(ing.hazard) || 0;
-        const name = ing.name.toLowerCase();
-        
-        if (hazard >= 5 && !disruptorsFound.includes(name)) {
-          disruptorsFound.push(ing.name);
+    <script>
+        function initializeScout() {
+            const val = document.getElementById('scout-url').value.trim();
+            if (!val) return;
+            
+            const tbody = document.getElementById('monitor-body');
+            const noAssets = document.getElementById('no-assets');
+            if (noAssets) noAssets.remove();
+            
+            const rowId = 'scout-' + Date.now();
+            const row = document.createElement('tr');
+            row.id = rowId;
+            row.innerHTML = '<td>' +
+                    '<div style="font-weight:700; color:#FFF;">' + (val.split("/")[3] || "Amazon Asset") + '</div>' +
+                    '<div style="font-size:0.7rem; color:var(--muted);">' + val.substring(0,40) + '...</div>' +
+                '</td>' +
+                '<td class="status-cell"><span style="color:var(--accent); font-weight:600;">AWAITING SIGNAL</span></td>' +
+                '<td class="alpha-cell">--</td>' +
+                '<td class="sync-cell">PENDING</td>';
+            tbody.prepend(row);
+            document.getElementById('scout-url').value = '';
         }
-        if (hazard <= 2 && hazard > 0) {
-          // Safe but not necessarily a hero unless in our list
-        }
-        
-        totalHazard += hazard;
-        count++;
-      });
-    }
-
-    // Deduplicate and render
-    const uniqueHeroes = [...new Set(heroesFound)];
-    const uniqueDisruptors = [...new Set(disruptorsFound)];
-
-    uniqueHeroes.forEach(h => { heroList.innerHTML += `<span class="ingredient-tag tag-good">${h}</span>`; });
-    uniqueDisruptors.forEach(d => { disruptorList.innerHTML += `<span class="ingredient-tag tag-bad">${d}</span>`; });
-
-    if (uniqueHeroes.length === 0) heroList.innerHTML = "No significant biological heroes detected.";
-    if (uniqueDisruptors.length === 0) disruptorList.innerHTML = "No common inflammatory disruptors detected. High fidelity.";
-
-    let finalScore = 70;
-    if (count > 0) {
-      const avgHazard = totalHazard / count;
-      finalScore = Math.max(0, 100 - (avgHazard * 10));
-    } else {
-      finalScore += (uniqueHeroes.length * 5);
-      finalScore -= (uniqueDisruptors.length * 10);
-    }
-    
-    finalScore = Math.round(Math.min(Math.max(finalScore, 0), 100));
-    scoreCircle.innerText = finalScore;
-
-    if (finalScore >= 90) {
-      scoreTitle.innerText = "Gold Standard Architecture";
-      scoreDesc.innerText = "This formula is highly optimized for biological regeneration.";
-    } else if (finalScore >= 70) {
-      scoreTitle.innerText = "High-Fidelity Formula";
-      scoreDesc.innerText = "A solid protocol with effective active components.";
-    } else {
-      scoreTitle.innerText = "Low-Quality Indicators Detected";
-      scoreDesc.innerText = "This formula contains architectural flaws that may disrupt the skin barrier.";
-    }
-
-  } catch (err) {
-    console.error(err);
-    scoreTitle.innerText = "Error in Diagnostic";
-    scoreDesc.innerText = "Unable to connect to the neural network. Please check your connection.";
-  }
-}
 
         let godModeActive = false;
         function toggleGodMode() {
@@ -191,23 +154,12 @@ async function performMolecularScan() {
             status.innerText = "INITIATING OVERRIDE...";
             
             setTimeout(() => {
-                targetRow.querySelector('.status-cell').innerHTML = '<span style="color:#00FF7F; font-weight:900;">HIGH QUALITY SIGNAL</span>';
+                targetRow.querySelector('.status-cell').innerHTML = '<span style="color:#00FF7F; font-weight:900;">SIGNAL SECURED</span>';
                 targetRow.querySelector('.alpha-cell').innerHTML = '<span style="color:#00FF7F; font-weight:900;">$' + alpha + '</span>';
-                targetRow.querySelector('.sync-cell').innerText = 'INSTANT';
+                targetRow.querySelector('.sync-cell').innerText = 'LIVE';
                 status.innerText = "SIGNAL DEPLOYED SUCCESSFULLY";
             }, 1500);
         }
     </script>
-
-    <div id="god-toggle" onclick="toggleGodMode()"></div>
-    <div id="architect-console">
-        <div class="god-header">ORCINOS | ARCHITECT GOD MODE</div>
-        <div style="font-size: 0.6rem; margin-bottom: 15px;">STATUS: AUTHORIZED | MODE: LIVE</div>
-        <div class="god-label">Manual Signal Override:</div>
-        <input type="text" id="god-alpha" class="god-input" placeholder="Override Alpha ($)">
-        <button class="btn-god" onclick="injectGodSignal()">Force Signal Deployment</button>
-        <div id="god-status" style="margin-top:15px; font-size:0.6rem; color:#FFF;"></div>
-    </div>
 </body>
 </html>
-
