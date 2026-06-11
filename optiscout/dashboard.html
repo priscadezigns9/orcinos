@@ -115,6 +115,15 @@
     </div>
 
     <script>
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('premium') === 'true') {
+                document.getElementById('tier-badge').textContent = 'Apex Scout';
+                document.getElementById('heartbeat-text').textContent = 'Neural Heartbeat: ACTIVE | 15m Sync';
+                document.querySelector('.heartbeat-container').style.border = '1px solid var(--accent)';
+            }
+        };
+
         function initializeScout() {
             const val = document.getElementById('scout-url').value.trim();
             if (!val) return;
