@@ -76,6 +76,32 @@
     
         .nav-item i { width: 18px; height: 18px; }
         .nav-item span { margin-left: 10px; }
+    
+        .watchlist-container { display: flex; flex-direction: column; height: 100%; }
+        .watchlist-header { padding: 15px; border-bottom: 1px solid var(--border); }
+        .search-box { position: relative; width: 100%; }
+        .search-box input { 
+            width: 100%; background: rgba(255,255,255,0.03); border: 1px solid var(--border); 
+            padding: 10px 35px 10px 15px; border-radius: 8px; color: #fff; font-size: 0.8rem;
+        }
+        .search-box i { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 14px; }
+        
+        .asset-list { flex: 1; overflow-y: auto; padding: 10px 0; }
+        .asset-row { 
+            display: flex; justify-content: space-between; align-items: center; 
+            padding: 8px 15px; cursor: pointer; transition: 0.2s;
+        }
+        .asset-row:hover { background: rgba(255,255,255,0.03); }
+        .asset-info { display: flex; flex-direction: column; }
+        .asset-symbol { font-weight: 700; font-size: 0.85rem; }
+        .asset-name { font-size: 0.65rem; color: var(--muted); text-transform: uppercase; }
+        .asset-actions { display: flex; align-items: center; gap: 10px; }
+        .star-btn { cursor: pointer; color: var(--muted); transition: 0.2s; }
+        .star-btn.active { color: #f1c40f; }
+        .star-btn:hover { transform: scale(1.2); }
+        
+        .watchlist-items { border-top: 2px solid var(--border); padding-top: 10px; }
+        .watchlist-label { font-size: 0.65rem; font-weight: 800; color: var(--muted); padding: 5px 15px; text-transform: uppercase; }
     </style>
 <script src="https://unpkg.com/lucide@latest"></script>
 </head>
@@ -171,13 +197,94 @@
             });
         }
 
+        
+        const MARKET_ASSETS = [
+            { symbol: 'BTCUSDT', name: 'Bitcoin / Tether', type: 'crypto' },
+            { symbol: 'ETHUSDT', name: 'Ethereum / Tether', type: 'crypto' },
+            { symbol: 'SOLUSDT', name: 'Solana / Tether', type: 'crypto' },
+            { symbol: 'XAUUSD', name: 'Gold / US Dollar', type: 'commodity' },
+            { symbol: 'GBPUSD', name: 'British Pound / USD', type: 'forex' },
+            { symbol: 'EURUSD', name: 'Euro / US Dollar', type: 'forex' },
+            { symbol: 'NAS100', name: 'Nasdaq 100', type: 'index' },
+            { symbol: 'US30', name: 'Dow Jones 30', type: 'index' },
+            { symbol: 'TSLA', name: 'Tesla, Inc.', type: 'stock' },
+            { symbol: 'AAPL', name: 'Apple Inc.', type: 'stock' },
+            { symbol: 'NVDA', name: 'Nvidia Corp', type: 'stock' }
+        ];
+
+        function initMarketList() {
+            const container = document.getElementById('market-assets');
+            container.innerHTML = '';
+            MARKET_ASSETS.forEach(asset => {
+                const isSaved = savedSymbols.includes(asset.symbol);
+                const row = document.createElement('div');
+                row.className = 'asset-row';
+                row.innerHTML = `
+                    <div class='asset-info' onclick='initChart("BINANCE:" + "${asset.symbol}")'>
+                        <span class='asset-symbol'>${asset.symbol}</span>
+                        <span class='asset-name'>${asset.name}</span>
+                    </div>
+                    <div class='asset-actions'>
+                        <i data-lucide='star' class='star-btn ${isSaved ? 'active' : ''}' onclick='toggleWatchlist("${asset.symbol}")'></i>
+                    </div>
+                `;
+                container.appendChild(row);
+            });
+            lucide.createIcons();
+        }
+
+        function filterAssets() {
+            const query = document.getElementById('asset-search').value.toUpperCase();
+            const rows = document.querySelectorAll('#market-assets .asset-row');
+            rows.forEach(row => {
+                const sym = row.querySelector('.asset-symbol').innerText;
+                row.style.display = sym.includes(query) ? 'flex' : 'none';
+            });
+        }
+
+        let savedSymbols = [];
         async function loadWatchlist() {
+            const container = document.getElementById('watchlist-items');
+            container.innerHTML = '';
+            
             if (!currentUser) {
-                const container = document.getElementById('watchlist-items');
-                container.innerHTML = '';
-                ['BTCUSDT', 'ETHUSDT', 'XAUUSD', 'GBPUSD'].forEach(s => renderSymbol(s, null));
+                savedSymbols = ['BTCUSDT', 'ETHUSDT', 'XAUUSD'];
+            } else {
+                const { data } = await _supabase.from('user_watchlists').select('symbol').eq('user_id', currentUser.id);
+                savedSymbols = data ? data.map(i => i.symbol) : [];
+            }
+            
+            savedSymbols.forEach(symbol => {
+                const row = document.createElement('div');
+                row.className = 'asset-row';
+                row.innerHTML = `
+                    <div class='asset-info' onclick='initChart("BINANCE:" + "${symbol}")'>
+                        <span class='asset-symbol'>${symbol}</span>
+                        <span class='price' style='color:var(--malachite); font-size:0.7rem;'>LIVE</span>
+                    </div>
+                    <div class='asset-actions'>
+                        <i data-lucide='x' style='width:14px; cursor:pointer; color:var(--muted);' onclick='toggleWatchlist("${symbol}")'></i>
+                    </div>
+                `;
+                container.appendChild(row);
+            });
+            initMarketList();
+        }
+
+        async function toggleWatchlist(symbol) {
+            if (!currentUser) {
+                alert("Login to sync your star-list across the Orcinos Network.");
                 return;
             }
+            
+            if (savedSymbols.includes(symbol)) {
+                await _supabase.from('user_watchlists').delete().eq('user_id', currentUser.id).eq('symbol', symbol);
+            } else {
+                await _supabase.from('user_watchlists').insert([{ user_id: currentUser.id, symbol: symbol }]);
+            }
+            loadWatchlist();
+        }
+        
             const { data, error } = await _supabase
                 .from('user_watchlists')
                 .select('*')
@@ -195,23 +302,14 @@
             }
         }
 
-        function renderSymbol(symbol, id) {
-            const div = document.createElement('div');
-            div.className = 'watchlist-item';
-            const displaySymbol = symbol.includes(':') ? symbol.split(':')[1] : symbol;
-            div.innerHTML = `
-                <span class='symbol' onclick='initChart("BINANCE:" + "${symbol}")' style='cursor:pointer;'>${displaySymbol}</span>
+        ")' style='cursor:pointer;'>${displaySymbol}</span>
                 <span class='price' style='color:var(--malachite);'>LIVE</span>
                 ${id ? `<span class='remove-btn' onclick='removeSymbol("${id}", "${symbol}")'>✕</span>` : ''}
             `;
             document.getElementById('watchlist-items').appendChild(div);
         }
 
-        async function addSymbol() {
-            if (!currentUser) {
-                alert("Login to save custom symbols to your institutional profile.");
-                return;
-            }
+        
             const input = document.getElementById('symbol-input');
             const symbol = input.value.toUpperCase().trim();
             if (!symbol) return;
@@ -224,10 +322,7 @@
             loadWatchlist();
         }
 
-        async function removeSymbol(id, symbol) {
-            if (id && id !== 'null') {
-                await _supabase.from('user_watchlists').delete().eq('id', id);
-            }
+        
             loadWatchlist();
         }
 
@@ -239,6 +334,7 @@
 <script>lucide.createIcons();</script>
 </body>
 </html>
+
 
 
 
