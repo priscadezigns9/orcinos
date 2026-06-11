@@ -57,8 +57,45 @@
         @media (max-width: 900px) {
             .workspace { grid-template-columns: 1fr; }
         }
+    
+        .module-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; margin-top: 40px; }
+        .flashcard-card { background: #FFF; border: 1px solid var(--border); padding: 30px; text-align: center; border-radius: 8px; }
+        .flashcard-text { font-size: 1.2rem; font-style: italic; margin-bottom: 20px; min-height: 80px; display: flex; align-items: center; justify-content: center; }
+        .outreach-badge { display: inline-block; padding: 4px 12px; background: rgba(201, 168, 76, 0.1); color: var(--gold); border-radius: 100px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; margin-bottom: 10px; }
+        .mustard-tree-container { text-align: center; padding: 40px; border: 1px dashed var(--gold); border-radius: 8px; margin-top: 40px; }
+        .tree-visual { font-size: 4rem; transition: transform 0.3s ease; }
+        .tree-visual:hover { transform: scale(1.1); }
+
     </style>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
+        function revealVerse() {
+            const card = document.getElementById('flashcard');
+            if(card.innerText.includes('John 3:16')) {
+                card.innerText = '"I can do all things through Christ..."';
+            } else {
+                card.innerText = 'John 3:16';
+            }
+        }
+
+        function addOutreach() {
+            const text = prompt("Who did you share hope with today?");
+            if(text) {
+                const item = document.createElement('div');
+                item.className = 'prayer-item';
+                item.innerText = "Planted seed with: " + text;
+                document.getElementById('outreach-list').appendChild(item);
+                growTree();
+            }
+        }
+
+        function growTree() {
+            const tree = document.getElementById('tree');
+            const stages = ['🌱', '🌿', '🌳', '🌲'];
+            let current = stages.indexOf(tree.innerText);
+            if(current < stages.length - 1) tree.innerText = stages[current + 1];
+        }
+
+    </script>
     <style>
         .auth-overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -81,6 +118,15 @@
             font-family: 'Inter', sans-serif; font-weight: 700; font-size: 0.7rem;
             text-transform: uppercase; letter-spacing: 1px; cursor: pointer;
         }
+    
+        .module-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; margin-top: 40px; }
+        .flashcard-card { background: #FFF; border: 1px solid var(--border); padding: 30px; text-align: center; border-radius: 8px; }
+        .flashcard-text { font-size: 1.2rem; font-style: italic; margin-bottom: 20px; min-height: 80px; display: flex; align-items: center; justify-content: center; }
+        .outreach-badge { display: inline-block; padding: 4px 12px; background: rgba(201, 168, 76, 0.1); color: var(--gold); border-radius: 100px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; margin-bottom: 10px; }
+        .mustard-tree-container { text-align: center; padding: 40px; border: 1px dashed var(--gold); border-radius: 8px; margin-top: 40px; }
+        .tree-visual { font-size: 4rem; transition: transform 0.3s ease; }
+        .tree-visual:hover { transform: scale(1.1); }
+
     </style>
 </head>
 <body>
@@ -206,6 +252,64 @@
         });
 
         window.onload = loadFromLocal;
+    
+        function revealVerse() {
+            const card = document.getElementById('flashcard');
+            if(card.innerText.includes('John 3:16')) {
+                card.innerText = '"I can do all things through Christ..."';
+            } else {
+                card.innerText = 'John 3:16';
+            }
+        }
+
+        function addOutreach() {
+            const text = prompt("Who did you share hope with today?");
+            if(text) {
+                const item = document.createElement('div');
+                item.className = 'prayer-item';
+                item.innerText = "Planted seed with: " + text;
+                document.getElementById('outreach-list').appendChild(item);
+                growTree();
+            }
+        }
+
+        function growTree() {
+            const tree = document.getElementById('tree');
+            const stages = ['🌱', '🌿', '🌳', '🌲'];
+            let current = stages.indexOf(tree.innerText);
+            if(current < stages.length - 1) tree.innerText = stages[current + 1];
+        }
+
     </script>
+
+    <div class="workspace" style="margin-top: 0; padding-top: 0;">
+        <div class="module-grid" style="grid-column: 1 / -1;">
+            <div class="parchment-card">
+                <div class="outreach-badge">Scripture Memory</div>
+                <h3>Spaced Repetition</h3>
+                <div class="flashcard-card">
+                    <div class="flashcard-text" id="flashcard">"For God so loved the world..."</div>
+                    <button class="btn-add" style="background: var(--gold);" onclick="revealVerse()">Reveal Reference</button>
+                </div>
+            </div>
+            
+            <div class="parchment-card">
+                <div class="outreach-badge">Outreach Tracker</div>
+                <h3>Faith Seeds Planted</h3>
+                <div id="outreach-list" style="margin-bottom: 15px;">
+                    <div class="prayer-item">Shared hope with a colleague.</div>
+                </div>
+                <button class="btn-add" onclick="addOutreach()">Log Conversation</button>
+            </div>
+        </div>
+
+        <div class="mustard-tree-container" style="grid-column: 1 / -1;">
+            <h3>The Mustard Tree</h3>
+            <div class="tree-visual" id="tree">🌱</div>
+            <p style="font-size: 0.8rem; margin-top: 10px; opacity: 0.6;">Your tree grows as you commit to your walk.</p>
+        </div>
+    </div>
+
 </body>
 </html>
+
