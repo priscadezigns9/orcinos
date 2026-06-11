@@ -85,7 +85,7 @@
 </head>
 <body>
     <div id="handshake-overlay">
-        <div class="text-3xl font-bold italic mb-4">ESTABLISHING SACRED TUNNEL</div>
+        <div class="text-3xl font-bold italic mb-4" id="handshake-title">ESTABLISHING SACRED TUNNEL</div>
         <div class="handshake-log" id="handshake-log"></div>
         <div class="handshake-progress"><div class="handshake-bar" id="handshake-bar"></div></div>
     </div>
@@ -191,27 +191,38 @@
             <div class="flex justify-center gap-10 text-sm opacity-60 mb-10">
                 <span>PayPal</span>
                 <span>Crypto (ERC-20: 0xcef857e82c306b3d0f2db080e7794f4bb376049e)</span>
-                
             </div>
             <p class="text-xs opacity-40">"He is no fool who gives what he cannot keep to gain what he cannot lose."</p>
         </div>
     </footer>
 
-    
     <script>
         function initiateCommitment(tier) {
             const overlay = document.getElementById('handshake-overlay');
             const log = document.getElementById('handshake-log');
             const bar = document.getElementById('handshake-bar');
+            const title = document.getElementById('handshake-title');
             overlay.style.display = 'flex';
             
-            const lines = [
-                '>> OPENING SACRED TUNNEL...',
-                '>> VERIFYING MINISTRY ENDOWMENT NODE...',
-                '>> SECURING TRANSACTION SHARD...',
-                '>> SIGNALING ORCINOS PAYMENT GATEWAY...',
-                '>> COMMITMENT ACKNOWLEDGED.'
-            ];
+            let lines = [];
+            if (tier === 'Seeker') {
+                title.innerText = 'PREPARING YOUR PATH';
+                lines = [
+                    '>> OPENING SACRED PORTAL...',
+                    '>> ALIGNING SPIRITUAL WORKSPACE...',
+                    '>> ESTABLISHING DAILY ANCHOR...',
+                    '>> ACCESS GRANTED.'
+                ];
+            } else {
+                title.innerText = 'ESTABLISHING SACRED TUNNEL';
+                lines = [
+                    '>> OPENING SACRED TUNNEL...',
+                    '>> VERIFYING MINISTRY ENDOWMENT NODE...',
+                    '>> SECURING TRANSACTION SHARD...',
+                    '>> SIGNALING ORCINOS PAYMENT GATEWAY...',
+                    '>> COMMITMENT ACKNOWLEDGED.'
+                ];
+            }
             
             let i = 0;
             log.innerHTML = '';
@@ -234,6 +245,5 @@
             }, 800);
         }
     </script>
-
 </body>
 </html>
