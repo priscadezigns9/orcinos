@@ -102,8 +102,18 @@
         const SUPABASE_URL = 'https://your-project.supabase.co';
         const SUPABASE_KEY = 'your-anon-key';
         
-        // This will be activated once Architect completes Step 2 in MORNING_TASK.md
-        // const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        document.getElementById('btn-stock').addEventListener('click', () => {
+            const link = document.getElementById('product-link').value;
+            if (!link) {
+                alert("Please paste an Amazon link first.");
+                return;
+            }
+            alert("Connecting to Supabase... Handshake pending (Check MORNING_TASK.md)");
+        });
+
+        document.querySelector('button[style*="highlight"]').addEventListener('click', () => {
+            alert("Viral Studio: Template staged. Generation will activate once Supabase is connected.");
+        });
 
         console.log("Vyne Dashboard Initialized. Awaiting Supabase Credentials.");
     </script>
