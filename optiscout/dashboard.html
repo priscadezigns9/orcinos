@@ -67,6 +67,12 @@
         .apex-exclusive { display: none; margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--border); }
         .apex-badge { font-size: 0.6rem; background: #000; color: var(--accent); padding: 2px 6px; border-radius: 4px; margin-right: 8px; font-weight: 900; }
 
+        .sniper-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.95); z-index: 9999; flex-direction: column; align-items: center; justify-content: center;
+            color: var(--accent); font-family: monospace;
+        }
+
         #architect-console { 
             display: none; position: fixed; bottom: 30px; right: 30px; 
             background: #000; border: 1px solid var(--accent); color: var(--accent); 
@@ -80,6 +86,11 @@
     </style>
 </head>
 <body>
+    <div id="sniper-overlay" class="sniper-overlay">
+        <h2 style="letter-spacing: 5px; margin-bottom: 20px;">INITIATING SNIPER HANDSHAKE</h2>
+        <div id="sniper-log" style="font-size: 0.8rem; text-align: center;"></div>
+    </div>
+
     <nav>
         <div class="logo"><img src="/logos/OPTISCOUT_DEFINITIVE_2026.png" alt="OptiScout"></div>
         <div class="heartbeat-container">
@@ -193,6 +204,43 @@
             if (e.key === 'Enter') initializeScout();
         }
 
+        function executeSnipe(url) {
+            const overlay = document.getElementById('sniper-overlay');
+            const log = document.getElementById('sniper-log');
+            overlay.style.display = 'flex';
+            
+            const lines = [
+                'SECURE TUNNEL ESTABLISHED...',
+                'CALCULATING OPTIMAL ENTRY POINT...',
+                'BYPASSING VOLATILITY TAX...',
+                'SIGNAL SECURED. REDIRECTING TO ACQUISITION NODE.'
+            ];
+            
+            let i = 0;
+            const interval = setInterval(() => {
+                if(i < lines.length) {
+                    log.innerHTML += lines[i] + '<br>';
+                    i++;
+                } else {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        window.open(url, '_blank');
+                        overlay.style.display = 'none';
+                        log.innerHTML = '';
+                    }, 1000);
+                }
+            }, 800);
+        }
+
+        function viewChart(val) {
+            const asin = val.match("/([A-Z0-9]{10})");
+            if(asin) {
+                window.open("https://camelcamelcamel.com/product/" + asin[1], "_blank");
+            } else {
+                alert("NEURAL CHART LOADING: Shard synchronization in progress.");
+            }
+        }
+
         function initializeScout() {
             const val = document.getElementById('scout-url').value.trim();
             if (!val) return;
@@ -213,8 +261,8 @@
                         '<span style="margin-left:10px; font-size:0.7rem; color:var(--muted);">| Volatility: LOW</span>' +
                     '</div>' +
                     '<div style="margin-top:5px;">' +
-                        '<button style="background:#000; color:#FFF; border:none; padding:5px 10px; border-radius:4px; font-size:0.6rem; font-weight:800; cursor:pointer;">VIEW PRICE CHART</button>' +
-                        '<button style="background:var(--accent); color:#000; border:none; padding:5px 10px; border-radius:4px; font-size:0.6rem; font-weight:800; cursor:pointer; margin-left:5px;">EXECUTE SNIPE</button>' +
+                        '<button onclick="viewChart(\\'' + val + '\\')" style="background:#000; color:#FFF; border:none; padding:5px 10px; border-radius:4px; font-size:0.6rem; font-weight:800; cursor:pointer;">VIEW PRICE CHART</button>' +
+                        '<button onclick="executeSnipe(\\'' + val + '\\')" style="background:var(--accent); color:#000; border:none; padding:5px 10px; border-radius:4px; font-size:0.6rem; font-weight:800; cursor:pointer; margin-left:5px;">EXECUTE SNIPE</button>' +
                     '</div>';
             }
 
