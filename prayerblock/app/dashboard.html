@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PrayerBlock | Sacred Workspace</title>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #F8F4E8; --parchment: #FDFAF4; --forest: #1A3A2A; --gold: #C9A84C;
+            --border: #E0DCC8; --text: #1A3A2A;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Crimson Pro', serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+        
+        header { 
+            background: var(--forest); color: var(--bg); padding: 20px 6%; display: flex; 
+            justify-content: space-between; align-items: center; box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        .logo { font-size: 1.5rem; font-weight: 600; }
+        .logo span { color: var(--gold); }
+        .user-nav { font-family: 'Inter', sans-serif; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; }
+
+        .workspace { max-width: 1200px; margin: 40px auto; padding: 0 6%; display: grid; grid-template-columns: 2fr 1fr; gap: 40px; }
+        
+        .parchment-card {
+            background: var(--parchment); border: 1px solid var(--border); padding: 40px;
+            box-shadow: 0 10px 30px rgba(26, 58, 42, 0.05); position: relative; border-radius: 4px;
+        }
+        .parchment-card::after {
+            content: ""; position: absolute; top: 10px; right: 10px; bottom: 10px; left: 10px;
+            border: 1px solid rgba(201, 168, 76, 0.2); pointer-events: none;
+        }
+        
+        h2 { font-size: 2rem; margin-bottom: 25px; border-bottom: 1px solid var(--border); padding-bottom: 10px; }
+        
+        .planner-row { display: flex; border-bottom: 1px solid var(--border); padding: 15px 0; align-items: center; }
+        .time-label { width: 80px; font-family: 'Inter', sans-serif; font-weight: 700; font-size: 0.75rem; color: var(--gold); }
+        .task-input { flex: 1; border: none; background: transparent; font-size: 1.1rem; color: var(--text); outline: none; }
+        .task-input::placeholder { opacity: 0.3; italic: true; }
+        
+        .anchor-verse { text-align: center; margin-bottom: 40px; padding: 30px; border: 2px solid var(--gold); border-radius: 8px; }
+        .anchor-verse p { font-style: italic; font-size: 1.4rem; margin-bottom: 10px; }
+        .anchor-verse cite { font-weight: 600; color: var(--gold); }
+
+        .sidebar-section { margin-bottom: 40px; }
+        .sidebar-section h3 { font-size: 1.2rem; margin-bottom: 15px; color: var(--gold); text-transform: uppercase; letter-spacing: 2px; }
+        .prayer-item { background: #FFF; padding: 15px; border: 1px solid var(--border); margin-bottom: 10px; border-radius: 4px; font-size: 0.95rem; }
+        
+        .btn-add { 
+            width: 100%; padding: 12px; background: var(--forest); color: #FFF; border: none;
+            font-family: 'Inter', sans-serif; font-weight: 700; text-transform: uppercase; 
+            letter-spacing: 1px; cursor: pointer; transition: 0.3s;
+        }
+        .btn-add:hover { background: #2A5A3A; }
+
+        @media (max-width: 900px) {
+            .workspace { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">Prayer<span>Block</span></div>
+        <div class="user-nav">Sacred Workspace | Priscilla</div>
+    </header>
+
+    <div class="workspace">
+        <div class="parchment-card">
+            <div class="anchor-verse">
+                <p>"Commit your work to the Lord, and your plans will be established."</p>
+                <cite>Proverbs 16:3</cite>
+            </div>
+            
+            <h2>Daily Planner</h2>
+            <div class="planner-row"><div class="time-label">08:00 AM</div><input type="text" class="task-input" placeholder="Morning Devotional"></div>
+            <div class="planner-row"><div class="time-label">09:00 AM</div><input type="text" class="task-input" placeholder="Deep Work Block"></div>
+            <div class="planner-row"><div class="time-label">11:00 AM</div><input type="text" class="task-input" placeholder="Scripture Meditation"></div>
+            <div class="planner-row"><div class="time-label">12:00 PM</div><input type="text" class="task-input" placeholder="Mid-day Intercession"></div>
+            <div class="planner-row"><div class="time-label">01:00 PM</div><input type="text" class="task-input" placeholder="Strategic Scaling"></div>
+            <div class="planner-row"><div class="time-label">03:00 PM</div><input type="text" class="task-input" placeholder="Project Review"></div>
+            <div class="planner-row"><div class="time-label">05:00 PM</div><input type="text" class="task-input" placeholder="Evening Gratitude"></div>
+        </div>
+
+        <div class="sidebar">
+            <div class="sidebar-section">
+                <h3>Intercessions</h3>
+                <div id="prayer-list">
+                    <div class="prayer-item">Grace for the 12-hour shift.</div>
+                    <div class="prayer-item">Clarity for Orcinos expansion.</div>
+                </div>
+                <input type="text" id="new-prayer" placeholder="Enter request..." style="width:100%; padding:10px; margin-bottom:10px; border:1px solid var(--border); outline:none;">
+                <button class="btn-add" onclick="addPrayer()">Log Request</button>
+            </div>
+
+            <div class="sidebar-section">
+                <h3>Gratitude Journal</h3>
+                <textarea placeholder="I am grateful for..." style="width:100%; height:100px; padding:15px; border:1px solid var(--border); font-family:inherit; font-size:1rem; outline:none;"></textarea>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function addPrayer() {
+            const input = document.getElementById('new-prayer');
+            const text = input.value.trim();
+            if(!text) return;
+            const item = document.createElement('div');
+            item.className = 'prayer-item';
+            item.innerText = text;
+            document.getElementById('prayer-list').appendChild(item);
+            input.value = '';
+        }
+    </script>
+</body>
+</html>
