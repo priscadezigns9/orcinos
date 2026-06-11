@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop Preview | VYNE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #fff;
+            --text: #000;
+            --accent: #B36B00;
+            --card: #f9f9f9;
+            --border: #eee;
+        }
+
+        /* Template: Modern Onyx */
+        .template-modern-onyx {
+            --bg: #0A0A0B;
+            --text: #fff;
+            --accent: #1DB954;
+            --card: #121212;
+            --border: #1C1C1E;
+        }
+
+        /* Template: Cyber Nexus */
+        .template-cyber-nexus {
+            --bg: #050505;
+            --text: #00f2ff;
+            --accent: #7000ff;
+            --card: #0a0a0a;
+            --border: #1a1a1a;
+        }
+
+        /* Template: Amazon Bronze */
+        .template-amazon-bronze {
+            --bg: #fff;
+            --text: #111;
+            --accent: #B36B00;
+            --card: #fff;
+            --border: #ddd;
+        }
+
+        body { 
+            background: var(--bg); 
+            color: var(--text); 
+            font-family: 'Inter', sans-serif; 
+            margin: 0; 
+            transition: 0.3s;
+        }
+
+        header {
+            padding: 40px 20px;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        h1 { 
+            font-family: 'Playfair Display', serif; 
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .product-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: 0.3s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+        }
+
+        .product-img {
+            height: 240px;
+            background: #eee;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .product-info {
+            padding: 20px;
+        }
+
+        .product-name {
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+
+        .product-price {
+            color: var(--accent);
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .btn-buy {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background: var(--accent);
+            color: #fff;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 6px;
+            margin-top: 15px;
+            font-weight: 600;
+        }
+
+        .template-tag {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.8);
+            color: #fff;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: 1px solid #333;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1 id="shop-name">My Boutique</h1>
+        <p id="shop-tagline">Curated with Excellence</p>
+    </header>
+
+    <div class="container">
+        <div class="product-grid" id="product-grid">
+            <!-- Products manifest here -->
+        </div>
+    </div>
+
+    <div class="template-tag" id="active-template">Template: Default</div>
+
+    <script>
+        // 1. Apply Template
+        const urlParams = new URLSearchParams(window.location.search);
+        const template = urlParams.get('template') || localStorage.getItem('vyne_active_template') || 'modern-onyx';
+        document.body.className = 'template-' + template;
+        document.getElementById('active-template').innerText = 'Template: ' + template.replace('-', ' ');
+
+        // 2. Load Inventory
+        const inventory = JSON.parse(localStorage.getItem('vyne_inventory') || '[]');
+        const grid = document.getElementById('product-grid');
+
+        if (inventory.length === 0) {
+            grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 100px; color: #888;">No products in stock yet.</div>';
+        } else {
+            inventory.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                card.innerHTML = `
+                    <div class="product-img" style="background-image: url('${item.image}')"></div>
+                    <div class="product-info">
+                        <div class="product-name">${item.name}</div>
+                        <div class="product-price">$${item.price}</div>
+                        <a href="${item.url}" target="_blank" class="btn-buy">Buy on Amazon</a>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+    </script>
+</body>
+</html>
