@@ -31,7 +31,7 @@
     </style>
 </head>
 <body>
-    <nav><a href="/">Orcinos Home</a></nav>
+    <nav><a href="/">Main Hub</a><a href="/orcinos/" style="color: var(--accent);">Orcinos Hub</a></nav>
     <div class="logo-section"><img src="/logos/ORCINOS_DEFINITIVE_2026.png" alt="Orcinos" class="logo-img"></div>
     <section class="hero">
         <h1>Smart Tools.</h1>
@@ -40,7 +40,7 @@
 
     <section class="about-section">
         <h2>What is Orcinos?</h2>
-        <p>Orcinos is an independent sovereign software lab. We build high-fidelity tools that handle the hard work for you—from tracking prices and securing your data to creating content and managing your brand. Everything we build is designed to be simple, fast, and high quality.</p>
+        <p>Orcinos is the smart software part of Prisca Dezigns. We build tools that handle the hard work for you—from tracking prices and securing your data to creating content and managing your brand. Everything we build is designed to be simple, fast, and high quality.</p>
     </section>
 
     <div class="grid" id="product-grid">
@@ -49,20 +49,21 @@
 
     <script>
         const products = [
-            { name: "Captio AI", cat: "Marketing", desc: "A smart tool for creating perfect social media captions automatically.", url: "./captioai/" },
-            { name: "OptiScout", cat: "Shopping", desc: "Track Amazon prices and find the best deals easily.", url: "./optiscout/" },
-            { name: "Nurasen", cat: "Security", desc: "Top quality protection for your business data and private info.", url: "./nurasen/" },
-            { name: "Titan TraderX", cat: "Trading", desc: "A smart dashboard for tracking your trading strategies and alerts.", url: "./titantraderx/" },
-            { name: "PrayerBlock", cat: "Wellness", desc: "A quiet space for prayer and thinking without distractions.", url: "./prayerblock/" },
-            { name: "PawDX", cat: "Pet Care", desc: "Check your pet's health and track their well-being with smart tools.", url: "./pawdx/" },
-            { name: "Slumber", cat: "Sleep Tech", desc: "Understand your sleep better and wake up feeling your best.", url: "./slumber/" },
-            { name: "Skillbit", cat: "Learning", desc: "Learn new skills fast with easy, short lessons.", url: "./skillbit/" },
-            { name: "Clausify", cat: "Legal Tools", desc: "Create simple legal documents and contracts for your business.", url: "./clausify/" },
-            { name: "Syla", cat: "Logistics", desc: "A simple way to track your business assets and tools.", url: "./syla/" },
-            { name: "Hartaly", cat: "Wellness", desc: "A smart helper to keep your mind calm and focused.", url: "./hartaly/" },
-            { name: "D'Panyard", cat: "Culture", desc: "The home for Steelpan music and Caribbean culture.", url: "./dpanyard/" },
-            { name: "Riddiim", cat: "Music", desc: "Tools for making and sharing great music easily.", url: "./riddiim/" },
-            { name: "Dricil", cat: "Agency", desc: "An automatic helper that handles your digital marketing for you.", url: "./dricil/" }
+            { name: "Captio AI", cat: "Marketing", desc: "A smart tool for creating perfect social media captions automatically.", url: "/captioai/" },
+            { name: "OptiScout", cat: "Shopping", desc: "Track Amazon prices and find the best deals easily.", url: "/optiscout/" },
+            { name: "Nurasen", cat: "Security", desc: "Top quality protection for your business data and private info.", url: "/nurasen/" },
+            { name: "Titan TraderX", cat: "Trading", desc: "A smart dashboard for tracking your trading strategies and alerts.", url: "/titantraderx/" },
+            { name: "PrayerBlock", cat: "Wellness", desc: "A quiet space for prayer and thinking without distractions.", url: "/prayerblock/landing/" },
+            { name: "PawDX", cat: "Pet Care", desc: "Check your pet's health and track their well-being with smart tools.", url: "/pawdx/landing/" },
+            { name: "Slumber", cat: "Sleep Tech", desc: "Understand your sleep better and wake up feeling your best.", url: "/slumber/landing/" },
+            { name: "Skillbit", cat: "Learning", desc: "Learn new skills fast with easy, short lessons.", url: "/skillbit/landing/" },
+            { name: "Clausify", cat: "Legal Tools", desc: "Create simple legal documents and contracts for your business.", url: "/clausify/landing/" },
+            { name: "Syla", cat: "Logistics", desc: "A simple way to track your business assets and tools.", url: "/syla/landing/" },
+            { name: "Hartaly", cat: "Wellness", desc: "A smart helper to keep your mind calm and focused.", url: "/hartaly/landing/" },
+            { name: "D'Panyard", cat: "Culture", desc: "The home for Steelpan music and Caribbean culture.", url: "/dpanyard/landing/" },
+            { name: "Riddiim", cat: "Music", desc: "Tools for making and sharing great music easily.", url: "/riddiim/landing/" },
+            { name: "Dricil", cat: "Agency", desc: "An automatic helper that handles your digital marketing for you.", url: "/dricil/landing/" },
+            { name: "Vyne", cat: "Marketplace", desc: "The sovereign marketplace. Own your own boutique, curate products, and earn automatic commissions.", url: "/vyne/" }
         ];
         const grid = document.getElementById('product-grid');
         products.forEach(p => {
@@ -72,5 +73,4 @@
     <footer>© 2026 ORCINOS · PRISCA DEZIGNS NETWORK</footer>
 </body>
 </html>
-
 
