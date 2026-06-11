@@ -1,0 +1,32 @@
+[
+  {
+    "id": "VY-F-001",
+    "name": "Ethereal Summer Wrap Dress",
+    "source": "Shein",
+    "category": "Fashion",
+    "price": "$28.00",
+    "commission": "85%",
+    "image": "https://images.unsplash.com/photo-1515377905703-c4788e51af15",
+    "description": "High-fidelity silk blend wrap dress. Perfect for sanctuary evenings."
+  },
+  {
+    "id": "VY-T-001",
+    "name": "Aura Noise-Cancelling Headphones",
+    "source": "Amazon",
+    "category": "Tech",
+    "price": "$129.99",
+    "commission": "85%",
+    "image": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e",
+    "description": "Deep focus audio engineering for the professional architect."
+  },
+  {
+    "id": "VY-L-001",
+    "name": "Priscion Signature Watch",
+    "source": "Internal",
+    "category": "Luxury",
+    "price": "$450.00",
+    "commission": "90%",
+    "image": "https://images.unsplash.com/photo-1524592093825-d0d89a230031",
+    "description": "The official timepiece of the Neural Nexus. Anchored to eternity."
+  }
+]
