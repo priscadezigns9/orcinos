@@ -74,6 +74,7 @@
             body { overflow-y: auto; }
         }
     </style>
+<script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
     <header>
@@ -91,15 +92,25 @@
     </header>
 
     <div class='workspace'>
-        <aside class='sidebar'>
+                <aside class='sidebar'>
             <h3>Navigation</h3>
-            <div class='nav-item active'>📊 Charts</div>
-            <div class='nav-item'>📖 Academy</div>
-            <div class='nav-item'>🤝 Partners</div>
+            <div class='nav-item active' onclick='window.location.reload()'>
+                <i data-lucide='layout-dashboard' style='width:16px; height:16px;'></i> 📊 Charts
+            </div>
+            <a href='academy.html' class='nav-item' style='text-decoration:none;'>
+                <i data-lucide='book-open' style='width:16px; height:16px;'></i> 📖 Academy
+            </a>
+            <a href='partners.html' class='nav-item' style='text-decoration:none;'>
+                <i data-lucide='users' style='width:16px; height:16px;'></i> 🤝 Partners
+            </a>
             
             <h3 style='margin-top: 30px;'>Workspace</h3>
-            <div class='nav-item'>🛠️ Risk Calc</div>
-            <div class='nav-item'>🧠 Neural Desk</div>
+            <div class='nav-item' onclick='window.open("trading-essentials.html", "_blank")'>
+                <i data-lucide='calculator' style='width:16px; height:16px;'></i> 🛠️ Risk Calc
+            </div>
+            <div class='nav-item' onclick='window.open("market-intelligence.html", "_blank")'>
+                <i data-lucide='brain' style='width:16px; height:16px;'></i> 🧠 Neural Desk
+            </div>
         </aside>
 
         <main class='main-terminal'>
@@ -211,7 +222,9 @@
             window.location.href = 'dashboard.html';
         }
     </script>
+<script>lucide.createIcons();</script>
 </body>
 </html>
+
 
 
