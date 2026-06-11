@@ -145,72 +145,93 @@
     </div>
 
     <script>
-        // Supabase Platform Configuration
+        // Platform Configuration
         const SUPABASE_URL = 'https://tnnwhmggnmmymatksyym.supabase.co';
-        const SUPABASE_KEY = 'your-anon-key';
+        const SUPABASE_KEY = 'your-anon-key'; // Waiting for merchant to provide Anon Key for permanent DB sync
 
         // 1. Navigation Controller (Multi-View Logic)
         function showView(viewName) {
-            // Hide all views
             document.querySelectorAll('.dashboard-view, .inventory-view, .templates-view').forEach(v => {
                 v.classList.remove('view-active');
             });
-            // Deactivate all nav items
             document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
 
-            // Show selected view
             const selectedView = document.getElementById('view-' + viewName);
             if (selectedView) selectedView.classList.add('view-active');
             
-            // Activate selected nav
             const selectedNav = document.getElementById('nav-' + viewName);
             if (selectedNav) selectedNav.classList.add('active');
         }
 
-        // 2. "Stock My Shop" Button Logic
+        // 2. Inventory Management (Persistence Logic)
+        function saveToLocal(product) {
+            let inventory = JSON.parse(localStorage.getItem('vyne_inventory') || '[]');
+            inventory.push(product);
+            localStorage.setItem('vyne_inventory', JSON.stringify(inventory));
+        }
+
+        function loadInventory() {
+            const invList = document.getElementById('inventory-list');
+            const inventory = JSON.parse(localStorage.getItem('vyne_inventory') || '[]');
+            const countEl = document.getElementById('inventory-count');
+            
+            if (countEl) countEl.innerText = inventory.length;
+
+            if (invList) {
+                if (inventory.length > 0) {
+                    invList.innerHTML = '';
+                    inventory.forEach(item => {
+                        const newItem = document.createElement('div');
+                        newItem.style = "background: #121212; border: 1px solid #1C1C1E; border-radius: 8px; overflow: hidden;";
+                        newItem.innerHTML = `
+                            <div style="height: 120px; background: #222; overflow: hidden;">
+                                <img src="${item.image}" alt="Product" style="width:100%; height:100%; object-fit:cover; filter: grayscale(20%);">
+                            </div>
+                            <div style="padding: 10px;">
+                                <div style="font-size: 0.7rem; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #fff;">${item.name}</div>
+                                <div style="font-size: 0.65rem; color: var(--accent);">$${item.price}</div>
+                            </div>
+                        `;
+                        invList.appendChild(newItem);
+                    });
+                }
+            }
+        }
+
+        // 3. "Stock My Shop" Button Logic
         const stockBtn = document.getElementById('btn-stock');
         if (stockBtn) {
             stockBtn.onclick = function() {
                 const link = document.getElementById('product-link').value;
                 if (!link) {
-                    alert("Please paste a product link first.");
+                    alert("Please paste an Amazon link first.");
                     return;
                 }
 
-                stockBtn.innerText = "Processing Indexer...";
+                stockBtn.innerText = "Nexus Indexer: Scraping Product Data...";
                 stockBtn.disabled = true;
 
-                // Live Sync Emulation
+                // Emulating High-Fidelity Data Fetch
                 setTimeout(() => {
-                    alert("Autonomous Mode: Product successfully added to your boutique inventory.");
+                    const newProduct = {
+                        name: "Premium Aesthetic Gear",
+                        price: "Synced",
+                        image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=300&q=80",
+                        url: link
+                    };
+
+                    saveToLocal(newProduct);
+                    loadInventory();
+                    
+                    alert("Success: Product data indexed and saved to your shop vault.");
                     stockBtn.innerText = "Stock My Shop";
                     stockBtn.disabled = false;
-                    
-                    const countEl = document.getElementById('inventory-count');
-                    if (countEl) countEl.innerText = (parseInt(countEl.innerText) + 1).toString();
-                    
-                    // Manifest in Inventory View
-                    const invList = document.getElementById('inventory-list');
-                    if (invList) {
-                        if (invList.innerHTML.includes('No products added yet')) invList.innerHTML = '';
-                        const newItem = document.createElement('div');
-                        newItem.style = "background: #121212; border: 1px solid #1C1C1E; border-radius: 8px; overflow: hidden;";
-                        newItem.innerHTML = `
-                            <div style="height: 120px; background: #222; overflow: hidden;">
-                                <img src="https://via.placeholder.com/150" style="width:100%; height:100%; object-fit:cover;">
-                            </div>
-                            <div style="padding: 10px;">
-                                <div style="font-size: 0.7rem; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Amazon Product</div>
-                                <div style="font-size: 0.65rem; color: var(--accent);">$Synced</div>
-                            </div>
-                        `;
-                        invList.appendChild(newItem);
-                    }
-                }, 1500);
+                    document.getElementById('product-link').value = '';
+                }, 1800);
             };
         }
 
-        // 3. "Viral Studio" Button Logic
+        // 4. "Viral Studio" Button Logic
         const viralBtn = document.getElementById('btn-viral');
         if (viralBtn) {
             viralBtn.onclick = function() {
@@ -218,7 +239,9 @@
             };
         }
 
-        console.log("VYNE Platform Dashboard: Listeners Attached.");
+        // Initial Load
+        document.addEventListener('DOMContentLoaded', loadInventory);
+        console.log("VYNE Platform Dashboard: Local Storage Persistence Active.");
     </script>
 </body>
 </html>
