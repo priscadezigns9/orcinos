@@ -108,7 +108,7 @@
             </div>
             
             <h3 style='margin-top: 30px;'>Workspace</h3>
-            <div class='nav-item' onclick='window.open("trading-essentials.html", "_blank")'>
+            <div class='nav-item' onclick='window.open("risk-calculator.html", "_blank")'>
                 <i data-lucide='calculator'></i> <span>Risk Calc</span>
             </div>
             <div class='nav-item' onclick='window.open("market-intelligence.html", "_blank")'>
@@ -172,6 +172,12 @@
         }
 
         async function loadWatchlist() {
+            if (!currentUser) {
+                const container = document.getElementById('watchlist-items');
+                container.innerHTML = '';
+                ['BTCUSDT', 'ETHUSDT', 'XAUUSD', 'GBPUSD'].forEach(s => renderSymbol(s, null));
+                return;
+            }
             const { data, error } = await _supabase
                 .from('user_watchlists')
                 .select('*')
@@ -192,15 +198,20 @@
         function renderSymbol(symbol, id) {
             const div = document.createElement('div');
             div.className = 'watchlist-item';
+            const displaySymbol = symbol.includes(':') ? symbol.split(':')[1] : symbol;
             div.innerHTML = `
-                <span class='symbol' onclick='initChart("BINANCE:" + "${symbol}")' style='cursor:pointer;'>${symbol}</span>
-                <span class='price'>LIVE</span>
-                <span class='remove-btn' onclick='removeSymbol(\"${id}\", \"${symbol}\")'>✕</span>
+                <span class='symbol' onclick='initChart("BINANCE:" + "${symbol}")' style='cursor:pointer;'>${displaySymbol}</span>
+                <span class='price' style='color:var(--malachite);'>LIVE</span>
+                ${id ? `<span class='remove-btn' onclick='removeSymbol("${id}", "${symbol}")'>✕</span>` : ''}
             `;
             document.getElementById('watchlist-items').appendChild(div);
         }
 
         async function addSymbol() {
+            if (!currentUser) {
+                alert("Login to save custom symbols to your institutional profile.");
+                return;
+            }
             const input = document.getElementById('symbol-input');
             const symbol = input.value.toUpperCase().trim();
             if (!symbol) return;
@@ -228,6 +239,7 @@
 <script>lucide.createIcons();</script>
 </body>
 </html>
+
 
 
 
