@@ -160,7 +160,7 @@
 
         supabase.auth.onAuthStateChange((event, session) => {
             if (session) {
-                document.getElementById('auth-ui').style.display = 'none';
+                window.location.href = 'terminal.html';
                 document.getElementById('user-profile').style.display = 'block';
                 document.getElementById('user-email').innerText = session.user.email;
                 document.getElementById('user-initials').innerText = session.user.email[0].toUpperCase();
@@ -169,6 +169,7 @@
     </script>
 </body>
 </html>
+
 
 
 
