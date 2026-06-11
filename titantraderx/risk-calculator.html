@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Titan Risk Calculator | Institutional Workspace</title>
+    <link rel="icon" href="../logos/TITAN_ICON.png" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --bg: #050505;
+            --primary: #00FF7F;
+            --surface: #0F0F11;
+            --text: #FFFFFF;
+            --muted: #888888;
+            --border: rgba(255,255,255,0.05);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .calc-container {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 40px;
+            border-radius: 32px;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+        .header { text-align: center; margin-bottom: 30px; }
+        .header h1 { font-size: 1.8rem; font-weight: 800; margin-bottom: 10px; }
+        .header p { color: var(--muted); font-size: 0.9rem; }
+
+        .input-group { margin-bottom: 20px; }
+        .input-group label { display: block; font-size: 0.75rem; font-weight: 700; color: var(--muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
+        .input-group input {
+            width: 100%;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border);
+            padding: 15px;
+            border-radius: 12px;
+            color: #fff;
+            font-size: 1rem;
+            font-family: inherit;
+            outline: none;
+            transition: 0.3s;
+        }
+        .input-group input:focus { border-color: var(--primary); background: rgba(0,255,127,0.02); }
+
+        .result-box {
+            background: rgba(0,255,127,0.05);
+            border: 1px solid rgba(0,255,127,0.1);
+            padding: 25px;
+            border-radius: 20px;
+            text-align: center;
+            margin-top: 30px;
+        }
+        .result-box h2 { font-size: 0.75rem; color: var(--primary); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 10px; }
+        .result-value { font-size: 2.2rem; font-weight: 800; color: #fff; }
+        .result-sub { font-size: 0.85rem; color: var(--muted); margin-top: 5px; }
+
+        .btn {
+            width: 100%;
+            background: var(--primary);
+            color: #000;
+            border: none;
+            padding: 16px;
+            border-radius: 12px;
+            font-weight: 800;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0,255,127,0.2); }
+
+        .footer { text-align: center; margin-top: 30px; font-size: 0.7rem; color: var(--muted); }
+    </style>
+</head>
+<body>
+    <div class="calc-container">
+        <div class="header">
+            <i data-lucide="calculator" style="color: var(--primary); margin-bottom: 15px;"></i>
+            <h1>Risk Calculator</h1>
+            <p>Calculate institutional position sizing.</p>
+        </div>
+
+        <div class="input-group">
+            <label>Account Balance ($)</label>
+            <input type="number" id="balance" value="100000" placeholder="e.g. 100000">
+        </div>
+
+        <div class="input-group">
+            <label>Risk Percentage (%)</label>
+            <input type="number" id="risk" value="1" step="0.1" placeholder="e.g. 1">
+        </div>
+
+        <div class="input-group">
+            <label>Stop Loss (Pips/Points)</label>
+            <input type="number" id="stoploss" value="20" placeholder="e.g. 20">
+        </div>
+
+        <button class="btn" onclick="calculate()">CALCULATE POSITION</button>
+
+        <div class="result-box">
+            <h2>Recommended Lot Size</h2>
+            <div class="result-value" id="result">0.00</div>
+            <div class="result-sub" id="risk-amount">Risking: $1,000.00</div>
+        </div>
+
+        <div class="footer">
+            &copy; 2026 PRISCION ORCINOS | ANCHORED TO ETERNITY
+        </div>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        function calculate() {
+            const balance = parseFloat(document.getElementById('balance').value);
+            const riskPercent = parseFloat(document.getElementById('risk').value);
+            const stopLoss = parseFloat(document.getElementById('stoploss').value);
+
+            if (isNaN(balance) || isNaN(riskPercent) || isNaN(stopLoss) || stopLoss <= 0) {
+                alert("Please enter valid numbers.");
+                return;
+            }
+
+            const riskAmount = balance * (riskPercent / 100);
+            // Standard Lot Calculation (assuming 1 lot = $10 per pip for FX)
+            // position_size = risk_amount / (stop_loss * pip_value)
+            const lotSize = riskAmount / (stopLoss * 10);
+
+            document.getElementById('result').innerText = lotSize.toFixed(2);
+            document.getElementById('risk-amount').innerText = `Risking: $${riskAmount.toLocaleString(undefined, {minimumFractionDigits: 2})}`;
+        }
+
+        // Initial calculation
+        calculate();
+    </script>
+</body>
+</html>
