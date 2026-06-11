@@ -73,6 +73,9 @@
             .main-terminal { height: 80vh; }
             body { overflow-y: auto; }
         }
+    
+        .nav-item i { width: 18px; height: 18px; }
+        .nav-item span { margin-left: 10px; }
     </style>
 <script src="https://unpkg.com/lucide@latest"></script>
 </head>
@@ -92,24 +95,24 @@
     </header>
 
     <div class='workspace'>
-                <aside class='sidebar'>
+                        <aside class='sidebar'>
             <h3>Navigation</h3>
             <div class='nav-item active' onclick='window.location.reload()'>
-                <i data-lucide='layout-dashboard' style='width:16px; height:16px;'></i> 📊 Charts
+                <i data-lucide='layout-dashboard'></i> <span>Charts</span>
             </div>
-            <a href='academy.html' class='nav-item' style='text-decoration:none;'>
-                <i data-lucide='book-open' style='width:16px; height:16px;'></i> 📖 Academy
-            </a>
-            <a href='partners.html' class='nav-item' style='text-decoration:none;'>
-                <i data-lucide='users' style='width:16px; height:16px;'></i> 🤝 Partners
-            </a>
+            <div class='nav-item' onclick='window.location.href="academy.html"'>
+                <i data-lucide='book-open'></i> <span>Academy</span>
+            </div>
+            <div class='nav-item' onclick='window.location.href="partners.html"'>
+                <i data-lucide='users'></i> <span>Partners</span>
+            </div>
             
             <h3 style='margin-top: 30px;'>Workspace</h3>
             <div class='nav-item' onclick='window.open("trading-essentials.html", "_blank")'>
-                <i data-lucide='calculator' style='width:16px; height:16px;'></i> 🛠️ Risk Calc
+                <i data-lucide='calculator'></i> <span>Risk Calc</span>
             </div>
             <div class='nav-item' onclick='window.open("market-intelligence.html", "_blank")'>
-                <i data-lucide='brain' style='width:16px; height:16px;'></i> 🧠 Neural Desk
+                <i data-lucide='brain'></i> <span>Neural Desk</span>
             </div>
         </aside>
 
@@ -225,6 +228,7 @@
 <script>lucide.createIcons();</script>
 </body>
 </html>
+
 
 
 
