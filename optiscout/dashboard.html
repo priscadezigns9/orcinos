@@ -10,7 +10,7 @@
         :root {
             --bg: #FFFFFF; --surface: #F9F9FB; --text: #000000; --muted: #666666; 
             --accent: #FF9500; --border: rgba(0,0,0,0.06); --white: #ffffff;
-            --live: #00AD69; --danger: #FF3B30;
+            --live: #00AD69; --danger: #FF3B30; --apex: #000000;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { 
@@ -38,11 +38,15 @@
         .dash-title h1 { font-size: 2.5rem; font-weight: 900; letter-spacing: -1px; text-transform: uppercase; }
         .dash-title p { color: var(--muted); font-size: 1rem; }
 
-        .academy-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 40px; }
-        .academy-card { background: var(--surface); padding: 25px; border-radius: 18px; border: 1px solid var(--border); transition: 0.3s; }
+        .neural-academy-section { margin-bottom: 50px; }
+        .section-tag { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; color: var(--muted); margin-bottom: 20px; display: block; }
+        
+        .academy-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+        .academy-card { background: var(--surface); padding: 25px; border-radius: 18px; border: 1px solid var(--border); transition: 0.3s; position: relative; overflow: hidden; }
         .academy-card:hover { border-color: var(--accent); transform: translateY(-5px); }
-        .academy-card h4 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; color: var(--accent); }
+        .academy-card h4 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; color: var(--text); font-weight: 800; }
         .academy-card p { font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
+        .premium-feature-tag { position: absolute; top: 15px; right: -25px; background: var(--accent); color: #000; font-size: 0.55rem; font-weight: 900; padding: 4px 30px; transform: rotate(45deg); text-transform: uppercase; }
 
         .search-area { background: var(--surface); padding: 45px; border-radius: 24px; border: 1px solid var(--border); margin-bottom: 40px; text-align: center; }
         .scout-input { 
@@ -50,6 +54,8 @@
             background: #FFF; color: #000; font-size: 1rem; margin-bottom: 20px; outline: none; transition: 0.3s; text-align: center; 
             box-shadow: 0 4px 12px rgba(0,0,0,0.03);
         }
+        .scout-input:focus { border-color: var(--accent); box-shadow: 0 0 0 4px rgba(255,149,0,0.1); }
+        
         .btn-scan { 
             padding: 20px 60px; background: #000; color: #FFF; border: none; border-radius: 12px; 
             font-weight: 800; cursor: pointer; transition: 0.3s; text-transform: uppercase; letter-spacing: 2px; font-size: 1.1rem; 
@@ -64,14 +70,15 @@
         .status-tag { padding: 4px 10px; border-radius: 5px; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; }
         .status-active { background: rgba(255,149,0,0.1); color: var(--accent); }
 
-        .apex-exclusive { display: none; margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--border); }
-        .apex-badge { font-size: 0.6rem; background: #000; color: var(--accent); padding: 2px 6px; border-radius: 4px; margin-right: 8px; font-weight: 900; }
-
         .sniper-overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.95); z-index: 9999; flex-direction: column; align-items: center; justify-content: center;
-            color: var(--accent); font-family: monospace;
+            background: rgba(0,0,0,0.98); z-index: 9999; flex-direction: column; align-items: center; justify-content: center;
+            color: var(--accent); font-family: 'Courier New', Courier, monospace;
         }
+        .sniper-progress { width: 300px; height: 2px; background: #222; margin-top: 20px; position: relative; overflow: hidden; }
+        .sniper-bar { position: absolute; left: 0; top: 0; height: 100%; background: var(--accent); width: 0%; transition: width 0.5s ease; }
+
+        .apex-row-badge { font-size: 0.55rem; background: #000; color: var(--accent); padding: 2px 6px; border-radius: 3px; font-weight: 900; vertical-align: middle; margin-right: 5px; }
 
         #architect-console { 
             display: none; position: fixed; bottom: 30px; right: 30px; 
@@ -79,16 +86,15 @@
             padding: 25px; border-radius: 20px; z-index: 9999; width: 350px; 
             box-shadow: 0 0 50px rgba(255,149,0,0.3); font-family: monospace;
         }
-        .god-header { border-bottom: 1px solid var(--accent); padding-bottom: 10px; margin-bottom: 15px; font-weight: 800; font-size: 0.8rem; }
-        .god-input { background: #111; border: 1px solid #333; color: #FFF; width: 100%; padding: 10px; margin: 10px 0; border-radius: 8px; font-size: 0.7rem; }
-        .btn-god { background: var(--accent); color: #000; border: none; padding: 10px; width: 100%; border-radius: 8px; font-weight: 800; cursor: pointer; text-transform: uppercase; }
-        #god-toggle { position: fixed; bottom: 10px; right: 10px; width: 10px; height: 10px; opacity: 0.05; cursor: crosshair; z-index: 10000; }
+        #god-toggle { position: fixed; bottom: 10px; right: 10px; width: 15px; height: 15px; opacity: 0.05; cursor: crosshair; z-index: 10000; }
     </style>
 </head>
 <body>
     <div id="sniper-overlay" class="sniper-overlay">
-        <h2 style="letter-spacing: 5px; margin-bottom: 20px;">INITIATING SNIPER HANDSHAKE</h2>
-        <div id="sniper-log" style="font-size: 0.8rem; text-align: center;"></div>
+        <div style="font-size: 0.7rem; color: #FFF; margin-bottom: 5px;">NODE-ID: APEX-SNIPER-001</div>
+        <h2 style="letter-spacing: 8px; margin-bottom: 20px; font-weight: 900;">INITIATING SNIPER HANDSHAKE</h2>
+        <div id="sniper-log" style="font-size: 0.7rem; text-align: left; height: 100px; width: 400px;"></div>
+        <div class="sniper-progress"><div id="sniper-bar" class="sniper-bar"></div></div>
     </div>
 
     <nav>
@@ -102,28 +108,34 @@
     <div class="container">
         <div class="dash-header">
             <div class="dash-title">
-                <p>Autonomous Market Intelligence</p>
+                <p id="tier-desc">Autonomous Market Intelligence</p>
                 <h1>Neural Shard Monitor</h1>
             </div>
             <div id="tier-badge" class="status-tag status-active">Standard Tier</div>
         </div>
 
-        <div class="academy-grid">
-            <div class="academy-card">
-                <h4>Scout Alpha</h4>
-                <p>Calculates the Fair Market Floor—the lowest realistic price based on 12 months of historical oscillations.</p>
-            </div>
-            <div class="academy-card">
-                <h4>Market Volatility</h4>
-                <p>Measures price shift frequency. High Volatility assets require 15m Apex sync to catch rapid price drops.</p>
-            </div>
-            <div class="academy-card">
-                <h4>Smart Confidence</h4>
-                <p>AI pattern recognition that differentiates between a "Fake Drop" and a genuine high-quality entry point.</p>
-            </div>
-            <div class="academy-card">
-                <h4>Signal Strength</h4>
-                <p>Frequency of monitoring. Standard is 12-hours; Apex is a 15-minute high-quality stream for sniping deals.</p>
+        <div class="neural-academy-section">
+            <span class="section-tag">Neural Academy</span>
+            <div class="academy-grid">
+                <div class="academy-card">
+                    <h4>Scout Alpha</h4>
+                    <p>Calculates the Fair Market Floor—the lowest realistic price based on 12 months of historical oscillations.</p>
+                </div>
+                <div class="academy-card">
+                    <h4>Market Volatility</h4>
+                    <p>Measures price shift frequency. High Volatility assets require 15m Apex sync to catch rapid price drops.</p>
+                    <div class="premium-feature-tag">Apex</div>
+                </div>
+                <div class="academy-card">
+                    <h4>Smart Confidence</h4>
+                    <p>AI pattern recognition that differentiates between a "Fake Drop" and a genuine high-quality entry point.</p>
+                    <div class="premium-feature-tag">Apex</div>
+                </div>
+                <div class="academy-card">
+                    <h4>Signal Strength</h4>
+                    <p>Frequency of monitoring. Standard is 12-hours; Apex is a 15-minute high-quality stream for sniping deals.</p>
+                    <div class="premium-feature-tag">Apex</div>
+                </div>
             </div>
         </div>
 
@@ -145,10 +157,10 @@
 
     <div id="god-toggle" onclick="toggleGodMode()"></div>
     <div id="architect-console">
-        <div class="god-header">ORCINOS | ARCHITECT GOD MODE</div>
+        <div style="border-bottom: 1px solid var(--accent); padding-bottom: 10px; margin-bottom: 15px; font-weight: 800; font-size: 0.8rem;">ORCINOS | ARCHITECT GOD MODE</div>
         <div style="font-size: 0.6rem; margin-bottom: 15px;">STATUS: AUTHORIZED | MODE: LIVE</div>
-        <input type="text" id="god-alpha" class="god-input" placeholder="Override Alpha ($)">
-        <button class="btn-god" onclick="injectGodSignal()">Force Signal Deployment</button>
+        <input type="text" id="god-alpha" style="background: #111; border: 1px solid #333; color: #FFF; width: 100%; padding: 10px; margin: 10px 0; border-radius: 8px; font-size: 0.7rem;" placeholder="Override Alpha ($)">
+        <button onclick="injectGodSignal()" style="background: var(--accent); color: #000; border: none; padding: 10px; width: 100%; border-radius: 8px; font-weight: 800; cursor: pointer; text-transform: uppercase;">Force Signal Deployment</button>
         <div id="god-status" style="margin-top:15px; font-size:0.6rem; color:#FFF;"></div>
     </div>
 
@@ -162,6 +174,7 @@
             if (urlParams.get('premium') === 'true') {
                 isPremium = true;
                 document.getElementById('tier-badge').textContent = 'Apex Scout';
+                document.getElementById('tier-desc').textContent = 'Apex Institutional Market Intelligence';
                 document.getElementById('heartbeat-text').textContent = 'Neural Heartbeat: ACTIVE | Next Sync: 15:00';
                 document.querySelector('.heartbeat-container').style.border = '1px solid var(--accent)';
                 startHeartbeatCountdown();
@@ -207,19 +220,24 @@
         function executeSnipe(url) {
             const overlay = document.getElementById('sniper-overlay');
             const log = document.getElementById('sniper-log');
+            const bar = document.getElementById('sniper-bar');
             overlay.style.display = 'flex';
+            bar.style.width = '0%';
             
             const lines = [
-                'SECURE TUNNEL ESTABLISHED...',
-                'CALCULATING OPTIMAL ENTRY POINT...',
-                'BYPASSING VOLATILITY TAX...',
-                'SIGNAL SECURED. REDIRECTING TO ACQUISITION NODE.'
+                '>> ESTABLISHING SECURE TUNNEL TO AMAZON SHARD...',
+                '>> BYPASSING INSTITUTIONAL VOLATILITY TAX...',
+                '>> ANALYZING RECENT PRICE OSCILLATIONS...',
+                '>> FAIR MARKET FLOOR DETECTED: SIGNAL SECURED.',
+                '>> EXECUTING INSTANT ACQUISITION HANDSHAKE...',
+                '>> REDIRECTING TO TARGET NODE.'
             ];
             
             let i = 0;
             const interval = setInterval(() => {
                 if(i < lines.length) {
                     log.innerHTML += lines[i] + '<br>';
+                    bar.style.width = ((i+1) / lines.length * 100) + '%';
                     i++;
                 } else {
                     clearInterval(interval);
@@ -229,15 +247,16 @@
                         log.innerHTML = '';
                     }, 1000);
                 }
-            }, 800);
+            }, 600);
         }
 
-        function viewChart(val) {
-            const asin = val.match("/([A-Z0-9]{10})");
+        function viewChart(url) {
+            const asinMatch = url.match(/\/([A-Z0-9]{10})(?:[\/?]|$)/);
+            const asin = asinMatch ? asinMatch[1] : null;
             if(asin) {
-                window.open("https://camelcamelcamel.com/product/" + asin[1], "_blank");
+                window.open("https://camelcamelcamel.com/product/" + asin, "_blank");
             } else {
-                alert("NEURAL CHART LOADING: Shard synchronization in progress.");
+                alert("NEURAL CHART: Syncing ASIN metadata. Please wait.");
             }
         }
 
@@ -253,28 +272,35 @@
             const row = document.createElement('tr');
             row.id = rowId;
             
-            let apexFeatures = '';
+            let apexHTML = '';
             if(isPremium) {
-                apexFeatures = '<div class="apex-exclusive" style="display:block;">' +
-                        '<span class="apex-badge">APEX</span>' +
-                        '<span style="font-size:0.7rem; color:var(--live); font-weight:700;">98% Smart Confidence</span>' +
-                        '<span style="margin-left:10px; font-size:0.7rem; color:var(--muted);">| Volatility: LOW</span>' +
-                    '</div>' +
-                    '<div style="margin-top:5px;">' +
-                        '<button onclick="viewChart(\\'' + val + '\\')" style="background:#000; color:#FFF; border:none; padding:5px 10px; border-radius:4px; font-size:0.6rem; font-weight:800; cursor:pointer;">VIEW PRICE CHART</button>' +
-                        '<button onclick="executeSnipe(\\'' + val + '\\')" style="background:var(--accent); color:#000; border:none; padding:5px 10px; border-radius:4px; font-size:0.6rem; font-weight:800; cursor:pointer; margin-left:5px;">EXECUTE SNIPE</button>' +
-                    '</div>';
+                apexHTML = "<div style='margin-top:10px; padding-top:10px; border-top:1px dashed rgba(0,0,0,0.05);'>" +
+                        "<span class='apex-row-badge'>APEX</span>" +
+                        "<span style='font-size:0.7rem; color:var(--live); font-weight:700;'>98% Smart Confidence</span>" +
+                        "<span style='margin-left:10px; font-size:0.7rem; color:var(--muted);'>| Volatility: LOW</span>" +
+                        "<div style='margin-top:8px;'>" +
+                            "<button class='btn-chart' style='background:#000; color:#FFF; border:none; padding:6px 12px; border-radius:5px; font-size:0.6rem; font-weight:800; cursor:pointer;'>VIEW CHART</button>" +
+                            "<button class='btn-snipe' style='background:var(--accent); color:#000; border:none; padding:6px 12px; border-radius:5px; font-size:0.6rem; font-weight:800; cursor:pointer; margin-left:8px;'>EXECUTE SNIPE</button>" +
+                        "</div>" +
+                    "</div>";
             }
 
             row.innerHTML = '<td>' +
-                    '<div style="font-weight:700; color:#000;">' + (val.split("/")[3] || "Amazon Asset") + '</div>' +
-                    '<div style="font-size:0.7rem; color:var(--muted);">' + val.substring(0,40) + '...</div>' +
-                    apexFeatures +
+                    '<div style="font-weight:700; color:#000;">' + (val.split("/")[3] || "Amazon Asset Shard") + '</div>' +
+                    '<div style="font-size:0.7rem; color:var(--muted);">' + val.substring(0,45) + '...</div>' +
+                    apexHTML +
                 '</td>' +
                 '<td class="status-cell"><span style="color:var(--live); font-weight:800;">SCOUTING...</span></td>' +
-                '<td class="alpha-cell">Searching...</td>' +
+                '<td class="alpha-cell">Calculating...</td>' +
                 '<td class="sync-cell">Just Now</td>';
             tbody.prepend(row);
+            
+            if(isPremium) {
+                const rowEl = tbody.firstChild;
+                rowEl.querySelector('.btn-chart').onclick = () => viewChart(val);
+                rowEl.querySelector('.btn-snipe').onclick = () => executeSnipe(val);
+            }
+            
             document.getElementById('scout-url').value = '';
         }
 
