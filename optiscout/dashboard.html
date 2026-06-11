@@ -93,13 +93,35 @@
                 document.getElementById('heartbeat-text').textContent = 'Neural Heartbeat: ACTIVE | 15m Sync';
             }
         };
-        function initializeScout() {
+                function initializeScout() {
             const val = document.getElementById('scout-url').value.trim();
-            if(!val) return;
+            if (!val) return;
+            
             const tbody = document.getElementById('monitor-body');
-            if(document.getElementById('no-assets')) document.getElementById('no-assets').remove();
+            const noAssets = document.getElementById('no-assets');
+            if (noAssets) noAssets.remove();
+            
+            const rowId = 'scout-' + Date.now();
             const row = document.createElement('tr');
-            row.innerHTML = `<td><div style="font-weight:700;">${val.substring(0, 40)}...</div></td><td><span style="color:var(--accent);">AWAITING SIGNAL</span></td><td>--</td><td>PENDING</td>`;
+            row.id = rowId;
+            row.innerHTML = '<td>' +
+                    '<div style="font-weight:700;">' + (val.split("/")[3] || "Amazon Asset") + '</div>' +
+                    '<div style="font-size:0.7rem; color:var(--muted);">' + val.substring(0,40) + '...</div>' +
+                '</td>' +
+                '<td class="status-cell"><span style="color:var(--accent); font-weight:600;">ESTABLISHING CONNECTION...</span></td>' +
+                '<td class="alpha-cell">--</td>' +
+                '<td class="sync-cell">CONNECTING</td>';
+            tbody.prepend(row);
+            document.getElementById('scout-url').value = '';
+
+            setTimeout(() => {
+                const rowElem = document.getElementById(rowId);
+                if(!rowElem) return;
+                rowElem.querySelector('.status-cell').innerHTML = '<span style="color:#000; font-weight:800;">NEURAL LINK ACTIVE</span>';
+                rowElem.querySelector('.alpha-cell').innerHTML = '<span style="color:#666;">AWAITING ALPHA</span>';
+                rowElem.querySelector('.sync-cell').innerText = 'SECURED';
+            }, 2800);
+        }...</div></td><td><span style="color:var(--accent);">AWAITING SIGNAL</span></td><td>--</td><td>PENDING</td>`;
             tbody.prepend(row);
             document.getElementById('scout-url').value = '';
         }
