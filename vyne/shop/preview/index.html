@@ -41,12 +41,19 @@
             --border: #ddd;
         }
 
+        body.dark-mode {
+            --bg: #0A0A0B !important;
+            --text: #fff !important;
+            --card: #121212 !important;
+            --border: #1C1C1E !important;
+        }
+
         body { 
             background: var(--bg); 
             color: var(--text); 
             font-family: 'Inter', sans-serif; 
             margin: 0; 
-            transition: 0.3s;
+            transition: background 0.3s, color 0.3s;
         }
 
         header {
@@ -166,6 +173,7 @@
         // 2. Load Settings (Name & Socials)
         const settings = JSON.parse(localStorage.getItem('vyne_shop_settings') || '{}');
         if (settings.brandName) document.getElementById('shop-name').innerText = settings.brandName;
+        if (settings.darkMode) document.body.classList.add('dark-mode');
         
         const socialContainer = document.getElementById('social-links');
         const socialMap = [
