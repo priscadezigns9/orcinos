@@ -10,7 +10,7 @@
         :root {
             --bg: #FFFFFF; --surface: #F9F9FB; --text: #000000; --muted: #666666; 
             --accent: #FF9500; --border: rgba(0,0,0,0.06); --white: #ffffff;
-            --live: #00AD69;
+            --live: #00AD69; --danger: #FF3B30;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { 
@@ -63,6 +63,9 @@
         
         .status-tag { padding: 4px 10px; border-radius: 5px; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; }
         .status-active { background: rgba(255,149,0,0.1); color: var(--accent); }
+
+        .apex-exclusive { display: none; margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--border); }
+        .apex-badge { font-size: 0.6rem; background: #000; color: var(--accent); padding: 2px 6px; border-radius: 4px; margin-right: 8px; font-weight: 900; }
 
         #architect-console { 
             display: none; position: fixed; bottom: 30px; right: 30px; 
@@ -140,7 +143,7 @@
 
     <script>
         let isPremium = false;
-        let countdownSeconds = 900; // 15 minutes default for Apex
+        let countdownSeconds = 900;
 
         window.onload = function() {
             const urlParams = new URLSearchParams(window.location.search);
@@ -168,9 +171,9 @@
                     countdownSeconds--;
                     const mins = Math.floor(countdownSeconds / 60);
                     const secs = countdownSeconds % 60;
-                    document.getElementById('heartbeat-text').textContent = ;
+                    document.getElementById('heartbeat-text').textContent = "Neural Heartbeat: ACTIVE | Next Sync: " + mins + ":" + (secs < 10 ? '0' : '') + secs;
                 } else {
-                    countdownSeconds = 900; // Reset to 15m
+                    countdownSeconds = 900;
                     triggerNeuralSync();
                 }
             }, 1000);
@@ -201,9 +204,24 @@
             const rowId = 'scout-' + Date.now();
             const row = document.createElement('tr');
             row.id = rowId;
+            
+            let apexFeatures = '';
+            if(isPremium) {
+                apexFeatures = '<div class="apex-exclusive" style="display:block;">' +
+                        '<span class="apex-badge">APEX</span>' +
+                        '<span style="font-size:0.7rem; color:var(--live); font-weight:700;">98% Smart Confidence</span>' +
+                        '<span style="margin-left:10px; font-size:0.7rem; color:var(--muted);">| Volatility: LOW</span>' +
+                    '</div>' +
+                    '<div style="margin-top:5px;">' +
+                        '<button style="background:#000; color:#FFF; border:none; padding:5px 10px; border-radius:4px; font-size:0.6rem; font-weight:800; cursor:pointer;">VIEW PRICE CHART</button>' +
+                        '<button style="background:var(--accent); color:#000; border:none; padding:5px 10px; border-radius:4px; font-size:0.6rem; font-weight:800; cursor:pointer; margin-left:5px;">EXECUTE SNIPE</button>' +
+                    '</div>';
+            }
+
             row.innerHTML = '<td>' +
                     '<div style="font-weight:700; color:#000;">' + (val.split("/")[3] || "Amazon Asset") + '</div>' +
                     '<div style="font-size:0.7rem; color:var(--muted);">' + val.substring(0,40) + '...</div>' +
+                    apexFeatures +
                 '</td>' +
                 '<td class="status-cell"><span style="color:var(--live); font-weight:800;">SCOUTING...</span></td>' +
                 '<td class="alpha-cell">Searching...</td>' +
