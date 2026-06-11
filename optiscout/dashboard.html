@@ -46,7 +46,19 @@
     .tag-good { background: #e8f5e9; color: #2e7d32; }
     .tag-bad { background: #ffebee; color: #c62828; }
     footer { margin-top: 100px; text-align: center; color: var(--text-light); font-size: 0.8rem; padding-bottom: 40px; }
-  </style>
+  
+        /* Architect God Mode Overlay */
+        #architect-console { 
+            display: none; position: fixed; bottom: 30px; right: 30px; 
+            background: #000; border: 1px solid var(--accent); color: var(--accent); 
+            padding: 25px; border-radius: 20px; z-index: 9999; width: 350px; 
+            box-shadow: 0 0 50px rgba(255,149,0,0.3); font-family: monospace;
+        }
+        .god-header { border-bottom: 1px solid var(--accent); padding-bottom: 10px; margin-bottom: 15px; font-weight: 800; font-size: 0.8rem; }
+        .god-input { background: #111; border: 1px solid #333; color: #FFF; width: 100%; padding: 10px; margin: 10px 0; border-radius: 8px; font-size: 0.7rem; }
+        .btn-god { background: var(--accent); color: #000; border: none; padding: 10px; width: 100%; border-radius: 8px; font-weight: 800; cursor: pointer; text-transform: uppercase; }
+        #god-toggle { position: fixed; bottom: 10px; right: 10px; width: 10px; height: 10px; opacity: 0.05; cursor: crosshair; z-index: 10000; }
+    </style>
 </head>
 <body>
 <header><a href="/glowprotocol/" class="logo-container"><img src="https://lh3.googleusercontent.com/d/1oVHaG2yMmf3WvlnJXvZqtE4aGvxNuoK6" alt="Logo" class="logo-img"><span class="logo-text">Glow Protocol</span></a></header>
@@ -159,6 +171,42 @@ async function performMolecularScan() {
     scoreDesc.innerText = "Unable to connect to the neural network. Please check your connection.";
   }
 }
-</script>
+
+        let godModeActive = false;
+        function toggleGodMode() {
+            godModeActive = !godModeActive;
+            document.getElementById('architect-console').style.display = godModeActive ? 'block' : 'none';
+        }
+
+        function injectGodSignal() {
+            const alpha = document.getElementById('god-alpha').value;
+            const status = document.getElementById('god-status');
+            const targetRow = document.querySelector('#monitor-body tr:not(#no-assets)');
+            
+            if(!targetRow) {
+                status.innerText = "ERROR: NO ASSETS TARGETED";
+                return;
+            }
+
+            status.innerText = "INITIATING OVERRIDE...";
+            
+            setTimeout(() => {
+                targetRow.querySelector('.status-cell').innerHTML = '<span style="color:#00FF7F; font-weight:900;">HIGH QUALITY SIGNAL</span>';
+                targetRow.querySelector('.alpha-cell').innerHTML = '<span style="color:#00FF7F; font-weight:900;">$' + alpha + '</span>';
+                targetRow.querySelector('.sync-cell').innerText = 'INSTANT';
+                status.innerText = "SIGNAL DEPLOYED SUCCESSFULLY";
+            }, 1500);
+        }
+    </script>
+
+    <div id="god-toggle" onclick="toggleGodMode()"></div>
+    <div id="architect-console">
+        <div class="god-header">PRISCION | ARCHITECT GOD MODE</div>
+        <div style="font-size: 0.6rem; margin-bottom: 15px;">STATUS: AUTHORIZED | MODE: LIVE</div>
+        <div class="god-label">Manual Signal Override:</div>
+        <input type="text" id="god-alpha" class="god-input" placeholder="Override Alpha ($)">
+        <button class="btn-god" onclick="injectGodSignal()">Force Signal Deployment</button>
+        <div id="god-status" style="margin-top:15px; font-size:0.6rem; color:#FFF;"></div>
+    </div>
 </body>
 </html>
