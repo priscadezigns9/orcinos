@@ -5,102 +5,218 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VYNE | The Sovereign Marketplace</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #FFFFFF;
-            --text: #1A1A1A;
-            --muted: #666666;
-            --accent: #00A8E8; /* Lively Sky Blue */
-            --highlight: #FF9900; /* Energetic Orange */
-            --border: #F0F0F0;
+            --bg: #000000; /* Spotify Dark */
+            --text: #FFFFFF;
+            --muted: #B3B3B3;
+            --accent: #1DB954; /* Spotify Green */
+            --highlight: #FFFFFF;
+            --border: #282828;
+            --card-hover: #282828;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; line-height: 1.6; }
         
-        header { padding: 40px 6%; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); position: sticky; top: 0; background: #fff; z-index: 100; }
-        .logo { font-family: 'Playfair Display', serif; font-size: 2rem; letter-spacing: 2px; text-transform: uppercase; }
-        nav ul { display: flex; list-style: none; gap: 40px; }
-        nav a { text-decoration: none; color: var(--text); font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; }
+        header { 
+            padding: 20px 6%; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            background: rgba(0,0,0,0.8); 
+            backdrop-filter: blur(10px);
+            position: sticky; 
+            top: 0; 
+            z-index: 1000; 
+        }
+        .logo { font-family: 'Playfair Display', serif; font-size: 1.8rem; letter-spacing: 1px; font-weight: 700; color: var(--accent); }
+        
+        .nav-actions { display: flex; align-items: center; gap: 32px; }
+        .nav-link { 
+            text-decoration: none; 
+            color: var(--muted); 
+            font-size: 0.9rem; 
+            font-weight: 700; 
+            transition: color 0.2s, transform 0.2s;
+        }
+        .nav-link:hover { color: var(--text); transform: scale(1.05); }
 
-        .hero { padding: 120px 6%; text-align: center; max-width: 900px; margin: 0 auto; }
-        .hero h1 { font-family: 'Playfair Display', serif; font-size: 4rem; margin-bottom: 20px; font-weight: 700; }
-        .hero p { font-size: 1.1rem; color: var(--muted); margin-bottom: 40px; max-width: 600px; margin-left: auto; margin-right: auto; }
-        .cta { display: inline-block; padding: 18px 45px; background: var(--text); color: #fff; text-decoration: none; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem; }
+        /* Spotify Reference Buttons */
+        .btn-signup { 
+            text-decoration: none; 
+            color: var(--muted); 
+            font-weight: 700; 
+            font-size: 0.9rem; 
+            transition: color 0.2s, transform 0.2s;
+        }
+        .btn-signup:hover { color: var(--text); transform: scale(1.05); }
 
-        .grid { padding: 80px 6%; display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 40px; }
-        .card { border: 1px solid var(--border); padding-bottom: 20px; transition: transform 0.3s; cursor: pointer; }
-        .card:hover { transform: translateY(-5px); }
-        .card img { width: 100%; height: 400px; object-fit: cover; margin-bottom: 20px; }
-        .card-info { padding: 0 20px; }
-        .card-info span { font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
-        .card-info h3 { font-family: 'Playfair Display', serif; margin: 10px 0; font-size: 1.4rem; }
-        .card-info .price { font-weight: 600; color: var(--accent); }
+        .btn-login { 
+            background: var(--text); 
+            color: var(--bg); 
+            padding: 14px 32px; 
+            border-radius: 500px; 
+            text-decoration: none; 
+            font-weight: 700; 
+            font-size: 0.9rem; 
+            transition: transform 0.2s, background-color 0.2s;
+        }
+        .btn-login:hover { transform: scale(1.05); background-color: #f6f6f6; }
 
-        .merchant-section { padding: 100px 6%; background: #F9F9F9; text-align: center; }
-        .merchant-section h2 { font-family: 'Playfair Display', serif; font-size: 2.5rem; margin-bottom: 20px; }
-        .merchant-section p { max-width: 600px; margin: 0 auto 40px; color: var(--muted); }
+        .hero { padding: 100px 6% 60px; text-align: left; max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
+        .hero-content { max-width: 650px; }
+        .hero h1 { font-family: 'Inter', sans-serif; font-size: 3.5rem; margin-bottom: 24px; font-weight: 900; letter-spacing: -2px; line-height: 1.1; }
+        .hero p { font-size: 1.25rem; color: var(--text); margin-bottom: 40px; font-weight: 600; }
+        
+        .cta-main { 
+            display: inline-block; 
+            padding: 16px 48px; 
+            background: var(--accent); 
+            color: var(--bg); 
+            text-decoration: none; 
+            font-weight: 700; 
+            border-radius: 500px; 
+            font-size: 1rem; 
+            transition: transform 0.2s;
+        }
+        .cta-main:hover { transform: scale(1.05); }
 
-        footer { padding: 60px 6%; border-top: 1px solid var(--border); text-align: center; }
-        footer p { font-size: 0.8rem; color: var(--muted); letter-spacing: 1px; }
+        .section-title { padding: 40px 6% 20px; font-size: 1.5rem; font-weight: 700; max-width: 1200px; margin: 0 auto; }
+
+        .grid { padding: 0 6% 80px; display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 24px; max-width: 1200px; margin: 0 auto; }
+        .card { 
+            background: #181818; 
+            padding: 16px; 
+            border-radius: 8px; 
+            transition: background 0.3s; 
+            text-decoration: none; 
+            color: inherit;
+            display: block;
+        }
+        .card:hover { background: var(--card-hover); }
+        .card img { 
+            width: 100%; 
+            aspect-ratio: 1/1; 
+            object-fit: cover; 
+            border-radius: 4px; 
+            margin-bottom: 16px; 
+            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+        }
+        .card-info h3 { font-size: 1rem; margin-bottom: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .card-info p { font-size: 0.85rem; color: var(--muted); font-weight: 500; }
+        .card-info .price { margin-top: 8px; color: var(--text); font-weight: 700; }
+
+        footer { padding: 80px 6% 40px; border-top: 1px solid var(--border); max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: flex-start; }
+        .footer-logo { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; margin-bottom: 20px; }
+        .footer-links { display: flex; gap: 60px; }
+        .footer-col h4 { font-size: 0.8rem; color: var(--muted); text-transform: uppercase; margin-bottom: 20px; letter-spacing: 1px; }
+        .footer-col ul { list-style: none; }
+        .footer-col li { margin-bottom: 12px; }
+        .footer-col a { text-decoration: none; color: var(--muted); font-size: 0.9rem; font-weight: 500; }
+        .footer-col a:hover { color: var(--text); text-decoration: underline; }
+
+        .copyright { padding: 40px 6%; text-align: left; font-size: 0.75rem; color: var(--muted); max-width: 1200px; margin: 0 auto; border-top: 1px solid var(--border); margin-top: 40px; }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .nav-actions { gap: 16px; }
+            .footer-links { flex-direction: column; gap: 30px; }
+        }
     </style>
 </head>
 <body>
     <header>
         <div class="logo">VYNE</div>
-        <nav>
-            <ul>
-                <li><a href="#">Marketplace</a></li>
-                <li><a href="#">Merchants</a></li>
-                <li><a href="#">Sovereign Ledger</a></li>
-            </ul>
-        </nav>
+        <div class="nav-actions">
+            <a href="#marketplace" class="nav-link">Marketplace</a>
+            <a href="#" class="nav-link">Merchants</a>
+            <div style="width: 1px; height: 32px; background: var(--border); margin: 0 8px;"></div>
+            <a href="/vyne/dashboard/" class="btn-signup">Sign up</a>
+            <a href="/vyne/dashboard/" class="btn-login">Log in</a>
+        </div>
     </header>
 
     <section class="hero">
-        <h1>Your Own Storefront. No Hassle.</h1>
-        <p>Pick the best products from Amazon and the Priscion Network. We handle the technical side, you keep the commission. 100% Automatic.</p>
-        <a href="#marketplace" class="cta" style="background: var(--highlight); border-radius: 5px;">Start Your Shop</a>
+        <div class="hero-content">
+            <h1>The Boutique Marketplace for the New Era.</h1>
+            <p>Curate products from Amazon and the Priscion Network. Earn commissions automatically. Own your boutique.</p>
+            <a href="/vyne/dashboard/" class="cta-main">Start Your Shop Free</a>
+        </div>
     </section>
 
-    <section class="grid" id="marketplace">
-        <!-- Live Item 1 -->
-        <div class="card">
+    <h2 class="section-title" id="marketplace">Featured Selections</h2>
+    <section class="grid">
+        <!-- Item 1 -->
+        <a href="#" class="card">
             <img src="https://images.unsplash.com/photo-1548036328-c9fa89d128fa?q=80&w=1000&auto=format&fit=crop" alt="Vintage Leather Bag">
             <div class="card-info">
-                <span>Couture Gallery</span>
                 <h3>Archival Leather Messenger</h3>
+                <p>Couture Gallery</p>
                 <p class="price">500 $PRN / $250.00</p>
             </div>
-        </div>
-        <!-- Live Item 2 -->
-        <div class="card">
+        </a>
+        <!-- Item 2 -->
+        <a href="#" class="card">
             <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=1000&auto=format&fit=crop" alt="Minimalist Watch">
             <div class="card-info">
-                <span>The Watch List</span>
                 <h3>Sovereign Minimalist Chrono</h3>
+                <p>The Watch List</p>
                 <p class="price">1200 $PRN / $600.00</p>
             </div>
-        </div>
-        <!-- Live Item 3 -->
-        <div class="card">
+        </a>
+        <!-- Item 3 -->
+        <a href="#" class="card">
             <img src="https://images.unsplash.com/photo-1511499767390-903390e62bc0?q=80&w=1000&auto=format&fit=crop" alt="Architectural Eyewear">
             <div class="card-info">
-                <span>Axoria Frames</span>
                 <h3>Titanium Vision Sculpt</h3>
+                <p>Axoria Frames</p>
                 <p class="price">800 $PRN / $400.00</p>
             </div>
-        </div>
-    </section>
-
-    <section class="merchant-section">
-        <h2>Become a Vyne Merchant</h2>
-        <p>List your high-fidelity products, reach a global audience, and keep 85% of every sale. No listing fees. No simulations. Just real growth.</p>
-        <a href="#" class="cta" style="background: var(--accent);">Register Your Node</a>
+        </a>
+        <!-- Item 4 -->
+        <a href="#" class="card">
+            <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=1000&auto=format&fit=crop" alt="High Fidelity Headphones">
+            <div class="card-info">
+                <h3>Studio Reference Hub</h3>
+                <p>Atelia Gaming</p>
+                <p class="price">300 $PRN / $150.00</p>
+            </div>
+        </a>
     </section>
 
     <footer>
-        <p>&copy; 2026 VYNE · POWERED BY PRISCION · ALL RIGHTS RESERVED</p>
-    </footer>
+        <div class="footer-logo">VYNE</div>
+        <div class="footer-links">
+            <div class="footer-col">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Jobs</a></li>
+                    <li><a href="#">For the Record</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Communities</h4>
+                <ul>
+                    <li><a href="#">For Merchants</a></li>
+                    <li><a href="#">For Curators</a></li>
+                    <li><a href="#">Affiliates</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Useful Links</h4>
+                <ul>
+                    <li><a href="#">Support</a></li>
+                    <li><a href="#">Web Player</a></li>
+                    <li><a href="#">Free Mobile App</a></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <div class="copyright">
+        &copy; 2026 VYNE · POWERED BY PRISCION · ALL RIGHTS RESERVED
+    </div>
 </body>
 </html>
