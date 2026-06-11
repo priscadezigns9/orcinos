@@ -72,9 +72,7 @@
             tierBadge.style.background = '#000'; 
         }
 
-        async function generateCopy() {
-            const input = document.getElementById('neural-input').value;
-            if (!input) { alert('Please enter an input signal.'); return; }
+        
             const output = document.getElementById('neural-output');
             const copyBtn = document.getElementById('copy-btn');
             output.innerHTML = '<span class="loading-text">Neural Engine Syncing...</span>';
@@ -135,5 +133,6 @@
     </script>
 </body>
 </html>
+
 
 
