@@ -58,11 +58,49 @@
             .workspace { grid-template-columns: 1fr; }
         }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        .auth-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(26, 58, 42, 0.95); z-index: 10000; align-items: center; justify-content: center;
+        }
+        .auth-modal {
+            background: var(--parchment); padding: 40px; border-radius: 4px; width: 400px;
+            border: 1px solid var(--gold); position: relative; text-align: center;
+        }
+        .auth-modal input {
+            width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid var(--border);
+            background: transparent; font-family: 'Inter', sans-serif; color: var(--text);
+        }
+        .btn-auth {
+            width: 100%; padding: 15px; background: var(--forest); color: #FFF; border: none;
+            font-weight: 700; cursor: pointer; text-transform: uppercase; letter-spacing: 1px;
+        }
+        .upgrade-banner {
+            background: var(--gold); color: #FFF; padding: 10px; text-align: center;
+            font-family: 'Inter', sans-serif; font-weight: 700; font-size: 0.7rem;
+            text-transform: uppercase; letter-spacing: 1px; cursor: pointer;
+        }
+    </style>
 </head>
 <body>
+    <div id="auth-overlay" class="auth-overlay">
+        <div class="auth-modal">
+            <h2 style="font-size: 1.5rem; margin-bottom: 10px;">Secure Your Path</h2>
+            <p style="font-size: 0.9rem; margin-bottom: 25px; opacity: 0.7;">Create a free account to sync your planner across all devices.</p>
+            <input type="email" id="auth-email" placeholder="Email Address">
+            <input type="password" id="auth-password" placeholder="Password">
+            <button class="btn-auth" onclick="handleAuth()">Establish Account</button>
+            <p id="auth-msg" style="margin-top: 15px; font-size: 0.8rem; color: var(--gold);"></p>
+            <button onclick="closeAuth()" style="margin-top: 20px; background: none; border: none; font-size: 0.7rem; text-transform: uppercase; cursor: pointer; opacity: 0.5;">Continue as Guest</button>
+        </div>
+    </div>
     <header>
         <div class="logo">Prayer<span>Block</span></div>
-        <div class="user-nav">Sacred Workspace | Priscilla</div>
+        
+        <div class="user-nav" id="user-status">
+            <button onclick="openAuth()" style="background:var(--gold); color:#FFF; border:none; padding:5px 15px; border-radius:100px; cursor:pointer; font-weight:700;">SECURE ACCOUNT</button>
+        </div>
     </header>
 
     <div class="workspace">
@@ -100,17 +138,74 @@
         </div>
     </div>
 
+    
     <script>
-        function addPrayer() {
+        const supabaseUrl = 'https://sazhdnqzaxppcralmthh.supabase.co';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNhemhkbnF6YXFwcWNyYWxtdGhoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxNzE5NjYsImV4cCI6MjA5Mzc0Nzk2Nn0.uTyw31uWTNOTV5-HzNpm46vpAJABAsHLMzW-sYOkRhc';
+        const _supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+        function openAuth() { document.getElementById('auth-overlay').style.display = 'flex'; }
+        function closeAuth() { document.getElementById('auth-overlay').style.display = 'none'; }
+
+        async function handleAuth() {
+            const email = document.getElementById('auth-email').value;
+            const password = document.getElementById('auth-password').value;
+            const msg = document.getElementById('auth-msg');
+            msg.innerText = "ESTABLISHING TUNNEL...";
+
+            const { data, error } = await _supabase.auth.signUp({ email, password });
+            if (error) {
+                const { data: logIn, error: logError } = await _supabase.auth.signInWithPassword({ email, password });
+                if (logError) msg.innerText = "ERROR: " + logError.message;
+            } else {
+                msg.innerText = "ACCOUNT ESTABLISHED. CHECK EMAIL.";
+            }
+        }
+
+        _supabase.auth.onAuthStateChange((event, session) => {
+            if (session) {
+                document.getElementById('user-status').innerHTML = "<span style='margin-right:15px; opacity:0.7;'>" + session.user.email + "</span>" +
+                    "<button onclick=\"window.location.href='../landing/index.html#pricing'\" style='background:var(--gold); color:#FFF; border:none; padding:5px 15px; border-radius:100px; cursor:pointer; font-weight:700;'>UPGRADE TO DEVOTED</button>";
+                closeAuth();
+            }
+        });
+
+        function addPrayer(text = null) {
             const input = document.getElementById('new-prayer');
-            const text = input.value.trim();
-            if(!text) return;
+            const prayerText = text || input.value.trim();
+            if(!prayerText) return;
             const item = document.createElement('div');
             item.className = 'prayer-item';
-            item.innerText = text;
+            item.innerText = prayerText;
             document.getElementById('prayer-list').appendChild(item);
-            input.value = '';
+            if (!text) {
+                input.value = '';
+                saveToLocal();
+            }
         }
+
+        function saveToLocal() {
+            const prayers = Array.from(document.querySelectorAll('.prayer-item')).map(p => p.innerText);
+            const tasks = Array.from(document.querySelectorAll('.task-input')).map(t => t.value);
+            localStorage.setItem('prayerblock_data', JSON.stringify({ prayers, tasks }));
+        }
+
+        function loadFromLocal() {
+            const data = JSON.parse(localStorage.getItem('prayerblock_data'));
+            if(data) {
+                if(data.prayers) data.prayers.forEach(p => addPrayer(p));
+                if(data.tasks) {
+                    const inputs = document.querySelectorAll('.task-input');
+                    data.tasks.forEach((t, i) => { if(inputs[i]) inputs[i].value = t; });
+                }
+            }
+        }
+
+        document.querySelectorAll('.task-input').forEach(input => {
+            input.oninput = saveToLocal;
+        });
+
+        window.onload = loadFromLocal;
     </script>
 </body>
 </html>
