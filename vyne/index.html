@@ -84,28 +84,27 @@
 
         .section-title { padding: 40px 6% 20px; font-size: 1.5rem; font-weight: 700; max-width: 1200px; margin: 0 auto; }
 
-        .grid { padding: 0 6% 80px; display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 24px; max-width: 1200px; margin: 0 auto; }
+        .grid { padding: 0 6% 80px; display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px; max-width: 1200px; margin: 0 auto; }
         .card { 
-            background: #181818; 
-            padding: 16px; 
-            border-radius: 8px; 
+            background: #121212; 
+            padding: 12px; 
+            border-radius: 4px; 
             transition: background 0.3s; 
             text-decoration: none; 
             color: inherit;
             display: block;
         }
-        .card:hover { background: var(--card-hover); }
+        .card:hover { background: #282828; }
         .card img { 
             width: 100%; 
             aspect-ratio: 1/1; 
             object-fit: cover; 
-            border-radius: 4px; 
-            margin-bottom: 16px; 
-            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+            border-radius: 2px; 
+            margin-bottom: 12px; 
         }
-        .card-info h3 { font-size: 1rem; margin-bottom: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .card-info p { font-size: 0.85rem; color: var(--muted); font-weight: 500; }
-        .card-info .price { margin-top: 8px; color: var(--highlight); font-weight: 700; }
+        .card-info h3 { font-size: 0.85rem; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 600; }
+        .card-info p { font-size: 0.75rem; color: var(--muted); font-weight: 500; }
+        .card-info .price { margin-top: 6px; color: var(--highlight); font-weight: 700; font-size: 0.9rem; }
 
         footer { padding: 40px 6%; border-top: 1px solid var(--border); max-width: 1200px; margin: 100px auto 0; text-align: center; }
         .footer-link { 
