@@ -152,6 +152,10 @@
 
     <div class="template-tag" id="active-template">Template: Default</div>
 
+    <div style="position: fixed; bottom: 60px; right: 20px; display: flex; gap: 10px;" id="social-links">
+        <!-- Social links manifest here -->
+    </div>
+
     <script>
         // 1. Apply Template
         const urlParams = new URLSearchParams(window.location.search);
@@ -159,7 +163,30 @@
         document.body.className = 'template-' + template;
         document.getElementById('active-template').innerText = 'Template: ' + template.replace('-', ' ');
 
-        // 2. Load Inventory
+        // 2. Load Settings (Name & Socials)
+        const settings = JSON.parse(localStorage.getItem('vyne_shop_settings') || '{}');
+        if (settings.brandName) document.getElementById('shop-name').innerText = settings.brandName;
+        
+        const socialContainer = document.getElementById('social-links');
+        const socialMap = [
+            { key: 'fbUrl', icon: 'FB' },
+            { key: 'igUrl', icon: 'IG' },
+            { key: 'threadsUrl', icon: 'TH' },
+            { key: 'waNumber', icon: 'WA', prefix: 'https://wa.me/' }
+        ];
+
+        socialMap.forEach(social => {
+            if (settings[social.key]) {
+                const link = document.createElement('a');
+                link.href = (social.prefix || '') + settings[social.key];
+                link.target = "_blank";
+                link.style = "background: var(--accent); color: #fff; width: 35px; height: 35px; display: flex; align-items: center; justify-content: center; border-radius: 50%; text-decoration: none; font-size: 0.7rem; font-weight: bold;";
+                link.innerText = social.icon;
+                socialContainer.appendChild(link);
+            }
+        });
+
+        // 3. Load Inventory
         const inventory = JSON.parse(localStorage.getItem('vyne_inventory') || '[]');
         const grid = document.getElementById('product-grid');
 
