@@ -58,7 +58,6 @@
         .status-tag { padding: 4px 10px; border-radius: 5px; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; }
         .status-active { background: rgba(255,149,0,0.1); color: var(--accent); }
 
-        /* Architect God Mode Overlay */
         #architect-console { 
             display: none; position: fixed; bottom: 30px; right: 30px; 
             background: #000; border: 1px solid var(--accent); color: var(--accent); 
@@ -91,7 +90,7 @@
 
         <div class="search-area">
             <h3 style="margin-bottom:20px; text-transform:uppercase; letter-spacing:1px; color:#666;">Initialize Asset Handshake</h3>
-            <input type="text" id="scout-url" class="scout-input" placeholder="Paste Amazon Product URL here...">
+            <input type="text" id="scout-url" class="scout-input" placeholder="Paste Amazon Product URL here..." onkeypress="handleKeyPress(event)">
             <br><button class="btn-scan" onclick="initializeScout()">Initialize Neural Scout</button>
         </div>
 
@@ -117,12 +116,25 @@
     <script>
         window.onload = function() {
             const urlParams = new URLSearchParams(window.location.search);
+            
+            // Premium Logic
             if (urlParams.get('premium') === 'true') {
                 document.getElementById('tier-badge').textContent = 'Apex Scout';
                 document.getElementById('heartbeat-text').textContent = 'Neural Heartbeat: ACTIVE | 15m Sync';
                 document.querySelector('.heartbeat-container').style.border = '1px solid var(--accent)';
             }
+
+            // Auto-Scout Logic from Landing Page
+            const targetUrl = urlParams.get('url');
+            if (targetUrl) {
+                document.getElementById('scout-url').value = targetUrl;
+                initializeScout();
+            }
         };
+
+        function handleKeyPress(e) {
+            if (e.key === 'Enter') initializeScout();
+        }
 
         function initializeScout() {
             const val = document.getElementById('scout-url').value.trim();
