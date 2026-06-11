@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>Titan TraderX | Institutional Workspace</title>
+    <link rel='icon' href='../logos/TITAN_ICON.png' type='image/png'>
+    <link href='https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap' rel='stylesheet'>
+    <style>
+        :root {
+            --bg: #050505; --surface: #0F0F11; --text: #ccd6f6; --malachite: #00FF7F; --border: rgba(255,255,255,0.08);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); padding-top: 70px; overflow-x: hidden; }
+        
+        header { 
+            background: rgba(5,5,5,0.95); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); 
+            padding: 0 6%; display: flex; justify-content: space-between; align-items: center; 
+            position: fixed; top: 0; left: 0; right: 0; z-index: 2000; height: 70px; 
+        }
+        .logo-container img { height: 28px; }
+        nav { display: flex; gap: 25px; align-items: center; }
+        nav a { text-decoration: none; color: var(--text); font-weight: 600; font-size: 0.85rem; opacity: 0.6; transition: 0.3s; }
+        nav a:hover, nav a.active { opacity: 1; color: var(--malachite); }
+
+        .hamburger { display: none; cursor: pointer; flex-direction: column; gap: 5px; z-index: 2001; }
+        .hamburger div { width: 22px; height: 2px; background: #fff; transition: 0.3s; }
+
+        @media screen and (max-width: 968px) {
+            .hamburger { display: flex; }
+            nav { 
+                position: fixed; right: -100%; top: 0; width: 80%; height: 100vh; 
+                background: #0A0A0C; flex-direction: column; align-items: center; 
+                justify-content: center; gap: 30px; transition: 0.4s; z-index: 2000; 
+            }
+            nav.nav-active { right: 0; }
+        }
+
+        .hero { padding: 100px 6%; text-align: center; }
+        h1 { font-size: 3.5rem; font-weight: 800; margin-bottom: 20px; letter-spacing: -1px; }
+        .malachite { color: var(--malachite); }
+        .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; padding: 0 6% 100px; }
+        .card { background: var(--surface); padding: 40px; border-radius: 24px; border: 1px solid var(--border); transition: 0.3s; text-decoration: none; color: inherit; }
+        .card:hover { border-color: var(--malachite); transform: translateY(-5px); }
+    </style>
+</head>
+<body>
+    <header>
+        <a href='index.html' class='logo-container'><img src='../logos/TITAN_TRADERX_LOGO.png'></a>
+        <nav id='main-nav'>
+            <a href='index.html'>Home</a><a href='terminal.html'>Terminal</a><a href='academy.html'>Academy</a><a href='partners.html'>Partners</a>
+            <a href='dashboard.html' style='background: var(--malachite); color: #000; padding: 8px 15px; border-radius: 6px; opacity: 1;'>LOGIN</a>
+        </nav>
+        <div class='hamburger' onclick='toggleMenu()'><div></div><div></div><div></div></div>
+    </header>
+
+    
+    <section class='hero'>
+        <h1>Titan <span class='malachite'>Academy.</span></h1>
+        <p>The sovereign resource for institutional order flow.</p>
+    </section>
+
+
+    <script>
+        function toggleMenu() {
+            const nav = document.getElementById('main-nav');
+            nav.classList.toggle('nav-active');
+            const lines = document.querySelectorAll('.hamburger div');
+            if(nav.classList.contains('nav-active')){
+                lines[0].style.transform = 'rotate(-45deg) translate(-5px, 5px)';
+                lines[1].style.opacity = '0';
+                lines[2].style.transform = 'rotate(45deg) translate(-5px, -5px)';
+            } else {
+                lines[0].style.transform = 'none'; lines[1].style.opacity = '1'; lines[2].style.transform = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
