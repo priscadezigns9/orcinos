@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VYNE | The Sovereign Marketplace</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #FFFFFF;
+            --text: #1A1A1A;
+            --muted: #666666;
+            --accent: #00A8E8; /* Lively Sky Blue */
+            --highlight: #FF9900; /* Energetic Orange */
+            --border: #F0F0F0;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; line-height: 1.6; }
+        
+        header { padding: 40px 6%; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); position: sticky; top: 0; background: #fff; z-index: 100; }
+        .logo { font-family: 'Playfair Display', serif; font-size: 2rem; letter-spacing: 2px; text-transform: uppercase; }
+        nav ul { display: flex; list-style: none; gap: 40px; }
+        nav a { text-decoration: none; color: var(--text); font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; }
+
+        .hero { padding: 120px 6%; text-align: center; max-width: 900px; margin: 0 auto; }
+        .hero h1 { font-family: 'Playfair Display', serif; font-size: 4rem; margin-bottom: 20px; font-weight: 700; }
+        .hero p { font-size: 1.1rem; color: var(--muted); margin-bottom: 40px; max-width: 600px; margin-left: auto; margin-right: auto; }
+        .cta { display: inline-block; padding: 18px 45px; background: var(--text); color: #fff; text-decoration: none; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem; }
+
+        .grid { padding: 80px 6%; display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 40px; }
+        .card { border: 1px solid var(--border); padding-bottom: 20px; transition: transform 0.3s; cursor: pointer; }
+        .card:hover { transform: translateY(-5px); }
+        .card img { width: 100%; height: 400px; object-fit: cover; margin-bottom: 20px; }
+        .card-info { padding: 0 20px; }
+        .card-info span { font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+        .card-info h3 { font-family: 'Playfair Display', serif; margin: 10px 0; font-size: 1.4rem; }
+        .card-info .price { font-weight: 600; color: var(--accent); }
+
+        .merchant-section { padding: 100px 6%; background: #F9F9F9; text-align: center; }
+        .merchant-section h2 { font-family: 'Playfair Display', serif; font-size: 2.5rem; margin-bottom: 20px; }
+        .merchant-section p { max-width: 600px; margin: 0 auto 40px; color: var(--muted); }
+
+        footer { padding: 60px 6%; border-top: 1px solid var(--border); text-align: center; }
+        footer p { font-size: 0.8rem; color: var(--muted); letter-spacing: 1px; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">VYNE</div>
+        <nav>
+            <ul>
+                <li><a href="#">Marketplace</a></li>
+                <li><a href="#">Merchants</a></li>
+                <li><a href="#">Sovereign Ledger</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h1>Your Own Storefront. No Hassle.</h1>
+        <p>Pick the best products from Amazon and the Priscion Network. We handle the technical side, you keep the commission. 100% Automatic.</p>
+        <a href="#marketplace" class="cta" style="background: var(--highlight); border-radius: 5px;">Start Your Shop</a>
+    </section>
+
+    <section class="grid" id="marketplace">
+        <!-- Live Item 1 -->
+        <div class="card">
+            <img src="https://images.unsplash.com/photo-1548036328-c9fa89d128fa?q=80&w=1000&auto=format&fit=crop" alt="Vintage Leather Bag">
+            <div class="card-info">
+                <span>Couture Gallery</span>
+                <h3>Archival Leather Messenger</h3>
+                <p class="price">500 $PRN / $250.00</p>
+            </div>
+        </div>
+        <!-- Live Item 2 -->
+        <div class="card">
+            <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=1000&auto=format&fit=crop" alt="Minimalist Watch">
+            <div class="card-info">
+                <span>The Watch List</span>
+                <h3>Sovereign Minimalist Chrono</h3>
+                <p class="price">1200 $PRN / $600.00</p>
+            </div>
+        </div>
+        <!-- Live Item 3 -->
+        <div class="card">
+            <img src="https://images.unsplash.com/photo-1511499767390-903390e62bc0?q=80&w=1000&auto=format&fit=crop" alt="Architectural Eyewear">
+            <div class="card-info">
+                <span>Axoria Frames</span>
+                <h3>Titanium Vision Sculpt</h3>
+                <p class="price">800 $PRN / $400.00</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="merchant-section">
+        <h2>Become a Vyne Merchant</h2>
+        <p>List your high-fidelity products, reach a global audience, and keep 85% of every sale. No listing fees. No simulations. Just real growth.</p>
+        <a href="#" class="cta" style="background: var(--accent);">Register Your Node</a>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 VYNE · POWERED BY PRISCION · ALL RIGHTS RESERVED</p>
+    </footer>
+</body>
+</html>
