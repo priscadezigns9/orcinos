@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VYNE Merchants | Sell High-Fidelity</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0A0A0B;
+            --text: #FFFFFF;
+            --muted: #8E8E93;
+            --accent: #00FF8A;
+            --highlight: #FF9900;
+            --border: #1C1C1E;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; line-height: 1.6; }
+        
+        header { 
+            padding: 20px 6%; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            background: rgba(10,10,11,0.8); 
+            backdrop-filter: blur(10px);
+            position: sticky; 
+            top: 0; 
+            z-index: 1000; 
+        }
+        .logo { font-family: 'Playfair Display', serif; font-size: 1.8rem; letter-spacing: 1px; font-weight: 700; color: var(--accent); text-decoration: none; }
+        
+        .nav-actions { display: flex; align-items: center; gap: 32px; }
+        .nav-link { text-decoration: none; color: var(--muted); font-size: 0.9rem; font-weight: 700; }
+        .nav-link:hover { color: var(--text); }
+
+        .btn-login { 
+            background: var(--text); 
+            color: var(--bg); 
+            padding: 14px 32px; 
+            border-radius: 500px; 
+            text-decoration: none; 
+            font-weight: 700; 
+            font-size: 0.9rem; 
+        }
+
+        .hero { padding: 100px 6%; text-align: center; max-width: 900px; margin: 0 auto; }
+        h1 { font-size: 4rem; font-weight: 900; letter-spacing: -2px; line-height: 1.1; margin-bottom: 24px; }
+        .hero p { font-size: 1.25rem; color: var(--muted); margin-bottom: 40px; }
+
+        .feature-grid { padding: 80px 6%; display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; max-width: 1200px; margin: 0 auto; }
+        .feature { text-align: center; }
+        .feature h3 { font-size: 1.5rem; margin-bottom: 16px; color: var(--accent); }
+        .feature p { color: var(--muted); font-size: 1rem; }
+
+        .cta-section { padding: 100px 6%; text-align: center; background: #111; }
+        .btn-large { 
+            display: inline-block; 
+            padding: 20px 60px; 
+            background: var(--accent); 
+            color: var(--bg); 
+            text-decoration: none; 
+            font-weight: 900; 
+            border-radius: 500px; 
+            font-size: 1.2rem; 
+            transition: transform 0.2s;
+        }
+        .btn-large:hover { transform: scale(1.05); }
+
+        footer { padding: 40px 6%; border-top: 1px solid var(--border); text-align: center; }
+        .footer-link { text-decoration: none; color: var(--muted); font-size: 0.9rem; font-weight: 700; padding: 10px 25px; display: inline-block; }
+        .copyright { font-size: 0.75rem; color: var(--muted); margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/vyne/" class="logo">VYNE</a>
+        <div class="nav-actions">
+            <a href="/vyne/#marketplace" class="nav-link">Marketplace</a>
+            <a href="/vyne/about/" class="nav-link">About</a>
+            <a href="/vyne/dashboard/" class="btn-login">Open Shop</a>
+        </div>
+    </header>
+
+    <section class="hero">
+        <h1>Your Boutique, <br>Fully Automatic.</h1>
+        <p>Join the next generation of merchants. Curate high-fidelity products, leverage Orcinos automation, and keep 85% of every sale.</p>
+        <a href="/vyne/dashboard/" class="btn-large">Start Selling Now</a>
+    </section>
+
+    <section class="feature-grid">
+        <div class="feature">
+            <h3>85% Payout</h3>
+            <p>We believe in the creator economy. You keep the vast majority of every commission generated through your shop.</p>
+        </div>
+        <div class="feature">
+            <h3>Auto-Fulfillment</h3>
+            <p>Connect Amazon and Shein. They handle the shipping; we handle the tracking and commissions. You handle the vibe.</p>
+        </div>
+        <div class="feature">
+            <h3>Nexus Insights</h3>
+            <p>Leverage Orcinos market intelligence to see what's trending before anyone else. Stock the winners.</p>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <h2>Ready to build your digital boutique?</h2>
+        <p style="margin-bottom: 40px; color: var(--muted);">Join 10,000+ merchants on the Nexus.</p>
+        <a href="/vyne/dashboard/" class="btn-large">Create Your Node</a>
+    </section>
+
+    <footer>
+        <a href="/vyne/about/" class="footer-link">About</a>
+    </footer>
+
+    <div class="copyright">
+        &copy; 2026 VYNE · POWERED BY ORCINOS
+    </div>
+</body>
+</html>
