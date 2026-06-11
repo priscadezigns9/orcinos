@@ -191,12 +191,13 @@
             <div class="flex justify-center gap-10 text-sm opacity-60 mb-10">
                 <span>PayPal</span>
                 <span>Crypto (ERC-20: 0xcef857e82c306b3d0f2db080e7794f4bb376049e)</span>
-                <span>Payoneer</span>
+                
             </div>
             <p class="text-xs opacity-40">"He is no fool who gives what he cannot keep to gain what he cannot lose."</p>
         </div>
     </footer>
 
+    
     <script>
         function initiateCommitment(tier) {
             const overlay = document.getElementById('handshake-overlay');
@@ -222,12 +223,17 @@
                 } else {
                     clearInterval(interval);
                     setTimeout(() => {
-                        alert("Commitment to " + tier + " Tier Received. Please proceed with payment via the Crypto Address in the footer or contact the Architect for PayPal/Payoneer setup.");
+                        if (tier === 'Seeker') {
+                            alert("Welcome to the Path. Your access to the Seeker tier is established.");
+                        } else {
+                            alert("Commitment to " + tier + " Tier Received. Please proceed with payment via the Crypto Address in the footer or contact the Architect for PayPal setup.");
+                        }
                         overlay.style.display = 'none';
                     }, 1000);
                 }
             }, 800);
         }
     </script>
+
 </body>
 </html>
