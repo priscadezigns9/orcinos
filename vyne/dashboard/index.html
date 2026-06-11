@@ -193,7 +193,7 @@
                 <div class="settings-grid" style="margin-top: 25px;">
                     <div class="input-group">
                         <label>Brand Name</label>
-                        <input type="text" value="Vintage Vault">
+                        <input type="text" id="setting-brand-name" value="Vintage Vault">
                     </div>
                     <div class="input-group">
                         <label>VYNE Merchant ID</label>
@@ -201,14 +201,30 @@
                     </div>
                     <div class="input-group">
                         <label>Payout Method</label>
-                        <input type="text" placeholder="PayPal Email or $PRN Wallet Address">
+                        <input type="text" id="setting-payout-method" placeholder="PayPal Email or $PRN Wallet Address">
                     </div>
                     <div class="input-group">
                         <label>Contact Email</label>
-                        <input type="text" value="merchant@vyne.store">
+                        <input type="text" id="setting-contact-email" value="merchant@vyne.store">
+                    </div>
+                    <div class="input-group">
+                        <label>Facebook URL</label>
+                        <input type="text" id="setting-fb-url" placeholder="https://facebook.com/yourbrand">
+                    </div>
+                    <div class="input-group">
+                        <label>Instagram URL</label>
+                        <input type="text" id="setting-ig-url" placeholder="https://instagram.com/yourbrand">
+                    </div>
+                    <div class="input-group">
+                        <label>Threads URL</label>
+                        <input type="text" id="setting-threads-url" placeholder="https://threads.net/@yourbrand">
+                    </div>
+                    <div class="input-group">
+                        <label>WhatsApp Number</label>
+                        <input type="text" id="setting-wa-number" placeholder="+1234567890">
                     </div>
                 </div>
-                <button class="btn" style="margin-top: 10px;">Save Configuration</button>
+                <button class="btn" id="btn-save-settings" style="margin-top: 10px;">Save Configuration</button>
             </div>
         </div>
     </div>
@@ -327,9 +343,39 @@
             };
         });
 
+        // 6. Settings Persistence Logic
+        const saveSettingsBtn = document.getElementById('btn-save-settings');
+        if (saveSettingsBtn) {
+            saveSettingsBtn.onclick = function() {
+                const settings = {
+                    brandName: document.getElementById('setting-brand-name').value,
+                    payoutMethod: document.getElementById('setting-payout-method').value,
+                    contactEmail: document.getElementById('setting-contact-email').value,
+                    fbUrl: document.getElementById('setting-fb-url').value,
+                    igUrl: document.getElementById('setting-ig-url').value,
+                    threadsUrl: document.getElementById('setting-threads-url').value,
+                    waNumber: document.getElementById('setting-wa-number').value
+                };
+                localStorage.setItem('vyne_shop_settings', JSON.stringify(settings));
+                alert("Shop Configuration Saved Locally. (Hard Sync to Supabase Pending)");
+            };
+        }
+
+        function loadSettings() {
+            const settings = JSON.parse(localStorage.getItem('vyne_shop_settings') || '{}');
+            if (settings.brandName) document.getElementById('setting-brand-name').value = settings.brandName;
+            if (settings.payoutMethod) document.getElementById('setting-payout-method').value = settings.payoutMethod;
+            if (settings.contactEmail) document.getElementById('setting-contact-email').value = settings.contactEmail;
+            if (settings.fbUrl) document.getElementById('setting-fb-url').value = settings.fbUrl;
+            if (settings.igUrl) document.getElementById('setting-ig-url').value = settings.igUrl;
+            if (settings.threadsUrl) document.getElementById('setting-threads-url').value = settings.threadsUrl;
+            if (settings.waNumber) document.getElementById('setting-wa-number').value = settings.waNumber;
+        }
+
         // Initial Load
         document.addEventListener('DOMContentLoaded', () => {
             loadInventory();
+            loadSettings();
             
             // Restore active template preview link
             const savedTemplate = localStorage.getItem('vyne_active_template');
