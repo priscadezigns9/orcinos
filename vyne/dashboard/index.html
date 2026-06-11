@@ -223,6 +223,10 @@
                         <label>WhatsApp Number</label>
                         <input type="text" id="setting-wa-number" placeholder="+1234567890">
                     </div>
+                    <div class="input-group" style="display: flex; align-items: center; gap: 10px;">
+                        <input type="checkbox" id="setting-dark-mode" style="width: auto;">
+                        <label style="margin-bottom: 0;">Force Dark Mode on Shop</label>
+                    </div>
                 </div>
                 <button class="btn" id="btn-save-settings" style="margin-top: 10px;">Save Configuration</button>
             </div>
@@ -354,7 +358,8 @@
                     fbUrl: document.getElementById('setting-fb-url').value,
                     igUrl: document.getElementById('setting-ig-url').value,
                     threadsUrl: document.getElementById('setting-threads-url').value,
-                    waNumber: document.getElementById('setting-wa-number').value
+                    waNumber: document.getElementById('setting-wa-number').value,
+                    darkMode: document.getElementById('setting-dark-mode').checked
                 };
                 localStorage.setItem('vyne_shop_settings', JSON.stringify(settings));
                 alert("Shop Configuration Saved Locally. (Hard Sync to Supabase Pending)");
@@ -370,6 +375,7 @@
             if (settings.igUrl) document.getElementById('setting-ig-url').value = settings.igUrl;
             if (settings.threadsUrl) document.getElementById('setting-threads-url').value = settings.threadsUrl;
             if (settings.waNumber) document.getElementById('setting-wa-number').value = settings.waNumber;
+            if (settings.darkMode !== undefined) document.getElementById('setting-dark-mode').checked = settings.darkMode;
         }
 
         // Initial Load
