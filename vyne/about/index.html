@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About VYNE | The Sovereign Marketplace</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #000000;
+            --text: #FFFFFF;
+            --muted: #B3B3B3;
+            --accent: #1DB954;
+            --border: #282828;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; line-height: 1.6; }
+        
+        header { 
+            padding: 20px 6%; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            background: rgba(0,0,0,0.8); 
+            backdrop-filter: blur(10px);
+            position: sticky; 
+            top: 0; 
+            z-index: 1000; 
+        }
+        .logo { font-family: 'Playfair Display', serif; font-size: 1.8rem; letter-spacing: 1px; font-weight: 700; color: var(--accent); text-decoration: none; }
+        
+        .nav-actions { display: flex; align-items: center; gap: 32px; }
+        .nav-link { 
+            text-decoration: none; 
+            color: var(--muted); 
+            font-size: 0.9rem; 
+            font-weight: 700; 
+            transition: color 0.2s;
+        }
+        .nav-link:hover { color: var(--text); }
+
+        .btn-login { 
+            background: var(--text); 
+            color: var(--bg); 
+            padding: 14px 32px; 
+            border-radius: 500px; 
+            text-decoration: none; 
+            font-weight: 700; 
+            font-size: 0.9rem; 
+        }
+
+        .content { padding: 100px 6%; max-width: 800px; margin: 0 auto; }
+        h1 { font-size: 3.5rem; font-weight: 900; letter-spacing: -2px; margin-bottom: 40px; }
+        h2 { font-size: 1.5rem; font-weight: 700; margin: 40px 0 20px; color: var(--accent); }
+        p { font-size: 1.1rem; color: var(--muted); margin-bottom: 24px; }
+        
+        .philosophy { border-left: 2px solid var(--accent); padding-left: 30px; margin: 60px 0; }
+        .philosophy h3 { font-size: 1.2rem; margin-bottom: 10px; color: var(--text); }
+
+        footer { padding: 40px 6%; border-top: 1px solid var(--border); max-width: 1200px; margin: 100px auto 0; text-align: center; }
+        .footer-link { text-decoration: none; color: var(--muted); font-size: 0.9rem; font-weight: 700; }
+        .footer-link:hover { color: var(--text); text-decoration: underline; }
+        
+        .copyright { padding: 40px 6%; text-align: center; font-size: 0.75rem; color: var(--muted); }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/vyne/" class="logo">VYNE</a>
+        <div class="nav-actions">
+            <a href="/vyne/#marketplace" class="nav-link">Marketplace</a>
+            <a href="/vyne/dashboard/" class="btn-login">Log in</a>
+        </div>
+    </header>
+
+    <article class="content">
+        <h1>About VYNE.</h1>
+        <p>VYNE is a Boutique Marketplace built for the new era of high-fidelity digital commerce. We strip away the noise of traditional retail to focus on what matters: curation, autonomy, and automatic growth.</p>
+        
+        <div class="philosophy">
+            <h3>Curation First</h3>
+            <p>We don't believe in endless scrolling. We believe in high-quality selections from trusted sources like Amazon and the Priscion Network, curated by people who care about aesthetics and performance.</p>
+        </div>
+
+        <h2>Our Mission</h2>
+        <p>Our mission is to empower a global force of merchants and curators. By handling the technical infrastructure—from indexers to affiliate logic—we enable you to own your own boutique with zero friction.</p>
+        
+        <h2>Powered by Priscion</h2>
+        <p>VYNE operates as a core node of the Priscion Network, leveraging sovereign digital ledger technology to ensure every commission, sale, and interaction is handled with absolute transparency and speed.</p>
+    </article>
+
+    <footer>
+        <a href="/vyne/about/" class="footer-link">About</a>
+    </footer>
+
+    <div class="copyright">
+        &copy; 2026 VYNE · POWERED BY PRISCION
+    </div>
+</body>
+</html>
