@@ -74,6 +74,7 @@
         <button onclick="showView('templates')" class="nav-item" id="nav-templates">Shop Templates</button>
         <button onclick="showView('studio')" class="nav-item" id="nav-studio">Ad Creative Studio</button>
         <button onclick="showView('settings')" class="nav-item" id="nav-settings">Shop Settings</button>
+        <a href="../shop/preview/" target="_blank" class="nav-item" id="nav-live-shop" style="margin-top: 15px; border: 1px solid var(--accent); border-radius: 4px; text-align: center; color: var(--accent);">View My Shop</a>
         <div style="margin-top: auto;">
             <div id="db-status" class="sync-status"><span></span> Database Offline (Auth Key Required)</div>
             <a href="#" class="nav-item" style="color: #FF4444; margin-top: 20px;">Logout</a>
@@ -317,7 +318,7 @@
                 localStorage.setItem('vyne_active_template', templateName);
                 
                 // Update preview links to include template parameter
-                const previewLinks = document.querySelectorAll('a[href="../shop/preview/"]');
+                const previewLinks = document.querySelectorAll('a[href^="../shop/preview/"]');
                 previewLinks.forEach(link => {
                     link.href = `../shop/preview/?template=${templateName}`;
                 });
@@ -333,7 +334,7 @@
             // Restore active template preview link
             const savedTemplate = localStorage.getItem('vyne_active_template');
             if (savedTemplate) {
-                const previewLinks = document.querySelectorAll('a[href="../shop/preview/"]');
+                const previewLinks = document.querySelectorAll('a[href^="../shop/preview/"]');
                 previewLinks.forEach(link => {
                     link.href = `../shop/preview/?template=${savedTemplate}`;
                 });
