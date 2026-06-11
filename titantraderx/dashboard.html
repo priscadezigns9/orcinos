@@ -144,7 +144,7 @@
             const password = document.getElementById('password').value;
             const { error } = await supabase.auth.signUp({ email, password });
             if (error) showError(error.message);
-            else alert('Check your email for a confirmation link!');
+            else alert('Account created successfully! You can now log in.');
         }
 
         async function logout() {
@@ -169,5 +169,6 @@
     </script>
 </body>
 </html>
+
 
 
