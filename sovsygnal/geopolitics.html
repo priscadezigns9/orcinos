@@ -4,13 +4,7 @@
     <meta charset='UTF-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
     <title>SOVSYGNAL | Geopolitics</title>
-    <meta name='description' content='SOVSYGNAL - Global Intelligence Hub. High-fidelity geopolitical, financial, and technological signals. Institutional-grade data for the Priscion Network.'>
-    <meta name='keywords' content='global intelligence, geopolitics, blockchain, biohacking, market news, forex, stocks, real estate, anime intelligence, priscion, orcinos, sovereign signal'>
-    <meta name='author' content='Prisca Dezigns / Priscion'>
-    <meta name='geo.region' content='TT-SFO'>
-    <meta name='geo.placename' content='San Fernando, Trinidad and Tobago'>
-    <meta name='geo.position' content='10.2840933;-61.4585256'>
-    <meta name='ICBM' content='10.2840933, -61.4585256'>
+    <meta name='description' content='SOVSYGNAL - Global Intelligence Hub. High-fidelity geopolitical, financial, and technological signals.'>
     <link rel="icon" type="image/png" href="assets/logos/sovereign_favicon.png">
     <link rel='preconnect' href='https://fonts.googleapis.com'>
     <link href='https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;600;800&display=swap' rel='stylesheet'>
@@ -34,7 +28,8 @@
         nav a { text-decoration: none; color: #000; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
         nav a:hover, nav a.active { color: var(--primary); }
         
-        .main-container { display: grid; grid-template-columns: 1fr 350px; gap: 60px; padding: 40px 6%; max-width: 1500px; margin: 0 auto; }
+        .main-container { display: grid; grid-template-columns: 1fr 350px; gap: 60px; padding: 40px 6%; max-width: 1500px; margin: 0 auto; min-height: 80vh; }
+        @media (max-width: 1100px) { .main-container { grid-template-columns: 1fr; } .sidebar { order: 2; margin-top: 40px; } main { order: 1; } }
         .category-tag { color: var(--primary); font-weight: 800; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; display: block; }
         
         .data-grid { display: grid; gap: 15px; margin-bottom: 40px; padding: 20px; border-radius: 4px; }
@@ -63,16 +58,8 @@
     </style>
 </head>
 <body>
-    <div class='ticker-wrap'><div class='ticker'><div class='ticker-item'><span>GEOPOLITICS</span> Diplomatic Strategy: Omani Mediators Relay Tehran’s Formal Counteroffer to US.</div><div class='ticker-item'><span>BLOCKCHAIN</span> Digital Rules: SEC Finalizes Innovation Exemption for Tokenized Stocks.</div><div class='ticker-item'><span>BIOHACKING</span> Metabolic Benchmarks: Roche Obesity Drug outpaces Industry Targets.</div><div class='ticker-item'><span>MARKETS</span> Nasdaq Rebound: Chipmakers Lead High-Fidelity Recovery Post-Selloff.</div><div class='ticker-item'><span>LIFESTYLE</span> Resilient Habitat: Lord Norman Foster addresses Madrid CityLab.</div><div class='ticker-item'><span>INTELLIGENCE</span> Defense AI Directives: White House mandates expedited Battlefield Deployment.</div><div class='ticker-item'><span>FOREX</span> Currency Defense: Traders maintain Risk Rally despite Geopolitics.</div><div class='ticker-item'><span>STOCKS</span> IPO Surge: SpaceX Infrastructure Test signals Institutional Strength.</div><div class='ticker-item'><span>REALESTATE</span> Inflection Point: Global Real Estate Outlook turns Positive for 2026.</div><div class='ticker-item'><span>ANIME</span> Crunchyroll Summer 2026: Most Stacked Season in Years.</div><div class='ticker-item'><span>EUR</span> 0.87 <span style='color:#00FF00'>0.05%</span></div><div class='ticker-item'><span>GBP</span> 0.75 <span style='color:#00FF00'>0.05%</span></div><div class='ticker-item'><span>JPY</span> 160.47 <span style='color:#00FF00'>0.05%</span></div><div class='ticker-item'><span>CAD</span> 1.39 <span style='color:#00FF00'>0.05%</span></div><div class='ticker-item'><span>AUD</span> 1.43 <span style='color:#00FF00'>0.05%</span></div><div class='ticker-item'><span>CHF</span> 0.80 <span style='color:#00FF00'>0.05%</span></div><div class='ticker-item'><span>NZD</span> 1.72 <span style='color:#00FF00'>0.05%</span></div><div class='ticker-item'><span>ZAR</span> 16.56 <span style='color:#00FF00'>0.05%</span></div></div></div>
+    <div class='ticker-wrap'><div class='ticker'><div class='ticker-item'><span>GEOPOLITICS</span> Strategic Initiative: Tehran Evaluates Multilateral Mediation Proposal via Regional Channels.</div><div class='ticker-item'><span>BLOCKCHAIN</span> Ledger Efficiency: Major Exchange Finalizes Automated Proof-of-Reserve Protocol.</div><div class='ticker-item'><span>BIOHACKING</span> Neural Benchmarks: New CGMs achieve 99% accuracy in real-time diagnostics.</div><div class='ticker-item'><span>MARKETS</span> Resilient Recovery: Tech Infrastructure Bonds see Record Institutional Inflow.</div><div class='ticker-item'><span>LIFESTYLE</span> Urban Sanctuary: Foster + Partners unveil Eco-Integrated Madrid Hub.</div><div class='ticker-item'><span>INTELLIGENCE</span> Defense Directive: AI-Driven Signal Processing prioritized in Security Budget.</div><div class='ticker-item'><span>FOREX</span> Stability Pivot: Major Pairs stabilize as Geopolitical Risk premiums subside.</div><div class='ticker-item'><span>STOCKS</span> Market Stability: Institutional Flows Maintain Resilience.</div><div class='ticker-item'><span>ANIME</span> Trending: Tongari Boushi no Atelier leads Seasonal Viewership.</div><div class='ticker-item'><span>REALESTATE</span> Veteran housing policy needs a preservation strategy </div><div class='ticker-item'><span>AAPL</span> 213.25 <span style='color:#00FF00'>1.25%</span></div><div class='ticker-item'><span>NVDA</span> 125.40 <span style='color:#FF0000'>-0.85%</span></div><div class='ticker-item'><span>MSFT</span> 442.10 <span style='color:#00FF00'>0.45%</span></div><div class='ticker-item'><span>TSLA</span> 178.90 <span style='color:#00FF00'>2.10%</span></div><div class='ticker-item'><span>EUR</span> 0.87 <span style='color:#00FF00'>0.05%</span></div><div class='ticker-item'><span>GBP</span> 0.75 <span style='color:#00FF00'>0.05%</span></div><div class='ticker-item'><span>JPY</span> 160.27 <span style='color:#00FF00'>0.05%</span></div><div class='ticker-item'><span>CAD</span> 1.40 <span style='color:#00FF00'>0.05%</span></div></div></div>
     <header>
-        <div id='google_translate_element' style='margin-bottom: 20px;'></div>
-        <script type='text/javascript'>
-            function googleTranslateElementInit() {
-                new google.translate.TranslateElement({pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
-            }
-        </script>
-        <script type='text/javascript' src='//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit'></script>
-        
         <h1><a href='index.html'>SOVSYGNAL</a></h1>
         <p>Global Intelligence Hub</p>
         <nav>
@@ -90,35 +77,30 @@
         </nav>
     </header>
     <div class='main-container'>
-        <main><section style='border-bottom: 2px solid #eee; padding-bottom: 40px; margin-bottom: 40px;'><span class='category-tag'>Signal | 06:31 EST</span><h2 style='font-family: var(--font-heading); font-size: 2.5rem;'>Diplomatic Strategy: Omani Mediators Relay Tehran’s Formal Counteroffer to US.</h2><div class='source-tag'>Source: Bloomberg / Reuters</div><p>Tehran has officially formalized its counter-proposal concerning the nuclear deal framework, seeking conditional sanctions relief.</p></section><section style='border-bottom: 2px solid #eee; padding-bottom: 40px; margin-bottom: 40px;'><span class='category-tag'>Signal | 06:31 EST</span><h2 style='font-family: var(--font-heading); font-size: 2.5rem;'>Security Perimeter: Ankara Exclusion Zones Live for July NATO Summit.</h2><div class='source-tag'>Source: Bloomberg News</div><p>Turkish security forces have implemented high-fidelity exclusion zones in Ankara as NATO prepares to discuss regional stability.</p></section><section style='border-bottom: 2px solid #eee; padding-bottom: 40px; margin-bottom: 40px;'><span class='category-tag'>Signal | 06:31 EST</span><h2 style='font-family: var(--font-heading); font-size: 2.5rem;'>Global Risk: Iran Conflict Becomes Global Event with Energy Implications.</h2><div class='source-tag'>Source: BlackRock Investment Institute</div><p>Geopolitical risks remain elevated as tensions in the Middle East impact global energy markets and defense strategies.</p></section><section style='border-bottom: 2px solid #eee; padding-bottom: 40px; margin-bottom: 40px;'><span class='category-tag'>Signal | 06:31 EST</span><h2 style='font-family: var(--font-heading); font-size: 2.5rem;'>Territorial Face-off: Taiwan and China Dispute Atoll in South China Sea.</h2><div class='source-tag'>Source: Geopolitical Monitor</div><p>Pressure mounts on regional ceasefires as maritime disputes between major powers intensify at contested atolls.</p></section></main>
+        <main><section style='border-bottom: 2px solid #eee; padding-bottom: 40px; margin-bottom: 40px;'><span class='category-tag'>Signal | Jun 12, 2026 | 09:07 AM AST</span><h2 style='font-family: var(--font-heading); font-size: 2.5rem;'>Strategic Initiative: Tehran Evaluates Multilateral Mediation Proposal via Regional Channels.</h2><div class='source-tag'>Source: Reuters</div><p>Institutional sources confirm active evaluation of the 2026 framework.</p><a href='https://www.amazon.com/s?k=geopolitics+books&tag=priscadezigns-20' style='display:inline-block; margin-top:20px; padding:10px 25px; background:black; color:white; font-size:0.7rem; font-weight:800; text-decoration:none; letter-spacing:1px;'>SHOP THE SIGNAL</a></section></main>
         <aside>
             <div class='sidebar-ad' style='background:#111; color:white; text-align:center; border:2px solid var(--primary);'>
                 <h4>SOVSYGNAL PRO</h4>
                 <p style='font-size:0.8rem; opacity:0.8;'>Institutional grade intelligence feeds. Real-time neural analysis.</p>
                 <a href='#' class='btn' style='background:var(--primary); color:white;'>Upgrade Now</a>
             </div>
-            <div class='sidebar-ad' style='background:#fff; border:1px solid #ff9900;'><img src='https://sktpjacowqaedddtrhuz.supabase.co/storage/v1/object/public/avatars/sony_xm5.jpg' alt='Sony WH-1000XM5' style='width:100%; margin-bottom:10px;'><h4>Sony WH-1000XM5</h4><a href='https://www.amazon.com/dp/B09XS7JWHH?tag=priscadezigns-20' class='btn' style='background:#ff9900; color:#000;'>View on Amazon</a></div>
-            <div class='sidebar-ad' style='background:#fff; border:1px solid var(--primary);'>
-                <h4>PAID ADVERTISING</h4>
-                <p style='font-size:0.8rem; font-weight:700; color:var(--primary); margin-bottom:2px;'>Monthly: $500 USD</p>
-                <p style='font-size:0.8rem; font-weight:700; color:#2E7D32; margin-bottom:10px;'>Yearly: $5,000 USD</p>
-                <p style='font-size:0.75rem; margin-bottom:15px;'>Target institutional intelligence professionals.</p>
-                <a href='signup.html' class='btn' style='background:var(--primary); color:white;'>Book Placement</a>
-            </div>
-            <div class='sidebar-ad' style='background:#fff; border:1px solid #eee;'>
-                <h4>BOOK SIGNAL</h4>
-                <p style='font-size:0.8rem;'>The 2026 Sovereign Brand Strategy Guide.</p>
-                <a href='https://orcinos.com/' class='btn' style='background:#000; color:white;'>Book Signal</a>
-            </div>
-            <div class='sidebar-ad' style='background:#fff; color:#000; border:1px solid #000;'>
-                <h4>ORCINOS</h4>
-                <p>Apex intelligence SaaS. Automated digital agency protocols.</p>
-                <a href='https://orcinos.com/' class='btn' style='background:#000; color:white;'>Launch Dashboard</a>
-            </div>
+            
+    <div class='sidebar-ad' style='background:#fff; border:1px solid #ff9900; margin-bottom: 20px;'>
+        <img src='https://sktpjacowqaedddtrhuz.supabase.co/storage/v1/object/public/avatars/airpods_max.jpg' alt='AirPods Max' style='width:100%; margin-bottom:10px;'>
+        <h4>AirPods Max</h4>
+        <a href='https://www.amazon.com/dp/B08PZHYWJS?tag=priscadezigns-20' class='btn' style='background:#ff9900; color:#000;'>View on Amazon</a>
+    </div>
+    <div class='sidebar-ad' style='background:#000; color:white; border:1px solid #333;'>
+        <img src='https://m.media-amazon.com/images/I/71Y86x9mXUL._AC_SL1500_.jpg' alt='Trading Setup' style='width:100%; margin-bottom:10px;'>
+        <h4>Elite Setup</h4>
+        <p style='font-size:0.7rem; color:#aaa; margin-bottom:10px;'>Pro-grade ultrawide monitors for high-fidelity trading.</p>
+        <a href='https://www.amazon.com/s?k=ultrawide+monitor+34+inch&tag=priscadezigns-20' class='btn' style='background:white; color:black;'>Browse Setup</a>
+    </div>
+    
         </aside>
     </div>
     <footer>
-        <img src='assets/logos/sovereign_footer_logo.jpg' alt='Sovereign'>
+        <img src='assets/logos/sovereign_footer_logo.png' alt='Sovereign'>
         <p>&copy; 2026 SOVSYGNAL &middot; PRISCA DEZIGNS EMPIRE MEDIA</p>
     </footer>
 </body>
