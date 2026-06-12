@@ -12,16 +12,16 @@
             --surface: #F9FAFB;
             --text: #000814; 
             --muted: #64748B; 
-            --accent: #D00000; 
-            --primary: #003566;
-            --border: rgba(0, 53, 102, 0.1);
+            --accent: #FF9500; 
+            --primary: #001B3D;
+            --border: rgba(0, 27, 61, 0.1);
             --font-header: 'Playfair Display', serif;
             --font-body: 'Inter', sans-serif;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background: var(--bg); color: var(--text); font-family: var(--font-body); height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden; }
         .wave-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: radial-gradient(circle at 50% 50%, #F8FAFC 0%, #FFFFFF 100%); }
-        .wave { position: absolute; width: 200%; height: 100%; background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600"><path d="M0 300 Q 200 150 400 300 T 800 300" fill="none" stroke="rgba(0,53,102,0.06)" stroke-width="2" /></svg>'); background-repeat: repeat-x; background-size: 50% 100%; animation: moveWave 25s linear infinite; }
+        .wave { position: absolute; width: 200%; height: 100%; background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600"><path d="M0 300 Q 200 150 400 300 T 800 300" fill="none" stroke="rgba(0,27,61,0.06)" stroke-width="2" /></svg>'); background-repeat: repeat-x; background-size: 50% 100%; animation: moveWave 25s linear infinite; }
         @keyframes moveWave { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
         .auth-card { background: #FFFFFF; width: 100%; max-width: 440px; padding: 60px; border-radius: 40px; border: 1px solid #E2E8F0; box-shadow: 0 40px 100px rgba(0,0,0,0.06); text-align: center; position: relative; }
@@ -55,7 +55,7 @@
         <button class="btn-auth" onclick="handleAuth()">Initialize Shard</button>
         <div class="auth-footer"><span id="footer-text">New to the Node?</span> <a href="javascript:void(0)" id="switch-auth">Initialize Perimeter</a></div>
     </div>
-    <div id="gordModal" class="gord-modal"><div class="gord-card"><i data-lucide="shield-alert" size="48" color="#D00000"></i><h3 style="margin: 20px 0 10px; font-family: var(--font-header);">Architect Access</h3><input type="password" id="gordPass" placeholder="Token" style="width:100%; padding:12px; border-radius:10px; border:1px solid #E2E8F0; margin-bottom:20px; text-align:center;"><button class="btn-auth" onclick="verifyGord()" style="padding:12px; background:var(--accent);">Authorize</button></div></div>
+    <div id="gordModal" class="gord-modal"><div class="gord-card"><i data-lucide="shield-alert" size="48" color="#FF9500"></i><h3 style="margin: 20px 0 10px; font-family: var(--font-header);">Architect Access</h3><input type="password" id="gordPass" placeholder="Token" style="width:100%; padding:12px; border-radius:10px; border:1px solid #E2E8F0; margin-bottom:20px; text-align:center;"><button class="btn-auth" onclick="verifyGord()" style="padding:12px; background:var(--accent);">Authorize</button></div></div>
     <script>
         lucide.createIcons();
         const pwField = document.getElementById('password');
