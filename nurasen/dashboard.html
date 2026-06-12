@@ -16,12 +16,18 @@
     </script>
     <style>
         :root {
-            --bg: #050505; --text: #FFFFFF; --muted: #888; --accent: #00FFFF; --border: rgba(0,255,255,0.1);
+            --bg: #0B1218; /* DEEP MIDNIGHT NAVY */
+            --surface: #121B24; 
+            --text: #FFFFFF; 
+            --muted: #8E9BA7; 
+            --accent: #00FFFF; 
+            --border: rgba(0,255,255,0.15);
             --font-body: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: var(--bg); color: var(--text); font-family: var(--font-body); line-height: 1.6; }
-        nav { background: rgba(5,5,5,0.9); padding: 20px 6%; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); }
+        body { background: var(--bg); color: var(--text); font-family: var(--font-body); line-height: 1.6; background-image: radial-gradient(circle at top right, rgba(0,255,255,0.03) 0%, transparent 50%); }
+        nav { background: rgba(11,18,24,0.9); padding: 20px 6%; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; backdrop-filter: blur(20px); }
+        .logo { filter: drop-shadow(0 0 10px rgba(0,255,255,0.2)); }
         .logo img { height: 80px; }
         .nav-btns { display: flex; align-items: center; gap: 15px; }
         .btn-home { font-size: 0.75rem; font-weight: 800; color: var(--accent); text-decoration: none; text-transform: uppercase; letter-spacing: 1px; padding: 8px 16px; border: 1.5px solid var(--accent); border-radius: 8px; transition: 0.2s; background: transparent; }
