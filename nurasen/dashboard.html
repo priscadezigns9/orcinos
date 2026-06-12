@@ -11,40 +11,25 @@
         :root {
             --bg: #FFFFFF; 
             --surface: #F8FAFC; 
-            --text: #000814; /* DEEP NAVY BLACK */
+            --text: #000814; 
             --muted: #64748B; 
-            --accent: #D00000; /* SECURITY RED - THE NEW DISTINCT SIGNAL */
-            --primary: #003566; /* INSTITUTIONAL NAVY */
-            --border: rgba(0, 53, 102, 0.1);
+            --accent: #FF9500; /* ELECTRIC AMBER - THE SCIENTIFIC COMPLEMENT */
+            --primary: #001B3D; /* INSTITUTIONAL NAVY */
+            --border: rgba(0, 27, 61, 0.1);
             --font-header: 'Playfair Display', serif;
             --font-body: 'Inter', sans-serif;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            background: var(--bg); 
-            color: var(--text); 
-            font-family: var(--font-body); 
-            line-height: 1.6; 
-            overflow-x: hidden;
-        }
+        body { background: var(--bg); color: var(--text); font-family: var(--font-body); line-height: 1.6; overflow-x: hidden; }
         .wave-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
             background: radial-gradient(circle at 50% 50%, #F8FAFC 0%, #FFFFFF 100%);
             overflow: hidden;
         }
         .wave {
-            position: absolute;
-            width: 200%;
-            height: 100%;
-            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600"><path d="M0 300 Q 200 150 400 300 T 800 300" fill="none" stroke="rgba(0,53,102,0.05)" stroke-width="2" /></svg>');
-            background-repeat: repeat-x;
-            background-size: 50% 100%;
-            animation: moveWave 20s linear infinite;
+            position: absolute; width: 200%; height: 100%;
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600"><path d="M0 300 Q 200 150 400 300 T 800 300" fill="none" stroke="rgba(0,27,61,0.05)" stroke-width="2" /></svg>');
+            background-repeat: repeat-x; background-size: 50% 100%; animation: moveWave 20s linear infinite;
         }
         @keyframes moveWave { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
@@ -54,15 +39,12 @@
         .nav-btns { display: flex; align-items: center; gap: 15px; }
         .btn-home { font-size: 0.75rem; font-weight: 800; color: var(--primary); text-decoration: none; text-transform: uppercase; letter-spacing: 1px; padding: 8px 16px; border: 1.5px solid var(--primary); border-radius: 8px; transition: 0.2s; }
         .btn-home:hover { background: var(--primary); color: #FFF; }
-        .tier-badge { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: #FFF; background: var(--accent); padding: 6px 15px; border-radius: 100px; cursor: pointer; box-shadow: 0 4px 15px rgba(208,0,0,0.2); }
+        .tier-badge { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: #FFF; background: var(--accent); padding: 6px 15px; border-radius: 100px; cursor: pointer; box-shadow: 0 4px 15px rgba(255,149,0,0.3); }
 
         .dashboard-body { display: flex; min-height: 100vh; }
         .sidebar-hud { 
-            width: 300px; 
-            background: rgba(255,255,255,0.8); 
-            border-right: 1px solid var(--border); 
-            padding: 40px 25px; 
-            display: flex; flex-direction: column; gap: 12px;
+            width: 300px; background: rgba(255,255,255,0.8); border-right: 1px solid var(--border); 
+            padding: 40px 25px; display: flex; flex-direction: column; gap: 12px;
             backdrop-filter: blur(20px); position: sticky; top: 100px; height: calc(100vh - 100px);
         }
         .hud-item {
@@ -84,7 +66,7 @@
             display: flex; align-items: center; gap: 15px; font-size: 0.75rem; font-weight: 700; 
             text-transform: uppercase; letter-spacing: 1px; border: 1px solid #E2E8F0;
         }
-        .pulse-dot { width: 10px; height: 10px; background: var(--accent); border-radius: 50%; animation: pulse 1.5s infinite; }
+        .pulse-dot { width: 10px; height: 10px; background: var(--accent); border-radius: 50%; box-shadow: 0 0 15px var(--accent); animation: pulse 1.5s infinite; }
         @keyframes pulse { 0% { opacity: 0.4; } 50% { opacity: 1; } 100% { opacity: 0.4; } }
 
         .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 25px; margin-bottom: 50px; }
@@ -104,10 +86,10 @@
         .gord-console {
             display: none; position: fixed; bottom: 30px; right: 30px; width: 400px; 
             background: #000814; border-radius: 20px; padding: 25px; z-index: 5000;
-            color: #FF0000; font-family: 'Courier New', monospace; font-size: 0.75rem;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.4); border: 1px solid rgba(208,0,0,0.3);
+            color: var(--accent); font-family: 'Courier New', monospace; font-size: 0.75rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4); border: 1px solid rgba(255,149,0,0.3);
         }
-        .gord-header { display: flex; justify-content: space-between; margin-bottom: 15px; border-bottom: 1px solid rgba(208,0,0,0.2); padding-bottom: 10px; }
+        .gord-header { display: flex; justify-content: space-between; margin-bottom: 15px; border-bottom: 1px solid rgba(255,149,0,0.2); padding-bottom: 10px; }
 
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,8,20,0.7); backdrop-filter: blur(12px); z-index: 2000; justify-content: center; align-items: center; }
         .payment-modal { background: #FFFFFF; border: 1px solid #E2E8F0; width: 100%; max-width: 780px; padding: 60px; border-radius: 40px; position: relative; text-align: center; }
@@ -133,14 +115,14 @@
             <a href="#" class="hud-item locked" onclick="openPayment()" id="device-link"><i data-lucide="smartphone"></i> Device Monitor <span class="lock-tag">PRO</span></a>
             <a href="#" class="hud-item locked" onclick="openPayment()" id="vault-link"><i data-lucide="fingerprint"></i> Identity Vault <span class="lock-tag">APEX</span></a>
             <div style="margin-top: auto; padding: 20px; background: #F1F5F9; border-radius: 20px;">
-                <p style="font-size: 0.75rem; font-weight: 700; color: var(--muted); text-transform: uppercase;">Active Defense Nodes</p>
-                <div style="font-size: 1.1rem; font-weight: 800; color: var(--primary);">14 Shards Active</div>
+                <p style="font-size: 0.75rem; font-weight: 700; color: var(--muted); text-transform: uppercase;">Tactical Shards</p>
+                <div style="font-size: 1.1rem; font-weight: 800; color: var(--primary);">14 Active Nodes</div>
             </div>
         </aside>
 
         <main class="main-hud-content">
             <div class="dash-header">
-                <div class="dash-title"><p>Tactical Cybersecurity Perimeter</p><h1>Sentinel Control Center</h1></div>
+                <div class="dash-title"><p>Neural Cybersecurity Intelligence</p><h1>Sentinel Control Center</h1></div>
                 <div class="heartbeat-container"><div class="pulse-dot"></div><span id="heartbeat-text">Neural Heartbeat: STABLE</span></div>
             </div>
             <div class="stats-grid">
@@ -150,7 +132,7 @@
             </div>
             <div class="monitor-area">
                 <div class="monitor-header"><h2>Real-Time Threat Monitor</h2><button class="btn-home" onclick="initializeScan()" style="padding: 10px 25px; border-color: var(--accent); color: var(--accent);">Initialize Pulse Scan</button></div>
-                <table><thead><tr><th>Detection Source</th><th>Status</th><th>Neural Confidence</th><th>Last Pulse</th></tr></thead><tbody id="detection-body"><tr><td colspan="4" style="text-align:center; padding:60px; color:var(--muted);">Monitoring...</td></tr></tbody></table>
+                <table><thead><tr><th>Detection Source</th><th>Status</th><th>Neural Confidence</th><th>Last Pulse</th></tr></thead><tbody id="detection-body"><tr><td colspan="4" style="text-align:center; padding:60px; color:var(--muted);">Monitoring Perimeter...</td></tr></tbody></table>
             </div>
         </main>
     </div>
@@ -160,7 +142,7 @@
         <div id="gordLogs" style="height: 150px; overflow-y: auto;"><div>> Tactical Override Active.</div></div>
     </div>
 
-    <div id="paymentModal" class="modal-overlay"><div class="payment-modal"><div class="modal-close" onclick="closePayment()">×</div><h2 style="font-family: var(--font-header); font-size: 2.2rem; color: var(--primary);">Tactical Upgrade</h2><p style="color:var(--muted); margin-bottom:40px;">Bypass civilian limits.</p></div></div>
+    <div id="paymentModal" class="modal-overlay"><div class="payment-modal"><div class="modal-close" onclick="closePayment()">×</div><h2 style="font-family: var(--font-header); font-size: 2.2rem; color: var(--primary);">Institutional Upgrade</h2><p style="color:var(--muted); margin-bottom:40px;">Bypass civilian restrictions.</p></div></div>
 
     <script>
         lucide.createIcons();
@@ -174,14 +156,14 @@
                 document.getElementById('heartbeat-text').textContent = 'GORD MODE: UNRESTRICTED';
                 ['shield-link', 'email-link', 'device-link', 'vault-link'].forEach(id => {
                     const el = document.getElementById(id); el.classList.remove('locked'); el.removeAttribute('onclick');
-                    el.querySelector('.lock-tag').textContent = 'LIVE'; el.querySelector('.lock-tag').style.background = '#D00000';
+                    el.querySelector('.lock-tag').textContent = 'LIVE'; el.querySelector('.lock-tag').style.background = '#FF9500'; el.querySelector('.lock-tag').style.color = '#FFF';
                 });
             }
         };
         function initializeScan() {
             const tbody = document.getElementById('detection-body');
             const row = document.createElement('tr');
-            row.innerHTML = `<td><div style="color: var(--primary); font-weight: 700;">Tactical Shard Beta</div></td><td><span class="status-tag">SECURE</span></td><td>HIGH (Verified)</td><td>Just Now</td>`;
+            row.innerHTML = `<td><div style="color: var(--primary); font-weight: 700;">Tactical Shard Delta</div></td><td><span class="status-tag">SECURE</span></td><td>HIGH (Verified)</td><td>Just Now</td>`;
             tbody.prepend(row);
         }
     </script>
