@@ -1,10 +1,20 @@
 <!DOCTYPE html>
 <html lang='en'>
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset='UTF-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
     <title>NURASEN | Smart Cybersecurity Defense</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#00FFFF">
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then(reg => console.log('Nurasen PWA Active', reg))
+                    .catch(err => console.log('PWA Failed', err));
+            });
+        }
+    </script>
     <style>
         :root {
             --bg: #050505; 
@@ -48,51 +58,75 @@
     </style>
 </head>
 <body>
-    <header><div class='logo'><img src='../logos/NURASEN_DEFINITIVE_2026.png' alt='Nurasen'></div>
-        
-        <nav style='display: flex; gap: 30px; font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px;'>
-            <a href='index.html' style='color: #FFF; text-decoration: none;'>Home</a>
-            <a href='about.html' style='color: var(--muted); text-decoration: none;'>About</a>
-            <a href='login.html' style='color: var(--accent); text-decoration: none;'>Sign Up</a>
-        </nav>
-
-    </header>
+    <header><div class='logo'><img src='../logos/NURASEN_DEFINITIVE_2026.png' alt='Nurasen'></div></header>
     <section class='hero'>
         <h1>Zero-Trust Smart Defense.</h1>
-        <p>The definitive automatic cybersecurity shield using smart pattern recognition to neutralize threats before they reach your private hub.</p><br><br><a href='login.html' style='background: var(--accent); color: #000; padding: 20px 45px; border-radius: 100px; text-decoration: none; font-weight: 900; text-transform: uppercase; font-size: 1.1rem; letter-spacing: 1px; display: inline-block;'>Sign Up</a>
-        
+        <p>The definitive automatic cybersecurity shield using smart pattern recognition to neutralize threats before they reach your private hub.</p>
+        <a href="https://share.zapia.com/xl4rkhvfcd99b1tw9cgwli" class="btn-nurasen btn-outline" style="width: auto; padding: 15px 30px;">Download Sentinel Extension</a>
     </section>
-    
-    
-
-    
+    <section class='premium-comparison'>
+        <div class='tier-grid'>
+            <div class='tier-card'>
+                <h3>Sentinel Free</h3>
+                <div class='tier-price'>$0<span> / mo</span></div>
+                <ul class='tier-list'>
+                    <li>Smart Shield</li>
+                    <li>Manual Scans</li>
+                </ul>
+                <a href='dashboard.html' class='btn-nurasen btn-outline'>Initialize</a>
+            </div>
+            <div class='tier-card'>
+                <h3>Sentinel Pro</h3>
+                <div class='tier-price'>$9.99<span> / mo</span></div>
+                <ul class='tier-list'>
+                    <li>1-hour Scans</li>
+                    <li>Pattern Recognition</li>
+                    <li>Priority Support</li>
+                </ul>
+                <a href='javascript:void(0)' onclick="openPayment('Pro', '9.99')" class='btn-nurasen btn-outline'>Get Pro Defense</a>
+            </div>
+            <div class='tier-card premium-tier'>
+                <div class='tier-badge'>FULL ACCESS</div>
+                <h3>Sentinel Apex</h3>
+                <div class='tier-price'>$19.99<span> / mo</span></div>
+                <ul class='tier-list'>
+                    <li>15-min Scans</li>
+                    <li>Neural Predictions</li>
+                    <li>Private Bridge</li>
+                </ul>
+                <a href='javascript:void(0)' onclick="openPayment('Apex', '19.99')" class='btn-nurasen btn-cyan'>Unlock Apex Defense</a>
+            </div>
+        </div>
+    </section>
     <footer>© 2026 NURASEN</footer>
     <div id="paymentModal" class="modal-overlay">
         <div class="payment-modal">
             <div class="modal-close" onclick="closePayment()">×</div>
-            <h2>Private Payment</h2>
-            <p style="margin-bottom: 30px; color: #888;">Select your preferred subscription tier.</p>
-            <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_xclick-subscriptions&business=priscadezigns9@gmail.com&item_name=Nurasen%20Apex%20Monthly&a3=19.99&p3=1&t3=M&src=1&currency_code=USD" target="_blank" class="pay-option">
-                <div class="pay-icon">💳</div><div class="pay-text"><b>PayPal Monthly ($19.99)</b><span>Auto-renew monthly.</span></div>
+            <h2>Private Neural Payment</h2>
+            <p style="margin-bottom: 30px; color: #888;">Select your preferred subscription tier for <span id="tier-name">Apex</span> Defense.</p>
+            <a id="pay-monthly" href="https://www.paypal.com/cgi-bin/webscr?cmd=_xclick-subscriptions&business=priscadezigns9@email.com&item_name=Nurasen%20Apex%20Monthly&a3=19.99&p3=1&t3=M&src=1&currency_code=USD" target="_blank" class="pay-option">
+                <div class="pay-icon">💳</div><div class="pay-text"><b>PayPal Monthly (<span id="price-monthly">$19.99</span>)</b><span>Auto-renew monthly.</span></div>
             </a>
-            <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_xclick-subscriptions&business=priscadezigns9@gmail.com&item_name=Nurasen%20Apex%20Yearly&a3=199.99&p3=1&t3=Y&src=1&currency_code=USD" target="_blank" class="pay-option" style="border-color: var(--accent);">
-                <div class="pay-icon">💎</div><div class="pay-text"><b>PayPal Yearly ($199.99)</b><span>Save 20%.</span></div>
+            <a id="pay-yearly" href="https://www.paypal.com/cgi-bin/webscr?cmd=_xclick-subscriptions&business=priscadezigns9@email.com&item_name=Nurasen%20Apex%20Yearly&a3=199.99&p3=1&t3=Y&src=1&currency_code=USD" target="_blank" class="pay-option" style="border-color: var(--accent);">
+                <div class="pay-icon">💎</div><div class="pay-text"><b>PayPal Yearly (<span id="price-yearly">$199.99</span>)</b><span>Save 20%. High-Fidelity.</span></div>
             </a>
-            <a href="login.html?premium=true" style="display:block; margin-top:20px; color:var(--accent); text-decoration:none; font-size:0.8rem; opacity:0.5;">Enter Dashboard</a>
+            <a href="dashboard.html?premium=true" style="display:block; margin-top:20px; color:var(--accent); text-decoration:none; font-size:0.8rem; opacity:0.5;">Enter Dashboard</a>
         </div>
     </div>
     <script>
-        function openPayment() { document.getElementById('paymentModal').style.display = 'flex'; }
+        function openPayment(tier, price) { 
+            document.getElementById('tier-name').innerText = tier;
+            document.getElementById('price-monthly').innerText = '$' + price;
+            const yearlyPrice = (price * 10).toFixed(2);
+            document.getElementById('price-yearly').innerText = '$' + yearlyPrice;
+            
+            document.getElementById('pay-monthly').href = `https://www.paypal.com/cgi-bin/webscr?cmd=_xclick-subscriptions&business=priscadezigns9@email.com&item_name=Nurasen%20${tier}%20Monthly&a3=${price}&p3=1&t3=M&src=1&currency_code=USD`;
+            document.getElementById('pay-yearly').href = `https://www.paypal.com/cgi-bin/webscr?cmd=_xclick-subscriptions&business=priscadezigns9@email.com&item_name=Nurasen%20${tier}%20Yearly&a3=${yearlyPrice}&p3=1&t3=Y&src=1&currency_code=USD`;
+            
+            document.getElementById('paymentModal').style.display = 'flex'; 
+        }
         function closePayment() { document.getElementById('paymentModal').style.display = 'none'; }
     </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
 
