@@ -1,5 +1,5 @@
 /*
-    SOVSYGNAL | Neural Signal Engine v1.0
+    SOVSYGNAL | Neural Signal Engine v1.1
     (c) 2026 Prisca Dezigns AI Labs
     Autonomous High-Fidelity Signal Processing
 */
@@ -25,13 +25,43 @@ const SignalEngine = {
             "Nasdaq Rebound: Chipmakers Lead Recovery Post-Selloff.",
             "Institutional Inflow: Tech Infrastructure Bonds see Record Volume.",
             "Global Fragmentation: Trade Logistics adapt to Economic Sovereignty shift."
+        ],
+        anime: [
+            "Trending: Tongari Boushi no Atelier leads Seasonal Viewership.",
+            "Grand Blue Dreaming Season 3 confirmed for July 2026 debut.",
+            "Production quality remains high-fidelity across major studios."
+        ],
+        stocks: [
+            "Market Stability: Institutional Flows Maintain Resilience.",
+            "Tech Infrastructure Bonds see Record Institutional Inflow.",
+            "S&P 500 stabilizes as Geopolitical Risk premiums subside."
+        ],
+        forex: [
+            "Forex Stability Pivot: Major Pairs stabilize as risk premiums subside.",
+            "Market sentiment shifts toward high-fidelity currency performance.",
+            "Neural arbitrage algorithms report 99% accuracy in volatility projection."
+        ],
+        realestate: [
+            "Veteran housing policy needs a preservation strategy.",
+            "High-fidelity sector signal tracking market performance.",
+            "Urban Sanctuary: Foster + Partners unveil Eco-Integrated Madrid Hub."
+        ],
+        intelligence: [
+            "Defense Directive: AI-Driven Signal Processing prioritized.",
+            "Strategic Intelligence: Data-transit corridors in Arctic Circle established.",
+            "Global Signal: Sovereign Frequency 104.2 reaches peak fidelity."
+        ],
+        lifestyle: [
+            "Resilient Habitat: Lord Norman Foster addresses Madrid CityLab.",
+            "Urban Sanctuary: Eco-Integrated design becomes the new gold standard.",
+            "High-fidelity living: Personal sanctuary engineering trends upward."
         ]
     },
 
     ads: [
-        { brand: "ORCINOS", text: "Apex Intelligence for the sovereign architect. Build your digital empire.", link: "https://orcinos.com/" },
-        { brand: "GLOW PROTOCOL", text: "Regenerative beauty tech and DNA-optimized skincare. Enter the future.", link: "https://orcinos.com/glowprotocol/" },
-        { brand: "ATELIA GAMING", text: "The sovereign economy of play. High-fidelity gaming and meta-assets.", link: "https://orcinos.com/ateliagaming/" }
+        { brand: "ORCINOS", text: "Apex Intelligence for the sovereign architect.", link: "https://orcinos.com/" },
+        { brand: "GLOW PROTOCOL", text: "DNA-optimized skincare. Enter the future.", link: "https://orcinos.com/glowprotocol/" },
+        { brand: "ATELIA GAMING", text: "The sovereign economy of play.", link: "https://orcinos.com/ateliagaming/" }
     ],
 
     init() {
@@ -39,38 +69,37 @@ const SignalEngine = {
         this.startTickers();
         this.updateSectors();
         this.injectMessenger();
-        this.rotateAds();
     },
 
     startTickers() {
-        const ticker = document.querySelector('.utility-bar div:last-child');
-        if (ticker) {
+        const dateEl = document.getElementById('live-date');
+        const tickerEl = document.getElementById('live-ticker');
+        
+        if (tickerEl) {
             setInterval(() => {
                 const prn = (4.0 + Math.random() * 0.5).toFixed(2);
                 const eth = (3500 + Math.random() * 50).toFixed(0);
-                ticker.innerHTML = `MARKET: $PRN +${prn}% · ETH $${eth} · Intelligence: <span style="color:#D0021B; font-weight:800;">LIVE</span>`;
+                tickerEl.innerHTML = `MARKET: $PRN +${prn}% · ETH $${eth} · Intelligence: <span style="color:#D0021B; font-weight:800;">LIVE</span>`;
             }, 3000);
         }
     },
 
     updateSectors() {
-        // Logic to update sector headlines if IDs are present
         Object.keys(this.sectors).forEach(sector => {
             const el = document.getElementById(`news-${sector}`);
             if (el) {
                 const news = this.sectors[sector];
                 let i = 0;
                 setInterval(() => {
-                    el.innerText = news[i];
                     i = (i + 1) % news.length;
-                }, 8000);
+                    el.style.opacity = 0;
+                    setTimeout(() => {
+                        el.innerText = news[i];
+                        el.style.opacity = 1;
+                    }, 500);
+                }, 10000);
             }
         });
-    },
-
-    rotateAds() {
-        const adContainer = document.querySelector('.ad-group');
-        // This would rotate the static ads if needed
     },
 
     injectMessenger() {
@@ -93,28 +122,29 @@ const SignalEngine = {
                 <span style="color: #D0021B; font-size: 0.6rem; letter-spacing: 1px;">ENCRYPTED</span>
             </div>
             <div id="chat-stream" style="flex: 1; padding: 20px; overflow-y: auto; font-size: 0.85rem; line-height: 1.4; color: #333;">
-                <div style="margin-bottom: 15px;"><strong>SYSTEM:</strong> Neural handshake established. Listening to global frequency 104.2...</div>
-                <div style="margin-bottom: 15px;"><strong>INTEL:</strong> Sector parity confirmed. Geopolitics signal at 98.4% fidelity.</div>
+                <div style="margin-bottom: 15px;"><strong>SYSTEM:</strong> Neural handshake established. Sector parity confirmed.</div>
             </div>
             <div style="padding: 15px; border-top: 1px solid #eee;">
-                <input type="text" placeholder="Type a command or signal..." style="width: 100%; border: 2px solid #000; padding: 10px; font-family: inherit; font-size: 0.8rem; outline: none;">
+                <input type="text" placeholder="Type a command..." style="width: 100%; border: 2px solid #000; padding: 10px; font-family: inherit; font-size: 0.8rem; outline: none;">
             </div>
         `;
 
         document.body.appendChild(messenger);
 
-        // Simple Chat Automation for "Updates"
         const stream = document.getElementById('chat-stream');
         setInterval(() => {
-            const sectors = ['GEOPOLITICS', 'BLOCKCHAIN', 'BIOHACKING', 'MARKETS'];
+            const sectors = Object.keys(this.sectors);
             const sector = sectors[Math.floor(Math.random() * sectors.length)];
             const msg = document.createElement('div');
             msg.style.marginBottom = '15px';
-            msg.innerHTML = `<strong>${sector}:</strong> ${this.sectors[sector.toLowerCase()][Math.floor(Math.random() * 3)]}`;
+            msg.style.opacity = 0;
+            msg.style.transition = 'opacity 0.5s ease';
+            msg.innerHTML = `<strong>${sector.toUpperCase()}:</strong> ${this.sectors[sector][Math.floor(Math.random() * this.sectors[sector].length)]}`;
             stream.appendChild(msg);
+            setTimeout(() => msg.style.opacity = 1, 10);
             stream.scrollTop = stream.scrollHeight;
-            if (stream.children.length > 10) stream.removeChild(stream.firstChild);
-        }, 12000);
+            if (stream.children.length > 15) stream.removeChild(stream.firstChild);
+        }, 8000);
     }
 };
 
