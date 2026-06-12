@@ -24,14 +24,14 @@
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background: var(--bg); color: var(--text); font-family: var(--font-body); line-height: 1.5; scroll-behavior: smooth; }
-        .utility-bar { background: var(--accent); color: white; padding: 8px 6%; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 2px; display: flex; justify-content: space-between; }
+        .utility-bar { background: var(--accent); color: white; padding: 8px 6%; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 2px; display: flex; justify-content: space-between; position: sticky; top: 0; z-index: 1100; }
         
         header { padding: 40px 6% 20px; border-bottom: 4px solid var(--text); text-align: center; }
         .main-logo { font-family: var(--font-heading); font-size: 3.5rem; letter-spacing: -2px; line-height: 1; margin-bottom: 10px; cursor: pointer; }
         .main-logo span { color: var(--sygnal-red); }
         .tagline { text-transform: uppercase; letter-spacing: 5px; font-size: 0.75rem; margin-bottom: 20px; font-weight: 800; color: var(--muted); }
         
-        nav { display: flex; justify-content: center; gap: 30px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 12px 0; margin-top: 20px; flex-wrap: wrap; position: sticky; top: 0; background: white; z-index: 1000; }
+        nav { display: flex; justify-content: center; gap: 30px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 12px 0; margin-top: 20px; flex-wrap: wrap; }
         nav a { text-decoration: none; color: var(--text); font-weight: 800; font-size: 0.75rem; text-transform: uppercase; white-space: nowrap; }
         nav a:hover { color: var(--sygnal-red); }
 
@@ -39,16 +39,16 @@
         
         .lead-story { border-bottom: 1px solid var(--border); padding-bottom: 40px; margin-bottom: 40px; }
         .category-tag { color: var(--sygnal-red); font-weight: 800; text-transform: uppercase; font-size: 0.7rem; margin-bottom: 10px; display: block; }
-        .lead-story h2 { font-family: var(--font-heading); font-size: 2.5rem; margin-bottom: 15px; line-height: 1.1; }
+        .lead-story h2 { font-family: var(--font-heading); font-size: 2.5rem; margin-bottom: 15px; line-height: 1.1; transition: opacity 0.5s ease; }
         .lead-story img { width: 100%; height: 400px; object-fit: cover; background: #eee; margin-bottom: 20px; }
         .lead-story p { font-size: 1.1rem; color: #333; margin-bottom: 20px; }
 
-        .section-header { font-family: var(--font-heading); font-size: 1.8rem; margin: 60px 0 30px; border-bottom: 2px solid var(--text); padding-bottom: 10px; text-transform: uppercase; }
+        .section-header { font-family: var(--font-heading); font-size: 1.8rem; margin: 40px 0 20px; border-bottom: 2px solid var(--text); padding-bottom: 10px; text-transform: uppercase; }
 
         .secondary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
         .news-card { border-bottom: 1px solid var(--border); padding-bottom: 20px; margin-bottom: 20px; }
         .news-card img { width: 100%; height: 200px; object-fit: cover; background: #eee; margin-bottom: 15px; }
-        .news-card h3 { font-family: var(--font-heading); font-size: 1.4rem; margin-bottom: 10px; }
+        .news-card h3 { font-family: var(--font-heading); font-size: 1.4rem; margin-bottom: 10px; transition: opacity 0.5s ease; }
 
         aside h4 { font-family: var(--font-heading); font-size: 1.2rem; border-bottom: 2px solid var(--text); padding-bottom: 10px; margin-bottom: 20px; text-transform: uppercase; }
         .ticker-item { margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 15px; }
@@ -71,72 +71,17 @@
         footer p { font-size: 0.75rem; letter-spacing: 1px; opacity: 0.6; }
 
         /* Modal Styles */
-        .modal-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.6);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 2000;
-            backdrop-filter: blur(5px);
-        }
-        .modal {
-            background: white;
-            padding: 40px;
-            border-radius: 24px;
-            max-width: 500px;
-            width: 90%;
-            position: relative;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
-            color: black;
-            text-align: left;
-        }
-        .modal-close {
-            position: absolute;
-            top: 20px; right: 20px;
-            cursor: pointer;
-            font-size: 1.5rem;
-            color: #999;
-        }
-        .modal-tabs {
-            display: flex;
-            border-bottom: 1px solid #eee;
-            margin-bottom: 25px;
-        }
-        .modal-tab {
-            padding: 10px 20px;
-            cursor: pointer;
-            border-bottom: 2px solid transparent;
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: #666;
-            background: none;
-            border: none;
-            outline: none;
-        }
-        .modal-tab.active {
-            color: #1A1A1A;
-            border-bottom-color: #1A1A1A;
-        }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: none; align-items: center; justify-content: center; z-index: 2000; backdrop-filter: blur(5px); }
+        .modal { background: white; padding: 40px; border-radius: 24px; max-width: 500px; width: 90%; position: relative; box-shadow: 0 30px 60px rgba(0,0,0,0.3); color: black; text-align: left; }
+        .modal-close { position: absolute; top: 20px; right: 20px; cursor: pointer; font-size: 1.5rem; color: #999; }
+        .modal-tabs { display: flex; border-bottom: 1px solid #eee; margin-bottom: 25px; }
+        .modal-tab { padding: 10px 20px; cursor: pointer; border-bottom: 2px solid transparent; font-size: 0.9rem; font-weight: 600; color: #666; background: none; border: none; outline: none; }
+        .modal-tab.active { color: #1A1A1A; border-bottom-color: #1A1A1A; }
         .pay-detail { display: none; }
         .pay-detail.open { display: block; }
-        .modal-copy-btn {
-            background: #1A1A1A;
-            color: white;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.7rem;
-            margin-left: 10px;
-        }
+        .modal-copy-btn { background: #1A1A1A; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.7rem; margin-left: 10px; }
 
-        @media (max-width: 900px) {
-            .main-container { grid-template-columns: 1fr; }
-            .secondary-grid { grid-template-columns: 1fr; }
-            .main-logo { font-size: 2.5rem; }
-        }
+        @media (max-width: 900px) { .main-container { grid-template-columns: 1fr; } .secondary-grid { grid-template-columns: 1fr; } .main-logo { font-size: 2.5rem; } }
     </style>
 </head>
 <body>
@@ -155,6 +100,8 @@
             <a href='markets.html'>Markets</a>
             <a href='lifestyle.html'>Lifestyle</a>
             <a href='intelligence.html'>Intelligence</a>
+            <a href='stocks.html'>Stocks</a>
+            <a href='anime.html'>Anime</a>
             <a href='eternalsignal.html'>Eternal Signal</a>
         </nav>
     </header>
@@ -176,7 +123,7 @@
                     <img src='https://images.unsplash.com/photo-1639762681485-074b7f938ba0?q=80&w=2064&auto=format&fit=crop' alt='Blockchain'>
                 </article>
                 <article class='news-card'>
-                    <span class='category-tag'>Global Markets</span>
+                    <span class='category-tag'>Market Intelligence</span>
                     <h3 id="news-markets">Institutional Inflow: Tech Infrastructure Bonds see Record Volume.</h3>
                     <img src='https://images.unsplash.com/photo-1611974714024-463799738499?q=80&w=2070&auto=format&fit=crop' alt='Markets'>
                 </article>
@@ -185,9 +132,41 @@
             <h2 class="section-header">Biohacking & Longevity</h2>
             <div class='secondary-grid'>
                 <article class='news-card'>
-                    <span class='category-tag'>Neural Benchmarks</span>
+                    <span class='category-tag'>Metabolic Benchmarks</span>
                     <h3 id="news-biohacking">Roche Obesity Drug outpaces Industry Targets in latest trials.</h3>
                     <img src='https://images.unsplash.com/photo-1576086213369-97a306d36557?q=80&w=2080&auto=format&fit=crop' alt='Biohacking'>
+                </article>
+                <article class='news-card'>
+                    <span class='category-tag'>Urban Lifestyle</span>
+                    <h3 id="news-lifestyle">Resilient Habitat: Lord Norman Foster addresses Madrid CityLab.</h3>
+                    <img src='https://images.unsplash.com/photo-1449156006071-8930438676f4?q=80&w=2070&auto=format&fit=crop' alt='Lifestyle'>
+                </article>
+            </div>
+
+            <h2 class="section-header">Sovereign Sectors</h2>
+            <div class='secondary-grid'>
+                <article class='news-card'>
+                    <span class='category-tag'>Stock Markets</span>
+                    <h3 id="news-stocks">Market Stability: Institutional Flows Maintain Resilience.</h3>
+                    <img src='https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?q=80&w=2070&auto=format&fit=crop' alt='Stocks'>
+                </article>
+                <article class='news-card'>
+                    <span class='category-tag'>Anime Media</span>
+                    <h3 id="news-anime">Trending: Tongari Boushi no Atelier leads Seasonal Viewership.</h3>
+                    <img src='https://images.unsplash.com/photo-1578632738981-4330672f5d17?q=80&w=2070&auto=format&fit=crop' alt='Anime'>
+                </article>
+            </div>
+
+            <div class='secondary-grid'>
+                <article class='news-card'>
+                    <span class='category-tag'>Forex Intelligence</span>
+                    <h3 id="news-forex">Forex Stability Pivot: Major Pairs stabilize as risk subside.</h3>
+                    <img src='https://images.unsplash.com/photo-1611974714024-463799738499?q=80&w=2070&auto=format&fit=crop' alt='Forex'>
+                </article>
+                <article class='news-card'>
+                    <span class='category-tag'>Real Estate</span>
+                    <h3 id="news-realestate">Veteran housing policy needs a preservation strategy.</h3>
+                    <img src='https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=2073&auto=format&fit=crop' alt='RealEstate'>
                 </article>
             </div>
         </main>
