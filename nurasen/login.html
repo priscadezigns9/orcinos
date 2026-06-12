@@ -78,7 +78,6 @@
 
         let isLogin = true;
 
-        // Initialize state for Login on load
         window.addEventListener('DOMContentLoaded', () => {
             document.getElementById('auth-title').innerText = 'Login';
             document.getElementById('auth-subtitle').innerText = 'Access your existing profile.';
@@ -108,14 +107,24 @@
         }
 
         async function handleAuth() {
-            const email = document.getElementById('email').value.trim();
-            const password = document.getElementById('pass').value.trim();
+            const emailInput = document.getElementById('email');
+            const passInput = document.getElementById('pass');
+            const authBtn = document.getElementById('auth-btn');
             const msg = document.getElementById('auth-msg');
+
+            const email = emailInput.value.trim();
+            const password = passInput.value; // DO NOT TRIM PASSWORDS
             
             if(!email || !password) {
+                msg.style.color = "#FF4444";
                 msg.innerText = "ERROR: Missing credentials";
                 return;
             }
+
+            // Lock UI
+            authBtn.disabled = true;
+            authBtn.style.opacity = "0.5";
+            authBtn.style.cursor = "not-allowed";
 
             msg.style.color = "var(--accent)";
             msg.innerText = isLogin ? 'SYNCHRONIZING...' : 'INITIALIZING HANDSHAKE...';
@@ -126,6 +135,9 @@
                     if(error) {
                          if(error.message.includes('Invalid login credentials')) {
                              throw new Error('WRONG PASSWORD. USE THE EYE ICON TO CHECK.');
+                         }
+                         if(error.message.includes('Email not confirmed')) {
+                             throw new Error('IDENTITY NOT VERIFIED. CHECK YOUR EMAIL.');
                          }
                          throw error;
                     }
@@ -138,7 +150,19 @@
                             emailRedirectTo: window.location.origin + '/nurasen/dashboard.html'
                         }
                     });
-                    if(error) throw error;
+                    
+                    if(error) {
+                        if(error.message.includes('User already registered')) {
+                            // Handshake: If they already exist, try to log them in automatically
+                            const { data: lData, error: lError } = await client.auth.signInWithPassword({ email, password });
+                            if(!lError) {
+                                window.location.href = 'dashboard.html';
+                                return;
+                            }
+                        }
+                        throw error;
+                    }
+
                     if (data.user && data.session) {
                         window.location.href = 'dashboard.html';
                     } else {
@@ -148,6 +172,11 @@
             } catch (err) {
                 msg.style.color = "#FF4444";
                 msg.innerText = "ERROR: " + (err.message || "Failed to establish connection");
+                
+                // Unlock UI
+                authBtn.disabled = false;
+                authBtn.style.opacity = "1";
+                authBtn.style.cursor = "pointer";
             }
         }
     </script>
