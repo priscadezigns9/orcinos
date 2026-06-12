@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nurasen | Neural Access</title>
+    <title>Nurasen | Sign Up</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         :root {
@@ -37,10 +37,10 @@
 <body>
     <div class="auth-card">
         <div class="logo"><img src="../logos/NURASEN_DEFINITIVE_2026.png" alt="Nurasen"></div>
-        <h2 id="auth-title">Neural Access</h2>
-        <p id="auth-subtitle">Establish your identity to start scanning.</p>
-        <input type="email" id="email" placeholder="Pulse Address (Email)">
-        <input type="password" id="pass" placeholder="Keycode">
+        <h2 id="auth-title">Sign Up</h2>
+        <p id="auth-subtitle">Create your account to start scanning.</p>
+        <input type="email" id="email" placeholder="Email Address">
+        <input type="password" id="pass" placeholder="Password">
         <button class="btn-auth" id="auth-btn" onclick="handleAuth()">Sign Up</button>
         <div id="auth-msg"></div>
         <div class="toggle-link" onclick="toggleAuth()">
@@ -64,8 +64,8 @@
 
         function toggleAuth() {
             isLogin = !isLogin;
-            document.getElementById('auth-title').innerText = isLogin ? 'Resume Defense' : 'Neural Access';
-            document.getElementById('auth-subtitle').innerText = isLogin ? 'Access your existing profile.' : 'Establish your identity to start scanning.';
+            document.getElementById('auth-title').innerText = isLogin ? 'Login' : 'Sign Up';
+            document.getElementById('auth-subtitle').innerText = isLogin ? 'Access your existing profile.' : 'Create your account to start scanning.';
             document.getElementById('auth-btn').innerText = isLogin ? 'Login' : 'Sign Up';
             document.getElementById('toggle-text').innerText = isLogin ? "Don't have a profile? Sign Up" : "Already have a profile? Login";
             document.getElementById('auth-msg').innerText = "";
