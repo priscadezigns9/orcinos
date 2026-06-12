@@ -71,19 +71,27 @@
     </div>
 
     <script>
-        const supabaseUrl = 'https://sazhdnqzaqpqcralmthh.supabase.co';
+        const supabaseUrl = 'https://sazhdnqzaxppcralmthh.supabase.co';
         const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNhemhkbnF6YXFwcWNyYWxtdGhoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxNzE5NjYsImV4cCI6MjA5Mzc0Nzk2Nn0.uTyw31uWTNOTV5-HzNpm46vpAJABAsHLMzW-sYOkRhc';
         
         const client = supabase.createClient(supabaseUrl, supabaseKey);
 
-        let isLogin = false;
+        let isLogin = true;
+
+        // Initialize state for Login on load
+        window.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('auth-title').innerText = 'Login';
+            document.getElementById('auth-subtitle').innerText = 'Access your existing profile.';
+            document.getElementById('auth-btn').innerText = 'Login';
+            document.getElementById('toggle-text').innerHTML = "Don't have a profile? <span>Sign Up</span>";
+        });
 
         function toggleAuth() {
             isLogin = !isLogin;
             document.getElementById('auth-title').innerText = isLogin ? 'Login' : 'Sign Up';
             document.getElementById('auth-subtitle').innerText = isLogin ? 'Access your existing profile.' : 'Create your account to start scanning.';
             document.getElementById('auth-btn').innerText = isLogin ? 'Login' : 'Sign Up';
-            document.getElementById('toggle-text').innerText = isLogin ? "Don't have a profile? Sign Up" : "Already have a profile? Login";
+            document.getElementById('toggle-text').innerHTML = isLogin ? "Don't have a profile? <span>Sign Up</span>" : "Already have a profile? <span>Login</span>";
             document.getElementById('auth-msg').innerText = "";
         }
 
@@ -100,8 +108,8 @@
         }
 
         async function handleAuth() {
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('pass').value;
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('pass').value.trim();
             const msg = document.getElementById('auth-msg');
             
             if(!email || !password) {
