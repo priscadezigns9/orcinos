@@ -10,203 +10,60 @@
         :root {
             --bg: #FFFFFF; 
             --surface: #F9FAFB;
-            --text: #0B1218; 
+            --text: #000814; 
             --muted: #64748B; 
-            --accent: #00B4D8; 
-            --border: rgba(0, 180, 216, 0.1);
+            --accent: #D00000; 
+            --primary: #003566;
+            --border: rgba(0, 53, 102, 0.1);
             --font-header: 'Playfair Display', serif;
             --font-body: 'Inter', sans-serif;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            background: var(--bg); 
-            color: var(--text); 
-            font-family: var(--font-body); 
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-        }
-        .wave-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            background: radial-gradient(circle at 50% 50%, #F8FAFC 0%, #FFFFFF 100%);
-        }
-        .wave {
-            position: absolute;
-            width: 200%;
-            height: 100%;
-            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600"><path d="M0 300 Q 200 150 400 300 T 800 300" fill="none" stroke="rgba(0,180,216,0.06)" stroke-width="2" /></svg>');
-            background-repeat: repeat-x;
-            background-size: 50% 100%;
-            animation: moveWave 25s linear infinite;
-        }
+        body { background: var(--bg); color: var(--text); font-family: var(--font-body); height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .wave-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: radial-gradient(circle at 50% 50%, #F8FAFC 0%, #FFFFFF 100%); }
+        .wave { position: absolute; width: 200%; height: 100%; background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600"><path d="M0 300 Q 200 150 400 300 T 800 300" fill="none" stroke="rgba(0,53,102,0.06)" stroke-width="2" /></svg>'); background-repeat: repeat-x; background-size: 50% 100%; animation: moveWave 25s linear infinite; }
         @keyframes moveWave { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
-        .auth-card {
-            background: #FFFFFF;
-            width: 100%;
-            max-width: 440px;
-            padding: 60px;
-            border-radius: 40px;
-            border: 1px solid #E2E8F0;
-            box-shadow: 0 40px 100px rgba(0,0,0,0.06);
-            text-align: center;
-            position: relative;
-        }
+        .auth-card { background: #FFFFFF; width: 100%; max-width: 440px; padding: 60px; border-radius: 40px; border: 1px solid #E2E8F0; box-shadow: 0 40px 100px rgba(0,0,0,0.06); text-align: center; position: relative; }
         .auth-card img { height: 60px; margin-bottom: 30px; }
-        .auth-card h2 { font-family: var(--font-header); font-size: 2rem; color: #0B1218; margin-bottom: 10px; }
+        .auth-card h2 { font-family: var(--font-header); font-size: 2rem; color: var(--primary); margin-bottom: 10px; }
         .auth-card p { color: var(--muted); font-size: 0.95rem; margin-bottom: 40px; }
 
         .form-group { text-align: left; margin-bottom: 25px; position: relative; }
-        .form-group label { display: block; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 10px; }
-        .input-wrapper { position: relative; }
-        .form-group input {
-            width: 100%;
-            padding: 16px 20px;
-            border-radius: 12px;
-            border: 1.5px solid #E2E8F0;
-            font-size: 1rem;
-            font-weight: 500;
-            transition: 0.3s;
-            outline: none;
-            color: #0B1218;
-        }
-        .form-group input:focus { border-color: var(--accent); box-shadow: 0 0 15px rgba(0,180,216,0.1); }
-        .toggle-pw {
-            position: absolute;
-            right: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            cursor: pointer;
-            color: #94A3B8;
-            transition: 0.2s;
-        }
-        .toggle-pw:hover { color: var(--accent); }
+        .form-group label { display: block; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+        .form-group input { width: 100%; padding: 16px 20px; border-radius: 12px; border: 1.5px solid #E2E8F0; font-size: 1rem; color: var(--primary); outline: none; transition: 0.3s; }
+        .form-group input:focus { border-color: var(--accent); }
+        .toggle-pw { position: absolute; right: 20px; top: 45px; cursor: pointer; color: #94A3B8; }
 
-        .btn-auth {
-            width: 100%;
-            padding: 18px;
-            border-radius: 12px;
-            background: #0B1218;
-            color: #FFF;
-            border: none;
-            font-weight: 700;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: 0.3s;
-            margin-top: 15px;
-        }
+        .btn-auth { width: 100%; padding: 18px; border-radius: 12px; background: var(--primary); color: #FFF; border: none; font-weight: 700; font-size: 1rem; cursor: pointer; transition: 0.3s; margin-top: 15px; }
         .btn-auth:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
-
         .auth-footer { margin-top: 35px; font-size: 0.9rem; color: var(--muted); }
         .auth-footer a { color: var(--accent); text-decoration: none; font-weight: 700; }
-        
-        /* GORD MODE MODAL */
-        .gord-modal {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(15,23,42,0.8); backdrop-filter: blur(10px); z-index: 1000;
-            justify-content: center; align-items: center;
-        }
+
+        .gord-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,8,20,0.8); backdrop-filter: blur(10px); z-index: 1000; justify-content: center; align-items: center; }
         .gord-card { background: #FFFFFF; padding: 50px; border-radius: 30px; text-align: center; width: 320px; border: 2px solid var(--accent); }
     </style>
 </head>
 <body>
     <div class="wave-bg"><div class="wave"></div></div>
-    
     <div class="auth-card">
         <img src="../logos/NURASEN_DEFINITIVE_2026.png" alt="Nurasen">
-        <h2 id="auth-title">Welcome Back</h2>
-        <p id="auth-desc">Secure access to the Neural Perimeter.</p>
-        
-        <div class="form-group">
-            <label>Neural Identity (Email)</label>
-            <input type="email" placeholder="name@orcinos.com" id="email">
-        </div>
-        
-        <div class="form-group">
-            <label>Access Key</label>
-            <div class="input-wrapper">
-                <input type="password" placeholder="••••••••" id="password">
-                <i data-lucide="eye" class="toggle-pw" id="togglePw"></i>
-            </div>
-        </div>
-
-        <button class="btn-auth" onclick="handleAuth()">Initialize Access</button>
-
-        <div class="auth-footer">
-            <span id="footer-text">New to the Perimeter?</span> <a href="javascript:void(0)" id="switch-auth">Initialize Account</a>
-        </div>
+        <h2 id="auth-title">Neural Access</h2>
+        <p id="auth-desc">Secure access to the Perimeter.</p>
+        <div class="form-group"><label>Identity (Email)</label><input type="email" placeholder="name@orcinos.com" id="email"></div>
+        <div class="form-group"><label>Access Key</label><input type="password" placeholder="••••••••" id="password"><i data-lucide="eye" class="toggle-pw" id="togglePw"></i></div>
+        <button class="btn-auth" onclick="handleAuth()">Initialize Shard</button>
+        <div class="auth-footer"><span id="footer-text">New to the Node?</span> <a href="javascript:void(0)" id="switch-auth">Initialize Perimeter</a></div>
     </div>
-
-    <div id="gordModal" class="gord-modal">
-        <div class="gord-card">
-            <i data-lucide="shield-alert" size="48" color="#00B4D8"></i>
-            <h3 style="margin: 20px 0 10px; font-family: var(--font-header);">Architect Access</h3>
-            <input type="password" id="gordPass" placeholder="Security Token" style="width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #E2E8F0; margin-bottom: 20px; text-align: center;">
-            <button class="btn-auth" onclick="verifyGord()" style="padding: 12px;">Authorize</button>
-        </div>
-    </div>
-
+    <div id="gordModal" class="gord-modal"><div class="gord-card"><i data-lucide="shield-alert" size="48" color="#D00000"></i><h3 style="margin: 20px 0 10px; font-family: var(--font-header);">Architect Access</h3><input type="password" id="gordPass" placeholder="Token" style="width:100%; padding:12px; border-radius:10px; border:1px solid #E2E8F0; margin-bottom:20px; text-align:center;"><button class="btn-auth" onclick="verifyGord()" style="padding:12px; background:var(--accent);">Authorize</button></div></div>
     <script>
         lucide.createIcons();
-        
         const pwField = document.getElementById('password');
-        const toggleIcon = document.getElementById('togglePw');
         let pwClickCount = 0;
-
-        // Toggle Password Visibility
-        toggleIcon.addEventListener('click', () => {
-            const type = pwField.type === 'password' ? 'text' : 'password';
-            pwField.type = type;
-            toggleIcon.setAttribute('data-lucide', type === 'password' ? 'eye' : 'eye-off');
-            lucide.createIcons();
-        });
-
-        // Gord Mode Trigger (5 clicks on password input)
-        pwField.addEventListener('click', () => {
-            pwClickCount++;
-            if (pwClickCount >= 5) {
-                document.getElementById('gordModal').style.display = 'flex';
-                pwClickCount = 0;
-            }
-        });
-
-        function verifyGord() {
-            const val = document.getElementById('gordPass').value;
-            if (val.toLowerCase() === 'alice') {
-                window.location.href = 'dashboard.html?gordmode=true';
-            } else {
-                alert('Unauthorized Access Attempt Logged.');
-                document.getElementById('gordModal').style.display = 'none';
-            }
-        }
-
-        function handleAuth() {
-            // Standard Auth Simulation
-            window.location.href = 'dashboard.html';
-        }
-
-        // Switch Auth View
-        const switchBtn = document.getElementById('switch-auth');
-        let isSignup = false;
-        switchBtn.addEventListener('click', () => {
-            isSignup = !isSignup;
-            document.getElementById('auth-title').innerText = isSignup ? 'Initialize Account' : 'Welcome Back';
-            document.getElementById('auth-desc').innerText = isSignup ? 'Create your institutional identity.' : 'Secure access to the Neural Perimeter.';
-            switchBtn.innerText = isSignup ? 'Sign In' : 'Initialize Account';
-            document.getElementById('footer-text').innerText = isSignup ? 'Already protected?' : 'New to the Perimeter?';
-        });
-
-        // Handle URL Params for Signup
-        if (new URLSearchParams(window.location.search).get('signup') === 'true') {
-            switchBtn.click();
-        }
+        document.getElementById('togglePw').onclick = () => { pwField.type = pwField.type === 'password' ? 'text' : 'password'; };
+        pwField.onclick = () => { pwClickCount++; if (pwClickCount >= 5) { document.getElementById('gordModal').style.display = 'flex'; pwClickCount = 0; } };
+        function verifyGord() { if (document.getElementById('gordPass').value.toLowerCase() === 'alice') { window.location.href = 'dashboard.html?gordmode=true'; } else { document.getElementById('gordModal').style.display = 'none'; } }
+        function handleAuth() { window.location.href = 'dashboard.html'; }
     </script>
 </body>
 </html>
