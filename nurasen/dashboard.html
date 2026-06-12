@@ -65,17 +65,50 @@
         .logo { filter: none; }
         .logo img { height: 70px; }
         
-        .header-section h1 { font-family: var(--font-header); font-size: 2.5rem; color: #0B1218; margin-bottom: 10px; }
         .nav-btns { display: flex; align-items: center; gap: 15px; }
-        .btn-home { font-size: 0.75rem; font-weight: 800; color: #FFF; text-decoration: none; text-transform: uppercase; letter-spacing: 1px; padding: 8px 16px; border: 1.5px solid #FFF; border-radius: 8px; transition: 0.2s; background: transparent; }
-        .btn-home:hover { background: #FFF; color: #000; }
-        .tier-badge { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: #000; background: var(--accent); padding: 4px 15px; border-radius: 100px; border: 2px solid var(--accent); box-shadow: 0 0 15px rgba(0,255,255,0.2); }
-        .tier-badge:hover { background: #FFF; border-color: #FFF; }
+        .btn-home { font-size: 0.75rem; font-weight: 800; color: #0B1218; text-decoration: none; text-transform: uppercase; letter-spacing: 1px; padding: 8px 16px; border: 1.5px solid #0B1218; border-radius: 8px; transition: 0.2s; background: transparent; }
+        .btn-home:hover { background: #0B1218; color: #FFF; }
+        .tier-badge { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: #FFF; background: var(--accent); padding: 6px 15px; border-radius: 100px; border: none; box-shadow: 0 4px 15px rgba(0,180,216,0.2); }
+
+        /* DASHBOARD LAYOUT WITH SIDEBAR HUD */
+        .dashboard-body { display: flex; min-height: 100vh; }
         
-        .container { padding: 60px 6%; max-width: 1200px; margin: 0 auto; }
+        .sidebar-hud { 
+            width: 300px; 
+            background: rgba(255,255,255,0.6); 
+            border-right: 1px solid var(--border); 
+            padding: 40px 25px; 
+            display: flex; 
+            flex-direction: column; 
+            gap: 12px;
+            backdrop-filter: blur(20px);
+            position: sticky;
+            top: 100px;
+            height: calc(100vh - 100px);
+        }
+        .hud-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 16px 20px;
+            border-radius: 16px;
+            text-decoration: none;
+            color: var(--muted);
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: 0.3s;
+            border: 1px solid transparent;
+        }
+        .hud-item:hover { background: #F1F5F9; color: #0B1218; }
+        .hud-item.active { background: #FFFFFF; color: var(--accent); border-color: #E2E8F0; box-shadow: 0 10px 25px rgba(0,0,0,0.03); }
+        .hud-item.locked { opacity: 0.5; cursor: pointer; }
+        .lock-tag { margin-left: auto; font-size: 0.6rem; background: #F1F5F9; padding: 4px 8px; border-radius: 6px; font-weight: 800; color: #94A3B8; }
+
+        .main-hud-content { flex: 1; padding: 40px 6%; }
+
         .dash-header { margin-bottom: 50px; display: flex; justify-content: space-between; align-items: flex-end; }
-        .dash-title h1 { font-family: var(--font-header); font-size: 3rem; font-weight: 700; letter-spacing: -1px; text-transform: none; color: #0B1218; }
-        .dash-title p { color: var(--muted); font-size: 1.1rem; font-weight: 500; }
+        .dash-title h1 { font-family: var(--font-header); font-size: 3rem; font-weight: 700; letter-spacing: -1px; text-transform: none; color: #0B1218; margin: 0; }
+        .dash-title p { color: var(--muted); font-size: 1.1rem; font-weight: 500; margin-bottom: 5px; }
 
         .heartbeat-container { 
             background: #F1F5F9; color: #0F172A; padding: 10px 25px; border-radius: 100px; 
@@ -102,14 +135,9 @@
         .status-secure { background: #DCFCE7; color: #15803D; border: 1px solid #BBF7D0; }
         
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15,23,42,0.6); backdrop-filter: blur(12px); z-index: 2000; justify-content: center; align-items: center; }
-        .payment-modal { background: #FFFFFF; border: 1px solid #E2E8F0; width: 100%; max-width: 680px; padding: 60px; border-radius: 40px; position: relative; text-align: center; box-shadow: 0 40px 100px rgba(0,0,0,0.15); }
+        .payment-modal { background: #FFFFFF; border: 1px solid #E2E8F0; width: 100%; max-width: 780px; padding: 60px; border-radius: 40px; position: relative; text-align: center; box-shadow: 0 40px 100px rgba(0,0,0,0.15); }
         .modal-close { position: absolute; top: 30px; right: 35px; color: #94A3B8; font-size: 2rem; cursor: pointer; transition: 0.2s; }
         .modal-close:hover { color: #0F172A; }
-        .pay-option { background: #F8FAFC; border: 1px solid #E2E8F0; padding: 25px; border-radius: 20px; margin-bottom: 20px; display: flex; align-items: center; gap: 20px; cursor: pointer; transition: 0.3s; text-decoration: none; color: #0F172A; text-align: left; }
-        .pay-option:hover { border-color: var(--accent); background: #FFF; box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
-        .pay-icon { font-size: 1.5rem; }
-        .pay-text b { display: block; font-size: 1.1rem; color: #FFF; }
-        .pay-text span { font-size: 0.8rem; color: var(--muted); }
     </style>
 </head>
 <body>
@@ -125,43 +153,70 @@
         </div>
     </nav>
 
-    <div class="container">
-        <div class="dash-header">
-            <div class="dash-title">
-                <p>Neural Cybersecurity Intelligence</p>
-                <h1>Sentinel Control Center</h1>
+    <div class="dashboard-body">
+        <aside class="sidebar-hud">
+            <a href="#" class="hud-item active">
+                <span>🛡️</span> Neural Home
+            </a>
+            <a href="#" class="hud-item">
+                <span>🔍</span> Advanced Scan
+            </a>
+            <a href="#" class="hud-item locked" onclick="openPayment()">
+                <span>📡</span> Neural Shield <span class="lock-tag">APEX</span>
+            </a>
+            <a href="#" class="hud-item locked" onclick="openPayment()">
+                <span>📧</span> Email Guard <span class="lock-tag">PRO</span>
+            </a>
+            <a href="#" class="hud-item locked" onclick="openPayment()">
+                <span>📱</span> Device Monitor <span class="lock-tag">PRO</span>
+            </a>
+            <a href="#" class="hud-item locked" onclick="openPayment()">
+                <span>💎</span> Identity Vault <span class="lock-tag">APEX</span>
+            </a>
+            <div style="margin-top: auto; padding: 20px; background: #F1F5F9; border-radius: 20px;">
+                <p style="font-size: 0.75rem; font-weight: 700; color: #64748B; text-transform: uppercase; margin-bottom: 5px;">Active Nodes</p>
+                <div style="font-size: 1.1rem; font-weight: 800; color: #0B1218;">14 Active</div>
             </div>
-            <div class="heartbeat-container">
-                <div class="pulse-dot"></div>
-                <span id="heartbeat-text">Neural Heartbeat: STABLE | 12h Sync</span>
-            </div>
-        </div>
+        </aside>
 
-        <div class="stats-grid">
-            <div class="stat-card"><h3>Threats Neutralized</h3><div class="stat-val">1,284</div></div>
-            <div class="stat-card"><h3>Shield Fidelity</h3><div class="stat-val">99.9%</div></div>
-            <div class="stat-card"><h3>Active Shards</h3><div class="stat-val">14</div></div>
-        </div>
-
-        <div class="monitor-area">
-            <div class="monitor-header">
-                <h2>Real-Time Threat Monitor</h2>
-                <button class="btn-home" onclick="initializeScan()" style="padding: 10px 25px;">Initialize Manual Scan</button>
+        <main class="main-hud-content">
+            <div class="dash-header">
+                <div class="dash-title">
+                    <p>Neural Cybersecurity Intelligence</p>
+                    <h1>Sentinel Control Center</h1>
+                </div>
+                <div class="heartbeat-container">
+                    <div class="pulse-dot"></div>
+                    <span id="heartbeat-text">Neural Heartbeat: STABLE | 12h Sync</span>
+                </div>
             </div>
-            <table>
-                <thead><tr><th>Detection Source</th><th>Status</th><th>Neural Confidence</th><th>Last Pulse</th></tr></thead>
-                <tbody id="detection-body">
-                    <tr id="no-assets"><td colspan="4" style="text-align: center; color: var(--muted); padding: 60px;">No threats detected in the current session.</td></tr>
-                </tbody>
-            </table>
-        </div>
+
+            <div class="stats-grid">
+                <div class="stat-card"><h3>Threats Neutralized</h3><div class="stat-val">1,284</div></div>
+                <div class="stat-card"><h3>Shield Fidelity</h3><div class="stat-val">99.9%</div></div>
+                <div class="stat-card"><h3>Active Shards</h3><div class="stat-val">14</div></div>
+            </div>
+
+            <div class="monitor-area">
+                <div class="monitor-header">
+                    <h2>Real-Time Threat Monitor</h2>
+                    <button class="btn-home" onclick="initializeScan()" style="padding: 10px 25px;">Initialize Manual Scan</button>
+                </div>
+                <table>
+                    <thead><tr><th>Detection Source</th><th>Status</th><th>Neural Confidence</th><th>Last Pulse</th></tr></thead>
+                    <tbody id="detection-body">
+                        <tr id="no-assets"><td colspan="4" style="text-align: center; color: var(--muted); padding: 60px;">No threats detected in the current session.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
     </div>
 
     <div id="paymentModal" class="modal-overlay">
-        <div class="payment-modal" style="max-width: 650px;">
+        <div class="payment-modal">
             <div class="modal-close" onclick="closePayment()">×</div>
-            <h2 style="font-size: 2rem; font-weight: 900; margin-bottom: 10px; color: #FFF; text-transform: uppercase; letter-spacing: -1px;">Elite Neural Upgrade</h2>
-            <p style="color: var(--muted); margin-bottom: 40px; font-size: 0.95rem;">Choose your defense tier for the Nurasen network.</p>
+            <h2 style="font-family: var(--font-header); font-size: 2.2rem; font-weight: 700; margin-bottom: 10px; color: #0B1218;">Elite Neural Upgrade</h2>
+            <p style="color: var(--muted); margin-bottom: 40px; font-size: 1.1rem; font-weight: 500;">Choose your defense tier for the Nurasen network.</p>
             
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 25px;">
                 <!-- PRO TIER -->
@@ -182,7 +237,7 @@
                 </div>
             </div>
 
-            <a href="dashboard.html?premium=true" style="display:block; margin-top:30px; color:var(--accent); text-decoration:none; font-size:0.8rem; font-weight:800; text-transform:uppercase; letter-spacing:1px; opacity:0.5;">Bypass to Dashboard (Admin)</a>
+            <a href="dashboard.html?premium=true" style="display:block; margin-top:40px; color:var(--muted); text-decoration:none; font-size:0.8rem; font-weight:700; text-transform:uppercase; letter-spacing:1px; opacity:0.6;">Bypass to Dashboard (Admin)</a>
         </div>
     </div>
 
@@ -208,7 +263,7 @@
             const urlParams = new URLSearchParams(window.location.search);
             const isPremium = urlParams.get('premium') === 'true';
             const row = document.createElement('tr');
-            row.innerHTML = `<td><div style="color: #FFF; font-weight: 700;">${sources[Math.floor(Math.random()*5)]}</div></td><td><span class="loading-pulse">NEUTRALIZING...</span></td><td>Searching...</td><td>Initializing</td>`;
+            row.innerHTML = `<td><div style="color: #0B1218; font-weight: 700;">${sources[Math.floor(Math.random()*5)]}</div></td><td><span class="loading-pulse">NEUTRALIZING...</span></td><td>Searching...</td><td>Initializing</td>`;
             tbody.prepend(row);
             setTimeout(function() {
                 row.cells[1].innerHTML = '<span class="status-tag status-secure">SECURE</span>';
@@ -219,4 +274,3 @@
     </script>
 </body>
 </html>
-
