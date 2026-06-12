@@ -3,105 +3,314 @@
 <head>
     <meta charset='UTF-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-    <title>SOVSYGNAL | Headlines</title>
-    <meta name='description' content='SOVSYGNAL - Global Intelligence Hub. High-fidelity geopolitical, financial, and technological signals.'>
-    <link rel="icon" type="image/png" href="assets/logos/sovereign_favicon.png">
+    <title>SOVSYGNAL | Global News Intelligence</title>
+    
+    <!-- SEO METADATA - 50 KEYWORDS -->
+    <meta name="keywords" content="Geopolitics, Blockchain, Biohacking, Sovereign Signal, Global News Intelligence, Priscion Ledger, $PRN Token, Neural Economy, High-Fidelity Reporting, National Security, Decentralized Finance, Web3 News, Digital Sovereignty, Empire Advertising, Prisca Dezigns, AI Brand Architecture, Autonomous Media, Geopolitical Risk, Market Intelligence, DNA Skincare, Regenerative Beauty, Nurturing Essentials, Caribbean Tech, Luxury Assets, Sustainable Infrastructure, Cybersecurity Defense, Gaming Utility, Atelia Gaming Lab, Global Trade Fragmentation, Economic Sovereignty, Financial Technology, Innovation News, SaaS Products, Digital Agency, SEO Marketing, Advertising Logistics, PayPal Payments, Crypto Payments, Payoneer Transfers, The Way Made Known, Biblical Archaeology, Evidence of Faith, Analytical Theology, Intelligence Reports, Global Signal, Sovereign Frequency, Media Empire, News Hub, Real Estate Investment, Biohacking Trends">
+    <meta name="description" content="The Authority of the Empire. Global News Intelligence on Geopolitics, Blockchain, Biohacking, and the Eternal Signal. Autonomous Reporting for the Sovereign Architect.">
+    
     <link rel='preconnect' href='https://fonts.googleapis.com'>
     <link href='https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;600;800&display=swap' rel='stylesheet'>
     <style>
-        :root { --primary: #8B0000; --bg: #F9F9F9; --text: #1A1A1A; --accent: #111; --font-heading: 'Playfair Display', serif; --font-body: 'Inter', sans-serif; }
+        :root {
+            --bg: #FFFFFF;
+            --text: #000000;
+            --muted: #666666;
+            --accent: #1A1A1A;
+            --sygnal-red: #D0021B;
+            --border: rgba(0,0,0,0.1);
+            --font-heading: 'Playfair Display', serif;
+            --font-body: 'Inter', sans-serif;
+        }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: var(--bg); color: var(--text); font-family: var(--font-body); line-height: 1.6; }
+        body { background: var(--bg); color: var(--text); font-family: var(--font-body); line-height: 1.5; scroll-behavior: smooth; }
+        .utility-bar { background: var(--accent); color: white; padding: 8px 6%; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 2px; display: flex; justify-content: space-between; }
         
-        .ticker-wrap { width: 100%; overflow: hidden; background: #000; color: #fff; padding: 12px 0; border-bottom: 2px solid var(--primary); }
-        .ticker { display: inline-block; white-space: nowrap; padding-right: 100%; animation: ticker 240s linear infinite; }
-        @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
-        .ticker-item { display: inline-block; padding: 0 40px; font-weight: 800; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px; }
-        .ticker-item span { color: var(--primary); margin-right: 10px; }
+        header { padding: 40px 6% 20px; border-bottom: 4px solid var(--text); text-align: center; }
+        .main-logo { font-family: var(--font-heading); font-size: 3.5rem; letter-spacing: -2px; line-height: 1; margin-bottom: 10px; cursor: pointer; }
+        .main-logo span { color: var(--sygnal-red); }
+        .tagline { text-transform: uppercase; letter-spacing: 5px; font-size: 0.75rem; margin-bottom: 20px; font-weight: 800; color: var(--muted); }
+        
+        nav { display: flex; justify-content: center; gap: 30px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 12px 0; margin-top: 20px; flex-wrap: wrap; position: sticky; top: 0; background: white; z-index: 1000; }
+        nav a { text-decoration: none; color: var(--text); font-weight: 800; font-size: 0.75rem; text-transform: uppercase; white-space: nowrap; }
+        nav a:hover { color: var(--sygnal-red); }
 
-        header { background: #fff; padding: 30px 6%; border-bottom: 3px solid #000; text-align: center; position: sticky; top: 0; z-index: 1000; }
-        header h1 { font-family: var(--font-heading); font-size: 3.5rem; letter-spacing: -2px; line-height: 1; }
-        header h1 a { text-decoration: none; color: black; }
-        header p { text-transform: uppercase; letter-spacing: 6px; font-size: 0.7rem; font-weight: 800; color: #444; margin: 10px 0 20px; }
+        .main-container { display: grid; grid-template-columns: 1fr 300px; gap: 40px; padding: 40px 6%; }
         
-        nav { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; border-top: 1px solid #eee; padding-top: 15px; align-items: center; }
-        nav a { text-decoration: none; color: #000; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
-        nav a:hover, nav a.active { color: var(--primary); }
-        
-        .main-container { display: grid; grid-template-columns: 1fr 350px; gap: 60px; padding: 40px 6%; max-width: 1500px; margin: 0 auto; min-height: 80vh; }
-        @media (max-width: 1100px) { .main-container { grid-template-columns: 1fr; } .sidebar { order: 2; margin-top: 40px; } main { order: 1; } }
-        .category-tag { color: var(--primary); font-weight: 800; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; display: block; }
-        
-        .data-grid { display: grid; gap: 15px; margin-bottom: 40px; padding: 20px; border-radius: 4px; }
-        .grid-4 { grid-template-columns: repeat(4, 1fr); }
-        @media (max-width: 1100px) { .grid-4 { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 600px) { .grid-4 { grid-template-columns: 1fr; } .main-container { grid-template-columns: 1fr; } header h1 { font-size: 2.5rem; } }
+        .lead-story { border-bottom: 1px solid var(--border); padding-bottom: 40px; margin-bottom: 40px; }
+        .category-tag { color: var(--sygnal-red); font-weight: 800; text-transform: uppercase; font-size: 0.7rem; margin-bottom: 10px; display: block; }
+        .lead-story h2 { font-family: var(--font-heading); font-size: 2.5rem; margin-bottom: 15px; line-height: 1.1; }
+        .lead-story img { width: 100%; height: 400px; object-fit: cover; background: #eee; margin-bottom: 20px; }
+        .lead-story p { font-size: 1.1rem; color: #333; margin-bottom: 20px; }
 
-        .news-card { margin-bottom: 40px; padding-bottom: 40px; border-bottom: 1px solid #eee; }
-        .news-card h3 { font-family: var(--font-heading); font-size: 2rem; margin-bottom: 15px; line-height: 1.2; }
-        .news-card h3 a { text-decoration: none; color: #000; }
-        .news-card p { color: #555; font-size: 1rem; }
-        
-        .sidebar-ad { padding: 30px; margin-bottom: 30px; border-radius: 4px; }
-        .sidebar-ad h4 { text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem; margin-bottom: 15px; }
-        .sidebar-ad .btn { display: block; text-decoration: none; padding: 12px; text-align: center; font-weight: 800; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; margin-top: 20px; border-radius: 2px; }
-        
-        .source-tag { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1px; color: #999; margin-bottom: 10px; }
-        .sentiment-tag { font-size: 0.6rem; padding: 2px 10px; border-radius: 2px; font-weight: 800; margin-left: 12px; vertical-align: middle; text-transform: uppercase; }
-        .bullish { background: #000; color: #00FF00; border: 1px solid #00FF00; }
-        .neutral { background: #000; color: #FFFF00; border: 1px solid #FFFF00; }
-        .bearish { background: #000; color: #FF0000; border: 1px solid #FF0000; }
+        .section-header { font-family: var(--font-heading); font-size: 1.8rem; margin: 60px 0 30px; border-bottom: 2px solid var(--text); padding-bottom: 10px; text-transform: uppercase; }
 
-        footer { background: #000; color: white; padding: 80px 6%; text-align: center; }
-        footer img { height: 80px; margin-bottom: 20px; }
-        footer p { font-size: 0.7rem; letter-spacing: 2px; opacity: 0.5; }
+        .secondary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+        .news-card { border-bottom: 1px solid var(--border); padding-bottom: 20px; margin-bottom: 20px; }
+        .news-card img { width: 100%; height: 200px; object-fit: cover; background: #eee; margin-bottom: 15px; }
+        .news-card h3 { font-family: var(--font-heading); font-size: 1.4rem; margin-bottom: 10px; }
+
+        aside h4 { font-family: var(--font-heading); font-size: 1.2rem; border-bottom: 2px solid var(--text); padding-bottom: 10px; margin-bottom: 20px; text-transform: uppercase; }
+        .ticker-item { margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 15px; }
+        .ticker-item span { font-weight: 800; font-size: 0.7rem; color: var(--muted); }
+        .ticker-item p { font-weight: 600; font-size: 0.9rem; margin-top: 5px; }
+        .ticker-item.brand { border-left: 3px solid var(--sygnal-red); padding-left: 10px; }
+
+        .ad-space { background: #f9f9f9; padding: 20px; border: 1px dashed var(--border); text-align: center; font-size: 0.75rem; color: var(--muted); margin-bottom: 30px; }
+        .ad-space strong { color: black; display: block; margin-bottom: 10px; }
+        .ad-group { display: flex; flex-direction: column; gap: 10px; }
+        .btn-ad { background: var(--accent); color: white; border: none; padding: 8px 16px; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; cursor: pointer; display: block; width: 100%; text-align: center; transition: background 0.3s; }
+        .btn-ad:hover { background: var(--sygnal-red); }
+
+        .empire-ad { background: var(--accent); color: white; padding: 20px; margin-bottom: 30px; border-radius: 4px; }
+        .empire-ad h5 { font-family: var(--font-heading); font-size: 1rem; margin-bottom: 10px; color: white; }
+        .empire-ad p { font-size: 0.8rem; color: rgba(255,255,255,0.7); margin-bottom: 15px; }
+        .empire-ad a { color: white; font-weight: 800; font-size: 0.75rem; text-decoration: none; border-bottom: 1px solid white; }
+
+        footer { background: #000; color: white; padding: 60px 6%; text-align: center; }
+        footer p { font-size: 0.75rem; letter-spacing: 1px; opacity: 0.6; }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            backdrop-filter: blur(5px);
+        }
+        .modal {
+            background: white;
+            padding: 40px;
+            border-radius: 24px;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+            color: black;
+            text-align: left;
+        }
+        .modal-close {
+            position: absolute;
+            top: 20px; right: 20px;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: #999;
+        }
+        .modal-tabs {
+            display: flex;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 25px;
+        }
+        .modal-tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #666;
+            background: none;
+            border: none;
+            outline: none;
+        }
+        .modal-tab.active {
+            color: #1A1A1A;
+            border-bottom-color: #1A1A1A;
+        }
+        .pay-detail { display: none; }
+        .pay-detail.open { display: block; }
+        .modal-copy-btn {
+            background: #1A1A1A;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.7rem;
+            margin-left: 10px;
+        }
+
+        @media (max-width: 900px) {
+            .main-container { grid-template-columns: 1fr; }
+            .secondary-grid { grid-template-columns: 1fr; }
+            .main-logo { font-size: 2.5rem; }
+        }
     </style>
 </head>
 <body>
-    <div class='ticker-wrap'><div class='ticker'><div class='ticker-item'><span>GEOPOLITICS</span> Strategic Initiative: Tehran Evaluates Multilateral Mediation Proposal via Regional Channels.</div><div class='ticker-item'><span>BLOCKCHAIN</span> Ledger Efficiency: Major Exchange Finalizes Automated Proof-of-Reserve Protocol.</div><div class='ticker-item'><span>BIOHACKING</span> Neural Benchmarks: New CGMs achieve 99% accuracy in real-time diagnostics.</div><div class='ticker-item'><span>MARKETS</span> Resilient Recovery: Tech Infrastructure Bonds see Record Institutional Inflow.</div><div class='ticker-item'><span>LIFESTYLE</span> Urban Sanctuary: Foster + Partners unveil Eco-Integrated Madrid Hub.</div><div class='ticker-item'><span>INTELLIGENCE</span> Defense Directive: AI-Driven Signal Processing prioritized in Security Budget.</div><div class='ticker-item'><span>FOREX</span> Stability Pivot: Major Pairs stabilize as Geopolitical Risk premiums subside.</div><div class='ticker-item'><span>STOCKS</span> Market Stability: Institutional Flows Maintain Resilience.</div><div class='ticker-item'><span>ANIME</span> Trending: Tongari Boushi no Atelier leads Seasonal Viewership.</div><div class='ticker-item'><span>REALESTATE</span> Veteran housing policy needs a preservation strategy </div><div class='ticker-item'><span>AAPL</span> 213.25 <span style='color:#00FF00'>1.25%</span></div><div class='ticker-item'><span>NVDA</span> 125.40 <span style='color:#FF0000'>-0.85%</span></div><div class='ticker-item'><span>MSFT</span> 442.10 <span style='color:#00FF00'>0.45%</span></div><div class='ticker-item'><span>TSLA</span> 178.90 <span style='color:#00FF00'>2.10%</span></div><div class='ticker-item'><span>EUR</span> 0.87 <span style='color:#00FF00'>0.05%</span></div><div class='ticker-item'><span>GBP</span> 0.75 <span style='color:#00FF00'>0.05%</span></div><div class='ticker-item'><span>JPY</span> 160.27 <span style='color:#00FF00'>0.05%</span></div><div class='ticker-item'><span>CAD</span> 1.40 <span style='color:#00FF00'>0.05%</span></div></div></div>
+    <div class='utility-bar'>
+        <div id="live-date">Fri, June 12, 2026 · Sovereign Frequency 104.2</div>
+        <div id="live-ticker">MARKET: $PRN +4.2% · Intelligence: ACTIVE</div>
+    </div>
+    
     <header>
-        <h1><a href='index.html'>SOVSYGNAL</a></h1>
-        <p>Global Intelligence Hub</p>
+        <div class='main-logo' onclick="window.location.href='index.html'">SOV<span>SYGNAL</span></div>
+        <p class='tagline'>Global Intelligence for the Sovereign Architect</p>
         <nav>
-            <a href='index.html'>Headlines</a>
             <a href='geopolitics.html'>Geopolitics</a>
             <a href='blockchain.html'>Blockchain</a>
             <a href='biohacking.html'>Biohacking</a>
             <a href='markets.html'>Markets</a>
             <a href='lifestyle.html'>Lifestyle</a>
             <a href='intelligence.html'>Intelligence</a>
-            <a href='forex.html'>Forex</a>
-            <a href='stocks.html'>Stocks</a>
-            <a href='realestate.html'>Real Estate</a>
-            <a href='anime.html'>Anime</a>
+            <a href='eternalsignal.html'>Eternal Signal</a>
         </nav>
     </header>
+
     <div class='main-container'>
-        <main><article class='news-card'><span class='category-tag'>Geopolitics | Jun 12, 2026 | 09:00 AM AST</span><h3><a href='geopolitics.html'>Strategic Initiative: Tehran Evaluates Multilateral Mediation Proposal via Regional Channels.</a></h3><p>Institutional sources confirm active evaluation of the 2026 framework.</p><a href='https://www.amazon.com/s?k=geopolitics+books&tag=priscadezigns-20' style='display:inline-block; margin-top:15px; font-size:0.7rem; font-weight:800; color:var(--primary); text-decoration:none; border-bottom:1px solid var(--primary);'>SHOP THE SIGNAL &rarr;</a></article><article class='news-card'><span class='category-tag'>Blockchain | Jun 12, 2026 | 09:00 AM AST</span><h3><a href='blockchain.html'>Ledger Efficiency: Major Exchange Finalizes Automated Proof-of-Reserve Protocol.</a></h3><p>Enhanced transparency metrics deployed across sovereign nodes.</p><a href='https://www.amazon.com/s?k=ledger+nano+x&tag=priscadezigns-20' style='display:inline-block; margin-top:15px; font-size:0.7rem; font-weight:800; color:var(--primary); text-decoration:none; border-bottom:1px solid var(--primary);'>SHOP THE SIGNAL &rarr;</a></article><article class='news-card'><span class='category-tag'>Biohacking | Jun 12, 2026 | 09:00 AM AST</span><h3><a href='biohacking.html'>Neural Benchmarks: New CGMs achieve 99% accuracy in real-time diagnostics.</a></h3><p>High-fidelity metabolic tracking enters mass-market distribution.</p><a href='https://www.amazon.com/s?k=biohacking+gear&tag=priscadezigns-20' style='display:inline-block; margin-top:15px; font-size:0.7rem; font-weight:800; color:var(--primary); text-decoration:none; border-bottom:1px solid var(--primary);'>SHOP THE SIGNAL &rarr;</a></article><article class='news-card'><span class='category-tag'>Markets | Jun 12, 2026 | 09:00 AM AST</span><h3><a href='markets.html'>Resilient Recovery: Tech Infrastructure Bonds see Record Institutional Inflow.</a></h3><p>Capital rotation favors sovereign tech and AI infrastructure.</p><a href='https://www.amazon.com/s?k=trading+monitors&tag=priscadezigns-20' style='display:inline-block; margin-top:15px; font-size:0.7rem; font-weight:800; color:var(--primary); text-decoration:none; border-bottom:1px solid var(--primary);'>SHOP THE SIGNAL &rarr;</a></article><article class='news-card'><span class='category-tag'>Lifestyle | Jun 12, 2026 | 09:00 AM AST</span><h3><a href='lifestyle.html'>Urban Sanctuary: Foster + Partners unveil Eco-Integrated Madrid Hub.</a></h3><p>The future of autonomous, sustainable high-fidelity living.</p><a href='https://www.amazon.com/s?k=luxury+home+decor&tag=priscadezigns-20' style='display:inline-block; margin-top:15px; font-size:0.7rem; font-weight:800; color:var(--primary); text-decoration:none; border-bottom:1px solid var(--primary);'>SHOP THE SIGNAL &rarr;</a></article><article class='news-card'><span class='category-tag'>Intelligence | Jun 12, 2026 | 09:00 AM AST</span><h3><a href='intelligence.html'>Defense Directive: AI-Driven Signal Processing prioritized in Security Budget.</a></h3><p>Neural defense systems see expedited global deployment.</p><a href='https://www.amazon.com/s?k=cybersecurity+hardware&tag=priscadezigns-20' style='display:inline-block; margin-top:15px; font-size:0.7rem; font-weight:800; color:var(--primary); text-decoration:none; border-bottom:1px solid var(--primary);'>SHOP THE SIGNAL &rarr;</a></article><article class='news-card'><span class='category-tag'>Forex | Jun 12, 2026 | 09:00 AM AST</span><h3><a href='forex.html'>Stability Pivot: Major Pairs stabilize as Geopolitical Risk premiums subside.</a></h3><p>Market sentiment shifts toward high-fidelity currency performance.</p><a href='https://www.amazon.com/s?k=forex+trading+books&tag=priscadezigns-20' style='display:inline-block; margin-top:15px; font-size:0.7rem; font-weight:800; color:var(--primary); text-decoration:none; border-bottom:1px solid var(--primary);'>SHOP THE SIGNAL &rarr;</a></article><article class='news-card'><span class='category-tag'>Stocks | Jun 12, 2026 | 09:00 AM AST</span><h3><a href='stocks.html'>Market Stability: Institutional Flows Maintain Resilience.</a></h3><p>Automated backup signal active.</p><a href='https://www.amazon.com/s?k=stock+market+investing+books&tag=priscadezigns-20' style='display:inline-block; margin-top:15px; font-size:0.7rem; font-weight:800; color:var(--primary); text-decoration:none; border-bottom:1px solid var(--primary);'>SHOP THE SIGNAL &rarr;</a></article><article class='news-card'><span class='category-tag'>RealEstate | Jun 12, 2026 | 09:00 AM AST</span><h3><a href='realestate.html'>Veteran housing policy needs a preservation strategy </a></h3><p>High-fidelity sector signal tracking market performance and institutional development.</p><a href='https://www.amazon.com/s?k=real+estate+investing+books&tag=priscadezigns-20' style='display:inline-block; margin-top:15px; font-size:0.7rem; font-weight:800; color:var(--primary); text-decoration:none; border-bottom:1px solid var(--primary);'>SHOP THE SIGNAL &rarr;</a></article><article class='news-card'><span class='category-tag'>Anime | Jun 12, 2026 | 09:00 AM AST</span><h3><a href='anime.html'>Trending: Tongari Boushi no Atelier leads Seasonal Viewership.</a></h3><p>Tongari Boushi no Atelier is currently dominating the seasonal charts with a score of 8.7. Production quality remains high-fidelity.</p><a href='https://www.amazon.com/s?k=anime+figures&tag=priscadezigns-20' style='display:inline-block; margin-top:15px; font-size:0.7rem; font-weight:800; color:var(--primary); text-decoration:none; border-bottom:1px solid var(--primary);'>SHOP THE SIGNAL &rarr;</a></article></main>
+        <main>
+            <article class='lead-story'>
+                <span class='category-tag'>World Geopolitics · Live Signal</span>
+                <h2 id="news-geopolitics">Strategic Initiative: Regional Channels Evaluate Multilateral Mediation.</h2>
+                <img src='https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?q=80&w=2070&auto=format&fit=crop' alt='Geopolitics'>
+                <p>Omani Mediators Relay Tehran’s Formal Counteroffer to US as Geopolitical Risk premiums subside across major sectors.</p>
+            </article>
+
+            <h2 class="section-header">Neural Economy</h2>
+            <div class='secondary-grid'>
+                <article class='news-card'>
+                    <span class='category-tag'>Blockchain Intelligence</span>
+                    <h3 id="news-blockchain">SEC Finalizes Innovation Exemption for Tokenized Stocks.</h3>
+                    <img src='https://images.unsplash.com/photo-1639762681485-074b7f938ba0?q=80&w=2064&auto=format&fit=crop' alt='Blockchain'>
+                </article>
+                <article class='news-card'>
+                    <span class='category-tag'>Global Markets</span>
+                    <h3 id="news-markets">Institutional Inflow: Tech Infrastructure Bonds see Record Volume.</h3>
+                    <img src='https://images.unsplash.com/photo-1611974714024-463799738499?q=80&w=2070&auto=format&fit=crop' alt='Markets'>
+                </article>
+            </div>
+
+            <h2 class="section-header">Biohacking & Longevity</h2>
+            <div class='secondary-grid'>
+                <article class='news-card'>
+                    <span class='category-tag'>Neural Benchmarks</span>
+                    <h3 id="news-biohacking">Roche Obesity Drug outpaces Industry Targets in latest trials.</h3>
+                    <img src='https://images.unsplash.com/photo-1576086213369-97a306d36557?q=80&w=2080&auto=format&fit=crop' alt='Biohacking'>
+                </article>
+            </div>
+        </main>
+
         <aside>
-            <div class='sidebar-ad' style='background:#111; color:white; text-align:center; border:2px solid var(--primary);'>
-                <h4>SOVSYGNAL PRO</h4>
-                <p style='font-size:0.8rem; opacity:0.8;'>Institutional grade intelligence feeds. Real-time neural analysis.</p>
-                <a href='#' class='btn' style='background:var(--primary); color:white;'>Upgrade Now</a>
+            <h4>Empire Intelligence</h4>
+            <div class='ticker-item brand'>
+                <span>PRISCA DEZIGNS</span>
+                <p>Launch of 'Generative UI' framework for high-fidelity neural design.</p>
+            </div>
+            <div class='ticker-item brand'>
+                <span>PRISCION</span>
+                <p>Global expansion showcases luxury engineering at Mumbai Supercar Launch.</p>
+            </div>
+            <div class='ticker-item brand'>
+                <span>DREAMING ANIME</span>
+                <p>Grand Blue Dreaming Season 3 confirmed for July 2026 debut.</p>
+            </div>
+            <div class='ticker-item brand'>
+                <span>GLOW PROTOCOL</span>
+                <p>DNA-Skincare diagnostics reach 100% stable deployment status.</p>
             </div>
             
-    <div class='sidebar-ad' style='background:#fff; border:1px solid #ff9900; margin-bottom: 20px;'>
-        <img src='https://sktpjacowqaedddtrhuz.supabase.co/storage/v1/object/public/avatars/airpods_max.jpg' alt='AirPods Max' style='width:100%; margin-bottom:10px;'>
-        <h4>AirPods Max</h4>
-        <a href='https://www.amazon.com/dp/B08PZHYWJS?tag=priscadezigns-20' class='btn' style='background:#ff9900; color:#000;'>View on Amazon</a>
-    </div>
-    <div class='sidebar-ad' style='background:#000; color:white; border:1px solid #333;'>
-        <img src='https://m.media-amazon.com/images/I/71Y86x9mXUL._AC_SL1500_.jpg' alt='Trading Setup' style='width:100%; margin-bottom:10px;'>
-        <h4>Elite Setup</h4>
-        <p style='font-size:0.7rem; color:#aaa; margin-bottom:10px;'>Pro-grade ultrawide monitors for high-fidelity trading.</p>
-        <a href='https://www.amazon.com/s?k=ultrawide+monitor+34+inch&tag=priscadezigns-20' class='btn' style='background:white; color:black;'>Browse Setup</a>
-    </div>
-    
+            <div class='ad-space'>
+                <strong>PROCLAIM THE SIGNAL</strong>
+                <div class='ad-group'>
+                    <button class='btn-ad' onclick="openPayModal('Sovereign Ads Monthly', '$297')">Monthly Slot ($297)</button>
+                    <button class='btn-ad' onclick="openPayModal('Sovereign Ads Yearly', '$2,970')">Yearly Package ($2,970)</button>
+                </div>
+            </div>
+
+            <div class='empire-ad'>
+                <h5>Orcinos Intelligence</h5>
+                <p>Apex Intelligence for the sovereign architect. Build your own digital empire.</p>
+                <a href='https://orcinos.com/'>Enter the Hub →</a>
+            </div>
+
+            <div class='empire-ad' style='background: #D0021B;'>
+                <h5>The Way Made Known</h5>
+                <p>Analytical faith and archaeological evidence. Read the latest mission report.</p>
+                <a href='https://thewaymadeknown.com/'>Read Report →</a>
+            </div>
         </aside>
     </div>
+
     <footer>
-        <img src='assets/logos/sovereign_footer_logo.png' alt='Sovereign'>
-        <p>&copy; 2026 SOVSYGNAL &middot; PRISCA DEZIGNS EMPIRE MEDIA</p>
+        <img src='https://priscadezigns.org/logos/PRISCION_nav_logo_2026.png' alt='Prisca Dezigns' style='height: 40px; margin-bottom: 20px; filter: brightness(0) invert(1);'>
+        <p>&copy; 2026 SOVSYGNAL &middot; A PRISCA DEZIGNS EMPIRE MEDIA COMPANY</p>
     </footer>
+
+    <!-- Payment Modal -->
+    <div class="modal-overlay" id="payModal">
+      <div class="modal">
+        <span class="modal-close" onclick="closePayModal()">✕</span>
+        <div class="modal-tabs">
+          <button class="modal-tab active" onclick="togglePay('bank', this)">Bank</button>
+          <button class="modal-tab" onclick="togglePay('eth', this)">Crypto</button>
+          <button class="modal-tab" onclick="togglePay('intl', this)">PayPal</button>
+        </div>
+        <h3 id="modal-plan-name" style="font-size: 1.1rem; margin-bottom: 20px; color: #111;">Sovereign Ad Payment</h3>
+        <div id="pay-bank" class="pay-detail open">
+          <div style="background:#f0f7ff; padding:15px; border-radius:12px; border:1px solid #d0e4ff; margin-bottom: 15px;">
+              <p><strong>Account:</strong> 70580060002427728</p>
+              <p><strong>Type:</strong> Checking</p>
+            </div>
+          <p style="font-size:0.75rem; color:#666;">Ref: <span id="auto-ref-bank" style="font-weight:700; color:#1A1A1A;">[REF]</span></p>
+        </div>
+        <div id="pay-eth" class="pay-detail">
+          <p style="font-size:0.8rem;color:#666;margin-bottom:12px;">Settlement via USDT / ETH / BTC (ERC-20)</p>
+          <div style="background:#f8f9fa;padding:15px;border-radius:12px;border:1px solid #eee;word-break:break-all;font-family:monospace;font-size:0.8rem; position: relative;">
+            <span id="eth-addr">0xcef857e82c306b3d0f2db080e7794f4bb376049e</span>
+            <button class="modal-copy-btn" onclick="copyAddr('eth-addr', event)">Copy</button>
+          </div>
+          <p style="font-size:0.75rem;color:#999;margin-top:10px;">Ref: <span id="auto-ref-eth" style="font-weight:700; color:#1A1A1A;">[REF]</span></p>
+        </div>
+        <div id="pay-intl" class="pay-detail">
+          <a id="paypal-btn" href="#" class="btn-ad" style="display:block; text-align:center; margin-bottom:15px; width: 100%; text-decoration: none; padding: 15px;">Proceed to PayPal</a>
+          <p style="font-size:0.75rem;color:#999;margin-top:10px;">Ref: <span id="auto-ref-intl" style="font-weight:700; color:#1A1A1A;">[REF]</span></p>
+        </div>
+      </div>
+    </div>
+
+    <script src="signal_engine.js"></script>
+    <script>
+    function openPayModal(plan, type) {
+      var el = document.getElementById('modal-plan-name');
+      if (el) el.textContent = plan + (type && type !== plan ? ' — ' + type : '');
+      var modal = document.getElementById('payModal');
+      if (modal) { modal.style.display = 'flex'; document.body.style.overflow = 'hidden'; }
+      var ref = plan.replace(/[^A-Z0-9]/gi,'').toUpperCase().slice(0,6) + '-' + Date.now().toString(36).toUpperCase().slice(-4);
+      ['bank','eth','intl'].forEach(function(k){ var el2=document.getElementById('auto-ref-'+k); if(el2) el2.textContent=ref; });
+      var ppBtn = document.getElementById('paypal-btn');
+      if (ppBtn) {
+        var rawAmt = type.replace(/[^0-9.]/g,'');
+        var itemName = encodeURIComponent(plan);
+        var base = 'https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=priscadezigns9%40gmail.com&currency_code=USD';
+        ppBtn.href = base + '&item_name=' + itemName + (rawAmt ? '&amount=' + rawAmt : '');
+      }
+      if (type==='PayPal') togglePay('intl');
+      else if (type==='Web3'||type==='Crypto') togglePay('eth');
+      else togglePay('bank');
+    }
+    function closePayModal() {
+      var modal = document.getElementById('payModal');
+      if (modal) { modal.style.display='none'; document.body.style.overflow=''; }
+    }
+    function togglePay(tab) {
+      document.querySelectorAll('.pay-detail').forEach(function(d){ d.classList.remove('open'); });
+      document.querySelectorAll('.modal-tab').forEach(function(b){ b.classList.remove('active'); });
+      var el=document.getElementById('pay-'+tab); if(el) el.classList.add('open');
+      var ab=document.querySelector('.modal-tab[onclick*="' + tab + '"]'); if(ab) ab.classList.add('active');
+    }
+    function copyAddr(id, ev) {
+      var el=document.getElementById(id);
+      if(el) navigator.clipboard.writeText(el.textContent).then(function(){
+        var btn=ev?ev.target:null;
+        if(btn){var orig=btn.textContent;btn.textContent='Copied!';setTimeout(function(){btn.textContent=orig;},1800);}
+      });
+    }
+    document.addEventListener('DOMContentLoaded',function(){
+      var mo=document.getElementById('payModal');
+      if(mo) mo.addEventListener('click',function(e){if(e.target===mo)closePayModal();});
+    });
+    </script>
 </body>
 </html>
