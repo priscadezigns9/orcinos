@@ -1,5 +1,5 @@
-/*
-    ORCPULSE | Neural News Engine v1.2
+/* 
+    ORCPULSE | Neural News Engine v1.3
     (c) 2026 Orcinos AI Labs
     Autonomous High-Fidelity Pulse Processing
 */
@@ -81,25 +81,27 @@ const PulseEngine = {
     },
 
     updateSectors() {
+        const sectorKeys = Object.keys(this.sectors);
+        let index = 0;
         setInterval(() => {
-            Object.keys(this.sectors).forEach(sector => {
-                const el = document.getElementById(`news-${sector}`);
-                if (el) {
-                    el.style.opacity = 0;
-                    setTimeout(() => {
-                        el.innerText = this.sectors[sector][Math.floor(Math.random() * this.sectors[sector].length)];
-                        el.style.opacity = 1;
-                    }, 500);
-                }
-            });
-        }, 12000);
+            const sector = sectorKeys[index % sectorKeys.length];
+            const el = document.getElementById(`news-${sector}`);
+            if (el) {
+                el.style.opacity = 0;
+                setTimeout(() => {
+                    el.innerText = this.sectors[sector][Math.floor(Math.random() * this.sectors[sector].length)];
+                    el.style.opacity = 1;
+                }, 500);
+            }
+            index++;
+        }, 4000); // Fluid rotation every 4s
     },
 
     updateAds() {
         const brandAds = document.querySelectorAll('.ticker-item.brand');
         if (brandAds.length > 0) {
-            setInterval(() => {
-                brandAds.forEach((ad) => {
+            brandAds.forEach((ad, idx) => {
+                setInterval(() => {
                     const randomAd = this.ads[Math.floor(Math.random() * this.ads.length)];
                     const span = ad.querySelector('span');
                     const p = ad.querySelector('p');
@@ -111,8 +113,8 @@ const PulseEngine = {
                             ad.style.opacity = 1;
                         }, 500);
                     }
-                });
-            }, 15000);
+                }, 10000 + (idx * 2000)); // Staggered rotation
+            });
         }
     },
 
@@ -123,27 +125,39 @@ const PulseEngine = {
         messenger.id = 'orc-messenger';
         messenger.style = `
             position: fixed; bottom: 30px; right: 30px;
-            width: 350px; height: 500px;
+            width: min(350px, 90vw); height: 500px;
             background: white; border: 4px solid black;
             box-shadow: 0 20px 50px rgba(0,0,0,0.3);
             z-index: 5000; display: flex; flex-direction: column;
-            font-family: 'Inter', sans-serif; transition: transform 0.3s ease;
+            font-family: 'Inter', sans-serif; transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         `;
 
         messenger.innerHTML = `
-            <div style="background: black; color: white; padding: 15px; font-weight: 800; font-size: 0.75rem; letter-spacing: 2px; display: flex; justify-content: space-between; align-items: center;">
+            <div style="background: black; color: white; padding: 15px; font-weight: 800; font-size: 0.75rem; letter-spacing: 2px; display: flex; justify-content: space-between; align-items: center; cursor: pointer;" onclick="toggleMessenger()">
                 <span>NEURAL DESK | ORCPULSE</span>
-                <span style="cursor: pointer;" onclick="this.parentElement.parentElement.style.transform='translateY(calc(100% - 40px))'">_</span>
+                <span id="msg-toggle-icon">_</span>
             </div>
-            <div id="chat-stream" style="flex: 1; padding: 20px; overflow-y: auto; font-size: 0.85rem; line-height: 1.4; color: #333;">
+            <div id="chat-stream" style="flex: 1; padding: 20px; overflow-y: auto; font-size: 0.85rem; line-height: 1.4; color: #333; background: #fff;">
                 <div style="margin-bottom: 15px;"><strong>SYSTEM:</strong> Neural handshake established. Sector parity confirmed.</div>
             </div>
-            <div style="padding: 15px; border-top: 1px solid #eee;">
+            <div style="padding: 15px; border-top: 1px solid #eee; background: #fff;">
                 <input type="text" placeholder="Type a command..." style="width: 100%; border: 2px solid #000; padding: 10px; font-family: inherit; font-size: 0.8rem; outline: none;">
             </div>
         `;
 
         document.body.appendChild(messenger);
+
+        window.toggleMessenger = () => {
+            const m = document.getElementById('orc-messenger');
+            const icon = document.getElementById('msg-toggle-icon');
+            if (m.style.transform === 'translateY(calc(100% - 45px))') {
+                m.style.transform = 'translateY(0)';
+                icon.innerText = '_';
+            } else {
+                m.style.transform = 'translateY(calc(100% - 45px))';
+                icon.innerText = '^';
+            }
+        };
 
         const stream = document.getElementById('chat-stream');
         setInterval(() => {
@@ -157,7 +171,7 @@ const PulseEngine = {
             stream.appendChild(msg);
             setTimeout(() => msg.style.opacity = 1, 10);
             stream.scrollTop = stream.scrollHeight;
-            if (stream.children.length > 15) stream.removeChild(stream.firstChild);
+            if (stream.children.length > 20) stream.removeChild(stream.firstChild);
         }, 8000);
     }
 };
