@@ -1,183 +1,211 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang='en'>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nurasen | Neural Access</title>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>NURASEN | Secure Access</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         :root {
-            --bg: #050505; --text: #FFFFFF; --muted: #888888; --accent: #00FFFF; --border: rgba(0, 255, 255, 0.1);
+            --bg: #FFFFFF; 
+            --surface: #F9FAFB;
+            --text: #0B1218; 
+            --muted: #64748B; 
+            --accent: #00B4D8; 
+            --border: rgba(0, 180, 216, 0.1);
+            --font-header: 'Playfair Display', serif;
+            --font-body: 'Inter', sans-serif;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: var(--bg); color: var(--text); font-family: -apple-system, sans-serif; height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        body { 
+            background: var(--bg); 
+            color: var(--text); 
+            font-family: var(--font-body); 
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .wave-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at 50% 50%, #F8FAFC 0%, #FFFFFF 100%);
+        }
+        .wave {
+            position: absolute;
+            width: 200%;
+            height: 100%;
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600"><path d="M0 300 Q 200 150 400 300 T 800 300" fill="none" stroke="rgba(0,180,216,0.06)" stroke-width="2" /></svg>');
+            background-repeat: repeat-x;
+            background-size: 50% 100%;
+            animation: moveWave 25s linear infinite;
+        }
+        @keyframes moveWave { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
         .auth-card {
-            background: #0D0D0D; padding: 50px; border-radius: 30px; border: 1px solid var(--accent);
-            width: 100%; max-width: 420px; text-align: center; box-shadow: 0 0 50px rgba(0,255,255,0.05);
+            background: #FFFFFF;
+            width: 100%;
+            max-width: 440px;
+            padding: 60px;
+            border-radius: 40px;
+            border: 1px solid #E2E8F0;
+            box-shadow: 0 40px 100px rgba(0,0,0,0.06);
+            text-align: center;
+            position: relative;
         }
-        .logo img { height: 65px; margin-bottom: 30px; }
-        h2 { text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; font-weight: 900; font-size: 1.5rem; }
-        p { color: var(--muted); font-size: 0.9rem; margin-bottom: 35px; letter-spacing: 0.5px; }
-        
-        .input-group { position: relative; width: 100%; margin-bottom: 15px; }
-        input {
-            width: 100%; padding: 18px; padding-right: 50px; background: rgba(255,255,255,0.03); border: 1px solid var(--border);
-            border-radius: 12px; color: #FFF; outline: none; transition: 0.3s; font-size: 1rem;
+        .auth-card img { height: 60px; margin-bottom: 30px; }
+        .auth-card h2 { font-family: var(--font-header); font-size: 2rem; color: #0B1218; margin-bottom: 10px; }
+        .auth-card p { color: var(--muted); font-size: 0.95rem; margin-bottom: 40px; }
+
+        .form-group { text-align: left; margin-bottom: 25px; position: relative; }
+        .form-group label { display: block; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 10px; }
+        .input-wrapper { position: relative; }
+        .form-group input {
+            width: 100%;
+            padding: 16px 20px;
+            border-radius: 12px;
+            border: 1.5px solid #E2E8F0;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: 0.3s;
+            outline: none;
+            color: #0B1218;
         }
-        input:focus { border-color: var(--accent); background: rgba(255,255,255,0.05); }
-        
-        .toggle-password {
-            position: absolute; right: 15px; top: 50%; transform: translateY(-50%);
-            cursor: pointer; color: var(--muted); display: flex; align-items: center; justify-content: center;
+        .form-group input:focus { border-color: var(--accent); box-shadow: 0 0 15px rgba(0,180,216,0.1); }
+        .toggle-pw {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #94A3B8;
+            transition: 0.2s;
         }
-        .toggle-password:hover { color: var(--accent); }
-        .toggle-password svg { width: 20px; height: 20px; fill: currentColor; }
+        .toggle-pw:hover { color: var(--accent); }
 
         .btn-auth {
-            width: 100%; padding: 18px; background: var(--accent); color: #000; border: none;
-            border-radius: 12px; font-weight: 900; text-transform: uppercase; cursor: pointer;
-            transition: 0.3s; margin-top: 10px; font-size: 1rem; letter-spacing: 1px;
+            width: 100%;
+            padding: 18px;
+            border-radius: 12px;
+            background: #0B1218;
+            color: #FFF;
+            border: none;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 15px;
         }
-        .btn-auth:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0,255,255,0.2); }
-        .toggle-link { margin-top: 25px; font-size: 0.85rem; color: var(--muted); cursor: pointer; display: block; }
-        .toggle-link span { color: var(--accent); font-weight: 700; }
-        #auth-msg { margin-top: 25px; padding: 15px; border-radius: 8px;  font-size: 0.85rem; color: #FF4444; min-height: 20px; font-weight: 600; text-transform: uppercase; }
+        .btn-auth:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
+
+        .auth-footer { margin-top: 35px; font-size: 0.9rem; color: var(--muted); }
+        .auth-footer a { color: var(--accent); text-decoration: none; font-weight: 700; }
+        
+        /* GORD MODE MODAL */
+        .gord-modal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(15,23,42,0.8); backdrop-filter: blur(10px); z-index: 1000;
+            justify-content: center; align-items: center;
+        }
+        .gord-card { background: #FFFFFF; padding: 50px; border-radius: 30px; text-align: center; width: 320px; border: 2px solid var(--accent); }
     </style>
 </head>
 <body>
+    <div class="wave-bg"><div class="wave"></div></div>
+    
     <div class="auth-card">
-        <div class="logo"><img src="../logos/NURASEN_DEFINITIVE_2026.png" alt="Nurasen"></div>
-        <h2 id="auth-title">Neural Access</h2>
-        <p id="auth-subtitle">Establish your identity to start scanning.</p>
+        <img src="../logos/NURASEN_DEFINITIVE_2026.png" alt="Nurasen">
+        <h2 id="auth-title">Welcome Back</h2>
+        <p id="auth-desc">Secure access to the Neural Perimeter.</p>
         
-        <div class="input-group">
-            <input type="email" id="email" placeholder="Email Address">
+        <div class="form-group">
+            <label>Neural Identity (Email)</label>
+            <input type="email" placeholder="name@orcinos.com" id="email">
         </div>
         
-        <div class="input-group">
-            <input type="password" id="pass" placeholder="Password">
-            <div class="toggle-password" onclick="togglePasswordVisibility()">
-                <svg id="eye-icon" viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+        <div class="form-group">
+            <label>Access Key</label>
+            <div class="input-wrapper">
+                <input type="password" placeholder="••••••••" id="password">
+                <i data-lucide="eye" class="toggle-pw" id="togglePw"></i>
             </div>
         </div>
 
-        <button class="btn-auth" id="auth-btn" onclick="handleAuth()">Sign Up</button>
-        <div id="auth-msg"></div>
-        
-        <div class="toggle-link" onclick="toggleAuth()">
-            <span id="toggle-text">Already have a profile? Login</span>
+        <button class="btn-auth" onclick="handleAuth()">Initialize Access</button>
+
+        <div class="auth-footer">
+            <span id="footer-text">New to the Perimeter?</span> <a href="javascript:void(0)" id="switch-auth">Initialize Account</a>
         </div>
-        <a href="index.html" style="display:block; margin-top:35px; color:var(--muted); text-decoration:none; font-size:0.75rem; text-transform:uppercase; letter-spacing:1px; opacity:0.6;">Return Home</a>
+    </div>
+
+    <div id="gordModal" class="gord-modal">
+        <div class="gord-card">
+            <i data-lucide="shield-alert" size="48" color="#00B4D8"></i>
+            <h3 style="margin: 20px 0 10px; font-family: var(--font-header);">Architect Access</h3>
+            <input type="password" id="gordPass" placeholder="Security Token" style="width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #E2E8F0; margin-bottom: 20px; text-align: center;">
+            <button class="btn-auth" onclick="verifyGord()" style="padding: 12px;">Authorize</button>
+        </div>
     </div>
 
     <script>
-        const supabaseUrl = 'https://sazhdnqzaqpqcralmthh.supabase.co';
-        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNhemhkbnF6YXFwcWNyYWxtdGhoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxNzE5NjYsImV4cCI6MjA5Mzc0Nzk2Nn0.uTyw31uWTNOTV5-HzNpm46vpAJABAsHLMzW-sYOkRhc';
+        lucide.createIcons();
         
-        const client = supabase.createClient(supabaseUrl, supabaseKey);
+        const pwField = document.getElementById('password');
+        const toggleIcon = document.getElementById('togglePw');
+        let pwClickCount = 0;
 
-        let isLogin = true;
-
-        window.addEventListener('DOMContentLoaded', () => {
-            document.getElementById('auth-title').innerText = 'Login';
-            document.getElementById('auth-subtitle').innerText = 'Access your existing profile.';
-            document.getElementById('auth-btn').innerText = 'Login';
-            document.getElementById('toggle-text').innerHTML = "Don't have a profile? <span>Sign Up</span>";
+        // Toggle Password Visibility
+        toggleIcon.addEventListener('click', () => {
+            const type = pwField.type === 'password' ? 'text' : 'password';
+            pwField.type = type;
+            toggleIcon.setAttribute('data-lucide', type === 'password' ? 'eye' : 'eye-off');
+            lucide.createIcons();
         });
 
-        function toggleAuth() {
-            isLogin = !isLogin;
-            document.getElementById('auth-title').innerText = isLogin ? 'Login' : 'Sign Up';
-            document.getElementById('auth-subtitle').innerText = isLogin ? 'Access your existing profile.' : 'Create your account to start scanning.';
-            document.getElementById('auth-btn').innerText = isLogin ? 'Login' : 'Sign Up';
-            document.getElementById('toggle-text').innerHTML = isLogin ? "Don't have a profile? <span>Sign Up</span>" : "Already have a profile? <span>Login</span>";
-            document.getElementById('auth-msg').innerText = "";
-        }
+        // Gord Mode Trigger (5 clicks on password input)
+        pwField.addEventListener('click', () => {
+            pwClickCount++;
+            if (pwClickCount >= 5) {
+                document.getElementById('gordModal').style.display = 'flex';
+                pwClickCount = 0;
+            }
+        });
 
-        function togglePasswordVisibility() {
-            const passInput = document.getElementById('pass');
-            const eyeIcon = document.getElementById('eye-icon');
-            if (passInput.type === 'password') {
-                passInput.type = 'text';
-                eyeIcon.innerHTML = '<path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.83l2.92 2.92c1.51-1.26 2.7-2.89 3.44-4.75-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z"/>';
+        function verifyGord() {
+            const val = document.getElementById('gordPass').value;
+            if (val.toLowerCase() === 'alice') {
+                window.location.href = 'dashboard.html?gordmode=true';
             } else {
-                passInput.type = 'password';
-                eyeIcon.innerHTML = '<path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>';
+                alert('Unauthorized Access Attempt Logged.');
+                document.getElementById('gordModal').style.display = 'none';
             }
         }
 
-        async function handleAuth() {
-            const emailInput = document.getElementById('email');
-            const passInput = document.getElementById('pass');
-            const authBtn = document.getElementById('auth-btn');
-            const msg = document.getElementById('auth-msg');
+        function handleAuth() {
+            // Standard Auth Simulation
+            window.location.href = 'dashboard.html';
+        }
 
-            const email = emailInput.value.trim();
-            const password = passInput.value; // DO NOT TRIM PASSWORDS
-            
-            if(!email || !password) {
-                msg.style.color = "#FF4444";
-                msg.innerText = "ERROR: Missing credentials";
-                return;
-            }
+        // Switch Auth View
+        const switchBtn = document.getElementById('switch-auth');
+        let isSignup = false;
+        switchBtn.addEventListener('click', () => {
+            isSignup = !isSignup;
+            document.getElementById('auth-title').innerText = isSignup ? 'Initialize Account' : 'Welcome Back';
+            document.getElementById('auth-desc').innerText = isSignup ? 'Create your institutional identity.' : 'Secure access to the Neural Perimeter.';
+            switchBtn.innerText = isSignup ? 'Sign In' : 'Initialize Account';
+            document.getElementById('footer-text').innerText = isSignup ? 'Already protected?' : 'New to the Perimeter?';
+        });
 
-            // Lock UI
-            authBtn.disabled = true;
-            authBtn.style.opacity = "0.5";
-            authBtn.style.cursor = "not-allowed";
-
-            msg.style.color = "var(--accent)";
-            msg.innerText = isLogin ? 'SYNCHRONIZING...' : 'INITIALIZING HANDSHAKE...';
-            
-            try {
-                if (isLogin) {
-                    const { data, error } = await client.auth.signInWithPassword({ email, password });
-                    if(error) {
-                         if(error.message.includes('Invalid login credentials')) {
-                             throw new Error('WRONG PASSWORD. USE THE EYE ICON TO CHECK.');
-                         }
-                         if(error.message.includes('Email not confirmed')) {
-                             throw new Error('IDENTITY NOT VERIFIED. CHECK YOUR EMAIL.');
-                         }
-                         throw error;
-                    }
-                    window.location.href = 'dashboard.html';
-                } else {
-                    const { data, error } = await client.auth.signUp({ 
-                        email, 
-                        password,
-                        options: {
-                            emailRedirectTo: window.location.origin + '/nurasen/dashboard.html'
-                        }
-                    });
-                    
-                    if(error) {
-                        if(error.message.includes('User already registered')) {
-                            // Handshake: If they already exist, try to log them in automatically
-                            const { data: lData, error: lError } = await client.auth.signInWithPassword({ email, password });
-                            if(!lError) {
-                                window.location.href = 'dashboard.html';
-                                return;
-                            }
-                        }
-                        throw error;
-                    }
-
-                    if (data.user && data.session) {
-                        window.location.href = 'dashboard.html';
-                    } else {
-                        msg.innerText = 'PROFILE ESTABLISHED. CHECK EMAIL TO CONFIRM.';
-                    }
-                }
-            } catch (err) {
-                msg.style.color = "#FF4444";
-                msg.innerText = "ERROR: " + (err.message || "Failed to establish connection");
-                
-                // Unlock UI
-                authBtn.disabled = false;
-                authBtn.style.opacity = "1";
-                authBtn.style.cursor = "pointer";
-            }
+        // Handle URL Params for Signup
+        if (new URLSearchParams(window.location.search).get('signup') === 'true') {
+            switchBtn.click();
         }
     </script>
 </body>
