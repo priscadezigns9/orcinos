@@ -4,16 +4,16 @@
     <meta charset='UTF-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
     <title>SOVSYGNAL | Stocks</title>
-    <meta name='description' content='SOVSYGNAL - Global Intelligence Hub.'>
+    <meta name='description' content='SOVSYGNAL - Global Intelligence Hub. High-fidelity geopolitical, financial, and technological signals.'>
     <link rel="icon" type="image/png" href="assets/logos/sovereign_favicon.png">
     <link rel='preconnect' href='https://fonts.googleapis.com'>
     <link href='https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;600;800&display=swap' rel='stylesheet'>
     <style>
         :root { --primary: #8B0000; --bg: #F9F9F9; --text: #1A1A1A; --accent: #111; --font-heading: 'Playfair Display', serif; --font-body: 'Inter', sans-serif; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: var(--bg); color: var(--text); font-family: var(--font-body); line-height: 1.6; overflow-x: hidden; }
+        body { background: var(--bg); color: var(--text); font-family: var(--font-body); line-height: 1.6; overflow-x: hidden; min-height: 100vh; }
         
-        .ticker-wrap { width: 100%; overflow: hidden; background: #000; color: #fff; padding: 12px 0; border-bottom: 2px solid var(--primary); }
+        .ticker-wrap { width: 100%; overflow: hidden; background: #000; color: #fff; padding: 12px 0; border-bottom: 2px solid var(--primary); z-index: 1001; position: relative; }
         .ticker { display: inline-block; white-space: nowrap; padding-right: 100%; animation: ticker 240s linear infinite; }
         @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
         .ticker-item { display: inline-block; padding: 0 40px; font-weight: 800; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px; }
@@ -26,31 +26,35 @@
         
         nav { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; border-top: 1px solid #eee; padding-top: 15px; align-items: center; }
         nav a { text-decoration: none; color: #000; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
-        nav a:hover, nav a.active { color: var(--primary); }
+        nav a:hover, nav a.active { color: var(--primary); border-bottom: 2px solid var(--primary); }
         
-        .main-container { display: grid; grid-template-columns: 1fr 350px; gap: 60px; padding: 40px 6%; max-width: 1500px; margin: 0 auto; min-height: 80vh; position: relative; }
-        @media (max-width: 1100px) { .main-container { grid-template-columns: 1fr; } .sidebar { position: relative !important; top: 0 !important; width: 100% !important; } }
-        .category-tag { color: var(--primary); font-weight: 800; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; display: block; }
+        .main-container { display: grid; grid-template-columns: 1fr 350px; gap: 60px; padding: 40px 6%; max-width: 1500px; margin: 0 auto; min-height: 1200px; position: relative; }
+        @media (max-width: 1100px) { .main-container { grid-template-columns: 1fr; min-height: auto; } .sidebar { position: relative !important; top: 0 !important; width: 100% !important; } }
+        
+        .category-tag { color: var(--primary); font-weight: 800; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; display: block; border-left: 4px solid var(--primary); padding-left: 10px; }
         
         .news-card { margin-bottom: 60px; border-bottom: 1px solid #ddd; padding-bottom: 40px; }
         .news-card h3 { font-family: var(--font-heading); font-size: 2rem; line-height: 1.2; margin-bottom: 15px; }
         .news-card h3 a { color: #000; text-decoration: none; }
         .news-card p { font-size: 1rem; color: #444; max-width: 800px; }
         
-        .sidebar { position: sticky; top: 160px; height: fit-content; align-self: start; }
-        .sidebar-block { background: #fff; border: 1px solid #ddd; padding: 25px; margin-bottom: 30px; border-radius: 4px; }
+        .sidebar { position: sticky; top: 180px; height: fit-content; align-self: start; display: block !important; }
+        .sidebar-block { background: #fff; border: 1px solid #ddd; padding: 25px; margin-bottom: 30px; border-radius: 4px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
         .sidebar-block h4 { font-family: var(--font-heading); font-size: 1.2rem; margin-bottom: 15px; text-transform: uppercase; }
-        .sidebar-ad img { width: 100%; border-radius: 4px; margin-bottom: 15px; }
-        .btn { display: block; text-align: center; padding: 12px; text-decoration: none; font-weight: 800; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; border-radius: 4px; }
+        .sidebar-ad img { width: 100%; border-radius: 4px; margin-bottom: 15px; display: block; }
+        .btn { display: block; text-align: center; padding: 12px; text-decoration: none; font-weight: 800; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; border-radius: 4px; transition: 0.3s; }
+        .btn:hover { opacity: 0.8; transform: translateY(-2px); }
 
-        footer { background: #000; color: #fff; padding: 60px 6%; text-align: center; margin-top: 80px; }
+        footer { background: #000; color: #fff; padding: 60px 6%; text-align: center; margin-top: 80px; position: relative; z-index: 10; }
         footer img { width: 150px; margin-bottom: 20px; }
         footer p { font-size: 0.7rem; letter-spacing: 2px; opacity: 0.6; }
+        
+        .source-tag { font-size: 0.65rem; text-transform: uppercase; font-weight: 900; background: #eee; padding: 4px 8px; display: inline-block; margin: 10px 0; letter-spacing: 1px; }
     </style>
 </head>
 <body>
     <div class='ticker-wrap'>
-        <div class='ticker'><div class='ticker-item'><span>GEOPOLITICS</span> Market Stability: Institutional Flows Maintain Resilience.</div><div class='ticker-item'><span>BLOCKCHAIN</span> Market Stability: Institutional Flows Maintain Resilience.</div><div class='ticker-item'><span>BIOHACKING</span> Market Stability: Institutional Flows Maintain Resilience.</div><div class='ticker-item'><span>MARKETS</span> Market Stability: Institutional Flows Maintain Resilience.</div><div class='ticker-item'><span>LIFESTYLE</span> Market Stability: Institutional Flows Maintain Resilience.</div><div class='ticker-item'><span>INTELLIGENCE</span> Market Stability: Institutional Flows Maintain Resilience.</div><div class='ticker-item'><span>FOREX</span> Market Stability: Institutional Flows Maintain Resilience.</div><div class='ticker-item'><span>STOCKS</span> Market Stability: Institutional Flows Maintain Resilience.</div><div class='ticker-item'><span>REALESTATE</span> Market Stability: Institutional Flows Maintain Resilience.</div><div class='ticker-item'><span>ANIME</span> Market Stability: Institutional Flows Maintain Resilience.</div></div>
+        <div class='ticker'><div class='ticker-item'><span>GEOPOLITICS</span> Jim Cramer's top 10 things to watch in the stock market Friday</div><div class='ticker-item'><span>BLOCKCHAIN</span> UK economy began to feel fallout from Iran war in April, data shows - Reuters</div><div class='ticker-item'><span>BIOHACKING</span> Rupee rallies as oil slump sparks unwinding of dollar longs - Reuters</div><div class='ticker-item'><span>MARKETS</span> Honeywell CEO says AI will 'redefine automation' as labor shortages mount</div><div class='ticker-item'><span>LIFESTYLE</span> Iran players conduct first open practice at Tijuana camp - Reuters</div><div class='ticker-item'><span>INTELLIGENCE</span> Trump says 'great' Iran settlement will trigger opening of Strait of Hormuz - Reuters</div><div class='ticker-item'><span>FOREX</span> Intel soars on double upgrade from BofA. Here's what Jim Cramer says investors must do</div><div class='ticker-item'><span>STOCKS</span> Trump cancels strikes against Iran planned for Thursday evening - Reuters</div><div class='ticker-item'><span>REALESTATE</span> US plans to deport Iranians to Central African Republic, sources say - Reuters</div><div class='ticker-item'><span>ANIME</span> Iran war adds to AI boom as demand for gas turbines rises further, Siemens Energy says - Reuters</div></div>
     </div>
     <header>
         <h1><a href='index.html'>SOVSYGNAL</a></h1>
@@ -70,23 +74,24 @@
         </nav>
     </header>
     <div class='main-container'>
-        <main><div style='display:grid; grid-template-columns:repeat(auto-fit, minmax(150px, 1fr)); gap:15px; margin-bottom:40px;'><div style='background:#111; padding:20px; border-radius:4px; text-align:center;'><div style='color:#888; font-size:0.7rem; font-weight:800;'>AAPL</div><div style='color:#fff; font-size:1.5rem; font-weight:900;'>$200.00</div></div><div style='background:#111; padding:20px; border-radius:4px; text-align:center;'><div style='color:#888; font-size:0.7rem; font-weight:800;'>TSLA</div><div style='color:#fff; font-size:1.5rem; font-weight:900;'>$200.00</div></div><div style='background:#111; padding:20px; border-radius:4px; text-align:center;'><div style='color:#888; font-size:0.7rem; font-weight:800;'>NVDA</div><div style='color:#fff; font-size:1.5rem; font-weight:900;'>$200.00</div></div><div style='background:#111; padding:20px; border-radius:4px; text-align:center;'><div style='color:#888; font-size:0.7rem; font-weight:800;'>MSFT</div><div style='color:#fff; font-size:1.5rem; font-weight:900;'>$200.00</div></div></div><section style='border-bottom: 2px solid #eee; padding-bottom: 40px; margin-bottom: 40px;'><span class='category-tag'>Signal | Jun 12, 2026 | 09:43 AM AST</span><h2 style='font-family: var(--font-heading); font-size: 2.5rem;'>Market Stability: Institutional Flows Maintain Resilience.</h2><div class='source-tag' style='font-size:0.7rem; text-transform:uppercase; font-weight:800; margin:10px 0;'>Source: Internal</div><p>Signal active.</p><a href='https://www.amazon.com/s?k=stocks+gear&tag=priscadezigns-20' style='display:inline-block; margin-top:20px; padding:10px 25px; background:black; color:white; font-size:0.7rem; font-weight:800; text-decoration:none; letter-spacing:1px;'>SHOP THE SIGNAL</a></section></main>
+        <main><div style='display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:20px; margin-bottom:60px;'><div style='background:#111; padding:25px; border-radius:4px; text-align:center; border-bottom: 4px solid #F44336;'><div style='color:#888; font-size:0.75rem; font-weight:800; margin-bottom:5px;'>AAPL</div><div style='color:#fff; font-size:1.8rem; font-weight:900;'>$290.60</div><div style='color:#F44336; font-size:0.8rem; font-weight:800;'>-1.7015%</div></div><div style='background:#111; padding:25px; border-radius:4px; text-align:center; border-bottom: 4px solid #F44336;'><div style='color:#888; font-size:0.75rem; font-weight:800; margin-bottom:5px;'>TSLA</div><div style='color:#fff; font-size:1.8rem; font-weight:900;'>$392.42</div><div style='color:#F44336; font-size:0.8rem; font-weight:800;'>-1.6861%</div></div><div style='background:#111; padding:25px; border-radius:4px; text-align:center; border-bottom: 4px solid #F44336;'><div style='color:#888; font-size:0.75rem; font-weight:800; margin-bottom:5px;'>NVDA</div><div style='color:#fff; font-size:1.8rem; font-weight:900;'>$204.06</div><div style='color:#F44336; font-size:0.8rem; font-weight:800;'>-0.3954%</div></div><div style='background:#111; padding:25px; border-radius:4px; text-align:center; border-bottom: 4px solid #F44336;'><div style='color:#888; font-size:0.75rem; font-weight:800; margin-bottom:5px;'>MSFT</div><div style='color:#fff; font-size:1.8rem; font-weight:900;'>$384.40</div><div style='color:#F44336; font-size:0.8rem; font-weight:800;'>-1.5218%</div></div></div><section class='news-card'><span class='category-tag'>Stocks | Jun 12, 2026 | 10:50 AM AST</span><h2 style='font-family: var(--font-heading); font-size: 2.8rem; line-height:1.1; margin-bottom:15px;'>Trump cancels strikes against Iran planned for Thursday evening - Reuters</h2><div class='source-tag'>Source: Reuters</div><p style='font-size:1.1rem; margin-top:10px;'>Trump cancels strikes against Iran planned for Thursday evening  Reuters</p><a href='https://www.amazon.com/s?k=stocks+gear&tag=priscadezigns-20' style='display:inline-block; margin-top:25px; padding:12px 30px; background:black; color:white; font-size:0.75rem; font-weight:800; text-decoration:none; letter-spacing:1px; border-radius:4px;'>SHOP THE SIGNAL</a></section><section class='news-card'><span class='category-tag'>Stocks | Jun 12, 2026 | 10:50 AM AST</span><h2 style='font-family: var(--font-heading); font-size: 2.8rem; line-height:1.1; margin-bottom:15px;'>Iranian attack on Kuwait airport caused injuries, serious damage, Kuwait aviation authority says - Reuters</h2><div class='source-tag'>Source: Reuters</div><p style='font-size:1.1rem; margin-top:10px;'>Iranian attack on Kuwait airport caused injuries, serious damage, Kuwait aviation authority says  Reuters</p><a href='https://www.amazon.com/s?k=stocks+gear&tag=priscadezigns-20' style='display:inline-block; margin-top:25px; padding:12px 30px; background:black; color:white; font-size:0.75rem; font-weight:800; text-decoration:none; letter-spacing:1px; border-radius:4px;'>SHOP THE SIGNAL</a></section><section class='news-card'><span class='category-tag'>Stocks | Jun 12, 2026 | 10:50 AM AST</span><h2 style='font-family: var(--font-heading); font-size: 2.8rem; line-height:1.1; margin-bottom:15px;'>US will receive a severe response if it attacks again, Iran's top joint military command says - Reuters</h2><div class='source-tag'>Source: Reuters</div><p style='font-size:1.1rem; margin-top:10px;'>US will receive a severe response if it attacks again, Iran's top joint military command says  Reuters</p><a href='https://www.amazon.com/s?k=stocks+gear&tag=priscadezigns-20' style='display:inline-block; margin-top:25px; padding:12px 30px; background:black; color:white; font-size:0.75rem; font-weight:800; text-decoration:none; letter-spacing:1px; border-radius:4px;'>SHOP THE SIGNAL</a></section></main>
         <aside class='sidebar'>
             <div class='sidebar-block' style='background: #111; color: white; border: 2px solid var(--primary);'>
-                <h4>SOVSYGNAL PRO</h4>
-                <p style='font-size:0.8rem; opacity:0.8; margin-bottom: 15px;'>Institutional grade intelligence feeds. Real-time neural analysis.</p>
+                <h4 style='color: var(--primary);'>SOVSYGNAL PRO</h4>
+                <p style='font-size:0.8rem; opacity:0.8; margin-bottom: 15px;'>Institutional grade intelligence feeds. Real-time neural analysis for sovereign entities.</p>
                 <a href='#' class='btn' style='background:var(--primary); color:white;'>Upgrade Now</a>
             </div>
             
     <div class='sidebar-block sidebar-ad'>
         <img src='https://sktpjacowqaedddtrhuz.supabase.co/storage/v1/object/public/avatars/airpods_max.jpg' alt='AirPods Max'>
         <h4>AirPods Max</h4>
+        <p style='font-size:0.75rem; color:#666; margin-bottom:10px;'>Ultimate fidelity for intelligence monitoring.</p>
         <a href='https://www.amazon.com/dp/B08PZHYWJS?tag=priscadezigns-20' class='btn' style='background:#ff9900; color:#000;'>View on Amazon</a>
     </div>
     <div class='sidebar-block sidebar-ad' style='background:#000; color:white;'>
         <img src='https://m.media-amazon.com/images/I/71Y86x9mXUL._AC_SL1500_.jpg' alt='Elite Setup'>
         <h4>Elite Setup</h4>
-        <p style='font-size:0.7rem; color:#aaa; margin-bottom:15px;'>Pro-grade ultrawide monitors for high-fidelity trading.</p>
+        <p style='font-size:0.7rem; color:#aaa; margin-bottom:15px;'>Sovereign-grade ultrawide displays.</p>
         <a href='https://www.amazon.com/s?k=ultrawide+monitor+34+inch&tag=priscadezigns-20' class='btn' style='background:white; color:black;'>Browse Setup</a>
     </div>
     
