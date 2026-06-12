@@ -6,6 +6,7 @@
     <title>NURASEN | Sentinel Control Center</title>
     <link rel="manifest" href="manifest.json">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
@@ -17,11 +18,11 @@
     </script>
     <style>
         :root {
-            --bg: #FFFFFF; /* PRISTINE WHITE BG - ARCHITECT MANDATE */
+            --bg: #FFFFFF; 
             --surface: #F9FAFB; 
             --text: #0B1218; 
             --muted: #64748B; 
-            --accent: #00B4D8; /* DEEP NEURAL CYAN */
+            --accent: #00B4D8; 
             --secondary: #FF6B00; 
             --border: rgba(0, 180, 216, 0.1);
             --font-header: 'Playfair Display', serif;
@@ -35,7 +36,6 @@
             line-height: 1.6; 
             overflow-x: hidden;
         }
-        /* NEURAL SIGNWAVE BACKGROUND - LIGHT MODE VIBRANCY */
         .wave-bg {
             position: fixed;
             top: 0;
@@ -56,13 +56,9 @@
             animation: moveWave 20s linear infinite;
         }
         .wave-2 { animation: moveWave 15s linear infinite reverse; opacity: 0.5; top: 100px; }
-        @keyframes moveWave {
-            from { transform: translateX(0); }
-            to { transform: translateX(-50%); }
-        }
+        @keyframes moveWave { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
         nav { background: rgba(255,255,255,0.9); padding: 15px 6%; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; backdrop-filter: blur(20px); }
-        .logo { filter: none; }
         .logo img { height: 70px; }
         
         .nav-btns { display: flex; align-items: center; gap: 15px; }
@@ -70,7 +66,6 @@
         .btn-home:hover { background: #0B1218; color: #FFF; }
         .tier-badge { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: #FFF; background: var(--accent); padding: 6px 15px; border-radius: 100px; border: none; box-shadow: 0 4px 15px rgba(0,180,216,0.2); }
 
-        /* DASHBOARD LAYOUT WITH SIDEBAR HUD */
         .dashboard-body { display: flex; min-height: 100vh; }
         
         .sidebar-hud { 
@@ -133,18 +128,22 @@
         td { padding: 25px 40px; border-bottom: 1px solid #F1F5F9; font-size: 0.95rem; color: #334155; }
         .status-tag { padding: 6px 14px; border-radius: 100px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; }
         .status-secure { background: #DCFCE7; color: #15803D; border: 1px solid #BBF7D0; }
+
+        .gord-console {
+            display: none; position: fixed; bottom: 30px; right: 30px; width: 400px; 
+            background: #0B1218; border-radius: 20px; padding: 25px; z-index: 5000;
+            color: #00FFFF; font-family: 'Courier New', monospace; font-size: 0.75rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4); border: 1px solid rgba(0,180,216,0.3);
+        }
+        .gord-header { display: flex; justify-content: space-between; margin-bottom: 15px; border-bottom: 1px solid rgba(0,180,216,0.2); padding-bottom: 10px; }
         
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15,23,42,0.6); backdrop-filter: blur(12px); z-index: 2000; justify-content: center; align-items: center; }
         .payment-modal { background: #FFFFFF; border: 1px solid #E2E8F0; width: 100%; max-width: 780px; padding: 60px; border-radius: 40px; position: relative; text-align: center; box-shadow: 0 40px 100px rgba(0,0,0,0.15); }
         .modal-close { position: absolute; top: 30px; right: 35px; color: #94A3B8; font-size: 2rem; cursor: pointer; transition: 0.2s; }
-        .modal-close:hover { color: #0F172A; }
     </style>
 </head>
 <body>
-    <div class="wave-bg">
-        <div class="wave"></div>
-        <div class="wave wave-2"></div>
-    </div>
+    <div class="wave-bg"><div class="wave"></div><div class="wave wave-2"></div></div>
     <nav>
         <div class="logo"><img src="../logos/NURASEN_DEFINITIVE_2026.png" alt="Nurasen"></div>
         <div class="nav-btns">
@@ -155,24 +154,12 @@
 
     <div class="dashboard-body">
         <aside class="sidebar-hud">
-            <a href="#" class="hud-item active">
-                <span>🛡️</span> Neural Home
-            </a>
-            <a href="#" class="hud-item">
-                <span>🔍</span> Advanced Scan
-            </a>
-            <a href="#" class="hud-item locked" onclick="openPayment()">
-                <span>📡</span> Neural Shield <span class="lock-tag">APEX</span>
-            </a>
-            <a href="#" class="hud-item locked" onclick="openPayment()">
-                <span>📧</span> Email Guard <span class="lock-tag">PRO</span>
-            </a>
-            <a href="#" class="hud-item locked" onclick="openPayment()">
-                <span>📱</span> Device Monitor <span class="lock-tag">PRO</span>
-            </a>
-            <a href="#" class="hud-item locked" onclick="openPayment()">
-                <span>💎</span> Identity Vault <span class="lock-tag">APEX</span>
-            </a>
+            <a href="#" class="hud-item active"><i data-lucide="layout-dashboard"></i> Neural Home</a>
+            <a href="#" class="hud-item"><i data-lucide="search"></i> Advanced Scan</a>
+            <a href="#" class="hud-item locked" onclick="openPayment()" id="shield-link"><i data-lucide="shield"></i> Neural Shield <span class="lock-tag">APEX</span></a>
+            <a href="#" class="hud-item locked" onclick="openPayment()" id="email-link"><i data-lucide="mail"></i> Email Guard <span class="lock-tag">PRO</span></a>
+            <a href="#" class="hud-item locked" onclick="openPayment()" id="device-link"><i data-lucide="smartphone"></i> Device Monitor <span class="lock-tag">PRO</span></a>
+            <a href="#" class="hud-item locked" onclick="openPayment()" id="vault-link"><i data-lucide="fingerprint"></i> Identity Vault <span class="lock-tag">APEX</span></a>
             <div style="margin-top: auto; padding: 20px; background: #F1F5F9; border-radius: 20px;">
                 <p style="font-size: 0.75rem; font-weight: 700; color: #64748B; text-transform: uppercase; margin-bottom: 5px;">Active Nodes</p>
                 <div style="font-size: 1.1rem; font-weight: 800; color: #0B1218;">14 Active</div>
@@ -181,14 +168,8 @@
 
         <main class="main-hud-content">
             <div class="dash-header">
-                <div class="dash-title">
-                    <p>Neural Cybersecurity Intelligence</p>
-                    <h1>Sentinel Control Center</h1>
-                </div>
-                <div class="heartbeat-container">
-                    <div class="pulse-dot"></div>
-                    <span id="heartbeat-text">Neural Heartbeat: STABLE | 12h Sync</span>
-                </div>
+                <div class="dash-title"><p>Neural Cybersecurity Intelligence</p><h1>Sentinel Control Center</h1></div>
+                <div class="heartbeat-container"><div class="pulse-dot"></div><span id="heartbeat-text">Neural Heartbeat: STABLE | 12h Sync</span></div>
             </div>
 
             <div class="stats-grid">
@@ -212,56 +193,81 @@
         </main>
     </div>
 
+    <div class="gord-console" id="gordConsole">
+        <div class="gord-header"><span>GORD_MODE // ARCHITECT_CONSOLE</span><span>v1.0.42</span></div>
+        <div id="gordLogs" style="height: 150px; overflow-y: auto;">
+            <div>> System Initialized in God Mode.</div>
+            <div>> All feature locks bypassed.</div>
+            <div>> Monitoring Node Health... OK</div>
+            <div>> Supabase Handshake... SUCCESS</div>
+        </div>
+    </div>
+
     <div id="paymentModal" class="modal-overlay">
         <div class="payment-modal">
             <div class="modal-close" onclick="closePayment()">×</div>
             <h2 style="font-family: var(--font-header); font-size: 2.2rem; font-weight: 700; margin-bottom: 10px; color: #0B1218;">Elite Neural Upgrade</h2>
-            <p style="color: var(--muted); margin-bottom: 40px; font-size: 1.1rem; font-weight: 500;">Choose your defense tier for the Nurasen network.</p>
-            
+            <p style="color: var(--muted); margin-bottom: 40px; font-size: 1.1rem; font-weight: 500;">Choose your defense tier.</p>
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 25px;">
-                <!-- PRO TIER -->
-                <div style="background: #F8FAFC; border: 1px solid #E2E8F0; padding: 35px; border-radius: 28px; text-align: left; transition: 0.3s;">
-                    <h3 style="font-size: 1.1rem; font-weight: 800; color: #0B1218; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px;">SENTINEL PRO</h3>
-                    <p style="font-size: 0.9rem; color: var(--muted); margin-bottom: 25px; line-height: 1.5;">1-hour Neural Scans & Pattern Recognition.</p>
-                    <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_xclick-subscriptions&business=priscadezigns9@gmail.com&item_name=Nurasen%20Pro%20Monthly&a3=9.99&p3=1&t3=M&src=1&currency_code=USD" target="_blank" style="display: block; background: #0B1218; color: #FFF; text-decoration: none; padding: 14px; border-radius: 12px; text-align: center; font-weight: 700; font-size: 0.9rem; margin-bottom: 12px;">Monthly ($9.99)</a>
-                    <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_xclick-subscriptions&business=priscadezigns9@gmail.com&item_name=Nurasen%20Pro%20Yearly&a3=99.90&p3=1&t3=Y&src=1&currency_code=USD" target="_blank" style="display: block; border: 2px solid #0B1218; color: #0B1218; text-decoration: none; padding: 14px; border-radius: 12px; text-align: center; font-weight: 700; font-size: 0.9rem;">Yearly ($99.90)</a>
+                <div style="background: #F8FAFC; border: 1px solid #E2E8F0; padding: 35px; border-radius: 28px; text-align: left;">
+                    <h3 style="font-size: 1.1rem; font-weight: 800; color: #0B1218; margin-bottom: 10px; text-transform: uppercase;">SENTINEL PRO</h3>
+                    <a href="#" class="btn-home" style="display: block; background: #0B1218; color: #FFF; text-align: center; margin-top: 20px;">Monthly ($9.99)</a>
                 </div>
-
-                <!-- APEX TIER -->
-                <div style="background: #FFFFFF; border: 2px solid var(--accent); padding: 35px; border-radius: 28px; text-align: left; position: relative; box-shadow: 0 15px 40px rgba(0,180,216,0.1);">
-                    <div style="position: absolute; top: -15px; right: 25px; background: var(--accent); color: #FFF; font-size: 0.7rem; font-weight: 800; padding: 6px 15px; border-radius: 100px; text-transform: uppercase; letter-spacing: 1px;">MOST POPULAR</div>
-                    <h3 style="font-size: 1.1rem; font-weight: 800; color: #0B1218; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px;">SENTINEL APEX</h3>
-                    <p style="font-size: 0.9rem; color: var(--muted); margin-bottom: 25px; line-height: 1.5;">15-min Neural Heartbeat & Private Bridge.</p>
-                    <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_xclick-subscriptions&business=priscadezigns9@gmail.com&item_name=Nurasen%20Apex%20Monthly&a3=19.99&p3=1&t3=M&src=1&currency_code=USD" target="_blank" style="display: block; background: var(--accent); color: #FFF; text-decoration: none; padding: 14px; border-radius: 12px; text-align: center; font-weight: 700; font-size: 0.9rem; margin-bottom: 12px;">Monthly ($19.99)</a>
-                    <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_xclick-subscriptions&business=priscadezigns9@gmail.com&item_name=Nurasen%20Apex%20Yearly&a3=199.99&p3=1&t3=Y&src=1&currency_code=USD" target="_blank" style="display: block; border: 2px solid var(--accent); color: var(--accent); text-decoration: none; padding: 14px; border-radius: 12px; text-align: center; font-weight: 700; font-size: 0.9rem;">Yearly ($199.99)</a>
+                <div style="background: #FFFFFF; border: 2px solid var(--accent); padding: 35px; border-radius: 28px; text-align: left;">
+                    <div style="position: absolute; top: -15px; right: 25px; background: var(--accent); color: #FFF; font-size: 0.7rem; font-weight: 800; padding: 6px 15px; border-radius: 100px;">MOST POPULAR</div>
+                    <h3 style="font-size: 1.1rem; font-weight: 800; color: #0B1218; margin-bottom: 10px; text-transform: uppercase;">SENTINEL APEX</h3>
+                    <a href="#" class="btn-home" style="display: block; background: var(--accent); color: #FFF; border: none; text-align: center; margin-top: 20px;">Monthly ($19.99)</a>
                 </div>
             </div>
-
-            <a href="dashboard.html?premium=true" style="display:block; margin-top:40px; color:var(--muted); text-decoration:none; font-size:0.8rem; font-weight:700; text-transform:uppercase; letter-spacing:1px; opacity:0.6;">Bypass to Dashboard (Admin)</a>
         </div>
     </div>
 
     <script>
-        function openPayment() { 
-            document.getElementById("paymentModal").style.display = "flex"; 
-        }
+        lucide.createIcons();
+        function openPayment() { document.getElementById("paymentModal").style.display = "flex"; }
         function closePayment() { document.getElementById("paymentModal").style.display = "none"; }
         
         window.onload = function() {
             const urlParams = new URLSearchParams(window.location.search);
+            const isGodMode = urlParams.get('gordmode') === 'true';
+            
+            if (isGodMode) {
+                document.getElementById('gordConsole').style.display = 'block';
+                document.getElementById('tier-badge').textContent = 'Architect Elite';
+                document.getElementById('heartbeat-text').textContent = 'GORD MODE: UNRESTRICTED ACCESS';
+                
+                // Unlock Sidebar
+                ['shield-link', 'email-link', 'device-link', 'vault-link'].forEach(id => {
+                    const el = document.getElementById(id);
+                    el.classList.remove('locked');
+                    el.removeAttribute('onclick');
+                    el.querySelector('.lock-tag').textContent = 'LIVE';
+                    el.querySelector('.lock-tag').style.background = '#0B1218';
+                    el.querySelector('.lock-tag').style.color = '#00FFFF';
+                });
+
+                setInterval(() => {
+                    const logs = document.getElementById('gordLogs');
+                    const div = document.createElement('div');
+                    div.textContent = `> Packet Trace: ${Math.random().toString(16).substring(2, 10)} verified.`;
+                    logs.appendChild(div);
+                    logs.scrollTop = logs.scrollHeight;
+                }, 3000);
+            }
+
             if (urlParams.get('premium') === 'true') {
                 document.getElementById('tier-badge').textContent = 'Apex Sentinel';
                 document.getElementById('heartbeat-text').textContent = 'Neural Heartbeat: ACTIVE | 15m Sync';
             }
         };
 
-        const sources = ["Browser Shard Alpha", "Local Storage Node", "API Handshake Sync", "Metadata Anchor Request", "Ledger Verification Node"];
+        const sources = ["Shard Alpha", "Storage Node", "API Sync", "Metadata Request", "Ledger Node"];
         function initializeScan() {
             const tbody = document.getElementById('detection-body');
             const noAssets = document.getElementById('no-assets');
             if (noAssets) noAssets.remove();
             const urlParams = new URLSearchParams(window.location.search);
-            const isPremium = urlParams.get('premium') === 'true';
+            const isPremium = urlParams.get('premium') === 'true' || urlParams.get('gordmode') === 'true';
             const row = document.createElement('tr');
             row.innerHTML = `<td><div style="color: #0B1218; font-weight: 700;">${sources[Math.floor(Math.random()*5)]}</div></td><td><span class="loading-pulse">NEUTRALIZING...</span></td><td>Searching...</td><td>Initializing</td>`;
             tbody.prepend(row);
