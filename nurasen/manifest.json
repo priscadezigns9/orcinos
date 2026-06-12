@@ -1,0 +1,16 @@
+{
+  "name": "NURASEN Sentinel",
+  "short_name": "NURASEN",
+  "start_url": "/nurasen/",
+  "display": "standalone",
+  "background_color": "#050505",
+  "theme_color": "#00FFFF",
+  "description": "Neural Cybersecurity Defense for the Elite Hub.",
+  "icons": [
+    {
+      "src": "../logos/NURASEN_DEFINITIVE_2026.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+}
