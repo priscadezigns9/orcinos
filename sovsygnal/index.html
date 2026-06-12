@@ -17,7 +17,7 @@
             --text: #000000;
             --muted: #666666;
             --accent: #1A1A1A;
-            --sygnal-red: #D0021B;
+            --pulse-red: #D0021B;
             --border: rgba(0,0,0,0.1);
             --font-heading: 'Playfair Display', serif;
             --font-body: 'Inter', sans-serif;
@@ -28,17 +28,17 @@
         
         header { padding: 40px 6% 20px; border-bottom: 4px solid var(--text); text-align: center; }
         .main-logo { font-family: var(--font-heading); font-size: 3.5rem; letter-spacing: -2px; line-height: 1; margin-bottom: 10px; cursor: pointer; }
-        .main-logo span { color: var(--sygnal-red); }
+        .main-logo span { color: var(--pulse-red); }
         .tagline { text-transform: uppercase; letter-spacing: 5px; font-size: 0.75rem; margin-bottom: 20px; font-weight: 800; color: var(--muted); }
         
         nav { display: flex; justify-content: center; gap: 30px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 12px 0; margin-top: 20px; flex-wrap: wrap; }
         nav a { text-decoration: none; color: var(--text); font-weight: 800; font-size: 0.75rem; text-transform: uppercase; white-space: nowrap; }
-        nav a:hover { color: var(--sygnal-red); }
+        nav a:hover { color: var(--pulse-red); }
 
         .main-container { display: grid; grid-template-columns: 1fr 300px; gap: 40px; padding: 40px 6%; }
         
         .lead-story { border-bottom: 1px solid var(--border); padding-bottom: 40px; margin-bottom: 40px; }
-        .category-tag { color: var(--sygnal-red); font-weight: 800; text-transform: uppercase; font-size: 0.7rem; margin-bottom: 10px; display: block; }
+        .category-tag { color: var(--pulse-red); font-weight: 800; text-transform: uppercase; font-size: 0.7rem; margin-bottom: 10px; display: block; }
         .lead-story h2 { font-family: var(--font-heading); font-size: 2.5rem; margin-bottom: 15px; line-height: 1.1; transition: opacity 0.5s ease; }
         .lead-story img { width: 100%; height: 400px; object-fit: cover; background: #eee; margin-bottom: 20px; }
         .lead-story p { font-size: 1.1rem; color: #333; margin-bottom: 20px; }
@@ -54,13 +54,13 @@
         .ticker-item { margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 15px; }
         .ticker-item span { font-weight: 800; font-size: 0.7rem; color: var(--muted); }
         .ticker-item p { font-weight: 600; font-size: 0.9rem; margin-top: 5px; }
-        .ticker-item.brand { border-left: 3px solid var(--sygnal-red); padding-left: 10px; }
+        .ticker-item.brand { border-left: 3px solid var(--pulse-red); padding-left: 10px; margin-bottom: 25px; transition: opacity 0.5s ease; }
 
         .ad-space { background: #f9f9f9; padding: 20px; border: 1px dashed var(--border); text-align: center; font-size: 0.75rem; color: var(--muted); margin-bottom: 30px; }
         .ad-space strong { color: black; display: block; margin-bottom: 10px; }
         .ad-group { display: flex; flex-direction: column; gap: 10px; }
         .btn-ad { background: var(--accent); color: white; border: none; padding: 8px 16px; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; cursor: pointer; display: block; width: 100%; text-align: center; transition: background 0.3s; }
-        .btn-ad:hover { background: var(--sygnal-red); }
+        .btn-ad:hover { background: var(--pulse-red); }
 
         .global-ad { background: var(--accent); color: white; padding: 20px; margin-bottom: 30px; border-radius: 4px; }
         .global-ad h5 { font-family: var(--font-heading); font-size: 1rem; margin-bottom: 10px; color: white; }
@@ -174,7 +174,7 @@
         <aside>
             <h4>Global Intelligence</h4>
             <div class='ticker-item brand'>
-                <span>PRISCA DEZIGNS</span>
+                <span>ORCINOS</span>
                 <p>Launch of 'Generative UI' framework for high-fidelity neural design.</p>
             </div>
             <div class='ticker-item brand'>
