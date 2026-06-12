@@ -1,15 +1,15 @@
 /*
-    SOVSYGNAL | Neural Signal Engine v1.1
-    (c) 2026 Prisca Dezigns AI Labs
-    Autonomous High-Fidelity Signal Processing
+    ORCPULSE | Neural News Engine v1.2
+    (c) 2026 Orcinos AI Labs
+    Autonomous High-Fidelity Pulse Processing
 */
 
-const SignalEngine = {
+const PulseEngine = {
     sectors: {
         geopolitics: [
             "Omani Mediators Relay Tehran’s Formal Counteroffer to US.",
             "Strategic Initiative: Regional Channels Evaluate Multilateral Mediation.",
-            "Sovereign Defense: AI-Driven Signal Processing prioritize in Security Budget."
+            "Elite Defense: AI-Driven Pulse Processing prioritized in Security Budget."
         ],
         blockchain: [
             "SEC Finalizes Innovation Exemption for Tokenized Stocks.",
@@ -24,57 +24,53 @@ const SignalEngine = {
         markets: [
             "Nasdaq Rebound: Chipmakers Lead Recovery Post-Selloff.",
             "Institutional Inflow: Tech Infrastructure Bonds see Record Volume.",
-            "Global Fragmentation: Trade Logistics adapt to Economic Sovereignty shift."
+            "Global Fragmentation: Trade Logistics adapt to Economic Independence shift."
         ],
         anime: [
             "Trending: Tongari Boushi no Atelier leads Seasonal Viewership.",
             "Grand Blue Dreaming Season 3 confirmed for July 2026 debut.",
-            "Production quality remains high-fidelity across major studios."
+            "Production quality reaches new High-Fidelity standard for 'Summer 2026'."
         ],
         stocks: [
-            "Market Stability: Institutional Flows Maintain Resilience.",
-            "Tech Infrastructure Bonds see Record Institutional Inflow.",
-            "S&P 500 stabilizes as Geopolitical Risk premiums subside."
-        ],
-        forex: [
-            "Forex Stability Pivot: Major Pairs stabilize as risk premiums subside.",
-            "Market sentiment shifts toward high-fidelity currency performance.",
-            "Neural arbitrage algorithms report 99% accuracy in volatility projection."
-        ],
-        realestate: [
-            "Veteran housing policy needs a preservation strategy.",
-            "High-fidelity sector signal tracking market performance.",
-            "Urban Sanctuary: Foster + Partners unveil Eco-Integrated Madrid Hub."
-        ],
-        intelligence: [
-            "Defense Directive: AI-Driven Signal Processing prioritized.",
-            "Strategic Intelligence: Data-transit corridors in Arctic Circle established.",
-            "Global Signal: Sovereign Frequency 104.2 reaches peak fidelity."
+            "Dow Jones Futures: Industrial Sentiment remains Bullish.",
+            "Tech Sector Resilience: S&P 500 maintains level despite volatility.",
+            "Dividend Growth: Top-tier equities announce record yields."
         ],
         lifestyle: [
             "Resilient Habitat: Lord Norman Foster addresses Madrid CityLab.",
-            "Urban Sanctuary: Eco-Integrated design becomes the new gold standard.",
-            "High-fidelity living: Personal sanctuary engineering trends upward."
+            "Smart Cities: AI Integration optimizes urban resource logistics.",
+            "Minimalist Architecture: Focus on sanctuary-based living spaces."
+        ],
+        forex: [
+            "USD/JPY Stability: Central Banks maintain current policy stance.",
+            "Euro-Zone Outlook: Inflation targets met, markets stabilize.",
+            "GBP/USD Resilience: Strong labor data bolsters Sterling."
+        ],
+        realestate: [
+            "Veteran housing policy needs a preservation strategy.",
+            "Luxury Listings: High-end properties see increased international demand.",
+            "Sustainable Development: Eco-friendly construction becomes industry standard."
         ]
     },
 
     ads: [
-        { brand: "ORCINOS", text: "Apex Intelligence for the sovereign architect.", link: "https://orcinos.com/" },
+        { brand: "ORCINOS", text: "Apex Intelligence for the elite architect.", link: "https://orcinos.com/" },
         { brand: "GLOW PROTOCOL", text: "DNA-optimized skincare. Enter the future.", link: "https://orcinos.com/glowprotocol/" },
-        { brand: "ATELIA GAMING", text: "The sovereign economy of play.", link: "https://orcinos.com/ateliagaming/" }
+        { brand: "ATELIA GAMING", text: "The independent economy of play.", link: "https://orcinos.com/ateliagaming/" },
+        { brand: "PEAK FIT", text: "Biohacking performance metrics. Join the elite.", link: "https://orcinos.com/peakfit/" },
+        { brand: "COUTURE GALLERY", text: "High-end bags. Archival craftsmanship.", link: "https://orcinos.com/couturegallery/" }
     ],
 
     init() {
-        console.log("SovSygnal Neural Handshake: ACTIVE");
+        console.log("OrcPulse Neural Handshake: ACTIVE");
         this.startTickers();
         this.updateSectors();
+        this.updateAds();
         this.injectMessenger();
     },
 
     startTickers() {
-        const dateEl = document.getElementById('live-date');
         const tickerEl = document.getElementById('live-ticker');
-        
         if (tickerEl) {
             setInterval(() => {
                 const prn = (4.0 + Math.random() * 0.5).toFixed(2);
@@ -85,28 +81,46 @@ const SignalEngine = {
     },
 
     updateSectors() {
-        Object.keys(this.sectors).forEach(sector => {
-            const el = document.getElementById(`news-${sector}`);
-            if (el) {
-                const news = this.sectors[sector];
-                let i = 0;
-                setInterval(() => {
-                    i = (i + 1) % news.length;
+        setInterval(() => {
+            Object.keys(this.sectors).forEach(sector => {
+                const el = document.getElementById(`news-${sector}`);
+                if (el) {
                     el.style.opacity = 0;
                     setTimeout(() => {
-                        el.innerText = news[i];
+                        el.innerText = this.sectors[sector][Math.floor(Math.random() * this.sectors[sector].length)];
                         el.style.opacity = 1;
                     }, 500);
-                }, 10000);
-            }
-        });
+                }
+            });
+        }, 12000);
+    },
+
+    updateAds() {
+        const brandAds = document.querySelectorAll('.ticker-item.brand');
+        if (brandAds.length > 0) {
+            setInterval(() => {
+                brandAds.forEach((ad) => {
+                    const randomAd = this.ads[Math.floor(Math.random() * this.ads.length)];
+                    const span = ad.querySelector('span');
+                    const p = ad.querySelector('p');
+                    if (span && p) {
+                        ad.style.opacity = 0;
+                        setTimeout(() => {
+                            span.innerText = randomAd.brand;
+                            p.innerText = randomAd.text;
+                            ad.style.opacity = 1;
+                        }, 500);
+                    }
+                });
+            }, 15000);
+        }
     },
 
     injectMessenger() {
-        if (document.getElementById('sovsygnal-messenger')) return;
+        if (document.getElementById('orc-messenger')) return;
 
         const messenger = document.createElement('div');
-        messenger.id = 'sovsygnal-messenger';
+        messenger.id = 'orc-messenger';
         messenger.style = `
             position: fixed; bottom: 30px; right: 30px;
             width: 350px; height: 500px;
@@ -115,11 +129,11 @@ const SignalEngine = {
             z-index: 5000; display: flex; flex-direction: column;
             font-family: 'Inter', sans-serif; transition: transform 0.3s ease;
         `;
-        
+
         messenger.innerHTML = `
-            <div style="background: black; color: white; padding: 15px; font-weight: 800; font-size: 0.8rem; display: flex; justify-content: space-between; align-items: center;">
-                <span>NEURAL DESK | SOVSYGNAL</span>
-                <span style="color: #D0021B; font-size: 0.6rem; letter-spacing: 1px;">ENCRYPTED</span>
+            <div style="background: black; color: white; padding: 15px; font-weight: 800; font-size: 0.75rem; letter-spacing: 2px; display: flex; justify-content: space-between; align-items: center;">
+                <span>NEURAL DESK | ORCPULSE</span>
+                <span style="cursor: pointer;" onclick="this.parentElement.parentElement.style.transform='translateY(calc(100% - 40px))'">_</span>
             </div>
             <div id="chat-stream" style="flex: 1; padding: 20px; overflow-y: auto; font-size: 0.85rem; line-height: 1.4; color: #333;">
                 <div style="margin-bottom: 15px;"><strong>SYSTEM:</strong> Neural handshake established. Sector parity confirmed.</div>
@@ -148,4 +162,4 @@ const SignalEngine = {
     }
 };
 
-document.addEventListener('DOMContentLoaded', () => SignalEngine.init());
+document.addEventListener('DOMContentLoaded', () => PulseEngine.init());
