@@ -13,9 +13,9 @@
             --surface: #F9FAFB;
             --text: #000814; 
             --muted: #64748B; 
-            --accent: #D00000; 
-            --primary: #003566;
-            --border: rgba(0, 53, 102, 0.1);
+            --accent: #FF9500; 
+            --primary: #001B3D;
+            --border: rgba(0, 27, 61, 0.1);
             --font-header: 'Playfair Display', serif;
             --font-body: 'Inter', sans-serif;
         }
@@ -27,7 +27,7 @@
         }
         .wave {
             position: absolute; width: 200%; height: 100%;
-            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600"><path d="M0 300 Q 200 150 400 300 T 800 300" fill="none" stroke="rgba(0,53,102,0.05)" stroke-width="2" /></svg>');
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600"><path d="M0 300 Q 200 150 400 300 T 800 300" fill="none" stroke="rgba(0,27,61,0.05)" stroke-width="2" /></svg>');
             background-repeat: repeat-x; background-size: 50% 100%; animation: moveWave 20s linear infinite;
         }
         @keyframes moveWave { from { transform: translateX(0); } to { transform: translateX(-50%); } }
@@ -38,7 +38,7 @@
         .nav-link { text-decoration: none; color: var(--muted); font-size: 0.9rem; font-weight: 600; }
         .btn-auth { text-decoration: none; padding: 12px 25px; border-radius: 12px; font-weight: 700; font-size: 0.9rem; transition: 0.3s; }
         .btn-login { color: var(--primary); border: 1.5px solid var(--primary); }
-        .btn-signup { background: var(--accent); color: #FFF; margin-left: 10px; }
+        .btn-signup { background: var(--accent); color: #FFF; margin-left: 10px; box-shadow: 0 4px 15px rgba(255,149,0,0.3); }
 
         .hero { padding: 120px 6% 100px; text-align: center; }
         .hero h1 { font-family: var(--font-header); font-size: 4.5rem; font-weight: 700; color: var(--primary); margin-bottom: 25px; letter-spacing: -2px; }
