@@ -4,14 +4,14 @@
     <meta charset='UTF-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
     <title>SOVSYGNAL | Stocks</title>
-    <meta name='description' content='SOVSYGNAL - Global Intelligence Hub. High-fidelity geopolitical, financial, and technological signals.'>
+    <meta name='description' content='SOVSYGNAL - Global Intelligence Hub.'>
     <link rel="icon" type="image/png" href="assets/logos/sovereign_favicon.png">
     <link rel='preconnect' href='https://fonts.googleapis.com'>
     <link href='https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;600;800&display=swap' rel='stylesheet'>
     <style>
         :root { --primary: #8B0000; --bg: #F9F9F9; --text: #1A1A1A; --accent: #111; --font-heading: 'Playfair Display', serif; --font-body: 'Inter', sans-serif; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: var(--bg); color: var(--text); font-family: var(--font-body); line-height: 1.6; }
+        body { background: var(--bg); color: var(--text); font-family: var(--font-body); line-height: 1.6; overflow-x: hidden; }
         
         .ticker-wrap { width: 100%; overflow: hidden; background: #000; color: #fff; padding: 12px 0; border-bottom: 2px solid var(--primary); }
         .ticker { display: inline-block; white-space: nowrap; padding-right: 100%; animation: ticker 240s linear infinite; }
@@ -28,41 +28,34 @@
         nav a { text-decoration: none; color: #000; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
         nav a:hover, nav a.active { color: var(--primary); }
         
-        .main-container { display: grid; grid-template-columns: 1fr 350px; gap: 60px; padding: 40px 6%; max-width: 1500px; margin: 0 auto; }
+        .main-container { display: grid; grid-template-columns: 1fr 350px; gap: 60px; padding: 40px 6%; max-width: 1500px; margin: 0 auto; min-height: 80vh; position: relative; }
+        @media (max-width: 1100px) { .main-container { grid-template-columns: 1fr; } .sidebar { position: relative !important; top: 0 !important; width: 100% !important; } }
         .category-tag { color: var(--primary); font-weight: 800; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; display: block; }
         
-        .data-grid { display: grid; gap: 15px; margin-bottom: 40px; padding: 20px; border-radius: 4px; }
-        .grid-4 { grid-template-columns: repeat(4, 1fr); }
-        @media (max-width: 1100px) { .grid-4 { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 600px) { .grid-4 { grid-template-columns: 1fr; } .main-container { grid-template-columns: 1fr; } header h1 { font-size: 2.5rem; } }
-
-        .news-card { margin-bottom: 40px; padding-bottom: 40px; border-bottom: 1px solid #eee; }
-        .news-card h3 { font-family: var(--font-heading); font-size: 2rem; margin-bottom: 15px; line-height: 1.2; }
-        .news-card h3 a { text-decoration: none; color: #000; }
-        .news-card p { color: #555; font-size: 1rem; }
+        .news-card { margin-bottom: 60px; border-bottom: 1px solid #ddd; padding-bottom: 40px; }
+        .news-card h3 { font-family: var(--font-heading); font-size: 2rem; line-height: 1.2; margin-bottom: 15px; }
+        .news-card h3 a { color: #000; text-decoration: none; }
+        .news-card p { font-size: 1rem; color: #444; max-width: 800px; }
         
-        .sidebar-ad { padding: 30px; margin-bottom: 30px; border-radius: 4px; }
-        .sidebar-ad h4 { text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem; margin-bottom: 15px; }
-        .sidebar-ad .btn { display: block; text-decoration: none; padding: 12px; text-align: center; font-weight: 800; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; margin-top: 20px; border-radius: 2px; }
-        
-        .source-tag { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1px; color: #999; margin-bottom: 10px; }
-        .sentiment-tag { font-size: 0.6rem; padding: 2px 10px; border-radius: 2px; font-weight: 800; margin-left: 12px; vertical-align: middle; text-transform: uppercase; }
-        .bullish { background: #000; color: #00FF00; border: 1px solid #00FF00; }
-        .neutral { background: #000; color: #FFFF00; border: 1px solid #FFFF00; }
-        .bearish { background: #000; color: #FF0000; border: 1px solid #FF0000; }
+        .sidebar { position: sticky; top: 160px; height: fit-content; align-self: start; }
+        .sidebar-block { background: #fff; border: 1px solid #ddd; padding: 25px; margin-bottom: 30px; border-radius: 4px; }
+        .sidebar-block h4 { font-family: var(--font-heading); font-size: 1.2rem; margin-bottom: 15px; text-transform: uppercase; }
+        .sidebar-ad img { width: 100%; border-radius: 4px; margin-bottom: 15px; }
+        .btn { display: block; text-align: center; padding: 12px; text-decoration: none; font-weight: 800; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; border-radius: 4px; }
 
-        footer { background: #000; color: white; padding: 80px 6%; text-align: center; }
-        footer img { height: 80px; margin-bottom: 20px; }
-        footer p { font-size: 0.7rem; letter-spacing: 2px; opacity: 0.5; }
+        footer { background: #000; color: #fff; padding: 60px 6%; text-align: center; margin-top: 80px; }
+        footer img { width: 150px; margin-bottom: 20px; }
+        footer p { font-size: 0.7rem; letter-spacing: 2px; opacity: 0.6; }
     </style>
 </head>
 <body>
-    <div class='ticker-wrap'><div class='ticker'><div class='ticker-item'><span>GEOPOLITICS</span> Diplomatic Strategy: Omani Mediators Relay Tehran’s Formal Counteroffer to US.</div><div class='ticker-item'><span>BLOCKCHAIN</span> Digital Rules: SEC Finalizes Innovation Exemption for Tokenized Stocks.</div><div class='ticker-item'><span>BIOHACKING</span> Metabolic Benchmarks: Roche Obesity Drug outpaces Industry Targets.</div><div class='ticker-item'><span>MARKETS</span> Nasdaq Rebound: Chipmakers Lead Recovery Post-Selloff.</div><div class='ticker-item'><span>LIFESTYLE</span> Resilient Habitat: Lord Norman Foster addresses Madrid CityLab.</div><div class='ticker-item'><span>INTELLIGENCE</span> Defense AI Directives: White House mandates expedited Battlefield Deployment.</div><div class='ticker-item'><span>REALESTATE</span> Veteran housing policy needs a preservation strategy </div><div class='ticker-item'><span>FOREX</span> Currency Defense: Traders maintain Risk Rally despite Geopolitics.</div><div class='ticker-item'><span>STOCKS</span> Market Stability: Institutional Flows Maintain Resilience.</div><div class='ticker-item'><span>ANIME</span> Trending: Tongari Boushi no Atelier leads Seasonal Viewership.</div><div class='ticker-item'><span>EUR</span> 0.87 <span style='color:#00FF00'>0.05%</span></div><div class='ticker-item'><span>GBP</span> 0.75 <span style='color:#00FF00'>0.05%</span></div><div class='ticker-item'><span>JPY</span> 160.27 <span style='color:#00FF00'>0.05%</span></div><div class='ticker-item'><span>CAD</span> 1.40 <span style='color:#00FF00'>0.05%</span></div></div></div>
+    <div class='ticker-wrap'>
+        <div class='ticker'><div class='ticker-item'><span>GEOPOLITICS</span> Market Stability: Institutional Flows Maintain Resilience.</div><div class='ticker-item'><span>BLOCKCHAIN</span> Market Stability: Institutional Flows Maintain Resilience.</div><div class='ticker-item'><span>BIOHACKING</span> Market Stability: Institutional Flows Maintain Resilience.</div><div class='ticker-item'><span>MARKETS</span> Market Stability: Institutional Flows Maintain Resilience.</div><div class='ticker-item'><span>LIFESTYLE</span> Market Stability: Institutional Flows Maintain Resilience.</div><div class='ticker-item'><span>INTELLIGENCE</span> Market Stability: Institutional Flows Maintain Resilience.</div><div class='ticker-item'><span>FOREX</span> Market Stability: Institutional Flows Maintain Resilience.</div><div class='ticker-item'><span>STOCKS</span> Market Stability: Institutional Flows Maintain Resilience.</div><div class='ticker-item'><span>REALESTATE</span> Market Stability: Institutional Flows Maintain Resilience.</div><div class='ticker-item'><span>ANIME</span> Market Stability: Institutional Flows Maintain Resilience.</div></div>
+    </div>
     <header>
         <h1><a href='index.html'>SOVSYGNAL</a></h1>
         <p>Global Intelligence Hub</p>
         <nav>
-            <a href='index.html'>Headlines</a>
             <a href='geopolitics.html'>Geopolitics</a>
             <a href='blockchain.html'>Blockchain</a>
             <a href='biohacking.html'>Biohacking</a>
@@ -71,19 +64,32 @@
             <a href='intelligence.html'>Intelligence</a>
             <a href='forex.html'>Forex</a>
             <a href='stocks.html'>Stocks</a>
-            <a href='realestate.html'>Real Estate</a>
+            <a href='realestate.html'>RealEstate</a>
             <a href='anime.html'>Anime</a>
+            <a href='signup.html' style='color:var(--primary)'>Join Hub</a>
         </nav>
     </header>
     <div class='main-container'>
-        <main><section style='border-bottom: 2px solid #eee; padding-bottom: 40px; margin-bottom: 40px;'><span class='category-tag'>Signal | 07:10 EST</span><h2 style='font-family: var(--font-heading); font-size: 2.5rem;'>Market Stability: Institutional Flows Maintain Resilience.</h2><div class='source-tag'>Source: SOVSYGNAL Internal</div><p>Automated backup signal active.</p><a href='https://www.amazon.com/s?k=stock+market+investing+books&tag=priscadezigns-20' style='display:inline-block; margin-top:20px; padding:10px 25px; background:black; color:white; font-size:0.7rem; font-weight:800; text-decoration:none; letter-spacing:1px;'>SHOP THE SIGNAL</a></section></main>
-        <aside>
-            <div class='sidebar-ad' style='background:#111; color:white; text-align:center; border:2px solid var(--primary);'>
+        <main><div style='display:grid; grid-template-columns:repeat(auto-fit, minmax(150px, 1fr)); gap:15px; margin-bottom:40px;'><div style='background:#111; padding:20px; border-radius:4px; text-align:center;'><div style='color:#888; font-size:0.7rem; font-weight:800;'>AAPL</div><div style='color:#fff; font-size:1.5rem; font-weight:900;'>$200.00</div></div><div style='background:#111; padding:20px; border-radius:4px; text-align:center;'><div style='color:#888; font-size:0.7rem; font-weight:800;'>TSLA</div><div style='color:#fff; font-size:1.5rem; font-weight:900;'>$200.00</div></div><div style='background:#111; padding:20px; border-radius:4px; text-align:center;'><div style='color:#888; font-size:0.7rem; font-weight:800;'>NVDA</div><div style='color:#fff; font-size:1.5rem; font-weight:900;'>$200.00</div></div><div style='background:#111; padding:20px; border-radius:4px; text-align:center;'><div style='color:#888; font-size:0.7rem; font-weight:800;'>MSFT</div><div style='color:#fff; font-size:1.5rem; font-weight:900;'>$200.00</div></div></div><section style='border-bottom: 2px solid #eee; padding-bottom: 40px; margin-bottom: 40px;'><span class='category-tag'>Signal | Jun 12, 2026 | 09:43 AM AST</span><h2 style='font-family: var(--font-heading); font-size: 2.5rem;'>Market Stability: Institutional Flows Maintain Resilience.</h2><div class='source-tag' style='font-size:0.7rem; text-transform:uppercase; font-weight:800; margin:10px 0;'>Source: Internal</div><p>Signal active.</p><a href='https://www.amazon.com/s?k=stocks+gear&tag=priscadezigns-20' style='display:inline-block; margin-top:20px; padding:10px 25px; background:black; color:white; font-size:0.7rem; font-weight:800; text-decoration:none; letter-spacing:1px;'>SHOP THE SIGNAL</a></section></main>
+        <aside class='sidebar'>
+            <div class='sidebar-block' style='background: #111; color: white; border: 2px solid var(--primary);'>
                 <h4>SOVSYGNAL PRO</h4>
-                <p style='font-size:0.8rem; opacity:0.8;'>Institutional grade intelligence feeds. Real-time neural analysis.</p>
+                <p style='font-size:0.8rem; opacity:0.8; margin-bottom: 15px;'>Institutional grade intelligence feeds. Real-time neural analysis.</p>
                 <a href='#' class='btn' style='background:var(--primary); color:white;'>Upgrade Now</a>
             </div>
-            <div class='sidebar-ad' style='background:#fff; border:1px solid #ff9900;'><img src='https://sktpjacowqaedddtrhuz.supabase.co/storage/v1/object/public/avatars/airpods_max.jpg' alt='AirPods Max' style='width:100%; margin-bottom:10px;'><h4>AirPods Max</h4><a href='https://www.amazon.com/dp/B08PZHYWJS?tag=priscadezigns-20' class='btn' style='background:#ff9900; color:#000;'>View on Amazon</a></div>
+            
+    <div class='sidebar-block sidebar-ad'>
+        <img src='https://sktpjacowqaedddtrhuz.supabase.co/storage/v1/object/public/avatars/airpods_max.jpg' alt='AirPods Max'>
+        <h4>AirPods Max</h4>
+        <a href='https://www.amazon.com/dp/B08PZHYWJS?tag=priscadezigns-20' class='btn' style='background:#ff9900; color:#000;'>View on Amazon</a>
+    </div>
+    <div class='sidebar-block sidebar-ad' style='background:#000; color:white;'>
+        <img src='https://m.media-amazon.com/images/I/71Y86x9mXUL._AC_SL1500_.jpg' alt='Elite Setup'>
+        <h4>Elite Setup</h4>
+        <p style='font-size:0.7rem; color:#aaa; margin-bottom:15px;'>Pro-grade ultrawide monitors for high-fidelity trading.</p>
+        <a href='https://www.amazon.com/s?k=ultrawide+monitor+34+inch&tag=priscadezigns-20' class='btn' style='background:white; color:black;'>Browse Setup</a>
+    </div>
+    
         </aside>
     </div>
     <footer>
