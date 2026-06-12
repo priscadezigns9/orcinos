@@ -100,8 +100,8 @@
         }
 
         async function handleAuth() {
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('pass').value;
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('pass').value.trim();
             const msg = document.getElementById('auth-msg');
             
             if(!email || !password) {
@@ -126,10 +126,10 @@
                         }
                     });
                     if(error) throw error;
-                    if (data.user && data.session) {
-                        window.location.href = 'dashboard.html';
-                    } else {
-                        msg.innerText = 'PROFILE ESTABLISHED. CHECK EMAIL TO CONFIRM.';
+                    if (data.user) {
+                        msg.style.color = 'var(--accent)';
+                        msg.innerText = 'PROFILE SECURED. REDIRECTING...';
+                        setTimeout(() => { window.location.href = 'dashboard.html'; }, 1000);
                     }
                 }
             } catch (err) {
