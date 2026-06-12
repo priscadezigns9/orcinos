@@ -3,105 +3,80 @@
 <head>
     <meta charset='UTF-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-    <title>SOVSYGNAL | Geopolitics</title>
-    <meta name='description' content='SOVSYGNAL - Global Intelligence Hub. High-fidelity geopolitical, financial, and technological signals.'>
-    <link rel="icon" type="image/png" href="assets/logos/sovereign_favicon.png">
+    <title>SOVSYGNAL | Geopolitics Intelligence</title>
+    
+    <!-- SEO METADATA -->
+    <meta name="keywords" content="Geopolitics, Sovereign Signal, Global News Intelligence, Priscion Ledger, $PRN Token, Neural Economy, High-Fidelity Reporting, National Security">
+    <meta name="description" content="Global News Intelligence on Geopolitics. Autonomous Reporting for the Sovereign Architect.">
+    
     <link rel='preconnect' href='https://fonts.googleapis.com'>
     <link href='https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;600;800&display=swap' rel='stylesheet'>
     <style>
-        :root { --primary: #8B0000; --bg: #F9F9F9; --text: #1A1A1A; --accent: #111; --font-heading: 'Playfair Display', serif; --font-body: 'Inter', sans-serif; }
+        :root {
+            --bg: #FFFFFF;
+            --text: #000000;
+            --muted: #666666;
+            --accent: #1A1A1A;
+            --sygnal-red: #D0021B;
+            --border: rgba(0,0,0,0.1);
+            --font-heading: 'Playfair Display', serif;
+            --font-body: 'Inter', sans-serif;
+        }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: var(--bg); color: var(--text); font-family: var(--font-body); line-height: 1.6; }
-        
-        .ticker-wrap { width: 100%; overflow: hidden; background: #000; color: #fff; padding: 12px 0; border-bottom: 2px solid var(--primary); }
-        .ticker { display: inline-block; white-space: nowrap; padding-right: 100%; animation: ticker 240s linear infinite; }
-        @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
-        .ticker-item { display: inline-block; padding: 0 40px; font-weight: 800; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px; }
-        .ticker-item span { color: var(--primary); margin-right: 10px; }
-
-        header { background: #fff; padding: 30px 6%; border-bottom: 3px solid #000; text-align: center; position: sticky; top: 0; z-index: 1000; }
-        header h1 { font-family: var(--font-heading); font-size: 3.5rem; letter-spacing: -2px; line-height: 1; }
-        header h1 a { text-decoration: none; color: black; }
-        header p { text-transform: uppercase; letter-spacing: 6px; font-size: 0.7rem; font-weight: 800; color: #444; margin: 10px 0 20px; }
-        
-        nav { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; border-top: 1px solid #eee; padding-top: 15px; align-items: center; }
-        nav a { text-decoration: none; color: #000; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
-        nav a:hover, nav a.active { color: var(--primary); }
-        
-        .main-container { display: grid; grid-template-columns: 1fr 350px; gap: 60px; padding: 40px 6%; max-width: 1500px; margin: 0 auto; min-height: 80vh; }
-        @media (max-width: 1100px) { .main-container { grid-template-columns: 1fr; } .sidebar { order: 2; margin-top: 40px; } main { order: 1; } }
-        .category-tag { color: var(--primary); font-weight: 800; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; display: block; }
-        
-        .data-grid { display: grid; gap: 15px; margin-bottom: 40px; padding: 20px; border-radius: 4px; }
-        .grid-4 { grid-template-columns: repeat(4, 1fr); }
-        @media (max-width: 1100px) { .grid-4 { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 600px) { .grid-4 { grid-template-columns: 1fr; } .main-container { grid-template-columns: 1fr; } header h1 { font-size: 2.5rem; } }
-
-        .news-card { margin-bottom: 40px; padding-bottom: 40px; border-bottom: 1px solid #eee; }
-        .news-card h3 { font-family: var(--font-heading); font-size: 2rem; margin-bottom: 15px; line-height: 1.2; }
-        .news-card h3 a { text-decoration: none; color: #000; }
-        .news-card p { color: #555; font-size: 1rem; }
-        
-        .sidebar-ad { padding: 30px; margin-bottom: 30px; border-radius: 4px; }
-        .sidebar-ad h4 { text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem; margin-bottom: 15px; }
-        .sidebar-ad .btn { display: block; text-decoration: none; padding: 12px; text-align: center; font-weight: 800; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; margin-top: 20px; border-radius: 2px; }
-        
-        .source-tag { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1px; color: #999; margin-bottom: 10px; }
-        .sentiment-tag { font-size: 0.6rem; padding: 2px 10px; border-radius: 2px; font-weight: 800; margin-left: 12px; vertical-align: middle; text-transform: uppercase; }
-        .bullish { background: #000; color: #00FF00; border: 1px solid #00FF00; }
-        .neutral { background: #000; color: #FFFF00; border: 1px solid #FFFF00; }
-        .bearish { background: #000; color: #FF0000; border: 1px solid #FF0000; }
-
-        footer { background: #000; color: white; padding: 80px 6%; text-align: center; }
-        footer img { height: 80px; margin-bottom: 20px; }
-        footer p { font-size: 0.7rem; letter-spacing: 2px; opacity: 0.5; }
+        body { background: var(--bg); color: var(--text); font-family: var(--font-body); line-height: 1.5; }
+        .utility-bar { background: var(--accent); color: white; padding: 8px 6%; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 2px; display: flex; justify-content: space-between; }
+        header { padding: 40px 6% 20px; border-bottom: 4px solid var(--text); text-align: center; }
+        .main-logo { font-family: var(--font-heading); font-size: 3.5rem; letter-spacing: -2px; line-height: 1; margin-bottom: 10px; cursor: pointer; }
+        .main-logo span { color: var(--sygnal-red); }
+        .tagline { text-transform: uppercase; letter-spacing: 5px; font-size: 0.75rem; margin-bottom: 20px; font-weight: 800; color: var(--muted); }
+        nav { display: flex; justify-content: center; gap: 30px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 12px 0; margin-top: 20px; flex-wrap: wrap; }
+        nav a { text-decoration: none; color: var(--text); font-weight: 800; font-size: 0.75rem; text-transform: uppercase; }
+        .main-container { display: grid; grid-template-columns: 1fr 300px; gap: 40px; padding: 40px 6%; }
+        aside h4 { font-family: var(--font-heading); font-size: 1.2rem; border-bottom: 2px solid var(--text); padding-bottom: 10px; margin-bottom: 20px; text-transform: uppercase; }
+        .ticker-item { margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 15px; }
+        .ticker-item span { font-weight: 800; font-size: 0.7rem; color: var(--muted); }
+        .ticker-item p { font-weight: 600; font-size: 0.9rem; margin-top: 5px; }
+        .ticker-item.brand { border-left: 3px solid var(--sygnal-red); padding-left: 10px; }
+        footer { background: #000; color: white; padding: 60px 6%; text-align: center; }
+        footer p { font-size: 0.75rem; letter-spacing: 1px; opacity: 0.6; }
     </style>
 </head>
 <body>
-    <div class='ticker-wrap'><div class='ticker'><div class='ticker-item'><span>GEOPOLITICS</span> Strategic Initiative: Tehran Evaluates Multilateral Mediation Proposal via Regional Channels.</div><div class='ticker-item'><span>BLOCKCHAIN</span> Ledger Efficiency: Major Exchange Finalizes Automated Proof-of-Reserve Protocol.</div><div class='ticker-item'><span>BIOHACKING</span> Neural Benchmarks: New CGMs achieve 99% accuracy in real-time diagnostics.</div><div class='ticker-item'><span>MARKETS</span> Resilient Recovery: Tech Infrastructure Bonds see Record Institutional Inflow.</div><div class='ticker-item'><span>LIFESTYLE</span> Urban Sanctuary: Foster + Partners unveil Eco-Integrated Madrid Hub.</div><div class='ticker-item'><span>INTELLIGENCE</span> Defense Directive: AI-Driven Signal Processing prioritized in Security Budget.</div><div class='ticker-item'><span>FOREX</span> Stability Pivot: Major Pairs stabilize as Geopolitical Risk premiums subside.</div><div class='ticker-item'><span>STOCKS</span> Market Stability: Institutional Flows Maintain Resilience.</div><div class='ticker-item'><span>ANIME</span> Trending: Tongari Boushi no Atelier leads Seasonal Viewership.</div><div class='ticker-item'><span>REALESTATE</span> Veteran housing policy needs a preservation strategy </div><div class='ticker-item'><span>AAPL</span> 213.25 <span style='color:#00FF00'>1.25%</span></div><div class='ticker-item'><span>NVDA</span> 125.40 <span style='color:#FF0000'>-0.85%</span></div><div class='ticker-item'><span>MSFT</span> 442.10 <span style='color:#00FF00'>0.45%</span></div><div class='ticker-item'><span>TSLA</span> 178.90 <span style='color:#00FF00'>2.10%</span></div><div class='ticker-item'><span>EUR</span> 0.87 <span style='color:#00FF00'>0.05%</span></div><div class='ticker-item'><span>GBP</span> 0.75 <span style='color:#00FF00'>0.05%</span></div><div class='ticker-item'><span>JPY</span> 160.27 <span style='color:#00FF00'>0.05%</span></div><div class='ticker-item'><span>CAD</span> 1.40 <span style='color:#00FF00'>0.05%</span></div></div></div>
+    <div class='utility-bar'>
+        <div id="live-date">Fri, June 12, 2026 · Sovereign Frequency 104.2</div>
+        <div id="live-ticker">MARKET: $PRN +4.2% · Intelligence: ACTIVE</div>
+    </div>
     <header>
-        <h1><a href='index.html'>SOVSYGNAL</a></h1>
-        <p>Global Intelligence Hub</p>
+        <div class='main-logo' onclick="window.location.href='index.html'">SOV<span>SYGNAL</span></div>
+        <p class='tagline'>Global Intelligence for the Sovereign Architect</p>
         <nav>
-            <a href='index.html'>Headlines</a>
             <a href='geopolitics.html'>Geopolitics</a>
             <a href='blockchain.html'>Blockchain</a>
             <a href='biohacking.html'>Biohacking</a>
             <a href='markets.html'>Markets</a>
             <a href='lifestyle.html'>Lifestyle</a>
             <a href='intelligence.html'>Intelligence</a>
-            <a href='forex.html'>Forex</a>
-            <a href='stocks.html'>Stocks</a>
-            <a href='realestate.html'>Real Estate</a>
-            <a href='anime.html'>Anime</a>
+            <a href='eternalsignal.html'>Eternal Signal</a>
         </nav>
     </header>
     <div class='main-container'>
-        <main><section style='border-bottom: 2px solid #eee; padding-bottom: 40px; margin-bottom: 40px;'><span class='category-tag'>Signal | Jun 12, 2026 | 09:07 AM AST</span><h2 style='font-family: var(--font-heading); font-size: 2.5rem;'>Strategic Initiative: Tehran Evaluates Multilateral Mediation Proposal via Regional Channels.</h2><div class='source-tag'>Source: Reuters</div><p>Institutional sources confirm active evaluation of the 2026 framework.</p><a href='https://www.amazon.com/s?k=geopolitics+books&tag=priscadezigns-20' style='display:inline-block; margin-top:20px; padding:10px 25px; background:black; color:white; font-size:0.7rem; font-weight:800; text-decoration:none; letter-spacing:1px;'>SHOP THE SIGNAL</a></section></main>
-        <aside>
-            <div class='sidebar-ad' style='background:#111; color:white; text-align:center; border:2px solid var(--primary);'>
-                <h4>SOVSYGNAL PRO</h4>
-                <p style='font-size:0.8rem; opacity:0.8;'>Institutional grade intelligence feeds. Real-time neural analysis.</p>
-                <a href='#' class='btn' style='background:var(--primary); color:white;'>Upgrade Now</a>
+        <main>
+            <h2 style='font-family: var(--font-heading); font-size: 2.5rem; margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 10px;'>Geopolitics Signal</h2>
+            <div style='border-bottom: 1px solid var(--border); padding-bottom: 30px; margin-bottom: 30px;'>
+                <span style='font-size: 0.7rem; font-weight: 800; color: #D0021B; text-transform: uppercase; margin-bottom: 10px; display: block;'>LATEST SIGNAL</span>
+                <h3 id="news-geopolitics" style='font-family: var(--font-heading); font-size: 1.8rem; margin-bottom: 10px;'>Omani Mediators Relay Tehran’s Formal Counteroffer to US.</h3>
+                <p style='font-size: 1.1rem; color: #333;'>Sovereign data-transit corridors in the Arctic Circle established: New diplomatic framework bypasses legacy cable networks.</p>
             </div>
-            
-    <div class='sidebar-ad' style='background:#fff; border:1px solid #ff9900; margin-bottom: 20px;'>
-        <img src='https://sktpjacowqaedddtrhuz.supabase.co/storage/v1/object/public/avatars/airpods_max.jpg' alt='AirPods Max' style='width:100%; margin-bottom:10px;'>
-        <h4>AirPods Max</h4>
-        <a href='https://www.amazon.com/dp/B08PZHYWJS?tag=priscadezigns-20' class='btn' style='background:#ff9900; color:#000;'>View on Amazon</a>
-    </div>
-    <div class='sidebar-ad' style='background:#000; color:white; border:1px solid #333;'>
-        <img src='https://m.media-amazon.com/images/I/71Y86x9mXUL._AC_SL1500_.jpg' alt='Trading Setup' style='width:100%; margin-bottom:10px;'>
-        <h4>Elite Setup</h4>
-        <p style='font-size:0.7rem; color:#aaa; margin-bottom:10px;'>Pro-grade ultrawide monitors for high-fidelity trading.</p>
-        <a href='https://www.amazon.com/s?k=ultrawide+monitor+34+inch&tag=priscadezigns-20' class='btn' style='background:white; color:black;'>Browse Setup</a>
-    </div>
-    
+        </main>
+        <aside>
+            <h4>Empire Intelligence</h4>
+            <div class='ticker-item brand'><span>PRISCION</span><p>Global expansion showcases luxury engineering at Mumbai Supercar Launch.</p></div>
+            <div class='ticker-item brand'><span>DREAMING ANIME</span><p>Grand Blue Dreaming Season 3 confirmed for July 2026 debut.</p></div>
         </aside>
     </div>
     <footer>
-        <img src='assets/logos/sovereign_footer_logo.png' alt='Sovereign'>
-        <p>&copy; 2026 SOVSYGNAL &middot; PRISCA DEZIGNS EMPIRE MEDIA</p>
+        <p>&copy; 2026 SOVSYGNAL &middot; A PRISCA DEZIGNS EMPIRE MEDIA COMPANY</p>
     </footer>
+    <script src="signal_engine.js"></script>
 </body>
 </html>
