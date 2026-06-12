@@ -3,30 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NURASEN | Sentinel Control Center</title>
+    <title>NURASEN | Tactical Sentinel Control</title>
     <link rel="manifest" href="manifest.json">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('sw.js')
-                    .then(reg => console.log('Nurasen Dashboard PWA Registered'))
-                    .catch(err => console.log('PWA Failed', err));
-            });
-        }
-    </script>
     <style>
         :root {
             --bg: #FFFFFF; 
-            --surface: #F9FAFB; 
-            --text: #0B1218; 
+            --surface: #F8FAFC; 
+            --text: #000814; /* DEEP NAVY BLACK */
             --muted: #64748B; 
-            --accent: #00B4D8; 
-            --secondary: #FF6B00; 
-            --border: rgba(0, 180, 216, 0.1);
+            --accent: #D00000; /* SECURITY RED - THE NEW DISTINCT SIGNAL */
+            --primary: #003566; /* INSTITUTIONAL NAVY */
+            --border: rgba(0, 53, 102, 0.1);
             --font-header: 'Playfair Display', serif;
-            --font-body: 'Inter', 'Segoe UI', sans-serif;
+            --font-body: 'Inter', sans-serif;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { 
@@ -50,105 +41,86 @@
             position: absolute;
             width: 200%;
             height: 100%;
-            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600"><path d="M0 300 Q 200 150 400 300 T 800 300" fill="none" stroke="rgba(0,180,216,0.08)" stroke-width="2" /></svg>');
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600"><path d="M0 300 Q 200 150 400 300 T 800 300" fill="none" stroke="rgba(0,53,102,0.05)" stroke-width="2" /></svg>');
             background-repeat: repeat-x;
             background-size: 50% 100%;
             animation: moveWave 20s linear infinite;
         }
-        .wave-2 { animation: moveWave 15s linear infinite reverse; opacity: 0.5; top: 100px; }
         @keyframes moveWave { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
-        nav { background: rgba(255,255,255,0.9); padding: 15px 6%; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; backdrop-filter: blur(20px); }
+        nav { background: rgba(255,255,255,0.95); padding: 15px 6%; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; backdrop-filter: blur(20px); }
         .logo img { height: 70px; }
         
         .nav-btns { display: flex; align-items: center; gap: 15px; }
-        .btn-home { font-size: 0.75rem; font-weight: 800; color: #0B1218; text-decoration: none; text-transform: uppercase; letter-spacing: 1px; padding: 8px 16px; border: 1.5px solid #0B1218; border-radius: 8px; transition: 0.2s; background: transparent; }
-        .btn-home:hover { background: #0B1218; color: #FFF; }
-        .tier-badge { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: #FFF; background: var(--accent); padding: 6px 15px; border-radius: 100px; border: none; box-shadow: 0 4px 15px rgba(0,180,216,0.2); }
+        .btn-home { font-size: 0.75rem; font-weight: 800; color: var(--primary); text-decoration: none; text-transform: uppercase; letter-spacing: 1px; padding: 8px 16px; border: 1.5px solid var(--primary); border-radius: 8px; transition: 0.2s; }
+        .btn-home:hover { background: var(--primary); color: #FFF; }
+        .tier-badge { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: #FFF; background: var(--accent); padding: 6px 15px; border-radius: 100px; cursor: pointer; box-shadow: 0 4px 15px rgba(208,0,0,0.2); }
 
         .dashboard-body { display: flex; min-height: 100vh; }
-        
         .sidebar-hud { 
             width: 300px; 
-            background: rgba(255,255,255,0.6); 
+            background: rgba(255,255,255,0.8); 
             border-right: 1px solid var(--border); 
             padding: 40px 25px; 
-            display: flex; 
-            flex-direction: column; 
-            gap: 12px;
-            backdrop-filter: blur(20px);
-            position: sticky;
-            top: 100px;
-            height: calc(100vh - 100px);
+            display: flex; flex-direction: column; gap: 12px;
+            backdrop-filter: blur(20px); position: sticky; top: 100px; height: calc(100vh - 100px);
         }
         .hud-item {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 16px 20px;
-            border-radius: 16px;
-            text-decoration: none;
-            color: var(--muted);
-            font-size: 0.9rem;
-            font-weight: 600;
-            transition: 0.3s;
-            border: 1px solid transparent;
+            display: flex; align-items: center; gap: 15px; padding: 16px 20px; border-radius: 16px;
+            text-decoration: none; color: var(--muted); font-size: 0.9rem; font-weight: 600; transition: 0.3s;
         }
-        .hud-item:hover { background: #F1F5F9; color: #0B1218; }
-        .hud-item.active { background: #FFFFFF; color: var(--accent); border-color: #E2E8F0; box-shadow: 0 10px 25px rgba(0,0,0,0.03); }
-        .hud-item.locked { opacity: 0.5; cursor: pointer; }
+        .hud-item:hover { background: #F1F5F9; color: var(--primary); }
+        .hud-item.active { background: #FFFFFF; color: var(--accent); border: 1px solid #E2E8F0; box-shadow: 0 10px 25px rgba(0,0,0,0.03); }
+        .hud-item.locked { opacity: 0.5; }
         .lock-tag { margin-left: auto; font-size: 0.6rem; background: #F1F5F9; padding: 4px 8px; border-radius: 6px; font-weight: 800; color: #94A3B8; }
 
         .main-hud-content { flex: 1; padding: 40px 6%; }
-
         .dash-header { margin-bottom: 50px; display: flex; justify-content: space-between; align-items: flex-end; }
-        .dash-title h1 { font-family: var(--font-header); font-size: 3rem; font-weight: 700; letter-spacing: -1px; text-transform: none; color: #0B1218; margin: 0; }
-        .dash-title p { color: var(--muted); font-size: 1.1rem; font-weight: 500; margin-bottom: 5px; }
+        .dash-title h1 { font-family: var(--font-header); font-size: 3rem; font-weight: 700; color: var(--primary); margin: 0; }
+        .dash-title p { color: var(--muted); font-size: 1.1rem; font-weight: 500; }
 
         .heartbeat-container { 
-            background: #F1F5F9; color: #0F172A; padding: 10px 25px; border-radius: 100px; 
+            background: #F1F5F9; color: var(--primary); padding: 10px 25px; border-radius: 100px; 
             display: flex; align-items: center; gap: 15px; font-size: 0.75rem; font-weight: 700; 
             text-transform: uppercase; letter-spacing: 1px; border: 1px solid #E2E8F0;
         }
-        .pulse-dot { width: 10px; height: 10px; background: var(--accent); border-radius: 50%; box-shadow: 0 0 15px var(--accent); animation: pulse 1.5s infinite; }
+        .pulse-dot { width: 10px; height: 10px; background: var(--accent); border-radius: 50%; animation: pulse 1.5s infinite; }
         @keyframes pulse { 0% { opacity: 0.4; } 50% { opacity: 1; } 100% { opacity: 0.4; } }
 
         .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 25px; margin-bottom: 50px; }
-        .stat-card { background: #FFFFFF; padding: 35px; border-radius: 24px; border: 1px solid #E2E8F0; box-shadow: 0 10px 30px rgba(0,0,0,0.03); transition: 0.3s; }
-        .stat-card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.06); }
-        .stat-card h3 { font-size: 0.85rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; font-weight: 700; }
-        .stat-val { font-size: 2.5rem; font-weight: 700; color: #0B1218; font-family: var(--font-header); }
+        .stat-card { background: #FFFFFF; padding: 35px; border-radius: 24px; border: 1px solid #E2E8F0; box-shadow: 0 10px 30px rgba(0,0,0,0.02); }
+        .stat-card h3 { font-size: 0.85rem; color: var(--muted); text-transform: uppercase; font-weight: 700; margin-bottom: 12px; }
+        .stat-val { font-size: 2.5rem; font-weight: 700; color: var(--primary); font-family: var(--font-header); }
 
         .monitor-area { background: #FFFFFF; border-radius: 32px; border: 1px solid #E2E8F0; overflow: hidden; box-shadow: 0 30px 60px rgba(0,0,0,0.05); }
         .monitor-header { padding: 30px 40px; border-bottom: 1px solid #E2E8F0; display: flex; justify-content: space-between; align-items: center; background: #F8FAFC; }
-        .monitor-header h2 { font-family: var(--font-header); font-size: 1.5rem; font-weight: 700; color: #0B1218; }
+        .monitor-header h2 { font-family: var(--font-header); font-size: 1.5rem; color: var(--primary); }
         
         table { width: 100%; border-collapse: collapse; text-align: left; }
-        th { padding: 25px 40px; font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid #E2E8F0; background: #F8FAFC; font-weight: 700; }
-        td { padding: 25px 40px; border-bottom: 1px solid #F1F5F9; font-size: 0.95rem; color: #334155; }
-        .status-tag { padding: 6px 14px; border-radius: 100px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; }
-        .status-secure { background: #DCFCE7; color: #15803D; border: 1px solid #BBF7D0; }
+        th { padding: 25px 40px; font-size: 0.75rem; color: var(--muted); text-transform: uppercase; border-bottom: 1px solid #E2E8F0; background: #F8FAFC; font-weight: 700; }
+        td { padding: 25px 40px; border-bottom: 1px solid #F1F5F9; font-size: 0.95rem; color: var(--primary); }
+        .status-tag { padding: 6px 14px; border-radius: 100px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; background: #DCFCE7; color: #15803D; }
 
         .gord-console {
             display: none; position: fixed; bottom: 30px; right: 30px; width: 400px; 
-            background: #0B1218; border-radius: 20px; padding: 25px; z-index: 5000;
-            color: #00FFFF; font-family: 'Courier New', monospace; font-size: 0.75rem;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.4); border: 1px solid rgba(0,180,216,0.3);
+            background: #000814; border-radius: 20px; padding: 25px; z-index: 5000;
+            color: #FF0000; font-family: 'Courier New', monospace; font-size: 0.75rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4); border: 1px solid rgba(208,0,0,0.3);
         }
-        .gord-header { display: flex; justify-content: space-between; margin-bottom: 15px; border-bottom: 1px solid rgba(0,180,216,0.2); padding-bottom: 10px; }
-        
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15,23,42,0.6); backdrop-filter: blur(12px); z-index: 2000; justify-content: center; align-items: center; }
-        .payment-modal { background: #FFFFFF; border: 1px solid #E2E8F0; width: 100%; max-width: 780px; padding: 60px; border-radius: 40px; position: relative; text-align: center; box-shadow: 0 40px 100px rgba(0,0,0,0.15); }
-        .modal-close { position: absolute; top: 30px; right: 35px; color: #94A3B8; font-size: 2rem; cursor: pointer; transition: 0.2s; }
+        .gord-header { display: flex; justify-content: space-between; margin-bottom: 15px; border-bottom: 1px solid rgba(208,0,0,0.2); padding-bottom: 10px; }
+
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,8,20,0.7); backdrop-filter: blur(12px); z-index: 2000; justify-content: center; align-items: center; }
+        .payment-modal { background: #FFFFFF; border: 1px solid #E2E8F0; width: 100%; max-width: 780px; padding: 60px; border-radius: 40px; position: relative; text-align: center; }
+        .modal-close { position: absolute; top: 30px; right: 35px; color: #94A3B8; font-size: 2rem; cursor: pointer; }
     </style>
 </head>
 <body>
-    <div class="wave-bg"><div class="wave"></div><div class="wave wave-2"></div></div>
+    <div class="wave-bg"><div class="wave"></div></div>
     <nav>
         <div class="logo"><img src="../logos/NURASEN_DEFINITIVE_2026.png" alt="Nurasen"></div>
         <div class="nav-btns">
             <a href="index.html" class="btn-home">Home</a>
-            <div id="tier-badge" class="tier-badge" onclick="openPayment()" style="cursor: pointer;">Upgrade Tier</div>
+            <div id="tier-badge" class="tier-badge" onclick="openPayment()">Upgrade Defense</div>
         </div>
     </nav>
 
@@ -161,121 +133,56 @@
             <a href="#" class="hud-item locked" onclick="openPayment()" id="device-link"><i data-lucide="smartphone"></i> Device Monitor <span class="lock-tag">PRO</span></a>
             <a href="#" class="hud-item locked" onclick="openPayment()" id="vault-link"><i data-lucide="fingerprint"></i> Identity Vault <span class="lock-tag">APEX</span></a>
             <div style="margin-top: auto; padding: 20px; background: #F1F5F9; border-radius: 20px;">
-                <p style="font-size: 0.75rem; font-weight: 700; color: #64748B; text-transform: uppercase; margin-bottom: 5px;">Active Nodes</p>
-                <div style="font-size: 1.1rem; font-weight: 800; color: #0B1218;">14 Active</div>
+                <p style="font-size: 0.75rem; font-weight: 700; color: var(--muted); text-transform: uppercase;">Active Defense Nodes</p>
+                <div style="font-size: 1.1rem; font-weight: 800; color: var(--primary);">14 Shards Active</div>
             </div>
         </aside>
 
         <main class="main-hud-content">
             <div class="dash-header">
-                <div class="dash-title"><p>Neural Cybersecurity Intelligence</p><h1>Sentinel Control Center</h1></div>
-                <div class="heartbeat-container"><div class="pulse-dot"></div><span id="heartbeat-text">Neural Heartbeat: STABLE | 12h Sync</span></div>
+                <div class="dash-title"><p>Tactical Cybersecurity Perimeter</p><h1>Sentinel Control Center</h1></div>
+                <div class="heartbeat-container"><div class="pulse-dot"></div><span id="heartbeat-text">Neural Heartbeat: STABLE</span></div>
             </div>
-
             <div class="stats-grid">
                 <div class="stat-card"><h3>Threats Neutralized</h3><div class="stat-val">1,284</div></div>
                 <div class="stat-card"><h3>Shield Fidelity</h3><div class="stat-val">99.9%</div></div>
                 <div class="stat-card"><h3>Active Shards</h3><div class="stat-val">14</div></div>
             </div>
-
             <div class="monitor-area">
-                <div class="monitor-header">
-                    <h2>Real-Time Threat Monitor</h2>
-                    <button class="btn-home" onclick="initializeScan()" style="padding: 10px 25px;">Initialize Manual Scan</button>
-                </div>
-                <table>
-                    <thead><tr><th>Detection Source</th><th>Status</th><th>Neural Confidence</th><th>Last Pulse</th></tr></thead>
-                    <tbody id="detection-body">
-                        <tr id="no-assets"><td colspan="4" style="text-align: center; color: var(--muted); padding: 60px;">No threats detected in the current session.</td></tr>
-                    </tbody>
-                </table>
+                <div class="monitor-header"><h2>Real-Time Threat Monitor</h2><button class="btn-home" onclick="initializeScan()" style="padding: 10px 25px; border-color: var(--accent); color: var(--accent);">Initialize Pulse Scan</button></div>
+                <table><thead><tr><th>Detection Source</th><th>Status</th><th>Neural Confidence</th><th>Last Pulse</th></tr></thead><tbody id="detection-body"><tr><td colspan="4" style="text-align:center; padding:60px; color:var(--muted);">Monitoring...</td></tr></tbody></table>
             </div>
         </main>
     </div>
 
     <div class="gord-console" id="gordConsole">
-        <div class="gord-header"><span>GORD_MODE // ARCHITECT_CONSOLE</span><span>v1.0.42</span></div>
-        <div id="gordLogs" style="height: 150px; overflow-y: auto;">
-            <div>> System Initialized in God Mode.</div>
-            <div>> All feature locks bypassed.</div>
-            <div>> Monitoring Node Health... OK</div>
-            <div>> Supabase Handshake... SUCCESS</div>
-        </div>
+        <div class="gord-header"><span>GORD_MODE // ARCHITECT</span><span>v1.0.42</span></div>
+        <div id="gordLogs" style="height: 150px; overflow-y: auto;"><div>> Tactical Override Active.</div></div>
     </div>
 
-    <div id="paymentModal" class="modal-overlay">
-        <div class="payment-modal">
-            <div class="modal-close" onclick="closePayment()">×</div>
-            <h2 style="font-family: var(--font-header); font-size: 2.2rem; font-weight: 700; margin-bottom: 10px; color: #0B1218;">Elite Neural Upgrade</h2>
-            <p style="color: var(--muted); margin-bottom: 40px; font-size: 1.1rem; font-weight: 500;">Choose your defense tier.</p>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 25px;">
-                <div style="background: #F8FAFC; border: 1px solid #E2E8F0; padding: 35px; border-radius: 28px; text-align: left;">
-                    <h3 style="font-size: 1.1rem; font-weight: 800; color: #0B1218; margin-bottom: 10px; text-transform: uppercase;">SENTINEL PRO</h3>
-                    <a href="#" class="btn-home" style="display: block; background: #0B1218; color: #FFF; text-align: center; margin-top: 20px;">Monthly ($9.99)</a>
-                </div>
-                <div style="background: #FFFFFF; border: 2px solid var(--accent); padding: 35px; border-radius: 28px; text-align: left;">
-                    <div style="position: absolute; top: -15px; right: 25px; background: var(--accent); color: #FFF; font-size: 0.7rem; font-weight: 800; padding: 6px 15px; border-radius: 100px;">MOST POPULAR</div>
-                    <h3 style="font-size: 1.1rem; font-weight: 800; color: #0B1218; margin-bottom: 10px; text-transform: uppercase;">SENTINEL APEX</h3>
-                    <a href="#" class="btn-home" style="display: block; background: var(--accent); color: #FFF; border: none; text-align: center; margin-top: 20px;">Monthly ($19.99)</a>
-                </div>
-            </div>
-        </div>
-    </div>
+    <div id="paymentModal" class="modal-overlay"><div class="payment-modal"><div class="modal-close" onclick="closePayment()">×</div><h2 style="font-family: var(--font-header); font-size: 2.2rem; color: var(--primary);">Tactical Upgrade</h2><p style="color:var(--muted); margin-bottom:40px;">Bypass civilian limits.</p></div></div>
 
     <script>
         lucide.createIcons();
         function openPayment() { document.getElementById("paymentModal").style.display = "flex"; }
         function closePayment() { document.getElementById("paymentModal").style.display = "none"; }
-        
         window.onload = function() {
             const urlParams = new URLSearchParams(window.location.search);
-            const isGodMode = urlParams.get('gordmode') === 'true';
-            
-            if (isGodMode) {
+            if (urlParams.get('gordmode') === 'true') {
                 document.getElementById('gordConsole').style.display = 'block';
                 document.getElementById('tier-badge').textContent = 'Architect Elite';
-                document.getElementById('heartbeat-text').textContent = 'GORD MODE: UNRESTRICTED ACCESS';
-                
-                // Unlock Sidebar
+                document.getElementById('heartbeat-text').textContent = 'GORD MODE: UNRESTRICTED';
                 ['shield-link', 'email-link', 'device-link', 'vault-link'].forEach(id => {
-                    const el = document.getElementById(id);
-                    el.classList.remove('locked');
-                    el.removeAttribute('onclick');
-                    el.querySelector('.lock-tag').textContent = 'LIVE';
-                    el.querySelector('.lock-tag').style.background = '#0B1218';
-                    el.querySelector('.lock-tag').style.color = '#00FFFF';
+                    const el = document.getElementById(id); el.classList.remove('locked'); el.removeAttribute('onclick');
+                    el.querySelector('.lock-tag').textContent = 'LIVE'; el.querySelector('.lock-tag').style.background = '#D00000';
                 });
-
-                setInterval(() => {
-                    const logs = document.getElementById('gordLogs');
-                    const div = document.createElement('div');
-                    div.textContent = `> Packet Trace: ${Math.random().toString(16).substring(2, 10)} verified.`;
-                    logs.appendChild(div);
-                    logs.scrollTop = logs.scrollHeight;
-                }, 3000);
-            }
-
-            if (urlParams.get('premium') === 'true') {
-                document.getElementById('tier-badge').textContent = 'Apex Sentinel';
-                document.getElementById('heartbeat-text').textContent = 'Neural Heartbeat: ACTIVE | 15m Sync';
             }
         };
-
-        const sources = ["Shard Alpha", "Storage Node", "API Sync", "Metadata Request", "Ledger Node"];
         function initializeScan() {
             const tbody = document.getElementById('detection-body');
-            const noAssets = document.getElementById('no-assets');
-            if (noAssets) noAssets.remove();
-            const urlParams = new URLSearchParams(window.location.search);
-            const isPremium = urlParams.get('premium') === 'true' || urlParams.get('gordmode') === 'true';
             const row = document.createElement('tr');
-            row.innerHTML = `<td><div style="color: #0B1218; font-weight: 700;">${sources[Math.floor(Math.random()*5)]}</div></td><td><span class="loading-pulse">NEUTRALIZING...</span></td><td>Searching...</td><td>Initializing</td>`;
+            row.innerHTML = `<td><div style="color: var(--primary); font-weight: 700;">Tactical Shard Beta</div></td><td><span class="status-tag">SECURE</span></td><td>HIGH (Verified)</td><td>Just Now</td>`;
             tbody.prepend(row);
-            setTimeout(function() {
-                row.cells[1].innerHTML = '<span class="status-tag status-secure">SECURE</span>';
-                row.cells[2].textContent = isPremium ? 'HIGH (15m Scan)' : 'STANDARD (12h Scan)';
-                row.cells[3].textContent = 'Just Now';
-            }, 2000);
         }
     </script>
 </body>
