@@ -1,1 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CALALLOO | Caribbean Heritage Hub</title>
+    <!-- v1.0 - CALALLOO // TROPICAL SHARD -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="../shared_godmode.css">
+    <style>
+        :root {
+            --bg: #FFFBEB; --surface: #FFFFFF; --text: #064E3B; --muted: #059669; 
+            --accent: #F59E0B; --primary: #065F46; --border: rgba(6, 95, 70, 0.1);
+            --font-header: 'Playfair Display', serif; --font-body: 'Inter', sans-serif;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: var(--bg); color: var(--text); font-family: var(--font-body); min-height: 100vh; overflow-x: hidden; }
+        
+        canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; opacity: 0.2; }
 
+        header { padding: 40px 6%; display: flex; justify-content: space-between; align-items: center; border-bottom: 4px solid var(--accent); background: var(--primary); color: #FFF; }
+        .logo { font-family: var(--font-header); font-size: 2rem; font-weight: 900; letter-spacing: 2px; }
+
+        .hero { padding: 100px 6%; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+        .hero h1 { font-family: var(--font-header); font-size: 4rem; line-height: 1; margin-bottom: 25px; color: var(--primary); }
+        
+        .recipe-card { background: var(--surface); border: 1px solid var(--border); border-radius: 24px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        .recipe-thumb { height: 300px; background-size: cover; background-position: center; }
+    </style>
+</head>
+<body>
+    <canvas id="calallooCanvas"></canvas>
+    <header><div class="logo">CALALLOO</div></header>
+    <section class="hero">
+        <div>
+            <h1 style="font-size: 3.5rem;">Authentic Caribbean Heritage.</h1>
+            <p style="font-size: 1.2rem; color: var(--muted); margin-bottom: 40px;">Preserving culinary DNA and cultural history. Discover authentic recipes and heritage art in the unified Tropical Shard.</p>
+            <button style="background: var(--accent); color: white; border: none; padding: 20px 40px; border-radius: 50px; font-weight: 900; cursor: pointer;">Explore Catalog</button>
+        </div>
+        <div class="recipe-card">
+            <div class="recipe-thumb" style="background-image: url('https://images.unsplash.com/photo-1547592166-23ac45744acd?q=80&w=2071&auto=format&fit=crop')"></div>
+            <div style="padding: 30px;">
+                <h3 style="font-family: var(--font-header); font-size: 1.5rem;">Authentic Calalloo Soup</h3>
+                <p style="font-size: 0.9rem; margin-top: 10px; opacity: 0.7;">Primary sourcing from historical Caribbean culinary records.</p>
+            </div>
+        </div>
+    </section>
+    <script>
+        lucide.createIcons();
+        const canvas = document.getElementById('calallooCanvas');
+        const ctx = canvas.getContext('2d');
+        let leaves = [];
+        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        window.onresize = resize; resize();
+        class Leaf {
+            constructor() { this.reset(); }
+            reset() { this.x = Math.random() * canvas.width; this.y = Math.random() * canvas.height; this.r = Math.random() * 5 + 2; this.s = Math.random() * 0.3 + 0.1; }
+            draw() { ctx.fillStyle = '#059669'; ctx.beginPath(); ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2); ctx.fill(); }
+            update() { this.y += this.s; if (this.y > canvas.height) this.reset(); }
+        }
+        for (let i = 0; i < 40; i++) leaves.push(new Leaf());
+        function animate() { ctx.clearRect(0,0,canvas.width,canvas.height); leaves.forEach(l => { l.update(); l.draw(); }); requestAnimationFrame(animate); }
+        animate();
+    </script>
+    <script src="../shared_godmode.js"></script>
+</body>
+</html>
