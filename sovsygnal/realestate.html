@@ -111,7 +111,7 @@
 
         <div class="featured-story">
             <div class="main-story">
-                <h4><span>Top Intelligence // Investment</span> <span>Jun 13, 2026 // 15:31 AST</span></h4>
+                <h4><span>Top Intelligence // Investment</span> <span>Jun 13, 2026 // 16:18 AST</span></h4>
                 <h2>Sustainable Property Investment: The Rise of Eco-Hubs.</h2>
                 <p>Real estate intelligence monitors the structural shift toward community-driven, circular economy infrastructure.</p>
                 <a href="https://orcinos.com/sovsygnal/" target="_blank" style="text-decoration:none;"><span class="ref-link" style="font-size: 0.8rem; color: var(--sygnal-red); font-weight: 800; text-transform: uppercase; letter-spacing: 2px;">Intelligence Source: Internal Intelligence &rarr;</span></a>
@@ -119,13 +119,13 @@
             <div class="side-stories">
                 
                 <div class="side-story">
-                    <h4><span>Luxury</span> <span>Jun 13, 2026 // 15:31 AST</span></h4>
+                    <h4><span>Luxury</span> <span>Jun 13, 2026 // 16:18 AST</span></h4>
                     <h3>Sanctuary Engineering in Residential Design.</h3>
                     <p>Focus on cognitive-focused environments and high-fidelity focus.</p>
                     <a href="https://orcinos.com/sovsygnal/" target="_blank" class="ref-link" style="font-size: 0.6rem;">Source: Internal Intelligence &rarr;</a>
                 </div>
                 <div class="side-story">
-                    <h4><span>Design</span> <span>Jun 13, 2026 // 15:31 AST</span></h4>
+                    <h4><span>Design</span> <span>Jun 13, 2026 // 16:18 AST</span></h4>
                     <h3>Archival Craftsmanship: Sourcing Primary Materials.</h3>
                     <p>The shift toward primary-source craftsmanship in high-end developments.</p>
                     <a href="https://orcinos.com/sovsygnal/" target="_blank" class="ref-link" style="font-size: 0.6rem;">Source: Internal Intelligence &rarr;</a>
@@ -166,7 +166,7 @@
         <div class="news-grid">
             
                 <div class="news-card">
-                    <h4><span>Urban</span> <span>Jun 13, 2026 // 15:31 AST</span></h4>
+                    <h4><span>Urban</span> <span>Jun 13, 2026 // 16:18 AST</span></h4>
                     <h3>Urban Design Shifts: Tracking Design Trends.</h3>
                     <p>How global luxury listings are adopting architectural sanctuary design.</p>
                     <a href="https://orcinos.com/sovsygnal/" target="_blank" class="ref-link">Source: Internal Intelligence &rarr;</a>
@@ -189,6 +189,40 @@
     <script src="../shared_godmode.js"></script>
     <script>
         document.getElementById("nav-realestate").classList.add("active");
+        
+        // API Intelligence Engine
+        const FINNHUB_KEY = "{{credential:finnhub-api-key}}";
+        
+        async function updateAPIs() {
+            const feeds = document.querySelectorAll('.api-item');
+            
+            // Logic for Stocks/Forex
+            if ("realestate" === "stocks" || "realestate" === "forex" || "realestate" === "markets") {
+                feeds.forEach(async (item) => {
+                    const label = item.querySelector('label').innerText;
+                    const symbol = label.split('(')[1]?.replace(')', '') || label.replace('/', '');
+                    try {
+                        const res = await fetch(`https://finnhub.io/api/v1/quote?symbol=${symbol}&token=${FINNHUB_KEY}`);
+                        const data = await res.json();
+                        if (data.c) item.querySelector('.value').innerText = `$${data.c.toFixed(2)}`;
+                    } catch(e) { console.error(e); }
+                });
+            }
+            
+            // Logic for Crypto
+            if ("realestate" === "blockchain") {
+                try {
+                    const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana&vs_currencies=usd');
+                    const data = await res.json();
+                    document.querySelector('[label="BITCOIN (BTC)"]')?.querySelector('.value').innerText = `$${data.bitcoin.usd.toLocaleString()}`;
+                    document.querySelector('[label="ETHEREUM (ETH)"]')?.querySelector('.value').innerText = `$${data.ethereum.usd.toLocaleString()}`;
+                    document.querySelector('[label="SOLANA (SOL)"]')?.querySelector('.value').innerText = `$${data.solana.usd.toLocaleString()}`;
+                } catch(e) { console.error(e); }
+            }
+        }
+        
+        updateAPIs();
+        setInterval(updateAPIs, 60000); // Refresh every minute
     </script>
 </body>
 </html>
