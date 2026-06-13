@@ -3,74 +3,256 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ORCINOS | Smart Software Tools</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <title>ORCINOS | Trusted Software Division</title>
     <style>
-        :root { --bg: #F0F7FF; --text: #0A192F; --muted: #5A7184; --accent: #2E5BBA; --card: #FFFFFF; --border: rgba(46, 91, 186, 0.1); }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; text-align: center; line-height: 1.6; }
-        nav { display: flex; justify-content: center; padding: 25px; border-bottom: 1px solid var(--border); gap: 40px; background: rgba(240,247,255,0.8); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 1000; }
-        nav a { color: var(--muted); text-decoration: none; font-size: 0.75rem; text-transform: uppercase; font-weight: 800; letter-spacing: 2px; }
-        .logo-section { padding: 80px 0 40px; }
-        .logo-img { height: 120px; }
-        .hero { padding: 0 6% 60px; }
-        .hero h1 { font-size: 4rem; font-weight: 900; letter-spacing: -2px; text-transform: uppercase; margin-bottom: 20px; }
-        .hero p { font-size: 1.2rem; color: var(--muted); max-width: 600px; margin: 0 auto 30px; }
-        .about-section { padding: 60px 6%; background: white; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); margin-bottom: 60px; }
-        .about-section h2 { font-size: 2rem; margin-bottom: 20px; text-transform: uppercase; font-weight: 900; }
-        .about-section p { max-width: 800px; margin: 0 auto; color: var(--muted); }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; padding: 0 6% 100px; max-width: 1400px; margin: 0 auto; }
-        .card { background: var(--card); border: 1px solid var(--border); padding: 35px; border-radius: 20px; text-align: left; transition: transform 0.3s; }
-        .card:hover { transform: translateY(-5px); border-color: var(--accent); }
-        .card span { font-size: 0.65rem; font-weight: 900; text-transform: uppercase; color: var(--accent); letter-spacing: 1px; display: block; margin-bottom: 10px; }
-        .card h3 { font-size: 1.4rem; font-weight: 800; margin-bottom: 10px; }
-        .card p { font-size: 0.9rem; color: var(--muted); margin-bottom: 20px; }
-        .btn-launch { text-decoration: none; color: var(--accent); font-size: 0.75rem; text-transform: uppercase; font-weight: 900; letter-spacing: 1px; }
-        footer { padding: 80px 0; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; }
+        :root {
+            --light-blue: #E0F2FE;
+            --accent-blue: #0ea5e9;
+            --navy: #0f172a;
+            --white: #FFFFFF;
+            --gray: #64748b;
+            --border: #e2e8f0;
+        }
+        body {
+            background-color: var(--white);
+            color: var(--navy);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+        header {
+            padding: 80px 20px;
+            text-align: center;
+            background-color: var(--light-blue);
+            border-bottom: 1px solid var(--border);
+        }
+        header img {
+            height: 120px;
+            margin-bottom: 20px;
+        }
+        h1 {
+            color: var(--navy);
+            font-size: 3rem;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            font-weight: 900;
+        }
+        .subtitle {
+            color: var(--gray);
+            font-size: 1.2rem;
+            margin-top: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 80px 20px;
+        }
+        .about-section {
+            margin-bottom: 80px;
+            text-align: center;
+        }
+        .about-section h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            color: var(--navy);
+        }
+        .about-section p {
+            font-size: 1.1rem;
+            color: var(--gray);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 40px;
+        }
+        .product-card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 40px;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            text-decoration: none;
+            color: inherit;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+        }
+        .product-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent-blue);
+            box-shadow: 0 20px 40px rgba(14, 165, 233, 0.1);
+        }
+        .product-card h3 {
+            margin: 0 0 15px 0;
+            color: var(--navy);
+            font-size: 1.6rem;
+            font-weight: 800;
+        }
+        .product-card p {
+            color: var(--gray);
+            font-size: 1rem;
+            line-height: 1.7;
+            margin-bottom: 30px;
+            flex-grow: 1;
+        }
+        .price-tag {
+            display: inline-block;
+            background: var(--light-blue);
+            color: var(--accent-blue);
+            padding: 6px 16px;
+            border-radius: 100px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        footer {
+            text-align: center;
+            padding: 80px 20px;
+            color: var(--gray);
+            font-size: 0.95rem;
+            background: #f8fafc;
+            border-top: 1px solid var(--border);
+        }
+        footer img {
+            height: 50px;
+            margin-bottom: 20px;
+            opacity: 0.8;
+        }
     </style>
 </head>
 <body>
-    <nav><a href="/">Main Hub</a><a href="/orcinos/" style="color: var(--accent);">Orcinos Hub</a></nav>
-    <div class="logo-section"><img src="/logos/ORCINOS_DEFINITIVE_2026.png" alt="Orcinos" class="logo-img"></div>
-    <section class="hero">
-        <h1>Smart Tools.</h1>
-        <p>Simple and powerful software tools designed to help your business grow automatically.</p>
-    </section>
+    <header>
+        <img src="/logos/ORCINOS_DEFINITIVE_2026.png" alt="ORCINOS">
+        <h1>ORCINOS</h1>
+        <div class="subtitle">Trusted Software Division</div>
+    </header>
 
-    <section class="about-section">
-        <h2>What is Orcinos?</h2>
-        <p>Orcinos is the smart software part of Prisca Dezigns. We build tools that handle the hard work for you—from tracking prices and securing your data to creating content and managing your brand. Everything we build is designed to be simple, fast, and high quality.</p>
-    </section>
+    <div class="container">
+        <section class="about-section">
+            <h2>Architecting Digital Sovereignty</h2>
+            <p>Orcinos is the high-fidelity software branch of the Priscion Network. We build autonomous tools and AI-powered platforms designed to restore digital independence and engineering excellence to the sovereign individual.</p>
+        </section>
 
-    <div class="grid" id="product-grid">
-        <!-- Products will be injected here -->
+        <div class="product-grid">
+            <!-- AI & Intelligence -->
+            <a href="./captioai/" class="product-card">
+                <h3>Captio AI</h3>
+                <p>High-fidelity AI social media engine for caption generation and management.</p>
+            </a>
+            <a href="./optiscout/" class="product-card">
+                <h3>OptiScout</h3>
+                <p>Autonomous market intelligence and real-time deal discovery engine.</p>
+            </a>
+            <a href="./sovsygnal/" class="product-card">
+                <h3>SovSygnal</h3>
+                <p>Global intelligence hub for data analysis and news signal processing.</p>
+            </a>
+            <a href="./pricepulse/" class="product-card">
+                <h3>PricePulse</h3>
+                <p>Autonomous pricing intelligence and market monitoring engine.</p>
+            </a>
+            <a href="./dricil/" class="product-card">
+                <h3>Dricil</h3>
+                <p>Fully autonomous AI digital marketing agency for automated growth.</p>
+            </a>
+
+            <!-- Cybersecurity & Systems -->
+            <a href="./nurasen/" class="product-card">
+                <h3>Nurasen</h3>
+                <p>Neural cybersecurity and antivirus defense for sovereign data protection.</p>
+            </a>
+            <a href="./syla/" class="product-card">
+                <h3>Syla</h3>
+                <p>Intelligent logistics and asset management dashboard for high-fidelity operations.</p>
+            </a>
+
+            <!-- Wellness & Recovery -->
+            <a href="./slumber/" class="product-card">
+                <h3>Slumber</h3>
+                <p>AI-powered sleep science and coaching platform for architectural recovery.</p>
+            </a>
+            <a href="./hartaly/" class="product-card">
+                <h3>Hartaly</h3>
+                <p>Empathetic AI companion designed for mental clarity and burnout recovery.</p>
+            </a>
+            <a href="./prayerblock/" class="product-card">
+                <h3>PrayerBlock</h3>
+                <p>Distraction-free environment for prayer and deep analytical meditation.</p>
+            </a>
+
+            <!-- Media & Culture -->
+            <a href="./riddiim/" class="product-card">
+                <h3>Riddiim</h3>
+                <p>Professional music player and audio engineering studio.</p>
+            </a>
+            <a href="./dreaminganime/" class="product-card">
+                <h3>Dreaming Anime</h3>
+                <p>The high-fidelity media arm for immersive anime experiences.</p>
+            </a>
+            <a href="./dpanyard/" class="product-card">
+                <h3>D'Panyard</h3>
+                <p>Global home for Steelpan music and high-fidelity Caribbean culture.</p>
+            </a>
+            <a href="./calalloo/" class="product-card">
+                <h3>Calalloo</h3>
+                <p>The ultimate Caribbean marketplace - everything Caribbean, in one sovereign hub.</p>
+            </a>
+
+            <!-- Specialized Tools -->
+            <a href="./pawdx/" class="product-card">
+                <h3>PawDX</h3>
+                <p>AI-powered veterinary diagnostics and pet health intelligence engine.</p>
+            </a>
+            <a href="./clausify/" class="product-card">
+                <h3>Clausify</h3>
+                <p>Legal automation and contract generation for creators and entrepreneurs.</p>
+            </a>
+            <a href="./skillbit/" class="product-card">
+                <h3>Skillbit</h3>
+                <p>Micro-learning platform for rapid high-fidelity skill acquisition.</p>
+            </a>
+            <a href="./hearthly/" class="product-card">
+                <h3>Hearthly</h3>
+                <p>Smart hospitality and home management system for modern living.</p>
+            </a>
+        </div>
     </div>
 
+    <footer>
+        <img src="/logos/ORCINOS_DEFINITIVE_2026.png" alt="ORCINOS Icon" id="god-trigger"><br>
+        <p>&copy; 2026 PRISCION NETWORK · <span id="god-trigger-text" style="cursor:default;">ORCINOS</span> DIVISION · ANCHORED TO ETERNITY</p>
+    </footer>
+
     <script>
-        const products = [
-            { name: "Captio AI", cat: "Marketing", desc: "A smart tool for creating perfect social media captions automatically.", url: "/captioai/" },
-            { name: "OptiScout", cat: "Shopping", desc: "Track Amazon prices and find the best deals easily.", url: "/optiscout/" },
-            { name: "Nurasen", cat: "Security", desc: "Top quality protection for your business data and private info.", url: "/nurasen/" },
-            { name: "Titan TraderX", cat: "Trading", desc: "A smart dashboard for tracking your trading strategies and alerts.", url: "/titantraderx/" },
-            { name: "PrayerBlock", cat: "Wellness", desc: "A quiet space for prayer and thinking without distractions.", url: "/prayerblock/landing/" },
-            { name: "PawDX", cat: "Pet Care", desc: "Check your pet's health and track their well-being with smart tools.", url: "/pawdx/landing/" },
-            { name: "Slumber", cat: "Sleep Tech", desc: "Understand your sleep better and wake up feeling your best.", url: "/slumber/landing/" },
-            { name: "Skillbit", cat: "Learning", desc: "Learn new skills fast with easy, short lessons.", url: "/skillbit/landing/" },
-            { name: "Clausify", cat: "Legal Tools", desc: "Create simple legal documents and contracts for your business.", url: "/clausify/landing/" },
-            { name: "Syla", cat: "Logistics", desc: "A simple way to track your business assets and tools.", url: "/syla/landing/" },
-            { name: "Hartaly", cat: "Wellness", desc: "A smart helper to keep your mind calm and focused.", url: "/hartaly/landing/" },
-            { name: "D'Panyard", cat: "Culture", desc: "The home for Steelpan music and Caribbean culture.", url: "/dpanyard/landing/" },
-            { name: "Riddiim", cat: "Music", desc: "Tools for making and sharing great music easily.", url: "/riddiim/landing/" },
-            { name: "Dricil", cat: "Agency", desc: "An automatic helper that handles your digital marketing for you.", url: "/dricil/landing/" },
-            { name: "Vyne", cat: "Marketplace", desc: "The sovereign marketplace. Own your own boutique, curate products, and earn automatic commissions.", url: "/vyne/" }
-        ];
-        const grid = document.getElementById('product-grid');
-        products.forEach(p => {
-            grid.innerHTML += `<div class="card"><span>${p.cat}</span><h3>${p.name}</h3><p>${p.desc}</p><a href="${p.url}" class="btn-launch">Explore Tool →</a></div>`;
-        });
+        let clickCount = 0;
+        const triggerText = document.getElementById('god-trigger-text');
+        const triggerImg = document.getElementById('god-trigger');
+
+        function handleGodMode() {
+            clickCount++;
+            if (clickCount === 5) {
+                const token = prompt("ARCHITECT_HANDSHAKE: ENTER ACCESS TOKEN");
+                if (token === 'alice') {
+                    window.location.href = './godmode/hub.html';
+                } else {
+                    alert("ACCESS_DENIED: UNAUTHORIZED SHARD");
+                    clickCount = 0;
+                }
+            }
+            // Reset count if no clicks for 3 seconds
+            clearTimeout(this.timeout);
+            this.timeout = setTimeout(() => { clickCount = 0; }, 3000);
+        }
+
+        triggerText.addEventListener('click', handleGodMode);
+        triggerImg.addEventListener('click', handleGodMode);
     </script>
-    <footer>© 2026 ORCINOS · PRISCA DEZIGNS NETWORK</footer>
 </body>
 </html>
-
