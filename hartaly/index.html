@@ -3,78 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hearthly | Home-Cooked Food Marketplace</title>
+    <title>Hartaly | Your 2 AM Calm</title>
     <link rel="icon" type="image/png" href="../logos/hartaly_icon.png">
-    <link rel="stylesheet" href="../shared/style.css">
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #FFFFFF;
+            --surface: #F8FAFC;
+            --text: #0F172A;
+            --muted: #64748B;
+            --accent: #6366F1;
+            --font-header: 'Playfair Display', serif;
+            --font-body: 'Inter', sans-serif;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: var(--bg); color: var(--text); font-family: var(--font-body); line-height: 1.6; }
+        header { padding: 30px 6%; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(0,0,0,0.05); }
+        .logo { display: flex; align-items: center; text-decoration: none; color: var(--text); font-family: var(--font-header); font-weight: 700; font-size: 1.5rem; }
+        .logo img { height: 40px; margin-right: 15px; }
+        .btn { padding: 12px 24px; border-radius: 8px; font-weight: 700; text-decoration: none; cursor: pointer; transition: 0.3s; }
+        .btn-primary { background: var(--accent); color: white; }
+        .hero { padding: 120px 6%; text-align: center; background: linear-gradient(180deg, #F1F5F9 0%, #FFFFFF 100%); }
+        .hero h1 { font-family: var(--font-header); font-size: 3.5rem; margin-bottom: 20px; }
+        .hero p { font-size: 1.25rem; color: var(--muted); max-width: 700px; margin: 0 auto 40px; }
+        .features { padding: 80px 6%; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; }
+        .card { padding: 40px; background: var(--surface); border-radius: 16px; border: 1px solid rgba(0,0,0,0.05); }
+        .card h3 { font-family: var(--font-header); margin-bottom: 15px; }
+        footer { padding: 60px 6%; text-align: center; border-top: 1px solid rgba(0,0,0,0.05); }
+        footer img { height: 50px; margin-bottom: 20px; opacity: 0.8; }
+    </style>
 </head>
 <body>
     <header>
-        <a href="/" class="logo"><img src="../logos/hartaly_logo.png" alt="Hearthly" style="height: 60px;"></a>
-        <nav>
-            <a href="../browse/meals.html">Browse Meals</a>
-            <a href="../cook/register.html">Become a Cook</a>
-            <a href="../buyer/dashboard.html">My Orders</a>
-            <a href="../cook/dashboard.html" class="btn btn-primary">Cook Dashboard</a>
-        </nav>
+        <a href="/" class="logo">
+            <img src="../logos/hartaly_logo.png" alt="Hartaly">
+            <span>Hartaly</span>
+        </a>
     </header>
 
-    <section class="hero" style="background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&w=1200&q=80'); background-size: cover; height: 500px; display: flex; align-items: center; justify-content: center; text-align: center; color: white;">
-        <div class="hero-content">
-            <h1 style="font-size: 3.5rem; margin-bottom: 1rem;">Taste the Heart of Your Community</h1>
-            <p style="font-size: 1.5rem; margin-bottom: 2rem;">Order authentic, home-cooked meals from talented local chefs.</p>
-            <div class="cta-buttons">
-                <a href="../browse/meals.html" class="btn btn-primary" style="font-size: 1.2rem; padding: 1rem 2rem;">Find Food Near You</a>
-            </div>
+    <section class="hero">
+        <h1>Your 2 AM Calm.</h1>
+        <p>An empathetic AI companion for when the world feels too loud. Evidence-based support for stress, anxiety, and burnout.</p>
+        <a href="#" class="btn btn-primary">Start Talking</a>
+    </section>
+
+    <section class="features">
+        <div class="card">
+            <h3>Hartaly Chat</h3>
+            <p>Real-time conversations with an AI coach trained in CBT and mindfulness. No judgments, just support.</p>
+        </div>
+        <div class="card">
+            <h3>Mood Tracking</h3>
+            <p>Visualize your emotional journey with our intuitive heatmap. Understand your triggers and patterns.</p>
+        </div>
+        <div class="card">
+            <h3>Guided Journal</h3>
+            <p>AI-generated prompts tailored to your current mood, helping you process thoughts effectively.</p>
         </div>
     </section>
 
-    <main class="container">
-        <section class="features" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 3rem; margin: 4rem 0; text-align: center;">
-            <div>
-                <h3 style="color: var(--terracotta); font-size: 1.5rem;">Authentic Flavors</h3>
-                <p>Real people, real recipes, real ingredients. No industrial kitchens here.</p>
-            </div>
-            <div>
-                <h3 style="color: var(--terracotta); font-size: 1.5rem;">Support Local</h3>
-                <p>Empower home chefs in your neighborhood and grow the local food economy.</p>
-            </div>
-            <div>
-                <h3 style="color: var(--terracotta); font-size: 1.5rem;">Safe & Simple</h3>
-                <p>Easy browsing, secure order requests, and transparent community reviews.</p>
-            </div>
-        </section>
-
-        <section class="how-it-works" style="background: var(--white); padding: 4rem; border-radius: 12px;">
-            <h2 style="text-align: center; margin-bottom: 3rem;">How Hearthly Works</h2>
-            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 4rem; align-items: center;">
-                <div>
-                    <img src="https://images.unsplash.com/photo-1547592166-23ac45744acd?auto=format&fit=crop&w=600&q=80" alt="Cooking" style="width: 100%; border-radius: 8px;">
-                </div>
-                <div>
-                    <div style="margin-bottom: 2rem;">
-                        <h4 style="font-size: 1.2rem; margin-bottom: 0.5rem;">1. Browse & Discover</h4>
-                        <p>Explore unique dishes made by cooks in your city. Filter by cuisine or dietary needs.</p>
-                    </div>
-                    <div style="margin-bottom: 2rem;">
-                        <h4 style="font-size: 1.2rem; margin-bottom: 0.5rem;">2. Order with Love</h4>
-                        <p>Choose your portions and send an order request. The cook confirms when it's ready.</p>
-                    </div>
-                    <div>
-                        <h4 style="font-size: 1.2rem; margin-bottom: 0.5rem;">3. Pickup or Delivery</h4>
-                        <p>Get your fresh meal and enjoy the taste of home. Review your cook to share the love!</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer style="background: var(--brown); color: var(--cream); padding: 4rem 0; margin-top: 4rem; text-align: center;">
-        <img src="../logos/hartaly_icon.png" alt="Hearthly Icon" style="height: 40px; margin-bottom: 20px;">
-        <p>&copy; 2026 Hearthly | An Orcinos Product</p>
-        <p style="font-size: 0.8rem; margin-top: 1rem; opacity: 0.7;">Powered by Supabase & Human Connection</p>
+    <footer>
+        <img src="../logos/hartaly_icon.png" alt="Hartaly Icon">
+        <p>&copy; 2026 Hartaly · An Orcinos Division · Anchored to Eternity</p>
     </footer>
-
-    <script src="../shared/app.js"></script>
 </body>
 </html>
