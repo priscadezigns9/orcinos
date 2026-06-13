@@ -4,180 +4,145 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ORCINOS | God Mode Hub</title>
-    <!-- v1.0 - UNIFIED ARCHITECT COMMAND CENTER -->
+    <!-- v1.1 - UNIFIED ARCHITECT COMMAND HUB (NAVY/AMBER) -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;700;900&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         :root {
             --navy: #001B3D; --amber: #FF9500; --white: #FFFFFF; --slate: #F8FAFC;
-            --text-dark: #000814; --text-muted: #64748B; --border: rgba(0, 27, 61, 0.1);
+            --text-dark: #000814; --text-muted: #64748B; --border: rgba(255,149,0,0.2);
             --font-header: 'Playfair Display', serif; --font-body: 'Inter', sans-serif; --font-mono: 'Fira Code', monospace;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: var(--navy); color: var(--white); font-family: var(--font-body); min-height: 100vh; display: flex; flex-direction: column; }
+        body { background: var(--white); color: var(--navy); font-family: var(--font-body); height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
         
-        header { background: rgba(0, 27, 61, 0.95); padding: 30px 6%; border-bottom: 1px solid rgba(255,149,0,0.3); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; backdrop-filter: blur(20px); }
-        .logo-box { display: flex; align-items: center; gap: 15px; }
-        .logo-box h1 { font-family: var(--font-header); font-size: 1.8rem; letter-spacing: 2px; }
-        .architect-tag { font-family: var(--font-mono); font-size: 0.7rem; color: var(--amber); border: 1px solid var(--amber); padding: 4px 10px; border-radius: 4px; text-transform: uppercase; }
+        header { background: var(--navy); color: var(--white); padding: 20px 4%; display: flex; justify-content: space-between; align-items: center; z-index: 100; border-bottom: 2px solid var(--amber); }
+        .logo-box h1 { font-family: var(--font-header); font-size: 1.5rem; letter-spacing: 2px; cursor: pointer; }
+        .architect-tag { font-family: var(--font-mono); font-size: 0.65rem; color: var(--amber); border: 1px solid var(--amber); padding: 3px 8px; border-radius: 4px; text-transform: uppercase; margin-left: 15px; }
 
-        .main-container { padding: 40px 6%; flex: 1; }
-        .global-metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 25px; margin-bottom: 50px; }
-        .metric-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); padding: 30px; border-radius: 20px; transition: 0.3s; }
-        .metric-card:hover { border-color: var(--amber); background: rgba(255,255,255,0.05); }
-        .metric-card h3 { font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 15px; }
-        .metric-value { font-size: 2.5rem; font-weight: 800; color: var(--amber); }
+        .hub-layout { display: flex; flex: 1; overflow: hidden; }
+        
+        /* Sidebar: Product Matrix */
+        .sidebar-matrix { width: 320px; background: var(--slate); border-right: 1px solid #E2E8F0; display: flex; flex-direction: column; padding: 20px; overflow-y: auto; }
+        .sidebar-matrix h2 { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px; border-bottom: 1px solid #E2E8F0; padding-bottom: 10px; }
+        
+        .product-item { padding: 15px; background: #FFF; border: 1px solid #E2E8F0; border-radius: 12px; margin-bottom: 12px; cursor: pointer; transition: 0.2s; text-decoration: none; color: inherit; display: block; }
+        .product-item:hover { border-color: var(--amber); transform: translateX(5px); }
+        .product-item.active { border-left: 4px solid var(--amber); background: #FFF; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        .product-item h4 { font-size: 1rem; display: flex; align-items: center; gap: 8px; }
+        .status-dot { width: 8px; height: 8px; background: #22C55E; border-radius: 50%; display: inline-block; }
+        .product-meta { font-family: var(--font-mono); font-size: 0.65rem; color: var(--text-muted); margin-top: 5px; display: flex; justify-content: space-between; }
 
-        .section-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 30px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px; }
-        .section-header h2 { font-family: var(--font-header); font-size: 2rem; }
+        /* Main Stage: Intelligence & Viewport */
+        .main-stage { flex: 1; display: flex; flex-direction: column; background: #FFF; }
+        
+        .global-hud { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; padding: 20px; background: #FFF; border-bottom: 1px solid #E2E8F0; }
+        .metric { border-left: 2px solid var(--amber); padding-left: 15px; }
+        .metric-label { font-size: 0.6rem; color: var(--text-muted); text-transform: uppercase; }
+        .metric-val { font-size: 1.2rem; font-weight: 900; color: var(--navy); }
 
-        .product-matrix { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
-        .product-card { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); padding: 25px; border-radius: 16px; transition: 0.3s; text-decoration: none; color: inherit; position: relative; overflow: hidden; }
-        .product-card:hover { transform: translateY(-5px); border-color: var(--amber); background: rgba(255,255,255,0.04); }
-        .product-card h4 { font-size: 1.2rem; font-weight: 800; margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
-        .status-dot { width: 8px; height: 8px; background: #22C55E; border-radius: 50%; box-shadow: 0 0 10px #22C55E; }
-        .product-stats { font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-muted); display: flex; justify-content: space-between; margin-top: 15px; }
-        .pulse-light { position: absolute; top: 0; right: 0; padding: 10px; }
+        .viewport-container { flex: 1; position: relative; background: #F1F5F9; }
+        iframe { width: 100%; height: 100%; border: none; background: #FFF; }
 
-        .intelligence-feed { margin-top: 50px; background: #000814; border-radius: 20px; border: 1px solid rgba(255,149,0,0.2); padding: 30px; }
-        .feed-container { height: 300px; overflow-y: auto; font-family: var(--font-mono); font-size: 0.8rem; }
-        .feed-row { padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.03); display: flex; gap: 20px; }
-        .feed-time { color: var(--amber); min-width: 100px; }
+        /* Bottom Intelligence Feed */
+        .intelligence-drawer { height: 180px; background: #000814; border-top: 2px solid var(--amber); padding: 15px 30px; overflow-y: auto; font-family: var(--font-mono); }
+        .feed-row { font-size: 0.75rem; padding: 5px 0; border-bottom: 1px solid rgba(255,255,255,0.03); display: flex; gap: 20px; }
+        .feed-time { color: var(--amber); }
         .feed-msg { color: #94A3B8; }
-
-        footer { padding: 40px 6%; text-align: center; border-top: 1px solid rgba(255,255,255,0.05); color: var(--text-muted); font-size: 0.8rem; }
     </style>
 </head>
 <body>
     <header>
         <div class="logo-box">
-            <h1 onclick="window.location.href='../'">ORCINOS</h1>
-            <span class="architect-tag">Sovereign Architect</span>
+            <h1 onclick="window.location.href='../index.html'">ORCINOS <span class="architect-tag">God Mode Hub</span></h1>
         </div>
-        <div style="display:flex; align-items:center; gap:20px;">
-            <div id="connection-status" style="display:flex; align-items:center; gap:8px; font-family:var(--font-mono); font-size:0.7rem; color:#22C55E;">
-                <span class="status-dot"></span> SUPABASE_LIVE
-            </div>
-        </div>
+        <div style="font-family:var(--font-mono); font-size:0.7rem; color:var(--amber);">LIVE_MODE: ACTIVE // SUPABASE_SYNC: OPTIMAL</div>
     </header>
 
-    <main class="main-container">
-        <!-- GLOBAL SENTINEL HUD -->
-        <section class="global-metrics">
-            <div class="metric-card">
-                <h3>Global Traffic (24h)</h3>
-                <div class="metric-value" id="global-traffic">142,891</div>
-            </div>
-            <div class="metric-card">
-                <h3>Total Signups</h3>
-                <div class="metric-value" id="total-users">0</div>
-            </div>
-            <div class="metric-card">
-                <h3>Active Shards</h3>
-                <div class="metric-value">18</div>
-            </div>
-            <div class="metric-card">
-                <h3>Aggregate MRR</h3>
-                <div class="metric-value" id="global-revenue">$0.00</div>
-            </div>
-        </section>
-
-        <!-- PRODUCT MATRIX -->
-        <section>
-            <div class="section-header">
-                <h2>Product Matrix</h2>
-                <p style="font-family:var(--font-mono); font-size:0.7rem; color:var(--text-muted);">LIVE HANDSHAKE STATUS</p>
-            </div>
-            <div class="product-matrix" id="matrix">
+    <div class="hub-layout">
+        <aside class="sidebar-matrix">
+            <h2>Product Matrix</h2>
+            <div id="matrix-list">
                 <!-- Nurasen -->
-                <a href="../nurasen/dashboard.html?godmode=true" class="product-card">
-                    <div class="pulse-light"><i data-lucide="activity" style="width:16px; color:#22C55E;"></i></div>
+                <div class="product-item active" onclick="loadProduct('../nurasen/dashboard.html?godmode=true', this)">
                     <h4><span class="status-dot"></span> Nurasen</h4>
-                    <p style="font-size:0.8rem; color:var(--text-muted);">Neural Cybersecurity Engine</p>
-                    <div class="product-stats">
-                        <span>HITS: <b style="color:#FFF;">12.4K</b></span>
-                        <span>HEALTH: <b style="color:#FFF;">OPTIMAL</b></span>
-                    </div>
-                </a>
+                    <div class="product-meta"><span>SHARD: v1.29</span><span>PULSE: ACTIVE</span></div>
+                </div>
                 <!-- OrcPulse -->
-                <a href="../sovsygnal/index.html?godmode=true" class="product-card">
-                    <div class="pulse-light"><i data-lucide="activity" style="width:16px; color:#22C55E;"></i></div>
+                <div class="product-item" onclick="loadProduct('../sovsygnal/index.html?godmode=true', this)">
                     <h4><span class="status-dot"></span> OrcPulse</h4>
-                    <p style="font-size:0.8rem; color:var(--text-muted);">Global News Intelligence</p>
-                    <div class="product-stats">
-                        <span>HITS: <b style="color:#FFF;">8.2K</b></span>
-                        <span>HEALTH: <b style="color:#FFF;">SYNCING</b></span>
-                    </div>
-                </a>
+                    <div class="product-meta"><span>SHARD: v1.10</span><span>PULSE: ACTIVE</span></div>
+                </div>
                 <!-- Captio AI -->
-                <a href="../captioai/index.html?godmode=true" class="product-card">
-                    <div class="pulse-light"><i data-lucide="activity" style="width:16px; color:#22C55E;"></i></div>
-                    <h4><span class="status-dot"></span> Captio AI</h4>
-                    <p style="font-size:0.8rem; color:var(--text-muted);">Marketing Intelligence</p>
-                    <div class="product-stats">
-                        <span>HITS: <b style="color:#FFF;">--</b></span>
-                        <span>HEALTH: <b style="color:#FFF;">READY</b></span>
-                    </div>
-                </a>
-                <!-- Add others as needed -->
+                <div class="product-item" onclick="loadProduct('../captioai/index.html?godmode=true', this)">
+                    <h4><span class="status-dot" style="background:#64748B;"></span> Captio AI</h4>
+                    <div class="product-meta"><span>SHARD: v0.90</span><span>PULSE: READY</span></div>
+                </div>
+                <!-- Add others -->
+                <div class="product-item" onclick="loadProduct('../optiscout/index.html?godmode=true', this)">
+                    <h4><span class="status-dot" style="background:#64748B;"></span> OptiScout</h4>
+                    <div class="product-meta"><span>SHARD: v0.90</span><span>PULSE: READY</span></div>
+                </div>
             </div>
-        </section>
+        </aside>
 
-        <!-- INTELLIGENCE PULSE (Unified Feed) -->
-        <section class="intelligence-feed">
-            <div class="section-header" style="border-bottom:none;">
-                <h2 style="font-family:var(--font-mono); color:var(--amber); font-size:1.2rem;">INTELLIGENCE_PULSE_FEED</h2>
+        <main class="main-stage">
+            <div class="global-hud">
+                <div class="metric"><div class="metric-label">Global Traffic (24h)</div><div class="metric-val" id="g-traffic">142,891</div></div>
+                <div class="metric"><div class="metric-label">Total Signups</div><div class="metric-val" id="g-users">0</div></div>
+                <div class="metric"><div class="metric-label">Active Shards</div><div class="metric-val">18</div></div>
+                <div class="metric"><div class="metric-label">Aggregate MRR</div><div class="metric-val" id="g-revenue">$0.00</div></div>
             </div>
-            <div class="feed-container" id="global-feed">
-                <!-- Feed rows will appear here -->
-            </div>
-        </section>
-    </main>
 
-    <footer>
-        <p>&copy; 2026 PRISCION NETWORK · ORCINOS HUB · GOD_MODE_STABLE_v1.0</p>
-    </footer>
+            <div class="viewport-container">
+                <iframe id="product-iframe" src="../nurasen/dashboard.html?godmode=true"></iframe>
+            </div>
+
+            <div class="intelligence-drawer" id="global-feed">
+                <div class="feed-row"><span class="feed-time">[SYSTEM]</span><span class="feed-msg">ORCINOS_GOD_MODE_HUB: v1.1 INITIALIZED. ALL SHARDS SYNCED.</span></div>
+            </div>
+        </main>
+    </div>
 
     <script>
-        lucide.createIcons();
         const sbUrl = "https://sazhdnqzaqpqcralmthh.supabase.co";
         const sbKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNhe mhkbnF6YXFwcWNyYWxtdGhoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTU5Nzk4MDMsImV4cCI6MjAzMTU1NTgwM30.uTyw31uWTNOTV5-HzNpm46vpAJABAsHLMzW-sYOkRhc";
         const sb = supabase.createClient(sbUrl, sbKey);
 
-        async function syncGlobalMetrics() {
-            // Aggregate Signups
-            const { count } = await sb.from('profiles').select('*', { count: 'exact', head: true });
-            document.getElementById('total-users').textContent = count || 0;
-
-            // Global Revenue (Aggregate from all products)
-            const { data: subs } = await sb.from('subscriptions').select('amount');
-            const total = subs ? subs.reduce((a, b) => a + b.amount, 0) : 0;
-            document.getElementById('global-revenue').textContent = `$${total.toFixed(2)}`;
-
-            // Log entry
+        function loadProduct(url, el) {
+            document.querySelectorAll('.product-item').forEach(i => i.classList.remove('active'));
+            el.classList.add('active');
+            document.getElementById('product-iframe').src = url;
+            
             const feed = document.getElementById('global-feed');
             const row = document.createElement('div');
             row.className = 'feed-row';
-            row.innerHTML = `<span class="feed-time">[${new Date().toLocaleTimeString()}]</span><span class="feed-msg">GLOBAL_HANDSHAKE: All Shards Reporting Optimal Health.</span>`;
+            const name = el.querySelector('h4').textContent.trim();
+            row.innerHTML = `<span class="feed-time">[${new Date().toLocaleTimeString()}]</span><span class="feed-msg">ARCHITECT_COMMAND: FOCUSING SHARD <b>${name}</b></span>`;
             feed.prepend(row);
-            if(feed.children.length > 15) feed.lastChild.remove();
         }
 
-        window.onload = function() {
-            syncGlobalMetrics();
-            setInterval(syncGlobalMetrics, 20000);
+        async function syncGlobal() {
+            const { count } = await sb.from('profiles').select('*', { count: 'exact', head: true });
+            document.getElementById('g-users').textContent = count || 0;
+            const { data: subs } = await sb.from('subscriptions').select('amount');
+            const total = subs ? subs.reduce((a, b) => a + b.amount, 0) : 0;
+            document.getElementById('g-revenue').textContent = `$${total.toFixed(2)}`;
+        }
+
+        window.onload = () => {
+            syncGlobal();
+            setInterval(syncGlobal, 15000);
             
-            // Intelligence Pulse simulation
             setInterval(() => {
                 const feed = document.getElementById('global-feed');
-                const products = ["Nurasen", "OrcPulse", "OptiScout", "CaptioAI"];
-                const p = products[Math.floor(Math.random() * products.length)];
                 const row = document.createElement('div');
                 row.className = 'feed-row';
-                row.innerHTML = `<span class="feed-time">[${new Date().toLocaleTimeString()}]</span><span class="feed-msg">PULSE: Activity detected on shard <b>${p}</b>.</span>`;
+                row.innerHTML = `<span class="feed-time">[${new Date().toLocaleTimeString()}]</span><span class="feed-msg">PULSE: Live Intelligence Shard Active.</span>`;
                 feed.prepend(row);
-                document.getElementById('global-traffic').textContent = parseInt(document.getElementById('global-traffic').textContent.replace(',','')) + 1;
+                if(feed.children.length > 20) feed.lastChild.remove();
+                document.getElementById('g-traffic').textContent = parseInt(document.getElementById('g-traffic').textContent.replace(',','')) + 1;
             }, 5000);
         }
     </script>
