@@ -3,189 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VYNE | The Sovereign Marketplace</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <title>VYNE | Payout Automation & Financial Infrastructure</title>
+    <!-- v1.0 - VYNE BRAND // INSTITUTIONAL PURPLE -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="../shared_godmode.css">
     <style>
         :root {
-            --bg: #0A0A0B; /* Nexus Onyx */
-            --text: #FFFFFF;
-            --muted: #8E8E93;
-            --accent: #00FF8A; /* Growth Green */
-            --highlight: #FF9900; /* Amazon Gold */
-            --border: #1C1C1E;
-            --card-hover: #1C1C1E;
+            --bg: #0F0A1F; --surface: #1B1336; --text: #F5F3FF; --muted: #A78BFA; 
+            --accent: #8B5CF6; --primary: #4C1D95; --border: rgba(139, 92, 246, 0.2);
+            --font-header: 'Playfair Display', serif; --font-body: 'Inter', sans-serif;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; line-height: 1.6; }
+        body { background: var(--bg); color: var(--text); font-family: var(--font-body); min-height: 100vh; overflow-x: hidden; }
         
-        header { 
-            padding: 20px 6%; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            background: rgba(0,0,0,0.8); 
-            backdrop-filter: blur(10px);
-            position: sticky; 
-            top: 0; 
-            z-index: 1000; 
-        }
-        .logo { font-family: 'Playfair Display', serif; font-size: 1.8rem; letter-spacing: 1px; font-weight: 700; color: var(--accent); }
-        
-        .nav-actions { display: flex; align-items: center; gap: 32px; }
-        .nav-link { 
-            text-decoration: none; 
-            color: var(--muted); 
-            font-size: 0.9rem; 
-            font-weight: 700; 
-            transition: color 0.2s, transform 0.2s;
-        }
-        .nav-link:hover { color: var(--text); transform: scale(1.05); }
+        canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; opacity: 0.3; }
 
-        .btn-signup { 
-            background: var(--accent); 
-            color: var(--bg); 
-            padding: 10px 24px; 
-            border-radius: 500px; 
-            text-decoration: none; 
-            font-weight: 700; 
-            font-size: 0.9rem; 
-            transition: transform 0.2s;
-        }
-        .btn-signup:hover { transform: scale(1.05); }
+        header { padding: 40px 6%; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-family: var(--font-header); font-size: 2.2rem; font-weight: 900; color: var(--accent); letter-spacing: -1px; }
 
-        .btn-login { 
-            text-decoration: none; 
-            color: var(--muted); 
-            font-weight: 700; 
-            font-size: 0.9rem; 
-            transition: color 0.2s, transform 0.2s;
-        }
-        .btn-login:hover { color: var(--text); transform: scale(1.05); }
+        .hero { padding: 80px 6%; text-align: center; max-width: 900px; margin: 0 auto; }
+        .hero h1 { font-family: var(--font-header); font-size: 4.5rem; line-height: 1; margin-bottom: 25px; }
+        .hero p { font-size: 1.3rem; color: var(--muted); margin-bottom: 40px; }
 
-        .hero { padding: 100px 6% 60px; text-align: left; max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
-        .hero-content { max-width: 650px; }
-        .hero h1 { font-family: 'Inter', sans-serif; font-size: 3.5rem; margin-bottom: 24px; font-weight: 900; letter-spacing: -2px; line-height: 1.1; }
-        .hero p { font-size: 1.25rem; color: var(--text); margin-bottom: 40px; font-weight: 600; }
-        
-        .cta-main { 
-            display: inline-block; 
-            padding: 16px 48px; 
-            background: var(--accent); 
-            color: var(--bg); 
-            text-decoration: none; 
-            font-weight: 700; 
-            border-radius: 500px; 
-            font-size: 1rem; 
-            transition: transform 0.2s;
-        }
-        .cta-main:hover { transform: scale(1.05); }
-
-        .section-title { padding: 40px 6% 20px; font-size: 1.5rem; font-weight: 700; max-width: 1200px; margin: 0 auto; }
-
-        .grid { padding: 0 6% 80px; display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; max-width: 1200px; margin: 0 auto; }
-        .card { 
-            background: #121212; 
-            padding: 12px; 
-            border-radius: 4px; 
-            transition: background 0.3s; 
-            text-decoration: none; 
-            color: inherit;
-            display: block;
-        }
-        .card:hover { background: #282828; }
-        .card img { 
-            width: 100%; 
-            aspect-ratio: 1/1; 
-            object-fit: cover; 
-            border-radius: 2px; 
-            margin-bottom: 12px; 
-        }
-        .card-info h3 { font-size: 0.85rem; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 600; }
-        .card-info p { font-size: 0.75rem; color: var(--muted); font-weight: 500; }
-        .card-info .price { margin-top: 6px; color: var(--highlight); font-weight: 700; font-size: 0.9rem; }
-
-        footer { padding: 40px 6%; border-top: 1px solid var(--border); max-width: 1200px; margin: 100px auto 0; text-align: center; }
-        .footer-link { 
-            text-decoration: none; 
-            color: var(--muted); 
-            font-size: 0.9rem; 
-            font-weight: 700; 
-            display: inline-block;
-            padding: 10px 25px; /* Added padding */
-        }
-        .footer-link:hover { color: var(--text); text-decoration: underline; }
-        
-        .copyright { padding: 40px 6%; text-align: center; font-size: 0.75rem; color: var(--muted); }
+        .vault-card { background: var(--surface); border: 1px solid var(--border); padding: 50px; border-radius: 32px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); position: relative; overflow: hidden; }
+        .vault-card::after { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(139,92,246,0.1) 0%, transparent 70%); }
     </style>
 </head>
 <body>
-    <header>
-        <div class="logo">VYNE</div>
-        <div class="nav-actions">
-            <a href="#marketplace" class="nav-link">Marketplace</a>
-            <a href="merchants/" class="nav-link">Merchants</a>
-            <a href="about/" class="nav-link">About</a>
-            <div style="width: 1px; height: 32px; background: var(--border); margin: 0 8px;"></div>
-            <a href="dashboard/" class="btn-signup">Sign up</a>
-            <a href="dashboard/" class="btn-login">Log in</a>
-        </div>
-    </header>
-
+    <canvas id="vyneCanvas"></canvas>
+    <header><div class="logo">VYNE</div></header>
     <section class="hero">
-        <div class="hero-content">
-            <h1>The Boutique Marketplace for the New Era.</h1>
-            <p>Curate products from Amazon and the Priscion Network. Earn commissions automatically. Own your boutique.</p>
-            <a href="dashboard/" class="cta-main">Start Your Shop Free</a>
+        <h1>Institutional Payout Shard.</h1>
+        <p>Automated merchant settlements and multi-tier financial infrastructure. Global. Instant. Sovereign.</p>
+        <div class="vault-card">
+            <div style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 3px; color: var(--accent); margin-bottom: 20px;">Vault Balance</div>
+            <div style="font-size: 3.5rem; font-weight: 900; letter-spacing: -2px;">$142,891,00</div>
+            <div style="margin-top: 30px; display: flex; gap: 15px; justify-content: center;">
+                <button style="background: var(--accent); color: white; border: none; padding: 15px 30px; border-radius: 12px; font-weight: 800; cursor: pointer;">Execute Payout</button>
+                <button style="background: transparent; color: var(--accent); border: 1px solid var(--accent); padding: 15px 30px; border-radius: 12px; font-weight: 800; cursor: pointer;">View Shards</button>
+            </div>
         </div>
     </section>
 
-    <h2 class="section-title" id="marketplace">Featured Selections</h2>
-    <section class="grid">
-        <!-- Item 1 -->
-        <a href="#" class="card">
-            <img src="https://images.unsplash.com/photo-1548036328-c9fa89d128fa?q=80&w=1000&auto=format&fit=crop" alt="Vintage Leather Bag">
-            <div class="card-info">
-                <h3>Archival Leather Messenger</h3>
-                <p>Couture Gallery</p>
-                <p class="price">500 $PRN / $250.00</p>
-            </div>
-        </a>
-        <!-- Item 2 -->
-        <a href="#" class="card">
-            <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=1000&auto=format&fit=crop" alt="Minimalist Watch">
-            <div class="card-info">
-                <h3>Sovereign Minimalist Chrono</h3>
-                <p>The Watch List</p>
-                <p class="price">1200 $PRN / $600.00</p>
-            </div>
-        </a>
-        <!-- Item 3 -->
-        <a href="#" class="card">
-            <img src="https://images.unsplash.com/photo-1511499767390-903390e62bc0?q=80&w=1000&auto=format&fit=crop" alt="Architectural Eyewear">
-            <div class="card-info">
-                <h3>Titanium Vision Sculpt</h3>
-                <p>Axoria Frames</p>
-                <p class="price">800 $PRN / $400.00</p>
-            </div>
-        </a>
-        <!-- Item 4 -->
-        <a href="#" class="card">
-            <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=1000&auto=format&fit=crop" alt="High Fidelity Headphones">
-            <div class="card-info">
-                <h3>Studio Reference Hub</h3>
-                <p>Atelia Gaming</p>
-                <p class="price">300 $PRN / $150.00</p>
-            </div>
-        </a>
-    </section>
-
-    <footer>
-        <a href="about/" class="footer-link">About</a>
-    </footer>
-
-    <div class="copyright">
-        &copy; 2026 VYNE · POWERED BY ORCINOS
-    </div>
+    <script>
+        lucide.createIcons();
+        const canvas = document.getElementById('vyneCanvas');
+        const ctx = canvas.getContext('2d');
+        let lines = [];
+        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        window.onresize = resize; resize();
+        class Line {
+            constructor() { this.reset(); }
+            reset() { this.x = Math.random() * canvas.width; this.y = Math.random() * canvas.height; this.v = Math.random() * 2 + 0.5; this.l = Math.random() * 100 + 50; }
+            draw() { ctx.strokeStyle = '#8B5CF6'; ctx.lineWidth = 0.5; ctx.beginPath(); ctx.moveTo(this.x, this.y); ctx.lineTo(this.x, this.y + this.l); ctx.stroke(); }
+            update() { this.y += this.v; if (this.y > canvas.height) this.reset(); }
+        }
+        for (let i = 0; i < 50; i++) lines.push(new Line());
+        function animate() { ctx.clearRect(0,0,canvas.width,canvas.height); lines.forEach(l => { l.update(); l.draw(); }); requestAnimationFrame(animate); }
+        animate();
+    </script>
+    <script src="../shared_godmode.js"></script>
 </body>
 </html>
