@@ -111,27 +111,27 @@
         <div class="api-feed-row">
             <div class="api-feed-header">
                 <div class="api-pulse"></div>
-                Live Blockchain Signal // Institutional EPI
+                Live Blockchain Signal // Institutional API
             </div>
             <div class="api-data-grid">
                 
-                <div class="api-item">
+                <div class="api-item" label="BITCOIN (BTC)">
                     <label>Bitcoin (BTC)</label>
                     <div class="value">$63,142.20</div>
                 </div>
-                <div class="api-item">
+                <div class="api-item" label="ETHEREUM (ETH)">
                     <label>Ethereum (ETH)</label>
                     <div class="value">$3,456.88</div>
                 </div>
-                <div class="api-item">
+                <div class="api-item" label="SOLANA (SOL)">
                     <label>Solana (SOL)</label>
                     <div class="value">$145.22</div>
                 </div>
-                <div class="api-item">
+                <div class="api-item" label="NEURAL ($NRL)">
                     <label>Neural ($NRL)</label>
                     <div class="value">1.0000 ADA</div>
                 </div>
-                <div class="api-item">
+                <div class="api-item" label="SOVEREIGN ($PRN)">
                     <label>Sovereign ($PRN)</label>
                     <div class="value">0.4500 ADA</div>
                 </div>
@@ -140,7 +140,7 @@
 
         <div class="featured-story">
             <div class="main-story">
-                <h4><span>Top Intelligence // Institutional</span> <span>Jun 13, 2026 // 15:31 AST</span></h4>
+                <h4><span>Top Intelligence // Institutional</span> <span>Jun 13, 2026 // 16:18 AST</span></h4>
                 <h2>Bitcoin ETFs Hit $2 Trillion Cumulative Trading Volume.</h2>
                 <p>The Block reports institutional flows bypassing retail exchanges as the digital asset class reaches maturity.</p>
                 <a href="https://www.theblock.co/" target="_blank" style="text-decoration:none;"><span class="ref-link" style="font-size: 0.8rem; color: var(--sygnal-red); font-weight: 800; text-transform: uppercase; letter-spacing: 2px;">Intelligence Source: The Block &rarr;</span></a>
@@ -148,13 +148,13 @@
             <div class="side-stories">
                 
                 <div class="side-story">
-                    <h4><span>Market</span> <span>Jun 13, 2026 // 15:31 AST</span></h4>
+                    <h4><span>Market</span> <span>Jun 13, 2026 // 16:18 AST</span></h4>
                     <h3>BTC Consolidation Completes Above $63k.</h3>
                     <p>Cycle data points to a solid base-case low as accumulation begins.</p>
                     <a href="https://crypto.news/" target="_blank" class="ref-link" style="font-size: 0.6rem;">Source: Crypto.news &rarr;</a>
                 </div>
                 <div class="side-story">
-                    <h4><span>Privacy</span> <span>Jun 13, 2026 // 15:31 AST</span></h4>
+                    <h4><span>Privacy</span> <span>Jun 13, 2026 // 16:18 AST</span></h4>
                     <h3>Monero Rockets 33% Amid Inquiry.</h3>
                     <p>Surge in demand for privacy-focused assets following regulatory shifts.</p>
                     <a href="https://www.coindesk.com/" target="_blank" class="ref-link" style="font-size: 0.6rem;">Source: CoinDesk &rarr;</a>
@@ -195,13 +195,13 @@
         <div class="news-grid">
             
                 <div class="news-card">
-                    <h4><span>Regulation</span> <span>Jun 13, 2026 // 15:31 AST</span></h4>
+                    <h4><span>Regulation</span> <span>Jun 13, 2026 // 16:18 AST</span></h4>
                     <h3>CFTC Asserts Authority Over Betting Markets.</h3>
                     <p>Bid to control decentralized betting protocols reaches critical junction.</p>
                     <a href="https://www.theblock.co/" target="_blank" class="ref-link">Source: The Block &rarr;</a>
                 </div>
                 <div class="news-card">
-                    <h4><span>Galaxy</span> <span>Jun 13, 2026 // 15:31 AST</span></h4>
+                    <h4><span>Galaxy</span> <span>Jun 13, 2026 // 16:18 AST</span></h4>
                     <h3>Bitcoin Base-Case: $40K-$46K Target.</h3>
                     <p>Galaxy reports cycle data suggests bottoming process in progress.</p>
                     <a href="https://crypto.news/" target="_blank" class="ref-link">Source: Crypto.news &rarr;</a>
@@ -224,6 +224,40 @@
     <script src="../shared_godmode.js"></script>
     <script>
         document.getElementById("nav-blockchain").classList.add("active");
+        
+        // API Intelligence Engine
+        const FINNHUB_KEY = "{{credential:finnhub-api-key}}";
+        
+        async function updateAPIs() {
+            const feeds = document.querySelectorAll('.api-item');
+            
+            // Logic for Stocks/Forex
+            if ("blockchain" === "stocks" || "blockchain" === "forex" || "blockchain" === "markets") {
+                feeds.forEach(async (item) => {
+                    const label = item.querySelector('label').innerText;
+                    const symbol = label.split('(')[1]?.replace(')', '') || label.replace('/', '');
+                    try {
+                        const res = await fetch(`https://finnhub.io/api/v1/quote?symbol=${symbol}&token=${FINNHUB_KEY}`);
+                        const data = await res.json();
+                        if (data.c) item.querySelector('.value').innerText = `$${data.c.toFixed(2)}`;
+                    } catch(e) { console.error(e); }
+                });
+            }
+            
+            // Logic for Crypto
+            if ("blockchain" === "blockchain") {
+                try {
+                    const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana&vs_currencies=usd');
+                    const data = await res.json();
+                    document.querySelector('[label="BITCOIN (BTC)"]')?.querySelector('.value').innerText = `$${data.bitcoin.usd.toLocaleString()}`;
+                    document.querySelector('[label="ETHEREUM (ETH)"]')?.querySelector('.value').innerText = `$${data.ethereum.usd.toLocaleString()}`;
+                    document.querySelector('[label="SOLANA (SOL)"]')?.querySelector('.value').innerText = `$${data.solana.usd.toLocaleString()}`;
+                } catch(e) { console.error(e); }
+            }
+        }
+        
+        updateAPIs();
+        setInterval(updateAPIs, 60000); // Refresh every minute
     </script>
 </body>
 </html>
