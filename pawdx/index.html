@@ -1,108 +1,158 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta name="keywords" content="veterinary AI, pet health, animal diagnostics, smart pet care, pet technology">
-    <meta name="description" content="AI-powered veterinary diagnostics. Advancing pet health with high-fidelity diagnostics and smart care technology.">
-    <meta name="geo.region" content="US">
-    <meta name="geo.placename" content="Global">
-    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PawDX | Veterinary AI Intelligence</title>
     <link rel="icon" type="image/png" href="../logos/pawdx_icon.png">
-    <!-- v1.0 - SCIENTIFIC ALABASTER // VET SHARD -->
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         :root {
-            --bg: #FFFFFF; --surface: #F1F5F9; --text: #0F172A; --muted: #475569; 
-            --accent: #38BDF8; --primary: #0C4A6E; --border: rgba(12, 74, 110, 0.1);
-            --font-header: 'Playfair Display', serif; --font-body: 'Inter', sans-serif;
+            --bg: #FFFFFF;
+            --surface: #F8FAFC;
+            --text: #0F172A;
+            --muted: #64748B;
+            --primary: #0C4A6E; /* Deep Veterinary Blue */
+            --accent: #38BDF8; /* Clean Medical Sky */
+            --border: rgba(12, 74, 110, 0.1);
+            --font-header: 'Playfair Display', serif;
+            --font-body: 'Inter', sans-serif;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: var(--bg); color: var(--text); font-family: var(--font-body); }
+        body { background: var(--bg); color: var(--text); font-family: var(--font-body); line-height: 1.6; }
         
-        header { padding: 40px 6%; display: flex; justify-content: space-between; align-items: center; border-bottom: 4px solid var(--primary); }
-        .logo { font-family: var(--font-header); font-size: 2rem; font-weight: 900; color: var(--primary); }
-        .logo span { color: var(--accent); }
+        header { 
+            padding: 20px 6%; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid var(--border);
+        }
+        .logo { display: flex; align-items: center; text-decoration: none; color: var(--primary); font-family: var(--font-header); font-weight: 900; font-size: 1.8rem; letter-spacing: -1px; }
+        .logo img { height: 50px; margin-right: 15px; }
 
-        .hero { padding: 80px 6%; display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 80px; align-items: center; }
-        .hero h1 { font-family: var(--font-header); font-size: 4.5rem; line-height: 1; color: var(--primary); margin-bottom: 25px; }
-        .hero p { font-size: 1.3rem; line-height: 1.6; color: var(--muted); margin-bottom: 40px; }
+        .hero { 
+            padding: 140px 6% 100px; 
+            text-align: center; 
+            background: radial-gradient(circle at top right, #F0F9FF, #FFFFFF);
+            overflow: hidden;
+        }
+        .hero-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            background: rgba(56, 189, 248, 0.1);
+            color: var(--primary);
+            border-radius: 100px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 30px;
+        }
+        .hero h1 { 
+            font-family: var(--font-header); 
+            font-size: 4rem; 
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 25px; 
+            color: var(--primary);
+        }
+        .hero p { 
+            font-size: 1.25rem; 
+            color: var(--muted); 
+            max-width: 700px; 
+            margin: 0 auto 45px; 
+        }
 
-        .upload-zone { border: 2px dashed var(--accent); background: var(--surface); padding: 60px; border-radius: 20px; text-align: center; cursor: pointer; transition: 0.3s; }
-        .upload-zone:hover { background: #E0F2FE; transform: scale(1.02); }
-        .upload-zone i { color: var(--accent); margin-bottom: 20px; }
-        
-        .stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 60px; padding: 0 6%; }
-        .stat-card { background: var(--primary); color: #FFF; padding: 30px; border-radius: 12px; }
-        .stat-val { font-size: 2.5rem; font-weight: 900; color: var(--accent); }
-        .stat-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; opacity: 0.7; }
+        .features { padding: 100px 6%; display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
+        .card { 
+            padding: 50px; 
+            background: var(--surface); 
+            border-radius: 24px; 
+            border: 1px solid var(--border);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(12, 74, 110, 0.05); }
+        .card i { color: var(--accent); margin-bottom: 25px; display: block; }
+        .card h3 { font-family: var(--font-header); font-size: 1.5rem; margin-bottom: 15px; color: var(--primary); }
+        .card p { color: var(--muted); }
+
+        .cta-section {
+            padding: 100px 6%;
+            text-align: center;
+            background: var(--primary);
+            color: white;
+        }
+        .btn { 
+            display: inline-block;
+            padding: 18px 36px; 
+            border-radius: 12px; 
+            font-weight: 700; 
+            text-decoration: none; 
+            cursor: pointer; 
+            transition: 0.3s; 
+            background: var(--accent); 
+            color: var(--primary); 
+        }
+        .btn:hover { background: #FFFFFF; transform: scale(1.05); }
+
+        footer { padding: 80px 6%; text-align: center; border-top: 1px solid var(--border); background: #F8FAFC; }
+        footer img { height: 60px; margin-bottom: 30px; }
+        .legal-text { font-size: 0.8rem; color: var(--muted); text-transform: uppercase; letter-spacing: 2px; }
     </style>
 </head>
 <body>
     <header>
-        <div class="logo"><img src="../logos/pawdx_logo.png" alt="PawDX" style="height: 60px;"></div>
-        <div style="font-weight: 800; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px;">VETERINARY_AI // DIAGNOSTIC_SHARD</div>
+        <a href="/" class="logo">
+            <img src="../logos/pawdx_logo.png" alt="PawDX">
+            <span>PAWDX</span>
+        </a>
+        <div class="nav-links">
+            <i data-lucide="menu" class="menu-icon" style="cursor:pointer; color: var(--primary);"></i>
+        </div>
     </header>
 
     <section class="hero">
-        <div>
-            <h1>Institutional Vet Intelligence.</h1>
-            <p>Advanced neural diagnostics for pet health. Analyze symptoms, lab results, and imaging with 98.7% clinical accuracy.</p>
-            <button style="background: var(--primary); color: #FFF; border: none; padding: 20px 50px; border-radius: 8px; font-weight: 900; text-transform: uppercase; cursor: pointer;">Initialize Diagnostic</button>
+        <div class="hero-badge">Neural Veterinary Care</div>
+        <h1>The Future of Pet Diagnostics.</h1>
+        <p>AI-powered intelligence for instant veterinary analysis. Bridging the gap between home monitoring and clinical excellence.</p>
+        <a href="#" class="btn">Deploy Intelligence</a>
+    </section>
+
+    <section class="features">
+        <div class="card">
+            <i data-lucide="scan" size="40"></i>
+            <h3>Vision Diagnostics</h3>
+            <p>Advanced neural networks trained on millions of dermatological and dental veterinary records for instant visual screening.</p>
         </div>
-        <div class="upload-zone">
-            <i data-lucide="cloud-upload" style="width: 64px; height: 64px;"></i>
-            <h3>Drop Diagnostic Data</h3>
-            <p style="font-size: 0.8rem; margin-top: 10px; color: var(--muted);">Upload X-rays, bloodwork, or symptoms for instant analysis.</p>
+        <div class="card">
+            <i data-lucide="activity" size="40"></i>
+            <h3>Vitals Monitoring</h3>
+            <p>Non-invasive tracking of respiratory and heart rate patterns to identify early signs of systemic distress.</p>
+        </div>
+        <div class="card">
+            <i data-lucide="brain" size="40"></i>
+            <h3>Behavioral AI</h3>
+            <p>Analyzing movement and interaction patterns to detect cognitive shifts or pain signals that humans often miss.</p>
         </div>
     </section>
 
-    <div class="stat-grid">
-        <div class="stat-card">
-            <div class="stat-val">500+</div>
-            <div class="stat-label">Species Mapped</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-val">0.4s</div>
-            <div class="stat-label">Analysis Speed</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-val">LIVE</div>
-            <div class="stat-label">System Pulse</div>
-        </div>
-    </div>
+    <section class="cta-section">
+        <h2 style="font-family: var(--font-header); font-size: 2.5rem; margin-bottom: 30px;">Ready for the next evolution in care?</h2>
+        <a href="#" class="btn">Get Started</a>
+    </section>
 
-    <footer style="margin-top: 80px; padding: 40px 6%; text-align: center; border-top: 1px solid var(--border);">
-        <img src="../logos/pawdx_icon.png" alt="PawDX Icon" style="height: 40px; margin-bottom: 10px;">
-        <p style="font-size: 0.75rem; color: var(--muted); letter-spacing: 1px; font-weight: 700; text-transform: uppercase;">&copy; 2026 PRISCION NETWORK · PAWDX · ANCHORED TO ETERNITY</p>
+    <footer>
+        <img src="../logos/pawdx_icon.png" alt="PawDX Icon">
+        <p class="legal-text">&copy; 2026 PRISCION NETWORK · PAWDX · ANCHORED TO ETERNITY</p>
     </footer>
-    <script>lucide.createIcons();</script>
 
-    <!-- Real-Time Click Tracking -->
-    <script>
-        (function() {
-            const SB_URL = 'https://sktpjacowqaedddtrhuz.supabase.co';
-            const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNrdHBqYWNvd3FhZWRkZHRyaHV6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2NDk5MzEsImV4cCI6MjA5NDIyNTkzMX0.FK4N_ATFTaUuGXrYu_7OBn3qCdlo0rOzxk-E6TxJxqs';
-            const BRAND = 'pawdx';
-            
-            async function track() {
-                try {
-                    await fetch(`${SB_URL}/rest/v1/rpc/increment_traffic`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'apikey': SB_KEY,
-                            'Authorization': `Bearer ${SB_KEY}`
-                        },
-                        body: JSON.stringify({ brand_name: BRAND, metric: 'clicks' })
-                    });
-                } catch (e) {}
-            }
-            if (document.readyState === 'complete') { track(); }
-            else { window.addEventListener('load', track); }
-        })();
-    </script>
-    </body>
+    <script>lucide.createIcons();</script>
+</body>
 </html>
