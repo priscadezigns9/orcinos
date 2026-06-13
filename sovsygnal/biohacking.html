@@ -3,12 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SOV SYGNL | Intelligence Shard</title>
+    <title>SOV SYGNL | Biohacking</title>
     <link rel="icon" type="image/png" href="../logos/sovsygnal_icon.png">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <link rel="stylesheet" href="../shared_godmode.css">
-        <style>
+    <style>
         :root {
             --bg: #000000; --surface: #0A0A0A; --text: #FFFFFF; --muted: #A1A1AA;
             --sygnal-red: #E11D48; --border: rgba(255, 255, 255, 0.1);
@@ -16,11 +14,13 @@
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background: var(--bg); color: var(--text); font-family: var(--font-body); line-height: 1.5; overflow-x: hidden; }
+        
         header { padding: 60px 6% 40px; border-bottom: 1px solid var(--border); text-align: left; background: var(--surface); }
         .logo-row { display: flex; align-items: baseline; gap: 20px; }
         .logo { font-family: var(--font-heading); font-size: 3.5rem; font-weight: 900; letter-spacing: -2px; text-transform: uppercase; line-height: 1; }
         .logo span { color: var(--sygnal-red); }
         .tagline { text-transform: uppercase; font-weight: 900; letter-spacing: 5px; font-size: 0.7rem; margin-top: 15px; color: var(--sygnal-red); }
+
         nav { 
             display: flex; overflow-x: auto; gap: 30px; padding: 20px 6%; 
             border-bottom: 1px solid var(--border); position: sticky; top: 0; background: rgba(0,0,0,0.9); backdrop-filter: blur(20px); z-index: 100;
@@ -28,14 +28,21 @@
         nav::-webkit-scrollbar { display: none; }
         nav a { text-decoration: none; color: var(--text); font-weight: 700; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 1px; white-space: nowrap; opacity: 0.6; transition: 0.3s; }
         nav a:hover, nav a.active { opacity: 1; color: var(--sygnal-red); }
+        
         .container { max-width: 1400px; margin: 0 auto; padding: 60px 6% 100px; }
+        
         .section-block { margin-bottom: 100px; }
         .section-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 40px; border-bottom: 2px solid var(--text); padding-bottom: 15px; }
-        .section-title { font-family: var(--font-heading); font-size: 2rem; text-transform: uppercase; }
+        .section-title { font-family: var(--font-heading); font-size: 2.5rem; text-transform: uppercase; }
+        
         .news-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 40px; }
-        .news-card { border-bottom: 1px solid var(--border); padding-bottom: 20px; }
-        .news-card h3 { font-family: var(--font-heading); font-size: 1.25rem; margin-bottom: 10px; line-height: 1.2; }
-        .news-card p { color: var(--muted); font-size: 0.9rem; line-height: 1.6; }
+        .news-card { border-bottom: 1px solid var(--border); padding-bottom: 25px; transition: 0.3s; }
+        .news-card:hover { border-color: var(--sygnal-red); }
+        .news-card h4 { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 2px; color: var(--sygnal-red); margin-bottom: 10px; font-weight: 900; }
+        .news-card h3 { font-family: var(--font-heading); font-size: 1.4rem; margin-bottom: 12px; line-height: 1.2; }
+        .news-card p { font-size: 0.9rem; color: var(--muted); margin-bottom: 15px; line-height: 1.6; }
+        .news-card .ref-link { font-size: 0.7rem; color: var(--sygnal-red); text-decoration: none; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
+
         footer { background: var(--surface); padding: 80px 6%; text-align: left; border-top: 4px solid var(--sygnal-red); }
         .footer-content { display: flex; justify-content: space-between; align-items: center; }
         .footer-logo { height: 50px; filter: grayscale(1) brightness(2); }
@@ -43,184 +50,57 @@
     </style>
 </head>
 <body>
-        <header>
+    <header>
         <div class="logo-row">
             <div class="logo">SOV<span>.</span>SYGNL</div>
         </div>
         <div class="tagline">Global News Intelligence Hub</div>
     </header>
+
     <nav>
-        <a href="index.html">Headlines</a>
-        <a href="geopolitics.html">Geopolitics</a>
-        <a href="blockchain.html">Blockchain</a>
-        <a href="biohacking.html" class="active">Biohacking</a>
-        <a href="anime.html">Anime</a>
-        <a href="stocks.html">Equity</a>
-        <a href="forex.html">Currency</a>
-        <a href="tech.html">Technology</a>
-        <a href="luxury.html">Luxury</a>
+        <a href="index.html" id="nav-headlines">Headlines</a>
+        <a href="geopolitics.html" id="nav-geopolitics">Geopolitics</a>
+        <a href="blockchain.html" id="nav-blockchain">Blockchain</a>
+        <a href="biohacking.html" id="nav-biohacking">Biohacking</a>
+        <a href="markets.html" id="nav-markets">Markets</a>
+        <a href="lifestyle.html" id="nav-lifestyle">Lifestyle</a>
+        <a href="intelligence.html" id="nav-intelligence">Intelligence</a>
+        <a href="forex.html" id="nav-forex">Forex</a>
+        <a href="stocks.html" id="nav-stocks">Stocks</a>
+        <a href="realestate.html" id="nav-realestate">Real Estate</a>
+        <a href="anime.html" id="nav-anime">Anime</a>
     </nav>
+
     <div class="container">
-        <div class="intelligence-dashboard">
-            <a href="geopolitics.html" class="dash-item">Geopolitical Intelligence</a>
-<a href="blockchain.html" class="dash-item">Blockchain & Web3</a>
-<a href="biohacking.html" class="active" class="dash-item">Biohacking & Longevity</a>
-<a href="anime.html" class="dash-item">Anime Media Intelligence</a>
-<a href="stocks.html" class="dash-item">Equity Markets</a>
-<a href="forex.html" class="dash-item">Currency & Forex</a>
-<a href="entertainment.html" class="dash-item">Global Entertainment</a>
-<a href="tech.html" class="dash-item">Technological Innovation</a>
-<a href="gaming.html" class="dash-item">Gaming & Metaverse</a>
-<a href="luxury.html" class="dash-item">Luxury Architecture</a>
-<a href="lifestyle.html" class="dash-item">Sanctuary Lifestyle</a>
-
-        </div>
-        <div class="section-block" id="geopolitics">
-            <h2 class="section-title">Geopolitical Intelligence</h2>
+        <div class="section-block">
+            <div class="section-header">
+                <h2 class="section-title">Biohacking</h2>
+            </div>
             <div class="news-grid">
+                
                 <div class="news-card">
-                    <h3>US-Iran Peace Agreement Near? Trump Claims Deal Close Amid Tehran Caution.</h3>
-                    <p>Diplomatic intelligence reports a potential breakthrough in US-Iran relations, though Tehran remains wary following reported ceasefire violations.</p>
+                    <h4>Longevity</h4>
+                    <h3>Harvard Publishes Longevity Report for the General Public.</h3>
+                    <p>High-fidelity research on cellular rejuvenation and mitochondrial optimization reaches mainstream awareness.</p>
+                    <a href="https://lifespan.io/news/" target="_blank" class="ref-link">Source: Lifespan.io &rarr;</a>
                 </div>
                 <div class="news-card">
-                    <h3>Fresh US Strikes in Gulf Region Threaten Fragile Ceasefire.</h3>
-                    <p>Strategic intelligence monitors escalating tensions as recent strikes complicate peace talks and heighten regional security risks.</p>
+                    <h4>Biology</h4>
+                    <h3>Nature Study: Aging Biology More Changeable Than Previously Known.</h3>
+                    <p>Analysis of 11,000+ transcriptomes reveals new clocks for biological age reversal protocols.</p>
+                    <a href="https://www.instagram.com/p/DZP1g7HG_PA/" target="_blank" class="ref-link">Source: Nature / Instagram &rarr;</a>
+                </div>
+                <div class="news-card">
+                    <h4>Healthspan</h4>
+                    <h3>The Rise of HealthSpan Protocols: Shortening the Lifespan Gap.</h3>
+                    <p>New research focuses on closing the gap between years lived and years lived in high-fidelity health.</p>
+                    <a href="https://www.instagram.com/reel/DZIZbArGhOH/" target="_blank" class="ref-link">Source: The Vitals &rarr;</a>
                 </div>
             </div>
         </div>
-        <div class="section-block" id="blockchain">
-            <h2 class="section-title">Blockchain & Web3</h2>
-            <div class="news-grid">
-                <div class="news-card">
-                    <h3>Bitcoin ETF Market Consolidation: BlackRock and Fidelity Emerge as Dominant Leaders.</h3>
-                    <p>Market intelligence confirms the concentration of the Bitcoin ETF space as two major firms capture the majority of institutional inflows.</p>
-                </div>
-                <div class="news-card">
-                    <h3>Tokenized SpaceX Shares Launch Across Major Crypto Exchanges.</h3>
-                    <p>Financial intelligence monitors the integration of private equity into blockchain ecosystems, allowing retail access to aerospace giants.</p>
-                </div>
-            </div>
-        </div>
-        <div class="section-block" id="biohacking">
-            <h2 class="section-title">Biohacking & Longevity</h2>
-            <div class="news-grid">
-                <div class="news-card">
-                    <h3>Biohackers World New York 2026: Longevity and Performance Conference Set for June.</h3>
-                    <p>Wellness intelligence forecasts a premier gathering of researchers and founders in NYC to showcase the next generation of human optimization.</p>
-                </div>
-                <div class="news-card">
-                    <h3>Environmental Toxin Testing Becomes Primary Biohacking Trend for 2026.</h3>
-                    <p>Performance intelligence reports a surge in testing home environments for hidden toxins as users seek cleaner sources of peak performance.</p>
-                </div>
-            </div>
-        </div>
-        <div class="section-block" id="anime">
-            <h2 class="section-title">Anime Media Intelligence</h2>
-            <div class="news-grid">
-                <div class="news-card">
-                    <h3>MAPPA Announces New Historical Epic for Fall 2026 Season.</h3>
-                    <p>Production intelligence tracks major studio shifts toward high-fidelity historical narratives in the upcoming seasonal slate.</p>
-                </div>
-                <div class="news-card">
-                    <h3>Dreaming Cinema Expansion: Anime Theatrical Releases See Record Growth.</h3>
-                    <p>Media intelligence reports unprecedented global box office performance for specialized animation features.</p>
-                </div>
-            </div>
-        </div>
-        <div class="section-block" id="stocks">
-            <h2 class="section-title">Equity Markets</h2>
-            <div class="news-grid">
-                <div class="news-card">
-                    <h3>NVIDIA Q2 Forecast: AI Compute Demand Shows No Signs of Saturation.</h3>
-                    <p>Market intelligence monitors record-breaking guidance as enterprise AI infrastructure investment continues to accelerate.</p>
-                </div>
-                <div class="news-card">
-                    <h3>The $PRN Index: Tracking the Next Wave of Sovereign Digital Assets.</h3>
-                    <p>Institutional analysis of the Priscion Network's market performance and its impact on the broader equity landscape.</p>
-                </div>
-            </div>
-        </div>
-        <div class="section-block" id="forex">
-            <h2 class="section-title">Currency & Forex</h2>
-            <div class="news-grid">
-                <div class="news-card">
-                    <h3>GBP/USD Stability Tested Amidst New Trade Policy Announcements.</h3>
-                    <p>Currency intelligence tracks the impact of institutional shifts in the UK trade landscape on major currency pairings.</p>
-                </div>
-                <div class="news-card">
-                    <h3>Digital Yen Pilot Expansion: Japan Moves Toward Full CBDC Integration.</h3>
-                    <p>Sovereign intelligence monitors the evolution of national digital currencies in major global economies.</p>
-                </div>
-            </div>
-        </div>
-        <div class="section-block" id="entertainment">
-            <h2 class="section-title">Global Entertainment</h2>
-            <div class="news-grid">
-                <div class="news-card">
-                    <h3>The Rise of Virtual Concerts: 2026 Market Data Shows Paradigm Shift.</h3>
-                    <p>Engagement intelligence reports a significant migration of live audience activity toward high-fidelity digital performance spaces.</p>
-                </div>
-                <div class="news-card">
-                    <h3>Studio Mergers: Centralization of Global Media Rights Intensifies.</h3>
-                    <p>Strategic monitoring of the major acquisitions shaping the landscape of content distribution in the next decade.</p>
-                </div>
-            </div>
-        </div>
-        <div class="section-block" id="tech">
-            <h2 class="section-title">Technological Innovation</h2>
-            <div class="news-grid">
-                <div class="news-card">
-                    <h3>Quantum Computing Handshake: First Commercial Proof-of-Concept for Supply Chains.</h3>
-                    <p>Innovation intelligence tracks the first real-world application of quantum processing in logistical optimization.</p>
-                </div>
-                <div class="news-card">
-                    <h3>Neural Interface Safety Standards Proposed by Global Tech Coalition.</h3>
-                    <p>Regulatory intelligence monitors the formation of new safety protocols for emerging human-computer integration.</p>
-                </div>
-            </div>
-        </div>
-        <div class="section-block" id="gaming">
-            <h2 class="section-title">Gaming & Metaverse</h2>
-            <div class="news-grid">
-                <div class="news-card">
-                    <h3>Atelia Gaming Lab: Breakthroughs in Procedural World Generation.</h3>
-                    <p>Hardware intelligence monitors the release of next-gen rendering engines designed for persistent digital worlds.</p>
-                </div>
-                <div class="news-card">
-                    <h3>Esports Olympics 2026: Official Host Cities and Title Lineup Confirmed.</h3>
-                    <p>Competition intelligence forecasts a record-breaking year for professional gaming on the global stage.</p>
-                </div>
-            </div>
-        </div>
-        <div class="section-block" id="luxury">
-            <h2 class="section-title">Luxury Architecture</h2>
-            <div class="news-grid">
-                <div class="news-card">
-                    <h3>Minimalist Sanctuary Design: The Evolution of Quiet Luxury in 2026.</h3>
-                    <p>Design intelligence tracks the shift toward sustainable and intentional architectural engineering in high-end living spaces.</p>
-                </div>
-                <div class="news-card">
-                    <h3>The Artisan Renaissance: Handcrafted Precision Reclaims the Global Market.</h3>
-                    <p>Market intelligence reports a surge in demand for archival quality and primary-source craftsmanship.</p>
-                </div>
-            </div>
-        </div>
-        <div class="section-block" id="lifestyle">
-            <h2 class="section-title">Sanctuary Lifestyle</h2>
-            <div class="news-grid">
-                <div class="news-card">
-                    <h3>Mindful Productivity: The Rise of High-Fidelity Focus Environments.</h3>
-                    <p>Performance intelligence monitors new trends in ergonomic and cognitive-focused workspace design.</p>
-                </div>
-                <div class="news-card">
-                    <h3>Sustainable Living Hubs: Community-Driven Eco-Infrastructures Expand.</h3>
-                    <p>Social intelligence tracks the growth of intentional communities focused on circular economy principles.</p>
-                </div>
-            </div>
-        </div>
-
     </div>
-        <footer>
+
+    <footer>
         <div class="footer-content">
             <div>
                 <img src="../logos/sovsygnal_icon.png" alt="SOV SYGNL" class="footer-logo">
@@ -231,6 +111,10 @@
             </div>
         </div>
     </footer>
+
     <script src="../shared_godmode.js"></script>
+    <script>
+        document.getElementById("nav-biohacking").classList.add("active");
+    </script>
 </body>
 </html>
