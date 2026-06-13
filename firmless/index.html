@@ -3,45 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FIRMLESS | Autonomous Legal Architecture</title>
+    <title>Firmless | Autonomous Legal Architecture</title>
     <link rel="icon" type="image/png" href="../logos/firmless_logo.png">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../shared_godmode.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg: #0A0A0B; --surface: #111113; --text: #F0F0F0; --muted: #71717A; 
-            --accent: #E5B323; --border: rgba(229, 179, 35, 0.1);
+            --accent: #E5B323; --border: rgba(229, 179, 35, 0.15);
             --font-header: 'Playfair Display', serif; --font-body: 'Inter', sans-serif;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: var(--bg); color: var(--text); font-family: var(--font-body); min-height: 100vh; overflow-x: hidden; }
+        body { background: var(--bg); color: var(--text); font-family: var(--font-body); min-height: 100vh; line-height: 1.6; }
         
         header { padding: 40px 6%; border-bottom: 1px solid var(--border); background: rgba(10,10,11,0.9); backdrop-filter: blur(20px); position: sticky; top: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; }
         .logo-container { display: flex; align-items: center; gap: 15px; }
-        .logo-text { font-family: var(--font-header); font-size: 2rem; font-weight: 900; letter-spacing: 4px; color: var(--accent); text-transform: uppercase; }
+        .logo-text { font-family: var(--font-header); font-size: 2.2rem; font-weight: 900; color: var(--accent); letter-spacing: -1px; }
 
-        .hero { padding: 140px 6% 80px; text-align: center; max-width: 1000px; margin: 0 auto; }
-        .hero h1 { font-family: var(--font-header); font-size: 5rem; line-height: 1; margin-bottom: 30px; letter-spacing: -2px; }
-        .hero p { font-size: 1.2rem; color: var(--muted); text-transform: uppercase; letter-spacing: 8px; font-weight: 300; }
-        
-        .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; padding: 0 6% 120px; }
-        .card { background: var(--surface); border: 1px solid var(--border); padding: 50px 40px; border-radius: 8px; transition: all 0.4s ease; border-top: 4px solid transparent; }
-        .card:hover { border-top-color: var(--accent); transform: translateY(-8px); background: #161619; box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
-        .card h3 { font-family: var(--font-header); font-size: 1.8rem; margin-bottom: 15px; color: var(--accent); }
-        .card p { color: var(--muted); line-height: 1.7; font-size: 1rem; }
+        .hero { padding: 140px 6% 100px; text-align: center; }
+        .hero h1 { font-family: var(--font-header); font-size: clamp(2.5rem, 8vw, 4.5rem); line-height: 1; margin-bottom: 30px; letter-spacing: -2px; }
+        .hero p { color: var(--muted); font-size: 1.25rem; max-width: 650px; margin: 0 auto 50px; text-transform: uppercase; letter-spacing: 3px; font-weight: 700; }
 
-        footer { padding: 80px 6%; text-align: center; border-top: 1px solid var(--border); background: var(--surface); }
-        .footer-logo { height: 40px; opacity: 0.5; margin-bottom: 25px; }
-        .legal-text { font-size: 0.7rem; color: #3F3F46; letter-spacing: 4px; text-transform: uppercase; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 40px; padding: 0 6% 120px; }
+        .card { padding: 50px; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; transition: 0.5s cubic-bezier(0.19, 1, 0.22, 1); }
+        .card:hover { border-color: var(--accent); transform: translateY(-5px); background: #161618; }
+        .card h3 { font-family: var(--font-header); font-size: 1.8rem; margin-bottom: 20px; color: var(--accent); }
+        .card p { color: var(--muted); font-size: 1rem; }
+
+        footer { padding: 100px 6%; text-align: center; border-top: 1px solid var(--border); background: #070708; }
+        .footer-logo { height: 60px; margin-bottom: 30px; }
+        .legal-text { font-size: 0.7rem; color: var(--muted); letter-spacing: 2px; font-weight: 700; text-transform: uppercase; }
     </style>
 </head>
 <body>
     <header>
         <div class="logo-container">
-            <img src="../logos/firmless_logo.png" alt="FIRMLESS" style="height: 50px;">
+            <img src="../logos/firmless_logo_new.png" alt="Firmless Logo" style="height: 50px;">
             <span class="logo-text">Firmless</span>
         </div>
-        <div style="font-size: 0.7rem; color: var(--muted); letter-spacing: 2px;">CREATOR LEGAL ENGINE</div>
+        <div style="font-weight: 900; font-size: 0.65rem; color: var(--accent); letter-spacing: 3px; text-transform: uppercase;">CREATOR LEGAL ENGINE // AUTONOMOUS</div>
     </header>
 
     <section class="hero">
@@ -52,20 +51,20 @@
     <div class="grid">
         <div class="card">
             <h3>Clause Engine</h3>
-            <p>Predictive legal drafting using high-fidelity autonomous logic for ironclad contractual protection.</p>
+            <p>Predictive legal drafting using high-fidelity autonomous logic for ironclad contractual protection across digital jurisdictions.</p>
         </div>
         <div class="card">
             <h3>Structure Audit</h3>
-            <p>Real-time structural analysis of creator agreements to ensure 100% sovereign alignment.</p>
+            <p>Real-time structural analysis of creator agreements to ensure 100% sovereign alignment with your brand DNA.</p>
         </div>
         <div class="card">
             <h3>Identity Vault</h3>
-            <p>Secure management of legal identities and signing authorities within a unified neural framework.</p>
+            <p>Secure management of legal identities and signing authorities within a unified neural framework for global protection.</p>
         </div>
     </div>
 
     <footer>
-        <img src="../logos/firmless_logo.png" alt="Firmless" class="footer-logo">
+        <img src="../logos/firmless_logo_new.png" alt="Firmless" class="footer-logo">
         <p class="legal-text">&copy; 2026 FIRMLESS · AN ORCINOS LEGAL TECHNOLOGY NODE · ANCHORED TO ETERNITY</p>
     </footer>
 
