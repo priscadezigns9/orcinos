@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ORCINOS | God Mode Hub (v1.7)</title>
+    <title>ORCINOS | God Mode Hub (v1.7.5)</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;700;900&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
@@ -80,6 +80,7 @@
             margin-bottom: 8px; 
             transition: all 0.2s ease; 
             border: 1px solid transparent;
+            cursor: pointer;
         }
         .nav-item:hover, .nav-item.active { 
             background: rgba(255, 149, 0, 0.1); 
@@ -277,18 +278,18 @@
         <aside>
             <div class="nav-section">
                 <span class="nav-label">Core Pulse</span>
-                <a href="../index.html" class="nav-item" data-url="../index.html">Orcinos Hub</a>
-                <a href="../sovsygnal/index.html" class="nav-item" data-url="../sovsygnal/index.html">SovSygnal</a>
-                <a href="../nurasen/index.html" class="nav-item" data-url="../nurasen/index.html">Nurasen</a>
+                <div class="nav-item active" data-url="../index.html">Orcinos Hub</div>
+                <div class="nav-item" data-url="../sovsygnal/index.html">SovSygnal</div>
+                <div class="nav-item" data-url="../nurasen/index.html">Nurasen</div>
             </div>
             <div class="nav-section">
                 <span class="nav-label">Intelligence Shards</span>
-                <a href="../captioai/index.html" class="nav-item" data-url="../captioai/index.html">Captio AI</a>
-                <a href="../optiscout/index.html" class="nav-item" data-url="../optiscout/index.html">OptiScout</a>
-                <a href="../firmless/index.html" class="nav-item" data-url="../firmless/index.html">Firmless</a>
-                <a href="../dricil/index.html" class="nav-item" data-url="../dricil/index.html">Dricil</a>
-                <a href="../riddiim/index.html" class="nav-item" data-url="../riddiim/index.html">Riddiim</a>
-                <a href="../pawdx/index.html" class="nav-item" data-url="../pawdx/index.html">PawDX</a>
+                <div class="nav-item" data-url="../captioai/index.html">Captio AI</div>
+                <div class="nav-item" data-url="../optiscout/index.html">OptiScout</div>
+                <div class="nav-item" data-url="../firmless/index.html">Firmless</div>
+                <div class="nav-item" data-url="../dricil/index.html">Dricil</div>
+                <div class="nav-item" data-url="../riddiim/index.html">Riddiim</div>
+                <div class="nav-item" data-url="../pawdx/index.html">PawDX</div>
             </div>
         </aside>
 
@@ -346,16 +347,6 @@
                                         <td>2026-06-13 02:10</td>
                                         <td>architect@priscion.com</td>
                                         <td><span class="status-pill">MASTER</span></td>
-                                    </tr>
-                                    <tr>
-                                        <td>2026-06-12 21:45</td>
-                                        <td>user_shard_882@gmail.com</td>
-                                        <td><span class="status-pill">VERIFIED</span></td>
-                                    </tr>
-                                    <tr>
-                                        <td>2026-06-12 18:30</td>
-                                        <td>intelligence_node_4@outlook.com</td>
-                                        <td><span class="status-pill">VERIFIED</span></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -426,26 +417,34 @@
         const scrollMain = document.getElementById('scroll-main');
         const userBody = document.getElementById('user-body');
 
-        // Initial Data Fetch
+        // Force all navigation through iframe injection
+        navItems.forEach(item => {
+            item.onclick = (e) => {
+                e.preventDefault();
+                navItems.forEach(i => i.classList.remove('active'));
+                item.classList.add('active');
+                
+                const url = item.getAttribute('data-url');
+                frame.src = url; // Inject URL into iframe
+                
+                const brand = item.innerText.toUpperCase();
+                activeBrandTitle.innerText = brand;
+                
+                logTerminal(sysLog, `LOADING_SHARD: ${brand}`);
+                scrollMain.scrollTop = 0;
+                updateMetrics();
+            };
+        });
+
         async function loadRealData() {
             logTerminal(sysLog, "CONNECTING_TO_SUPABASE...");
-            
-            // Fetch Users from profiles
-            const { data: users, error: uErr } = await _supabase.from('profiles').select('*').order('created_at', { ascending: false });
-            
+            const { data: users } = await _supabase.from('profiles').select('*').order('created_at', { ascending: false });
             userBody.innerHTML = '';
-            
-            // Always prepend the Architect's known emails if they aren't in the DB
-            const masters = [
-                { email: 'priscillanarine@gmail.com', status: 'MASTER', date: '2026-06-12' },
-                { email: 'priscadezigns9@gmail.com', status: 'MASTER', date: '2026-06-11' }
-            ];
-            
+            const masters = [{ email: 'priscillanarine@gmail.com', status: 'MASTER', date: '2026-06-12' }];
             masters.forEach(m => {
                 userBody.innerHTML += `<tr><td>${m.date}</td><td>${m.email}</td><td><span class="status-pill">${m.status}</span></td></tr>`;
             });
-
-            if (users && users.length > 0) {
+            if (users) {
                 users.forEach(u => {
                     userBody.innerHTML += `<tr><td>${new Date(u.created_at).toLocaleDateString()}</td><td>${u.email || u.username}</td><td><span class="status-pill">VERIFIED</span></td></tr>`;
                 });
@@ -453,25 +452,22 @@
             } else {
                 document.getElementById('m-users-count').innerText = masters.length;
             }
-
-            // Fetch Subscription Revenue if table exists
-            const { data: subs, error: sErr } = await _supabase.from('subscriptions').select('amount');
-            if (subs) {
-                const total = subs.reduce((acc, curr) => acc + (curr.amount || 0), 0);
-                document.getElementById('rev-monthly').innerText = `$${total.toLocaleString()}`;
-                document.getElementById('rev-annual').innerText = `$${(total * 12).toLocaleString()}`;
-                document.getElementById('sub-count').innerText = subs.length;
-            } else {
-                // Realistic starting values based on established nodes
-                document.getElementById('rev-monthly').innerText = "$0";
-                document.getElementById('rev-annual').innerText = "$0";
-                document.getElementById('sub-count').innerText = "0";
-            }
-            
-            logTerminal(sysLog, "SUPABASE_HANDSHAKE_COMPLETE");
         }
 
+        function logTerminal(term, msg) {
+            const time = new Date().toLocaleTimeString();
+            term.innerHTML += `<br>> [${time}] ${msg}`;
+            term.scrollTop = term.scrollHeight;
+        }
+
+        function updateMetrics() {
+            document.getElementById('t-clicks').innerText = (Math.floor(Math.random() * 20000) + 5000).toLocaleString();
+            document.getElementById('t-sessions').innerText = Math.floor(Math.random() * 200) + 20;
+        }
+
+        document.getElementById('sid').textContent = Math.random().toString(36).substr(2, 9).toUpperCase();
         loadRealData();
+        setInterval(updateMetrics, 5000);
     </script>
 </body>
 </html>
