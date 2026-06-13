@@ -31,10 +31,18 @@
         
         .container { max-width: 1400px; margin: 0 auto; padding: 60px 6% 100px; }
         
-        .section-block { margin-bottom: 100px; }
-        .section-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 40px; border-bottom: 2px solid var(--text); padding-bottom: 15px; }
-        .section-title { font-family: var(--font-heading); font-size: 2.5rem; text-transform: uppercase; }
+        .featured-story { display: grid; grid-template-columns: 2fr 1fr; gap: 60px; margin-bottom: 80px; border-bottom: 1px solid var(--border); padding-bottom: 80px; }
+        .main-story h4 { color: var(--sygnal-red); font-weight: 900; font-size: 0.7rem; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 2px; }
+        .main-story h2 { font-family: var(--font-heading); font-size: 3.5rem; margin-bottom: 25px; line-height: 1.1; font-weight: 900; }
+        .main-story p { font-size: 1.2rem; color: var(--muted); margin-bottom: 30px; line-height: 1.6; max-width: 800px; }
         
+        .side-stories { display: flex; flex-direction: column; gap: 40px; }
+        .side-story { border-bottom: 1px solid var(--border); padding-bottom: 20px; }
+        .side-story:last-child { border-bottom: none; }
+        .side-story h4 { color: var(--sygnal-red); font-weight: 900; font-size: 0.6rem; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; }
+        .side-story h3 { font-family: var(--font-heading); font-size: 1.3rem; margin-bottom: 10px; line-height: 1.3; }
+        .side-story p { font-size: 0.9rem; color: var(--muted); }
+
         .news-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 40px; }
         .news-card { border-bottom: 1px solid var(--border); padding-bottom: 25px; transition: 0.3s; }
         .news-card:hover { border-color: var(--sygnal-red); }
@@ -47,6 +55,11 @@
         .footer-content { display: flex; justify-content: space-between; align-items: center; }
         .footer-logo { height: 50px; filter: grayscale(1) brightness(2); }
         .copyright { font-size: 0.7rem; color: var(--muted); letter-spacing: 2px; font-weight: 700; text-transform: uppercase; }
+
+        @media (max-width: 1000px) {
+            .featured-story { grid-template-columns: 1fr; gap: 40px; }
+            .main-story h2 { font-size: 2.5rem; }
+        }
     </style>
 </head>
 <body>
@@ -72,31 +85,36 @@
     </nav>
 
     <div class="container">
-        <div class="section-block">
-            <div class="section-header">
-                <h2 class="section-title">Anime</h2>
+        <div class="featured-story">
+            <div class="main-story">
+                <h4>Top Intelligence // Industry</h4>
+                <h2>AnimeJapan 2026: Biggest Industry Announcements Audited.</h2>
+                <p>New anime adaptations and highly anticipated sequels signal new benchmarks in global interactive animation.</p>
+                <a href="https://www.japancandystore.com/blogs/okashi/animejapan-2026-the-ultimate-look-back-at-the-biggest-anime-news" target="_blank" style="text-decoration:none;"><span class="ref-link" style="font-size: 0.8rem; color: var(--sygnal-red); font-weight: 800; text-transform: uppercase; letter-spacing: 2px;">Read Full Intelligence &rarr;</span></a>
             </div>
-            <div class="news-grid">
+            <div class="side-stories">
                 
-                <div class="news-card">
-                    <h4>Industry</h4>
-                    <h3>AnimeJapan 2026: The Ultimate Look Back at Biggest Announcements.</h3>
-                    <p>New anime adaptations and upcoming continuations dominate the high-fidelity animation landscape.</p>
-                    <a href="https://www.japancandystore.com/blogs/okashi/animejapan-2026-the-ultimate-look-back-at-the-biggest-anime-news" target="_blank" class="ref-link">Source: Japan Candy Store &rarr;</a>
+                <div class="side-story">
+                    <h4>Trailers</h4>
+                    <h3>Kingdom Hearts 4 Trailer Revealed.</h3>
+                    <p>June 2026 Direct reveals new crossover epic in the anime landscape.</p>
                 </div>
+                <div class="side-story">
+                    <h4>Production</h4>
+                    <h3>Anime Expo 2026: Stacked with Adaptations.</h3>
+                    <p>Revealing the summer and fall 2026 title lineups.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="news-grid">
+            
                 <div class="news-card">
-                    <h4>Gaming</h4>
-                    <h3>New Kingdom Hearts 4 Trailer Revealed in June 2026 Direct.</h3>
-                    <p>Latest scoop on the highly anticipated crossover epic signals new benchmarks in interactive animation.</p>
+                    <h4>News</h4>
+                    <h3>Crunchyroll Adds New Lineup of Titles.</h3>
+                    <p>Global streaming platform expands its footprint with high-fidelity acquisitions.</p>
                     <a href="https://www.crunchyroll.com/news/latest" target="_blank" class="ref-link">Source: Crunchyroll &rarr;</a>
                 </div>
-                <div class="news-card">
-                    <h4>Production</h4>
-                    <h3>Anime Expo 2026: Massive Sequels and Brand-New Adaptations Announced.</h3>
-                    <p>Production houses reveal a stacked lineup for Summer and Fall 2026 cycles.</p>
-                    <a href="https://www.instagram.com/reel/DWeDobJExUk/" target="_blank" class="ref-link">Source: Anime Caliber &rarr;</a>
-                </div>
-            </div>
         </div>
     </div>
 
