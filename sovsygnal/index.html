@@ -31,10 +31,18 @@
         
         .container { max-width: 1400px; margin: 0 auto; padding: 60px 6% 100px; }
         
-        .section-block { margin-bottom: 100px; }
-        .section-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 40px; border-bottom: 2px solid var(--text); padding-bottom: 15px; }
-        .section-title { font-family: var(--font-heading); font-size: 2.5rem; text-transform: uppercase; }
+        .featured-story { display: grid; grid-template-columns: 2fr 1fr; gap: 60px; margin-bottom: 80px; border-bottom: 1px solid var(--border); padding-bottom: 80px; }
+        .main-story h4 { color: var(--sygnal-red); font-weight: 900; font-size: 0.7rem; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 2px; }
+        .main-story h2 { font-family: var(--font-heading); font-size: 3.5rem; margin-bottom: 25px; line-height: 1.1; font-weight: 900; }
+        .main-story p { font-size: 1.2rem; color: var(--muted); margin-bottom: 30px; line-height: 1.6; max-width: 800px; }
         
+        .side-stories { display: flex; flex-direction: column; gap: 40px; }
+        .side-story { border-bottom: 1px solid var(--border); padding-bottom: 20px; }
+        .side-story:last-child { border-bottom: none; }
+        .side-story h4 { color: var(--sygnal-red); font-weight: 900; font-size: 0.6rem; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; }
+        .side-story h3 { font-family: var(--font-heading); font-size: 1.3rem; margin-bottom: 10px; line-height: 1.3; }
+        .side-story p { font-size: 0.9rem; color: var(--muted); }
+
         .news-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 40px; }
         .news-card { border-bottom: 1px solid var(--border); padding-bottom: 25px; transition: 0.3s; }
         .news-card:hover { border-color: var(--sygnal-red); }
@@ -47,6 +55,11 @@
         .footer-content { display: flex; justify-content: space-between; align-items: center; }
         .footer-logo { height: 50px; filter: grayscale(1) brightness(2); }
         .copyright { font-size: 0.7rem; color: var(--muted); letter-spacing: 2px; font-weight: 700; text-transform: uppercase; }
+
+        @media (max-width: 1000px) {
+            .featured-story { grid-template-columns: 1fr; gap: 40px; }
+            .main-story h2 { font-size: 2.5rem; }
+        }
     </style>
 </head>
 <body>
@@ -72,31 +85,48 @@
     </nav>
 
     <div class="container">
-        <div class="section-block">
-            <div class="section-header">
-                <h2 class="section-title">Headlines</h2>
+        <div class="featured-story">
+            <div class="main-story">
+                <h4>Top Intelligence // Geopolitics</h4>
+                <h2>Global Peace Accord: Direct Negotiations Signal Paradigm Shift in Middle East Stability.</h2>
+                <p>New intelligence reports confirm a high-level handshake between major regional powers, potentially ending decades of proxy conflict. Analysts suggest this move could stabilize global energy markets by Q4 2026.</p>
+                <a href="https://www.geopoliticalmonitor.com/" target="_blank" style="text-decoration:none;"><span class="ref-link" style="font-size: 0.8rem; color: var(--sygnal-red); font-weight: 800; text-transform: uppercase; letter-spacing: 2px;">Read Full Intelligence &rarr;</span></a>
             </div>
-            <div class="news-grid">
+            <div class="side-stories">
                 
-                <div class="news-card">
-                    <h4>Geopolitics</h4>
-                    <h3>Global Peace Accord: Direct Negotiations Signal Paradigm Shift in Middle East.</h3>
-                    <p>New intelligence reports confirm a high-level handshake between major regional powers ending decades of proxy conflict.</p>
-                    <a href="https://www.geopoliticalmonitor.com/" target="_blank" class="ref-link">Source: Geopolitical Monitor &rarr;</a>
-                </div>
-                <div class="news-card">
+                <div class="side-story">
                     <h4>Finance</h4>
                     <h3>SpaceX Shares Surge in Institutional Market Debut.</h3>
-                    <p>SpaceX's market debut dominates US stocks as institutional flows signal strong demand for aerospace infrastructure.</p>
-                    <a href="https://www.reuters.com/markets/" target="_blank" class="ref-link">Source: Reuters &rarr;</a>
+                    <p>The bull and bear case for Bitcoin as SpaceX's market debut dominates U.S. stocks.</p>
                 </div>
-                <div class="news-card">
+                <div class="side-story">
                     <h4>Blockchain</h4>
-                    <h3>Bitcoin Stabilizes Above $63,000 Amid Global Regulatory Clarity.</h3>
-                    <p>Neutral Bitcoin price action reflects mature market dynamics as ETFs hit new volume records.</p>
-                    <a href="https://www.coindesk.com/" target="_blank" class="ref-link">Source: CoinDesk &rarr;</a>
+                    <h3>Bitcoin Stabilizes Above $63,000 for June 12, 2026.</h3>
+                    <p>Monero price rockets 33% amid laundering investigation maze.</p>
                 </div>
             </div>
+        </div>
+
+        <div class="news-grid">
+            
+                <div class="news-card">
+                    <h4>Biohacking</h4>
+                    <h3>Harvard Publishes Longevity Report for General Public.</h3>
+                    <p>High-fidelity research on mitochondrial optimization reaching mainstream awareness.</p>
+                    <a href="https://lifespan.io/news/" target="_blank" class="ref-link">Source: Lifespan.io &rarr;</a>
+                </div>
+                <div class="news-card">
+                    <h4>Real Estate</h4>
+                    <h3>Global Luxury Listings: Tracking Urban Design Shifts.</h3>
+                    <p>Intelligence on high-end property development focuses on archival craftsmanship.</p>
+                    <a href="https://orcinos.com/sovsygnal/" target="_blank" class="ref-link">Source: Internal Intelligence &rarr;</a>
+                </div>
+                <div class="news-card">
+                    <h4>Anime</h4>
+                    <h3>AnimeJapan 2026: Biggest Industry Announcements.</h3>
+                    <p>New adaptations and sequels signal new benchmarks in interactive animation.</p>
+                    <a href="https://www.crunchyroll.com/news/latest" target="_blank" class="ref-link">Source: Crunchyroll &rarr;</a>
+                </div>
         </div>
     </div>
 
