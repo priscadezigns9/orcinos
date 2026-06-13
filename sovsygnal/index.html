@@ -111,7 +111,7 @@
 
         <div class="featured-story">
             <div class="main-story">
-                <h4><span>Top Intelligence // Geopolitics</span> <span>Jun 13, 2026 // 15:31 AST</span></h4>
+                <h4><span>Top Intelligence // Geopolitics</span> <span>Jun 13, 2026 // 16:18 AST</span></h4>
                 <h2>Global Peace Accord: Direct Negotiations Signal Paradigm Shift in Middle East Stability.</h2>
                 <p>New intelligence reports confirm a high-level handshake between major regional powers, potentially ending decades of proxy conflict. Analysts suggest this move could stabilize global energy markets by Q4 2026.</p>
                 <a href="https://www.geopoliticalmonitor.com/" target="_blank" style="text-decoration:none;"><span class="ref-link" style="font-size: 0.8rem; color: var(--sygnal-red); font-weight: 800; text-transform: uppercase; letter-spacing: 2px;">Intelligence Source: Geopolitical Monitor &rarr;</span></a>
@@ -119,13 +119,13 @@
             <div class="side-stories">
                 
                 <div class="side-story">
-                    <h4><span>Finance</span> <span>Jun 13, 2026 // 15:31 AST</span></h4>
+                    <h4><span>Finance</span> <span>Jun 13, 2026 // 16:18 AST</span></h4>
                     <h3>SpaceX Shares Surge in Institutional Market Debut.</h3>
                     <p>The bull and bear case for Bitcoin as SpaceX's market debut dominates U.S. stocks.</p>
                     <a href="https://www.reuters.com/business/" target="_blank" class="ref-link" style="font-size: 0.6rem;">Source: Reuters &rarr;</a>
                 </div>
                 <div class="side-story">
-                    <h4><span>Blockchain</span> <span>Jun 13, 2026 // 15:31 AST</span></h4>
+                    <h4><span>Blockchain</span> <span>Jun 13, 2026 // 16:18 AST</span></h4>
                     <h3>Bitcoin Stabilizes Above $63,000 for June 12, 2026.</h3>
                     <p>Monero price rockets 33% amid laundering investigation maze.</p>
                     <a href="https://www.coindesk.com/" target="_blank" class="ref-link" style="font-size: 0.6rem;">Source: CoinDesk &rarr;</a>
@@ -166,19 +166,19 @@
         <div class="news-grid">
             
                 <div class="news-card">
-                    <h4><span>Biohacking</span> <span>Jun 13, 2026 // 15:31 AST</span></h4>
+                    <h4><span>Biohacking</span> <span>Jun 13, 2026 // 16:18 AST</span></h4>
                     <h3>Harvard Publishes Longevity Report for General Public.</h3>
                     <p>High-fidelity research on mitochondrial optimization reaching mainstream awareness.</p>
                     <a href="https://lifespan.io/news/" target="_blank" class="ref-link">Source: Lifespan.io &rarr;</a>
                 </div>
                 <div class="news-card">
-                    <h4><span>Real Estate</span> <span>Jun 13, 2026 // 15:31 AST</span></h4>
+                    <h4><span>Real Estate</span> <span>Jun 13, 2026 // 16:18 AST</span></h4>
                     <h3>Global Luxury Listings: Tracking Urban Design Shifts.</h3>
                     <p>Intelligence on high-end property development focuses on archival craftsmanship.</p>
                     <a href="https://orcinos.com/sovsygnal/" target="_blank" class="ref-link">Source: Internal Intelligence &rarr;</a>
                 </div>
                 <div class="news-card">
-                    <h4><span>Anime</span> <span>Jun 13, 2026 // 15:31 AST</span></h4>
+                    <h4><span>Anime</span> <span>Jun 13, 2026 // 16:18 AST</span></h4>
                     <h3>AnimeJapan 2026: Biggest Industry Announcements.</h3>
                     <p>New adaptations and sequels signal new benchmarks in interactive animation.</p>
                     <a href="https://www.crunchyroll.com/news/latest" target="_blank" class="ref-link">Source: Crunchyroll &rarr;</a>
@@ -201,6 +201,40 @@
     <script src="../shared_godmode.js"></script>
     <script>
         document.getElementById("nav-headlines").classList.add("active");
+        
+        // API Intelligence Engine
+        const FINNHUB_KEY = "{{credential:finnhub-api-key}}";
+        
+        async function updateAPIs() {
+            const feeds = document.querySelectorAll('.api-item');
+            
+            // Logic for Stocks/Forex
+            if ("headlines" === "stocks" || "headlines" === "forex" || "headlines" === "markets") {
+                feeds.forEach(async (item) => {
+                    const label = item.querySelector('label').innerText;
+                    const symbol = label.split('(')[1]?.replace(')', '') || label.replace('/', '');
+                    try {
+                        const res = await fetch(`https://finnhub.io/api/v1/quote?symbol=${symbol}&token=${FINNHUB_KEY}`);
+                        const data = await res.json();
+                        if (data.c) item.querySelector('.value').innerText = `$${data.c.toFixed(2)}`;
+                    } catch(e) { console.error(e); }
+                });
+            }
+            
+            // Logic for Crypto
+            if ("headlines" === "blockchain") {
+                try {
+                    const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana&vs_currencies=usd');
+                    const data = await res.json();
+                    document.querySelector('[label="BITCOIN (BTC)"]')?.querySelector('.value').innerText = `$${data.bitcoin.usd.toLocaleString()}`;
+                    document.querySelector('[label="ETHEREUM (ETH)"]')?.querySelector('.value').innerText = `$${data.ethereum.usd.toLocaleString()}`;
+                    document.querySelector('[label="SOLANA (SOL)"]')?.querySelector('.value').innerText = `$${data.solana.usd.toLocaleString()}`;
+                } catch(e) { console.error(e); }
+            }
+        }
+        
+        updateAPIs();
+        setInterval(updateAPIs, 60000); // Refresh every minute
     </script>
 </body>
 </html>
