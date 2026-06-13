@@ -1,9 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta name="keywords" content="veterinary AI, pet health, animal diagnostics, smart pet care, pet technology">
+    <meta name="description" content="AI-powered veterinary diagnostics. Advancing pet health with high-fidelity diagnostics and smart care technology.">
+    <meta name="geo.region" content="US">
+    <meta name="geo.placename" content="Global">
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PawDX | Veterinary AI Intelligence</title>
+    <link rel="icon" type="image/png" href="../logos/pawdx_icon.png">
     <!-- v1.0 - SCIENTIFIC ALABASTER // VET SHARD -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -36,7 +42,7 @@
 </head>
 <body>
     <header>
-        <div class="logo">PawDX<span>.</span></div>
+        <div class="logo"><img src="../logos/pawdx_logo.png" alt="PawDX" style="height: 60px;"></div>
         <div style="font-weight: 800; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px;">VETERINARY_AI // DIAGNOSTIC_SHARD</div>
     </header>
 
@@ -68,6 +74,35 @@
         </div>
     </div>
 
+    <footer style="margin-top: 80px; padding: 40px 6%; text-align: center; border-top: 1px solid var(--border);">
+        <img src="../logos/pawdx_icon.png" alt="PawDX Icon" style="height: 40px; margin-bottom: 10px;">
+        <p style="font-size: 0.75rem; color: var(--muted); letter-spacing: 1px; font-weight: 700; text-transform: uppercase;">&copy; 2026 PRISCION NETWORK · PAWDX · ANCHORED TO ETERNITY</p>
+    </footer>
     <script>lucide.createIcons();</script>
-</body>
+
+    <!-- Real-Time Click Tracking -->
+    <script>
+        (function() {
+            const SB_URL = 'https://sktpjacowqaedddtrhuz.supabase.co';
+            const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNrdHBqYWNvd3FhZWRkZHRyaHV6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2NDk5MzEsImV4cCI6MjA5NDIyNTkzMX0.FK4N_ATFTaUuGXrYu_7OBn3qCdlo0rOzxk-E6TxJxqs';
+            const BRAND = 'pawdx';
+            
+            async function track() {
+                try {
+                    await fetch(`${SB_URL}/rest/v1/rpc/increment_traffic`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'apikey': SB_KEY,
+                            'Authorization': `Bearer ${SB_KEY}`
+                        },
+                        body: JSON.stringify({ brand_name: BRAND, metric: 'clicks' })
+                    });
+                } catch (e) {}
+            }
+            if (document.readyState === 'complete') { track(); }
+            else { window.addEventListener('load', track); }
+        })();
+    </script>
+    </body>
 </html>
