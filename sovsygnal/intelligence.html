@@ -1,125 +1,120 @@
 <!DOCTYPE html>
-<html lang='en'>
+<html lang="en">
 <head>
-    <meta charset='UTF-8'>
-    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-    <title>SOVSYGNAL | Intelligence</title>
-    <meta name='description' content='SOVSYGNAL - Global Intelligence Hub. High-fidelity geopolitical, financial, and technological signals. Institutional-grade data for the Priscion Network.'>
-    <meta name='keywords' content='global intelligence, geopolitics, blockchain, biohacking, market news, forex, stocks, real estate, anime intelligence, priscion, orcinos, sovereign signal'>
-    <meta name='author' content='Prisca Dezigns / Priscion'>
-    <meta name='geo.region' content='TT-SFO'>
-    <meta name='geo.placename' content='San Fernando, Trinidad and Tobago'>
-    <meta name='geo.position' content='10.2840933;-61.4585256'>
-    <meta name='ICBM' content='10.2840933, -61.4585256'>
-    <link rel="icon" type="image/png" href="assets/logos/sovereign_favicon.png">
-    <link rel='preconnect' href='https://fonts.googleapis.com'>
-    <link href='https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;600;800&display=swap' rel='stylesheet'>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOV SYGNL | Intelligence</title>
+    <link rel="icon" type="image/png" href="../logos/sovsygnal_icon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        :root { --primary: #8B0000; --bg: #F9F9F9; --text: #1A1A1A; --accent: #111; --font-heading: 'Playfair Display', serif; --font-body: 'Inter', sans-serif; }
+        :root {
+            --bg: #000000; --surface: #0A0A0A; --text: #FFFFFF; --muted: #A1A1AA;
+            --sygnal-red: #E11D48; --border: rgba(255, 255, 255, 0.1);
+            --font-heading: 'Playfair Display', serif; --font-body: 'Inter', sans-serif;
+        }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: var(--bg); color: var(--text); font-family: var(--font-body); line-height: 1.6; }
+        body { background: var(--bg); color: var(--text); font-family: var(--font-body); line-height: 1.5; overflow-x: hidden; }
         
-        .ticker-wrap { width: 100%; overflow: hidden; background: #000; color: #fff; padding: 12px 0; border-bottom: 2px solid var(--primary); }
-        .ticker { display: inline-block; white-space: nowrap; padding-right: 100%; animation: ticker 240s linear infinite; }
-        @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
-        .ticker-item { display: inline-block; padding: 0 40px; font-weight: 800; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px; }
-        .ticker-item span { color: var(--primary); margin-right: 10px; }
+        header { padding: 60px 6% 40px; border-bottom: 1px solid var(--border); text-align: left; background: var(--surface); }
+        .logo-row { display: flex; align-items: baseline; gap: 20px; }
+        .logo { font-family: var(--font-heading); font-size: 3.5rem; font-weight: 900; letter-spacing: -2px; text-transform: uppercase; line-height: 1; }
+        .logo span { color: var(--sygnal-red); }
+        .tagline { text-transform: uppercase; font-weight: 900; letter-spacing: 5px; font-size: 0.7rem; margin-top: 15px; color: var(--sygnal-red); }
 
-        header { background: #fff; padding: 30px 6%; border-bottom: 3px solid #000; text-align: center; position: sticky; top: 0; z-index: 1000; }
-        header h1 { font-family: var(--font-heading); font-size: 3.5rem; letter-spacing: -2px; line-height: 1; }
-        header h1 a { text-decoration: none; color: black; }
-        header p { text-transform: uppercase; letter-spacing: 6px; font-size: 0.7rem; font-weight: 800; color: #444; margin: 10px 0 20px; }
+        nav { 
+            display: flex; overflow-x: auto; gap: 30px; padding: 20px 6%; 
+            border-bottom: 1px solid var(--border); position: sticky; top: 0; background: rgba(0,0,0,0.9); backdrop-filter: blur(20px); z-index: 100;
+        }
+        nav::-webkit-scrollbar { display: none; }
+        nav a { text-decoration: none; color: var(--text); font-weight: 700; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 1px; white-space: nowrap; opacity: 0.6; transition: 0.3s; }
+        nav a:hover, nav a.active { opacity: 1; color: var(--sygnal-red); }
         
-        nav { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; border-top: 1px solid #eee; padding-top: 15px; align-items: center; }
-        nav a { text-decoration: none; color: #000; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
-        nav a:hover, nav a.active { color: var(--primary); }
+        .container { max-width: 1400px; margin: 0 auto; padding: 60px 6% 100px; }
         
-        .main-container { display: grid; grid-template-columns: 1fr 350px; gap: 60px; padding: 40px 6%; max-width: 1500px; margin: 0 auto; }
-        .category-tag { color: var(--primary); font-weight: 800; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; display: block; }
+        .section-block { margin-bottom: 100px; }
+        .section-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 40px; border-bottom: 2px solid var(--text); padding-bottom: 15px; }
+        .section-title { font-family: var(--font-heading); font-size: 2.5rem; text-transform: uppercase; }
         
-        .data-grid { display: grid; gap: 15px; margin-bottom: 40px; padding: 20px; border-radius: 4px; }
-        .grid-4 { grid-template-columns: repeat(4, 1fr); }
-        @media (max-width: 1100px) { .grid-4 { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 600px) { .grid-4 { grid-template-columns: 1fr; } .main-container { grid-template-columns: 1fr; } header h1 { font-size: 2.5rem; } }
+        .news-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 40px; }
+        .news-card { border-bottom: 1px solid var(--border); padding-bottom: 25px; transition: 0.3s; }
+        .news-card:hover { border-color: var(--sygnal-red); }
+        .news-card h4 { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 2px; color: var(--sygnal-red); margin-bottom: 10px; font-weight: 900; }
+        .news-card h3 { font-family: var(--font-heading); font-size: 1.4rem; margin-bottom: 12px; line-height: 1.2; }
+        .news-card p { font-size: 0.9rem; color: var(--muted); margin-bottom: 15px; line-height: 1.6; }
+        .news-card .ref-link { font-size: 0.7rem; color: var(--sygnal-red); text-decoration: none; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
 
-        .news-card { margin-bottom: 40px; padding-bottom: 40px; border-bottom: 1px solid #eee; }
-        .news-card h3 { font-family: var(--font-heading); font-size: 2rem; margin-bottom: 15px; line-height: 1.2; }
-        .news-card h3 a { text-decoration: none; color: #000; }
-        .news-card p { color: #555; font-size: 1rem; }
-        
-        .sidebar-ad { padding: 30px; margin-bottom: 30px; border-radius: 4px; }
-        .sidebar-ad h4 { text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem; margin-bottom: 15px; }
-        .sidebar-ad .btn { display: block; text-decoration: none; padding: 12px; text-align: center; font-weight: 800; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; margin-top: 20px; border-radius: 2px; }
-        
-        .source-tag { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1px; color: #999; margin-bottom: 10px; }
-        .sentiment-tag { font-size: 0.6rem; padding: 2px 10px; border-radius: 2px; font-weight: 800; margin-left: 12px; vertical-align: middle; text-transform: uppercase; }
-        .bullish { background: #000; color: #00FF00; border: 1px solid #00FF00; }
-        .neutral { background: #000; color: #FFFF00; border: 1px solid #FFFF00; }
-        .bearish { background: #000; color: #FF0000; border: 1px solid #FF0000; }
-
-        footer { background: #000; color: white; padding: 80px 6%; text-align: center; }
-        footer img { height: 80px; margin-bottom: 20px; }
-        footer p { font-size: 0.7rem; letter-spacing: 2px; opacity: 0.5; }
+        footer { background: var(--surface); padding: 80px 6%; text-align: left; border-top: 4px solid var(--sygnal-red); }
+        .footer-content { display: flex; justify-content: space-between; align-items: center; }
+        .footer-logo { height: 50px; filter: grayscale(1) brightness(2); }
+        .copyright { font-size: 0.7rem; color: var(--muted); letter-spacing: 2px; font-weight: 700; text-transform: uppercase; }
     </style>
 </head>
 <body>
-    <div class='ticker-wrap'><div class='ticker'><div class='ticker-item'><span>GEOPOLITICS</span> Diplomatic Strategy: Omani Mediators Relay Tehran’s Formal Counteroffer to US.</div><div class='ticker-item'><span>BLOCKCHAIN</span> Digital Rules: SEC Finalizes Innovation Exemption for Tokenized Stocks.</div><div class='ticker-item'><span>BIOHACKING</span> Metabolic Benchmarks: Roche Obesity Drug outpaces Industry Targets.</div><div class='ticker-item'><span>MARKETS</span> Nasdaq Rebound: Chipmakers Lead High-Fidelity Recovery Post-Selloff.</div><div class='ticker-item'><span>LIFESTYLE</span> Resilient Habitat: Lord Norman Foster addresses Madrid CityLab.</div><div class='ticker-item'><span>INTELLIGENCE</span> Defense AI Directives: White House mandates expedited Battlefield Deployment.</div><div class='ticker-item'><span>FOREX</span> Currency Defense: Traders maintain Risk Rally despite Geopolitics.</div><div class='ticker-item'><span>STOCKS</span> IPO Surge: SpaceX Infrastructure Test signals Institutional Strength.</div><div class='ticker-item'><span>REALESTATE</span> Inflection Point: Global Real Estate Outlook turns Positive for 2026.</div><div class='ticker-item'><span>ANIME</span> Crunchyroll Summer 2026: Most Stacked Season in Years.</div><div class='ticker-item'><span>EUR</span> 0.87 <span style='color:#00FF00'>0.05%</span></div><div class='ticker-item'><span>GBP</span> 0.75 <span style='color:#00FF00'>0.05%</span></div><div class='ticker-item'><span>JPY</span> 160.47 <span style='color:#00FF00'>0.05%</span></div><div class='ticker-item'><span>CAD</span> 1.39 <span style='color:#00FF00'>0.05%</span></div><div class='ticker-item'><span>AUD</span> 1.43 <span style='color:#00FF00'>0.05%</span></div><div class='ticker-item'><span>CHF</span> 0.80 <span style='color:#00FF00'>0.05%</span></div><div class='ticker-item'><span>NZD</span> 1.72 <span style='color:#00FF00'>0.05%</span></div><div class='ticker-item'><span>ZAR</span> 16.56 <span style='color:#00FF00'>0.05%</span></div></div></div>
     <header>
-        <div id='google_translate_element' style='margin-bottom: 20px;'></div>
-        <script type='text/javascript'>
-            function googleTranslateElementInit() {
-                new google.translate.TranslateElement({pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
-            }
-        </script>
-        <script type='text/javascript' src='//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit'></script>
-        
-        <h1><a href='index.html'>SOVSYGNAL</a></h1>
-        <p>Global Intelligence Hub</p>
-        <nav>
-            <a href='index.html'>Headlines</a>
-            <a href='geopolitics.html'>Geopolitics</a>
-            <a href='blockchain.html'>Blockchain</a>
-            <a href='biohacking.html'>Biohacking</a>
-            <a href='markets.html'>Markets</a>
-            <a href='lifestyle.html'>Lifestyle</a>
-            <a href='intelligence.html'>Intelligence</a>
-            <a href='forex.html'>Forex</a>
-            <a href='stocks.html'>Stocks</a>
-            <a href='realestate.html'>Real Estate</a>
-            <a href='anime.html'>Anime</a>
-        </nav>
+        <div class="logo-row">
+            <div class="logo">SOV<span>.</span>SYGNL</div>
+        </div>
+        <div class="tagline">Global News Intelligence Hub</div>
     </header>
-    <div class='main-container'>
-        <main><section style='border-bottom: 2px solid #eee; padding-bottom: 40px; margin-bottom: 40px;'><span class='category-tag'>Signal | 13:19 EST</span><h2 style='font-family: var(--font-heading); font-size: 2.5rem;'>Defense AI Directives: White House mandates expedited Battlefield Deployment.</h2><div class='source-tag'>Source: Reuters Technology</div><p>Executive actions are accelerating the deployment of high-fidelity AI models in national security and defense.</p></section><section style='border-bottom: 2px solid #eee; padding-bottom: 40px; margin-bottom: 40px;'><span class='category-tag'>Signal | 13:19 EST</span><h2 style='font-family: var(--font-heading); font-size: 2.5rem;'>AI Utility Phase: Stanford Experts Predict 2026 Shift in Tech.</h2><div class='source-tag'>Source: Stanford News</div><p>Industry leaders predict that 2026 will be the year AI moves from experimental hype to proven institutional utility.</p></section><section style='border-bottom: 2px solid #eee; padding-bottom: 40px; margin-bottom: 40px;'><span class='category-tag'>Signal | 13:19 EST</span><h2 style='font-family: var(--font-heading); font-size: 2.5rem;'>Weekly AI Rundown: Filtered Signals for Neural System Builders.</h2><div class='source-tag'>Source: YouTube / This Week in AI</div><p>A summary of the week's most critical AI developments, focused on technical implementation and neural engineering.</p></section><section style='border-bottom: 2px solid #eee; padding-bottom: 40px; margin-bottom: 40px;'><span class='category-tag'>Signal | 13:19 EST</span><h2 style='font-family: var(--font-heading); font-size: 2.5rem;'>Neural Warning: Whistleblowers Highlight Terrifying Late 2026 Tech.</h2><div class='source-tag'>Source: CBN News</div><p>Emerging reports suggest a significant leap in autonomous technology that could reshape global security paradigms by year-end.</p></section></main>
-        <aside>
-            <div class='sidebar-ad' style='background:#111; color:white; text-align:center; border:2px solid var(--primary);'>
-                <h4>SOVSYGNAL PRO</h4>
-                <p style='font-size:0.8rem; opacity:0.8;'>Institutional grade intelligence feeds. Real-time neural analysis.</p>
-                <a href='#' class='btn' style='background:var(--primary); color:white;'>Upgrade Now</a>
+
+    <nav>
+        <a href="index.html" id="nav-headlines">Headlines</a>
+        <a href="geopolitics.html" id="nav-geopolitics">Geopolitics</a>
+        <a href="blockchain.html" id="nav-blockchain">Blockchain</a>
+        <a href="biohacking.html" id="nav-biohacking">Biohacking</a>
+        <a href="markets.html" id="nav-markets">Markets</a>
+        <a href="lifestyle.html" id="nav-lifestyle">Lifestyle</a>
+        <a href="intelligence.html" id="nav-intelligence">Intelligence</a>
+        <a href="forex.html" id="nav-forex">Forex</a>
+        <a href="stocks.html" id="nav-stocks">Stocks</a>
+        <a href="realestate.html" id="nav-realestate">Real Estate</a>
+        <a href="anime.html" id="nav-anime">Anime</a>
+    </nav>
+
+    <div class="container">
+        <div class="section-block">
+            <div class="section-header">
+                <h2 class="section-title">Intelligence</h2>
             </div>
-            <div class='sidebar-ad' style='background:#fff; border:1px solid #ff9900;'><img src='https://sktpjacowqaedddtrhuz.supabase.co/storage/v1/object/public/avatars/airpods_max.jpg' alt='AirPods Max' style='width:100%; margin-bottom:10px;'><h4>AirPods Max</h4><a href='https://www.amazon.com/dp/B08PZHYWJS?tag=priscadezigns-20' class='btn' style='background:#ff9900; color:#000;'>View on Amazon</a></div>
-            <div class='sidebar-ad' style='background:#fff; border:1px solid var(--primary);'>
-                <h4>PAID ADVERTISING</h4>
-                <p style='font-size:0.8rem; font-weight:700; color:var(--primary); margin-bottom:2px;'>Monthly: $500 USD</p>
-                <p style='font-size:0.8rem; font-weight:700; color:#2E7D32; margin-bottom:10px;'>Yearly: $5,000 USD</p>
-                <p style='font-size:0.75rem; margin-bottom:15px;'>Target institutional intelligence professionals.</p>
-                <a href='signup.html' class='btn' style='background:var(--primary); color:white;'>Book Placement</a>
+            <div class="news-grid">
+                
+                <div class="news-card">
+                    <h4>Neural</h4>
+                    <h3>JUNO Neutrino Observatory Delivers First Major Breakthrough.</h3>
+                    <p>Deep-ground intelligence in China achieves new benchmarks in subatomic signal processing.</p>
+                    <a href="https://www.sciencedaily.com/" target="_blank" class="ref-link">Source: ScienceDaily &rarr;</a>
+                </div>
+                <div class="news-card">
+                    <h4>AI</h4>
+                    <h3>Autonomous Intelligence Nodes: Making Sense of Volatile Markets.</h3>
+                    <p>High-fidelity AI systems bypass headline noise to track structural market movements in real-time.</p>
+                    <a href="https://www.youtube.com/watch?v=gnJ-Uw0RFOk" target="_blank" class="ref-link">Source: Market Insights &rarr;</a>
+                </div>
+                <div class="news-card">
+                    <h4>OSINT</h4>
+                    <h3>Global News Intelligence: Bypassing Information Friction.</h3>
+                    <p>New monitoring protocols enable high-fidelity analysis of geopolitical risk in a world under pressure.</p>
+                    <a href="https://www.globalpulsenewsmedia.com" target="_blank" class="ref-link">Source: Global Pulse &rarr;</a>
+                </div>
             </div>
-            <div class='sidebar-ad' style='background:#fff; border:1px solid #eee;'>
-                <h4>BOOK SIGNAL</h4>
-                <p style='font-size:0.8rem;'>The 2026 Sovereign Brand Strategy Guide.</p>
-                <a href='https://orcinos.com/' class='btn' style='background:#000; color:white;'>Book Signal</a>
-            </div>
-            <div class='sidebar-ad' style='background:#fff; color:#000; border:1px solid #000;'>
-                <h4>ORCINOS</h4>
-                <p>Apex intelligence SaaS. Automated digital agency protocols.</p>
-                <a href='https://orcinos.com/' class='btn' style='background:#000; color:white;'>Launch Dashboard</a>
-            </div>
-        </aside>
+        </div>
     </div>
+
     <footer>
-        <img src='assets/logos/sovereign_footer_logo.jpg' alt='Sovereign'>
-        <p>&copy; 2026 SOVSYGNAL &middot; PRISCA DEZIGNS EMPIRE MEDIA</p>
+        <div class="footer-content">
+            <div>
+                <img src="../logos/sovsygnal_icon.png" alt="SOV SYGNL" class="footer-logo">
+                <p class="copyright" style="margin-top: 20px;">&copy; 2026 SOV SYGNL · AN ORCINOS MEDIA DIVISION · ANCHORED TO ETERNITY</p>
+            </div>
+            <div style="text-align: right;">
+                <p style="font-size: 0.6rem; color: var(--muted); text-transform: uppercase; letter-spacing: 2px;">Intelligence Handshake: ACTIVE</p>
+            </div>
+        </div>
     </footer>
+
+    <script src="../shared_godmode.js"></script>
+    <script>
+        document.getElementById("nav-intelligence").classList.add("active");
+    </script>
 </body>
 </html>
