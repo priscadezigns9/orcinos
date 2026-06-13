@@ -1,119 +1,76 @@
 <!DOCTYPE html>
-<html lang='en'>
+<html lang="en">
 <head>
-    <meta charset='UTF-8'>
-    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SOV SYGNL | Global News Intelligence</title>
-    <link rel='preconnect' href='https://fonts.googleapis.com'>
-    <link href='https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;600;800&display=swap' rel='stylesheet'>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
     <link rel="stylesheet" href="../shared_godmode.css">
     <style>
         :root {
-            --bg: #FFFFFF; --text: #001B3D; --muted: #64748B; --accent: #0f172a;
+            --bg: #FFFFFF; --text: #000000; --muted: #666666; --accent: #1A1A1A;
             --sygnal-red: #D0021B; --border: rgba(0,0,0,0.1);
             --font-heading: 'Playfair Display', serif; --font-body: 'Inter', sans-serif;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: var(--bg); color: var(--text); font-family: var(--font-body); line-height: 1.5; scroll-behavior: smooth; }
-        .utility-bar { background: var(--text); color: white; padding: 8px 6%; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 2px; display: flex; justify-content: space-between; position: sticky; top: 0; z-index: 1100; }
+        body { background: var(--bg); color: var(--text); font-family: var(--font-body); line-height: 1.5; overflow-x: hidden; }
         
-        header { padding: 40px 6% 20px; border-bottom: 4px solid var(--text); text-align: center; }
-        .main-logo { font-family: var(--font-heading); font-size: 3.5rem; letter-spacing: -2px; line-height: 1; margin-bottom: 10px; cursor: pointer; text-transform: uppercase; font-weight: 900; }
-        .tagline { text-transform: uppercase; letter-spacing: 5px; font-size: 0.75rem; margin-bottom: 20px; font-weight: 800; color: var(--muted); }
+        header { padding: 40px 6% 20px; border-bottom: 5px solid var(--text); text-align: center; }
+        .logo { font-family: var(--font-heading); font-size: 4rem; font-weight: 900; letter-spacing: -2px; text-transform: uppercase; line-height: 1; }
         
-        nav { display: flex; justify-content: center; gap: 30px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 12px 0; margin-top: 20px; flex-wrap: wrap; }
-        nav a { text-decoration: none; color: var(--text); font-weight: 800; font-size: 0.75rem; text-transform: uppercase; white-space: nowrap; }
+        nav { display: flex; justify-content: center; gap: 40px; padding: 20px 0; border-bottom: 1px solid var(--border); margin-bottom: 40px; }
+        nav a { text-decoration: none; color: var(--text); font-weight: 900; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; }
         nav a:hover { color: var(--sygnal-red); }
 
-        .main-container { display: grid; grid-template-columns: 1fr 300px; gap: 40px; padding: 40px 6%; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 6% 100px; }
+        .section-title { font-family: var(--font-heading); font-size: 2.5rem; border-bottom: 3px solid var(--text); padding-bottom: 15px; margin-bottom: 40px; text-transform: uppercase; }
         
-        .section-header { font-family: var(--font-heading); font-size: 1.5rem; margin: 30px 0 15px; border-bottom: 2px solid var(--text); padding-bottom: 5px; text-transform: uppercase; display: flex; align-items: center; gap: 10px; }
-        .section-header i { width: 20px; color: var(--sygnal-red); }
-
-        .news-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
-        .news-card { margin-bottom: 20px; }
-        .news-card h3 { font-family: var(--font-heading); font-size: 1.2rem; margin-bottom: 8px; line-height: 1.2; }
-        .news-card p { font-size: 0.85rem; color: #555; }
-        .category-tag { color: var(--sygnal-red); font-weight: 800; text-transform: uppercase; font-size: 0.65rem; margin-bottom: 5px; display: block; }
-
-        footer { background: #000; color: white; padding: 40px 6%; text-align: center; border-top: 5px solid var(--sygnal-red); }
-        footer p { font-size: 0.7rem; opacity: 0.5; letter-spacing: 1px; }
+        .news-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+        .news-card { border-bottom: 1px solid var(--border); padding-bottom: 30px; }
+        .news-card h3 { font-family: var(--font-heading); font-size: 1.8rem; margin-bottom: 15px; line-height: 1.2; }
+        .news-card p { color: var(--muted); font-size: 1.1rem; }
+        
+        footer { background: #000; color: #FFF; padding: 60px 6%; text-align: center; border-top: 10px solid var(--sygnal-red); }
+        .footer-logo { font-family: var(--font-heading); font-size: 2rem; font-weight: 900; letter-spacing: -1px; margin-bottom: 20px; }
     </style>
 </head>
 <body>
-    <div class='utility-bar'>
-        <div>Fri, June 12, 2026 · Sovereign Frequency 104.2</div>
-        <div>MARKET: $PRN +4.2% · Intelligence: ACTIVE</div>
-    </div>
-    
     <header>
-        <div class='main-logo' onclick="window.location.href='index.html'">SOV SYGNL</div>
-        <p class='tagline'>Global Intelligence for the Sovereign Architect</p>
-        <nav>
-            <a href='#head'>Headlines</a>
-            <a href='#anime'>Anime</a>
-            <a href='#stocks'>Stocks</a>
-            <a href='#forex'>Forex</a>
-            <a href='#ent'>Entertainment</a>
-            <a href='#geo'>Geopolitics</a>
-        </nav>
+        <div class="logo">SOV SYGNL</div>
+        <p style="text-transform:uppercase; font-weight:900; letter-spacing:8px; font-size:0.7rem; margin-top:10px; color:var(--muted);">Global News Intelligence Shard</p>
     </header>
 
-    <div class='main-container'>
-        <main>
-            <section id="head">
-                <h2 class="section-header"><i data-lucide="zap"></i> Top Headlines</h2>
-                <div class="news-grid">
-                    <div class="news-card"><span class="category-tag">Live Feed</span><h3>Strategic Mediation Initiative Relayed Through Neutral Corridors.</h3><p>Global risk premiums adjust as formal counteroffers emerge.</p></div>
-                    <div class="news-card"><span class="category-tag">Live Feed</span><h3>Institutional Bond Volume Hits Record Highs in Q2 2026.</h3><p>Infrastructure focus drives significant capital migration.</p></div>
-                </div>
-            </section>
+    <nav>
+        <a href="index.html">Headlines</a>
+        <a href="anime.html">Anime</a>
+        <a href="stocks.html">Stocks</a>
+        <a href="forex.html">Forex</a>
+        <a href="entertainment.html">Entertainment</a>
+        <a href="geopolitics.html">Geopolitics</a>
+    </nav>
 
-            <section id="anime">
-                <h2 class="section-header"><i data-lucide="tv"></i> Anime Intelligence</h2>
-                <div class="news-grid">
-                    <div class="news-card"><h3>Studio Handshake Finalizes Digital Distribution Shard.</h3><p>Streaming infrastructure evolution for high-fidelity media.</p></div>
-                    <div class="news-card"><h3>Mimi's Theater: Expansion of Global Animation Hub.</h3><p>Content retention strategies integrated into destination hubs.</p></div>
-                </div>
-            </section>
-
-            <section id="stocks">
-                <h2 class="section-header"><i data-lucide="line-chart"></i> Market Shards: Stocks</h2>
-                <div class="news-grid">
-                    <div class="news-card"><h3>$ADA: Institutional Grade Performance Metrics Released.</h3><p>Ecosystem stability confirms long-term viability signals.</p></div>
-                    <div class="news-card"><h3>Tech Shards: Infrastructure Rally Continues Post-Handshake.</h3><p>Cloud architecture firms lead the global signal recovery.</p></div>
-                </div>
-            </section>
-            
-            <section id="forex">
-                <h2 class="section-header"><i data-lucide="refresh-ccw"></i> Forex Shards</h2>
-                <div class="news-grid">
-                    <div class="news-card"><h3>Currency Fragmentation: Neutral Corridors Seek Equilibrium.</h3><p>Multilateral trade logs significant volatility shifts.</p></div>
-                    <div class="news-card"><h3>Sovereign Reserves: Strategic Pivot Toward Digital Assets.</h3><p>Neural economy integration impacts global trade logs.</p></div>
-                </div>
-            </section>
-
-        </main>
-
-        <aside>
-            <h2 class="section-header" style="font-size:1.1rem;"><i data-lucide="activity"></i> Pulse</h2>
-            <div style="font-size:0.8rem; margin-bottom:20px;">
-                <p><b>ORCINOS:</b> v1.3 God Mode Hub successfully deployed.</p>
-                <hr style="margin:10px 0; opacity:0.1;">
-                <p><b>NURASEN:</b> Cybersecurity shards reporting optimal stability.</p>
-                <hr style="margin:10px 0; opacity:0.1;">
-                <p><b>SYLE:</b> Lifestyle AI infrastructure initialized.</p>
+    <div class="container">
+        <h2 class="section-title">Latest Headlines</h2>
+        <div class="news-grid">
+            <div class="news-card">
+                <span style="color:var(--sygnal-red); font-weight:900; font-size:0.7rem; text-transform:uppercase;">Live Feed</span>
+                <h3>Strategic Mediation Shard: European Corridors Open Narrow Window for Peace.</h3>
+                <p>Diplomatic intelligence suggests a significant pivot in regional conflict containment protocols.</p>
             </div>
-        </aside>
+            <div class="news-card">
+                <span style="color:var(--sygnal-red); font-weight:900; font-size:0.7rem; text-transform:uppercase;">Blockchain</span>
+                <h3>SpaceX Tokenization: Institutional Shards Bridge Private Equity and Web3.</h3>
+                <p>Global exchanges begin rolling out neural-verified shares for the sovereign architect.</p>
+            </div>
+        </div>
     </div>
 
     <footer>
-        <div style="font-family:serif; font-size:1.5rem; font-weight:900; margin-bottom:10px;">SOV SYGNL</div>
-        <p>&copy; 2026 SOV SYGNL &middot; AN ORCINOS MEDIA DIVISION</p>
+        <div class="footer-logo">SOV SYGNL</div>
+        <p style="font-size:0.7rem; opacity:0.5; letter-spacing:2px;">&copy; 2026 SOV SYGNL // AN ORCINOS MEDIA DIVISION</p>
     </footer>
 
-    <script>lucide.createIcons();</script>
     <script src="../shared_godmode.js"></script>
 </body>
 </html>
