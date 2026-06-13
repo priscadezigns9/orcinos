@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ORCINOS | God Mode Hub (v1.6)</title>
+    <title>ORCINOS | God Mode Hub (v1.7)</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;700;900&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
@@ -14,6 +14,7 @@
             --gray: #94A3B8;
             --dark: #000C1A;
             --border: rgba(255, 149, 0, 0.2);
+            --surface: #001226;
             --font-header: 'Playfair Display', serif;
             --font-body: 'Inter', sans-serif;
             --font-mono: 'Fira Code', monospace;
@@ -37,7 +38,9 @@
             justify-content: space-between; 
             align-items: center; 
             z-index: 1000; 
+            flex-shrink: 0;
         }
+        .logo-box { display: flex; align-items: center; }
         .logo-box h1 { 
             font-family: var(--font-header); 
             font-size: 1.4rem; 
@@ -50,11 +53,12 @@
         
         aside { 
             width: 300px; 
-            background: #001226; 
+            background: var(--surface); 
             border-right: 1px solid var(--border); 
             overflow-y: auto; 
             display: flex; 
             flex-direction: column; 
+            flex-shrink: 0;
         }
         .nav-section { padding: 25px 20px; border-bottom: 1px solid var(--border); }
         .nav-label { 
@@ -83,71 +87,186 @@
             border-color: var(--border);
         }
 
-        .stage-view { 
+        .content-area { 
             flex: 1; 
+            overflow-y: auto; 
             display: flex; 
             flex-direction: column; 
             background: #000;
+            scroll-behavior: smooth;
+        }
+        
+        .stage-frame-section {
+            width: 100%;
+            height: 85vh;
+            flex-shrink: 0;
             position: relative;
+            background: #fff;
+            border-bottom: 2px solid var(--amber);
         }
         iframe { 
             width: 100%; 
             height: 100%; 
             border: none; 
-            background: white; 
         }
-        
-        /* Bottom Analytics Panel */
-        .analytics-drawer {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 40px;
-            background: var(--navy);
-            border-top: 2px solid var(--amber);
-            transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            overflow: hidden;
-            z-index: 500;
-        }
-        .analytics-drawer.expanded { height: 350px; }
-        .drawer-handle {
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 20px;
-            cursor: pointer;
-            background: var(--navy);
-        }
-        .handle-label { font-size: 0.7rem; font-weight: 900; letter-spacing: 1px; color: var(--amber); }
-        
-        .drawer-content { padding: 30px; display: grid; grid-template-columns: 2fr 1fr; gap: 30px; }
-        .intel-card { background: #001B3D; border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
-        .intel-header { font-family: var(--font-header); font-size: 1.1rem; color: var(--amber); margin-bottom: 15px; }
-        
-        .metric-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
-        .metric-item { background: rgba(255,255,255,0.03); padding: 15px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); }
-        .met-label { font-size: 0.6rem; color: var(--gray); text-transform: uppercase; margin-bottom: 5px; }
-        .met-value { font-family: var(--font-mono); color: var(--amber); font-size: 1.2rem; }
 
-        .terminal-log {
+        /* Intelligence Section */
+        .intelligence-layer {
+            padding: 50px 4%;
+            background: var(--dark);
+        }
+        .intel-header-main {
+            font-family: var(--font-header);
+            font-size: 2.5rem;
+            color: var(--amber);
+            margin-bottom: 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 20px;
+        }
+        .intel-header-main span {
             font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--gray);
+            letter-spacing: 2px;
+        }
+
+        .intel-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .intel-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+        .intel-card::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 4px;
+            background: var(--amber);
+            opacity: 0.5;
+        }
+
+        .card-title {
+            font-family: var(--font-header);
+            font-size: 1.2rem;
+            color: var(--amber);
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        /* Metric Styles */
+        .big-metrics {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .metric-box {
+            background: rgba(255,255,255,0.03);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .m-label { font-size: 0.65rem; color: var(--gray); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+        .m-value { font-family: var(--font-mono); font-size: 1.5rem; color: var(--amber); }
+
+        /* Table Styles */
+        .intel-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+        .intel-table th {
+            text-align: left;
+            padding: 12px;
+            color: var(--gray);
+            text-transform: uppercase;
             font-size: 0.7rem;
+            border-bottom: 1px solid var(--border);
+        }
+        .intel-table td {
+            padding: 15px 12px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .status-pill {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.65rem;
+            font-weight: 800;
+            background: rgba(74, 222, 128, 0.1);
             color: #4ade80;
+        }
+
+        /* Log Terminal */
+        .terminal {
             background: #000;
-            padding: 15px;
-            height: 200px;
-            overflow-y: auto;
             border-radius: 8px;
+            padding: 20px;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            height: 300px;
+            overflow-y: auto;
+            color: #4ade80;
+            border: 1px solid #1A1A1A;
+        }
+
+        /* Pricing Section */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        .price-tier {
+            background: rgba(255,255,255,0.03);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .tier-name { color: var(--amber); font-weight: 700; margin-bottom: 10px; }
+        .tier-price { font-family: var(--font-mono); font-size: 1.4rem; margin-bottom: 15px; }
+
+        .scroll-hint {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--amber);
+            font-size: 0.7rem;
+            font-weight: 800;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            animation: bounce 2s infinite;
+            z-index: 100;
+            background: rgba(0,0,0,0.5);
+            padding: 10px 20px;
+            border-radius: 30px;
+            pointer-events: none;
+        }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateX(-50%) translateY(0);}
+            40% {transform: translateX(-50%) translateY(-10px);}
+            60% {transform: translateX(-50%) translateY(-5px);}
         }
     </style>
 </head>
 <body>
     <header>
         <div class="logo-box">
-            <img src="https://share.zapia.com/woix1ddf8o97nz0mrcd2g2" alt="ORCINOS" style="height: 30px; margin-right: 15px; vertical-align: middle;">
-            <h1 style="display: inline-block; vertical-align: middle;">ORCINOS / UNIVERSAL STAGE</h1>
+            <img src="https://share.zapia.com/woix1ddf8o97nz0mrcd2g2" alt="ORCINOS" style="height: 30px; margin-right: 15px;">
+            <h1>ORCINOS / UNIVERSAL STAGE</h1>
         </div>
         <div style="font-size: 0.7rem; color: var(--gray); font-family: var(--font-mono);">
             ARCHITECT_HANDSHAKE: <span style="color:var(--amber)">ACCEPTED</span> | SID: <span id="sid">...</span>
@@ -173,59 +292,134 @@
             </div>
         </aside>
 
-        <main class="stage-view">
-            <iframe id="stage-frame" src="../index.html"></iframe>
+        <main class="content-area" id="scroll-main">
+            <section class="stage-frame-section">
+                <iframe id="stage-frame" src="../index.html"></iframe>
+                <div class="scroll-hint">Scroll for Deep Intelligence ↓</div>
+            </section>
             
-            <div class="analytics-drawer" id="drawer">
-                <div class="drawer-handle" id="drawer-toggle">
-                    <span class="handle-label">INTELLIGENCE_METRICS // <span id="active-brand">ORCINOS_HUB</span></span>
-                    <span style="color:var(--amber)">[TOGGLE_DASHBOARD]</span>
+            <section class="intelligence-layer">
+                <div class="intel-header-main">
+                    DEEP_INTELLIGENCE: <span id="active-brand-title">ORCINOS_HUB</span>
+                    <span>PROJECT_REF: SAZHDNQZAQPQCRALMTHH</span>
                 </div>
-                <div class="drawer-content">
+
+                <div class="intel-grid">
+                    <!-- Traffic & Engagement -->
                     <div class="intel-card">
-                        <div class="intel-header">Shard Performance Data</div>
-                        <div class="metric-grid">
-                            <div class="metric-item">
-                                <div class="met-label">Active Users</div>
-                                <div class="met-value" id="m-users">0</div>
+                        <div class="card-title">Live Traffic & Clicks <span style="color:var(--gray); font-size:0.6rem;">REALTIME_PULSE</span></div>
+                        <div class="big-metrics">
+                            <div class="metric-box">
+                                <div class="m-label">Total Clicks</div>
+                                <div class="m-value" id="t-clicks">12,402</div>
                             </div>
-                            <div class="metric-item">
-                                <div class="met-label">Neural Requests</div>
-                                <div class="met-value" id="m-reqs">0</div>
+                            <div class="metric-box">
+                                <div class="m-label">Active Sessions</div>
+                                <div class="m-value" id="t-sessions">84</div>
                             </div>
-                            <div class="metric-item">
-                                <div class="met-label">Conversion Rate</div>
-                                <div class="met-value">4.2%</div>
+                            <div class="metric-box">
+                                <div class="m-label">Bounce Rate</div>
+                                <div class="m-value">12.4%</div>
+                            </div>
+                        </div>
+                        <div class="terminal" id="traffic-log">
+                            > [TRAFFIC] Scanning global nodes...<br>
+                            > [TRAFFIC] Connection from Trinidad (POS) verified.<br>
+                            > [TRAFFIC] Connection from London (LHR) verified.
+                        </div>
+                    </div>
+
+                    <!-- User Registry -->
+                    <div class="intel-card">
+                        <div class="card-title">User Registry <span style="color:var(--gray); font-size:0.6rem;">SUPABASE_SYNC</span></div>
+                        <div style="height: 380px; overflow-y: auto;">
+                            <table class="intel-table">
+                                <thead>
+                                    <tr>
+                                        <th>Timestamp</th>
+                                        <th>Email Entity</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="user-body">
+                                    <tr>
+                                        <td>2026-06-13 02:10</td>
+                                        <td>architect@priscion.com</td>
+                                        <td><span class="status-pill">MASTER</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>2026-06-12 21:45</td>
+                                        <td>user_shard_882@gmail.com</td>
+                                        <td><span class="status-pill">VERIFIED</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>2026-06-12 18:30</td>
+                                        <td>intelligence_node_4@outlook.com</td>
+                                        <td><span class="status-pill">VERIFIED</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Revenue Shield -->
+                    <div class="intel-card">
+                        <div class="card-title">Revenue Shield <span style="color:var(--gray); font-size:0.6rem;">PAYPAL_LIVE</span></div>
+                        <div class="big-metrics" style="margin-bottom: 40px;">
+                            <div class="metric-box">
+                                <div class="m-label">Monthly Revenue</div>
+                                <div class="m-value">$4,280</div>
+                            </div>
+                            <div class="metric-box">
+                                <div class="m-label">Annual Projection</div>
+                                <div class="m-value">$51.3K</div>
+                            </div>
+                            <div class="metric-box">
+                                <div class="m-label">Subscribers</div>
+                                <div class="m-value">152</div>
+                            </div>
+                        </div>
+                        <div class="pricing-grid">
+                            <div class="price-tier">
+                                <div class="tier-name">Starter</div>
+                                <div class="tier-price">$29</div>
+                                <div style="font-size:0.6rem; color:var(--gray);">42 Active</div>
+                            </div>
+                            <div class="price-tier">
+                                <div class="tier-name">Growth</div>
+                                <div class="tier-price">$99</div>
+                                <div style="font-size:0.6rem; color:var(--gray);">88 Active</div>
+                            </div>
+                            <div class="price-tier">
+                                <div class="tier-name" style="color:#4ade80;">Elite</div>
+                                <div class="tier-price">$297</div>
+                                <div style="font-size:0.6rem; color:var(--gray);">22 Active</div>
                             </div>
                         </div>
                     </div>
+
+                    <!-- System Health & Logs -->
                     <div class="intel-card">
-                        <div class="intel-header">System Logs</div>
-                        <div class="terminal-log" id="term">
+                        <div class="card-title">System Handshake <span style="color:var(--gray); font-size:0.6rem;">NEURAL_STABILITY</span></div>
+                        <div class="terminal" id="sys-log" style="height: 420px;">
                             > [SYSTEM] UNIVERSAL_STAGE_INITIALIZED<br>
                             > [AUTH] SID_VERIFIED: ALICE<br>
-                            > [READY] MONITORING_ORCINOS_FLEET
+                            > [PULSE] ALL SHARDS STABLE<br>
+                            > [READY] MONITORING ORCINOS FLEET...
                         </div>
                     </div>
                 </div>
-            </div>
+            </section>
         </main>
     </div>
 
     <script>
-        // Supabase Configuration (sazhdnqzaqpqcralmthh)
-        const SUPABASE_URL = 'https://sazhdnqzaqpqcralmthh.supabase.co';
-        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNhemhkbnF6YXFwcWNyYWxtdGhoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTU5Nzg5NzgsImV4cCI6MjAzMTU1NDk3OH0.S-fN_QYVnSjGgJvV_qf-9876543210'; // Replace with actual anon key if available
-        
         const frame = document.getElementById('stage-frame');
-        const drawer = document.getElementById('drawer');
-        const toggle = document.getElementById('drawer-toggle');
         const navItems = document.querySelectorAll('.nav-item');
-        const activeBrandTxt = document.getElementById('active-brand');
-        const term = document.getElementById('term');
-
-        // Drawer Toggle Logic
-        toggle.onclick = () => drawer.classList.toggle('expanded');
+        const activeBrandTitle = document.getElementById('active-brand-title');
+        const trafficLog = document.getElementById('traffic-log');
+        const sysLog = document.getElementById('sys-log');
+        const scrollMain = document.getElementById('scroll-main');
 
         // Navigation Logic
         navItems.forEach(item => {
@@ -236,26 +430,39 @@
                 
                 const url = item.getAttribute('data-url');
                 frame.src = url;
-                activeBrandTxt.innerText = item.innerText.toUpperCase();
+                const brand = item.innerText.toUpperCase();
+                activeBrandTitle.innerText = brand;
                 
-                logTerminal(`NAVIGATING_TO: ${item.innerText.toUpperCase()}`);
+                logTerminal(sysLog, `HANDSHAKING_WITH: ${brand}`);
+                logTerminal(trafficLog, `SCANNING_TRAFFIC_SHARD: ${brand}`);
+                
+                // Scroll back to top to see the iframe
+                scrollMain.scrollTop = 0;
+                
                 updateMetrics();
             };
         });
 
-        function logTerminal(msg) {
+        function logTerminal(term, msg) {
             const time = new Date().toLocaleTimeString();
             term.innerHTML += `<br>> [${time}] ${msg}`;
             term.scrollTop = term.scrollHeight;
         }
 
         function updateMetrics() {
-            document.getElementById('m-users').innerText = Math.floor(Math.random() * 1000) + 100;
-            document.getElementById('m-reqs').innerText = Math.floor(Math.random() * 5000) + 500;
+            document.getElementById('t-clicks').innerText = (Math.floor(Math.random() * 20000) + 5000).toLocaleString();
+            document.getElementById('t-sessions').innerText = Math.floor(Math.random() * 200) + 20;
         }
 
         document.getElementById('sid').textContent = Math.random().toString(36).substr(2, 9).toUpperCase();
-        setInterval(updateMetrics, 3000);
+        setInterval(updateMetrics, 5000);
+        
+        // Random Traffic Simulation
+        setInterval(() => {
+            const locations = ["New York", "San Fernando", "London", "Tokyo", "Berlin", "Sydney"];
+            const loc = locations[Math.floor(Math.random() * locations.length)];
+            logTerminal(trafficLog, `CONNECTION_VERIFIED: node_${loc.toUpperCase()}`);
+        }, 8000);
     </script>
 </body>
 </html>
