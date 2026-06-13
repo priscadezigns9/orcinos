@@ -3,72 +3,155 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SOV SYGNL | Global News Intelligence</title>
+    <title>SOV SYGNL | Intelligence Shard</title>
+    <link rel="icon" type="image/png" href="../logos/sovsygnal_icon.png">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <link rel="stylesheet" href="../shared_godmode.css">
     <style>
         :root {
-            --bg: #FFFFFF; --text: #000000; --muted: #666666; --accent: #1A1A1A;
-            --sygnal-red: #D0021B; --border: rgba(0,0,0,0.1);
+            --bg: #000000; --surface: #0A0A0A; --text: #FFFFFF; --muted: #A1A1AA;
+            --sygnal-red: #E11D48; --border: rgba(255, 255, 255, 0.1);
             --font-heading: 'Playfair Display', serif; --font-body: 'Inter', sans-serif;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background: var(--bg); color: var(--text); font-family: var(--font-body); line-height: 1.5; overflow-x: hidden; }
         
-        header { padding: 40px 6% 20px; border-bottom: 5px solid var(--text); text-align: center; }
-        .logo { font-family: var(--font-heading); font-size: 4rem; font-weight: 900; letter-spacing: -2px; text-transform: uppercase; line-height: 1; }
-        
-        nav { display: flex; justify-content: center; gap: 40px; padding: 20px 0; border-bottom: 1px solid var(--border); margin-bottom: 40px; }
-        nav a { text-decoration: none; color: var(--text); font-weight: 900; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; }
-        nav a:hover { color: var(--sygnal-red); }
+        header { padding: 60px 6% 40px; border-bottom: 1px solid var(--border); text-align: left; background: var(--surface); }
+        .logo-row { display: flex; align-items: baseline; gap: 20px; }
+        .logo { font-family: var(--font-heading); font-size: 3.5rem; font-weight: 900; letter-spacing: -2px; text-transform: uppercase; line-height: 1; }
+        .logo span { color: var(--sygnal-red); }
+        .tagline { text-transform: uppercase; font-weight: 900; letter-spacing: 5px; font-size: 0.7rem; margin-top: 15px; color: var(--sygnal-red); }
 
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 6% 100px; }
-        .section-title { font-family: var(--font-heading); font-size: 2.5rem; border-bottom: 3px solid var(--text); padding-bottom: 15px; margin-bottom: 40px; text-transform: uppercase; }
+        nav { 
+            display: flex; overflow-x: auto; gap: 30px; padding: 20px 6%; 
+            border-bottom: 1px solid var(--border); position: sticky; top: 0; background: rgba(0,0,0,0.9); backdrop-filter: blur(20px); z-index: 100;
+        }
+        nav::-webkit-scrollbar { display: none; }
+        nav a { text-decoration: none; color: var(--text); font-weight: 700; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 1px; white-space: nowrap; opacity: 0.6; transition: 0.3s; }
+        nav a:hover, nav a.active { opacity: 1; color: var(--sygnal-red); }
         
-        .news-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
-        .news-card { border-bottom: 1px solid var(--border); padding-bottom: 30px; }
-        .news-card h3 { font-family: var(--font-heading); font-size: 1.8rem; margin-bottom: 15px; line-height: 1.2; }
-        .news-card p { color: var(--muted); font-size: 1.1rem; }
+        .container { max-width: 1400px; margin: 0 auto; padding: 60px 6% 100px; }
         
-        footer { background: #000; color: #FFF; padding: 60px 6%; text-align: center; border-top: 10px solid var(--sygnal-red); }
-        .footer-logo { font-family: var(--font-heading); font-size: 2rem; font-weight: 900; letter-spacing: -1px; margin-bottom: 20px; }
+        .intelligence-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 2px; background: var(--border); border: 1px solid var(--border); margin-bottom: 80px; }
+        .intel-card { background: var(--bg); padding: 30px; transition: 0.4s; text-decoration: none; color: inherit; }
+        .intel-card:hover { background: var(--surface); }
+        .intel-card h4 { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 2px; color: var(--sygnal-red); margin-bottom: 15px; font-weight: 900; }
+        .intel-card h3 { font-family: var(--font-heading); font-size: 1.2rem; margin-bottom: 10px; line-height: 1.3; }
+        .intel-card p { font-size: 0.85rem; color: var(--muted); }
+
+        .section-block { margin-bottom: 100px; }
+        .section-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 40px; border-bottom: 2px solid var(--text); padding-bottom: 15px; }
+        .section-title { font-family: var(--font-heading); font-size: 2rem; text-transform: uppercase; }
+        
+        .news-feature { display: grid; grid-template-columns: 2fr 1fr; gap: 60px; margin-bottom: 60px; }
+        .main-story h2 { font-family: var(--font-heading); font-size: 2.5rem; margin-bottom: 20px; line-height: 1.1; }
+        .main-story p { font-size: 1.1rem; color: var(--muted); margin-bottom: 30px; }
+        
+        .side-stories { display: flex; flex-direction: column; gap: 30px; }
+        .side-story { border-bottom: 1px solid var(--border); padding-bottom: 20px; }
+        .side-story h3 { font-family: var(--font-heading); font-size: 1.1rem; margin-bottom: 8px; }
+        .side-story p { font-size: 0.85rem; color: var(--muted); }
+
+        footer { background: var(--surface); padding: 80px 6%; text-align: left; border-top: 4px solid var(--sygnal-red); }
+        .footer-content { display: flex; justify-content: space-between; align-items: center; }
+        .footer-logo { height: 50px; filter: grayscale(1) brightness(2); }
+        .copyright { font-size: 0.7rem; color: var(--muted); letter-spacing: 2px; font-weight: 700; text-transform: uppercase; }
+        
+        @media (max-width: 900px) {
+            .news-feature { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
     <header>
-        <div class="logo">SOV SYGNL</div>
-        <p style="text-transform:uppercase; font-weight:900; letter-spacing:8px; font-size:0.7rem; margin-top:10px; color:var(--muted);">Global News Intelligence Shard</p>
+        <div class="logo-row">
+            <div class="logo">SOV<span>.</span>SYGNL</div>
+        </div>
+        <div class="tagline">Global News Intelligence Hub</div>
     </header>
 
     <nav>
-        <a href="index.html">Headlines</a>
-        <a href="anime.html">Anime</a>
-        <a href="stocks.html">Stocks</a>
-        <a href="forex.html">Forex</a>
-        <a href="entertainment.html">Entertainment</a>
+        <a href="index.html" class="active">Headlines</a>
         <a href="geopolitics.html">Geopolitics</a>
+        <a href="blockchain.html">Blockchain</a>
+        <a href="biohacking.html">Biohacking</a>
+        <a href="anime.html">Anime</a>
+        <a href="stocks.html">Equity</a>
+        <a href="forex.html">Currency</a>
+        <a href="tech.html">Technology</a>
+        <a href="luxury.html">Luxury</a>
     </nav>
 
     <div class="container">
-        <h2 class="section-title">Latest Headlines</h2>
-        <div class="news-grid">
-            <div class="news-card">
-                <span style="color:var(--sygnal-red); font-weight:900; font-size:0.7rem; text-transform:uppercase;">Live Feed</span>
-                <h3>Strategic Mediation Shard: European Corridors Open Narrow Window for Peace.</h3>
-                <p>Diplomatic intelligence suggests a significant pivot in regional conflict containment protocols.</p>
+        <div class="news-feature">
+            <div class="main-story">
+                <h4 style="color: var(--sygnal-red); font-weight: 900; font-size: 0.7rem; margin-bottom: 15px; text-transform: uppercase;">Top Intelligence // Geopolitics</h4>
+                <h2>Global Peace Accord: Direct Negotiations Signal Paradigm Shift in Middle East Stability.</h2>
+                <p>New intelligence reports confirm a high-level handshake between major regional powers, potentially ending decades of proxy conflict. Analysts suggest this move could stabilize global energy markets by Q4 2026.</p>
+                <div style="height: 1px; background: var(--border); width: 100px;"></div>
             </div>
-            <div class="news-card">
-                <span style="color:var(--sygnal-red); font-weight:900; font-size:0.7rem; text-transform:uppercase;">Blockchain</span>
-                <h3>SpaceX Tokenization: Institutional Shards Bridge Private Equity and Web3.</h3>
-                <p>Global exchanges begin rolling out neural-verified shares for the sovereign architect.</p>
+            <div class="side-stories">
+                <div class="side-story">
+                    <h4 style="color: var(--sygnal-red); font-weight: 900; font-size: 0.6rem; margin-bottom: 5px; text-transform: uppercase;">Finance</h4>
+                    <h3>BTC Consolidation Completes.</h3>
+                    <p>Institutional flows stabilize as Bitcoin enters a new accumulation phase following regulatory clarity.</p>
+                </div>
+                <div class="side-story">
+                    <h4 style="color: var(--sygnal-red); font-weight: 900; font-size: 0.6rem; margin-bottom: 5px; text-transform: uppercase;">Technology</h4>
+                    <h3>Neural Link V1.2 Verified.</h3>
+                    <p>Sovereign safety protocols successfully implemented in latest human-computer interface trials.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-block">
+            <div class="section-header">
+                <h2 class="section-title">Intelligence Sectors</h2>
+            </div>
+            <div class="intelligence-grid">
+                <a href="geopolitics.html" class="intel-card">
+                    <h4>Geopolitical</h4>
+                    <h3>Strategic Analysis</h3>
+                    <p>Monitoring global power shifts and diplomatic signals in real-time.</p>
+                </a>
+                <a href="blockchain.html" class="intel-card">
+                    <h4>Web3</h4>
+                    <h3>Ledger Sovereignty</h3>
+                    <p>Tracking the migration of assets to the unified digital ledger.</p>
+                </a>
+                <a href="biohacking.html" class="intel-card">
+                    <h4>Human</h4>
+                    <h3>Longevity Pulse</h3>
+                    <p>Intelligence on cellular optimization and regenerative rest protocols.</p>
+                </a>
+                <a href="anime.html" class="intel-card">
+                    <h4>Media</h4>
+                    <h3>Cultural Signals</h3>
+                    <p>Tracking the evolution of global animation and production houses.</p>
+                </a>
+                <a href="stocks.html" class="intel-card">
+                    <h4>Markets</h4>
+                    <h3>Equity Intelligence</h3>
+                    <p>Institutional grade analysis of global corporate performance.</p>
+                </a>
+                <a href="tech.html" class="intel-card">
+                    <h4>Innovation</h4>
+                    <h3>Neural Processing</h3>
+                    <p>Monitoring the frontier of autonomous and intelligence-driven tech.</p>
+                </a>
             </div>
         </div>
     </div>
 
     <footer>
-        <div class="footer-logo">SOV SYGNL</div>
-        <p style="font-size:0.7rem; opacity:0.5; letter-spacing:2px;">&copy; 2026 SOV SYGNL // AN ORCINOS MEDIA DIVISION</p>
+        <div class="footer-content">
+            <div>
+                <img src="../logos/sovsygnal_icon.png" alt="SOV SYGNL" class="footer-logo">
+                <p class="copyright" style="margin-top: 20px;">&copy; 2026 SOV SYGNL · AN ORCINOS MEDIA DIVISION · ANCHORED TO ETERNITY</p>
+            </div>
+            <div style="text-align: right;">
+                <p style="font-size: 0.6rem; color: var(--muted); text-transform: uppercase; letter-spacing: 2px;">Intelligence Handshake: ACTIVE</p>
+            </div>
+        </div>
     </footer>
 
     <script src="../shared_godmode.js"></script>
