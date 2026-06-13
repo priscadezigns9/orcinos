@@ -25,82 +25,34 @@
       "status": "ready"
     },
     {
-      "name": "Dricil",
-      "slug": "dricil",
-      "description": "Fully autonomous AI digital marketing agency for automated growth.",
-      "price_monthly": 297.0,
-      "category": "Marketing",
-      "status": "ready"
-    },
-    {
       "name": "Nurasen",
       "slug": "nurasen",
-      "description": "Neural cybersecurity and antivirus defense for sovereign data protection.",
-      "price_monthly": 9.99,
-      "category": "Cybersecurity",
+      "description": "Neural cybersecurity and high-fidelity antivirus protection for digital assets.",
+      "price_monthly": 12.99,
+      "category": "Security",
       "status": "ready"
     },
     {
       "name": "Syla",
       "slug": "syla",
-      "description": "Your high-fidelity AI assistant for communication, wellness, and daily logistics.",
+      "description": "Intelligent logistics and asset management dashboard for high-fidelity operations.",
       "price_monthly": 19.99,
       "category": "Logistics",
-      "status": "ready"
-    },
-    {
-      "name": "Hartaly",
-      "slug": "hartaly",
-      "description": "High-fidelity analytics and market sentiment engine for global intelligence.",
-      "price_monthly": 49.0,
-      "category": "Analytics",
-      "status": "ready"
-    },
-    {
-      "name": "Slumber",
-      "slug": "slumber",
-      "description": "AI-powered sleep optimization and wellness engineering system.",
-      "price_monthly": 12.99,
-      "category": "Wellness",
-      "status": "ready"
-    },
-    {
-      "name": "Riddiim",
-      "slug": "riddiim",
-      "description": "High-fidelity audio engineering and sovereign music studio architecture.",
-      "price_monthly": 14.99,
-      "category": "Music",
-      "status": "ready"
-    },
-    {
-      "name": "Calalloo",
-      "slug": "calalloo",
-      "description": "The ultimate Caribbean marketplace - everything Caribbean, in one sovereign hub.",
-      "price_monthly": 0.0,
-      "category": "Marketplace",
-      "status": "ready"
-    },
-    {
-      "name": "PawDX",
-      "slug": "pawdx",
-      "description": "AI-powered veterinary diagnostics and pet health intelligence engine.",
-      "price_monthly": 12.99,
-      "category": "Pet Care",
-      "status": "ready"
-    },
-    {
-      "name": "Firmless",
-      "slug": "firmless",
-      "description": "Legal automation and contract generation for creators and entrepreneurs.",
-      "price_monthly": 14.99,
-      "category": "Legal",
       "status": "ready"
     },
     {
       "name": "Titan TraderX",
       "slug": "titantraderx",
       "description": "Institutional grade prop firm infrastructure and sovereign trading logic.",
-      "price_monthly": 499.0,
+      "price_monthly": 49.99,
+      "category": "Finance",
+      "status": "ready"
+    },
+    {
+      "name": "Suugoi",
+      "slug": "suugoi",
+      "description": "Neural pricing intelligence and market monitoring engine.",
+      "price_monthly": 9.99,
       "category": "Finance",
       "status": "ready"
     },
@@ -113,13 +65,85 @@
       "status": "ready"
     },
     {
+      "name": "Firmless",
+      "slug": "firmless",
+      "description": "Legal automation and contract generation for creators and entrepreneurs.",
+      "price_monthly": 14.99,
+      "category": "Legal",
+      "status": "ready"
+    },
+    {
+      "name": "PawDX",
+      "slug": "pawdx",
+      "description": "AI-powered veterinary diagnostics and pet health intelligence engine.",
+      "price_monthly": 12.99,
+      "category": "Pet Care",
+      "status": "ready"
+    },
+    {
       "name": "Hearthly",
       "slug": "hearthly",
       "description": "Smart hospitality and home management system for modern living.",
       "price_monthly": 12.99,
       "category": "Hospitality",
       "status": "ready"
+    },
+    {
+      "name": "Slumber",
+      "slug": "slumber",
+      "description": "AI-powered sleep analysis and regenerative rest optimization.",
+      "price_monthly": 6.99,
+      "category": "Health",
+      "status": "ready"
+    },
+    {
+      "name": "Vyne",
+      "slug": "vyne",
+      "description": "Social commerce and brand discovery network for sovereign creators.",
+      "price_monthly": null,
+      "category": "Social",
+      "status": "ready"
+    },
+    {
+      "name": "PrayerBlock",
+      "slug": "prayerblock",
+      "description": "Spiritual discipline tracker and decentralized prayer ledger.",
+      "price_monthly": null,
+      "category": "Spirituality",
+      "status": "ready"
+    },
+    {
+      "name": "Riddiim",
+      "slug": "riddiim",
+      "description": "High-fidelity audio engineering and studio production platform.",
+      "price_monthly": 9.99,
+      "category": "Music",
+      "status": "ready"
+    },
+    {
+      "name": "Hartaly",
+      "slug": "hartaly",
+      "description": "Institutional-grade heart health monitoring and cardiac intelligence.",
+      "price_monthly": 15.99,
+      "category": "Health",
+      "status": "ready"
+    },
+    {
+      "name": "Dricil",
+      "slug": "dricil",
+      "description": "Fully autonomous AI digital agency and marketing automation hub.",
+      "price_monthly": 297.00,
+      "category": "Agency",
+      "status": "ready"
+    },
+    {
+      "name": "Calalloo",
+      "slug": "calalloo",
+      "description": "Caribbean heritage hub and culinary DNA registry.",
+      "price_monthly": null,
+      "category": "Culture",
+      "status": "ready"
     }
   ],
-  "total_count": 15
+  "total_count": 18
 }
