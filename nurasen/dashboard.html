@@ -47,8 +47,12 @@
         .toggle.on::after { left: 27px; }
 
         /* GOD CONSOLE */
-        #god-console { width: 0; background: #000814; color: #FFF; height: 100%; transition: 0.4s; display: flex; flex-direction: column; overflow: hidden; }
+        #god-console { width: 0; background: #000814; color: #FFF; height: 100%; transition: 0.4s; display: flex; flex-direction: column; overflow: hidden; position: relative; }
         #god-console.active { width: 450px; border-left: 2px solid var(--accent); }
+        
+        #god-toggle { position: fixed; top: 15px; right: 15px; z-index: 2000; background: var(--primary); color: #FFF; border: 1px solid var(--accent); width: 40px; height: 40px; border-radius: 8px; cursor: pointer; display: none; align-items: center; justify-content: center; }
+        #god-toggle.visible { display: flex; }
+        
         .god-header { padding: 30px; border-bottom: 1px solid rgba(255,149,0,0.2); min-width: 450px; }
         .god-header h2 { font-family: var(--font-mono); color: var(--accent); font-size: 0.8rem; letter-spacing: 2px; }
         .god-content { flex: 1; padding: 30px; overflow-y: auto; min-width: 450px; font-family: var(--font-mono); }
@@ -71,6 +75,7 @@
 <body>
 
     <div id="live-product-view">
+        <button id="god-toggle" onclick="toggleGodConsole()"><i data-lucide="menu"></i></button>
         <nav>
             <div class="logo"><img src="../logos/NURASEN_DEFINITIVE_2026.png" alt="Nurasen"></div>
             <div class="tier-indicator" id="tier-badge">Institutional Defense</div>
@@ -272,9 +277,15 @@
         if (ua.indexOf("like Mac") != -1) os = "iOS Device";
         document.getElementById('browser-os').textContent = os + " Identified.";
 
+        function toggleGodConsole() {
+            const console = document.getElementById('god-console');
+            console.classList.toggle('active');
+        }
+
         window.onload = function() {
             if(new URLSearchParams(window.location.search).get('godmode') === 'true') {
                 document.getElementById('god-console').classList.add('active');
+                document.getElementById('god-toggle').classList.add('visible');
                 simulateTier('Institutional');
                 syncGodData();
                 setInterval(syncGodData, 10000);
