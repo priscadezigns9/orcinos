@@ -111,27 +111,27 @@
         <div class="api-feed-row">
             <div class="api-feed-header">
                 <div class="api-pulse"></div>
-                Live Equities Signal // Institutional EPI
+                Live Equities Signal // Institutional API
             </div>
             <div class="api-data-grid">
                 
-                <div class="api-item">
+                <div class="api-item" label="APPLE (AAPL)">
                     <label>Apple (AAPL)</label>
                     <div class="value">$198.45</div>
                 </div>
-                <div class="api-item">
+                <div class="api-item" label="NVIDIA (NVDA)">
                     <label>Nvidia (NVDA)</label>
                     <div class="value">$1,120.30</div>
                 </div>
-                <div class="api-item">
+                <div class="api-item" label="MICROSOFT (MSFT)">
                     <label>Microsoft (MSFT)</label>
                     <div class="value">$425.60</div>
                 </div>
-                <div class="api-item">
+                <div class="api-item" label="TESLA (TSLA)">
                     <label>Tesla (TSLA)</label>
                     <div class="value">$180.20</div>
                 </div>
-                <div class="api-item">
+                <div class="api-item" label="AMAZON (AMZN)">
                     <label>Amazon (AMZN)</label>
                     <div class="value">$185.33</div>
                 </div>
@@ -140,7 +140,7 @@
 
         <div class="featured-story">
             <div class="main-story">
-                <h4><span>Top Intelligence // Equity</span> <span>Jun 13, 2026 // 15:31 AST</span></h4>
+                <h4><span>Top Intelligence // Equity</span> <span>Jun 13, 2026 // 16:18 AST</span></h4>
                 <h2>MarketWatch: Tech Volatility Challenges AI-Driven Rally.</h2>
                 <p>Institutional grade tracking of company news as markets react to persistent inflationary macro signals.</p>
                 <a href="https://www.marketwatch.com/" target="_blank" style="text-decoration:none;"><span class="ref-link" style="font-size: 0.8rem; color: var(--sygnal-red); font-weight: 800; text-transform: uppercase; letter-spacing: 2px;">Intelligence Source: MarketWatch &rarr;</span></a>
@@ -148,13 +148,13 @@
             <div class="side-stories">
                 
                 <div class="side-story">
-                    <h4><span>Index</span> <span>Jun 13, 2026 // 15:31 AST</span></h4>
+                    <h4><span>Index</span> <span>Jun 13, 2026 // 16:18 AST</span></h4>
                     <h3>S&P 500 Falls 2% in Broad-Based Audit.</h3>
                     <p>Institutional intelligence recalibrates following tech valuation audits.</p>
                     <a href="https://www.bloomberg.com/" target="_blank" class="ref-link" style="font-size: 0.6rem;">Source: Bloomberg &rarr;</a>
                 </div>
                 <div class="side-story">
-                    <h4><span>Global</span> <span>Jun 13, 2026 // 15:31 AST</span></h4>
+                    <h4><span>Global</span> <span>Jun 13, 2026 // 16:18 AST</span></h4>
                     <h3>SpaceX Debut Dominates Markets.</h3>
                     <p>Shares surge as SpaceX joins the public market in institutional debut.</p>
                     <a href="https://www.reuters.com/business/" target="_blank" class="ref-link" style="font-size: 0.6rem;">Source: Reuters &rarr;</a>
@@ -195,7 +195,7 @@
         <div class="news-grid">
             
                 <div class="news-card">
-                    <h4><span>Bloomberg</span> <span>Jun 13, 2026 // 15:31 AST</span></h4>
+                    <h4><span>Bloomberg</span> <span>Jun 13, 2026 // 16:18 AST</span></h4>
                     <h3>Real-time Data and Financial Intelligence.</h3>
                     <p>Monitoring global corporate performance and emerging tech indices.</p>
                     <a href="https://www.bloomberg.com/" target="_blank" class="ref-link">Source: Bloomberg &rarr;</a>
@@ -218,6 +218,40 @@
     <script src="../shared_godmode.js"></script>
     <script>
         document.getElementById("nav-stocks").classList.add("active");
+        
+        // API Intelligence Engine
+        const FINNHUB_KEY = "{{credential:finnhub-api-key}}";
+        
+        async function updateAPIs() {
+            const feeds = document.querySelectorAll('.api-item');
+            
+            // Logic for Stocks/Forex
+            if ("stocks" === "stocks" || "stocks" === "forex" || "stocks" === "markets") {
+                feeds.forEach(async (item) => {
+                    const label = item.querySelector('label').innerText;
+                    const symbol = label.split('(')[1]?.replace(')', '') || label.replace('/', '');
+                    try {
+                        const res = await fetch(`https://finnhub.io/api/v1/quote?symbol=${symbol}&token=${FINNHUB_KEY}`);
+                        const data = await res.json();
+                        if (data.c) item.querySelector('.value').innerText = `$${data.c.toFixed(2)}`;
+                    } catch(e) { console.error(e); }
+                });
+            }
+            
+            // Logic for Crypto
+            if ("stocks" === "blockchain") {
+                try {
+                    const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana&vs_currencies=usd');
+                    const data = await res.json();
+                    document.querySelector('[label="BITCOIN (BTC)"]')?.querySelector('.value').innerText = `$${data.bitcoin.usd.toLocaleString()}`;
+                    document.querySelector('[label="ETHEREUM (ETH)"]')?.querySelector('.value').innerText = `$${data.ethereum.usd.toLocaleString()}`;
+                    document.querySelector('[label="SOLANA (SOL)"]')?.querySelector('.value').innerText = `$${data.solana.usd.toLocaleString()}`;
+                } catch(e) { console.error(e); }
+            }
+        }
+        
+        updateAPIs();
+        setInterval(updateAPIs, 60000); // Refresh every minute
     </script>
 </body>
 </html>
