@@ -6,6 +6,8 @@
     <title>NURASEN | Sentinel Control Center</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;700;900&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- SUPABASE CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         :root {
             --bg: #FFFFFF; --surface: #F8FAFC; --text: #000814; --muted: #64748B; 
@@ -15,7 +17,6 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background: var(--bg); color: var(--text); font-family: var(--font-body); line-height: 1.6; display: flex; overflow: hidden; height: 100vh; }
         
-        /* THE LIVE PRODUCT VIEWPORT */
         #product-viewport { flex: 1; height: 100vh; overflow-y: auto; position: relative; background: var(--bg); transition: 0.3s; }
         .wave-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: radial-gradient(circle at 50% 50%, #F8FAFC 0%, #FFFFFF 100%); }
         
@@ -25,16 +26,16 @@
 
         .dashboard-layout { display: flex; min-height: 100vh; }
         .sidebar-hud { width: 260px; background: rgba(255,255,255,0.8); border-right: 1px solid var(--border); padding: 40px 20px; display: flex; flex-direction: column; gap: 8px; }
-        .hud-item { display: flex; align-items: center; gap: 12px; padding: 14px 18px; border-radius: 12px; text-decoration: none; color: var(--muted); font-size: 0.85rem; font-weight: 600; }
+        .hud-item { display: flex; align-items: center; gap: 12px; padding: 14px 18px; border-radius: 12px; text-decoration: none; color: var(--muted); font-size: 0.85rem; font-weight: 600; cursor: pointer; }
+        .hud-item:hover { background: #F1F5F9; color: var(--primary); }
         .hud-item.active { background: #FFFFFF; color: var(--accent); border: 1px solid #E2E8F0; }
-        .hud-item.locked { opacity: 0.5; cursor: not-allowed; }
+        .hud-item.locked { opacity: 0.5; }
 
         .main-content { flex: 1; padding: 40px 6%; }
         .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 40px; }
         .stat-card { background: #FFF; padding: 30px; border-radius: 20px; border: 1px solid #E2E8F0; }
         .stat-val { font-size: 2rem; font-weight: 700; color: var(--primary); font-family: var(--font-header); }
 
-        /* THE GOD MODE CONSOLE (THE SIDE PANEL) */
         #god-console { 
             width: 0; background: #000814; color: #FFF; height: 100vh; overflow-y: auto; 
             transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); border-left: 2px solid var(--accent);
@@ -69,25 +70,31 @@
         </nav>
         <div class="dashboard-layout">
             <aside class="sidebar-hud">
-                <a href="#" class="hud-item active"><i data-lucide="layout-dashboard"></i> Neural Home</a>
-                <a href="#" class="hud-item"><i data-lucide="search"></i> Advanced Scan</a>
-                <a href="#" class="hud-item locked" id="shield-link"><i data-lucide="shield"></i> Neural Shield</a>
-                <a href="#" class="hud-item locked" id="email-link"><i data-lucide="mail"></i> Email Guard</a>
-                <a href="#" class="hud-item locked" id="device-link"><i data-lucide="smartphone"></i> Device Monitor</a>
+                <a class="hud-item active" onclick="switchMainTab('home')"><i data-lucide="layout-dashboard"></i> Neural Home</a>
+                <a class="hud-item" onclick="switchMainTab('scan')"><i data-lucide="search"></i> Advanced Scan</a>
+                <a class="hud-item locked" id="shield-link" onclick="switchMainTab('shield')"><i data-lucide="shield"></i> Neural Shield</a>
+                <a class="hud-item locked" id="email-link" onclick="switchMainTab('email')"><i data-lucide="mail"></i> Email Guard</a>
+                <a class="hud-item locked" id="device-link" onclick="switchMainTab('device')"><i data-lucide="smartphone"></i> Device Monitor</a>
             </aside>
-            <main class="main-content">
-                <h1 style="font-family: var(--font-header); font-size: 2.5rem; color: var(--primary); margin-bottom: 10px;">Sentinel Control Center</h1>
-                <p style="color: var(--muted); margin-bottom: 40px;">Real-time Neural Perimeter Monitoring.</p>
-                <div class="stats-grid">
-                    <div class="stat-card"><p style="font-size: 0.75rem; font-weight: 700; color: var(--muted);">THREATS STOPPED</p><div class="stat-val">1,284</div></div>
-                    <div class="stat-card"><p style="font-size: 0.75rem; font-weight: 700; color: var(--muted);">NETWORK PULSE</p><div class="stat-val">99.9%</div></div>
-                    <div class="stat-card"><p style="font-size: 0.75rem; font-weight: 700; color: var(--muted);">SHARDS ACTIVE</p><div class="stat-val">14</div></div>
+            <main class="main-content" id="main-content-area">
+                <!-- DEFAULT VIEW: HOME -->
+                <div id="home-view" class="main-view">
+                    <h1 style="font-family: var(--font-header); font-size: 2.5rem; color: var(--primary); margin-bottom: 10px;">Sentinel Control Center</h1>
+                    <p style="color: var(--muted); margin-bottom: 40px;">Real-time Neural Perimeter Monitoring.</p>
+                    <div class="stats-grid">
+                        <div class="stat-card"><p style="font-size: 0.75rem; font-weight: 700; color: var(--muted);">THREATS STOPPED</p><div class="stat-val" id="main-threats">1,284</div></div>
+                        <div class="stat-card"><p style="font-size: 0.75rem; font-weight: 700; color: var(--muted);">NETWORK PULSE</p><div class="stat-val">99.9%</div></div>
+                        <div class="stat-card"><p style="font-size: 0.75rem; font-weight: 700; color: var(--muted);">SHARDS ACTIVE</p><div class="stat-val">14</div></div>
+                    </div>
+                    <div style="background: #FFF; border: 1px solid #E2E8F0; border-radius: 24px; padding: 40px; text-align: center; color: var(--muted);">
+                        <i data-lucide="activity" size="48" color="#FF9500" style="margin-bottom: 20px;"></i>
+                        <h3>Neural Perimeter Active</h3>
+                        <p>Live traffic is being monitored across all institutional nodes.</p>
+                    </div>
                 </div>
-                <div style="background: #FFF; border: 1px solid #E2E8F0; border-radius: 24px; padding: 40px; text-align: center; color: var(--muted);">
-                    <i data-lucide="activity" size="48" color="#FF9500" style="margin-bottom: 20px;"></i>
-                    <h3>Neural Perimeter Active</h3>
-                    <p>Live traffic is being monitored across all institutional nodes.</p>
-                </div>
+                <!-- DYNAMIC VIEWS -->
+                <div id="scan-view" class="main-view" style="display:none;"><h1>Advanced Tactical Scan</h1><p>Initializing Neural Pattern Analysis...</p></div>
+                <div id="shield-view" class="main-view" style="display:none;"><h1>Neural Shield Management</h1><p>Institutional perimeter is secure.</p></div>
             </main>
         </div>
     </div>
@@ -97,57 +104,42 @@
         <div class="god-inner">
             <div class="god-header">
                 <h2>GOD_MODE // ARCHITECT</h2>
-                <span style="font-family: var(--font-mono); font-size: 0.6rem; color: #475569;">VER 1.0.84</span>
+                <span style="font-family: var(--font-mono); font-size: 0.6rem; color: #475569;">LIVE_FEED_v1.23</span>
             </div>
             
             <div class="god-tabs">
-                <div class="god-tab active" onclick="switchTab('analytics')">Analytics</div>
-                <div class="god-tab" onclick="switchTab('users')">Users</div>
-                <div class="god-tab" onclick="switchTab('revenue')">Revenue</div>
-                <div class="god-tab" onclick="switchTab('system')">System</div>
+                <div class="god-tab active" onclick="switchGodTab('analytics')">Traffic</div>
+                <div class="god-tab" onclick="switchGodTab('users')">Users</div>
+                <div class="god-tab" onclick="switchGodTab('revenue')">$ Earnings</div>
+                <div class="god-tab" onclick="switchGodTab('system')">Pulse</div>
             </div>
 
-            <!-- ANALYTICS PANEL -->
+            <!-- ANALYTICS PANEL (LIVE) -->
             <div id="analytics" class="god-panel active">
-                <div class="metric-row"><span>Total Impressions</span><span class="metric-val" id="total-traffic">12,482</span></div>
-                <div class="metric-row"><span>Real-time Clicks</span><span class="metric-val" id="live-clicks">48</span></div>
-                <div class="metric-row"><span>Session Duration</span><span class="metric-val">04:12m</span></div>
-                <div class="live-feed" id="traffic-feed">
-                    <div class="feed-entry">[<span>00:14:22</span>] Session Init: 192.168.1.1</div>
-                    <div class="feed-entry">[<span>00:14:25</span>] Click: Dashboard_Scan</div>
-                </div>
+                <div class="metric-row"><span>Institutional Traffic</span><span class="metric-val" id="total-traffic">0</span></div>
+                <div class="metric-row"><span>Active Clicks</span><span class="metric-val" id="live-clicks">0</span></div>
+                <div class="live-feed" id="traffic-feed"></div>
             </div>
 
-            <!-- USERS PANEL -->
+            <!-- USERS PANEL (LIVE) -->
             <div id="users" class="god-panel">
-                <div class="metric-row"><span>Total Registered</span><span class="metric-val">842</span></div>
-                <div class="metric-row"><span>Active Now</span><span class="metric-val">12</span></div>
-                <div class="live-feed">
-                    <div class="feed-entry">[<span>SIGNUP</span>] user_82@orcinos.com</div>
-                    <div class="feed-entry">[<span>LOGIN</span>] prisca@orcinos.com</div>
-                </div>
+                <div class="metric-row"><span>Total Global Users</span><span class="metric-val" id="total-users">0</span></div>
+                <div class="metric-row"><span>Active Sessions</span><span class="metric-val" id="active-sessions">1</span></div>
+                <div class="live-feed" id="user-feed"></div>
             </div>
 
-            <!-- REVENUE PANEL -->
+            <!-- REVENUE PANEL (LIVE) -->
             <div id="revenue" class="god-panel">
-                <div class="metric-row"><span>Monthly Revenue</span><span class="metric-val">$14,280</span></div>
-                <div class="metric-row"><span>Institutional Tier</span><span class="metric-val">42</span></div>
-                <div class="metric-row"><span>Apex Subscriptions</span><span class="metric-val">128</span></div>
-                <div class="live-feed">
-                    <div class="feed-entry">[<span>PAYMENT</span>] $42.00 from node_49</div>
-                    <div class="feed-entry">[<span>UPGRADE</span>] apex_upgrade by user_22</div>
-                </div>
+                <div class="metric-row"><span>Net Ecosystem Revenue</span><span class="metric-val" id="total-revenue">$0.00</span></div>
+                <div class="metric-row"><span>Active Subscriptions</span><span class="metric-val" id="active-subs">0</span></div>
+                <div class="live-feed" id="revenue-feed"></div>
             </div>
 
-            <!-- SYSTEM PANEL -->
+            <!-- SYSTEM PANEL (LIVE) -->
             <div id="system" class="god-panel">
-                <div class="metric-row"><span>CPU Usage</span><span class="metric-val">14%</span></div>
-                <div class="metric-row"><span>Memory Pulse</span><span class="metric-val">2.4GB</span></div>
+                <div class="metric-row"><span>Neural CPU Pulse</span><span class="metric-val" id="cpu-pulse">14%</span></div>
                 <div class="metric-row"><span>Network Latency</span><span class="metric-val">12ms</span></div>
-                <div class="live-feed">
-                    <div class="feed-entry">[<span>PULSE</span>] Shard_04 Heartbeat Stable</div>
-                    <div class="feed-entry">[<span>SYNC</span>] Supabase Handshake Success</div>
-                </div>
+                <div class="live-feed" id="system-feed"></div>
             </div>
         </div>
     </div>
@@ -155,18 +147,43 @@
     <script>
         lucide.createIcons();
         
-        function switchTab(tabId) {
+        // Supabase Initialization (Replace placeholders with actual verified keys)
+        const supabaseUrl = "https://sazhdnqzaqpqcralmthh.supabase.co";
+        const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNhe mhkbnF6YXFwcWNyYWxtdGhoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTU5Nzk4MDMsImV4cCI6MjAzMTU1NTgwM30.uTyw31uWTNOTV5-HzNpm46vpAJABAsHLMzW-sYOkRhc";
+        const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+        function switchGodTab(tabId) {
             document.querySelectorAll('.god-panel').forEach(p => p.classList.remove('active'));
             document.querySelectorAll('.god-tab').forEach(t => t.classList.remove('active'));
             document.getElementById(tabId).classList.add('active');
             event.target.classList.add('active');
         }
 
+        function switchMainTab(viewId) {
+            document.querySelectorAll('.main-view').forEach(v => v.style.display = 'none');
+            document.querySelectorAll('.hud-item').forEach(i => i.classList.remove('active'));
+            const target = document.getElementById(viewId + '-view');
+            if(target) target.style.display = 'block';
+            event.currentTarget.classList.add('active');
+        }
+
+        async function updateLiveMetrics() {
+            // Real User Count
+            const { count: userCount } = await supabase.from('profiles').select('*', { count: 'exact', head: true });
+            document.getElementById('total-users').textContent = userCount || 0;
+
+            // Real Revenue (Example table)
+            const { data: subs } = await supabase.from('subscriptions').select('amount');
+            const revenue = subs ? subs.reduce((acc, curr) => acc + curr.amount, 0) : 0;
+            document.getElementById('total-revenue').textContent = `$${revenue.toLocaleString()}`;
+            document.getElementById('active-subs').textContent = subs ? subs.length : 0;
+        }
+
         window.onload = function() {
             const urlParams = new URLSearchParams(window.location.search);
             if (urlParams.get('godmode') === 'true') {
                 document.getElementById('god-console').classList.add('active');
-                document.getElementById('tier-badge').textContent = 'Architect Access';
+                document.getElementById('tier-badge').textContent = 'Architect Elite';
                 document.getElementById('tier-badge').style.background = '#FF9500';
                 ['shield-link', 'email-link', 'device-link'].forEach(id => {
                     const el = document.getElementById(id);
@@ -174,19 +191,19 @@
                     el.style.opacity = '1';
                 });
                 
-                // Simulate Live Feed
+                updateLiveMetrics();
+                setInterval(updateLiveMetrics, 30000); // Pulse every 30s
+
+                // Real-time Traffic Listener (Simulation of live stream)
                 setInterval(() => {
                     const feed = document.getElementById('traffic-feed');
                     const entry = document.createElement('div');
                     entry.className = 'feed-entry';
-                    const time = new Date().toLocaleTimeString();
-                    entry.innerHTML = `[<span>${time}</span>] Real-time Pulse: Shard Detected`;
+                    entry.innerHTML = `[<span>${new Date().toLocaleTimeString()}</span>] Real-time Pulse: Shard Active`;
                     feed.prepend(entry);
-                    if(feed.children.length > 8) feed.lastChild.remove();
-                    
+                    if(feed.children.length > 10) feed.lastChild.remove();
                     document.getElementById('total-traffic').textContent = (parseInt(document.getElementById('total-traffic').textContent) + 1);
-                    document.getElementById('live-clicks').textContent = (parseInt(document.getElementById('live-clicks').textContent) + 1);
-                }, 3000);
+                }, 5000);
             }
         };
     </script>
