@@ -3,41 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FIRMLESS | Prop Firm Infrastructure</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <title>FIRMLESS | Autonomous Legal Architecture</title>
+    <link rel="icon" type="image/png" href="../logos/firmless_logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../shared_godmode.css">
     <style>
         :root {
-            --bg: #000000; --surface: #0A0A0A; --text: #FFFFFF; --muted: #666666; 
-            --accent: #FFD700; --primary: #1A1A1A; --border: rgba(255, 215, 0, 0.1);
+            --bg: #0A0A0B; --surface: #111113; --text: #F0F0F0; --muted: #71717A; 
+            --accent: #E5B323; --border: rgba(229, 179, 35, 0.1);
             --font-header: 'Playfair Display', serif; --font-body: 'Inter', sans-serif;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background: var(--bg); color: var(--text); font-family: var(--font-body); min-height: 100vh; overflow-x: hidden; }
         
-        header { padding: 40px 6%; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); }
-        .logo { font-family: var(--font-header); font-size: 2.2rem; font-weight: 900; letter-spacing: 5px; color: var(--accent); }
+        header { padding: 40px 6%; border-bottom: 1px solid var(--border); background: rgba(10,10,11,0.9); backdrop-filter: blur(20px); position: sticky; top: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; }
+        .logo-container { display: flex; align-items: center; gap: 15px; }
+        .logo-text { font-family: var(--font-header); font-size: 2rem; font-weight: 900; letter-spacing: 4px; color: var(--accent); text-transform: uppercase; }
 
-        .hero { padding: 120px 6%; text-align: center; max-width: 1000px; margin: 0 auto; }
+        .hero { padding: 140px 6% 80px; text-align: center; max-width: 1000px; margin: 0 auto; }
         .hero h1 { font-family: var(--font-header); font-size: 5rem; line-height: 1; margin-bottom: 30px; letter-spacing: -2px; }
+        .hero p { font-size: 1.2rem; color: var(--muted); text-transform: uppercase; letter-spacing: 8px; font-weight: 300; }
         
-        .feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; padding: 0 6% 100px; }
-        .feature-card { background: var(--surface); border: 1px solid var(--border); padding: 40px; border-radius: 12px; transition: 0.4s; }
-        .feature-card:hover { border-color: var(--accent); background: #111; }
+        .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; padding: 0 6% 120px; }
+        .card { background: var(--surface); border: 1px solid var(--border); padding: 50px 40px; border-radius: 8px; transition: all 0.4s ease; border-top: 4px solid transparent; }
+        .card:hover { border-top-color: var(--accent); transform: translateY(-8px); background: #161619; box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
+        .card h3 { font-family: var(--font-header); font-size: 1.8rem; margin-bottom: 15px; color: var(--accent); }
+        .card p { color: var(--muted); line-height: 1.7; font-size: 1rem; }
+
+        footer { padding: 80px 6%; text-align: center; border-top: 1px solid var(--border); background: var(--surface); }
+        .footer-logo { height: 40px; opacity: 0.5; margin-bottom: 25px; }
+        .legal-text { font-size: 0.7rem; color: #3F3F46; letter-spacing: 4px; text-transform: uppercase; }
     </style>
 </head>
 <body>
-    <header><img src="https://share.zapia.com/iqqav734t137jcn6z2ydqx" alt="FIRMLESS" style="height: 60px;"></header>
+    <header>
+        <div class="logo-container">
+            <img src="../logos/firmless_logo.png" alt="FIRMLESS" style="height: 50px;">
+            <span class="logo-text">Firmless</span>
+        </div>
+        <div style="font-size: 0.7rem; color: var(--muted); letter-spacing: 2px;">CREATOR LEGAL ENGINE</div>
+    </header>
+
     <section class="hero">
-        <h1>Sovereign Prop Firm Logic.</h1>
-        <p style="font-size: 1.2rem; color: var(--muted); text-transform: uppercase; letter-spacing: 5px; margin-top: 20px;">Legal Infrastructure // Automated Contracts</p>
+        <h1>Protect your work. Own your legacy.</h1>
+        <p>Legal Automation // Contract Generation</p>
     </section>
-    <div class="feature-grid">
-        <div class="feature-card"><h3>Contract Forge</h3><p style="color:var(--muted); margin-top:15px;">Autonomous generation of proprietary trading agreements.</p></div>
-        <div class="feature-card"><h3>Compliance Shard</h3><p style="color:var(--muted); margin-top:15px;">Real-time regulatory alignment for global prop firms.</p></div>
-        <div class="feature-card"><h3>Payout Gate</h3><p style="color:var(--muted); margin-top:15px;">Unified settlement layer for trader compensation.</p></div>
+
+    <div class="grid">
+        <div class="card">
+            <h3>Clause Engine</h3>
+            <p>Predictive legal drafting using high-fidelity autonomous logic for ironclad contractual protection.</p>
+        </div>
+        <div class="card">
+            <h3>Structure Audit</h3>
+            <p>Real-time structural analysis of creator agreements to ensure 100% sovereign alignment.</p>
+        </div>
+        <div class="card">
+            <h3>Identity Vault</h3>
+            <p>Secure management of legal identities and signing authorities within a unified neural framework.</p>
+        </div>
     </div>
+
+    <footer>
+        <img src="../logos/firmless_logo.png" alt="Firmless" class="footer-logo">
+        <p class="legal-text">&copy; 2026 FIRMLESS · AN ORCINOS LEGAL TECHNOLOGY NODE · ANCHORED TO ETERNITY</p>
+    </footer>
+
     <script src="../shared_godmode.js"></script>
 </body>
 </html>
