@@ -3,7 +3,7 @@
 This document serves as the high-fidelity source of truth for all Orcinos products. It captures the current UI state, logical features, and design mandates. 
 
 **OPERATIONAL STATUS:** LIVE MODE
-**LAST UPDATED:** June 13, 2026 (v1.28 - Universal Stage & Live Supabase Handshake)
+**LAST UPDATED:** June 13, 2026 (v1.28 - Universal Stage Navigation Hardening & Supabase Registry)
 
 ---
 
@@ -12,7 +12,7 @@ This document serves as the high-fidelity source of truth for all Orcinos produc
 | View | Access URL | High-Fidelity Signal |
 | :--- | :--- | :--- |
 | **Orcinos Hub** | `https://orcinos.com` | ![Homepage](https://share.zapia.com/cpsay8c7jvmk8xaagawxfi) |
-| **God Mode (v1.7)** | `https://orcinos.com/godmode/hub.html` | ![God Mode Hub](https://share.zapia.com/2j450v0nqy3462dxsze6ce) |
+| **God Mode (v1.7.5)** | `https://orcinos.com/godmode/hub.html` | ![God Mode Hub](https://share.zapia.com/2j450v0nqy3462dxsze6ce) |
 
 ---
 
@@ -26,9 +26,9 @@ This document serves as the high-fidelity source of truth for all Orcinos produc
 - **Payment Stack:** PayPal Subscriptions + Crypto (No Stripe).
 - **High-Fidelity Assets:** All definitive logos (Orcinos 2026, Firmless, Dricil, etc.) have been integrated via permanent Zapia shard URLs for 100% reliability.
 - **God Mode Architecture:** 
-    - **Universal Stage (v1.6):** A unified Architect interface located at `godmode/hub.html` using an iframe-based focus loading mechanism.
-    - **Handshake:** 5-click trigger on the footer signal + `alice` token.
-    - **Intelligence Drawer:** A sliding bottom-bar interface to toggle real-time metrics and system logs for each product.
+    - **Universal Stage (v1.7.5):** A unified Architect interface located at `godmode/hub.html`.
+    - **Navigation Hardening:** All Intelligence Shards are controlled via `div` nodes with direct iframe injection to prevent new-tab breakouts. 
+    - **Supabase Handshake:** Real-time metrics pulled directly from the `profiles` and `subscriptions` ledger (Project: `sazhdnqzaqpqcralmthh`).
 
 ---
 
