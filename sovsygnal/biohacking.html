@@ -111,7 +111,7 @@
 
         <div class="featured-story">
             <div class="main-story">
-                <h4><span>Top Intelligence // Longevity</span> <span>Jun 13, 2026 // 15:31 AST</span></h4>
+                <h4><span>Top Intelligence // Longevity</span> <span>Jun 13, 2026 // 16:18 AST</span></h4>
                 <h2>Harvard Publishes Definitive Longevity Report for 2026.</h2>
                 <p>Lifespan Research Institute reviews high-fidelity protocols for cellular rejuvenation and mitochondrial optimization.</p>
                 <a href="https://lifespan.io/news/" target="_blank" style="text-decoration:none;"><span class="ref-link" style="font-size: 0.8rem; color: var(--sygnal-red); font-weight: 800; text-transform: uppercase; letter-spacing: 2px;">Intelligence Source: Lifespan.io &rarr;</span></a>
@@ -119,13 +119,13 @@
             <div class="side-stories">
                 
                 <div class="side-story">
-                    <h4><span>Biology</span> <span>Jun 13, 2026 // 15:31 AST</span></h4>
+                    <h4><span>Biology</span> <span>Jun 13, 2026 // 16:18 AST</span></h4>
                     <h3>Aging Biology: Transcriptome Breakthrough.</h3>
                     <p>Nature study reveals biological age reversal clocks are more malleable.</p>
                     <a href="https://www.nature.com/articles/s41586-023-06121-6" target="_blank" class="ref-link" style="font-size: 0.6rem;">Source: Nature &rarr;</a>
                 </div>
                 <div class="side-story">
-                    <h4><span>Recovery</span> <span>Jun 13, 2026 // 15:31 AST</span></h4>
+                    <h4><span>Recovery</span> <span>Jun 13, 2026 // 16:18 AST</span></h4>
                     <h3>HealthSpan Miniseries: Shortening the Gap.</h3>
                     <p>Focus on closing the gap between healthspan and lifespan milestones.</p>
                     <a href="https://lifespan.io/news/" target="_blank" class="ref-link" style="font-size: 0.6rem;">Source: Lifespan.io &rarr;</a>
@@ -166,7 +166,7 @@
         <div class="news-grid">
             
                 <div class="news-card">
-                    <h4><span>Cellular</span> <span>Jun 13, 2026 // 15:31 AST</span></h4>
+                    <h4><span>Cellular</span> <span>Jun 13, 2026 // 16:18 AST</span></h4>
                     <h3>Mitochondrial Pulse: Designing for Cellular Recovery.</h3>
                     <p>New protocols prioritize sleep architecture as the foundation of health.</p>
                     <a href="https://lifespan.io/news/" target="_blank" class="ref-link">Source: Lifespan.io &rarr;</a>
@@ -189,6 +189,40 @@
     <script src="../shared_godmode.js"></script>
     <script>
         document.getElementById("nav-biohacking").classList.add("active");
+        
+        // API Intelligence Engine
+        const FINNHUB_KEY = "{{credential:finnhub-api-key}}";
+        
+        async function updateAPIs() {
+            const feeds = document.querySelectorAll('.api-item');
+            
+            // Logic for Stocks/Forex
+            if ("biohacking" === "stocks" || "biohacking" === "forex" || "biohacking" === "markets") {
+                feeds.forEach(async (item) => {
+                    const label = item.querySelector('label').innerText;
+                    const symbol = label.split('(')[1]?.replace(')', '') || label.replace('/', '');
+                    try {
+                        const res = await fetch(`https://finnhub.io/api/v1/quote?symbol=${symbol}&token=${FINNHUB_KEY}`);
+                        const data = await res.json();
+                        if (data.c) item.querySelector('.value').innerText = `$${data.c.toFixed(2)}`;
+                    } catch(e) { console.error(e); }
+                });
+            }
+            
+            // Logic for Crypto
+            if ("biohacking" === "blockchain") {
+                try {
+                    const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana&vs_currencies=usd');
+                    const data = await res.json();
+                    document.querySelector('[label="BITCOIN (BTC)"]')?.querySelector('.value').innerText = `$${data.bitcoin.usd.toLocaleString()}`;
+                    document.querySelector('[label="ETHEREUM (ETH)"]')?.querySelector('.value').innerText = `$${data.ethereum.usd.toLocaleString()}`;
+                    document.querySelector('[label="SOLANA (SOL)"]')?.querySelector('.value').innerText = `$${data.solana.usd.toLocaleString()}`;
+                } catch(e) { console.error(e); }
+            }
+        }
+        
+        updateAPIs();
+        setInterval(updateAPIs, 60000); // Refresh every minute
     </script>
 </body>
 </html>
