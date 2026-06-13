@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ORCINOS | God Mode Hub (v1.7.5)</title>
+    <title>ORCINOS | God Mode Hub (v1.7.6)</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;700;900&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
@@ -52,7 +52,7 @@
         .main-stage { display: flex; flex: 1; overflow: hidden; }
         
         aside { 
-            width: 300px; 
+            width: 320px; 
             background: var(--surface); 
             border-right: 1px solid var(--border); 
             overflow-y: auto; 
@@ -60,24 +60,24 @@
             flex-direction: column; 
             flex-shrink: 0;
         }
-        .nav-section { padding: 25px 20px; border-bottom: 1px solid var(--border); }
+        .nav-section { padding: 20px 20px; border-bottom: 1px solid var(--border); }
         .nav-label { 
-            font-size: 0.7rem; 
+            font-size: 0.65rem; 
             text-transform: uppercase; 
             letter-spacing: 2px; 
             color: var(--amber); 
-            margin-bottom: 20px; 
+            margin-bottom: 15px; 
             display: block; 
             font-weight: 800;
         }
         .nav-item { 
             display: block; 
-            padding: 12px 15px; 
+            padding: 10px 15px; 
             color: var(--gray); 
             text-decoration: none; 
-            font-size: 0.85rem; 
+            font-size: 0.8rem; 
             border-radius: 8px; 
-            margin-bottom: 8px; 
+            margin-bottom: 5px; 
             transition: all 0.2s ease; 
             border: 1px solid transparent;
             cursor: pointer;
@@ -111,14 +111,13 @@
             border: none; 
         }
 
-        /* Intelligence Section */
         .intelligence-layer {
             padding: 50px 4%;
             background: var(--dark);
         }
         .intel-header-main {
             font-family: var(--font-header);
-            font-size: 2.5rem;
+            font-size: 2.2rem;
             color: var(--amber);
             margin-bottom: 40px;
             display: flex;
@@ -129,7 +128,7 @@
         }
         .intel-header-main span {
             font-family: var(--font-mono);
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             color: var(--gray);
             letter-spacing: 2px;
         }
@@ -159,85 +158,81 @@
 
         .card-title {
             font-family: var(--font-header);
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             color: var(--amber);
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
         
-        /* Metric Styles */
         .big-metrics {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            margin-bottom: 30px;
+            gap: 15px;
+            margin-bottom: 25px;
         }
         .metric-box {
             background: rgba(255,255,255,0.03);
-            padding: 20px;
+            padding: 15px;
             border-radius: 12px;
             border: 1px solid rgba(255,255,255,0.05);
         }
-        .m-label { font-size: 0.65rem; color: var(--gray); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
-        .m-value { font-family: var(--font-mono); font-size: 1.5rem; color: var(--amber); }
+        .m-label { font-size: 0.6rem; color: var(--gray); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
+        .m-value { font-family: var(--font-mono); font-size: 1.2rem; color: var(--amber); }
 
-        /* Table Styles */
         .intel-table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
         }
         .intel-table th {
             text-align: left;
-            padding: 12px;
+            padding: 10px;
             color: var(--gray);
             text-transform: uppercase;
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             border-bottom: 1px solid var(--border);
         }
         .intel-table td {
-            padding: 15px 12px;
+            padding: 12px 10px;
             border-bottom: 1px solid rgba(255,255,255,0.05);
         }
         .status-pill {
-            padding: 4px 10px;
+            padding: 3px 8px;
             border-radius: 20px;
-            font-size: 0.65rem;
+            font-size: 0.6rem;
             font-weight: 800;
             background: rgba(74, 222, 128, 0.1);
             color: #4ade80;
         }
 
-        /* Log Terminal */
         .terminal {
             background: #000;
             border-radius: 8px;
-            padding: 20px;
+            padding: 15px;
             font-family: var(--font-mono);
-            font-size: 0.75rem;
-            height: 300px;
+            font-size: 0.7rem;
+            height: 250px;
             overflow-y: auto;
             color: #4ade80;
             border: 1px solid #1A1A1A;
         }
 
-        /* Pricing Section */
         .pricing-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
+            gap: 15px;
         }
         .price-tier {
             background: rgba(255,255,255,0.03);
-            padding: 20px;
+            padding: 15px;
             border-radius: 12px;
             text-align: center;
             border: 1px solid rgba(255,255,255,0.05);
         }
-        .tier-name { color: var(--amber); font-weight: 700; margin-bottom: 10px; }
-        .tier-price { font-family: var(--font-mono); font-size: 1.4rem; margin-bottom: 15px; }
+        .tier-name { color: var(--amber); font-weight: 700; font-size: 0.8rem; margin-bottom: 5px; }
+        .tier-price { font-family: var(--font-mono); font-size: 1.1rem; margin-bottom: 10px; }
 
         .scroll-hint {
             position: absolute;
@@ -245,7 +240,7 @@
             left: 50%;
             transform: translateX(-50%);
             color: var(--amber);
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             font-weight: 800;
             letter-spacing: 3px;
             text-transform: uppercase;
@@ -286,10 +281,27 @@
                 <span class="nav-label">Intelligence Shards</span>
                 <div class="nav-item" data-url="../captioai/index.html">Captio AI</div>
                 <div class="nav-item" data-url="../optiscout/index.html">OptiScout</div>
-                <div class="nav-item" data-url="../firmless/index.html">Firmless</div>
+                <div class="nav-item" data-url="../pricepulse/index.html">PricePulse</div>
                 <div class="nav-item" data-url="../dricil/index.html">Dricil</div>
-                <div class="nav-item" data-url="../riddiim/index.html">Riddiim</div>
+            </div>
+            <div class="nav-section">
+                <span class="nav-label">Ecosystem Shards</span>
+                <div class="nav-item" data-url="../syla/index.html">Syla</div>
+                <div class="nav-item" data-url="../firmless/index.html">Firmless</div>
                 <div class="nav-item" data-url="../pawdx/index.html">PawDX</div>
+                <div class="nav-item" data-url="../skillbit/index.html">Skillbit</div>
+            </div>
+            <div class="nav-section">
+                <span class="nav-label">Wellness & Recovery</span>
+                <div class="nav-item" data-url="../slumber/index.html">Slumber</div>
+                <div class="nav-item" data-url="../hartaly/index.html">Hartaly</div>
+                <div class="nav-item" data-url="../prayerblock/index.html">PrayerBlock</div>
+            </div>
+            <div class="nav-section">
+                <span class="nav-label">Media & Culture</span>
+                <div class="nav-item" data-url="../riddiim/index.html">Riddiim</div>
+                <div class="nav-item" data-url="../dpanyard/index.html">D'Panyard</div>
+                <div class="nav-item" data-url="../calalloo/index.html">Calalloo</div>
             </div>
         </aside>
 
@@ -306,7 +318,6 @@
                 </div>
 
                 <div class="intel-grid">
-                    <!-- Traffic & Engagement -->
                     <div class="intel-card">
                         <div class="card-title">Live Traffic & Clicks <span style="color:var(--gray); font-size:0.6rem;">REALTIME_PULSE</span></div>
                         <div class="big-metrics">
@@ -330,7 +341,6 @@
                         </div>
                     </div>
 
-                    <!-- User Registry -->
                     <div class="intel-card">
                         <div class="card-title">User Registry (<span id="m-users-count">0</span>) <span style="color:var(--gray); font-size:0.6rem;">SUPABASE_SYNC</span></div>
                         <div style="height: 380px; overflow-y: auto;">
@@ -353,7 +363,6 @@
                         </div>
                     </div>
 
-                    <!-- Revenue Shield -->
                     <div class="intel-card">
                         <div class="card-title">Revenue Shield <span style="color:var(--gray); font-size:0.6rem;">PAYPAL_LIVE</span></div>
                         <div class="big-metrics" style="margin-bottom: 40px;">
@@ -389,7 +398,6 @@
                         </div>
                     </div>
 
-                    <!-- System Health & Logs -->
                     <div class="intel-card">
                         <div class="card-title">System Handshake <span style="color:var(--gray); font-size:0.6rem;">NEURAL_STABILITY</span></div>
                         <div class="terminal" id="sys-log" style="height: 420px;">
@@ -417,7 +425,6 @@
         const scrollMain = document.getElementById('scroll-main');
         const userBody = document.getElementById('user-body');
 
-        // Force all navigation through iframe injection
         navItems.forEach(item => {
             item.onclick = (e) => {
                 e.preventDefault();
@@ -425,7 +432,7 @@
                 item.classList.add('active');
                 
                 const url = item.getAttribute('data-url');
-                frame.src = url; // Inject URL into iframe
+                frame.src = url;
                 
                 const brand = item.innerText.toUpperCase();
                 activeBrandTitle.innerText = brand;
