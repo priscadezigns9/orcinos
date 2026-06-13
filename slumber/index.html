@@ -3,85 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Slumber | Sleep Science & Coaching</title>
-    <link rel="stylesheet" href="../shared/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <title>SLUMBER | Neural Sleep Optimization</title>
+    <!-- v1.0 - SLUMBER // DEEP INDIGO -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="../shared_godmode.css">
+    <style>
+        :root {
+            --bg: #03001C; --surface: #0B0133; --text: #D6D5E6; --muted: #7371FC; 
+            --accent: #B185DB; --primary: #1F0171; --border: rgba(177, 133, 219, 0.2);
+            --font-header: 'Playfair Display', serif; --font-body: 'Inter', sans-serif;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: var(--bg); color: var(--text); font-family: var(--font-body); min-height: 100vh; overflow-x: hidden; }
+        
+        canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; opacity: 0.4; }
+
+        header { padding: 40px 6%; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-family: var(--font-header); font-size: 2rem; font-weight: 900; color: var(--accent); }
+
+        .hero { padding: 120px 6%; text-align: center; max-width: 900px; margin: 0 auto; }
+        .hero h1 { font-family: var(--font-header); font-size: 4.5rem; line-height: 1; margin-bottom: 25px; text-shadow: 0 0 30px rgba(177,133,219,0.5); }
+        
+        .sleep-metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin-top: 60px; }
+        .metric-circle { border: 2px solid var(--border); width: 150px; height: 150px; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 auto; transition: 0.3s; }
+        .metric-circle:hover { border-color: var(--accent); background: rgba(177,133,219,0.05); }
+    </style>
 </head>
 <body>
-    <nav>
-        <div class="logo">SLUMBER</div>
-        <div class="nav-links">
-            <a href="#features">Science</a>
-            <a href="#pricing">Pricing</a>
-            <a href="../app/dashboard.html" class="btn btn-outline">Enter App</a>
+    <canvas id="slumberCanvas"></canvas>
+    <header><div class="logo">SLUMBER</div></header>
+    <section class="hero">
+        <h1>Optimize Your Neural Rest.</h1>
+        <p style="font-size: 1.2rem; color: var(--muted);">Advanced sleep diagnostics and circadian rhythm alignment shards.</p>
+        <div class="sleep-metrics">
+            <div class="metric-circle"><div style="font-size: 1.5rem; font-weight: 900;">8.2h</div><div style="font-size: 0.6rem; text-transform: uppercase;">Avg Sleep</div></div>
+            <div class="metric-circle"><div style="font-size: 1.5rem; font-weight: 900;">94%</div><div style="font-size: 0.6rem; text-transform: uppercase;">Efficiency</div></div>
+            <div class="metric-circle"><div style="font-size: 1.5rem; font-weight: 900;">22%</div><div style="font-size: 0.6rem; text-transform: uppercase;">Deep REM</div></div>
         </div>
-    </nav>
-
-    <main class="container text-center">
-        <section class="hero mb-2" style="padding: 4rem 0;">
-            <h1 style="font-size: 3.5rem; margin-bottom: 1rem;">Master Your Night.</h1>
-            <p style="font-size: 1.2rem; color: var(--silver); max-width: 600px; margin: 0 auto 2rem;">
-                AI-powered sleep coaching, scientific analysis, and curated soundscapes to help you reach peak performance.
-            </p>
-            <div class="hero-btns">
-                <a href="../app/dashboard.html" class="btn btn-primary">Start Sleeping Better</a>
-            </div>
-        </section>
-
-        <section id="features" class="grid-2 mb-2">
-            <div class="card">
-                <h3>AI Sleep Coach</h3>
-                <p>Personalized analysis of your sleep architecture using GPT-4o-mini.</p>
-            </div>
-            <div class="card">
-                <h3>Scientific Insights</h3>
-                <p>Access a library of 20+ peer-reviewed sleep science articles.</p>
-            </div>
-            <div class="card">
-                <h3>Ambient Soundscapes</h3>
-                <p>Immersive audio environments designed to lower cortisol and induce sleep.</p>
-            </div>
-            <div class="card">
-                <h3>Data-Driven Reports</h3>
-                <p>Track your efficiency score and weekly trends with Oura-style gauges.</p>
-            </div>
-        </section>
-
-        <section id="pricing" class="mb-2">
-            <h2 class="text-center mb-2">Choose Your Rest</h2>
-            <div class="grid-2">
-                <div class="card">
-                    <h3>Free</h3>
-                    <p class="score-val" style="font-size: 2rem;">$0</p>
-                    <ul style="text-align: left; list-style: none; margin: 1rem 0;">
-                        <li>✓ 7-day sleep log</li>
-                        <li>✓ Basic sleep score</li>
-                        <li>✓ 5 science articles</li>
-                    </ul>
-                    <a href="../app/dashboard.html" class="btn btn-outline" style="width: 100%;">Get Started</a>
-                </div>
-                <div class="card" style="border-color: var(--amber);">
-                    <h3>Pro</h3>
-                    <p class="score-val" style="font-size: 2rem;">$6.99<small>/mo</small></p>
-                    <ul style="text-align: left; list-style: none; margin: 1rem 0;">
-                        <li>✓ Unlimited AI coaching</li>
-                        <li>✓ Full sound library</li>
-                        <li>✓ Weekly AI reports</li>
-                        <li>✓ Unlimited history</li>
-                    </ul>
-                    <a href="../app/dashboard.html" class="btn btn-amber" style="width: 100%;">Go Pro</a>
-                </div>
-            </div>
-            <div class="card" style="margin-top: 1rem;">
-                <p>Payments accepted via: <b>PayPal, Crypto (ERC-20), Payoneer</b></p>
-                <p><small>ERC-20: 0xcef857e82c306b3d0f2db080e7794f4bb376049e</small></p>
-            </div>
-        </section>
-    </main>
-
-    <footer class="text-center" style="padding: 2rem; color: var(--glass);">
-        &copy; 2026 Slumber by Orcinos. Fully functional Sleep Science platform.
-    </footer>
+    </section>
+    <script>
+        lucide.createIcons();
+        const canvas = document.getElementById('slumberCanvas');
+        const ctx = canvas.getContext('2d');
+        let pulses = [];
+        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        window.onresize = resize; resize();
+        class Pulse {
+            constructor() { this.reset(); }
+            reset() { this.x = Math.random() * canvas.width; this.y = Math.random() * canvas.height; this.r = 0; this.maxR = Math.random() * 100 + 50; this.o = 1; }
+            draw() { ctx.strokeStyle = `rgba(177,133,219,${this.o * 0.3})`; ctx.beginPath(); ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2); ctx.stroke(); }
+            update() { this.r += 0.5; this.o -= 0.005; if (this.o <= 0) this.reset(); }
+        }
+        for (let i = 0; i < 20; i++) pulses.push(new Pulse());
+        function animate() { ctx.clearRect(0,0,canvas.width,canvas.height); pulses.forEach(p => { p.update(); p.draw(); }); requestAnimationFrame(animate); }
+        animate();
+    </script>
+    <script src="../shared_godmode.js"></script>
 </body>
 </html>
-
