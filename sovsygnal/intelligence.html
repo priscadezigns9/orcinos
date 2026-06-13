@@ -111,7 +111,7 @@
 
         <div class="featured-story">
             <div class="main-story">
-                <h4><span>Top Intelligence // Breakthrough</span> <span>Jun 13, 2026 // 15:31 AST</span></h4>
+                <h4><span>Top Intelligence // Breakthrough</span> <span>Jun 13, 2026 // 16:18 AST</span></h4>
                 <h2>JUNO Neutrino Observatory Achieves Major Scientific Milestone.</h2>
                 <p>Deep-ground intelligence in China achieves new benchmarks in subatomic signal processing and particle physics.</p>
                 <a href="https://www.sciencedaily.com/" target="_blank" style="text-decoration:none;"><span class="ref-link" style="font-size: 0.8rem; color: var(--sygnal-red); font-weight: 800; text-transform: uppercase; letter-spacing: 2px;">Intelligence Source: ScienceDaily &rarr;</span></a>
@@ -119,13 +119,13 @@
             <div class="side-stories">
                 
                 <div class="side-story">
-                    <h4><span>Market</span> <span>Jun 13, 2026 // 15:31 AST</span></h4>
+                    <h4><span>Market</span> <span>Jun 13, 2026 // 16:18 AST</span></h4>
                     <h3>AI, Geopolitics, and Private Capital.</h3>
                     <p>Making sense of volatile markets through autonomous intelligence nodes.</p>
                     <a href="https://www.geopoliticalmonitor.com/" target="_blank" class="ref-link" style="font-size: 0.6rem;">Source: Geopolitical Monitor &rarr;</a>
                 </div>
                 <div class="side-story">
-                    <h4><span>OSINT</span> <span>Jun 13, 2026 // 15:31 AST</span></h4>
+                    <h4><span>OSINT</span> <span>Jun 13, 2026 // 16:18 AST</span></h4>
                     <h3>Global Pulse News Media: Bypassing Noise.</h3>
                     <p>New monitoring protocols enabling high-fidelity analysis of geopolitical risk.</p>
                     <a href="https://www.youtube.com/watch?v=gnJ-Uw0RFOk" target="_blank" class="ref-link" style="font-size: 0.6rem;">Source: Market Insights &rarr;</a>
@@ -166,7 +166,7 @@
         <div class="news-grid">
             
                 <div class="news-card">
-                    <h4><span>Nodes</span> <span>Jun 13, 2026 // 15:31 AST</span></h4>
+                    <h4><span>Nodes</span> <span>Jun 13, 2026 // 16:18 AST</span></h4>
                     <h3>Autonomous Intelligence Handshake Active.</h3>
                     <p>Tracking structural market movements bypassing headline friction.</p>
                     <a href="https://www.youtube.com/watch?v=gnJ-Uw0RFOk" target="_blank" class="ref-link">Source: Market Insights &rarr;</a>
@@ -189,6 +189,40 @@
     <script src="../shared_godmode.js"></script>
     <script>
         document.getElementById("nav-intelligence").classList.add("active");
+        
+        // API Intelligence Engine
+        const FINNHUB_KEY = "{{credential:finnhub-api-key}}";
+        
+        async function updateAPIs() {
+            const feeds = document.querySelectorAll('.api-item');
+            
+            // Logic for Stocks/Forex
+            if ("intelligence" === "stocks" || "intelligence" === "forex" || "intelligence" === "markets") {
+                feeds.forEach(async (item) => {
+                    const label = item.querySelector('label').innerText;
+                    const symbol = label.split('(')[1]?.replace(')', '') || label.replace('/', '');
+                    try {
+                        const res = await fetch(`https://finnhub.io/api/v1/quote?symbol=${symbol}&token=${FINNHUB_KEY}`);
+                        const data = await res.json();
+                        if (data.c) item.querySelector('.value').innerText = `$${data.c.toFixed(2)}`;
+                    } catch(e) { console.error(e); }
+                });
+            }
+            
+            // Logic for Crypto
+            if ("intelligence" === "blockchain") {
+                try {
+                    const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana&vs_currencies=usd');
+                    const data = await res.json();
+                    document.querySelector('[label="BITCOIN (BTC)"]')?.querySelector('.value').innerText = `$${data.bitcoin.usd.toLocaleString()}`;
+                    document.querySelector('[label="ETHEREUM (ETH)"]')?.querySelector('.value').innerText = `$${data.ethereum.usd.toLocaleString()}`;
+                    document.querySelector('[label="SOLANA (SOL)"]')?.querySelector('.value').innerText = `$${data.solana.usd.toLocaleString()}`;
+                } catch(e) { console.error(e); }
+            }
+        }
+        
+        updateAPIs();
+        setInterval(updateAPIs, 60000); // Refresh every minute
     </script>
 </body>
 </html>
