@@ -31,10 +31,18 @@
         
         .container { max-width: 1400px; margin: 0 auto; padding: 60px 6% 100px; }
         
-        .section-block { margin-bottom: 100px; }
-        .section-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 40px; border-bottom: 2px solid var(--text); padding-bottom: 15px; }
-        .section-title { font-family: var(--font-heading); font-size: 2.5rem; text-transform: uppercase; }
+        .featured-story { display: grid; grid-template-columns: 2fr 1fr; gap: 60px; margin-bottom: 80px; border-bottom: 1px solid var(--border); padding-bottom: 80px; }
+        .main-story h4 { color: var(--sygnal-red); font-weight: 900; font-size: 0.7rem; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 2px; }
+        .main-story h2 { font-family: var(--font-heading); font-size: 3.5rem; margin-bottom: 25px; line-height: 1.1; font-weight: 900; }
+        .main-story p { font-size: 1.2rem; color: var(--muted); margin-bottom: 30px; line-height: 1.6; max-width: 800px; }
         
+        .side-stories { display: flex; flex-direction: column; gap: 40px; }
+        .side-story { border-bottom: 1px solid var(--border); padding-bottom: 20px; }
+        .side-story:last-child { border-bottom: none; }
+        .side-story h4 { color: var(--sygnal-red); font-weight: 900; font-size: 0.6rem; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; }
+        .side-story h3 { font-family: var(--font-heading); font-size: 1.3rem; margin-bottom: 10px; line-height: 1.3; }
+        .side-story p { font-size: 0.9rem; color: var(--muted); }
+
         .news-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 40px; }
         .news-card { border-bottom: 1px solid var(--border); padding-bottom: 25px; transition: 0.3s; }
         .news-card:hover { border-color: var(--sygnal-red); }
@@ -47,6 +55,11 @@
         .footer-content { display: flex; justify-content: space-between; align-items: center; }
         .footer-logo { height: 50px; filter: grayscale(1) brightness(2); }
         .copyright { font-size: 0.7rem; color: var(--muted); letter-spacing: 2px; font-weight: 700; text-transform: uppercase; }
+
+        @media (max-width: 1000px) {
+            .featured-story { grid-template-columns: 1fr; gap: 40px; }
+            .main-story h2 { font-size: 2.5rem; }
+        }
     </style>
 </head>
 <body>
@@ -72,31 +85,36 @@
     </nav>
 
     <div class="container">
-        <div class="section-block">
-            <div class="section-header">
-                <h2 class="section-title">Biohacking</h2>
+        <div class="featured-story">
+            <div class="main-story">
+                <h4>Top Intelligence // Longevity</h4>
+                <h2>Harvard Publishes Definitive Longevity Report for 2026.</h2>
+                <p>Lifespan Research Institute reviews high-fidelity protocols for cellular rejuvenation and mitochondrial optimization.</p>
+                <a href="https://lifespan.io/news/" target="_blank" style="text-decoration:none;"><span class="ref-link" style="font-size: 0.8rem; color: var(--sygnal-red); font-weight: 800; text-transform: uppercase; letter-spacing: 2px;">Read Full Intelligence &rarr;</span></a>
             </div>
-            <div class="news-grid">
+            <div class="side-stories">
                 
+                <div class="side-story">
+                    <h4>Biology</h4>
+                    <h3>Aging Biology: Transcriptome Breakthrough.</h3>
+                    <p>Nature study reveals biological age reversal clocks are more malleable.</p>
+                </div>
+                <div class="side-story">
+                    <h4>Recovery</h4>
+                    <h3>HealthSpan Miniseries: Shortening the Gap.</h3>
+                    <p>Focus on closing the gap between healthspan and lifespan milestones.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="news-grid">
+            
                 <div class="news-card">
-                    <h4>Longevity</h4>
-                    <h3>Harvard Publishes Longevity Report for the General Public.</h3>
-                    <p>High-fidelity research on cellular rejuvenation and mitochondrial optimization reaches mainstream awareness.</p>
+                    <h4>Cellular</h4>
+                    <h3>Mitochondrial Pulse: Designing for Cellular Recovery.</h3>
+                    <p>New protocols prioritize sleep architecture as the foundation of health.</p>
                     <a href="https://lifespan.io/news/" target="_blank" class="ref-link">Source: Lifespan.io &rarr;</a>
                 </div>
-                <div class="news-card">
-                    <h4>Biology</h4>
-                    <h3>Nature Study: Aging Biology More Changeable Than Previously Known.</h3>
-                    <p>Analysis of 11,000+ transcriptomes reveals new clocks for biological age reversal protocols.</p>
-                    <a href="https://www.instagram.com/p/DZP1g7HG_PA/" target="_blank" class="ref-link">Source: Nature / Instagram &rarr;</a>
-                </div>
-                <div class="news-card">
-                    <h4>Healthspan</h4>
-                    <h3>The Rise of HealthSpan Protocols: Shortening the Lifespan Gap.</h3>
-                    <p>New research focuses on closing the gap between years lived and years lived in high-fidelity health.</p>
-                    <a href="https://www.instagram.com/reel/DZIZbArGhOH/" target="_blank" class="ref-link">Source: The Vitals &rarr;</a>
-                </div>
-            </div>
         </div>
     </div>
 
