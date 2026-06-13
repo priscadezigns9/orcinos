@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LATTOME | Faith Planner & Tracker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="../shared_godmode.css">
+    <style>
+        :root {
+            --bg: #F8FAFC; --surface: #FFFFFF; --text: #1A3A2A; --muted: #64748B; 
+            --accent: #C9A84C; --primary: #1A3A2A; --border: rgba(26, 58, 42, 0.1);
+            --font-header: 'Playfair Display', serif; --font-body: 'Inter', sans-serif;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: var(--bg); color: var(--text); font-family: var(--font-body); min-height: 100vh; overflow-x: hidden; }
+        
+        canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; opacity: 0.1; }
+
+        header { padding: 40px 6%; text-align: center; border-bottom: 1px solid var(--border); }
+        .logo { font-family: var(--font-header); font-size: 2.5rem; font-weight: 900; letter-spacing: 4px; color: var(--primary); }
+
+        .hero { padding: 80px 6%; text-align: center; max-width: 900px; margin: 0 auto; }
+        .hero h1 { font-family: var(--font-header); font-size: 4.5rem; line-height: 1.1; margin-bottom: 30px; color: var(--primary); }
+        
+        .prayer-card { background: var(--surface); border: 2px solid var(--accent); padding: 50px; border-radius: 12px; box-shadow: 0 20px 50px rgba(0,0,0,0.05); }
+        .verse-display { font-family: var(--font-header); font-style: italic; font-size: 1.5rem; color: var(--accent); margin-bottom: 30px; }
+        
+        .btn-faith { background: var(--primary); color: white; border: none; padding: 20px 45px; border-radius: 4px; font-weight: 900; cursor: pointer; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px; }
+    </style>
+</head>
+<body>
+    <canvas id="prayerCanvas"></canvas>
+    <header><div class="logo">LATTOME</div></header>
+    <section class="hero">
+        <div class="prayer-card">
+            <div class="verse-display">"Ask, and it shall be given you; seek, and ye shall find..."</div>
+            <h1>Your Digital Sanctuary Shard.</h1>
+            <p style="font-size: 1.2rem; color: var(--muted); line-height: 1.6; margin-bottom: 45px;">The definitive Faith Planner and Prayer Tracker. Organize your spiritual journey with high-fidelity analytical tools.</p>
+            <div style="display: flex; gap: 20px; justify-content: center;">
+                <button class="btn-faith" onclick="alert('Opening Faith Planner...')">Open Planner</button>
+                <button style="background:transparent; border:1px solid var(--primary); padding:20px 45px; border-radius:4px; font-weight:900; cursor:pointer; text-transform:uppercase; letter-spacing:2px;" onclick="alert('Accessing Prayer Journal...')">Prayer Journal</button>
+            </div>
+        </div>
+    </section>
+    <script>
+        lucide.createIcons();
+        const canvas = document.getElementById('prayerCanvas');
+        const ctx = canvas.getContext('2d');
+        let circles = [];
+        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        window.onresize = resize; resize();
+        class Circle {
+            constructor() { this.reset(); }
+            reset() { this.x = Math.random() * canvas.width; this.y = Math.random() * canvas.height; this.r = Math.random() * 60 + 30; this.o = Math.random() * 0.4 + 0.1; this.s = Math.random() * 0.2; }
+            draw() { ctx.fillStyle = `rgba(201, 168, 76, ${this.o})`; ctx.beginPath(); ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2); ctx.fill(); }
+            update() { this.y += this.s; if (this.y > canvas.height) this.reset(); }
+        }
+        for (let i = 0; i < 30; i++) circles.push(new Circle());
+        function animate() { ctx.clearRect(0,0,canvas.width,canvas.height); circles.forEach(c => { c.update(); c.draw(); }); requestAnimationFrame(animate); }
+        animate();
+    </script>
+    <script src="../shared_godmode.js"></script>
+</body>
+</html>
