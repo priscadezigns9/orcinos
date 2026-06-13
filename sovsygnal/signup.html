@@ -3,82 +3,136 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SOVSYGNAL | Intelligence Placement</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <title>SOV SYGNL | Network Onboarding</title>
+    <link rel="icon" type="image/png" href="../logos/sovsygnal_icon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
-        :root { --primary: #8B0000; --bg: #F9F9F9; --text: #1A1A1A; --font-heading: 'Playfair Display', serif; --font-body: 'Inter', sans-serif; }
-        body { background: var(--bg); color: var(--text); font-family: var(--font-body); display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; padding: 20px; box-sizing: border-box; }
-        .card { background: white; padding: 40px; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); max-width: 450px; width: 100%; text-align: center; border-top: 5px solid var(--primary); }
-        h1 { font-family: var(--font-heading); margin-bottom: 10px; font-size: 2rem; }
-        .pricing-grid { display: flex; justify-content: space-around; margin-bottom: 25px; background: #fdfdfd; padding: 15px; border-radius: 4px; border: 1px solid #eee; }
-        .price-box { flex: 1; }
-        .price-tag { font-size: 1.2rem; font-weight: 700; color: var(--primary); display: block; }
-        .price-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; color: #666; }
-        .save-badge { font-size: 0.6rem; background: #E8F5E9; color: #2E7D32; padding: 2px 6px; border-radius: 10px; font-weight: 700; margin-top: 4px; display: inline-block; }
-        p { margin-bottom: 25px; font-size: 0.95rem; color: #444; line-height: 1.5; }
-        .form-group { text-align: left; margin-bottom: 15px; }
-        label { display: block; font-size: 0.8rem; font-weight: 600; margin-bottom: 5px; color: #555; }
-        input, select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; font-family: var(--font-body); }
-        .btn { background: var(--primary); color: white; border: none; padding: 15px 24px; border-radius: 4px; cursor: pointer; width: 100%; font-weight: 600; text-decoration: none; display: block; font-size: 1rem; transition: background 0.2s; }
-        .btn:hover { background: #660000; }
-        .back-link { margin-top: 25px; display: block; font-size: 0.8rem; color: var(--primary); text-decoration: none; font-weight: 600; }
-        .back-link:hover { text-decoration: underline; }
+        :root {
+            --bg: #000000; --surface: #0A0A0A; --text: #FFFFFF; --muted: #A1A1AA;
+            --sygnal-red: #E11D48; --border: rgba(255, 255, 255, 0.1);
+            --font-heading: 'Playfair Display', serif; --font-body: 'Inter', sans-serif;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: var(--bg); color: var(--text); font-family: var(--font-body); line-height: 1.5; display: flex; flex-direction: column; min-height: 100vh; }
+        
+        header { padding: 40px 6%; border-bottom: 1px solid var(--border); text-align: left; background: var(--surface); }
+        .logo { font-family: var(--font-heading); font-size: 2rem; font-weight: 900; letter-spacing: -1px; text-transform: uppercase; }
+        .logo span { color: var(--sygnal-red); }
+
+        .container { max-width: 600px; margin: 80px auto; padding: 0 6%; flex-grow: 1; }
+        h1 { font-family: var(--font-heading); font-size: 2.5rem; margin-bottom: 20px; }
+        p.intro { color: var(--muted); margin-bottom: 40px; }
+
+        form { display: flex; flex-direction: column; gap: 25px; background: var(--surface); padding: 40px; border: 1px solid var(--border); border-radius: 4px; }
+        .form-group { display: flex; flex-direction: column; gap: 8px; }
+        label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 900; color: var(--sygnal-red); }
+        input, textarea, select {
+            background: #111; border: 1px solid var(--border); padding: 15px; color: #fff; font-family: inherit; font-size: 1rem; outline: none; transition: 0.3s;
+        }
+        input:focus, textarea:focus { border-color: var(--sygnal-red); }
+        
+        button {
+            background: var(--sygnal-red); color: white; border: none; padding: 18px; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; cursor: pointer; transition: 0.3s; margin-top: 10px;
+        }
+        button:hover { opacity: 0.9; transform: translateY(-2px); }
+        button:disabled { background: var(--muted); cursor: not-allowed; }
+
+        #status { margin-top: 20px; padding: 15px; font-size: 0.9rem; display: none; text-align: center; }
+        .success { background: rgba(34, 197, 94, 0.1); color: #4ade80; border: 1px solid #22c55e; }
+        .error { background: rgba(239, 68, 68, 0.1); color: #f87171; border: 1px solid #ef4444; }
+
+        footer { padding: 40px 6%; border-top: 1px solid var(--border); text-align: center; font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 2px; }
     </style>
 </head>
 <body>
-    <div class="card">
-        <h1>SOVSYGNAL</h1>
-        <div class="pricing-grid">
-            <div class="price-box" style="border-right: 1px solid #eee;">
-                <span class="price-label">Monthly</span>
-                <span class="price-tag">$500</span>
+    <header>
+        <a href="index.html" style="text-decoration:none; color:inherit;"><div class="logo">SOV<span>.</span>SYGNL</div></a>
+    </header>
+
+    <div class="container">
+        <h1>Network Onboarding</h1>
+        <p class="intro">Secure your brand signal within the Orcinos global intelligence ecosystem. Complete the form below to initiate the onboarding handshake.</p>
+
+        <form id="onboardingForm">
+            <div class="form-group">
+                <label>Client Name / Organization</label>
+                <input type="text" id="name" placeholder="Institutional Name" required>
             </div>
-            <div class="price-box">
-                <span class="price-label">Yearly</span>
-                <span class="price-tag">$5,000</span>
-                <span class="save-badge">Save $1,000</span>
-            </div>
-        </div>
-        <p>Target institutional intelligence professionals with high-fidelity placements across the SOVSYGNAL network.</p>
-        
-        <form action="https://script.google.com/macros/s/AKfycbz_Placeholder/exec" method="POST">
-            <input type="hidden" name="source" value="SOVSYGNAL_ADS">
-            
             <div class="form-group">
                 <label>Institutional Email</label>
-                <input type="email" name="email" placeholder="email@firm.com" required>
+                <input type="email" id="email" placeholder="contact@organization.com" required>
             </div>
-
             <div class="form-group">
-                <label>Business Type</label>
-                <select name="business_type" required>
-                    <option value="" disabled selected>Select Sector</option>
-                    <option value="Hedge Fund / VC">Hedge Fund / VC</option>
-                    <option value="Crypto / Web3">Crypto / Web3</option>
-                    <option value="Luxury Retail">Luxury Retail</option>
-                    <option value="Intelligence / Tech">Intelligence / Tech</option>
-                    <option value="Real Estate">Real Estate</option>
-                    <option value="Other">Other</option>
+                <label>Primary Brand Node</label>
+                <input type="text" id="brand" placeholder="e.g. Atelia Gaming" required>
+            </div>
+            <div class="form-group">
+                <label>Onboarding Intent</label>
+                <select id="intent" required>
+                    <option value="Standard Ad - $297/mo">Standard Ad Placement ($297/mo)</option>
+                    <option value="Premium Signal - $597/mo">Premium Signal Node ($597/mo)</option>
+                    <option value="Institutional Partner - Custom">Institutional Partnership (Custom)</option>
                 </select>
             </div>
-
             <div class="form-group">
-                <label>Placement Duration</label>
-                <select name="duration" required>
-                    <option value="Monthly ($500)">Monthly ($500)</option>
-                    <option value="Yearly ($5,000)">Yearly ($5,000) - Save $1,000</option>
-                </select>
+                <label>Strategic Notes / Targets</label>
+                <textarea id="notes" rows="4" placeholder="Outline your mission objectives..."></textarea>
             </div>
-
-            <div class="form-group">
-                <label>Phone Number (WhatsApp Required)</label>
-                <input type="tel" name="phone" placeholder="+1 (555) 000-0000" required>
-            </div>
-
-            <button type="submit" class="btn">Request Placement</button>
+            <button type="submit" id="submitBtn">Initiate Handshake &rarr;</button>
         </form>
-        
-        <a href="index.html" class="back-link">Return to Headlines</a>
+        <div id="status"></div>
     </div>
+
+    <footer>
+        &copy; 2026 SOV SYGNL · AN ORCINOS MEDIA DIVISION · SECURE SIGNAL ACTIVE
+    </footer>
+
+    <script>
+        const SB_URL = 'https://sazhdnqzaqpqcralmthh.supabase.co';
+        const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNhemhkbnF6YXFwcWNyYWxtdGhoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxNzE5NjYsImV4cCI6MjA5Mzc0Nzk2Nn0.uTyw31uWTNOTV5-HzNpm46vpAJABAsHLMzW-sYOkRhc';
+        const supabase = supabase.createClient(SB_URL, SB_KEY);
+
+        const form = document.getElementById('onboardingForm');
+        const statusDiv = document.getElementById('status');
+        const submitBtn = document.getElementById('submitBtn');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            submitBtn.disabled = true;
+            submitBtn.innerText = 'Synchronizing...';
+            statusDiv.style.display = 'none';
+
+            const payload = {
+                client_name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                brand: document.getElementById('brand').value,
+                intent: document.getElementById('intent').value,
+                notes: document.getElementById('notes').value,
+                created_at: new Date().toISOString()
+            };
+
+            try {
+                const { error } = await supabase
+                    .from('onboarding_intents')
+                    .insert([payload]);
+
+                if (error) throw error;
+
+                statusDiv.innerText = 'Handshake Successful. Our intelligence desk will reach out shortly.';
+                statusDiv.className = 'success';
+                statusDiv.style.display = 'block';
+                form.reset();
+            } catch (err) {
+                console.error(err);
+                statusDiv.innerText = 'Handshake Failed: ' + (err.message || 'Network Sync Error');
+                statusDiv.className = 'error';
+                statusDiv.style.display = 'block';
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerText = 'Initiate Handshake \u2192';
+            }
+        });
+    </script>
 </body>
 </html>
