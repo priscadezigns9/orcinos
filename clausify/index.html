@@ -3,87 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clausify | Creator Legal Tools</title>
-    <link rel="stylesheet" href="../shared/style.css">
+    <title>CLAUSIFY | Autonomous Legal Intelligence</title>
+    <!-- v1.0 - SCIENTIFIC ALABASTER // LEGAL SHARD -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --bg: #FFFFFF; --surface: #F8FAFC; --text: #000814; --muted: #64748B; 
+            --accent: #FF9500; --primary: #001B3D; --border: rgba(0, 27, 61, 0.1);
+            --font-header: 'Playfair Display', serif; --font-body: 'Inter', sans-serif;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: var(--bg); color: var(--text); font-family: var(--font-body); }
+        
+        header { padding: 40px 6%; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-family: var(--font-header); font-size: 1.8rem; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; }
+        .logo span { color: var(--accent); }
+
+        .hero { padding: 100px 6%; max-width: 1200px; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+        .hero h1 { font-family: var(--font-header); font-size: 4rem; line-height: 1.1; margin-bottom: 30px; }
+        .hero p { font-size: 1.2rem; color: var(--muted); margin-bottom: 40px; }
+
+        .form-card { background: var(--surface); border: 1px solid var(--border); padding: 40px; border-radius: 12px; }
+        .input-group { margin-bottom: 20px; }
+        .input-group label { display: block; font-size: 0.7rem; text-transform: uppercase; font-weight: 900; margin-bottom: 10px; }
+        .input-group textarea { width: 100%; height: 120px; padding: 15px; border: 1px solid var(--border); border-radius: 8px; font-family: var(--font-body); resize: none; }
+        
+        .analyze-btn { width: 100%; background: var(--primary); color: #FFF; padding: 15px; border: none; border-radius: 8px; font-weight: 900; text-transform: uppercase; cursor: pointer; transition: 0.3s; }
+        .analyze-btn:hover { background: var(--accent); color: var(--primary); }
+
+        .feature-bar { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+        .feature-item { padding: 40px; border-right: 1px solid var(--border); text-align: center; }
+        .feature-item i { color: var(--accent); margin-bottom: 20px; }
+        .feature-item h3 { font-family: var(--font-header); margin-bottom: 10px; }
+    </style>
 </head>
 <body>
     <header>
-        <div class="logo">CLAUSIFY</div>
-        <nav>
-            <ul>
-                <li><a href="#features">Features</a></li>
-                <li><a href="#pricing">Pricing</a></li>
-                <li><a href="../app/dashboard.html" class="btn btn-primary">Open App</a></li>
-            </ul>
-        </nav>
+        <div class="logo">Clausify<span>.</span></div>
+        <div style="font-size: 0.7rem; font-weight: 800; letter-spacing: 1px;">INSTITUTIONAL GRADE // LEGAL_AI</div>
     </header>
 
     <section class="hero">
-        <h1>Legal Protection for Creators, <br><span style="color: var(--gold);">No Law Degree Needed.</span></h1>
-        <p>Generate contracts, protect your IP, and calculate your rates in plain English. Built for influencers, freelancers, and digital entrepreneurs.</p>
-        <div class="hero-btns">
-            <a href="../app/dashboard.html" class="btn btn-primary">Get Started for Free</a>
-            <a href="#features" class="btn btn-outline" style="margin-left: 1rem;">See Features</a>
+        <div>
+            <h1>The Assistant Lawyer You Deserve.</h1>
+            <p>Clausify scans contracts, identifies legal risks, and provides analytical summaries in seconds. Institutional accuracy, sovereign speed.</p>
+            <div style="display:flex; gap: 20px;">
+                <div style="border-left: 2px solid var(--accent); padding-left: 20px;">
+                    <div style="font-size: 1.5rem; font-weight: 900;">98.4%</div>
+                    <div style="font-size: 0.6rem; text-transform: uppercase; color: var(--muted);">Scan Accuracy</div>
+                </div>
+                <div style="border-left: 2px solid var(--accent); padding-left: 20px;">
+                    <div style="font-size: 1.5rem; font-weight: 900;">SEC</div>
+                    <div style="font-size: 0.6rem; text-transform: uppercase; color: var(--muted);">Compliant Logic</div>
+                </div>
+            </div>
+        </div>
+        <div class="form-card">
+            <div class="input-group">
+                <label>Paste Contract Text or Clause</label>
+                <textarea placeholder="Paste the legal text here for immediate neural analysis..."></textarea>
+            </div>
+            <button class="analyze-btn">Initialize Legal Scan</button>
         </div>
     </section>
 
-    <section id="features" style="padding: 4rem 5%;">
-        <h2 style="text-align: center; margin-bottom: 3rem;">Everything You Need to Stay Protected</h2>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
-            <div class="card">
-                <h3 style="color: var(--gold);">Contract Generator</h3>
-                <p>Create professional, legally-structured agreements for brand deals, freelance work, and more.</p>
-            </div>
-            <div class="card">
-                <h3 style="color: var(--gold);">Rate Calculator</h3>
-                <p>Never undersell yourself again. Get data-driven rates based on your reach and engagement.</p>
-            </div>
-            <div class="card">
-                <h3 style="color: var(--gold);">DMCA Takedown</h3>
-                <p>Is someone stealing your content? Generate a formal takedown notice in seconds.</p>
-            </div>
-            <div class="card">
-                <h3 style="color: var(--gold);">IP Protection Guide</h3>
-                <p>Step-by-step guides on how to copyright and trademark your digital assets.</p>
-            </div>
+    <div class="feature-bar">
+        <div class="feature-item">
+            <i data-lucide="shield-check"></i>
+            <h3>Risk Detection</h3>
+            <p style="font-size: 0.8rem; color: var(--muted);">Identify hidden liabilities and unfavorable terms automatically.</p>
         </div>
-    </section>
+        <div class="feature-item">
+            <i data-lucide="scale"></i>
+            <h3>Clause Comparison</h3>
+            <p style="font-size: 0.8rem; color: var(--muted);">Benchmark clauses against industry standards and your private library.</p>
+        </div>
+        <div class="feature-item">
+            <i data-lucide="file-text"></i>
+            <h3>Summary Generation</h3>
+            <p style="font-size: 0.8rem; color: var(--muted);">Get a plain-language executive summary of any complex document.</p>
+        </div>
+    </div>
 
-    <section id="pricing" style="background-color: var(--navy); color: var(--white); padding: 4rem 5%;">
-        <h2 style="text-align: center; margin-bottom: 3rem;">Simple Pricing</h2>
-        <div style="display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap;">
-            <div class="card" style="width: 300px; color: var(--charcoal);">
-                <h3>Free</h3>
-                <p style="font-size: 2rem; font-weight: 800;">$0</p>
-                <ul style="margin: 1rem 0; list-style: none;">
-                    <li>✓ 3 Contracts / month</li>
-                    <li>✓ Rate Calculator</li>
-                    <li>✓ Legal FAQ</li>
-                </ul>
-                <a href="../app/dashboard.html" class="btn btn-outline" style="width: 100%; text-align: center;">Choose Free</a>
-            </div>
-            <div class="card" style="width: 300px; color: var(--charcoal); border: 2px solid var(--gold);">
-                <div style="background: var(--gold); color: var(--navy); padding: 0.2rem 1rem; position: absolute; top: -15px; left: 50%; transform: translateX(-50%); border-radius: 20px; font-weight: bold;">POPULAR</div>
-                <h3>Pro</h3>
-                <p style="font-size: 2rem; font-weight: 800;">$9.99<small style="font-size: 1rem;">/mo</small></p>
-                <ul style="margin: 1rem 0; list-style: none;">
-                    <li>✓ Unlimited Contracts</li>
-                    <li>✓ Contract Vault</li>
-                    <li>✓ DMCA Takedown Tool</li>
-                    <li>✓ IP Protection Guides</li>
-                </ul>
-                <a href="../app/dashboard.html" class="btn btn-primary" style="width: 100%; text-align: center;">Go Pro</a>
-            </div>
-        </div>
-        <div style="text-align: center; margin-top: 3rem;">
-            <p>Payments accepted via <strong>PayPal</strong>, <strong>Crypto (ERC-20)</strong>, and <strong>Payoneer</strong>.</p>
-            <p style="font-family: monospace; margin-top: 1rem;">ERC-20: 0xcef857e82c306b3d0f2db080e7794f4bb376049e</p>
-        </div>
-    </section>
-
-    <footer style="padding: 2rem 5%; text-align: center; background-color: var(--charcoal); color: var(--white);">
-        <p>&copy; 2026 Clausify by Orcinos. Professional Legal Tools for Creators.</p>
-    </footer>
+    <script>lucide.createIcons();</script>
 </body>
 </html>
-
