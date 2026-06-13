@@ -31,10 +31,18 @@
         
         .container { max-width: 1400px; margin: 0 auto; padding: 60px 6% 100px; }
         
-        .section-block { margin-bottom: 100px; }
-        .section-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 40px; border-bottom: 2px solid var(--text); padding-bottom: 15px; }
-        .section-title { font-family: var(--font-heading); font-size: 2.5rem; text-transform: uppercase; }
+        .featured-story { display: grid; grid-template-columns: 2fr 1fr; gap: 60px; margin-bottom: 80px; border-bottom: 1px solid var(--border); padding-bottom: 80px; }
+        .main-story h4 { color: var(--sygnal-red); font-weight: 900; font-size: 0.7rem; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 2px; }
+        .main-story h2 { font-family: var(--font-heading); font-size: 3.5rem; margin-bottom: 25px; line-height: 1.1; font-weight: 900; }
+        .main-story p { font-size: 1.2rem; color: var(--muted); margin-bottom: 30px; line-height: 1.6; max-width: 800px; }
         
+        .side-stories { display: flex; flex-direction: column; gap: 40px; }
+        .side-story { border-bottom: 1px solid var(--border); padding-bottom: 20px; }
+        .side-story:last-child { border-bottom: none; }
+        .side-story h4 { color: var(--sygnal-red); font-weight: 900; font-size: 0.6rem; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; }
+        .side-story h3 { font-family: var(--font-heading); font-size: 1.3rem; margin-bottom: 10px; line-height: 1.3; }
+        .side-story p { font-size: 0.9rem; color: var(--muted); }
+
         .news-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 40px; }
         .news-card { border-bottom: 1px solid var(--border); padding-bottom: 25px; transition: 0.3s; }
         .news-card:hover { border-color: var(--sygnal-red); }
@@ -47,6 +55,11 @@
         .footer-content { display: flex; justify-content: space-between; align-items: center; }
         .footer-logo { height: 50px; filter: grayscale(1) brightness(2); }
         .copyright { font-size: 0.7rem; color: var(--muted); letter-spacing: 2px; font-weight: 700; text-transform: uppercase; }
+
+        @media (max-width: 1000px) {
+            .featured-story { grid-template-columns: 1fr; gap: 40px; }
+            .main-story h2 { font-size: 2.5rem; }
+        }
     </style>
 </head>
 <body>
@@ -72,31 +85,36 @@
     </nav>
 
     <div class="container">
-        <div class="section-block">
-            <div class="section-header">
-                <h2 class="section-title">Forex</h2>
+        <div class="featured-story">
+            <div class="main-story">
+                <h4>Top Intelligence // Liquidity</h4>
+                <h2>Global Market Forecasting: Shifting Rate Expectations Drive Vol.</h2>
+                <p>Forex.com daily insights track institutional desk movements and macro-driven currency pair volatility.</p>
+                <a href="https://www.forex.com/en/news-and-analysis/" target="_blank" style="text-decoration:none;"><span class="ref-link" style="font-size: 0.8rem; color: var(--sygnal-red); font-weight: 800; text-transform: uppercase; letter-spacing: 2px;">Read Full Intelligence &rarr;</span></a>
             </div>
-            <div class="news-grid">
+            <div class="side-stories">
                 
-                <div class="news-card">
-                    <h4>Currency</h4>
-                    <h3>Global Market Forecasting: Daily Insights into Financial Markets.</h3>
-                    <p>Market analysis from leading institutional desks tracks shifting rate expectations and currency volatility.</p>
-                    <a href="https://www.forex.com/en/news-and-analysis/" target="_blank" class="ref-link">Source: FOREX.com &rarr;</a>
-                </div>
-                <div class="news-card">
+                <div class="side-story">
                     <h4>Macro</h4>
-                    <h3>InvestingLive: Daily Insights on Gold, Forex, and Crypto.</h3>
-                    <p>Keeping ahead of markets with high-fidelity analysis of global liquidity flows.</p>
+                    <h3>Gold, Forex, and Crypto Insights.</h3>
+                    <p>Keeping ahead of markets through daily intelligence on global liquidity flows.</p>
+                </div>
+                <div class="side-story">
+                    <h4>Yields</h4>
+                    <h3>Treasury Yields Hit One-Year Highs.</h3>
+                    <p>Impact of 4.54% yields on major developed market currency pairings.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="news-grid">
+            
+                <div class="news-card">
+                    <h4>Desks</h4>
+                    <h3>Institutional Desk Movement Analysis.</h3>
+                    <p>Tracking how major banks are positioning for Q3 rate shifts.</p>
                     <a href="https://investinglive.com/" target="_blank" class="ref-link">Source: InvestingLive &rarr;</a>
                 </div>
-                <div class="news-card">
-                    <h4>Rates</h4>
-                    <h3>10-year Treasury Yields Rise to 4.54% Back to One-Year Highs.</h3>
-                    <p>Fixed income volatility continues to drive currency pair movements across major developed markets.</p>
-                    <a href="https://www.blackrock.com/us/individual/insights/blackrock-investment-institute/weekly-commentary" target="_blank" class="ref-link">Source: BlackRock &rarr;</a>
-                </div>
-            </div>
         </div>
     </div>
 
