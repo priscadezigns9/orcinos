@@ -43,47 +43,31 @@
     {
       "name": "Syla",
       "slug": "syla",
-      "description": "Intelligent logistics and asset management dashboard for high-fidelity operations.",
+      "description": "Your high-fidelity AI assistant for communication, wellness, and daily logistics.",
       "price_monthly": 19.99,
       "category": "Logistics",
       "status": "ready"
     },
     {
-      "name": "Slumber",
-      "slug": "slumber",
-      "description": "AI-powered sleep science and coaching platform for architectural recovery.",
-      "price_monthly": 6.99,
-      "category": "Wellness",
-      "status": "ready"
-    },
-    {
       "name": "Hartaly",
       "slug": "hartaly",
-      "description": "Empathetic AI companion designed for mental clarity and burnout recovery.",
-      "price_monthly": 9.99,
-      "category": "Wellness",
+      "description": "High-fidelity analytics and market sentiment engine for global intelligence.",
+      "price_monthly": 49.0,
+      "category": "Analytics",
       "status": "ready"
     },
     {
-      "name": "PrayerBlock",
-      "slug": "prayerblock",
-      "description": "Distraction-free environment for prayer and deep analytical meditation.",
-      "price_monthly": 4.99,
+      "name": "Slumber",
+      "slug": "slumber",
+      "description": "AI-powered sleep optimization and wellness engineering system.",
+      "price_monthly": 12.99,
       "category": "Wellness",
       "status": "ready"
     },
     {
       "name": "Riddiim",
       "slug": "riddiim",
-      "description": "Professional music player and audio engineering studio.",
-      "price_monthly": 14.99,
-      "category": "Music",
-      "status": "ready"
-    },
-    {
-      "name": "D'Panyard",
-      "slug": "dpanyard",
-      "description": "Global home for Steelpan music and high-fidelity Caribbean culture.",
+      "description": "High-fidelity audio engineering and sovereign music studio architecture.",
       "price_monthly": 14.99,
       "category": "Music",
       "status": "ready"
@@ -105,15 +89,23 @@
       "status": "ready"
     },
     {
-      "name": "Clausify",
-      "slug": "clausify",
+      "name": "Firmless",
+      "slug": "firmless",
       "description": "Legal automation and contract generation for creators and entrepreneurs.",
       "price_monthly": 14.99,
       "category": "Legal",
       "status": "ready"
     },
     {
-      "name": "Skillbit",
+      "name": "Titan TraderX",
+      "slug": "titantraderx",
+      "description": "Institutional grade prop firm infrastructure and sovereign trading logic.",
+      "price_monthly": 499.0,
+      "category": "Finance",
+      "status": "ready"
+    },
+    {
+      "name": "Senpai Learning",
       "slug": "skillbit",
       "description": "Micro-learning platform for rapid high-fidelity skill acquisition.",
       "price_monthly": 8.99,
@@ -129,5 +121,5 @@
       "status": "ready"
     }
   ],
-  "total_count": 16
+  "total_count": 15
 }
