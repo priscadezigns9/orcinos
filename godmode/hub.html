@@ -4,217 +4,247 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ORCINOS | God Mode Hub</title>
-    <!-- v1.2 - UNIFIED ARCHITECT COMMAND HUB (REFINED UI) -->
+    <!-- v1.5 - UNIFIED INFINITE SCROLL COMMAND HUB -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;700;900&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         :root {
-            --light-blue: #E0F2FE;
-            --accent-blue: #0ea5e9;
-            --navy: #0f172a;
-            --white: #FFFFFF;
-            --gray: #64748b;
-            --border: #e2e8f0;
-            --amber: #FF9500;
+            --light-blue: #E0F2FE; --accent-blue: #0ea5e9; --navy: #0f172a; --white: #FFFFFF;
+            --gray: #64748b; --border: #e2e8f0; --amber: #FF9500;
             --font-header: 'Playfair Display', serif; --font-body: 'Inter', sans-serif; --font-mono: 'Fira Code', monospace;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: var(--white); color: var(--navy); font-family: var(--font-body); height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
+        body { background: #000814; color: var(--navy); font-family: var(--font-body); height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
         
-        header { background: var(--light-blue); color: var(--navy); padding: 15px 4%; display: flex; justify-content: space-between; align-items: center; z-index: 100; border-bottom: 1px solid var(--border); }
-        .logo-box h1 { font-family: var(--font-header); font-size: 1.2rem; letter-spacing: 2px; cursor: pointer; text-transform: uppercase; font-weight: 900; }
-        
-        .toggle-btn { background: var(--navy); color: var(--white); border: 1px solid var(--accent-blue); padding: 5px 15px; border-radius: 4px; font-size: 0.7rem; font-weight: 700; cursor: pointer; }
-        .toggle-btn:hover { background: var(--accent-blue); }
+        header { background: var(--navy); color: white; padding: 15px 4%; display: flex; justify-content: space-between; align-items: center; z-index: 1100; border-bottom: 2px solid var(--amber); }
+        .logo-box h1 { font-family: var(--font-header); font-size: 1.2rem; letter-spacing: 2px; cursor: pointer; text-transform: uppercase; font-weight: 900; color: var(--amber); }
+        .toggle-btn { background: transparent; color: var(--amber); border: 1px solid var(--amber); padding: 5px 15px; border-radius: 4px; font-size: 0.7rem; font-weight: 700; cursor: pointer; margin-left: 10px; }
+        .toggle-btn:hover { background: var(--amber); color: var(--navy); }
 
-        .hub-layout { display: flex; flex: 1; overflow: hidden; position: relative; }
+        .hub-layout { display: flex; flex: 1; overflow: hidden; }
         
-        /* Sidebar: Product Matrix */
-        .sidebar-matrix { width: 340px; background: var(--white); border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 20px; overflow-y: auto; transition: 0.3s; }
+        /* Sidebar Navigation */
+        .sidebar-matrix { width: 340px; background: #000814; border-right: 1px solid rgba(255,149,0,0.2); display: flex; flex-direction: column; padding: 20px; overflow-y: auto; transition: 0.3s; z-index: 1000; }
         .sidebar-matrix.hidden { width: 0; padding: 0; overflow: hidden; border-right: none; }
-        .sidebar-matrix h2 { font-size: 0.75rem; color: var(--gray); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 10px; font-weight: 900; }
+        .sidebar-matrix h2 { font-size: 0.75rem; color: var(--amber); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; border-bottom: 1px solid rgba(255,149,0,0.2); padding-bottom: 10px; font-weight: 900; }
         
-        .product-item { padding: 15px; background: var(--white); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 12px; cursor: pointer; transition: 0.2s; text-decoration: none; color: inherit; display: block; }
-        .product-item:hover { border-color: var(--accent-blue); transform: translateX(5px); }
-        .product-item.active { border-left: 4px solid var(--accent-blue); background: var(--light-blue); }
-        .product-item h4 { font-size: 1rem; display: flex; align-items: center; gap: 8px; font-weight: 700; }
-        .status-dot { width: 8px; height: 8px; background: #22C55E; border-radius: 50%; display: inline-block; }
-        .product-meta { font-family: var(--font-mono); font-size: 0.65rem; color: var(--gray); margin-top: 5px; display: flex; justify-content: space-between; }
+        .nav-item { padding: 12px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,149,0,0.1); border-radius: 8px; margin-bottom: 8px; cursor: pointer; transition: 0.2s; color: #94A3B8; text-decoration: none; display: block; font-size: 0.85rem; font-weight: 700; }
+        .nav-item:hover { border-color: var(--amber); color: #FFF; transform: translateX(5px); }
+        .nav-item.active { border-left: 4px solid var(--amber); background: rgba(255,149,0,0.1); color: #FFF; }
 
-        /* Main Stage */
-        .main-stage { flex: 1; display: flex; flex-direction: column; background: var(--white); }
+        /* Infinite Stage */
+        .main-stage { flex: 1; overflow-y: auto; scroll-behavior: smooth; display: flex; flex-direction: column; }
         
-        .global-hud { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; padding: 20px; background: var(--light-blue); border-bottom: 1px solid var(--border); }
-        .metric { border-left: 2px solid var(--accent-blue); padding-left: 15px; }
+        .shard-section { width: 100%; min-height: 100vh; position: relative; display: flex; flex-direction: column; border-bottom: 5px solid var(--amber); background: #FFF; }
+        .shard-label { position: absolute; top: 30px; left: 30px; background: var(--amber); color: var(--navy); padding: 8px 20px; font-weight: 900; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; z-index: 100; box-shadow: 10px 10px 0 rgba(0,0,0,0.1); }
+        .shard-viewport { width: 100%; height: 85vh; border: none; }
+        
+        .intelligence-shroud { background: var(--navy); color: #FFF; padding: 60px 10%; border-top: 2px solid var(--amber); min-height: 400px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+        .intel-box { border-left: 2px solid var(--amber); padding-left: 30px; }
+        .intel-title { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 3px; color: var(--gray); font-weight: 900; margin-bottom: 15px; }
+        .intel-data { font-family: var(--font-mono); font-size: 0.9rem; color: #94A3B8; }
+
+        .global-hud { position: sticky; top: 0; background: var(--navy); padding: 15px 4%; display: flex; gap: 30px; z-index: 1050; border-bottom: 1px solid rgba(255,149,0,0.1); }
+        .metric { border-left: 2px solid var(--amber); padding-left: 15px; }
         .metric-label { font-size: 0.6rem; color: var(--gray); text-transform: uppercase; font-weight: 700; }
-        .metric-val { font-size: 1.2rem; font-weight: 900; color: var(--navy); }
-
-        .viewport-container { flex: 1; position: relative; background: var(--white); }
-        iframe { width: 100%; height: 100%; border: none; background: #FFF; }
-
-        /* Bottom Feed */
-        .intelligence-drawer { height: 180px; background: var(--navy); border-top: 2px solid var(--accent-blue); padding: 15px 30px; overflow-y: auto; font-family: var(--font-mono); transition: 0.3s; }
-        .intelligence-drawer.hidden { height: 0; padding: 0; border-top: none; }
-        .feed-row { font-size: 0.75rem; padding: 5px 0; border-bottom: 1px solid rgba(255,255,255,0.03); display: flex; gap: 20px; }
-        .feed-time { color: var(--accent-blue); }
-        .feed-msg { color: #94A3B8; }
+        .metric-val { font-size: 1rem; font-weight: 900; color: white; }
     </style>
 </head>
 <body>
     <header>
-        <div class="logo-box">
-            <h1 onclick="window.location.href='../index.html'">ORCINOS</h1>
-        </div>
+        <div class="logo-box"><h1 onclick="window.location.href='../index.html'">ORCINOS_HUB</h1></div>
         <div>
             <button class="toggle-btn" onclick="toggleSidebar()">Toggle Matrix</button>
-            <button class="toggle-btn" onclick="toggleDrawer()">Toggle Feed</button>
+            <button class="toggle-btn" onclick="scrollToTop()">Top</button>
         </div>
-        <div style="font-family:var(--font-mono); font-size:0.7rem; color:var(--accent-blue); font-weight:700;">LIVE_MODE: ACTIVE</div>
+        <div style="font-family:var(--font-mono); font-size:0.7rem; color:var(--amber); font-weight:700;">UNIFIED_STAGE: v1.5</div>
     </header>
 
     <div class="hub-layout">
-        <aside class="sidebar-matrix">
+        <aside class="sidebar-matrix" id="sidebar">
             <h2>Product Matrix</h2>
             <div id="matrix-list">
-                <!-- Nurasen -->
-                <div class="product-item active" onclick="loadProduct('../nurasen/dashboard.html?godmode=true', this)">
-                    <h4><span class="status-dot"></span> Nurasen</h4>
-                    <div class="product-meta"><span>CYBERSECURITY</span><span>ACTIVE</span></div>
-                </div>
-                <!-- SOV SYGNL -->
-                <div class="product-item" onclick="loadProduct('../sovsygnal/index.html?godmode=true', this)">
-                    <h4><span class="status-dot"></span> SOV SYGNL</h4>
-                    <div class="product-meta"><span>INTELLIGENCE</span><span>ACTIVE</span></div>
-                </div>
-                <!-- Syle -->
-                <div class="product-item" onclick="loadProduct('../syle/index.html?godmode=true', this)">
-                    <h4><span class="status-dot"></span> Syle</h4>
-                    <div class="product-meta"><span>LIFESTYLE AI</span><span>READY</span></div>
-                </div>
-                <!-- Vyne -->
-                <div class="product-item" onclick="loadProduct('../vyne/index.html?godmode=true', this)">
-                    <h4><span class="status-dot"></span> Vyne</h4>
-                    <div class="product-meta"><span>FINANCIAL</span><span>ACTIVE</span></div>
-                </div>
-                <!-- Dricil -->
-                <div class="product-item" onclick="loadProduct('../dricil/index.html?godmode=true', this)">
-                    <h4><span class="status-dot"></span> Dricil</h4>
-                    <div class="product-meta"><span>AI AGENCY</span><span>LIVE</span></div>
-                </div>
-                <!-- Sellit -->
-                <div class="product-item" onclick="loadProduct('../sellit/index.html?godmode=true', this)">
-                    <h4><span class="status-dot"></span> Sellit</h4>
-                    <div class="product-meta"><span>COMMERCE</span><span>ACTIVE</span></div>
-                </div>
-                <!-- Slumber -->
-                <div class="product-item" onclick="loadProduct('../slumber/index.html?godmode=true', this)">
-                    <h4><span class="status-dot"></span> Slumber</h4>
-                    <div class="product-meta"><span>SLEEP TECH</span><span>ACTIVE</span></div>
-                </div>
-                <!-- Hartaly -->
-                <div class="product-item" onclick="loadProduct('../hartaly/index.html?godmode=true', this)">
-                    <h4><span class="status-dot"></span> Hartaly</h4>
-                    <div class="product-meta"><span>VITALITY</span><span>ACTIVE</span></div>
-                </div>
-                <!-- PrayerBlock -->
-                <div class="product-item" onclick="loadProduct('../prayerblock/index.html?godmode=true', this)">
-                    <h4><span class="status-dot"></span> PrayerBlock</h4>
-                    <div class="product-meta"><span>FAITH TECH</span><span>ACTIVE</span></div>
-                </div>
-                <!-- The Panyard -->
-                <div class="product-item" onclick="loadProduct('../dpanyard/index.html?godmode=true', this)">
-                    <h4><span class="status-dot"></span> The Panyard</h4>
-                    <div class="product-meta"><span>CULTURE</span><span>ACTIVE</span></div>
-                </div>
-                <!-- Calalloo -->
-                <div class="product-item" onclick="loadProduct('../calalloo/index.html?godmode=true', this)">
-                    <h4><span class="status-dot"></span> Calalloo</h4>
-                    <div class="product-meta"><span>HERITAGE HUB</span><span>ACTIVE</span></div>
-                </div>
-                <!-- PawDX -->
-                <div class="product-item" onclick="loadProduct('../pawdx/index.html?godmode=true', this)">
-                    <h4><span class="status-dot"></span> PawDX</h4>
-                    <div class="product-meta"><span>VET AI</span><span>ACTIVE</span></div>
-                </div>
-                <!-- Clausify -->
-                <div class="product-item" onclick="loadProduct('../clausify/index.html?godmode=true', this)">
-                    <h4><span class="status-dot"></span> Clausify</h4>
-                    <div class="product-meta"><span>LEGAL AI</span><span>ACTIVE</span></div>
-                </div>
-                <!-- Skillbit -->
-                <div class="product-item" onclick="loadProduct('../skillbit/index.html?godmode=true', this)">
-                    <h4><span class="status-dot"></span> Skillbit</h4>
-                    <div class="product-meta"><span>LEARNING</span><span>ACTIVE</span></div>
-                </div>
+                <a href="#nurasen" class="nav-item active">Nurasen</a>
+                <a href="#sovsygnal" class="nav-item">SOV SYGNL</a>
+                <a href="#syle" class="nav-item">Syle</a>
+                <a href="#vyne" class="nav-item">Vyne</a>
+                <a href="#slumber" class="nav-item">Slumber</a>
+                <a href="#prayerblock" class="nav-item">PrayerBlock</a>
+                <a href="#calalloo" class="nav-item">Calalloo</a>
+                <a href="#dricil" class="nav-item">Dricil</a>
+                <a href="#pawdx" class="nav-item">PawDX</a>
             </div>
         </aside>
 
-        <main class="main-stage">
+        <main class="main-stage" id="stage">
             <div class="global-hud">
-                <div class="metric"><div class="metric-label">Global Traffic (24h)</div><div class="metric-val" id="g-traffic">142,891</div></div>
-                <div class="metric"><div class="metric-label">Total Signups</div><div class="metric-val" id="g-users">0</div></div>
+                <div class="metric"><div class="metric-label">Aggregated Traffic</div><div class="metric-val" id="g-traffic">142,891</div></div>
                 <div class="metric"><div class="metric-label">Active Shards</div><div class="metric-val">14</div></div>
-                <div class="metric"><div class="metric-label">Aggregate MRR</div><div class="metric-val" id="g-revenue">$0.00</div></div>
+                <div class="metric"><div class="metric-label">Neural Sync</div><div class="metric-val" style="color:#22C55E">STABLE</div></div>
             </div>
 
-            <div class="viewport-container">
-                <iframe id="product-iframe" src="../nurasen/dashboard.html?godmode=true"></iframe>
-            </div>
+            <!-- Shard: Nurasen -->
+            <section id="nurasen" class="shard-section">
+                <div class="shard-label">Shard 01: Nurasen</div>
+                <iframe class="shard-viewport" src="../nurasen/dashboard.html?godmode=true"></iframe>
+                <div class="intelligence-shroud">
+                    <div class="intel-box">
+                        <div class="intel-title">Threat Intelligence</div>
+                        <div class="intel-data">
+                            > SCANNING_SHARD_01...<br>
+                            > FIREWALL_STATUS: ACTIVE<br>
+                            > ANOMALY_DETECTION: 0 DETECTED
+                        </div>
+                    </div>
+                    <div class="intel-box">
+                        <div class="intel-title">Device Handshake</div>
+                        <div class="intel-data">
+                            > CLIENT_UUID: 6868eff5-241b-4f00...<br>
+                            > PROTOCOL: SOVEREIGN_ENCRYPTED<br>
+                            > LOCATION: SAN_FERNANDO, TT
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-            <div class="intelligence-drawer" id="global-feed">
-                <div class="feed-row"><span class="feed-time">[SYSTEM]</span><span class="feed-msg">ORCINOS_GOD_MODE_HUB: v1.2 INITIALIZED. ALL 14 SHARDS SYNCED.</span></div>
-            </div>
+            <!-- Shard: SOV SYGNL -->
+            <section id="sovsygnal" class="shard-section">
+                <div class="shard-label">Shard 02: SOV SYGNL</div>
+                <iframe class="shard-viewport" src="../sovsygnal/index.html?godmode=true"></iframe>
+                <div class="intelligence-shroud">
+                    <div class="intel-box">
+                        <div class="intel-title">Global Frequency</div>
+                        <div class="intel-data">
+                            > FREQ: 104.2 MHZ<br>
+                            > SIGNAL_STRENGTH: 98%<br>
+                            > MARKET_SENTIMENT: BULLISH
+                        </div>
+                    </div>
+                    <div class="intel-box">
+                        <div class="intel-title">Content Pulse</div>
+                        <div class="intel-data">
+                            > LATEST_HEADLINE: Strategic Mediation...<br>
+                            > SOURCE: NEUTRAL_CORRIDOR<br>
+                            > CATEGORY: GEOPOLITICS
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Shard: Syle -->
+            <section id="syle" class="shard-section">
+                <div class="shard-label">Shard 03: Syle</div>
+                <iframe class="shard-viewport" src="../syle/index.html?godmode=true"></iframe>
+                <div class="intelligence-shroud">
+                    <div class="intel-box">
+                        <div class="intel-title">Curation Engine</div>
+                        <div class="intel-data">
+                            > MODE: NEURAL_SELECTION<br>
+                            > CATEGORIES: COUTURE, SANCTUARY, WELLNESS<br>
+                            > STATUS: SYNCED
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Shard: Vyne -->
+            <section id="vyne" class="shard-section">
+                <div class="shard-label">Shard 04: Vyne</div>
+                <iframe class="shard-viewport" src="../vyne/index.html?godmode=true"></iframe>
+                <div class="intelligence-shroud">
+                    <div class="intel-box">
+                        <div class="intel-title">Financial Ledger</div>
+                        <div class="intel-data">
+                            > VAULT_BALANCE: $142,891.00<br>
+                            > PAYOUT_AUTOMATION: ENABLED<br>
+                            > SETTLEMENT_LAYER: CARDANO_L1
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+             <!-- Shard: Slumber -->
+             <section id="slumber" class="shard-section">
+                <div class="shard-label">Shard 05: Slumber</div>
+                <iframe class="shard-viewport" src="../slumber/index.html?godmode=true"></iframe>
+                <div class="intelligence-shroud">
+                    <div class="intel-box">
+                        <div class="intel-title">Neural Rest Logs</div>
+                        <div class="intel-data">
+                            > AVG_SLEEP_SCORE: 88/100<br>
+                            > DEEP_REM_THRESHOLD: OPTIMAL<br>
+                            > STATUS: MONITORING
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+             <!-- Shard: PrayerBlock -->
+             <section id="prayerblock" class="shard-section">
+                <div class="shard-label">Shard 06: PrayerBlock</div>
+                <iframe class="shard-viewport" src="../prayerblock/index.html?godmode=true"></iframe>
+                <div class="intelligence-shroud">
+                    <div class="intel-box">
+                        <div class="intel-title">Sanctuary Signals</div>
+                        <div class="intel-data">
+                            > ARCHIVE_SYNC: 100%<br>
+                            > EVIDENCE_LAYER: ACTIVE<br>
+                            > MISSION: PROCLAIM_GOSPEL
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+             <!-- Shard: Calalloo -->
+             <section id="calalloo" class="shard-section">
+                <div class="shard-label">Shard 07: Calalloo</div>
+                <iframe class="shard-viewport" src="../calalloo/index.html?godmode=true"></iframe>
+                <div class="intelligence-shroud">
+                    <div class="intel-box">
+                        <div class="intel-title">Heritage Data</div>
+                        <div class="intel-data">
+                            > CULINARY_DNA: MAPPED<br>
+                            > HISTORICAL_RECORDS: SYNCED<br>
+                            > STATUS: LIVE
+                        </div>
+                    </div>
+                </div>
+            </section>
+
         </main>
     </div>
 
     <script>
-        const sbUrl = "https://sazhdnqzaqpqcralmthh.supabase.co";
-        const sbKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNhe mhkbnF6YXFwcWNyYWxtdGhoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTU5Nzk4MDMsImV4cCI6MjAzMTU1NTgwM30.uTyw31uWTNOTV5-HzNpm46vpAJABAsHLMzW-sYOkRhc";
-        const sb = supabase.createClient(sbUrl, sbKey);
+        function toggleSidebar() { document.getElementById('sidebar').classList.toggle('hidden'); }
+        function scrollToTop() { document.getElementById('stage').scrollTo(0, 0); }
+        
+        // Navigation highlighting
+        const stage = document.getElementById('stage');
+        const sections = document.querySelectorAll('.shard-section');
+        const navItems = document.querySelectorAll('.nav-item');
 
-        function toggleSidebar() {
-            document.querySelector('.sidebar-matrix').classList.toggle('hidden');
-        }
-        function toggleDrawer() {
-            document.querySelector('.intelligence-drawer').classList.toggle('hidden');
-        }
+        stage.addEventListener('scroll', () => {
+            let current = "";
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 150;
+                if (stage.scrollTop >= sectionTop) {
+                    current = section.getAttribute('id');
+                }
+            });
 
-        function loadProduct(url, el) {
-            document.querySelectorAll('.product-item').forEach(i => i.classList.remove('active'));
-            el.classList.add('active');
-            document.getElementById('product-iframe').src = url;
-            
-            const feed = document.getElementById('global-feed');
-            const row = document.createElement('div');
-            row.className = 'feed-row';
-            const name = el.querySelector('h4').textContent.trim();
-            row.innerHTML = `<span class="feed-time">[${new Date().toLocaleTimeString()}]</span><span class="feed-msg">ARCHITECT_COMMAND: FOCUSING SHARD <b>${name}</b></span>`;
-            feed.prepend(row);
-        }
+            navItems.forEach(item => {
+                item.classList.remove('active');
+                if (item.getAttribute('href').includes(current)) {
+                    item.classList.add('active');
+                }
+            });
+        });
 
-        async function syncGlobal() {
-            const { count } = await sb.from('profiles').select('*', { count: 'exact', head: true });
-            document.getElementById('g-users').textContent = count || 0;
-            const { data: subs } = await sb.from('subscriptions').select('amount');
-            const total = subs ? subs.reduce((a, b) => a + b.amount, 0) : 0;
-            document.getElementById('g-revenue').textContent = `$${total.toFixed(2)}`;
-        }
-
-        window.onload = () => {
-            syncGlobal();
-            setInterval(syncGlobal, 15000);
-            
-            setInterval(() => {
-                const feed = document.getElementById('global-feed');
-                const row = document.createElement('div');
-                row.className = 'feed-row';
-                row.innerHTML = `<span class="feed-time">[${new Date().toLocaleTimeString()}]</span><span class="feed-msg">PULSE: Live Intelligence Shard Active.</span>`;
-                feed.prepend(row);
-                if(feed.children.length > 20) feed.lastChild.remove();
-                document.getElementById('g-traffic').textContent = parseInt(document.getElementById('g-traffic').textContent.replace(',','')) + 1;
-            }, 3000);
-        }
+        setInterval(() => {
+            const traffic = document.getElementById('g-traffic');
+            traffic.textContent = (parseInt(traffic.textContent.replace(',','')) + Math.floor(Math.random() * 5)).toLocaleString();
+        }, 3000);
     </script>
 </body>
 </html>
