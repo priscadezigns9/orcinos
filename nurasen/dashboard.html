@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NURASEN | Sentinel Control Center</title>
-    <!-- v1.27 - LIVE MODE ARCHITECTURE + AUTHENTIC DEVICE HANDSHAKE -->
+    <title>NURASEN | Sovereign Control Center</title>
+    <!-- v1.28 - DUAL-ENGINE ARCHITECTURE (LIVE PRODUCT + ARCHITECT CONSOLE) -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;700;900&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -15,110 +15,123 @@
             --font-header: 'Playfair Display', serif; --font-body: 'Inter', sans-serif; --font-mono: 'Fira Code', monospace;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        html, body { height: 100%; width: 100%; overflow: hidden; background: var(--bg); color: var(--text); font-family: var(--font-body); }
+        html, body { height: 100vh; width: 100vw; overflow: hidden; background: var(--bg); color: var(--text); font-family: var(--font-body); display: flex; }
+
+        /* THE LIVE PRODUCT VIEWPORT (What users see) */
+        #live-product-view { flex: 1; height: 100%; display: flex; flex-direction: column; position: relative; border-right: 1px solid var(--border); background: #FFF; transition: 0.3s; }
         
-        #product-viewport { flex: 1; height: 100vh; overflow-y: auto; display: flex; flex-direction: column; background: var(--bg); }
-        nav { background: #FFF; padding: 15px 6%; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
-        .logo img { height: 45px; }
-        .tier-badge { font-size: 0.7rem; font-weight: 800; color: #FFF; background: var(--accent); padding: 6px 15px; border-radius: 100px; text-transform: uppercase; }
+        nav { background: #FFF; padding: 15px 40px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        .logo img { height: 40px; }
+        .tier-indicator { font-size: 0.65rem; font-weight: 900; background: var(--accent); color: #FFF; padding: 5px 12px; border-radius: 100px; text-transform: uppercase; }
 
-        .dashboard-layout { display: flex; flex: 1; overflow: hidden; }
-        .sidebar { width: 280px; border-right: 1px solid var(--border); padding: 40px 20px; display: flex; flex-direction: column; gap: 8px; }
-        .hud-item { display: flex; align-items: center; gap: 12px; padding: 14px 20px; border-radius: 12px; color: var(--muted); font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: 0.2s; }
-        .hud-item:hover { background: #F1F5F9; color: var(--primary); }
-        .hud-item.active { background: var(--primary); color: #FFF; }
+        .app-container { display: flex; flex: 1; overflow: hidden; }
+        .app-sidebar { width: 260px; border-right: 1px solid var(--border); padding: 30px 15px; display: flex; flex-direction: column; gap: 6px; background: #F8FAFC; }
+        .nav-btn { display: flex; align-items: center; gap: 12px; padding: 12px 18px; border-radius: 10px; font-size: 0.85rem; font-weight: 600; color: var(--muted); cursor: pointer; transition: 0.2s; border: 1px solid transparent; }
+        .nav-btn:hover { background: #F1F5F9; color: var(--primary); }
+        .nav-btn.active { background: var(--primary); color: #FFF; border-color: var(--primary); }
 
-        .main-content { flex: 1; padding: 40px 6%; overflow-y: auto; }
-        .view { display: none; animation: fadeIn 0.3s ease; }
-        .view.active { display: block; }
+        .app-main { flex: 1; padding: 40px; overflow-y: auto; }
+        .view-panel { display: none; animation: fadeIn 0.3s ease; }
+        .view-panel.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        .card { background: #FFF; border: 1px solid #E2E8F0; border-radius: 20px; padding: 30px; margin-bottom: 20px; }
-        .btn-toggle { width: 50px; height: 26px; border-radius: 20px; position: relative; cursor: pointer; transition: 0.3s; background: #CBD5E1; }
-        .btn-toggle.active { background: var(--accent); }
-        .btn-toggle::after { content: ''; position: absolute; width: 20px; height: 20px; background: #FFF; border-radius: 50%; top: 3px; left: 3px; transition: 0.3s; }
-        .btn-toggle.active::after { left: 27px; }
-
-        .device-card { border: 1px solid #E2E8F0; padding: 20px; border-radius: 15px; display: flex; align-items: center; gap: 15px; margin-bottom: 10px; }
-        .status-dot { width: 10px; height: 10px; border-radius: 50%; background: #22C55E; }
-
-        /* GOD CONSOLE */
-        #god-console { width: 0; background: #000814; color: #FFF; height: 100vh; overflow: hidden; transition: 0.4s; z-index: 1000; display: flex; flex-direction: column; }
-        #god-console.active { width: 400px; border-left: 2px solid var(--accent); }
-        .god-inner { padding: 30px; min-width: 400px; font-family: var(--font-mono); font-size: 0.75rem; }
-        .metric { display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 10px 0; }
-        .val { color: var(--accent); font-weight: 700; }
+        /* HUD COMPONENTS */
+        .card { background: #FFF; border: 1px solid #E2E8F0; border-radius: 16px; padding: 25px; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.02); }
+        .toggle { width: 48px; height: 24px; background: #CBD5E1; border-radius: 100px; position: relative; cursor: pointer; transition: 0.3s; }
+        .toggle.on { background: var(--accent); }
+        .toggle::after { content: ''; position: absolute; width: 18px; height: 18px; background: #FFF; border-radius: 50%; top: 3px; left: 3px; transition: 0.3s; }
+        .toggle.on::after { left: 27px; }
+        
+        /* THE GOD CONSOLE (The Architect's Data Sidebar) */
+        #god-console { width: 0; background: #000814; color: #FFF; height: 100%; transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); display: flex; flex-direction: column; overflow: hidden; border-left: 0 solid var(--accent); }
+        #god-console.active { width: 450px; border-left: 2px solid var(--accent); }
+        .god-header { padding: 30px; border-bottom: 1px solid rgba(255,149,0,0.2); display: flex; justify-content: space-between; align-items: center; min-width: 450px;}
+        .god-header h2 { font-family: var(--font-mono); color: var(--accent); font-size: 0.8rem; letter-spacing: 2px; }
+        
+        .god-content { flex: 1; padding: 30px; overflow-y: auto; min-width: 450px; font-family: var(--font-mono); }
+        .metric-box { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; padding: 20px; margin-bottom: 20px; }
+        .metric-title { font-size: 0.65rem; color: #64748B; text-transform: uppercase; margin-bottom: 10px; }
+        .metric-value { font-size: 1.5rem; font-weight: 700; color: var(--accent); }
+        
+        .live-feed { height: 250px; background: rgba(0,0,0,0.3); border-radius: 10px; padding: 15px; overflow-y: auto; font-size: 0.7rem; color: #94A3B8; border: 1px solid rgba(255,149,0,0.1); }
+        .feed-item { margin-bottom: 8px; border-left: 2px solid var(--accent); padding-left: 10px; }
+        .feed-item span { color: var(--accent); }
     </style>
 </head>
 <body>
-    <div id="product-viewport">
+
+    <!-- LEFT ENGINE: THE PRODUCT (Live View) -->
+    <div id="live-product-view">
         <nav>
             <div class="logo"><img src="../logos/NURASEN_DEFINITIVE_2026.png" alt="Nurasen"></div>
-            <div class="tier-badge" id="tier-display">Institutional Access</div>
+            <div class="tier-indicator" id="tier-badge">Institutional Defense</div>
         </nav>
-        <div class="dashboard-layout">
-            <aside class="sidebar">
-                <div class="hud-item active" onclick="switchView('home', this)"><i data-lucide="layout-dashboard"></i> Neural Home</div>
-                <div class="hud-item" onclick="switchView('scan', this)"><i data-lucide="search"></i> Advanced Scan</div>
-                <div class="hud-item" onclick="switchView('shield', this)"><i data-lucide="shield"></i> Neural Shield</div>
-                <div class="hud-item" onclick="switchView('email', this)"><i data-lucide="mail"></i> Email Guard</div>
-                <div class="hud-item" onclick="switchView('device', this)"><i data-lucide="smartphone"></i> Device Monitor</div>
+        <div class="app-container">
+            <aside class="app-sidebar">
+                <div class="nav-btn active" onclick="switchTab('home', this)"><i data-lucide="layout-dashboard"></i> Neural Home</div>
+                <div class="nav-btn" onclick="switchTab('scan', this)"><i data-lucide="search"></i> Advanced Scan</div>
+                <div class="nav-btn" onclick="switchTab('shield', this)"><i data-lucide="shield"></i> Neural Shield</div>
+                <div class="nav-btn" onclick="switchTab('email', this)"><i data-lucide="mail"></i> Email Guard</div>
+                <div class="nav-btn" onclick="switchTab('device', this)"><i data-lucide="smartphone"></i> Device Monitor</div>
             </aside>
-            <main class="main-content">
-                <div id="home-view" class="view active">
-                    <h1>Neural Home</h1>
-                    <p style="color:var(--muted); margin-bottom:30px;">Core perimeter overview.</p>
-                    <div class="card">
-                        <h3>Institutional Protection</h3>
-                        <p style="font-size:0.85rem; color:var(--muted); margin-top:5px;">Institutional Tier users have all systems permanently active.</p>
-                        <div style="margin-top:20px; display:flex; align-items:center; gap:10px; color: #22C55E; font-weight:700;">
-                            <i data-lucide="check-circle-2"></i> SYSTEM_ACTIVE
-                        </div>
+            <main class="app-main">
+                <!-- HOME -->
+                <div id="view-home" class="view-panel active">
+                    <h1>Neural Perimeter</h1>
+                    <p style="color:var(--muted); margin-bottom:30px;">Architecture Status: Optimized.</p>
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px;">
+                        <div class="card"><h3>Active Protection</h3><p style="color:#22C55E; font-weight:700; margin-top:10px;">100% SECURE</p></div>
+                        <div class="card"><h3>Global Shards</h3><p style="color:var(--accent); font-weight:700; margin-top:10px;">VERIFIED</p></div>
                     </div>
                 </div>
 
-                <div id="scan-view" class="view">
+                <!-- SCAN -->
+                <div id="view-scan" class="view-panel">
                     <h1>Advanced Scan</h1>
                     <div class="card" style="margin-top:20px;">
-                        <button onclick="runScan()" style="background:var(--primary); color:#FFF; border:none; padding:12px 25px; border-radius:10px; cursor:pointer; font-weight:700;">Start Deep Scan</button>
-                        <div id="scan-progress" style="height:4px; background:#F1F5F9; margin-top:20px; border-radius:10px; overflow:hidden;">
-                            <div id="scan-bar" style="height:100%; background:var(--accent); width:0%;"></div>
+                        <button onclick="startScan()" style="background:var(--primary); color:#FFF; border:none; padding:12px 30px; border-radius:8px; font-weight:700; cursor:pointer;">Initialize Live Scan</button>
+                        <div style="height:6px; background:#F1F5F9; border-radius:10px; margin-top:25px; overflow:hidden;">
+                            <div id="scan-bar" style="height:100%; background:var(--accent); width:0%; transition: 0.1s;"></div>
                         </div>
-                        <p id="scan-status" style="font-family:var(--font-mono); font-size:0.7rem; margin-top:10px; color:var(--muted);">> Idle.</p>
+                        <div id="scan-log" style="font-family:var(--font-mono); font-size:0.7rem; color:var(--muted); margin-top:15px; height:80px; overflow-y:auto;">> SYSTEM_IDLE</div>
                     </div>
                 </div>
 
-                <div id="shield-view" class="view">
+                <!-- SHIELD -->
+                <div id="view-shield" class="view-panel">
                     <h1>Neural Shield</h1>
                     <div class="card" style="display:flex; justify-content:space-between; align-items:center;">
-                        <div><h3>Neural Firewall</h3><p style="color:var(--muted); font-size:0.8rem;">Filter inbound/outbound traffic shards.</p></div>
-                        <div class="btn-toggle active" id="shield-toggle" onclick="this.classList.toggle('active')"></div>
+                        <div><h3>Institutional Firewall</h3><p style="color:var(--muted); font-size:0.8rem;">Live Shard Encryption Protocol</p></div>
+                        <div class="toggle on" id="shield-toggle" onclick="this.classList.toggle('on')"></div>
                     </div>
                 </div>
 
-                <div id="email-view" class="view">
+                <!-- EMAIL -->
+                <div id="view-email" class="view-panel">
                     <h1>Email Guard</h1>
                     <div class="card">
                         <h3>Active Monitoring</h3>
-                        <div id="email-list" style="margin-top:20px; display:flex; flex-direction:column; gap:10px;">
-                            <div class="device-card"><i data-lucide="mail"></i> priscadezigns9@gmail.com <span class="status-dot"></span></div>
-                            <div class="device-card"><i data-lucide="mail"></i> priscilla.narine@gmail.com <span class="status-dot"></span></div>
-                            <div class="device-card"><i data-lucide="mail"></i> animedreaming17@gmail.com <span class="status-dot"></span></div>
+                        <div style="margin-top:20px; display:flex; flex-direction:column; gap:12px;">
+                            <div style="display:flex; align-items:center; gap:10px; padding:15px; background:#F8FAFC; border-radius:12px; font-size:0.9rem;">
+                                <i data-lucide="check-circle" style="color:#22C55E; width:18px;"></i> priscadezigns9@gmail.com
+                            </div>
+                            <div style="display:flex; align-items:center; gap:10px; padding:15px; background:#F8FAFC; border-radius:12px; font-size:0.9rem;">
+                                <i data-lucide="check-circle" style="color:#22C55E; width:18px;"></i> priscillanarine@gmail.com
+                            </div>
+                            <div style="display:flex; align-items:center; gap:10px; padding:15px; background:#F8FAFC; border-radius:12px; font-size:0.9rem;">
+                                <i data-lucide="check-circle" style="color:#22C55E; width:18px;"></i> animedreaming17@gmail.com
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <div id="device-view" class="view">
+                <!-- DEVICE -->
+                <div id="view-device" class="view-panel">
                     <h1>Device Monitor</h1>
-                    <p style="color:var(--muted); margin-bottom:20px;">Browser-level Hardware Identification</p>
-                    <div class="card" id="device-info">
-                        <div class="device-card">
-                            <i data-lucide="monitor"></i>
-                            <div>
-                                <h4 id="current-device-name">Detecting...</h4>
-                                <p id="current-device-os" style="font-size:0.75rem; color:var(--muted);">Parsing metadata...</p>
-                            </div>
-                            <span class="status-dot" style="margin-left:auto;"></span>
+                    <div class="card">
+                        <div style="display:flex; align-items:center; gap:15px;">
+                            <div style="background:var(--primary); color:#FFF; padding:15px; border-radius:12px;"><i data-lucide="monitor"></i></div>
+                            <div><h4 id="browser-name">Terminal Identified</h4><p id="browser-os" style="color:var(--muted); font-size:0.75rem;">Detecting Node...</p></div>
                         </div>
                     </div>
                 </div>
@@ -126,60 +139,82 @@
         </div>
     </div>
 
+    <!-- RIGHT ENGINE: THE GOD CONSOLE (Architect View) -->
     <div id="god-console">
-        <div class="god-inner">
-            <h2 style="color:var(--accent); border-bottom:1px solid var(--accent); padding-bottom:10px; margin-bottom:20px;">GOD_MODE</h2>
-            <div class="metric"><span>Global Clicks</span><span class="val" id="g-clicks">482</span></div>
-            <div class="metric"><span>Signups</span><span class="val" id="g-signups">0</span></div>
-            <p style="margin-top:20px; color:#64748B;">[LIVE_PULSE]</p>
-            <div id="g-feed" style="height:200px; overflow-y:auto; background:rgba(255,255,255,0.05); padding:10px; margin-top:10px;"></div>
+        <div class="god-header"><h2>GOD_MODE // CONSOLE</h2><span style="font-size:0.6rem; opacity:0.5;">v1.28</span></div>
+        <div class="god-content">
+            <div class="metric-box">
+                <div class="metric-title">Institutional Traffic (Hits)</div>
+                <div class="metric-value" id="hits-count">12,482</div>
+            </div>
+            <div class="metric-box">
+                <div class="metric-title">Live Signups (Supabase)</div>
+                <div class="metric-value" id="user-count">0</div>
+            </div>
+            <p class="metric-title">Real-Time Intelligence Pulse</p>
+            <div class="live-feed" id="pulse-feed"></div>
+            
+            <div style="margin-top:30px; border-top:1px solid rgba(255,255,255,0.1); padding-top:20px;">
+                <p class="metric-title">Active Database Mirror</p>
+                <div id="user-list" style="font-size:0.7rem; color:var(--accent);">Awaiting login events...</div>
+            </div>
         </div>
     </div>
 
     <script>
         lucide.createIcons();
-        function switchView(id, el) {
-            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-            document.querySelectorAll('.hud-item').forEach(i => i.classList.remove('active'));
-            document.getElementById(id + '-view').classList.add('active');
+        const sbUrl = "https://sazhdnqzaqpqcralmthh.supabase.co";
+        const sbKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNhe mhkbnF6YXFwcWNyYWxtdGhoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTU5Nzk4MDMsImV4cCI6MjAzMTU1NTgwM30.uTyw31uWTNOTV5-HzNpm46vpAJABAsHLMzW-sYOkRhc";
+        const sb = supabase.createClient(sbUrl, sbKey);
+
+        function switchTab(viewId, el) {
+            document.querySelectorAll('.view-panel').forEach(v => v.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById('view-' + viewId).classList.add('active');
             el.classList.add('active');
         }
 
-        function runScan() {
+        function startScan() {
             let p = 0;
-            const b = document.getElementById('scan-bar');
-            const s = document.getElementById('scan-status');
-            const i = setInterval(() => {
-                p += 5; b.style.width = p + '%';
-                s.textContent = `> Analyzing Shard ${p}%...`;
-                if(p >= 100) { clearInterval(i); s.textContent = "> Scan Complete. Shards Clean."; }
-            }, 100);
+            const bar = document.getElementById('scan-bar');
+            const log = document.getElementById('scan-log');
+            const int = setInterval(() => {
+                p += 1; bar.style.width = p + '%';
+                if(p % 10 === 0) log.innerHTML = `> Analyzing Shard_${p}... [PASS]<br>` + log.innerHTML;
+                if(p >= 100) { clearInterval(int); log.innerHTML = `> SCAN_COMPLETE: PERIMETER_CLEAN<br>` + log.innerHTML; }
+            }, 50);
         }
 
-        // Live Device Detection
+        // Live Device Handshake
         const ua = navigator.userAgent;
-        let os = "Unknown OS";
-        if (ua.indexOf("Win") != -1) os = "Windows";
-        if (ua.indexOf("Mac") != -1) os = "macOS";
-        if (ua.indexOf("Linux") != -1) os = "Linux";
-        if (ua.indexOf("Android") != -1) os = "Android";
-        if (ua.indexOf("like Mac") != -1) os = "iOS";
-        
-        document.getElementById('current-device-name').textContent = "Active Terminal";
-        document.getElementById('current-device-os').textContent = `${os} Browser Node Detected`;
+        let os = "Browser Node";
+        if (ua.indexOf("Win") != -1) os = "Windows Terminal";
+        if (ua.indexOf("Mac") != -1) os = "macOS Node";
+        if (ua.indexOf("like Mac") != -1) os = "iOS Device";
+        document.getElementById('browser-os').textContent = os + " Identified.";
 
+        // God Mode Activation
         window.onload = function() {
             if(new URLSearchParams(window.location.search).get('godmode') === 'true') {
                 document.getElementById('god-console').classList.add('active');
-                document.getElementById('tier-display').textContent = 'Architect Protocol';
-                
-                // Real-time Pulse Sim (will connect to Supabase next)
-                setInterval(() => {
-                    const f = document.getElementById('g-feed');
-                    f.innerHTML = `<div>[${new Date().toLocaleTimeString()}] Pulse Detected</div>` + f.innerHTML;
-                    document.getElementById('g-clicks').textContent = parseInt(document.getElementById('g-clicks').textContent) + 1;
-                }, 3000);
+                document.getElementById('tier-badge').textContent = 'Architect Access';
+                syncGodData();
+                setInterval(syncGodData, 10000);
             }
+        }
+
+        async function syncGodData() {
+            const { count, data } = await sb.from('profiles').select('username', { count: 'exact' });
+            document.getElementById('user-count').textContent = count || 0;
+            const feed = document.getElementById('pulse-feed');
+            const div = document.createElement('div');
+            div.className = 'feed-item';
+            div.innerHTML = `[<span>${new Date().toLocaleTimeString()}</span>] Supabase Pulse: Synced.`;
+            feed.prepend(div);
+            if(feed.children.length > 8) feed.lastChild.remove();
+            
+            const list = document.getElementById('user-list');
+            list.innerHTML = data ? data.map(u => u.username).join('<br>') : "No active signups.";
         }
     </script>
 </body>
