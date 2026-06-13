@@ -34,14 +34,14 @@
         
         /* Featured Story Layout */
         .featured-story { display: grid; grid-template-columns: 2fr 1fr; gap: 60px; margin-bottom: 80px; border-bottom: 1px solid var(--border); padding-bottom: 80px; }
-        .main-story h4 { color: var(--sygnal-red); font-weight: 900; font-size: 0.7rem; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 2px; }
+        .main-story h4 { color: var(--sygnal-red); font-weight: 900; font-size: 0.7rem; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 2px; display: flex; justify-content: space-between; }
         .main-story h2 { font-family: var(--font-heading); font-size: 3.5rem; margin-bottom: 25px; line-height: 1.1; font-weight: 900; }
         .main-story p { font-size: 1.2rem; color: var(--muted); margin-bottom: 30px; line-height: 1.6; max-width: 800px; }
         
         .side-stories { display: flex; flex-direction: column; gap: 40px; }
         .side-story { border-bottom: 1px solid var(--border); padding-bottom: 20px; }
         .side-story:last-child { border-bottom: none; }
-        .side-story h4 { color: var(--sygnal-red); font-weight: 900; font-size: 0.6rem; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; }
+        .side-story h4 { color: var(--sygnal-red); font-weight: 900; font-size: 0.6rem; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; display: flex; justify-content: space-between; }
         .side-story h3 { font-family: var(--font-heading); font-size: 1.3rem; margin-bottom: 10px; line-height: 1.3; }
         .side-story p { font-size: 0.9rem; color: var(--muted); margin-bottom: 10px; }
 
@@ -58,10 +58,20 @@
         .news-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 40px; }
         .news-card { border-bottom: 1px solid var(--border); padding-bottom: 25px; transition: 0.3s; }
         .news-card:hover { border-color: var(--sygnal-red); }
-        .news-card h4 { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 2px; color: var(--sygnal-red); margin-bottom: 10px; font-weight: 900; }
+        .news-card h4 { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 2px; color: var(--sygnal-red); margin-bottom: 10px; font-weight: 900; display: flex; justify-content: space-between; }
         .news-card h3 { font-family: var(--font-heading); font-size: 1.4rem; margin-bottom: 12px; line-height: 1.2; }
         .news-card p { font-size: 0.9rem; color: var(--muted); margin-bottom: 15px; line-height: 1.6; }
         .ref-link { font-size: 0.7rem; color: var(--sygnal-red); text-decoration: none; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
+
+        /* API Feed Row */
+        .api-feed-row { margin-bottom: 80px; padding: 20px; border: 1px solid var(--sygnal-red); background: rgba(225, 29, 72, 0.05); }
+        .api-feed-header { font-weight: 900; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 20px; display: flex; align-items: center; gap: 15px; }
+        .api-pulse { width: 8px; height: 8px; background: var(--sygnal-red); border-radius: 50%; animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
+        .api-data-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; }
+        .api-item { padding: 15px; border-left: 2px solid var(--sygnal-red); }
+        .api-item label { font-size: 0.6rem; text-transform: uppercase; color: var(--muted); letter-spacing: 1px; font-weight: 700; }
+        .api-item .value { font-size: 1.1rem; font-weight: 900; font-family: var(--font-heading); color: var(--text); margin-top: 5px; }
 
         footer { background: var(--surface); padding: 80px 6%; text-align: left; border-top: 4px solid var(--sygnal-red); }
         .footer-content { display: flex; justify-content: space-between; align-items: center; }
@@ -97,9 +107,11 @@
     </nav>
 
     <div class="container">
+        
+
         <div class="featured-story">
             <div class="main-story">
-                <h4>Top Intelligence // Geopolitics</h4>
+                <h4><span>Top Intelligence // Geopolitics</span> <span>Jun 13, 2026 // 15:31 AST</span></h4>
                 <h2>Global Peace Accord: Direct Negotiations Signal Paradigm Shift in Middle East Stability.</h2>
                 <p>New intelligence reports confirm a high-level handshake between major regional powers, potentially ending decades of proxy conflict. Analysts suggest this move could stabilize global energy markets by Q4 2026.</p>
                 <a href="https://www.geopoliticalmonitor.com/" target="_blank" style="text-decoration:none;"><span class="ref-link" style="font-size: 0.8rem; color: var(--sygnal-red); font-weight: 800; text-transform: uppercase; letter-spacing: 2px;">Intelligence Source: Geopolitical Monitor &rarr;</span></a>
@@ -107,13 +119,13 @@
             <div class="side-stories">
                 
                 <div class="side-story">
-                    <h4>Finance</h4>
+                    <h4><span>Finance</span> <span>Jun 13, 2026 // 15:31 AST</span></h4>
                     <h3>SpaceX Shares Surge in Institutional Market Debut.</h3>
                     <p>The bull and bear case for Bitcoin as SpaceX's market debut dominates U.S. stocks.</p>
                     <a href="https://www.reuters.com/business/" target="_blank" class="ref-link" style="font-size: 0.6rem;">Source: Reuters &rarr;</a>
                 </div>
                 <div class="side-story">
-                    <h4>Blockchain</h4>
+                    <h4><span>Blockchain</span> <span>Jun 13, 2026 // 15:31 AST</span></h4>
                     <h3>Bitcoin Stabilizes Above $63,000 for June 12, 2026.</h3>
                     <p>Monero price rockets 33% amid laundering investigation maze.</p>
                     <a href="https://www.coindesk.com/" target="_blank" class="ref-link" style="font-size: 0.6rem;">Source: CoinDesk &rarr;</a>
@@ -154,19 +166,19 @@
         <div class="news-grid">
             
                 <div class="news-card">
-                    <h4>Biohacking</h4>
+                    <h4><span>Biohacking</span> <span>Jun 13, 2026 // 15:31 AST</span></h4>
                     <h3>Harvard Publishes Longevity Report for General Public.</h3>
                     <p>High-fidelity research on mitochondrial optimization reaching mainstream awareness.</p>
                     <a href="https://lifespan.io/news/" target="_blank" class="ref-link">Source: Lifespan.io &rarr;</a>
                 </div>
                 <div class="news-card">
-                    <h4>Real Estate</h4>
+                    <h4><span>Real Estate</span> <span>Jun 13, 2026 // 15:31 AST</span></h4>
                     <h3>Global Luxury Listings: Tracking Urban Design Shifts.</h3>
                     <p>Intelligence on high-end property development focuses on archival craftsmanship.</p>
                     <a href="https://orcinos.com/sovsygnal/" target="_blank" class="ref-link">Source: Internal Intelligence &rarr;</a>
                 </div>
                 <div class="news-card">
-                    <h4>Anime</h4>
+                    <h4><span>Anime</span> <span>Jun 13, 2026 // 15:31 AST</span></h4>
                     <h3>AnimeJapan 2026: Biggest Industry Announcements.</h3>
                     <p>New adaptations and sequels signal new benchmarks in interactive animation.</p>
                     <a href="https://www.crunchyroll.com/news/latest" target="_blank" class="ref-link">Source: Crunchyroll &rarr;</a>
