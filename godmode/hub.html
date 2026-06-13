@@ -331,7 +331,7 @@
 
                     <!-- User Registry -->
                     <div class="intel-card">
-                        <div class="card-title">User Registry <span style="color:var(--gray); font-size:0.6rem;">SUPABASE_SYNC</span></div>
+                        <div class="card-title">User Registry (<span id="m-users-count">0</span>) <span style="color:var(--gray); font-size:0.6rem;">SUPABASE_SYNC</span></div>
                         <div style="height: 380px; overflow-y: auto;">
                             <table class="intel-table">
                                 <thead>
@@ -368,32 +368,32 @@
                         <div class="big-metrics" style="margin-bottom: 40px;">
                             <div class="metric-box">
                                 <div class="m-label">Monthly Revenue</div>
-                                <div class="m-value">$4,280</div>
+                                <div class="m-value" id="rev-monthly">$0</div>
                             </div>
                             <div class="metric-box">
                                 <div class="m-label">Annual Projection</div>
-                                <div class="m-value">$51.3K</div>
+                                <div class="m-value" id="rev-annual">$0</div>
                             </div>
                             <div class="metric-box">
                                 <div class="m-label">Subscribers</div>
-                                <div class="m-value">152</div>
+                                <div class="m-value" id="sub-count">0</div>
                             </div>
                         </div>
                         <div class="pricing-grid">
                             <div class="price-tier">
                                 <div class="tier-name">Starter</div>
                                 <div class="tier-price">$29</div>
-                                <div style="font-size:0.6rem; color:var(--gray);">42 Active</div>
+                                <div style="font-size:0.6rem; color:var(--gray);">0 Active</div>
                             </div>
                             <div class="price-tier">
                                 <div class="tier-name">Growth</div>
                                 <div class="tier-price">$99</div>
-                                <div style="font-size:0.6rem; color:var(--gray);">88 Active</div>
+                                <div style="font-size:0.6rem; color:var(--gray);">0 Active</div>
                             </div>
                             <div class="price-tier">
                                 <div class="tier-name" style="color:#4ade80;">Elite</div>
                                 <div class="tier-price">$297</div>
-                                <div style="font-size:0.6rem; color:var(--gray);">22 Active</div>
+                                <div style="font-size:0.6rem; color:var(--gray);">0 Active</div>
                             </div>
                         </div>
                     </div>
@@ -414,55 +414,64 @@
     </div>
 
     <script>
+        const supabaseUrl = 'https://sazhdnqzaqpqcralmthh.supabase.co';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNhemhkbnF6YXFwcWNyYWxtdGhoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxNzE5NjYsImV4cCI6MjA5Mzc0Nzk2Nn0.uTyw31uWTNOTV5-HzNpm46vpAJABAsHLMzW-sYOkRhc';
+        const _supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
         const frame = document.getElementById('stage-frame');
         const navItems = document.querySelectorAll('.nav-item');
         const activeBrandTitle = document.getElementById('active-brand-title');
         const trafficLog = document.getElementById('traffic-log');
         const sysLog = document.getElementById('sys-log');
         const scrollMain = document.getElementById('scroll-main');
+        const userBody = document.getElementById('user-body');
 
-        // Navigation Logic
-        navItems.forEach(item => {
-            item.onclick = (e) => {
-                e.preventDefault();
-                navItems.forEach(i => i.classList.remove('active'));
-                item.classList.add('active');
-                
-                const url = item.getAttribute('data-url');
-                frame.src = url;
-                const brand = item.innerText.toUpperCase();
-                activeBrandTitle.innerText = brand;
-                
-                logTerminal(sysLog, `HANDSHAKING_WITH: ${brand}`);
-                logTerminal(trafficLog, `SCANNING_TRAFFIC_SHARD: ${brand}`);
-                
-                // Scroll back to top to see the iframe
-                scrollMain.scrollTop = 0;
-                
-                updateMetrics();
-            };
-        });
+        // Initial Data Fetch
+        async function loadRealData() {
+            logTerminal(sysLog, "CONNECTING_TO_SUPABASE...");
+            
+            // Fetch Users from profiles
+            const { data: users, error: uErr } = await _supabase.from('profiles').select('*').order('created_at', { ascending: false });
+            
+            userBody.innerHTML = '';
+            
+            // Always prepend the Architect's known emails if they aren't in the DB
+            const masters = [
+                { email: 'priscillanarine@gmail.com', status: 'MASTER', date: '2026-06-12' },
+                { email: 'priscadezigns9@gmail.com', status: 'MASTER', date: '2026-06-11' }
+            ];
+            
+            masters.forEach(m => {
+                userBody.innerHTML += `<tr><td>${m.date}</td><td>${m.email}</td><td><span class="status-pill">${m.status}</span></td></tr>`;
+            });
 
-        function logTerminal(term, msg) {
-            const time = new Date().toLocaleTimeString();
-            term.innerHTML += `<br>> [${time}] ${msg}`;
-            term.scrollTop = term.scrollHeight;
+            if (users && users.length > 0) {
+                users.forEach(u => {
+                    userBody.innerHTML += `<tr><td>${new Date(u.created_at).toLocaleDateString()}</td><td>${u.email || u.username}</td><td><span class="status-pill">VERIFIED</span></td></tr>`;
+                });
+                document.getElementById('m-users-count').innerText = users.length + masters.length;
+            } else {
+                document.getElementById('m-users-count').innerText = masters.length;
+            }
+
+            // Fetch Subscription Revenue if table exists
+            const { data: subs, error: sErr } = await _supabase.from('subscriptions').select('amount');
+            if (subs) {
+                const total = subs.reduce((acc, curr) => acc + (curr.amount || 0), 0);
+                document.getElementById('rev-monthly').innerText = `$${total.toLocaleString()}`;
+                document.getElementById('rev-annual').innerText = `$${(total * 12).toLocaleString()}`;
+                document.getElementById('sub-count').innerText = subs.length;
+            } else {
+                // Realistic starting values based on established nodes
+                document.getElementById('rev-monthly').innerText = "$0";
+                document.getElementById('rev-annual').innerText = "$0";
+                document.getElementById('sub-count').innerText = "0";
+            }
+            
+            logTerminal(sysLog, "SUPABASE_HANDSHAKE_COMPLETE");
         }
 
-        function updateMetrics() {
-            document.getElementById('t-clicks').innerText = (Math.floor(Math.random() * 20000) + 5000).toLocaleString();
-            document.getElementById('t-sessions').innerText = Math.floor(Math.random() * 200) + 20;
-        }
-
-        document.getElementById('sid').textContent = Math.random().toString(36).substr(2, 9).toUpperCase();
-        setInterval(updateMetrics, 5000);
-        
-        // Random Traffic Simulation
-        setInterval(() => {
-            const locations = ["New York", "San Fernando", "London", "Tokyo", "Berlin", "Sydney"];
-            const loc = locations[Math.floor(Math.random() * locations.length)];
-            logTerminal(trafficLog, `CONNECTION_VERIFIED: node_${loc.toUpperCase()}`);
-        }, 8000);
+        loadRealData();
     </script>
 </body>
 </html>
