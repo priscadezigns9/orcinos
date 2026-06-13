@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ORCINOS | God Mode Hub</title>
-    <!-- v1.5 - UNIFIED INFINITE SCROLL COMMAND HUB -->
+    <!-- v1.6 - UNIFIED DUAL-ENGINE COMMAND HUB -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;700;900&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -29,23 +29,30 @@
         .sidebar-matrix.hidden { width: 0; padding: 0; overflow: hidden; border-right: none; }
         .sidebar-matrix h2 { font-size: 0.75rem; color: var(--amber); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; border-bottom: 1px solid rgba(255,149,0,0.2); padding-bottom: 10px; font-weight: 900; }
         
-        .nav-item { padding: 12px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,149,0,0.1); border-radius: 8px; margin-bottom: 8px; cursor: pointer; transition: 0.2s; color: #94A3B8; text-decoration: none; display: block; font-size: 0.85rem; font-weight: 700; }
+        .nav-item { padding: 15px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,149,0,0.1); border-radius: 12px; margin-bottom: 12px; cursor: pointer; transition: 0.2s; color: #94A3B8; text-decoration: none; display: block; }
         .nav-item:hover { border-color: var(--amber); color: #FFF; transform: translateX(5px); }
         .nav-item.active { border-left: 4px solid var(--amber); background: rgba(255,149,0,0.1); color: #FFF; }
+        .nav-item h4 { font-size: 0.9rem; font-weight: 800; display: flex; align-items: center; gap: 8px; }
+        .status-dot { width: 8px; height: 8px; background: #22C55E; border-radius: 50%; }
 
-        /* Infinite Stage */
-        .main-stage { flex: 1; overflow-y: auto; scroll-behavior: smooth; display: flex; flex-direction: column; }
+        /* Unified Stage: Full Site + Intelligence Below */
+        .stage-viewport { flex: 1; overflow-y: auto; scroll-behavior: smooth; background: #FFF; display: flex; flex-direction: column; }
         
-        .shard-section { width: 100%; min-height: 100vh; position: relative; display: flex; flex-direction: column; border-bottom: 5px solid var(--amber); background: #FFF; }
-        .shard-label { position: absolute; top: 30px; left: 30px; background: var(--amber); color: var(--navy); padding: 8px 20px; font-weight: 900; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; z-index: 100; box-shadow: 10px 10px 0 rgba(0,0,0,0.1); }
-        .shard-viewport { width: 100%; height: 85vh; border: none; }
-        
-        .intelligence-shroud { background: var(--navy); color: #FFF; padding: 60px 10%; border-top: 2px solid var(--amber); min-height: 400px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
-        .intel-box { border-left: 2px solid var(--amber); padding-left: 30px; }
-        .intel-title { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 3px; color: var(--gray); font-weight: 900; margin-bottom: 15px; }
-        .intel-data { font-family: var(--font-mono); font-size: 0.9rem; color: #94A3B8; }
+        /* Full Iframe Area */
+        .product-iframe-container { width: 100%; height: 100vh; flex-shrink: 0; position: relative; border-bottom: 5px solid var(--amber); }
+        iframe { width: 100%; height: 100%; border: none; }
 
-        .global-hud { position: sticky; top: 0; background: var(--navy); padding: 15px 4%; display: flex; gap: 30px; z-index: 1050; border-bottom: 1px solid rgba(255,149,0,0.1); }
+        /* Intelligence Area Below Site */
+        .intelligence-shroud { width: 100%; background: var(--navy); color: #FFF; padding: 80px 10%; min-height: 100vh; display: flex; flex-direction: column; gap: 60px; flex-shrink: 0; }
+        .intel-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+        .intel-box { border-left: 3px solid var(--amber); padding-left: 30px; }
+        .intel-title { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 3px; color: var(--amber); font-weight: 900; margin-bottom: 20px; }
+        .intel-data { font-family: var(--font-mono); font-size: 0.9rem; color: #94A3B8; line-height: 1.8; }
+        
+        .premium-gate { background: rgba(255,149,0,0.1); border: 1px dashed var(--amber); padding: 30px; border-radius: 12px; margin-top: 20px; }
+        .btn-paypal { background: #FF9500; color: #001B3D; border: none; padding: 12px 25px; border-radius: 4px; font-weight: 900; cursor: pointer; font-size: 0.7rem; text-transform: uppercase; margin-top: 15px; }
+
+        .global-hud { position: sticky; top: 0; background: var(--navy); padding: 12px 4%; display: flex; gap: 30px; z-index: 1050; border-bottom: 1px solid rgba(255,149,0,0.2); }
         .metric { border-left: 2px solid var(--amber); padding-left: 15px; }
         .metric-label { font-size: 0.6rem; color: var(--gray); text-transform: uppercase; font-weight: 700; }
         .metric-val { font-size: 1rem; font-weight: 900; color: white; }
@@ -53,198 +60,115 @@
 </head>
 <body>
     <header>
-        <div class="logo-box"><h1 onclick="window.location.href='../index.html'">ORCINOS_HUB</h1></div>
+        <div class="logo-box"><h1 onclick="window.location.href='../index.html'">ORCINOS_COMMAND</h1></div>
         <div>
             <button class="toggle-btn" onclick="toggleSidebar()">Toggle Matrix</button>
-            <button class="toggle-btn" onclick="scrollToTop()">Top</button>
+            <button class="toggle-btn" onclick="scrollToIntel()">View Intelligence</button>
         </div>
-        <div style="font-family:var(--font-mono); font-size:0.7rem; color:var(--amber); font-weight:700;">UNIFIED_STAGE: v1.5</div>
+        <div style="font-family:var(--font-mono); font-size:0.7rem; color:var(--amber); font-weight:700;">LIVE_ENGINE: v1.6</div>
     </header>
 
     <div class="hub-layout">
         <aside class="sidebar-matrix" id="sidebar">
             <h2>Product Matrix</h2>
             <div id="matrix-list">
-                <a href="#nurasen" class="nav-item active">Nurasen</a>
-                <a href="#sovsygnal" class="nav-item">SOV SYGNL</a>
-                <a href="#syle" class="nav-item">Syle</a>
-                <a href="#vyne" class="nav-item">Vyne</a>
-                <a href="#slumber" class="nav-item">Slumber</a>
-                <a href="#prayerblock" class="nav-item">PrayerBlock</a>
-                <a href="#calalloo" class="nav-item">Calalloo</a>
-                <a href="#dricil" class="nav-item">Dricil</a>
-                <a href="#pawdx" class="nav-item">PawDX</a>
+                <div class="nav-item active" onclick="loadProduct('../nurasen/dashboard.html', 'Nurasen', 'CYBERSECURITY', 'ACTIVE')">
+                    <h4><span class="status-dot"></span> Nurasen</h4>
+                </div>
+                <div class="nav-item" onclick="loadProduct('../sovsygnal/index.html', 'SOV SYGNL', 'INTELLIGENCE', 'ACTIVE')">
+                    <h4><span class="status-dot"></span> SOV SYGNL</h4>
+                </div>
+                <div class="nav-item" onclick="loadProduct('../syle/index.html', 'Syle', 'LIFESTYLE AI', 'READY')">
+                    <h4><span class="status-dot"></span> Syle</h4>
+                </div>
+                <div class="nav-item" onclick="loadProduct('../vyne/index.html', 'Vyne', 'FINANCIAL', 'ACTIVE')">
+                    <h4><span class="status-dot"></span> Vyne</h4>
+                </div>
+                <div class="nav-item" onclick="loadProduct('../slumber/index.html', 'Slumber', 'SLEEP TECH', 'ACTIVE')">
+                    <h4><span class="status-dot"></span> Slumber</h4>
+                </div>
+                <div class="nav-item" onclick="loadProduct('../prayerblock/index.html', 'PrayerBlock', 'FAITH TECH', 'ACTIVE')">
+                    <h4><span class="status-dot"></span> PrayerBlock</h4>
+                </div>
+                <div class="nav-item" onclick="loadProduct('../calalloo/index.html', 'Calalloo', 'HERITAGE HUB', 'ACTIVE')">
+                    <h4><span class="status-dot"></span> Calalloo</h4>
+                </div>
             </div>
         </aside>
 
-        <main class="main-stage" id="stage">
+        <main class="stage-viewport" id="stage">
             <div class="global-hud">
-                <div class="metric"><div class="metric-label">Aggregated Traffic</div><div class="metric-val" id="g-traffic">142,891</div></div>
-                <div class="metric"><div class="metric-label">Active Shards</div><div class="metric-val">14</div></div>
-                <div class="metric"><div class="metric-label">Neural Sync</div><div class="metric-val" style="color:#22C55E">STABLE</div></div>
+                <div class="metric"><div class="metric-label">Focus Shard</div><div class="metric-val" id="hud-name">Nurasen</div></div>
+                <div class="metric"><div class="metric-label">Status</div><div class="metric-val" id="hud-status" style="color:#22C55E">ACTIVE</div></div>
+                <div class="metric"><div class="metric-label">Neural Sync</div><div class="metric-val">100%</div></div>
             </div>
 
-            <!-- Shard: Nurasen -->
-            <section id="nurasen" class="shard-section">
-                <div class="shard-label">Shard 01: Nurasen</div>
-                <iframe class="shard-viewport" src="../nurasen/dashboard.html?godmode=true"></iframe>
-                <div class="intelligence-shroud">
+            <div class="product-iframe-container" id="iframe-area">
+                <iframe id="product-iframe" src="../nurasen/dashboard.html?godmode=true"></iframe>
+            </div>
+
+            <div class="intelligence-shroud" id="intel-area">
+                <h2 style="font-family:var(--font-header); font-size:3rem; border-bottom:4px solid var(--amber); padding-bottom:20px; margin-bottom:40px;">Shard Intelligence: <span id="intel-name">Nurasen</span></h2>
+                
+                <div class="intel-grid">
                     <div class="intel-box">
-                        <div class="intel-title">Threat Intelligence</div>
-                        <div class="intel-data">
-                            > SCANNING_SHARD_01...<br>
-                            > FIREWALL_STATUS: ACTIVE<br>
-                            > ANOMALY_DETECTION: 0 DETECTED
+                        <div class="intel-title">Backend Architecture</div>
+                        <div class="intel-data" id="intel-arch">
+                            > ENGINE: Orcinos Neural v4.2<br>
+                            > SHARD_TYPE: CYBERSECURITY<br>
+                            > DATABASE_LINK: Supabase / sazhdnqza...
                         </div>
                     </div>
                     <div class="intel-box">
-                        <div class="intel-title">Device Handshake</div>
+                        <div class="intel-title">Live Performance</div>
                         <div class="intel-data">
-                            > CLIENT_UUID: 6868eff5-241b-4f00...<br>
-                            > PROTOCOL: SOVEREIGN_ENCRYPTED<br>
-                            > LOCATION: SAN_FERNANDO, TT
+                            > ACTIVE_SESSIONS: 1,402<br>
+                            > LATENCY: 12ms<br>
+                            > UPTIME: 99.99%
                         </div>
                     </div>
                 </div>
-            </section>
 
-            <!-- Shard: SOV SYGNL -->
-            <section id="sovsygnal" class="shard-section">
-                <div class="shard-label">Shard 02: SOV SYGNL</div>
-                <iframe class="shard-viewport" src="../sovsygnal/index.html?godmode=true"></iframe>
-                <div class="intelligence-shroud">
-                    <div class="intel-box">
-                        <div class="intel-title">Global Frequency</div>
-                        <div class="intel-data">
-                            > FREQ: 104.2 MHZ<br>
-                            > SIGNAL_STRENGTH: 98%<br>
-                            > MARKET_SENTIMENT: BULLISH
-                        </div>
-                    </div>
-                    <div class="intel-box">
-                        <div class="intel-title">Content Pulse</div>
-                        <div class="intel-data">
-                            > LATEST_HEADLINE: Strategic Mediation...<br>
-                            > SOURCE: NEUTRAL_CORRIDOR<br>
-                            > CATEGORY: GEOPOLITICS
+                <div class="intel-box">
+                    <div class="intel-title">Monetization & Tiers</div>
+                    <div class="premium-gate">
+                        <div style="font-weight:900; font-size:1.1rem; color:white; margin-bottom:10px;">Institutional Premium Tier</div>
+                        <p style="font-size:0.8rem; color:#94A3B8;">Full access to encrypted neural reporting and automated mitigation shards.</p>
+                        <div style="margin-top:20px; display:flex; align-items:center; gap:20px;">
+                            <div style="font-size:1.5rem; font-weight:900; color:var(--amber);">$297.00 <span style="font-size:0.6rem; color:var(--gray); text-transform:uppercase;">/ month</span></div>
+                            <button class="btn-paypal" onclick="alert('Redirecting to PayPal Checkout...')">Pay with PayPal</button>
                         </div>
                     </div>
                 </div>
-            </section>
-
-            <!-- Shard: Syle -->
-            <section id="syle" class="shard-section">
-                <div class="shard-label">Shard 03: Syle</div>
-                <iframe class="shard-viewport" src="../syle/index.html?godmode=true"></iframe>
-                <div class="intelligence-shroud">
-                    <div class="intel-box">
-                        <div class="intel-title">Curation Engine</div>
-                        <div class="intel-data">
-                            > MODE: NEURAL_SELECTION<br>
-                            > CATEGORIES: COUTURE, SANCTUARY, WELLNESS<br>
-                            > STATUS: SYNCED
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Shard: Vyne -->
-            <section id="vyne" class="shard-section">
-                <div class="shard-label">Shard 04: Vyne</div>
-                <iframe class="shard-viewport" src="../vyne/index.html?godmode=true"></iframe>
-                <div class="intelligence-shroud">
-                    <div class="intel-box">
-                        <div class="intel-title">Financial Ledger</div>
-                        <div class="intel-data">
-                            > VAULT_BALANCE: $142,891.00<br>
-                            > PAYOUT_AUTOMATION: ENABLED<br>
-                            > SETTLEMENT_LAYER: CARDANO_L1
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-             <!-- Shard: Slumber -->
-             <section id="slumber" class="shard-section">
-                <div class="shard-label">Shard 05: Slumber</div>
-                <iframe class="shard-viewport" src="../slumber/index.html?godmode=true"></iframe>
-                <div class="intelligence-shroud">
-                    <div class="intel-box">
-                        <div class="intel-title">Neural Rest Logs</div>
-                        <div class="intel-data">
-                            > AVG_SLEEP_SCORE: 88/100<br>
-                            > DEEP_REM_THRESHOLD: OPTIMAL<br>
-                            > STATUS: MONITORING
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-             <!-- Shard: PrayerBlock -->
-             <section id="prayerblock" class="shard-section">
-                <div class="shard-label">Shard 06: PrayerBlock</div>
-                <iframe class="shard-viewport" src="../prayerblock/index.html?godmode=true"></iframe>
-                <div class="intelligence-shroud">
-                    <div class="intel-box">
-                        <div class="intel-title">Sanctuary Signals</div>
-                        <div class="intel-data">
-                            > ARCHIVE_SYNC: 100%<br>
-                            > EVIDENCE_LAYER: ACTIVE<br>
-                            > MISSION: PROCLAIM_GOSPEL
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-             <!-- Shard: Calalloo -->
-             <section id="calalloo" class="shard-section">
-                <div class="shard-label">Shard 07: Calalloo</div>
-                <iframe class="shard-viewport" src="../calalloo/index.html?godmode=true"></iframe>
-                <div class="intelligence-shroud">
-                    <div class="intel-box">
-                        <div class="intel-title">Heritage Data</div>
-                        <div class="intel-data">
-                            > CULINARY_DNA: MAPPED<br>
-                            > HISTORICAL_RECORDS: SYNCED<br>
-                            > STATUS: LIVE
-                        </div>
-                    </div>
-                </div>
-            </section>
-
+            </div>
         </main>
     </div>
 
     <script>
         function toggleSidebar() { document.getElementById('sidebar').classList.toggle('hidden'); }
-        function scrollToTop() { document.getElementById('stage').scrollTo(0, 0); }
+        function scrollToIntel() { document.getElementById('stage').scrollTo({ top: window.innerHeight, behavior: 'smooth' }); }
         
-        // Navigation highlighting
-        const stage = document.getElementById('stage');
-        const sections = document.querySelectorAll('.shard-section');
-        const navItems = document.querySelectorAll('.nav-item');
+        function loadProduct(url, name, type, status) {
+            // UI Update
+            document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+            
+            // Content Update
+            document.getElementById('product-iframe').src = url + "?godmode=true";
+            document.getElementById('hud-name').innerText = name;
+            document.getElementById('hud-status').innerText = status;
+            document.getElementById('intel-name').innerText = name;
+            
+            // Dynamic Intel Text
+            document.getElementById('intel-arch').innerHTML = `
+                > ENGINE: Orcinos Neural v4.2<br>
+                > SHARD_TYPE: ${type}<br>
+                > DATABASE_LINK: Supabase / sazhdnqza...
+            `;
 
-        stage.addEventListener('scroll', () => {
-            let current = "";
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop - 150;
-                if (stage.scrollTop >= sectionTop) {
-                    current = section.getAttribute('id');
-                }
-            });
-
-            navItems.forEach(item => {
-                item.classList.remove('active');
-                if (item.getAttribute('href').includes(current)) {
-                    item.classList.add('active');
-                }
-            });
-        });
-
-        setInterval(() => {
-            const traffic = document.getElementById('g-traffic');
-            traffic.textContent = (parseInt(traffic.textContent.replace(',','')) + Math.floor(Math.random() * 5)).toLocaleString();
-        }, 3000);
+            // Reset Scroll
+            document.getElementById('stage').scrollTo(0, 0);
+        }
     </script>
 </body>
 </html>
