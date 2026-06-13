@@ -3,172 +3,218 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ORCINOS | God Mode Hub</title>
-    <!-- v1.6 - UNIFIED DUAL-ENGINE COMMAND HUB -->
+    <title>PRISCA DEZIGNS | God Mode Hub</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;700;900&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         :root {
-            --light-blue: #E0F2FE; --accent-blue: #0ea5e9; --navy: #0f172a; --white: #FFFFFF;
-            --gray: #64748b; --border: #e2e8f0; --amber: #FF9500;
-            --font-header: 'Playfair Display', serif; --font-body: 'Inter', sans-serif; --font-mono: 'Fira Code', monospace;
+            --accent: #7B35D4;
+            --navy: #000814;
+            --white: #FFFFFF;
+            --gray: #64748b;
+            --border: rgba(123, 53, 212, 0.2);
+            --font-header: 'Playfair Display', serif;
+            --font-body: 'Inter', sans-serif;
+            --font-mono: 'Fira Code', monospace;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: #000814; color: var(--navy); font-family: var(--font-body); height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
+        body { background: var(--navy); color: white; font-family: var(--font-body); height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
         
-        header { background: var(--navy); color: white; padding: 15px 4%; display: flex; justify-content: space-between; align-items: center; z-index: 1100; border-bottom: 2px solid var(--amber); }
-        .logo-box h1 { font-family: var(--font-header); font-size: 1.2rem; letter-spacing: 2px; cursor: pointer; text-transform: uppercase; font-weight: 900; color: var(--amber); }
-        .toggle-btn { background: transparent; color: var(--amber); border: 1px solid var(--amber); padding: 5px 15px; border-radius: 4px; font-size: 0.7rem; font-weight: 700; cursor: pointer; margin-left: 10px; }
-        .toggle-btn:hover { background: var(--amber); color: var(--navy); }
+        header { background: #0a0a0a; border-bottom: 1px solid var(--border); padding: 15px 4%; display: flex; justify-content: space-between; align-items: center; z-index: 1000; }
+        .logo-box h1 { font-family: var(--font-header); font-size: 1.2rem; color: var(--accent); letter-spacing: 2px; text-transform: uppercase; }
+        
+        .shell-container { display: flex; flex: 1; overflow: hidden; }
+        
+        aside { width: 260px; background: #050505; border-right: 1px solid var(--border); overflow-y: auto; display: flex; flex-direction: column; }
+        .nav-section { padding: 20px; border-bottom: 1px solid var(--border); }
+        .nav-label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 2px; color: var(--gray); margin-bottom: 15px; display: block; }
+        .nav-item { display: block; padding: 10px 15px; color: #94A3B8; text-decoration: none; font-size: 0.85rem; border-radius: 8px; margin-bottom: 5px; transition: 0.2s; }
+        .nav-item:hover, .nav-item.active { background: rgba(123, 53, 212, 0.1); color: var(--accent); }
 
-        .hub-layout { display: flex; flex: 1; overflow: hidden; }
-        
-        /* Sidebar Navigation */
-        .sidebar-matrix { width: 340px; background: #000814; border-right: 1px solid rgba(255,149,0,0.2); display: flex; flex-direction: column; padding: 20px; overflow-y: auto; transition: 0.3s; z-index: 1000; }
-        .sidebar-matrix.hidden { width: 0; padding: 0; overflow: hidden; border-right: none; }
-        .sidebar-matrix h2 { font-size: 0.75rem; color: var(--amber); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; border-bottom: 1px solid rgba(255,149,0,0.2); padding-bottom: 10px; font-weight: 900; }
-        
-        .nav-item { padding: 15px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,149,0,0.1); border-radius: 12px; margin-bottom: 12px; cursor: pointer; transition: 0.2s; color: #94A3B8; text-decoration: none; display: block; }
-        .nav-item:hover { border-color: var(--amber); color: #FFF; transform: translateX(5px); }
-        .nav-item.active { border-left: 4px solid var(--amber); background: rgba(255,149,0,0.1); color: #FFF; }
-        .nav-item h4 { font-size: 0.9rem; font-weight: 800; display: flex; align-items: center; gap: 8px; }
-        .status-dot { width: 8px; height: 8px; background: #22C55E; border-radius: 50%; }
+        main { flex: 1; overflow-y: auto; padding: 40px; }
+        .hud { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 40px; }
+        .metric { background: #0a0a0a; border: 1px solid var(--border); padding: 20px; border-radius: 16px; }
+        .m-label { font-size: 0.7rem; text-transform: uppercase; color: var(--gray); margin-bottom: 5px; }
+        .m-value { font-size: 1.5rem; font-weight: 900; font-family: var(--font-mono); color: var(--accent); }
 
-        /* Unified Stage: Full Site + Intelligence Below */
-        .stage-viewport { flex: 1; overflow-y: auto; scroll-behavior: smooth; background: #FFF; display: flex; flex-direction: column; }
+        .table-container { background: #0a0a0a; border: 1px solid var(--border); border-radius: 16px; padding: 20px; margin-bottom: 40px; }
+        .t-header { font-family: var(--font-header); font-size: 1.5rem; margin-bottom: 20px; color: var(--accent); border-bottom: 1px solid var(--border); padding-bottom: 10px; }
+        table { width: 100%; border-collapse: collapse; text-align: left; }
+        th { font-size: 0.7rem; text-transform: uppercase; color: var(--gray); padding: 10px; border-bottom: 1px solid var(--border); }
+        td { padding: 15px 10px; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.85rem; }
         
-        /* Full Iframe Area */
-        .product-iframe-container { width: 100%; height: 100vh; flex-shrink: 0; position: relative; border-bottom: 5px solid var(--amber); }
-        iframe { width: 100%; height: 100%; border: none; }
-
-        /* Intelligence Area Below Site */
-        .intelligence-shroud { width: 100%; background: var(--navy); color: #FFF; padding: 80px 10%; min-height: 100vh; display: flex; flex-direction: column; gap: 60px; flex-shrink: 0; }
-        .intel-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
-        .intel-box { border-left: 3px solid var(--amber); padding-left: 30px; }
-        .intel-title { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 3px; color: var(--amber); font-weight: 900; margin-bottom: 20px; }
-        .intel-data { font-family: var(--font-mono); font-size: 0.9rem; color: #94A3B8; line-height: 1.8; }
-        
-        .premium-gate { background: rgba(255,149,0,0.1); border: 1px dashed var(--amber); padding: 30px; border-radius: 12px; margin-top: 20px; }
-        .btn-paypal { background: #FF9500; color: #001B3D; border: none; padding: 12px 25px; border-radius: 4px; font-weight: 900; cursor: pointer; font-size: 0.7rem; text-transform: uppercase; margin-top: 15px; }
-
-        .global-hud { position: sticky; top: 0; background: var(--navy); padding: 12px 4%; display: flex; gap: 30px; z-index: 1050; border-bottom: 1px solid rgba(255,149,0,0.2); }
-        .metric { border-left: 2px solid var(--amber); padding-left: 15px; }
-        .metric-label { font-size: 0.6rem; color: var(--gray); text-transform: uppercase; font-weight: 700; }
-        .metric-val { font-size: 1rem; font-weight: 900; color: white; }
+        .shroud { font-family: var(--font-mono); font-size: 0.75rem; color: #4ade80; background: #000; padding: 15px; border-radius: 8px; border: 1px solid #166534; }
     </style>
 </head>
 <body>
     <header>
-        <div class="logo-box"><h1 onclick="window.location.href='../index.html'">ORCINOS_COMMAND</h1></div>
-        <div>
-            <button class="toggle-btn" onclick="toggleSidebar()">Toggle Matrix</button>
-            <button class="toggle-btn" onclick="scrollToIntel()">View Intelligence</button>
-        </div>
-        <div style="font-family:var(--font-mono); font-size:0.7rem; color:var(--amber); font-weight:700;">LIVE_ENGINE: v1.6</div>
+        <div class="logo-box"><h1>PRISCA DEZIGNS / INTEL HUB</h1></div>
+        <div style="font-size: 0.75rem; color: var(--gray);">SESSION_ID: <span id="session-id">...</span></div>
     </header>
 
-    <div class="hub-layout">
-        <aside class="sidebar-matrix" id="sidebar">
-            <h2>Product Matrix</h2>
-            <div id="matrix-list">
-                <div class="nav-item active" onclick="loadProduct('../nurasen/dashboard.html', 'Nurasen', 'CYBERSECURITY', 'ACTIVE')">
-                    <h4><span class="status-dot"></span> Nurasen</h4>
-                </div>
-                <div class="nav-item" onclick="loadProduct('../sovsygnal/index.html', 'SOV SYGNL', 'INTELLIGENCE', 'ACTIVE')">
-                    <h4><span class="status-dot"></span> SOV SYGNL</h4>
-                </div>
-                <div class="nav-item" onclick="loadProduct('../syle/index.html', 'Syle', 'LIFESTYLE AI', 'READY')">
-                    <h4><span class="status-dot"></span> Syle</h4>
-                </div>
-                <div class="nav-item" onclick="loadProduct('../vyne/index.html', 'Vyne', 'FINANCIAL', 'ACTIVE')">
-                    <h4><span class="status-dot"></span> Vyne</h4>
-                </div>
-                <div class="nav-item" onclick="loadProduct('../slumber/index.html', 'Slumber', 'SLEEP TECH', 'ACTIVE')">
-                    <h4><span class="status-dot"></span> Slumber</h4>
-                </div>
-                <div class="nav-item" onclick="loadProduct('../prayerblock/index.html', 'PrayerBlock', 'FAITH TECH', 'ACTIVE')">
-                    <h4><span class="status-dot"></span> PrayerBlock</h4>
-                </div>
-                <div class="nav-item" onclick="loadProduct('../calalloo/index.html', 'Calalloo', 'HERITAGE HUB', 'ACTIVE')">
-                    <h4><span class="status-dot"></span> Calalloo</h4>
-                </div>
+    <div class="shell-container">
+        <aside>
+            <div class="nav-section">
+                <span class="nav-label">Core Agency</span>
+                <a href="#leads" class="nav-item active">Lead Registry</a>
+                <a href="#services" class="nav-item">Service Analytics</a>
+            </div>
+            <div class="nav-section">
+                <span class="nav-label">Affiliate Shards</span>
+                <a href="#affiliates" class="nav-item">Active Brands</a>
             </div>
         </aside>
 
-        <main class="stage-viewport" id="stage">
-            <div class="global-hud">
-                <div class="metric"><div class="metric-label">Focus Shard</div><div class="metric-val" id="hud-name">Nurasen</div></div>
-                <div class="metric"><div class="metric-label">Status</div><div class="metric-val" id="hud-status" style="color:#22C55E">ACTIVE</div></div>
-                <div class="metric"><div class="metric-label">Neural Sync</div><div class="metric-val">100%</div></div>
+        <main>
+            <div class="hud">
+                <div class="metric"><div class="m-label">Total Leads</div><div class="m-value" id="h-leads">0</div></div>
+                <div class="metric"><div class="m-label">Active Services</div><div class="m-value">12</div></div>
+                <div class="metric"><div class="m-label">Network Pulse</div><div class="m-value" style="color:#4ade80">STABLE</div></div>
+                <div class="metric"><div class="m-label">Conversion</div><div class="m-value">4.2%</div></div>
             </div>
 
-            <div class="product-iframe-container" id="iframe-area">
-                <iframe id="product-iframe" src="../nurasen/dashboard.html?godmode=true"></iframe>
-            </div>
+            <section id="leads" class="table-container">
+                <div class="t-header">Real-Time Lead Registry</div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Time</th>
+                            <th>Lead Name</th>
+                            <th>Email Address</th>
+                            <th>Interest Point</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="lead-body">
+                        <!-- Populated by JS -->
+                    </tbody>
+                </table>
+            </section>
 
-            <div class="intelligence-shroud" id="intel-area">
-                <h2 style="font-family:var(--font-header); font-size:3rem; border-bottom:4px solid var(--amber); padding-bottom:20px; margin-bottom:40px;">Shard Intelligence: <span id="intel-name">Nurasen</span></h2>
-                
-                <div class="intel-grid">
-                    <div class="intel-box">
-                        <div class="intel-title">Backend Architecture</div>
-                        <div class="intel-data" id="intel-arch">
-                            > ENGINE: Orcinos Neural v4.2<br>
-                            > SHARD_TYPE: CYBERSECURITY<br>
-                            > DATABASE_LINK: Supabase / sazhdnqza...
-                        </div>
-                    </div>
-                    <div class="intel-box">
-                        <div class="intel-title">Live Performance</div>
-                        <div class="intel-data">
-                            > ACTIVE_SESSIONS: 1,402<br>
-                            > LATENCY: 12ms<br>
-                            > UPTIME: 99.99%
-                        </div>
-                    </div>
-                </div>
+            <section id="services" class="table-container">
+                <div class="t-header">Agency Service Performance</div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Service Identifier</th>
+                            <th>Price Node</th>
+                            <th>Inquiry Count</th>
+                            <th>Neural Weight</th>
+                        </tr>
+                    </thead>
+                    <tbody id="service-body">
+                        <!-- Populated by JS -->
+                    </tbody>
+                </table>
+            </section>
 
-                <div class="intel-box">
-                    <div class="intel-title">Monetization & Tiers</div>
-                    <div class="premium-gate">
-                        <div style="font-weight:900; font-size:1.1rem; color:white; margin-bottom:10px;">Institutional Premium Tier</div>
-                        <p style="font-size:0.8rem; color:#94A3B8;">Full access to encrypted neural reporting and automated mitigation shards.</p>
-                        <div style="margin-top:20px; display:flex; align-items:center; gap:20px;">
-                            <div style="font-size:1.5rem; font-weight:900; color:var(--amber);">$297.00 <span style="font-size:0.6rem; color:var(--gray); text-transform:uppercase;">/ month</span></div>
-                            <button class="btn-paypal" onclick="alert('Redirecting to PayPal Checkout...')">Pay with PayPal</button>
-                        </div>
-                    </div>
-                </div>
+            <section id="affiliates" class="table-container">
+                <div class="t-header">Affiliate Brand Traffic</div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Brand Node</th>
+                            <th>Niche Category</th>
+                            <th>Geotag Target</th>
+                            <th>Live Hits</th>
+                        </tr>
+                    </thead>
+                    <tbody id="affiliate-body">
+                        <!-- Populated by JS -->
+                    </tbody>
+                </table>
+            </section>
+
+            <div class="shroud">
+                > SYNCING_WITH_SUPABASE_SHARD_sktpj...<br>
+                > AUTH_PROTOCOL: ALICE_SECURE<br>
+                > STATUS: MONITORING_EMPIRE_VITAL_SIGNS
             </div>
         </main>
     </div>
 
     <script>
-        function toggleSidebar() { document.getElementById('sidebar').classList.toggle('hidden'); }
-        function scrollToIntel() { document.getElementById('stage').scrollTo({ top: window.innerHeight, behavior: 'smooth' }); }
-        
-        function loadProduct(url, name, type, status) {
-            // UI Update
-            document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
-            event.currentTarget.classList.add('active');
-            
-            // Content Update
-            document.getElementById('product-iframe').src = url + "?godmode=true";
-            document.getElementById('hud-name').innerText = name;
-            document.getElementById('hud-status').innerText = status;
-            document.getElementById('intel-name').innerText = name;
-            
-            // Dynamic Intel Text
-            document.getElementById('intel-arch').innerHTML = `
-                > ENGINE: Orcinos Neural v4.2<br>
-                > SHARD_TYPE: ${type}<br>
-                > DATABASE_LINK: Supabase / sazhdnqza...
-            `;
+        const SUPABASE_URL = 'https://sktpjacowqaedddtrhuz.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNrdHBqYWNvd3FhZWRkZHRyaHV6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2NDk5MzEsImV4cCI6MjA5NDIyNTkzMX0.FK4N_ATFTaUuGXrYu_7OBn3qCdlo0rOzxk-E6TxJxqs';
+        const supabase = supabasejs.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-            // Reset Scroll
-            document.getElementById('stage').scrollTo(0, 0);
+        const services = [
+            { id: "Essential Branding", price: "$1,500", weight: "0.85" },
+            { id: "Growth Ecosystem", price: "$4,500", weight: "0.98" },
+            { id: "Custom AI Solutions", price: "$10,000+", weight: "1.00" },
+            { id: "High-End Logo Kit", price: "$50", weight: "0.40" },
+            { id: "Cinematic Reveal", price: "$50", weight: "0.45" },
+            { id: "Smart Social Reels", price: "$1,200/mo", weight: "0.92" },
+            { id: "Brand Check-up", price: "$750", weight: "0.65" },
+            { id: "Content Template", price: "$950", weight: "0.75" },
+            { id: "3D Video Intro", price: "$450", weight: "0.55" }
+        ];
+
+        const affiliates = [
+            { id: "Peak Fit", niche: "Biohacking & Fitness", geo: "Global" },
+            { id: "Sole Prestige", niche: "Luxury Footwear", geo: "Global" },
+            { id: "Essence Elite", niche: "Artisanal Fragrance", geo: "Global" },
+            { id: "The Escapist", niche: "Luxury Travel", geo: "Global" },
+            { id: "Atelia Gaming", niche: "PC Hardware/Tech", geo: "Global" },
+            { id: "Calalloo", niche: "Caribbean Heritage", geo: "Trinidad & Tobago" },
+            { id: "Couture Gallery", niche: "Luxury Fashion", geo: "Global" }
+        ];
+
+        function populateUI() {
+            document.getElementById('session-id').textContent = Math.random().toString(36).substr(2, 9).toUpperCase();
+            
+            document.getElementById('service-body').innerHTML = services.map(s => `
+                <tr>
+                    <td style="color:var(--accent); font-weight:700;">${s.id}</td>
+                    <td>${s.price}</td>
+                    <td id="inq-${s.id.replace(/\\s+/g, '')}">0</td>
+                    <td style="font-family:var(--font-mono);">${s.weight}</td>
+                </tr>
+            `).join('');
+
+            document.getElementById('affiliate-body').innerHTML = affiliates.map(a => `
+                <tr>
+                    <td style="color:#FFF; font-weight:700;">${a.id}</td>
+                    <td style="color:var(--gray);">${a.niche}</td>
+                    <td>${a.geo}</td>
+                    <td id="hits-${a.id.replace(/\\s+/g, '')}" style="color:#4ade80; font-weight:900;">0</td>
+                </tr>
+            `).join('');
         }
+
+        async function fetchLeads() {
+            const { data, error } = await supabase.from('leads').select('*').order('created_at', { ascending: false }).limit(20);
+            if (data) {
+                document.getElementById('h-leads').textContent = data.length;
+                document.getElementById('lead-body').innerHTML = data.map(l => `
+                    <tr>
+                        <td style="font-size:0.7rem; color:var(--gray);">${new Date(l.created_at).toLocaleString()}</td>
+                        <td style="font-weight:700; color:var(--accent);">${l.name}</td>
+                        <td>${l.email}</td>
+                        <td style="font-size:0.8rem;">${l.plan_interest || 'General Inquiry'}</td>
+                        <td style="color:#4ade80;">VERIFIED</td>
+                    </tr>
+                `).join('');
+            }
+        }
+
+        async function fetchTraffic() {
+            const { data, error } = await supabase.from('traffic').select('*');
+            if (data) {
+                data.forEach(row => {
+                    const brandId = row.brand.replace(/\\s+/g, '');
+                    const el = document.getElementById(`hits-${brandId}`);
+                    if (el) el.textContent = row.clicks;
+                });
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            populateUI();
+            fetchLeads();
+            fetchTraffic();
+            setInterval(() => { fetchLeads(); fetchTraffic(); }, 5000);
+        });
     </script>
 </body>
 </html>
