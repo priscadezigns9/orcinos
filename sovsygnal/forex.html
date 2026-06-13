@@ -111,27 +111,27 @@
         <div class="api-feed-row">
             <div class="api-feed-header">
                 <div class="api-pulse"></div>
-                Live Forex Signal // Institutional EPI
+                Live Forex Signal // Institutional API
             </div>
             <div class="api-data-grid">
                 
-                <div class="api-item">
+                <div class="api-item" label="EUR/USD">
                     <label>EUR/USD</label>
                     <div class="value">1.0850</div>
                 </div>
-                <div class="api-item">
+                <div class="api-item" label="GBP/USD">
                     <label>GBP/USD</label>
                     <div class="value">1.2740</div>
                 </div>
-                <div class="api-item">
+                <div class="api-item" label="USD/JPY">
                     <label>USD/JPY</label>
                     <div class="value">156.22</div>
                 </div>
-                <div class="api-item">
+                <div class="api-item" label="USD/CAD">
                     <label>USD/CAD</label>
                     <div class="value">1.3650</div>
                 </div>
-                <div class="api-item">
+                <div class="api-item" label="AUD/USD">
                     <label>AUD/USD</label>
                     <div class="value">0.6650</div>
                 </div>
@@ -140,7 +140,7 @@
 
         <div class="featured-story">
             <div class="main-story">
-                <h4><span>Top Intelligence // Liquidity</span> <span>Jun 13, 2026 // 15:31 AST</span></h4>
+                <h4><span>Top Intelligence // Liquidity</span> <span>Jun 13, 2026 // 16:18 AST</span></h4>
                 <h2>Global Market Forecasting: Shifting Rate Expectations Drive Vol.</h2>
                 <p>Forex.com daily insights track institutional desk movements and macro-driven currency pair volatility.</p>
                 <a href="https://www.forex.com/en/news-and-analysis/" target="_blank" style="text-decoration:none;"><span class="ref-link" style="font-size: 0.8rem; color: var(--sygnal-red); font-weight: 800; text-transform: uppercase; letter-spacing: 2px;">Intelligence Source: FOREX.com &rarr;</span></a>
@@ -148,13 +148,13 @@
             <div class="side-stories">
                 
                 <div class="side-story">
-                    <h4><span>Macro</span> <span>Jun 13, 2026 // 15:31 AST</span></h4>
+                    <h4><span>Macro</span> <span>Jun 13, 2026 // 16:18 AST</span></h4>
                     <h3>Gold, Forex, and Crypto Insights.</h3>
                     <p>Keeping ahead of markets through daily intelligence on global liquidity flows.</p>
                     <a href="https://investinglive.com/" target="_blank" class="ref-link" style="font-size: 0.6rem;">Source: InvestingLive &rarr;</a>
                 </div>
                 <div class="side-story">
-                    <h4><span>Yields</span> <span>Jun 13, 2026 // 15:31 AST</span></h4>
+                    <h4><span>Yields</span> <span>Jun 13, 2026 // 16:18 AST</span></h4>
                     <h3>Treasury Yields Hit One-Year Highs.</h3>
                     <p>Impact of 4.54% yields on major developed market currency pairings.</p>
                     <a href="https://www.blackrock.com/us/individual/insights/blackrock-investment-institute/weekly-commentary" target="_blank" class="ref-link" style="font-size: 0.6rem;">Source: BlackRock &rarr;</a>
@@ -195,7 +195,7 @@
         <div class="news-grid">
             
                 <div class="news-card">
-                    <h4><span>Desks</span> <span>Jun 13, 2026 // 15:31 AST</span></h4>
+                    <h4><span>Desks</span> <span>Jun 13, 2026 // 16:18 AST</span></h4>
                     <h3>Institutional Desk Movement Analysis.</h3>
                     <p>Tracking how major banks are positioning for Q3 rate shifts.</p>
                     <a href="https://investinglive.com/" target="_blank" class="ref-link">Source: InvestingLive &rarr;</a>
@@ -218,6 +218,40 @@
     <script src="../shared_godmode.js"></script>
     <script>
         document.getElementById("nav-forex").classList.add("active");
+        
+        // API Intelligence Engine
+        const FINNHUB_KEY = "{{credential:finnhub-api-key}}";
+        
+        async function updateAPIs() {
+            const feeds = document.querySelectorAll('.api-item');
+            
+            // Logic for Stocks/Forex
+            if ("forex" === "stocks" || "forex" === "forex" || "forex" === "markets") {
+                feeds.forEach(async (item) => {
+                    const label = item.querySelector('label').innerText;
+                    const symbol = label.split('(')[1]?.replace(')', '') || label.replace('/', '');
+                    try {
+                        const res = await fetch(`https://finnhub.io/api/v1/quote?symbol=${symbol}&token=${FINNHUB_KEY}`);
+                        const data = await res.json();
+                        if (data.c) item.querySelector('.value').innerText = `$${data.c.toFixed(2)}`;
+                    } catch(e) { console.error(e); }
+                });
+            }
+            
+            // Logic for Crypto
+            if ("forex" === "blockchain") {
+                try {
+                    const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana&vs_currencies=usd');
+                    const data = await res.json();
+                    document.querySelector('[label="BITCOIN (BTC)"]')?.querySelector('.value').innerText = `$${data.bitcoin.usd.toLocaleString()}`;
+                    document.querySelector('[label="ETHEREUM (ETH)"]')?.querySelector('.value').innerText = `$${data.ethereum.usd.toLocaleString()}`;
+                    document.querySelector('[label="SOLANA (SOL)"]')?.querySelector('.value').innerText = `$${data.solana.usd.toLocaleString()}`;
+                } catch(e) { console.error(e); }
+            }
+        }
+        
+        updateAPIs();
+        setInterval(updateAPIs, 60000); // Refresh every minute
     </script>
 </body>
 </html>
