@@ -3,7 +3,7 @@
 This document serves as the high-fidelity source of truth for all Orcinos products. It captures the current UI state, logical features, and design mandates. 
 
 **OPERATIONAL STATUS:** LIVE MODE
-**LAST UPDATED:** June 13, 2026 (v1.28 - Universal Stage & High-Fidelity Asset Integration)
+**LAST UPDATED:** June 13, 2026 (v1.28 - Universal Stage & Live Supabase Handshake)
 
 ---
 
@@ -12,7 +12,7 @@ This document serves as the high-fidelity source of truth for all Orcinos produc
 | View | Access URL | High-Fidelity Signal |
 | :--- | :--- | :--- |
 | **Orcinos Hub** | `https://orcinos.com` | ![Homepage](https://share.zapia.com/cpsay8c7jvmk8xaagawxfi) |
-| **God Mode (v1.6)** | `https://orcinos.com/godmode/hub.html` | ![God Mode Hub](https://share.zapia.com/j0lx8wdsxwk9dvtuqehtyk) |
+| **God Mode (v1.7)** | `https://orcinos.com/godmode/hub.html` | ![God Mode Hub](https://share.zapia.com/2j450v0nqy3462dxsze6ce) |
 
 ---
 
