@@ -3,355 +3,453 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Titan TraderX | Institutional Intelligence</title>
-    <meta name="keywords" content="Titan TraderX, TradingView, Investing, Finance, Trading, Forex, Crypto, Stocks, Elon Musk, Amazon, SpaceX, Bitcoin, EURUSD, USDCAD, GOLD, Contracts, Options, Indices, New York Stock Exchange, Commodities, Prop Firms, Institutional Trading, Market Intelligence">
-    <link rel="icon" href="../logos/TITAN_ICON.png" type="image/png">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <title>Titan TraderX | Sovereign Trading Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #050505;
-            --surface: #0F0F11;
-            --text: #ccd6f6;
-            --white: #ffffff;
-            --malachite: #00FF7F;
-            --border: rgba(255, 255, 255, 0.08);
-            --muted: #888;
-            --glass: rgba(255, 255, 255, 0.03);
+            --primary-green: #00A36C; /* Malachite Green */
+            --primary-hover: #008f5d;
+            --bg-white: #FFFFFF;
+            --surface-gray: #F8F9FA;
+            --text-dark: #1A1A1A;
+            --text-muted: #666666;
+            --border-light: #EEEEEE;
+            --shadow-sm: 0 2px 10px rgba(0,0,0,0.02);
+            --shadow-md: 0 10px 30px rgba(0, 163, 108, 0.05);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            overflow-x: hidden;
-            line-height: 1.6;
+            background-color: var(--bg-white);
+            color: var(--text-dark);
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
-        
-        /* Header & Navigation */
+
+        /* Ticker Tape Container */
+        .ticker-container {
+            width: 100%;
+            border-bottom: 1px solid var(--border-light);
+            background: #fff;
+        }
+
         header {
-            background: rgba(5, 5, 5, 0.95);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border);
-            padding: 0 6%;
+            background-color: var(--bg-white);
+            border-bottom: 2px solid var(--primary-green);
+            padding: 1.25rem 3rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            position: fixed;
+            position: sticky;
             top: 0;
-            left: 0;
-            right: 0;
-            z-index: 2000;
-            height: 80px;
+            z-index: 100;
+            box-shadow: var(--shadow-sm);
         }
 
         .logo-container {
             display: flex;
             align-items: center;
             gap: 12px;
-            text-decoration: none;
         }
 
-        .logo-container img { height: 32px; width: auto; border-radius: 50%; }
-
-        .logo-text {
-            font-size: 1.2rem;
-            font-weight: 800;
-            color: var(--white);
-            letter-spacing: 1px;
-            text-transform: uppercase;
+        .logo-container img {
+            height: 42px;
+            width: auto;
         }
 
-        .logo-span { color: var(--malachite); }
+        nav {
+            display: flex;
+            gap: 25px;
+        }
 
-        nav { display: flex; gap: 30px; align-items: center; }
         nav a {
+            color: var(--text-dark);
             text-decoration: none;
-            color: var(--text);
             font-weight: 600;
-            font-size: 0.85rem;
-            opacity: 0.7;
-            transition: 0.3s;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+            transition: color 0.3s;
             text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        nav a:hover, nav a.active { opacity: 1; color: var(--malachite); }
-
-        /* Mobile Hamburger */
-        .hamburger {
-            display: none;
-            cursor: pointer;
-            flex-direction: column;
-            gap: 6px;
-            padding: 10px;
-            z-index: 2001;
-            background: transparent;
-            border: none;
-        }
-        .hamburger div {
-            width: 24px;
-            height: 2px;
-            background-color: var(--white);
-            transition: 0.3s;
         }
 
-        @media screen and (max-width: 968px) {
-            nav {
-                position: fixed;
-                right: -100%;
-                top: 0;
-                width: 85%;
-                height: 100vh;
-                background: #0A0A0C;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                gap: 40px;
-                transition: 0.4s;
-                z-index: 2000;
-                border-left: 1px solid var(--border);
-            }
-            nav.nav-active { right: 0; }
-            .hamburger { display: flex; }
+        nav a:hover, nav a.active {
+            color: var(--primary-green);
         }
 
-        /* Hero Section */
-        .hero {
-            padding: 160px 6% 80px;
-            text-align: center;
-            background: radial-gradient(circle at top, rgba(0, 255, 127, 0.05) 0%, transparent 70%);
+        /* Hero Hub Intro */
+        .hero-hub {
+            background: radial-gradient(circle at 80% 20%, rgba(0, 163, 108, 0.05) 0%, rgba(255,255,255,0) 50%);
+            padding: 4rem 3rem 2rem 3rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+            box-sizing: border-box;
         }
 
-        .hero h1 {
-            font-size: clamp(2.5rem, 8vw, 4.5rem);
-            font-weight: 800;
-            letter-spacing: -2px;
-            margin-bottom: 24px;
-            color: var(--white);
+        .hero-hub h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            margin: 0 0 1rem 0;
+            letter-spacing: -1px;
             line-height: 1.1;
         }
 
-        .hero p {
-            color: var(--muted);
-            font-size: 1.1rem;
+        .hero-hub h1 span {
+            color: var(--primary-green);
+        }
+
+        .hero-hub p {
+            color: var(--text-muted);
+            font-size: 1.15rem;
             max-width: 700px;
-            margin: 0 auto 48px;
+            line-height: 1.6;
+            margin: 0 0 2rem 0;
         }
 
-        .cta-group {
-            display: flex;
-            gap: 16px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .btn {
-            padding: 16px 32px;
-            border-radius: 14px;
-            font-weight: 800;
-            text-decoration: none;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-size: 0.9rem;
-            transition: 0.3s;
-            display: inline-block;
-        }
-
-        .btn-primary {
-            background: var(--malachite);
-            color: #000;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(0, 255, 127, 0.3);
-        }
-
-        .btn-secondary {
-            border: 1px solid var(--border);
-            color: var(--white);
-            background: rgba(255, 255, 255, 0.02);
-        }
-
-        .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.05);
-            border-color: var(--muted);
-        }
-
-        /* Dashboard Grid */
-        .dashboard-grid {
+        /* Main Grid */
+        main {
+            padding: 0 3rem 4rem 3rem;
             display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 32px;
-            padding: 0 6% 100px;
-        }
-
-        @media (max-width: 1100px) {
-            .dashboard-grid { grid-template-columns: 1fr; }
-        }
-
-        .card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 32px;
-            padding: 40px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-        }
-
-        .card h2 {
-            font-size: 1.4rem;
-            font-weight: 800;
-            margin-bottom: 32px;
-            color: var(--white);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .terminal-box {
-            height: 500px;
+            grid-template-columns: 2.2fr 1fr;
+            gap: 2.5rem;
+            max-width: 1400px;
+            margin: 0 auto;
             width: 100%;
-            border-radius: 20px;
-            overflow: hidden;
-            border: 1px solid var(--border);
-            background: #000;
+            box-sizing: border-box;
         }
 
-        /* Pulse Grid */
-        .pulse-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-top: 32px;
+        .widget-card {
+            background: #fff;
+            border: 1px solid var(--border-light);
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 2.5rem;
         }
 
-        .pulse-item {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid var(--border);
-            padding: 24px;
-            border-radius: 20px;
+        .widget-card h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-top: 0;
+            margin-bottom: 1.5rem;
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            transition: 0.3s;
+            gap: 10px;
+            border-left: 5px solid var(--primary-green);
+            padding-left: 1rem;
         }
 
-        .pulse-item:hover { border-color: var(--malachite); background: rgba(0, 255, 127, 0.03); }
+        /* Tile Grid for Categories */
+        .tile-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
 
-        .coin-name { font-weight: 800; color: var(--white); font-size: 1rem; }
-        .coin-price { font-family: monospace; color: var(--malachite); font-weight: 600; }
-
-        .footer {
-            padding: 80px 6%;
-            border-top: 1px solid var(--border);
+        .tile {
+            background: var(--surface-gray);
+            border: 1px solid var(--border-light);
+            border-radius: 14px;
+            padding: 2rem 1.5rem;
             text-align: center;
-            color: var(--muted);
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            text-decoration: none;
+            color: var(--text-dark);
+        }
+
+        .tile:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-green);
+            box-shadow: var(--shadow-md);
+            background: #fff;
+        }
+
+        .tile-icon {
+            font-size: 2.5rem;
+            color: var(--primary-green);
+            margin-bottom: 1rem;
+        }
+
+        .tile h3 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1.15rem;
+            font-weight: 700;
+        }
+
+        .tile p {
+            margin: 0;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        /* Education/Academy Section */
+        .academy-section {
+            background: var(--surface-gray);
+            border-radius: 20px;
+            padding: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .academy-section h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            margin-top: 0;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .academy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .academy-card {
+            background: #fff;
+            border: 1px solid var(--border-light);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .academy-card h3 {
+            margin-top: 0;
+            color: var(--primary-green);
+            font-size: 1.2rem;
+        }
+
+        .academy-card p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 0;
+        }
+
+        /* Side Navigation Details */
+        .side-container {
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--surface-gray);
+            border-top: 1px solid var(--border-light);
+            padding: 3rem;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-top: auto;
+        }
+
+        @media (max-width: 1024px) {
+            main {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
+
+    <!-- Ticker Tape Widget -->
+    <div class="ticker-container">
+        <!-- TradingView Widget BEGIN -->
+        <div class="tradingview-widget-container">
+            <div class="tradingview-widget-container__widget"></div>
+            <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
+            {
+            "symbols": [
+                {
+                    "proName": "FOREXCOM:SPX500",
+                    "title": "S&P 500 Index"
+                },
+                {
+                    "proName": "FOREXCOM:NSXUSD",
+                    "title": "US 100 Cash"
+                },
+                {
+                    "proName": "FX_IDC:EURUSD",
+                    "title": "EUR to USD"
+                },
+                {
+                    "proName": "BITSTAMP:BTCUSD",
+                    "title": "Bitcoin"
+                },
+                {
+                    "proName": "BITSTAMP:ETHUSD",
+                    "title": "Ethereum"
+                }
+            ],
+            "showSymbolLogo": true,
+            "colorTheme": "light",
+            "isTransparent": false,
+            "displayMode": "adaptive",
+            "locale": "en"
+            }
+            </script>
+        </div>
+        <!-- TradingView Widget END -->
+    </div>
+
+    <!-- Header -->
     <header>
-        <a href="index.html" class="logo-container">
-            <img src="../logos/TITAN_ICON.png" alt="TITAN">
-            <span class="logo-text">TITAN <span class="logo-span">TRADERX</span></span>
-        </a>
-        <nav id="main-nav">
+        <div class="logo-container">
+            <img src="https://lh3.googleusercontent.com/d/1ERqvFXcmdfgQsJXfrtRjyb5GvivpgimT" alt="Titan TraderX">
+        </div>
+        <nav>
             <a href="index.html" class="active">Dashboard</a>
-            <a href="terminal.html">Terminal</a>
-            <a href="academy.html">Academy</a>
-            <a href="partners.html">Partners</a>
-            <a href="dashboard.html" style="background: var(--malachite); color: #000; padding: 10px 20px; border-radius: 8px; opacity: 1; font-weight: 800;">LOGIN</a>
+            <a href="prop-firms.html">Prop Firms</a>
         </nav>
-        <button class="hamburger" onclick="toggleMenu()"><div></div><div></div><div></div></button>
     </header>
 
-    <section class="hero">
-        <h1>Market Intelligence.</h1>
-        <p>The institutional dashboard for high-fidelity trading. Institutional signals, live market pulse, and decentralised prop-firm connectivity.</p>
-        <div class="cta-group">
-            <a href="terminal.html" class="btn btn-primary">Launch Terminal &rarr;</a>
-            <a href="academy.html" class="btn btn-secondary">Order Flow Academy</a>
+    <!-- Hero Hub -->
+    <section class="hero-hub">
+        <h1>Sovereign Market <span>Intelligence</span> Hub</h1>
+        <p>The ultimate destination for global retail traders. Live advanced charting, macroeconomic schedules, crypto analysis, and the definitive broker list—designed to keep you informed so you never have to leave.</p>
+        
+        <!-- Category Tiles -->
+        <div class="tile-grid">
+            <a href="prop-firms.html" class="tile">
+                <div class="tile-icon">🎯</div>
+                <h3>Prop Firms</h3>
+                <p>Get backed with raw capital. Compare the top tier prop firms.</p>
+            </a>
+            <a href="#stocks" class="tile">
+                <div class="tile-icon">📈</div>
+                <h3>Stocks</h3>
+                <p>Analyze equity trends. Build your long-term portfolio.</p>
+            </a>
+            <a href="#forex" class="tile">
+                <div class="tile-icon">💱</div>
+                <h3>Forex</h3>
+                <p>Track currency flows. Live spreads and global liquid sessions.</p>
+            </a>
+            <a href="#crypto" class="tile">
+                <div class="tile-icon">🪙</div>
+                <h3>Crypto Hub</h3>
+                <p>Track neural assets. Real-time coin values and indices.</p>
+            </a>
         </div>
     </section>
 
-    <main class="dashboard-grid">
-        <section class="left-column">
-            <div class="card" style="margin-bottom: 32px;">
-                <h2>Live Market Pulse</h2>
-                <div class="terminal-box">
-                    <div class="tradingview-widget-container" style="height:100%;width:100%">
-                        <div id="tradingview_main" style="height:100%;width:100%"></div>
-                        <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
-                        <script type="text/javascript">
-                        new TradingView.widget({
-                            "autosize": true,
-                            "symbol": "BINANCE:BTCUSDT",
-                            "interval": "D",
-                            "timezone": "Etc/UTC",
-                            "theme": "dark",
-                            "style": "1",
-                            "locale": "en",
-                            "toolbar_bg": "#f1f3f6",
-                            "enable_publishing": false,
-                            "hide_top_toolbar": true,
-                            "save_image": false,
-                            "container_id": "tradingview_main"
-                        });
-                        </script>
-                    </div>
-                </div>
-                
-                <div class="pulse-grid">
-                    <div class="pulse-item"><span class="coin-name">BTC</span><span class="coin-price">$69,432.12</span></div>
-                    <div class="pulse-item"><span class="coin-name">ETH</span><span class="coin-price">$3,842.50</span></div>
-                    <div class="pulse-item"><span class="coin-name">SOL</span><span class="coin-price">$164.20</span></div>
-                </div>
-            </div>
-        </section>
-
-        <section class="right-column">
-            <div class="card" style="margin-bottom: 32px;">
-                <h2>Equity Signals</h2>
-                <div style="display: flex; flex-direction: column; gap: 16px;">
-                    <div class="pulse-item"><span>AAPL</span><span style="color: var(--malachite);">+1.24%</span></div>
-                    <div class="pulse-item"><span>NVDA</span><span style="color: var(--malachite);">+4.52%</span></div>
-                    <div class="pulse-item"><span>TSLA</span><span style="color: #ff4d4d;">-0.81%</span></div>
+    <!-- Main Live Content -->
+    <main>
+        <!-- Left Side: Live Charts and Analysis -->
+        <section>
+            <!-- TradingView Advanced Chart -->
+            <div class="widget-card" id="charts">
+                <h2>📊 Advanced Charting Terminal</h2>
+                <div class="tradingview-widget-container" style="height: 500px;">
+                    <div id="tradingview_chart" style="height: 500px;"></div>
+                    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+                    <script type="text/javascript">
+                    new TradingView.widget(
+                    {
+                    "width": "100%",
+                    "height": "100%",
+                    "symbol": "FX:EURUSD",
+                    "interval": "D",
+                    "timezone": "Etc/UTC",
+                    "theme": "light",
+                    "style": "1",
+                    "locale": "en",
+                    "toolbar_bg": "#f1f3f6",
+                    "enable_publishing": false,
+                    "hide_side_toolbar": false,
+                    "allow_symbol_change": true,
+                    "container_id": "tradingview_chart"
+                    }
+                    );
+                    </script>
                 </div>
             </div>
 
-            <div class="card">
-                <h2>Academy</h2>
-                <p style="font-size: 0.95rem; color: var(--muted); margin-bottom: 24px;">Institutional-grade modules for professional order flow analysis and risk management.</p>
-                <a href="academy.html" style="color: var(--malachite); font-weight: 800; text-decoration: none; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px;">Enter Academy Hub &rarr;</a>
+            <!-- CoinMarketCap Crypto Marquee -->
+            <div class="widget-card" id="crypto">
+                <h2>🪙 Live Crypto Assets (CoinMarketCap)</h2>
+                <script type="text/javascript" src="https://files.coinmarketcap.com/static/widget/coinMarquee.js"></script>
+                <div id="coinmarketcap-widget-marquee" coins="1,1027,825,1839,52" currency="USD" theme="light" transparent="false" show-symbol-logo="true"></div>
             </div>
         </section>
+
+        <!-- Right Side: Economic Calendar & Intelligence -->
+        <aside class="side-container">
+            <!-- Economic Calendar -->
+            <div class="widget-card" style="height: 450px;">
+                <h2>📅 Economic Calendar</h2>
+                <div class="tradingview-widget-container" style="height: calc(100% - 40px);">
+                    <div class="tradingview-widget-container__widget"></div>
+                    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-events.js" async>
+                    {
+                    "colorTheme": "light",
+                    "isTransparent": false,
+                    "width": "100%",
+                    "height": "100%",
+                    "locale": "en",
+                    "importanceFilter": "-1,0,1",
+                    "countryFilter": "ar,au,br,ca,cn,fr,de,in,it,jp,mx,kr,es,ch,gb,us"
+                    }
+                    </script>
+                </div>
+            </div>
+
+            <!-- Financial News Feed -->
+            <div class="widget-card" style="height: 350px; overflow: hidden;">
+                <h2>📰 Live Market Signals</h2>
+                <div class="tradingview-widget-container" style="height: calc(100% - 40px);">
+                    <div class="tradingview-widget-container__widget"></div>
+                    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-timeline.js" async>
+                    {
+                    "feedMode": "all_symbols",
+                    "colorTheme": "light",
+                    "isTransparent": false,
+                    "displayMode": "regular",
+                    "width": "100%",
+                    "height": "100%",
+                    "locale": "en"
+                    }
+                    </script>
+                </div>
+            </div>
+        </aside>
     </main>
 
-    <footer class="footer">
-        &copy; 2026 ORCINOS NETWORK | TITAN TRADERX | ANCHORED TO ETERNITY
+    <!-- Investopedia-style Academy Section -->
+    <section class="academy-section" style="max-width: 1400px; margin: 0 auto 4rem auto; width: 100%; box-sizing: border-box;">
+        <h2>🎓 The Academy — Simple Terms for Every Man</h2>
+        <div class="academy-grid">
+            <div class="academy-card">
+                <h3>Forex Basics (The Exchange)</h3>
+                <p>Imagine going to the airport and swapping your US Dollars for Euros. If the Euro becomes stronger while you are on your trip and you swap back, you make a profit. Forex trading is just doing that from your couch instantly.</p>
+            </div>
+            <div class="academy-card">
+                <h3>What is Leverage (The Booster)</h3>
+                <p>Think of leverage as a "booster seat." If you only have $10, leverage acts like a loan that lets you control a trade worth $1,000. It magnifies both your wins and your losses, so it must be handled with deep respect.</p>
+            </div>
+            <div class="academy-card">
+                <h3>Prop Firms (The Backers)</h3>
+                <p>Proprietary trading firms are companies that back talented traders. You pass an evaluation or trial, and they give you a funded account of up to $200,000 of their own money. You keep up to 80% of the profits without risking your own capital.</p>
+            </div>
+            <div class="academy-card">
+                <h3>Stocks 101 (Owning a Piece)</h3>
+                <p>When you buy a stock, you buy a tiny "slice" of a company like Apple or Tesla. When the company makes more money and grows, your slice becomes more valuable, allowing you to build stable, long-term wealth.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2026 TITAN TRADERX · SECURE SYSTEM · ARCHITECTING REALITY</p>
     </footer>
 
-    <script>
-        function toggleMenu() {
-            const nav = document.getElementById('main-nav');
-            const hamburger = document.querySelector('.hamburger');
-            nav.classList.toggle('nav-active');
-            const lines = hamburger.querySelectorAll('div');
-            if (nav.classList.contains('nav-active')) {
-                lines[0].style.transform = 'rotate(-45deg) translate(-5px, 6px)';
-                lines[1].style.opacity = '0';
-                lines[2].style.transform = 'rotate(45deg) translate(-5px, -6px)';
-            } else {
-                lines[0].style.transform = 'none'; lines[1].style.opacity = '1'; lines[2].style.transform = 'none';
-            }
-        }
-    </script>
 </body>
 </html>
-
-
-
