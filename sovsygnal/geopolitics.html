@@ -31,10 +31,18 @@
         
         .container { max-width: 1400px; margin: 0 auto; padding: 60px 6% 100px; }
         
-        .section-block { margin-bottom: 100px; }
-        .section-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 40px; border-bottom: 2px solid var(--text); padding-bottom: 15px; }
-        .section-title { font-family: var(--font-heading); font-size: 2.5rem; text-transform: uppercase; }
+        .featured-story { display: grid; grid-template-columns: 2fr 1fr; gap: 60px; margin-bottom: 80px; border-bottom: 1px solid var(--border); padding-bottom: 80px; }
+        .main-story h4 { color: var(--sygnal-red); font-weight: 900; font-size: 0.7rem; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 2px; }
+        .main-story h2 { font-family: var(--font-heading); font-size: 3.5rem; margin-bottom: 25px; line-height: 1.1; font-weight: 900; }
+        .main-story p { font-size: 1.2rem; color: var(--muted); margin-bottom: 30px; line-height: 1.6; max-width: 800px; }
         
+        .side-stories { display: flex; flex-direction: column; gap: 40px; }
+        .side-story { border-bottom: 1px solid var(--border); padding-bottom: 20px; }
+        .side-story:last-child { border-bottom: none; }
+        .side-story h4 { color: var(--sygnal-red); font-weight: 900; font-size: 0.6rem; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; }
+        .side-story h3 { font-family: var(--font-heading); font-size: 1.3rem; margin-bottom: 10px; line-height: 1.3; }
+        .side-story p { font-size: 0.9rem; color: var(--muted); }
+
         .news-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 40px; }
         .news-card { border-bottom: 1px solid var(--border); padding-bottom: 25px; transition: 0.3s; }
         .news-card:hover { border-color: var(--sygnal-red); }
@@ -47,6 +55,11 @@
         .footer-content { display: flex; justify-content: space-between; align-items: center; }
         .footer-logo { height: 50px; filter: grayscale(1) brightness(2); }
         .copyright { font-size: 0.7rem; color: var(--muted); letter-spacing: 2px; font-weight: 700; text-transform: uppercase; }
+
+        @media (max-width: 1000px) {
+            .featured-story { grid-template-columns: 1fr; gap: 40px; }
+            .main-story h2 { font-size: 2.5rem; }
+        }
     </style>
 </head>
 <body>
@@ -72,31 +85,42 @@
     </nav>
 
     <div class="container">
-        <div class="section-block">
-            <div class="section-header">
-                <h2 class="section-title">Geopolitics</h2>
+        <div class="featured-story">
+            <div class="main-story">
+                <h4>Top Intelligence // Diplomacy</h4>
+                <h2>Russian Annexation of Belarus: Structural Implications Audited.</h2>
+                <p>The Council on Foreign Relations monitors the long-term impact of the unified state agreement on European security architecture.</p>
+                <a href="https://www.cfr.org/" target="_blank" style="text-decoration:none;"><span class="ref-link" style="font-size: 0.8rem; color: var(--sygnal-red); font-weight: 800; text-transform: uppercase; letter-spacing: 2px;">Read Full Intelligence &rarr;</span></a>
             </div>
-            <div class="news-grid">
+            <div class="side-stories">
                 
+                <div class="side-story">
+                    <h4>Regional</h4>
+                    <h3>Middle East Peace Accord Stabilizes Energy.</h3>
+                    <p>Direct negotiations between regional powers signal a shift in proxy engagement.</p>
+                </div>
+                <div class="side-story">
+                    <h4>Asia</h4>
+                    <h3>China's Strategic Reserves: Oil Trajectory Analyzed.</h3>
+                    <p>Mackinder Forum reports suggest energy stockpiles will dictate Pacific tempo.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="news-grid">
+            
                 <div class="news-card">
-                    <h4>Diplomacy</h4>
-                    <h3>Russian Annexation of Belarus: Council on Foreign Relations Tracks Shifts.</h3>
-                    <p>Analysts monitor the long-term structural implications of the unified state agreement between Moscow and Minsk.</p>
-                    <a href="https://www.cfr.org/" target="_blank" class="ref-link">Source: CFR &rarr;</a>
+                    <h4>Israel</h4>
+                    <h3>Retaliatory Strike Prevented: Trump Intervention Reports.</h3>
+                    <p>Diplomatic signals suggest a pivot toward economic leverage over military action.</p>
+                    <a href="https://www.youtube.com/watch?v=qQhIrISzoYI" target="_blank" class="ref-link">Source: Geo News &rarr;</a>
                 </div>
                 <div class="news-card">
-                    <h4>Conflict</h4>
-                    <h3>Strikes on Strategic Ecosystems Blur Lines of Engagement.</h3>
-                    <p>New risks emerge as attacks target infrastructure nodes rather than traditional military assets.</p>
+                    <h4>Intelligence</h4>
+                    <h3>Strategic Analysis: Monitoring Global Power Shifts.</h3>
+                    <p>Real-time tracking of diplomatic signals across emerging corridors.</p>
                     <a href="https://www.geopoliticalmonitor.com/" target="_blank" class="ref-link">Source: Geopolitical Monitor &rarr;</a>
                 </div>
-                <div class="news-card">
-                    <h4>Strategy</h4>
-                    <h3>China's Strategic Oil Reserves: Trajectory of Regional Conflicts Hinge on Reserves.</h3>
-                    <p>Intelligence reports suggest energy stockpile levels will dictate the tempo of Pacific operations through 2026.</p>
-                    <a href="https://mackinderforum.org/geopolitical-newsletter/weekly-geopolitical-news-bulletin-may-30-june-5-2026" target="_blank" class="ref-link">Source: Mackinder Forum &rarr;</a>
-                </div>
-            </div>
         </div>
     </div>
 
