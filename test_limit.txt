@@ -1,0 +1,1 @@
+Error executing command: 'utf-8' codec can't decode byte 0xa4 in position 2: invalid start byte
