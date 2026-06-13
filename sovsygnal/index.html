@@ -3,304 +3,114 @@
 <head>
     <meta charset='UTF-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-    <title>ORCPULSE | Global News Intelligence</title>
+    <title>SOV SYGNL | Global News Intelligence</title>
     
-    <!-- SEO METADATA - 50 KEYWORDS -->
-    <meta name="keywords" content="Entertainment, Blockchain, Biohacking, Elite Pulse, Global News Intelligence, Orcinos Ledger, $PRN Token, Neural Economy, High-Fidelity Reporting, National Security, Decentralized Finance, Web3 News, Digital Independence, Global Advertising, Prisca Dezigns, AI Brand Architecture, Autonomous Media, Geopolitical Risk, Market Intelligence, DNA Skincare, Regenerative Beauty, Nurturing Essentials, Caribbean Tech, Luxury Assets, Sustainable Infrastructure, Cybersecurity Defense, Gaming Utility, Atelia Gaming Lab, Global Trade Fragmentation, Economic Independence, Financial Technology, Innovation News, SaaS Products, Digital Agency, SEO Marketing, Advertising Logistics, PayPal Payments, Crypto Payments, Payoneer Transfers, The Way Made Known, Biblical Archaeology, Evidence of Faith, Analytical Theology, Intelligence Reports, Global Pulse, Elite Frequency, Media Global, News Hub, Real Estate Investment, Biohacking Trends">
-    <meta name="description" content="The Authority of the Global. Global News Intelligence on Entertainment, Blockchain, Biohacking, and Elite Entertainment. Autonomous Reporting for the Elite Architect.">
+    <!-- SEO METADATA -->
+    <meta name="description" content="The Authority of the Empire. Global News Intelligence for the Sovereign Architect.">
     
     <link rel='preconnect' href='https://fonts.googleapis.com'>
     <link href='https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;600;800&display=swap' rel='stylesheet'>
     <style>
         :root {
             --bg: #FFFFFF;
-            --text: #000000;
-            --muted: #666666;
-            --accent: #1A1A1A;
-            --pulse-red: #D0021B;
+            --text: #001B3D;
+            --muted: #64748B;
+            --accent: #0f172a;
+            --sygnal-red: #D0021B;
             --border: rgba(0,0,0,0.1);
             --font-heading: 'Playfair Display', serif;
             --font-body: 'Inter', sans-serif;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background: var(--bg); color: var(--text); font-family: var(--font-body); line-height: 1.5; scroll-behavior: smooth; }
-        .utility-bar { background: var(--accent); color: white; padding: 8px 6%; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 2px; display: flex; justify-content: space-between; position: sticky; top: 0; z-index: 1100; }
+        .utility-bar { background: var(--text); color: white; padding: 8px 6%; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 2px; display: flex; justify-content: space-between; position: sticky; top: 0; z-index: 1100; }
         
         header { padding: 40px 6% 20px; border-bottom: 4px solid var(--text); text-align: center; }
-        .main-logo { font-family: var(--font-heading); font-size: 3.5rem; letter-spacing: -2px; line-height: 1; margin-bottom: 10px; cursor: pointer; }
-        .main-logo span { color: var(--pulse-red); }
+        .main-logo { font-family: var(--font-heading); font-size: 3.5rem; letter-spacing: -2px; line-height: 1; margin-bottom: 10px; cursor: pointer; text-transform: uppercase; font-weight: 900; }
+        .main-logo span { color: var(--sygnal-red); }
         .tagline { text-transform: uppercase; letter-spacing: 5px; font-size: 0.75rem; margin-bottom: 20px; font-weight: 800; color: var(--muted); }
         
         nav { display: flex; justify-content: center; gap: 30px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 12px 0; margin-top: 20px; flex-wrap: wrap; }
         nav a { text-decoration: none; color: var(--text); font-weight: 800; font-size: 0.75rem; text-transform: uppercase; white-space: nowrap; }
-        nav a:hover { color: var(--pulse-red); }
+        nav a:hover { color: var(--sygnal-red); }
 
         .main-container { display: grid; grid-template-columns: 1fr 300px; gap: 40px; padding: 40px 6%; }
-        
         .lead-story { border-bottom: 1px solid var(--border); padding-bottom: 40px; margin-bottom: 40px; }
-        .category-tag { color: var(--pulse-red); font-weight: 800; text-transform: uppercase; font-size: 0.7rem; margin-bottom: 10px; display: block; }
-        .lead-story h2 { font-family: var(--font-heading); font-size: 2.5rem; margin-bottom: 15px; line-height: 1.1; transition: opacity 0.5s ease; }
+        .category-tag { color: var(--sygnal-red); font-weight: 800; text-transform: uppercase; font-size: 0.7rem; margin-bottom: 10px; display: block; }
+        .lead-story h2 { font-family: var(--font-heading); font-size: 2.5rem; margin-bottom: 15px; line-height: 1.1; }
         .lead-story img { width: 100%; height: 400px; object-fit: cover; background: #eee; margin-bottom: 20px; }
         .lead-story p { font-size: 1.1rem; color: #333; margin-bottom: 20px; }
 
         .section-header { font-family: var(--font-heading); font-size: 1.8rem; margin: 40px 0 20px; border-bottom: 2px solid var(--text); padding-bottom: 10px; text-transform: uppercase; }
-
-        .secondary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
-        .news-card { border-bottom: 1px solid var(--border); padding-bottom: 20px; margin-bottom: 20px; }
-        .news-card img { width: 100%; height: 200px; object-fit: cover; background: #eee; margin-bottom: 15px; }
-        .news-card h3 { font-family: var(--font-heading); font-size: 1.4rem; margin-bottom: 10px; transition: opacity 0.5s ease; }
-
+        .news-card h3 { font-family: var(--font-heading); font-size: 1.4rem; margin-bottom: 10px; }
+        
         aside h4 { font-family: var(--font-heading); font-size: 1.2rem; border-bottom: 2px solid var(--text); padding-bottom: 10px; margin-bottom: 20px; text-transform: uppercase; }
         .ticker-item { margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 15px; }
         .ticker-item span { font-weight: 800; font-size: 0.7rem; color: var(--muted); }
         .ticker-item p { font-weight: 600; font-size: 0.9rem; margin-top: 5px; }
-        .ticker-item.brand { border-left: 3px solid var(--pulse-red); padding-left: 10px; margin-bottom: 25px; transition: opacity 0.5s ease; }
-
-        .ad-space { background: #f9f9f9; padding: 20px; border: 1px dashed var(--border); text-align: center; font-size: 0.75rem; color: var(--muted); margin-bottom: 30px; }
-        .ad-space strong { color: black; display: block; margin-bottom: 10px; }
-        .ad-group { display: flex; flex-direction: column; gap: 10px; }
-        .btn-ad { background: var(--accent); color: white; border: none; padding: 8px 16px; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; cursor: pointer; display: block; width: 100%; text-align: center; transition: background 0.3s; }
-        .btn-ad:hover { background: var(--pulse-red); }
-
-        .global-ad { background: var(--accent); color: white; padding: 20px; margin-bottom: 30px; border-radius: 4px; }
-        .global-ad h5 { font-family: var(--font-heading); font-size: 1rem; margin-bottom: 10px; color: white; }
-        .global-ad p { font-size: 0.8rem; color: rgba(255,255,255,0.7); margin-bottom: 15px; }
-        .global-ad a { color: white; font-weight: 800; font-size: 0.75rem; text-decoration: none; border-bottom: 1px solid white; }
 
         footer { background: #000; color: white; padding: 60px 6%; text-align: center; }
         footer p { font-size: 0.75rem; letter-spacing: 1px; opacity: 0.6; }
-
-        /* Modal Styles */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: none; align-items: center; justify-content: center; z-index: 2000; backdrop-filter: blur(5px); }
-        .modal { background: white; padding: 40px; border-radius: 24px; max-width: 500px; width: 90%; position: relative; box-shadow: 0 30px 60px rgba(0,0,0,0.3); color: black; text-align: left; }
-        .modal-close { position: absolute; top: 20px; right: 20px; cursor: pointer; font-size: 1.5rem; color: #999; }
-        .modal-tabs { display: flex; border-bottom: 1px solid #eee; margin-bottom: 25px; }
-        .modal-tab { padding: 10px 20px; cursor: pointer; border-bottom: 2px solid transparent; font-size: 0.9rem; font-weight: 600; color: #666; background: none; border: none; outline: none; }
-        .modal-tab.active { color: #1A1A1A; border-bottom-color: #1A1A1A; }
-        .pay-detail { display: none; }
-        .pay-detail.open { display: block; }
-        .modal-copy-btn { background: #1A1A1A; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.7rem; margin-left: 10px; }
-
-        @media (max-width: 900px) { .main-container { grid-template-columns: 1fr; } .secondary-grid { grid-template-columns: 1fr; } .main-logo { font-size: 2.5rem; } }
     </style>
 </head>
 <body>
     <div class='utility-bar'>
-        <div id="current-date">LOADING PULSE...</div>
+        <div id="live-date">Fri, June 12, 2026 · Sovereign Frequency 104.2</div>
         <div id="live-ticker">MARKET: $PRN +4.2% · Intelligence: ACTIVE</div>
     </div>
     
     <header>
-        <div class='main-logo' onclick="window.location.href='index.html'">ORC<span>PULSE</span></div>
-        <p class='tagline'>Global Intelligence for the Elite Architect</p>
+        <div class='main-logo' onclick="window.location.href='index.html'">SOV SYGNL</div>
+        <p class='tagline'>Global Intelligence for the Sovereign Architect</p>
         <nav>
-            <a href='geopolitics.html'>Geopolitics</a>
-            <a href='blockchain.html'>Blockchain</a>
-            <a href='biohacking.html'>Biohacking</a>
-            <a href='markets.html'>Markets</a>
-            <a href='anime.html'>Anime</a>
-            <a href='stocks.html'>Stocks</a>
-            <a href='lifestyle.html'>Lifestyle</a>
-            <a href='forex.html'>Forex</a>
-            <a href='realestate.html'>Real Estate</a>
-            <a href='entertainment.html'>Entertainment</a>
+            <a href='#'>Geopolitics</a>
+            <a href='#'>Blockchain</a>
+            <a href='#'>Biohacking</a>
+            <a href='#'>Markets</a>
+            <a href='#'>Lifestyle</a>
+            <a href='#'>Stocks</a>
+            <a href='#'>Anime</a>
+            <a href='#'>Eternal Signal</a>
         </nav>
     </header>
 
     <div class='main-container'>
         <main>
             <article class='lead-story'>
-                <span class='category-tag'>World Geopolitics · Live Pulse</span>
-                <h2 id="news-geopolitics">Strategic Initiative: Regional Channels Evaluate Multilateral Mediation.</h2>
+                <span class='category-tag'>World Geopolitics · Live Signal</span>
+                <h2 id="headline-main">Strategic Initiative: Multilateral Mediation Underway in Regional Corridors.</h2>
                 <img src='https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?q=80&w=2070&auto=format&fit=crop' alt='Geopolitics'>
-                <p>Omani Mediators Relay Tehran’s Formal Counteroffer to US as Geopolitical Risk premiums subside across major sectors.</p>
+                <p id="content-main">Geopolitical risk premiums subside as formal counteroffers are relayed through neutral channels.</p>
             </article>
 
             <h2 class="section-header">Neural Economy</h2>
-            <div class='secondary-grid'>
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:30px;">
                 <article class='news-card'>
                     <span class='category-tag'>Blockchain Intelligence</span>
-                    <h3 id="news-blockchain">SEC Finalizes Innovation Exemption for Tokenized Stocks.</h3>
-                    <img src='https://images.unsplash.com/photo-1639762681485-074b7f938ba0?q=80&w=2064&auto=format&fit=crop' alt='Blockchain'>
+                    <h3 id="headline-blockchain">SEC Finalizes Innovation Exemption for Tokenized Assets.</h3>
                 </article>
                 <article class='news-card'>
                     <span class='category-tag'>Market Intelligence</span>
-                    <h3 id="news-markets">Institutional Inflow: Tech Infrastructure Bonds see Record Volume.</h3>
-                    <img src='https://images.unsplash.com/photo-1611974714024-463799738499?q=80&w=2070&auto=format&fit=crop' alt='Markets'>
-                </article>
-            </div>
-
-            <h2 class="section-header">Biohacking & Longevity</h2>
-            <div class='secondary-grid'>
-                <article class='news-card'>
-                    <span class='category-tag'>Metabolic Benchmarks</span>
-                    <h3 id="news-biohacking">Roche Obesity Drug outpaces Industry Targets in latest trials.</h3>
-                    <img src='https://images.unsplash.com/photo-1576086213369-97a306d36557?q=80&w=2080&auto=format&fit=crop' alt='Biohacking'>
-                </article>
-                <article class='news-card'>
-                    <span class='category-tag'>Urban Lifestyle</span>
-                    <h3 id="news-lifestyle">Resilient Habitat: Lord Norman Foster addresses Madrid CityLab.</h3>
-                    <img src='https://images.unsplash.com/photo-1449156006071-8930438676f4?q=80&w=2070&auto=format&fit=crop' alt='Lifestyle'>
-                </article>
-            </div>
-
-            <h2 class="section-header">Elite Sectors</h2>
-            <div class='secondary-grid'>
-                <article class='news-card'>
-                    <span class='category-tag'>Stock Markets</span>
-                    <h3 id="news-stocks">Market Stability: Institutional Flows Maintain Resilience.</h3>
-                    <img src='https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?q=80&w=2070&auto=format&fit=crop' alt='Stocks'>
-                </article>
-                <article class='news-card'>
-                    <span class='category-tag'>Anime Media</span>
-                    <h3 id="news-anime">Trending: Tongari Boushi no Atelier leads Seasonal Viewership.</h3>
-                    <img src='https://images.unsplash.com/photo-1578632738981-4330672f5d17?q=80&w=2070&auto=format&fit=crop' alt='Anime'>
-                </article>
-            </div>
-
-            <div class='secondary-grid'>
-                <article class='news-card'>
-                    <span class='category-tag'>Forex Intelligence</span>
-                    <h3 id="news-forex">Forex Stability Pivot: Major Pairs stabilize as risk subside.</h3>
-                    <img src='https://images.unsplash.com/photo-1611974714024-463799738499?q=80&w=2070&auto=format&fit=crop' alt='Forex'>
-                </article>
-                <article class='news-card'>
-                    <span class='category-tag'>Real Estate</span>
-                    <h3 id="news-realestate">Veteran housing policy needs a preservation strategy.</h3>
-                    <img src='https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=2073&auto=format&fit=crop' alt='RealEstate'>
-                </article>
-            </div>
-
-            <h2 class="section-header">Entertainment Intelligence</h2>
-            <div class='secondary-grid'>
-                <article class='news-card'>
-                    <span class='category-tag'>Global Cinema</span>
-                    <h3 id="news-entertainment">Steven Spielberg’s 'Disclosure Day': Emily Blunt and Josh O'Connor lead high-fidelity cinematic debut.</h3>
-                    <img src='https://images.unsplash.com/photo-1485846234645-a62644f84728?q=80&w=2059&auto=format&fit=crop' alt='Entertainment'>
+                    <h3 id="headline-markets">Institutional Inflow: Infrastructure Bonds Hit Record Volume.</h3>
                 </article>
             </div>
         </main>
 
         <aside>
-            <h4>Global Intelligence</h4>
-            <div class='ticker-item brand'>
-                <span>ORCINOS</span>
-                <p>Launch of 'Generative UI' framework for high-fidelity neural design.</p>
-            </div>
-            <div class='ticker-item brand'>
-                <span>ORCINOS</span>
-                <p>Global expansion showcases luxury engineering at Mumbai Supercar Launch.</p>
-            </div>
-            <div class='ticker-item brand'>
-                <span>DREAMING ANIME</span>
-                <p>Grand Blue Dreaming Season 3 confirmed for July 2026 debut.</p>
-            </div>
-            <div class='ticker-item brand'>
-                <span>GLOW PROTOCOL</span>
-                <p>DNA-Skincare diagnostics reach 100% stable deployment status.</p>
-            </div>
-            
-            <div class='ad-space'>
-                <strong>PROCLAIM THE PULSE</strong>
-                <div class='ad-group'>
-                    <button class='btn-ad' onclick="openPayModal('Elite Ads Monthly', '$297')">Monthly Slot ($297)</button>
-                    <button class='btn-ad' onclick="openPayModal('Elite Ads Yearly', '$2,970')">Yearly Package ($2,970)</button>
-                </div>
-            </div>
-
-            <div class='global-ad'>
-                <h5>Orcinos Intelligence</h5>
-                <p>Apex Intelligence for the elite architect. Build your own digital global.</p>
-                <a href='https://orcinos.com/'>Enter the Hub →</a>
-            </div>
-
-            <div class='global-ad' style='background: #D0021B;'>
-                <h5>The Way Made Known</h5>
-                <p>Analytical faith and archaeological evidence. Read the latest mission report.</p>
-                <a href='https://orcinos.com/thewaymadeknown/'>Read Report →</a>
-            </div>
+            <h4>Empire Intelligence</h4>
+            <div class='ticker-item'><span>ORCINOS</span><p>Unified God Mode Hub successfully deployed for network oversight.</p></div>
+            <div class='ticker-item'><span>NURASEN</span><p>Live Device Handshake logic integrated into v1.29 shards.</p></div>
+            <div class='ticker-item'><span>TWMK</span><p>Archaeological evidence of analytical faith signals updated.</p></div>
         </aside>
     </div>
 
     <footer>
-        <img src='../logos/ORCINOS_DEFINITIVE_2026.png' alt='Prisca Dezigns' style='height: 40px; margin-bottom: 20px; filter: brightness(0) invert(1);'>
-        <p>&copy; 2026 ORCPULSE &middot; A PRISCA DEZIGNS GLOBAL MEDIA COMPANY</p>
+        <p>&copy; 2026 SOV SYGNL &middot; AN ORCINOS MEDIA DIVISION</p>
     </footer>
 
-    <!-- Payment Modal -->
-    <div class="modal-overlay" id="payModal">
-      <div class="modal">
-        <span class="modal-close" onclick="closePayModal()">✕</span>
-        <div class="modal-tabs">
-          <button class="modal-tab active" onclick="togglePay('bank', this)">Bank</button>
-          <button class="modal-tab" onclick="togglePay('eth', this)">Crypto</button>
-          <button class="modal-tab" onclick="togglePay('intl', this)">PayPal</button>
-        </div>
-        <h3 id="modal-plan-name" style="font-size: 1.1rem; margin-bottom: 20px; color: #111;">Elite Ad Payment</h3>
-        <div id="pay-bank" class="pay-detail open">
-          <div style="background:#f0f7ff; padding:15px; border-radius:12px; border:1px solid #d0e4ff; margin-bottom: 15px;">
-              <p><strong>Account:</strong> 70580060002427728</p>
-              <p><strong>Type:</strong> Checking</p>
-            </div>
-          <p style="font-size:0.75rem; color:#666;">Ref: <span id="auto-ref-bank" style="font-weight:700; color:#1A1A1A;">[REF]</span></p>
-        </div>
-        <div id="pay-eth" class="pay-detail">
-          <p style="font-size:0.8rem;color:#666;margin-bottom:12px;">Settlement via USDT / ETH / BTC (ERC-20)</p>
-          <div style="background:#f8f9fa;padding:15px;border-radius:12px;border:1px solid #eee;word-break:break-all;font-family:monospace;font-size:0.8rem; position: relative;">
-            <span id="eth-addr">0xcef857e82c306b3d0f2db080e7794f4bb376049e</span>
-            <button class="modal-copy-btn" onclick="copyAddr('eth-addr', event)">Copy</button>
-          </div>
-          <p style="font-size:0.75rem;color:#999;margin-top:10px;">Ref: <span id="auto-ref-eth" style="font-weight:700; color:#1A1A1A;">[REF]</span></p>
-        </div>
-        <div id="pay-intl" class="pay-detail">
-          <a id="paypal-btn" href="#" class="btn-ad" style="display:block; text-align:center; margin-bottom:15px; width: 100%; text-decoration: none; padding: 15px;">Proceed to PayPal</a>
-          <p style="font-size:0.75rem;color:#999;margin-top:10px;">Ref: <span id="auto-ref-intl" style="font-weight:700; color:#1A1A1A;">[REF]</span></p>
-        </div>
-      </div>
-    </div>
-
-    <script src="pulse_engine.js"></script>
     <script>
-    function openPayModal(plan, type) {
-      var el = document.getElementById('modal-plan-name');
-      if (el) el.textContent = plan + (type && type !== plan ? ' — ' + type : '');
-      var modal = document.getElementById('payModal');
-      if (modal) { modal.style.display = 'flex'; document.body.style.overflow = 'hidden'; }
-      var ref = plan.replace(/[^A-Z0-9]/gi,'').toUpperCase().slice(0,6) + '-' + Date.now().toString(36).toUpperCase().slice(-4);
-      ['bank','eth','intl'].forEach(function(k){ var el2=document.getElementById('auto-ref-'+k); if(el2) el2.textContent=ref; });
-      var ppBtn = document.getElementById('paypal-btn');
-      if (ppBtn) {
-        var rawAmt = type.replace(/[^0-9.]/g,'');
-        var itemName = encodeURIComponent(plan);
-        var base = 'https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=priscadezigns9%40gmail.com&currency_code=USD';
-        ppBtn.href = base + '&item_name=' + itemName + (rawAmt ? '&amount=' + rawAmt : '');
-      }
-      if (type==='PayPal') togglePay('intl');
-      else if (type==='Web3'||type==='Crypto') togglePay('eth');
-      else togglePay('bank');
-    }
-    function closePayModal() {
-      var modal = document.getElementById('payModal');
-      if (modal) { modal.style.display='none'; document.body.style.overflow=''; }
-    }
-    function togglePay(tab) {
-      document.querySelectorAll('.pay-detail').forEach(function(d){ d.classList.remove('open'); });
-      document.querySelectorAll('.modal-tab').forEach(function(b){ b.classList.remove('active'); });
-      var el=document.getElementById('pay-'+tab); if(el) el.classList.add('open');
-      var ab=document.querySelector('.modal-tab[onclick*="' + tab + '"]'); if(ab) ab.classList.add('active');
-    }
-    function copyAddr(id, ev) {
-      var el=document.getElementById(id);
-      if(el) navigator.clipboard.writeText(el.textContent).then(function(){
-        var btn=ev?ev.target:null;
-        if(btn){var orig=btn.textContent;btn.textContent='Copied!';setTimeout(function(){btn.textContent=orig;},1800);}
-      });
-    }
-    document.addEventListener('DOMContentLoaded',function(){
-      var mo=document.getElementById('payModal');
-      if(mo) mo.addEventListener('click',function(e){if(e.target===mo)closePayModal();});
-    });
+        // Placeholder for 30-min update script
+        console.log("SOV SYGNL News Engine: Initialized.");
     </script>
 </body>
 </html>
-
