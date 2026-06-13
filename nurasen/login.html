@@ -4,6 +4,7 @@
     <meta charset='UTF-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
     <title>NURASEN | Secure Access</title>
+    <!-- v1.25 - CLEAN SCIENTIFIC ALABASTER -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
@@ -21,17 +22,17 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background: var(--bg); color: var(--text); font-family: var(--font-body); height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden; }
         .wave-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: radial-gradient(circle at 50% 50%, #F8FAFC 0%, #FFFFFF 100%); }
-        .wave { position: absolute; width: 200%; height: 100%; background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600"><path d="M0 300 Q 200 150 400 300 T 800 300" fill="none" stroke="rgba(0,53,102,0.06)" stroke-width="2" /></svg>'); background-repeat: repeat-x; background-size: 50% 100%; animation: moveWave 25s linear infinite; }
+        .wave { position: absolute; width: 200%; height: 100%; background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600"><path d="M0 300 Q 200 150 400 300 T 800 300" fill="none" stroke="rgba(0,27,61,0.06)" stroke-width="2" /></svg>'); background-repeat: repeat-x; background-size: 50% 100%; animation: moveWave 25s linear infinite; }
         @keyframes moveWave { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
-        .auth-card { background: #FFFFFF; width: 100%; max-width: 440px; padding: 60px; border-radius: 40px; border: 1px solid #E2E8F0; box-shadow: 0 40px 100px rgba(0,0,0,0.06); text-align: center; position: relative; }
+        .auth-card { background: #FFFFFF; width: 100%; max-width: 440px; padding: 60px; border-radius: 40px; border: 1px solid #E2E8F0; box-shadow: 0 40px 100px rgba(0,0,0,0.06); text-align: center; position: relative; z-index: 10; }
         .auth-card img { height: 60px; margin-bottom: 30px; }
         .auth-card h2 { font-family: var(--font-header); font-size: 2rem; color: var(--primary); margin-bottom: 10px; }
         .auth-card p { color: var(--muted); font-size: 0.95rem; margin-bottom: 40px; }
 
         .form-group { text-align: left; margin-bottom: 25px; position: relative; }
         .form-group label { display: block; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
-        .form-group input { width: 100%; padding: 16px 20px; border-radius: 12px; border: 1.5px solid #E2E8F0; font-size: 1rem; color: var(--primary); outline: none; transition: 0.3s; }
+        .form-group input { width: 100%; padding: 16px 20px; border-radius: 12px; border: 1.5px solid #E2E8F0; font-size: 1rem; color: var(--primary); outline: none; transition: 0.3s; background: #FFF; }
         .form-group input:focus { border-color: var(--accent); }
         .toggle-pw { position: absolute; right: 20px; top: 45px; cursor: pointer; color: #94A3B8; }
 
@@ -40,8 +41,8 @@
         .auth-footer { margin-top: 35px; font-size: 0.9rem; color: var(--muted); }
         .auth-footer a { color: var(--accent); text-decoration: none; font-weight: 700; }
 
-        .god-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,8,20,0.8); backdrop-filter: blur(10px); z-index: 1000; justify-content: center; align-items: center; }
-        .god-card { background: #FFFFFF; padding: 50px; border-radius: 30px; text-align: center; width: 320px; border: 2px solid var(--accent); }
+        .god-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,27,61,0.8); backdrop-filter: blur(10px); z-index: 1000; justify-content: center; align-items: center; }
+        .god-card { background: #FFFFFF; padding: 50px; border-radius: 30px; text-align: center; width: 340px; border: 2px solid var(--accent); }
     </style>
 </head>
 <body>
@@ -55,7 +56,7 @@
         <button class="btn-auth" onclick="handleAuth()">Initialize Shard</button>
         <div class="auth-footer"><span id="footer-text">New to the Node?</span> <a href="javascript:void(0)" id="switch-auth">Initialize Perimeter</a></div>
     </div>
-    <div id="godModal" class="god-modal"><div class="god-card"><i data-lucide="shield-alert" size="48" color="#FF9500"></i><h3 style="margin: 20px 0 10px; font-family: var(--font-header);">Architect Access</h3><input type="password" id="godPass" placeholder="Token" style="width:100%; padding:12px; border-radius:10px; border:1px solid #E2E8F0; margin-bottom:20px; text-align:center;"><button class="btn-auth" onclick="verifyGod()" style="padding:12px; background:var(--accent);">Authorize</button></div></div>
+    <div id="godModal" class="god-modal"><div class="god-card"><i data-lucide="shield-alert" size="48" color="#FF9500"></i><h3 style="margin: 20px 0 10px; font-family: var(--font-header); color: var(--primary);">Architect Access</h3><input type="password" id="godPass" placeholder="Token" style="width:100%; padding:12px; border-radius:10px; border:1px solid #E2E8F0; margin-bottom:20px; text-align:center;"><button class="btn-auth" onclick="verifyGod()" style="padding:12px; background:var(--accent);">Authorize</button></div></div>
     <script>
         lucide.createIcons();
         const pwField = document.getElementById('password');
