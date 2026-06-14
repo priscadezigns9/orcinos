@@ -5,130 +5,159 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ORCINOS | Trusted Software Division</title>
     <link rel="icon" type="image/png" href="logos/orcinos_icon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --light-blue: #E0F2FE;
-            --accent-blue: #0ea5e9;
             --navy: #0f172a;
+            --amber: #f59e0b;
             --white: #FFFFFF;
             --gray: #64748b;
+            --light-blue: #E0F2FE;
             --border: #e2e8f0;
+            --font-header: 'Playfair Display', serif;
+            --font-body: 'Inter', sans-serif;
         }
         body {
             background-color: var(--white);
             color: var(--navy);
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: var(--font-body);
             margin: 0;
             padding: 0;
             line-height: 1.6;
         }
+        nav {
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid var(--border);
+        }
+        nav a {
+            color: var(--navy);
+            text-decoration: none;
+            margin: 0 20px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 700;
+            transition: color 0.3s ease;
+        }
+        nav a:hover {
+            color: var(--amber);
+        }
         header {
-            padding: 80px 20px;
+            padding: 120px 20px;
             text-align: center;
             background-color: var(--light-blue);
             border-bottom: 1px solid var(--border);
         }
         header img {
-            height: 120px;
-            margin-bottom: 20px;
+            height: 140px;
+            margin-bottom: 30px;
         }
         h1 {
+            font-family: var(--font-header);
             color: var(--navy);
-            font-size: 3rem;
+            font-size: 4rem;
             margin: 0;
             text-transform: uppercase;
-            letter-spacing: 4px;
+            letter-spacing: 6px;
             font-weight: 900;
         }
         .subtitle {
             color: var(--gray);
-            font-size: 1.2rem;
-            margin-top: 10px;
-            letter-spacing: 2px;
+            font-size: 1.25rem;
+            margin-top: 15px;
+            letter-spacing: 4px;
             text-transform: uppercase;
+            font-weight: 700;
         }
         .container {
-            max-width: 1200px;
+            max-width: 1000px;
             margin: 0 auto;
-            padding: 80px 20px;
+            padding: 100px 20px;
         }
-        .about-section {
-            margin-bottom: 80px;
+        .info-section {
             text-align: center;
+            margin-bottom: 100px;
         }
-        .about-section h2 {
-            font-size: 2.5rem;
+        .info-section h2 {
+            font-family: var(--font-header);
+            font-size: 2.8rem;
             font-weight: 800;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
             color: var(--navy);
         }
-        .about-section p {
-            font-size: 1.1rem;
+        .info-section p {
+            font-size: 1.2rem;
             color: var(--gray);
             max-width: 800px;
-            margin: 0 auto;
+            margin: 0 auto 40px;
         }
-        .product-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 40px;
-        }
-        .product-card {
-            background: var(--white);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 40px;
-            transition: all 0.3s ease;
-            display: flex;
-            flex-direction: column;
-            text-decoration: none;
-            color: inherit;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
-        }
-        .product-card:hover {
-            transform: translateY(-10px);
-            border-color: var(--accent-blue);
-            box-shadow: 0 20px 40px rgba(14, 165, 233, 0.1);
-        }
-        .product-card h3 {
-            margin: 0 0 15px 0;
-            color: var(--navy);
-            font-size: 1.6rem;
-            font-weight: 800;
-        }
-        .product-card p {
-            color: var(--gray);
-            font-size: 1rem;
-            line-height: 1.7;
-            margin-bottom: 30px;
-            flex-grow: 1;
-        }
-        .price-tag {
+        .cta-button {
             display: inline-block;
-            background: var(--light-blue);
-            color: var(--accent-blue);
-            padding: 6px 16px;
-            border-radius: 100px;
-            font-size: 0.85rem;
+            background-color: var(--navy);
+            color: var(--white);
+            padding: 18px 40px;
+            text-decoration: none;
             font-weight: 700;
-            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-radius: 4px;
+            transition: background 0.3s ease;
+        }
+        .cta-button:hover {
+            background-color: var(--amber);
+        }
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 50px;
+            margin-top: 60px;
+        }
+        .feature-item {
+            text-align: left;
+        }
+        .feature-item h3 {
+            font-family: var(--font-header);
+            font-size: 1.5rem;
+            color: var(--navy);
+            margin-bottom: 15px;
+        }
+        .feature-item p {
+            font-size: 1rem;
+            color: var(--gray);
         }
         footer {
             text-align: center;
-            padding: 80px 20px;
+            padding: 100px 20px;
             color: var(--gray);
-            font-size: 0.95rem;
+            font-size: 1rem;
             background: #f8fafc;
             border-top: 1px solid var(--border);
         }
         footer img {
-            height: 50px;
-            margin-bottom: 20px;
-            opacity: 0.8;
+            height: 60px;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+        .god-trigger-text {
+            cursor: pointer;
+            font-weight: 700;
         }
     </style>
 </head>
 <body>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="products.html">Products</a>
+    </nav>
+
     <header>
         <img src="logos/ORCINOS_DEFINITIVE_2026.png" alt="ORCINOS">
         <h1>ORCINOS</h1>
@@ -136,95 +165,35 @@
     </header>
 
     <div class="container">
-        <section class="about-section">
+        <section class="info-section">
             <h2>Architecting Digital Sovereignty</h2>
             <p>Orcinos is the high-fidelity software branch of the Priscion Network. We build autonomous tools and AI-powered platforms designed to restore digital independence and engineering excellence to the sovereign individual.</p>
+            <a href="products.html" class="cta-button">Explore Products</a>
         </section>
 
-        <div class="product-grid">
-            <!-- AI & Intelligence -->
-            <a href="./captioai/" class="product-card">
-                <h3>Captio AI</h3>
-                <p>High-fidelity AI social media engine for caption generation and management.</p>
-            </a>
-            <a href="./optiscout/" class="product-card">
-                <h3>OptiScout</h3>
-                <p>Autonomous market intelligence and real-time deal discovery engine.</p>
-            </a>
-            <a href="./sovsygnal/" class="product-card">
-                <h3>SovSygnal</h3>
-                <p>Global intelligence hub for data analysis and news signal processing.</p>
-            </a>
-            <a href="./suugoi/" class="product-card">
-                <h3>Suugoi</h3>
-                <p>Autonomous pricing intelligence and market monitoring engine.</p>
-            </a>
-            <a href="./dricil/" class="product-card">
-                <h3>Dricil</h3>
-                <p>Fully autonomous AI digital marketing agency for automated growth.</p>
-            </a>
-
-            <!-- Cybersecurity & Systems -->
-            <a href="./nurasen/" class="product-card">
-                <h3>Nurasen</h3>
-                <p>Neural cybersecurity and antivirus defense for sovereign data protection.</p>
-            </a>
-            <a href="./syla/" class="product-card">
-                <h3>Syla</h3>
-                <p>Intelligent logistics and asset management dashboard for high-fidelity operations.</p>
-            </a>
-
-            <!-- Wellness & Recovery -->
-            <a href="./nemui/" class="product-card">
-                <h3>Nemuie</h3>
-                <p>AI-powered sleep science and coaching platform for architectural recovery.</p>
-            </a>
-            <a href="./hartaly/" class="product-card">
-                <h3>Hartaly</h3>
-                <p>Empathetic AI companion designed for mental clarity and burnout recovery.</p>
-            </a>
-            <a href="./lattome/" class="product-card">
-                <h3>Lattome</h3>
-                <p>Distraction-free environment for prayer and deep analytical meditation.</p>
-            </a>
-
-            <!-- Media & Culture -->
-            <a href="./riddiim/" class="product-card">
-                <h3>Riddiim</h3>
-                <p>Professional music player and audio engineering studio.</p>
-            </a>
-            <a href="./dpanyard/" class="product-card">
-                <h3>D'Panyard</h3>
-                <p>Global home for Steelpan music and high-fidelity Caribbean culture.</p>
-            </a>
-            <a href="https://calalloo.com" class="product-card">
-                <h3>Calalloo</h3>
-                <p>The ultimate Caribbean marketplace - everything Caribbean, in one sovereign hub.</p>
-            </a>
-
-            <!-- Specialized Tools -->
-            <a href="./pawdx/" class="product-card">
-                <h3>PawDX</h3>
-                <p>AI-powered veterinary diagnostics and pet health intelligence engine.</p>
-            </a>
-            <a href="./titantraderx/" class="product-card">
-                <h3>Titan TraderX</h3>
-                <p>Institutional grade prop firm infrastructure and sovereign trading logic.</p>
-            </a>
-            <a href="./firmless/" class="product-card">
-                <h3>Firmless</h3>
-                <p>Legal automation and contract generation for creators and entrepreneurs.</p>
-            </a>
-            <a href="./skillbit/" class="product-card">
-                <h3>Senpai Learning</h3>
-                <p>Micro-learning platform for rapid high-fidelity skill acquisition.</p>
-            </a>
-        </div>
+        <section class="info-section" style="background: var(--light-blue); padding: 80px 40px; border-radius: 20px;">
+            <h2>The Orcinos Mission</h2>
+            <p>Our mandate is clear: Eliminate digital complexity through precise engineering. We don't just build apps; we architect ecosystems that empower individuals to take full control of their data, their time, and their digital future.</p>
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <h3>High Fidelity Design</h3>
+                    <p>Every interface is crafted with institutional precision, ensuring clarity and performance across all platforms.</p>
+                </div>
+                <div class="feature-item">
+                    <h3>Neural Intelligence</h3>
+                    <p>Leveraging advanced AI patterns to automate complex tasks, from market intelligence to cybersecurity defense.</p>
+                </div>
+                <div class="feature-item">
+                    <h3>Sovereign Utility</h3>
+                    <p>Tools that work for you, not the other way around. No data harvesting, no distractions—just pure utility.</p>
+                </div>
+            </div>
+        </section>
     </div>
 
     <footer>
         <img src="logos/orcinos_icon.png" alt="ORCINOS Icon" id="god-trigger"><br>
-        <p>&copy; 2026 PRISCION NETWORK · <span id="god-trigger-text" style="cursor:default;">ORCINOS</span> DIVISION · ANCHORED TO ETERNITY</p>
+        <p>&copy; 2026 PRISCION NETWORK · <span id="god-trigger-text" class="god-trigger-text">ORCINOS</span> DIVISION · ANCHORED TO ETERNITY</p>
     </footer>
 
     <script>
@@ -243,7 +212,6 @@
                     clickCount = 0;
                 }
             }
-            // Reset count if no clicks for 3 seconds
             clearTimeout(this.timeout);
             this.timeout = setTimeout(() => { clickCount = 0; }, 3000);
         }
