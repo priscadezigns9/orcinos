@@ -15,7 +15,7 @@
             --muted: #64748B;
             --primary: #064E3B; /* Deep Veterinary Green */
             --accent: #10B981; /* Clinical Green */
-            --border: rgba(12, 74, 110, 0.1);
+            --border: rgba(6, 78, 59, 0.1);
             --font-header: 'Playfair Display', serif;
             --font-body: 'Inter', sans-serif;
         }
@@ -35,18 +35,18 @@
             border-bottom: 1px solid var(--border);
         }
         .logo { display: flex; align-items: center; text-decoration: none; color: var(--primary); font-family: var(--font-header); font-weight: 900; font-size: 1.8rem; letter-spacing: -1px; }
-        .logo img { height: 50px; margin-right: 15px; }
+        .logo img { height: 45px; margin-right: 15px; }
 
         .hero { 
             padding: 140px 6% 100px; 
             text-align: center; 
-            background: radial-gradient(circle at top right, #F0F9FF, #FFFFFF);
+            background: radial-gradient(circle at top right, #F0FDF4, #FFFFFF);
             overflow: hidden;
         }
         .hero-badge {
             display: inline-block;
             padding: 8px 16px;
-            background: rgba(56, 189, 248, 0.1);
+            background: rgba(16, 185, 129, 0.1);
             color: var(--primary);
             border-radius: 100px;
             font-weight: 700;
@@ -58,8 +58,8 @@
         .hero h1 { 
             font-family: var(--font-header); 
             font-size: 4rem; 
-            font-weight: 900;
-            line-height: 1.1;
+            font-weight: 900; 
+            line-height: 1.1; 
             margin-bottom: 25px; 
             color: var(--primary);
         }
@@ -78,7 +78,7 @@
             border: 1px solid var(--border);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        .card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(12, 74, 110, 0.05); }
+        .card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(6, 78, 59, 0.05); }
         .card i { color: var(--accent); margin-bottom: 25px; display: block; }
         .card h3 { font-family: var(--font-header); font-size: 1.5rem; margin-bottom: 15px; color: var(--primary); }
         .card p { color: var(--muted); }
@@ -92,7 +92,7 @@
         .btn { 
             display: inline-block;
             padding: 18px 36px; 
-            border-radius: 12px; 
+            border-radius: 120px; 
             font-weight: 700; 
             text-decoration: none; 
             cursor: pointer; 
@@ -110,8 +110,7 @@
 <body>
     <header>
         <a href="/" class="logo">
-            <img src="../logos/pawdx_logo.png" alt="PawDX">
-            <span>PAWDX</span>
+            <img src="../logos/pawdx_logo.png" alt="PawDX Logo">
         </a>
         <div class="nav-links">
             <i data-lucide="menu" class="menu-icon" style="cursor:pointer; color: var(--primary);"></i>
@@ -156,4 +155,3 @@
     <script>lucide.createIcons();</script>
 </body>
 </html>
-
