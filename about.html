@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ABOUT | ORCINOS Trusted Software</title>
+    <link rel="icon" type="image/png" href="logos/orcinos_icon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --navy: #0f172a;
+            --amber: #f59e0b;
+            --white: #FFFFFF;
+            --gray: #64748b;
+            --light-blue: #E0F2FE;
+            --border: #e2e8f0;
+            --font-header: 'Playfair Display', serif;
+            --font-body: 'Inter', sans-serif;
+        }
+        body {
+            background-color: var(--white);
+            color: var(--navy);
+            font-family: var(--font-body);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid var(--border);
+        }
+        nav a {
+            color: var(--navy);
+            text-decoration: none;
+            margin: 0 20px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 700;
+            transition: color 0.3s ease;
+        }
+        nav a:hover {
+            color: var(--amber);
+        }
+        header {
+            padding: 80px 20px;
+            text-align: center;
+            background-color: var(--light-blue);
+            border-bottom: 1px solid var(--border);
+        }
+        h1 {
+            font-family: var(--font-header);
+            color: var(--navy);
+            font-size: 3rem;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 80px 20px;
+        }
+        .section {
+            margin-bottom: 60px;
+        }
+        .section h2 {
+            font-family: var(--font-header);
+            font-size: 2.2rem;
+            color: var(--navy);
+            margin-bottom: 20px;
+        }
+        .orca-accent {
+            width: 60px;
+            height: 4px;
+            background: var(--amber);
+            margin-bottom: 30px;
+        }
+        p {
+            font-size: 1.1rem;
+            color: var(--gray);
+            margin-bottom: 25px;
+        }
+        .highlight {
+            color: var(--navy);
+            font-weight: 700;
+        }
+        footer {
+            text-align: center;
+            padding: 80px 20px;
+            color: var(--gray);
+            background: #f8fafc;
+            border-top: 1px solid var(--border);
+        }
+        footer img {
+            height: 50px;
+            margin-bottom: 20px;
+        }
+        .god-trigger-text {
+            cursor: pointer;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="products.html">Products</a>
+    </nav>
+
+    <header>
+        <h1>Apex Intelligence</h1>
+        <p style="text-transform: uppercase; letter-spacing: 3px; font-weight: 700; color: var(--gray); margin-top: 10px;">The Orcinos Mandate</p>
+    </header>
+
+    <div class="container">
+        <div class="section">
+            <div class="orca-accent"></div>
+            <h2>The Apex Philosophy</h2>
+            <p>Named after the <span class="highlight">Orca (Orcinus orca)</span>, the most intelligent and versatile apex predator of the global oceans, Orcinos represents the software engineering peak of the Priscion Network.</p>
+            <p>In the digital ecosystem, complexity is the predator. Orcinos is the solution. We build with the precision of a hunter and the social intelligence of a pod, ensuring every line of code serves a purpose and every tool delivers sovereign utility.</p>
+        </div>
+
+        <div class="section">
+            <h2>Sovereign Software</h2>
+            <p>Orcinos is the dedicated software and AI branch of the Priscion Network. Our mandate is to build functional, autonomous tools that empower individuals and enterprises to operate at their own "Apex" level.</p>
+            <p>We provide the logic, the code, and the intelligence that makes the Network move.</p>
+        </div>
+
+        <div class="section">
+            <h2>Dual Pillar Architecture</h2>
+            <p>Working in harmony with <span class="highlight">Prisca Dezigns</span> (Creative & Design) and <span class="highlight">Sovereign Ledger</span> (Sovereign Finance), Orcinos provides the technological backbone for high-fidelity digital experiences.</p>
+        </div>
+    </div>
+
+    <footer>
+        <img src="logos/orcinos_icon.png" alt="ORCINOS Icon" id="god-trigger"><br>
+        <p>&copy; 2026 PRISCION NETWORK · <span id="god-trigger-text" class="god-trigger-text">ORCINOS</span> DIVISION · ANCHORED TO ETERNITY</p>
+    </footer>
+
+    <script>
+        let clickCount = 0;
+        const triggerText = document.getElementById('god-trigger-text');
+        const triggerImg = document.getElementById('god-trigger');
+
+        function handleGodMode() {
+            clickCount++;
+            if (clickCount === 5) {
+                const token = prompt("ARCHITECT_HANDSHAKE: ENTER ACCESS TOKEN");
+                if (token === 'alice') {
+                    window.location.href = './godmode/hub.html';
+                } else {
+                    alert("ACCESS_DENIED: UNAUTHORIZED SHARD");
+                    clickCount = 0;
+                }
+            }
+            clearTimeout(this.timeout);
+            this.timeout = setTimeout(() => { clickCount = 0; }, 3000);
+        }
+
+        triggerText.addEventListener('click', handleGodMode);
+        triggerImg.addEventListener('click', handleGodMode);
+    </script>
+</body>
+</html>
