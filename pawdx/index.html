@@ -11,7 +11,7 @@
         :root {
             --bg: #FFFFFF;
             --surface: #F8FAFC;
-            --text: #0F172@;
+            --text: #0F172A;
             --muted: #64748B;
             --primary: #0F172A; /* Institutional Navy */
             --accent: #F97316; /* Brand Orange */
@@ -109,22 +109,19 @@
 </head>
 <body>
     <header>
-        <a href="/" class="logo">
+        <a href="/index.html" class="logo">
             <img src="../logos/pawdx_logo.png" alt="PawDX Logo">
         </a>
-        <div class="nav-links">
-            <i data-lucide="menu" class="menu-icon" style="cursor:pointer; color: var(--primary);"></i>
-        </div>
     </header>
 
     <section class="hero">
         <div class="hero-badge">Neural Veterinary Care</div>
         <h1>The Future of Pet Diagnostics.</h1>
         <p>AI-powered intelligence for instant veterinary analysis. Bridging the gap between home monitoring and clinical excellence.</p>
-        <a href="#" class="btn">Deploy Intelligence</a>
+        <a href="#features" class="btn">Deploy Intelligence</a>
     </section>
 
-    <section class="features">
+    <section id="features" class="features">
         <div class="card">
             <i data-lucide="scan" size="40"></i>
             <h3>Vision Diagnostics</h3>
@@ -144,7 +141,7 @@
 
     <section class="cta-section">
         <h2 style="font-family: var(--font-header); font-size: 2.5rem; margin-bottom: 30px;">Ready for the next evolution in care?</h2>
-        <a href="#" class="btn">Get Started</a>
+        <a href="javascript:void(0)" onclick="alert('Coming Soon')" class="btn">Get Started</a>
     </section>
 
     <footer>
