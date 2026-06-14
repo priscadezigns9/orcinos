@@ -1,0 +1,1 @@
+Error executing command: 'utf-8' codec can't decode byte 0xde in position 5: invalid continuation byte
