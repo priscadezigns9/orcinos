@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PRODUCTS | ORCINOS Trusted Software</title>
+    <link rel="icon" type="image/png" href="logos/orcinos_icon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --navy: #0f172a;
+            --amber: #f59e0b;
+            --white: #FFFFFF;
+            --gray: #64748b;
+            --light-blue: #E0F2FE;
+            --border: #e2e8f0;
+            --font-header: 'Playfair Display', serif;
+            --font-body: 'Inter', sans-serif;
+        }
+        body {
+            background-color: var(--white);
+            color: var(--navy);
+            font-family: var(--font-body);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid var(--border);
+        }
+        nav a {
+            color: var(--navy);
+            text-decoration: none;
+            margin: 0 20px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 700;
+            transition: color 0.3s ease;
+        }
+        nav a:hover {
+            color: var(--amber);
+        }
+        header {
+            padding: 80px 20px;
+            text-align: center;
+            background-color: var(--light-blue);
+            border-bottom: 1px solid var(--border);
+        }
+        h1 {
+            font-family: var(--font-header);
+            color: var(--navy);
+            font-size: 3rem;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 40px;
+        }
+        .product-card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 40px;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            text-decoration: none;
+            color: inherit;
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--amber);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+        .product-card h3 {
+            margin: 0 0 15px 0;
+            color: var(--navy);
+            font-size: 1.6rem;
+            font-family: var(--font-header);
+        }
+        .product-card p {
+            color: var(--gray);
+            font-size: 1rem;
+            line-height: 1.7;
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+        footer {
+            text-align: center;
+            padding: 80px 20px;
+            color: var(--gray);
+            background: #f8fafc;
+            border-top: 1px solid var(--border);
+        }
+        footer img {
+            height: 50px;
+            margin-bottom: 20px;
+        }
+        .god-trigger-text {
+            cursor: pointer;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="products.html">Products</a>
+    </nav>
+
+    <header>
+        <h1>Our Products</h1>
+        <p style="text-transform: uppercase; letter-spacing: 3px; font-weight: 700; color: var(--gray); margin-top: 10px;">Institutional Grade Software Suite</p>
+    </header>
+
+    <div class="container">
+        <div class="product-grid">
+            <!-- AI & Intelligence -->
+            <a href="./captioai/" class="product-card">
+                <h3>Captio AI</h3>
+                <p>High-fidelity AI social media engine for caption generation and management.</p>
+            </a>
+            <a href="./optiscout/" class="product-card">
+                <h3>OptiScout</h3>
+                <p>Autonomous market intelligence and real-time deal discovery engine.</p>
+            </a>
+            <a href="./sovsygnal/" class="product-card">
+                <h3>SovSygnal</h3>
+                <p>Global intelligence hub for data analysis and news signal processing.</p>
+            </a>
+            <a href="./suugoi/" class="product-card">
+                <h3>Suugoi</h3>
+                <p>Autonomous pricing intelligence and market monitoring engine.</p>
+            </a>
+            <a href="./dricil/" class="product-card">
+                <h3>Dricil</h3>
+                <p>Fully autonomous AI digital marketing agency for automated growth.</p>
+            </a>
+
+            <!-- Cybersecurity & Systems -->
+            <a href="./nurasen/" class="product-card">
+                <h3>Nurasen</h3>
+                <p>Neural cybersecurity and antivirus defense for sovereign data protection.</p>
+            </a>
+            <a href="./syla/" class="product-card">
+                <h3>Syla</h3>
+                <p>Intelligent logistics and asset management dashboard for high-fidelity operations.</p>
+            </a>
+
+            <!-- Wellness & Recovery -->
+            <a href="./nemui/" class="product-card">
+                <h3>Nemuie</h3>
+                <p>AI-powered sleep science and coaching platform for architectural recovery.</p>
+            </a>
+            <a href="./hartaly/" class="product-card">
+                <h3>Hartaly</h3>
+                <p>Empathetic AI companion designed for mental clarity and burnout recovery.</p>
+            </a>
+            <a href="./lattome/" class="product-card">
+                <h3>Lattome</h3>
+                <p>Distraction-free environment for prayer and deep analytical meditation.</p>
+            </a>
+
+            <!-- Media & Culture -->
+            <a href="./riddiim/" class="product-card">
+                <h3>Riddiim</h3>
+                <p>Professional music player and audio engineering studio.</p>
+            </a>
+            <a href="./dpanyard/" class="product-card">
+                <h3>D'Panyard</h3>
+                <p>Global home for Steelpan music and high-fidelity Caribbean culture.</p>
+            </a>
+            <a href="https://calalloo.com" class="product-card">
+                <h3>Calalloo</h3>
+                <p>The ultimate Caribbean marketplace - everything Caribbean, in one sovereign hub.</p>
+            </a>
+
+            <!-- Specialized Tools -->
+            <a href="./pawdx/" class="product-card">
+                <h3>PawDX</h3>
+                <p>AI-powered veterinary diagnostics and pet health intelligence engine.</p>
+            </a>
+            <a href="./titantraderx/" class="product-card">
+                <h3>Titan TraderX</h3>
+                <p>Institutional grade prop firm infrastructure and sovereign trading logic.</p>
+            </a>
+            <a href="./firmless/" class="product-card">
+                <h3>Firmless</h3>
+                <p>Legal automation and contract generation for creators and entrepreneurs.</p>
+            </a>
+            <a href="./skillbit/" class="product-card">
+                <h3>Senpai Learning</h3>
+                <p>Micro-learning platform for rapid high-fidelity skill acquisition.</p>
+            </a>
+        </div>
+    </div>
+
+    <footer>
+        <img src="logos/orcinos_icon.png" alt="ORCINOS Icon" id="god-trigger"><br>
+        <p>&copy; 2026 PRISCION NETWORK · <span id="god-trigger-text" class="god-trigger-text">ORCINOS</span> DIVISION · ANCHORED TO ETERNITY</p>
+    </footer>
+
+    <script>
+        let clickCount = 0;
+        const triggerText = document.getElementById('god-trigger-text');
+        const triggerImg = document.getElementById('god-trigger');
+
+        function handleGodMode() {
+            clickCount++;
+            if (clickCount === 5) {
+                const token = prompt("ARCHITECT_HANDSHAKE: ENTER ACCESS TOKEN");
+                if (token === 'alice') {
+                    window.location.href = './godmode/hub.html';
+                } else {
+                    alert("ACCESS_DENIED: UNAUTHORIZED SHARD");
+                    clickCount = 0;
+                }
+            }
+            clearTimeout(this.timeout);
+            this.timeout = setTimeout(() => { clickCount = 0; }, 3000);
+        }
+
+        triggerText.addEventListener('click', handleGodMode);
+        triggerImg.addEventListener('click', handleGodMode);
+    </script>
+</body>
+</html>
