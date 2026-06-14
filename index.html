@@ -42,7 +42,7 @@
             margin: 0 20px;
             font-size: 0.9rem;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
             font-weight: 700;
             transition: color 0.3s ease;
         }
@@ -50,116 +50,150 @@
             color: var(--amber);
         }
         header {
+            padding: 120px 20px;
             text-align: center;
-            padding: 80px 20px;
             background-color: var(--light-blue);
+            border-bottom: 1px solid var(--border);
         }
         header img {
-            height: 140px; mix-blend-mode: multiply;
+            height: 140px;
             margin-bottom: 30px;
         }
-        header h1 {
+        h1 {
             font-family: var(--font-header);
-            font-size: 3.5rem;
+            color: var(--navy);
+            font-size: 4rem;
             margin: 0;
-            letter-spacing: 2px;
-        }
-        header .subtitle {
-            font-size: 1.2rem;
-            color: var(--gray);
             text-transform: uppercase;
+            letter-spacing: 6px;
+            font-weight: 900;
+        }
+        .subtitle {
+            color: var(--gray);
+            font-size: 1.25rem;
+            margin-top: 15px;
             letter-spacing: 4px;
-            margin-top: 10px;
+            text-transform: uppercase;
+            font-weight: 700;
         }
         .container {
-            max-width: 1200px;
+            max-width: 1000px;
             margin: 0 auto;
-            padding: 60px 20px;
+            padding: 100px 20px;
         }
-        .future-section {
+        .info-section {
             text-align: center;
-            margin-bottom: 80px;
+            margin-bottom: 100px;
         }
-        .future-section h2 {
+        .info-section h2 {
             font-family: var(--font-header);
-            font-size: 2.5rem;
-            margin-bottom: 20px;
+            font-size: 2.8rem;
+            font-weight: 800;
+            margin-bottom: 30px;
+            color: var(--navy);
+        }
+        .info-section p {
+            font-size: 1.2rem;
+            color: var(--gray);
+            max-width: 800px;
+            margin: 0 auto 40px;
+        }
+        .cta-button {
+            display: inline-block;
+            background-color: var(--navy);
+            color: var(--white);
+            padding: 18px 40px;
+            text-decoration: none;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-radius: 4px;
+            transition: background 0.3s ease;
+        }
+        .cta-button:hover {
+            background-color: var(--amber);
         }
         .feature-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1vr));
-            gap: 40px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 50px;
             margin-top: 60px;
         }
         .feature-item {
-            padding: 30px;
-            border: 1px solid var(--border);
-            transition: all 0.3s ease;
-        }
-        .feature-item:hover {
-            border-color: var(--amber);
-            transform: translateY(-5px);
+            text-align: left;
         }
         .feature-item h3 {
             font-family: var(--font-header);
+            font-size: 1.5rem;
+            color: var(--navy);
             margin-bottom: 15px;
         }
+        .feature-item p {
+            font-size: 1rem;
+            color: var(--gray);
+        }
         footer {
-            background-color: var(--navy);
-            color: var(--white);
             text-align: center;
-            padding: 60px 20px;
-            font-size: 0.8rem;
-            letter-spacing: 1px;
+            padding: 100px 20px;
+            color: var(--gray);
+            font-size: 1rem;
+            background: #f8fafc;
+            border-top: 1px solid var(--border);
         }
         footer img {
-            height: 40px;
-            margin-bottom: 20px;
-            cursor: pointer;
+            height: 60px;
+            margin-bottom: 30px;
+            opacity: 0.9;
         }
         .god-trigger-text {
             cursor: pointer;
+            font-weight: 700;
         }
     </style>
 </head>
 <body>
     <nav>
-        <a href="./">Home</a>
-        <a href="products.html">Products</a>
+        <a href="index.html">Home</a>
         <a href="about.html">About</a>
+        <a href="products.html">Products</a>
     </nav>
 
     <header>
         <img src="logos/ORCINOS_DEFINITIVE_2026.png" alt="ORCINOS">
         <h1>ORCINOS</h1>
-        <div class="subtitle">Trusted Software Division</dive>
+        <div class="subtitle">Trusted Software Division</div>
     </header>
 
     <div class="container">
-        <section class="future-section">
-            <h2>The Technological Backbone.</h2>
-            <p>ORCINOS builds the software engines that power the PRISCION NETWORK. From high-fidelity AI tools to secure blockchain infrastructure, we deliver uncompromising performance.</p>
-            
+        <section class="info-section">
+            <h2>Architecting Digital Sovereignty</h2>
+            <p>Orcinos is a high-fidelity software entity. We build autonomous tools and AI-powered platforms designed to restore digital independence and engineering excellence to the sovereign individual.</p>
+            <a href="products.html" class="cta-button">Explore Products</a>
+        </section>
+
+        <section class="info-section" style="background: var(--light-blue); padding: 80px 40px; border-radius: 20px;">
+            <h2>The Orcinos Mission</h2>
+            <p>Our mandate is clear: Eliminate digital complexity through precise engineering. We don't just build apps; we architect ecosystems that empower individuals to take full control of their data, their time, and their digital future.</p>
             <div class="feature-grid">
                 <div class="feature-item">
-                    <h3>Autonomous Core</h3>
-                    <p>Self-sustaining systems designed for 30-minute autonomy and beyond.</p>
+                    <h3>High Fidelity Design</h3>
+                    <p>Every interface is crafted with institutional precision, ensuring clarity and performance across all platforms.</p>
                 </div>
                 <div class="feature-item">
-                    <h3>Neural Defense</h3>
-                    <p>Advanced antivirus and cybersecurity defense.</p>
+                    <h3>Neural Intelligence</h3>
+                    <p>Leveraging advanced AI patterns to automate complex tasks, from market intelligence to cybersecurity defense.</p>
                 </div>
                 <div class="feature-item">
                     <h3>Sovereign Utility</h3>
-                    <p>Tools that work for you, not the other way around. No data harvesting, no distractions‥j�st pure utility.</p>
+                    <p>Tools that work for you, not the other way around. No data harvesting, no distractions—just pure utility.</p>
                 </div>
             </div>
         </section>
     </div>
 
     <footer>
-        <img src="logos/orcinos_icon.png" alt="ORCINOS Icon" id="god-trigger"><br>
-        <p>&copy; 2026 PRISCION NETWORK. <span id="god-trigger-text" class="god-trigger-text">ORCINOS</span> DIVISION. ANCHORED TO ETERNITY</p>
+        <img src="logos/orcinos_icon.png" alt="ORCINOS Icon" id="god-trigger" width="40"><br>
+        <p>&copy; 2026 ORCINOS · <span id="god-trigger-text" class="god-trigger-text">TRUSTED SOFTWARE</span> · ANCHORED TO ETERNITY</p>
     </footer>
 
     <script>
