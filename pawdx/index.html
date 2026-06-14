@@ -32,8 +32,16 @@
         .hero h1 { font-size: 2.5rem; font-weight: 900; line-height: 1.1; margin-bottom: 20px; color: var(--primary); }
         .hero p { font-size: 1rem; color: var(--muted); max-width: 500px; margin: 0 auto 25px; }
 
-        .btn { display: inline-block; width: 100%; max-width: 320px; padding: 16px; border-radius: 18px; font-weight: 700; text-decoration: none; cursor: pointer; transition: 0.3s; background: var(--accent); color: white; border: none; font-size: 1.05rem; }
+        .btn { display: inline-block; width: 100%; max-width: 320px; padding: 16px; border-radius: 18px; font-weight: 700; text-decoration: none; cursor: pointer; transition: 0.3s; background: var(--accent); color: white; border: none; font-size: 1.05rem; text-align: center; }
         .btn:active { transform: scale(0.98); }
+
+        /* Features Section */
+        .features { padding: 60px 6%; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+        .card { background: var(--surface); padding: 30px; border-radius: 24px; border: 1px solid var(--border); transition: 0.3s; }
+        .card:hover { transform: translateY(-5px); border-color: var(--accent); }
+        .card i { color: var(--accent); margin-bottom: 20px; }
+        .card h3 { font-size: 1.25rem; font-weight: 700; margin-bottom: 10px; color: var(--primary); }
+        .card p { font-size: 0.9rem; color: var(--muted); }
 
         /* Mobile-First Multi-Modal Diagnostic Portal */
         #diagnostic-portal {
@@ -50,7 +58,6 @@
 
         .input-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); padding: 35px 25px; border-radius: 24px; text-align: center; margin-bottom: 25px; }
         
-        /* Mobile-Optimized Paw Sync */
         .paw-sync-zone {
             width: 180px; height: 180px; border-radius: 50%; border: 3px dashed var(--accent);
             margin: 30px auto; display: flex; justify-content: center; align-items: center;
@@ -72,9 +79,8 @@
         }
 
         footer { padding: 40px 6%; text-align: center; border-top: 1px solid var(--border); }
-        footer img { height: 30px; opacity: 0.4; }
+        footer img { height: 30px; opacity: 0.4; mix-blend-mode: multiply; }
         
-        /* Premium Logic Overlay */
         .premium-overlay {
             position: fixed; bottom: 0; left: 0; width: 100%; padding: 40px 20px;
             background: linear-gradient(to top, #0F172A 90%, transparent);
@@ -95,6 +101,24 @@
         <h1>Your Pet’s Health, Handled.</h1>
         <p>Phase-link your pet to our clinical neural core via camera and touch sync.</p>
         <button onclick="startDiagnostic()" class="btn">Start Diagnostic Link</button>
+    </section>
+
+    <section class="features">
+        <div class="card">
+            <i data-lucide="scan" size="32"></i>
+            <h3>Vision Diagnostics</h3>
+            <p>Advanced neural networks trained on millions of veterinary records for instant visual screening.</p>
+        </div>
+        <div class="card">
+            <i data-lucide="activity" size="32"></i>
+            <h3>Vitals Monitoring</h3>
+            <p>Non-invasive tracking of respiratory and heart rate patterns to identify early signs of systemic distress.</p>
+        </div>
+        <div class="card">
+            <i data-lucide="fingerprint" size="32"></i>
+            <h3>Tactile Sync</h3>
+            <p>High-fidelity biometric fusion through paw-pad synchronization for pulse and temperature analysis.</p>
+        </div>
     </section>
 
     <!-- Portal -->
@@ -149,7 +173,6 @@
             </div>
         </div>
 
-        <!-- Premium Gate Overlay -->
         <div class="premium-overlay" id="premium-gate">
             <h2 style="margin-bottom:10px;">Clinical Data Locked</h2>
             <p style="color:var(--muted); margin-bottom:25px; font-size:0.9rem;">Unlock the full Clinical Report and Pathological Diagnostics for $19.99.</p>
@@ -160,7 +183,7 @@
 
     <footer>
         <img src="../logos/orcinos_icon.png" alt="Orcinos">
-        <p style="font-size:0.7rem; color:var(--muted); margin-top:10px;">© 2026 ORCINOS · PAWDX</p>
+        <p style="font-size:0.7rem; color:var(--muted); margin-top:10px;">© 2026 ORCINOS · PAWDX · ANCHORED TO ETERNITY</p>
     </footer>
 
     <script>
@@ -179,7 +202,7 @@
 
         function startSync() {
             const zone = document.getElementById('paw-zone');
-     -�nst status { document.getElementById('sunc-status'); }
+            const status = document.getElementById('sync-status');
             zone.classList.add('active');
             status.innerText = "Syncing Bio-Signal...";
             syncTimer = setTimeout(() => {
@@ -188,11 +211,11 @@
             }, 2500);
         }
 
-        function stopSync()) {
+        function stopSync() {
             clearTimeout(syncTimer);
             document.getElementById('paw-zone').classList.remove('active');
             if(document.getElementById('sync-status').innerText !== "Sync Complete.") {
-                document.getElementById('sunc-status').innerText = "Place Paw on Pad";
+                document.getElementById('sync-status').innerText = "Place Paw on Pad";
             }
         }
 
