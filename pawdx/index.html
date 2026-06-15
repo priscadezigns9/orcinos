@@ -23,167 +23,201 @@
         body { background: var(--bg); color: var(--text); font-family: var(--font-main); line-height: 1.6; overflow-x: hidden; touch-action: manipulation; }
         
         header { 
-            padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; 
-            background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 100; border-bottom: 1px solid var(--border);
+            padding: 15px 6%; display: flex; justify-content: space-between; align-items: center; 
+            background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 100; border-bottom: 1px solid var(--border);
         }
-        .logo img { height: 38px; mix-blend-mode: multiply; }
+        
+        /* Logo Background Purge Logic */
+        .logo-container {
+            background: white;
+            padding: 5px;
+            border-radius: 8px;
+        }
+        .logo img { 
+            height: 40px; 
+            display: block;
+            mix-blend-mode: multiply; /* Institutional background removal */
+            filter: contrast(1.1) brightness(1.05);
+        }
 
-        .hero { padding: 60px 6% 40px; text-align: center; background: radial-gradient(circle at top right, #F5F3FF, #FFFFFF); }
-        .hero h1 { font-size: 2.5rem; font-weight: 900; line-height: 1.1; margin-bottom: 20px; color: var(--primary); }
-        .hero p { font-size: 1rem; color: var(--muted); max-width: 500px; margin: 0 auto 25px; }
+        .nav-desktop { display: flex; gap: 30px; }
+        .nav-desktop a { text-decoration: none; color: var(--primary); font-weight: 700; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1.5px; transition: 0.3s; }
+        .nav-desktop a:hover { color: var(--accent); }
+        .nav-mobile-trigger { display: none; cursor: pointer; }
 
-        .btn { display: inline-block; width: 100%; max-width: 320px; padding: 16px; border-radius: 18px; font-weight: 700; text-decoration: none; cursor: pointer; transition: 0.3s; background: var(--accent); color: white; border: none; font-size: 1.05rem; text-align: center; }
-        .btn:active { transform: scale(0.98); }
+        @media (max-width: 768px) {
+            .nav-desktop { display: none; }
+            .nav-mobile-trigger { display: block; }
+        }
 
-        /* Features Section */
-        .features { padding: 60px 6%; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
-        .card { background: var(--surface); padding: 30px; border-radius: 24px; border: 1px solid var(--border); transition: 0.3s; }
-        .card:hover { transform: translateY(-5px); border-color: var(--accent); }
-        .card i { color: var(--accent); margin-bottom: 20px; }
-        .card h3 { font-size: 1.25rem; font-weight: 700; margin-bottom: 10px; color: var(--primary); }
-        .card p { font-size: 0.9rem; color: var(--muted); }
+        .hero { padding: 100px 6% 80px; text-align: center; background: radial-gradient(circle at top right, #F5F3FF, #FFFFFF); }
+        .hero-badge { display: inline-block; padding: 8px 16px; background: rgba(249, 115, 22, 0.1); color: var(--accent); border-radius: 100px; font-weight: 700; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; }
+        .hero h1 { font-size: clamp(2.5rem, 8vw, 4rem); font-weight: 900; line-height: 1.1; margin-bottom: 25px; color: var(--primary); }
+        .hero p { font-size: 1.1rem; color: var(--muted); max-width: 600px; margin: 0 auto 40px; }
 
-        /* Mobile-First Multi-Modal Diagnostic Portal */
+        .btn { display: inline-block; padding: 18px 36px; border-radius: 20px; font-weight: 700; text-decoration: none; cursor: pointer; transition: 0.3s; background: var(--accent); color: white; border: none; font-size: 1.1rem; width: 100%; max-width: 300px; }
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(249, 115, 22, 0.2); }
+
+        .features { padding: 80px 6%; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .card { padding: 50px; border-radius: 30px; background: var(--surface); border: 1px solid var(--border); transition: 0.3s; }
+        .card i { color: var(--accent); margin-bottom: 25px; display: block; }
+        .card h3 { font-size: 1.5rem; margin-bottom: 15px; color: var(--primary); }
+
+        /* Neural Diagnostic Portal */
         #diagnostic-portal {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: #0F172A; z-index: 1000; display: none;
             flex-direction: column; color: white; overflow-y: auto;
-            -webkit-overflow-scrolling: touch;
         }
-        .portal-header { padding: 20px 6%; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); position: sticky; top: 0; background: #0F172A; z-index: 10; }
-        .step-container { padding: 30px 6% 100px; max-width: 500px; margin: 0 auto; width: 100%; }
-        .step { display: none; animation: fadeIn 0.4s ease; }
-        .step.active { display: flex; flex-direction: column; }
+        .portal-header { padding: 20px 6%; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); position: sticky; top: 0; background: #0F172A; }
+        .step-container { padding: 30px 6% 100px; max-width: 600px; margin: 0 auto; width: 100%; }
+        .step { display: none; flex-direction: column; animation: fadeIn 0.4s ease; }
+        .step.active { display: flex; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        .input-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); padding: 35px 25px; border-radius: 24px; text-align: center; margin-bottom: 25px; }
+        /* Live Camera Interface */
+        .camera-container {
+            width: 100%; aspect-ratio: 4/3; background: #000; border-radius: 24px;
+            margin-bottom: 25px; position: relative; overflow: hidden; border: 2px solid rgba(249, 115, 22, 0.3);
+        }
+        video { width: 100%; height: 100%; object-fit: cover; }
+        .camera-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            background: rgba(0,0,0,0.5); z-index: 5;
+        }
+
+        .input-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); padding: 40px 20px; border-radius: 30px; text-align: center; margin-bottom: 30px; cursor: pointer; }
         
         .paw-sync-zone {
             width: 180px; height: 180px; border-radius: 50%; border: 3px dashed var(--accent);
             margin: 30px auto; display: flex; justify-content: center; align-items: center;
-            cursor: pointer; position: relative; touch-action: none;
+            position: relative; touch-action: none;
         }
-        .paw-sync-zone.active { border-style: solid; background: rgba(249, 115, 22, 0.15); transform: scale(1.1); }
-        .sync-ring {
-            position: absolute; width: 100%; height: 100%; border: 2px solid var(--accent);
-            border-radius: 50%; opacity: 0; pointer-events: none;
-        }
-        .paw-sync-zone.active .sync-ring { animation: ripple 1.2s infinite; }
-        @keyframes ripple { 0% { transform: scale(1); opacity: 0.6; } 100% { transform: scale(1.6); opacity: 0; } }
+        .paw-sync-zone.active { border-style: solid; background: rgba(249, 115, 22, 0.2); transform: scale(1.1); }
+        .sync-ring { position: absolute; width: 100%; height: 100%; border: 2px solid var(--accent); border-radius: 50%; opacity: 0; pointer-events: none; }
+        .paw-sync-zone.active .sync-ring { animation: ripple 1s infinite; }
+        @keyframes ripple { 0% { transform: scale(1); opacity: 0.8; } 100% { transform: scale(1.8); opacity: 0; } }
 
-        .analysis-log { font-family: 'Courier New', monospace; font-size: 0.85rem; color: #4ADE80; text-align: left; padding: 20px; background: #000; border-radius: 16px; height: 180px; overflow-y: auto; margin: 20px 0; border: 1px solid rgba(255,255,255,0.05); }
+        .analysis-log { font-family: 'Courier New', monospace; font-size: 0.85rem; color: #4ADE80; text-align: left; padding: 25px; background: #000; border-radius: 20px; height: 180px; overflow-y: auto; margin: 20px 0; border: 1px solid rgba(255,255,255,0.1); }
 
-        .freemium-gate {
-            background: rgba(249, 115, 22, 0.15); border: 2px solid var(--accent);
-            padding: 25px; border-radius: 20px; margin-top: 20px; text-align: center;
-        }
+        .premium-overlay { position: fixed; bottom: 0; left: 0; width: 100%; padding: 50px 20px; background: linear-gradient(to top, #0F172A 90%, transparent); text-align: center; z-index: 20; display: none; border-top: 1px solid rgba(255,255,255,0.1); }
 
-        footer { padding: 40px 6%; text-align: center; border-top: 1px solid var(--border); }
-        footer img { height: 30px; opacity: 0.4; mix-blend-mode: multiply; }
-        
-        .premium-overlay {
-            position: fixed; bottom: 0; left: 0; width: 100%; padding: 40px 20px;
-            background: linear-gradient(to top, #0F172A 90%, transparent);
-            text-align: center; z-index: 20; display: none;
-            border-top: 1px solid rgba(255,255,255,0.1);
-        }
+        footer { padding: 80px 6%; text-align: center; border-top: 1px solid var(--border); }
+        footer img { height: 40px; mix-blend-mode: multiply; filter: contrast(1.1); }
     </style>
 </head>
 <body>
     <header>
-        <a href="/index.html" class="logo">
-            <img src="../logos/pawdx_logo.png" alt="PawDX Logo">
-        </a>
-        <i data-lucide="menu" color="#0F172A"></i>
+        <div class="logo-container">
+            <a href="/index.html" class="logo">
+                <img src="../logos/pawdx_logo.png" alt="PawDX Logo">
+            </a>
+        </div>
+        <nav class="nav-desktop">
+            <a href="/index.html">Hub</a>
+            <a href="/about.html">Philosophy</a>
+            <a href="/products.html">Products</a>
+        </nav>
+        <div class="nav-mobile-trigger">
+            <i data-lucide="menu" color="#0F172A" size="28"></i>
+        </div>
     </header>
 
     <section class="hero">
+        <div class="hero-badge">Live Neural Ingestion</div>
         <h1>Your Pet’s Health, Handled.</h1>
-        <p>Phase-link your pet to our clinical neural core via camera and touch sync.</p>
-        <button onclick="startDiagnostic()" class="btn">Start Diagnostic Link</button>
+        <p>Bridging the gap between home monitoring and clinical excellence via live sensor fusion.</p>
+        <button onclick="startDiagnostic()" class="btn">Start Live Diagnostic</button>
     </section>
 
     <section class="features">
         <div class="card">
-            <i data-lucide="scan" size="32"></i>
-            <h3>Vision Diagnostics</h3>
-            <p>Advanced neural networks trained on millions of veterinary records for instant visual screening.</p>
+            <i data-lucide="video" size="32"></i>
+            <h3>Live Vision Link</h3>
+            <p>Direct camera access for real-time neural pathology and vital magnification.</p>
         </div>
         <div class="card">
-            <i data-lucide="activity" size="32"></i>
-            <h3>Vitals Monitoring</h3>
-            <p>Non-invasive tracking of respiratory and heart rate patterns to identify early signs of systemic distress.</p>
+            <i data-lucide="hand" size="32"></i>
+            <h3>Tactile Handshake</h3>
+            <p>Capturing bio-electrical signatures via capacitive touch-screen sync.</p>
         </div>
         <div class="card">
-            <i data-lucide="fingerprint" size="32"></i>
-            <h3>Tactile Sync</h3>
-            <p>High-fidelity biometric fusion through paw-pad synchronization for pulse and temperature analysis.</p>
+            <i data-lucide="lock" size="32"></i>
+            <h3>Institutional Security</h3>
+            <p>All biometric shards are encrypted and anchored to the Orcinos Ledger.</p>
         </div>
     </section>
 
     <!-- Portal -->
     <div id="diagnostic-portal">
         <div class="portal-header">
-            <h3>PAWDX MOBILE_CORE</h3>
+            <h3>PAWDX_CORE [v4.5.2]</h3>
             <button onclick="closePortal()" style="background:none; border:none; color:white; cursor:pointer;"><i data-lucide="x"></i></button>
         </div>
 
         <div class="step-container">
-            <!-- Step 1: Visual Ingestion -->
+            <!-- Phase 1: Live Camera -->
             <div class="step active" id="step1">
-                <h2 style="margin-bottom:10px;">1. Visual Link</h2>
-                <p style="color:var(--muted); margin-bottom:30px; font-size:0.9rem;">Capturing dermal and respiratory biometric shards.</p>
-                <div class="input-card" onclick="document.getElementById('pet-media').click()">
-                    <i data-lucide="camera" size="40" style="color:var(--accent); margin-bottom:15px;"></i>
-                    <p style="font-weight:700;">Upload Pet Photo/Video</p>
-                    <input type="file" id="pet-media" style="display:none;" onchange="nextStep(2)">
-                </div>
-            </div>
-
-            <!-- Step 2: Tactile Ingestion -->
-            <div class="step" id="step2">
-                <h2 style="margin-bottom:10px;">2. Paw Handshake</h2>
-                <p style="color:var(--muted); margin-bottom:30px; font-size:0.9rem;">Sync paw pad to capture bio-electrical pulse.</p>
-                <div class="input-card">
-                    <div class="paw-sync-zone" id="paw-zone" ontouchstart="startSync()" ontouchend="stopSync()">
-                        <div class="sync-ring"></div>
-                        <i data-lucide="footprints" size="48" style="color:var(--accent);"></i>
-                    </div>
-                    <p id="sync-status" style="font-size:0.9rem;">Place Paw on Pad</p>
-                </div>
-            </div>
-
-            <!-- Step 3: Narrative Ingestion -->
-            <div class="step" id="step3">
-                <h2 style="margin-bottom:10px;">3. Symptom Story</h2>
-                <p style="color:var(--muted); margin-bottom:20px; font-size:0.9rem;">Describe the behavior changes.</p>
-                <textarea id="narrative" style="width:100%; height:120px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:15px; padding:15px; color:white; margin-bottom:20px; font-family:inherit;" placeholder="e.g. 'Limping on front right leg...'"></textarea>
-                <button class="btn" onclick="startAnalysis()">Analyze Data</button>
-            </div>
-
-            <!-- Step 4: Final Analysis & Freemium Gate -->
-            <div class="step" id="step4">
-                <h2 style="margin-bottom:15px;">Analysis in Progress...</h2>
-                <div class="analysis-log" id="log"></div>
+                <h2 style="margin-bottom:10px;">Phase 1: Live Visual Link</h2>
+                <p style="color:var(--muted); margin-bottom:25px; font-size:0.95rem;">Pointing your camera at the pet enables Eulerian Magnification for vitals.</p>
                 
-                <div id="freemium-result" style="display:none; padding:20px; border-radius:15px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1);">
-                    <h4 style="color:var(--accent); margin-bottom:10px;">SENSORS LOGGED</h4>
-                    <p style="font-size:0.85rem; color:var(--muted);">Vitals captured. Potential anomalies detected in dermal texture layers.</p>
+                <div class="camera-container">
+                    <video id="webcam" autoplay playsinline></video>
+                    <div class="camera-overlay" id="cam-overlay">
+                        <i data-lucide="video" size="48" style="color:var(--accent); margin-bottom:15px;"></i>
+                        <button class="btn" style="padding:12px 24px;" onclick="initCamera()">Request Camera Access</button>
+                    </div>
+                </div>
+
+                <button class="btn" style="width:100%; max-width:none;" onclick="captureData()">Capture Biometric Shard</button>
+                <p style="text-align:center; margin-top:15px; font-size:0.8rem; color:var(--muted);">Or <span style="text-decoration:underline; cursor:pointer;" onclick="document.getElementById('file-fallback').click()">Upload Legacy Media</span></p>
+                <input type="file" id="file-fallback" style="display:none;" onchange="nextStep(2)">
+            </div>
+
+            <!-- Phase 2: Tactile -->
+            <div class="step" id="step2">
+                <h2 style="margin-bottom:10px;">Phase 2: Tactile Handshake</h2>
+                <p style="color:var(--muted); margin-bottom:30px; font-size:0.95rem;">Place pet's paw on target. (Desktop: Touch-bypass active)</p>
+                <div class="input-card">
+                    <div class="paw-sync-zone" id="paw-zone" ontouchstart="startSync()" ontouchend="stopSync()" onmousedown="startSync()" onmouseup="stopSync()">
+                        <div class="sync-ring"></div>
+                        <i data-lucide="footprints" size="64" style="color:var(--accent);"></i>
+                    </div>
+                    <p id="sync-status">Align Paw with Sensor</p>
+                </div>
+                <button class="btn" style="width:100%; max-width:none; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1);" onclick="nextStep(3)">Skip Tactile (No Touch)</button>
+            </div>
+
+            <!-- Phase 3: Narrative -->
+            <div class="step" id="step3">
+                <h2 style="margin-bottom:10px;">Phase 3: Symptom Story</h2>
+                <textarea id="narrative" style="width:100%; height:120px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:20px; padding:20px; color:white; margin-bottom:20px; font-family:inherit;" placeholder="e.g. 'Wheezing after activity...'"></textarea>
+                <button class="btn" style="width:100%; max-width:none;" onclick="startAnalysis()">Execute Neural Analysis</button>
+            </div>
+
+            <!-- Phase 4: Analysis & Freemium -->
+            <div class="step" id="step4">
+                <h2 style="margin-bottom:20px;">Fusing Live Data...</h2>
+                <div class="analysis-log" id="log"></div>
+                <div id="freemium-result" style="display:none; padding:25px; border-radius:24px; background:rgba(249,115,22,0.1); border:1px solid var(--accent);">
+                    <h3 style="color:var(--accent); margin-bottom:10px;">SENSORS CAPTURED</h3>
+                    <p style="font-size:0.9rem; color:var(--muted);">Live Vitals: 108 BPM / 24 RPM. Pathology shards isolated. Intelligence package ready.</p>
                 </div>
             </div>
         </div>
 
         <div class="premium-overlay" id="premium-gate">
-            <h2 style="margin-bottom:10px;">Clinical Data Locked</h2>
-            <p style="color:var(--muted); margin-bottom:25px; font-size:0.9rem;">Unlock the full Clinical Report and Pathological Diagnostics for $19.99.</p>
-            <button class="btn" onclick="window.location.href='https://paypal.me/priscadezigns9'">Unlock Full Intelligence</button>
-            <p style="margin-top:15px; font-size:0.8rem; color:var(--muted);">Powered by ORCINOS Ledger</p>
+            <h2 style="margin-bottom:10px;">Clinical Data Encrypted</h2>
+            <p style="color:var(--muted); margin-bottom:30px; font-size:0.95rem;">Unlock the Full Pathological Diagnosis for $19.99.</p>
+            <button class="btn" style="max-width:350px;" onclick="window.location.href='https://paypal.me/priscadezigns9'">Access Full Intelligence</button>
+            <p style="margin-top:20px; font-size:0.8rem; color:var(--muted);">SECURED BY ORCINOS LEDGER</p>
         </div>
     </div>
 
     <footer>
         <img src="../logos/orcinos_icon.png" alt="Orcinos">
-        <p style="font-size:0.7rem; color:var(--muted); margin-top:10px;">© 2026 ORCINOS · PAWDX · ANCHORED TO ETERNITY</p>
+        <p style="font-size:0.75rem; color:var(--muted); margin-top:20px;">© 2026 ORCINOS · PAWDX</p>
     </footer>
 
     <script>
@@ -191,31 +225,46 @@
         let currentStep = 1;
         let syncTimer;
 
+        async function initCamera() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+                const video = document.getElementById('webcam');
+                video.srcObject = stream;
+                document.getElementById('cam-overlay').style.display = 'none';
+            } catch (err) {
+                alert("Camera Access Denied. Please use Manual Upload.");
+            }
+        }
+
+        function captureData() {
+            const log = document.getElementById('log');
+            nextStep(2);
+        }
+
         function startDiagnostic() { document.getElementById('diagnostic-portal').style.display = 'flex'; }
         function closePortal() { location.reload(); }
 
         function nextStep(n) {
-            document.getElementById(`step${currentStep}`).classList.remove('active');
+            document.getElementById(`step${currentStep}`).style.display = 'none';
             currentStep = n;
-            document.getElementById(`step${currentStep}`).classList.add('active');
+            document.getElementById(`step${currentStep}`).style.display = 'flex';
         }
 
         function startSync() {
             const zone = document.getElementById('paw-zone');
-            const status = document.getElementById('sync-status');
             zone.classList.add('active');
-            status.innerText = "Syncing Bio-Signal...";
+            document.getElementById('sync-status').innerText = "Syncing Bio-Signal...";
             syncTimer = setTimeout(() => {
-                status.innerText = "Sync Complete.";
+                document.getElementById('sync-status').innerText = "Sync Complete.";
                 setTimeout(() => nextStep(3), 1000);
-            }, 2500);
+            }, 3000);
         }
 
         function stopSync() {
             clearTimeout(syncTimer);
             document.getElementById('paw-zone').classList.remove('active');
             if(document.getElementById('sync-status').innerText !== "Sync Complete.") {
-                document.getElementById('sync-status').innerText = "Place Paw on Pad";
+                document.getElementById('sync-status').innerText = "Align Paw with Sensor";
             }
         }
 
@@ -223,10 +272,9 @@
             nextStep(4);
             const log = document.getElementById('log');
             const steps = [
-                "> Fusing camera biometric shards...",
-                "> Cross-referencing tactile pulse...",
-                "> Correlating narrative metadata...",
-                "> Processing neural layers [1/450]...",
+                "> Extracting Euler shards from video...",
+                "> Locking bio-electrical tactile pulse...",
+                "> Cross-referencing symptom narrative...",
                 "> [NOTICE] High-fidelity data package ready."
             ];
 
@@ -239,9 +287,9 @@
                     document.getElementById('freemium-result').style.display = 'block';
                     setTimeout(() => {
                         document.getElementById('premium-gate').style.display = 'block';
-                    }, 1000);
+                    }, 1200);
                 }
-            }, 1000);
+            }, 1200);
         }
     </script>
 </body>
