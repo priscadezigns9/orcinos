@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SENPAI | Skill Acquisition Logic</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #FFFFFF;
+            --text: #000000;
+            --accent: #0071e3;
+            --muted: #86868b;
+            --border: #f5f5f7;
+            --nav-height: 60px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { 
+            background: var(--bg); 
+            color: var(--text); 
+            font-family: 'Inter', -apple-system, sans-serif; 
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+            line-height: 1.5;
+        }
+
+        /* Mobile-First Header */
+        header {
+            position: fixed;
+            top: 0; width: 100%;
+            height: var(--nav-height);
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: saturate(180%) blur(20px);
+            z-index: 1000;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo { 
+            font-family: 'Playfair Display', serif; 
+            font-weight: 900; 
+            font-size: 1.4rem; 
+            letter-spacing: -0.02em; 
+            color: var(--text);
+            text-decoration: none;
+        }
+
+        /* Hamburger Menu */
+        .hamburger {
+            width: 30px;
+            height: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            cursor: pointer;
+            z-index: 1001;
+        }
+        .hamburger span {
+            display: block;
+            width: 100%;
+            height: 2px;
+            background: var(--text);
+            border-radius: 2px;
+            transition: 0.3s;
+        }
+        .hamburger.active span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
+        .hamburger.active span:nth-child(2) { opacity: 0; }
+        .hamburger.active span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
+
+        /* Mobile Nav Overlay */
+        .nav-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100vh;
+            background: var(--bg);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            transform: translateX(100%);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 999;
+        }
+        .nav-overlay.active { transform: translateX(0); }
+        .nav-overlay a {
+            font-size: 1.8rem;
+            font-weight: 800;
+            text-decoration: none;
+            color: var(--text);
+            letter-spacing: -0.04em;
+        }
+
+        /* Hero */
+        .hero {
+            padding: 120px 20px 60px;
+            text-align: left;
+        }
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.2rem;
+            line-height: 1;
+            letter-spacing: -0.04em;
+            margin-bottom: 20px;
+        }
+        .hero p {
+            font-size: 1.1rem;
+            color: var(--muted);
+            font-weight: 500;
+            max-width: 400px;
+        }
+
+        /* Modules Grid */
+        .modules {
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+        }
+        .module-card {
+            background: var(--border);
+            border-radius: 24px;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            min-height: 200px;
+            text-decoration: none;
+            color: var(--text);
+            transition: transform 0.2s;
+        }
+        .module-card:active { transform: scale(0.98); }
+        .module-card span { font-weight: 800; font-size: 0.7rem; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; }
+        .module-card h2 { font-weight: 800; font-size: 1.5rem; letter-spacing: -0.04em; line-height: 1.1; }
+
+        footer {
+            padding: 60px 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--muted);
+            border-top: 1px solid var(--border);
+        }
+
+        @media (min-width: 768px) {
+            .modules { grid-template-columns: repeat(2, 1fr); }
+            .hero h1 { font-size: 5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="#" class="logo">Senpai</a>
+        <div class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </header>
+
+    <div class="nav-overlay" id="nav-overlay">
+        <a href="#">Skill Hub</a>
+        <a href="#">My Progress</a>
+        <a href="#">Certifications</a>
+        <a href="#">Orcinos Division</a>
+    </div>
+
+    <section class="hero">
+        <h1>Master the Mastery.</h1>
+        <p>High-fidelity skill acquisition for the modern sovereign agent. Interactive, institutional, and functional.</p>
+    </section>
+
+    <div class="modules">
+        <a href="#" class="module-card">
+            <span>Engineering</span>
+            <h2>Blockchain Architecture</h2>
+        </a>
+        <a href="#" class="module-card">
+            <span>Intelligence</span>
+            <h2>Market Signal Analysis</h2>
+        </a>
+        <a href="#" class="module-card" style="background: var(--text); color: var(--bg);">
+            <span>Agency</span>
+            <h2>AI Agent Orchestration</h2>
+        </a>
+        <a href="#" class="module-card">
+            <span>Logistics</span>
+            <h2>Autonomous Supply Chain</h2>
+        </a>
+    </div>
+
+    <footer>
+        &copy; 2026 SENPAI | ORCINOS DIVISION<br>
+        A Prisicon Network Entity.
+    </footer>
+
+    <script>
+        const hamburger = document.getElementById('hamburger');
+        const navOverlay = document.getElementById('nav-overlay');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navOverlay.classList.toggle('active');
+            document.body.style.overflow = navOverlay.classList.contains('active') ? 'hidden' : 'auto';
+        });
+
+        // Close menu on link click
+        navOverlay.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navOverlay.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            });
+        });
+    </script>
+</body>
+</html>
