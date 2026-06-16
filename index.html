@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ORCINOS | High-Fidelity Software for the Pocket</title>
+    <title>ORCINOS | High-Fidelity Software Division</title>
     <link rel="icon" type="image/png" href="logos/orcinos_icon.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
@@ -12,11 +12,11 @@
             --text: #000000;
             --muted: #86868b;
             --border: #f5f5f7;
-            --accent: #000000;
             --sidebar-width: 240px;
+            --phone-width: 340px;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body { 
             background: var(--bg); 
             color: var(--text); 
@@ -31,7 +31,7 @@
             position: fixed;
             top: 0; width: 100%;
             height: 52px;
-            padding: 0 32px;
+            padding: 0 40px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -43,97 +43,139 @@
         .logo { font-weight: 700; font-size: 0.95rem; letter-spacing: -0.01em; }
         .get-btn { background: #000; color: #FFF; padding: 8px 16px; border-radius: 980px; text-decoration: none; font-weight: 600; font-size: 0.85rem; }
 
-        /* Sidebar - TOC */
+        /* Sidebar - Exact Left-Nav TOC */
         .sidebar {
             position: fixed;
             left: 40px; top: 120px;
             width: var(--sidebar-width);
             z-index: 100;
-            display: none; /* Mobile hidden */
+            display: none;
         }
-        @media (min-width: 1024px) { .sidebar { display: block; } .main-content { padding-left: calc(var(--sidebar-width) + 80px); } }
+        @media (min-width: 1200px) { .sidebar { display: block; } }
 
         .sidebar-section { margin-bottom: 32px; }
         .sidebar-label { font-size: 0.75rem; font-weight: 700; color: #d2d2d7; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px; display: block; }
         .sidebar-item { display: block; text-decoration: none; color: var(--muted); font-size: 0.9rem; font-weight: 600; margin-bottom: 8px; transition: color 0.2s; }
         .sidebar-item.active { color: var(--text); }
-        .sidebar-item:hover { color: var(--text); }
 
-        /* Main Content */
-        .main-content { padding-right: 40px; padding-bottom: 100px; }
-
-        section {
-            min-height: 80vh;
+        /* Page Layout */
+        .page-container {
             display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 120px 0;
-            max-width: 900px;
+            padding-top: 52px;
+            max-width: 1400px;
+            margin: 0 auto;
         }
 
-        h1 {
-            font-size: clamp(2.5rem, 8vw, 4.5rem);
-            font-weight: 800;
-            letter-spacing: -0.04em;
-            line-height: 1.05;
-            margin-bottom: 32px;
+        .left-column {
+            flex: 1;
+            padding-left: 40px;
+            padding-right: 40px;
+        }
+        @media (min-width: 1200px) { 
+            .left-column { padding-left: calc(var(--sidebar-width) + 80px); } 
         }
 
-        .subhead {
-            font-size: clamp(1.2rem, 3vw, 1.8rem);
-            font-weight: 500;
-            color: #6e6e73;
-            line-height: 1.25;
-            max-width: 800px;
+        .right-column {
+            width: 500px;
+            position: relative;
+            display: none;
         }
+        @media (min-width: 1024px) { .right-column { display: block; } }
 
-        .visual-container {
-            margin-top: 64px;
-            width: 100%;
-            background: #FAFAFA;
-            border-radius: 32px;
-            overflow: hidden;
-            border: 1px solid var(--border);
-            aspect-ratio: 16/9;
+        /* Sticky Phone */
+        .sticky-wrapper {
+            position: sticky;
+            top: 52px;
+            height: calc(100vh - 52px);
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
-        .visual-container img { width: 100%; height: 100%; object-fit: cover; }
-
-        /* Registry Specific */
-        .registry-list { margin-top: 64px; border-top: 1px solid var(--border); }
-        .registry-row {
-            display: grid;
-            grid-template-columns: 1fr 2fr;
-            padding: 32px 0;
-            border-bottom: 1px solid var(--border);
-            text-decoration: none;
-            color: inherit;
+        .iphone {
+            width: var(--phone-width);
+            height: 700px;
+            background: #000;
+            border-radius: 54px;
+            padding: 12px;
+            position: relative;
+            box-shadow: 0 50px 100px -20px rgba(0,0,0,0.15);
+            border: 8px solid #1c1c1c;
+            overflow: hidden;
         }
-        .row-name { font-weight: 800; font-size: 1.2rem; }
-        .row-desc { font-weight: 500; color: var(--muted); font-size: 1.1rem; }
 
-        @media (max-width: 768px) {
-            .main-content { padding-left: 24px; padding-right: 24px; }
-            .registry-row { grid-template-columns: 1fr; gap: 8px; }
+        .iphone-screen {
+            background: #FFF;
+            width: 100%;
+            height: 100%;
+            border-radius: 40px;
+            overflow: hidden;
+            position: relative;
+            background-size: cover;
+            background-position: center;
+            transition: background-image 0.5s ease-in-out;
         }
+
+        .iphone-notch {
+            position: absolute;
+            top: 0; left: 50%;
+            transform: translateX(-50%);
+            width: 140px; height: 32px;
+            background: #000;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            z-index: 10;
+        }
+
+        /* Content Sections */
+        section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 100px 0;
+        }
+
+        section h1 {
+            font-size: clamp(2.8rem, 6vw, 4.5rem);
+            font-weight: 800;
+            letter-spacing: -0.04em;
+            line-height: 1.05;
+            margin-bottom: 24px;
+        }
+
+        section p {
+            font-size: clamp(1.2rem, 2vw, 1.6rem);
+            font-weight: 500;
+            color: #6e6e73;
+            line-height: 1.25;
+            max-width: 550px;
+        }
+
+        .mobile-visual {
+            display: block;
+            margin-top: 40px;
+            width: 100%;
+            border-radius: 24px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+        @media (min-width: 1024px) { .mobile-visual { display: none; } }
+
+        /* Animation Classes */
+        .fade-in { opacity: 0; transform: translateY(20px); transition: all 0.8s ease-out; }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
 
         footer {
             padding: 100px 40px 40px;
             border-top: 1px solid var(--border);
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             font-weight: 600;
             color: var(--muted);
             display: flex;
             justify-content: space-between;
         }
-        .footer-links a { color: var(--muted); text-decoration: none; margin-left: 20px; }
         .god-trigger { cursor: pointer; }
-
-        /* Utility */
-        .badge { display: inline-block; padding: 4px 10px; background: #EEE; border-radius: 6px; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; margin-bottom: 16px; }
     </style>
 </head>
 <body>
@@ -146,158 +188,160 @@
     <div class="sidebar">
         <div class="sidebar-section">
             <span class="sidebar-label">Cover</span>
-            <a href="#introduction" class="sidebar-item active">Introduction</a>
-            <a href="#sovereignty" class="sidebar-item">Sovereignty</a>
+            <a href="#cover" class="sidebar-item active">Orcinos Hub</a>
+            <a href="#intro" class="sidebar-item">Introduction</a>
         </div>
         <div class="sidebar-section">
-            <span class="sidebar-label">Nodes</span>
-            <a href="#registry" class="sidebar-item">Product Registry</a>
-            <a href="#intelligence" class="sidebar-item">Data Intelligence</a>
-            <a href="#mobile" class="sidebar-item">Mobile UX</a>
+            <span class="sidebar-label">Sovereignty</span>
+            <a href="#nurasen" class="sidebar-item">Nurasen</a>
+            <a href="#security" class="sidebar-item">Security</a>
         </div>
         <div class="sidebar-section">
-            <span class="sidebar-label">Safety</span>
-            <a href="#security" class="sidebar-item">Safe Deployment</a>
-            <a href="#offline" class="sidebar-item">Offline Mode</a>
+            <span class="sidebar-label">Active Nodes</span>
+            <a href="#captioai" class="sidebar-item">Captio AI</a>
+            <a href="#optiscout" class="sidebar-item">OptiScout</a>
+            <a href="#titantraderx" class="sidebar-item">Titan TraderX</a>
+            <a href="#pawdx" class="sidebar-item">PawDX</a>
+            <a href="#hartaly" class="sidebar-item">Hartaly</a>
         </div>
         <div class="sidebar-section">
             <span class="sidebar-label">Tools</span>
-            <a href="#sharing" class="sidebar-item">Sovereign Sharing</a>
-            <a href="#notifications" class="sidebar-item">Global Monitor</a>
+            <a href="#firmless" class="sidebar-item">Firmless</a>
+            <a href="#senpai" class="sidebar-item">Senpai</a>
         </div>
     </div>
 
-    <div class="main-content">
-        <!-- Cover Section -->
-        <section id="introduction">
-            <h1>Software for the Modern Pocket.</h1>
-            <p class="subhead">Orcinos is a powerful, pocket-sized suite of sovereign applications. Designed for clarity, with high-fidelity logic that makes sense at a glance — or a tap.</p>
-            <div class="visual-container">
-                <img src="https://res.cloudinary.com/davvgg5sy/image/upload/v1/assets/orcinos_hero_full.jpg" alt="Orcinos Hub Display">
+    <div class="page-container">
+        <div class="left-column">
+            <!-- Section 1: Hero -->
+            <section id="cover" data-img="https://res.cloudinary.com/davvgg5sy/image/upload/v1/assets/orcinos_hub_mobile.jpg">
+                <h1 class="fade-in">High-Fidelity Software.</h1>
+                <p class="fade-in">Orcinos is a powerful pocket-sized software division. Designed for clarity, with high-fidelity logic that makes sense at a glance — or a pinch.</p>
+                <div class="mobile-visual"><img src="https://res.cloudinary.com/davvgg5sy/image/upload/v1/assets/orcinos_hub_mobile.jpg" width="100%"></div>
+            </section>
+
+            <!-- Section 2: Introduction -->
+            <section id="intro" data-img="https://res.cloudinary.com/davvgg5sy/image/upload/v1/assets/meet_orcinos.jpg">
+                <h1 class="fade-in">Meet Orcinos. A powerful new software suite.</h1>
+                <p class="fade-in">Orcinos makes complex logic simple when you're away from your desk — whether you're building something new or shipping at scale.</p>
+                <div class="mobile-visual"><img src="https://res.cloudinary.com/davvgg5sy/image/upload/v1/assets/meet_orcinos.jpg" width="100%"></div>
+            </section>
+
+            <!-- Section 3: Nurasen (Security) -->
+            <section id="nurasen" data-img="https://res.cloudinary.com/davvgg5sy/image/upload/v1/assets/nurasen_mobile.jpg">
+                <h1 class="fade-in">Data stored on-device.</h1>
+                <p class="fade-in">With Nurasen, credentials and data are stored on-device, not on an Orcinos server. Connections are made directly between your phone and your infrastructure. Private by design.</p>
+                <div class="mobile-visual"><img src="https://res.cloudinary.com/davvgg5sy/image/upload/v1/assets/nurasen_mobile.jpg" width="100%"></div>
+            </section>
+
+            <!-- Section 4: Captio AI (Interface) -->
+            <section id="captioai" data-img="https://res.cloudinary.com/davvgg5sy/image/upload/v1/assets/captioai_mobile.jpg">
+                <h1 class="fade-in">Add nodes quickly. Sync directly.</h1>
+                <p class="fade-in">Just one tap to add product nodes. And when you connect Captio AI, Orcinos can even subscribe to real-time social intelligence updates.</p>
+                <div class="mobile-visual"><img src="https://res.cloudinary.com/davvgg5sy/image/upload/v1/assets/captioai_mobile.jpg" width="100%"></div>
+            </section>
+
+            <!-- Section 5: OptiScout (Tables/Data) -->
+            <section id="optiscout" data-img="https://res.cloudinary.com/davvgg5sy/image/upload/v1/assets/optiscout_mobile.jpg">
+                <h1 class="fade-in">Deals start simple.</h1>
+                <p class="fade-in">A spread gesture puts more details at your fingertips. With OptiScout, complex market data is turned back into a simple list with a single pinch.</p>
+                <div class="mobile-visual"><img src="https://res.cloudinary.com/davvgg5sy/image/upload/v1/assets/optiscout_mobile.jpg" width="100%"></div>
+            </section>
+
+            <!-- Section 6: Titan TraderX (Customization) -->
+            <section id="titantraderx" data-img="https://res.cloudinary.com/davvgg5sy/image/upload/v1/assets/titantraderx_mobile.jpg">
+                <h1 class="fade-in">A terminal for one.</h1>
+                <p class="fade-in">Customize how your data appears in Titan TraderX. Control the visible columns, adjust font sizes, and set proportions. Fine-tune your layout as you swipe through the markets.</p>
+                <div class="mobile-visual"><img src="https://res.cloudinary.com/davvgg5sy/image/upload/v1/assets/titantraderx_mobile.jpg" width="100%"></div>
+            </section>
+
+            <!-- Section 7: PawDX (Formatting) -->
+            <section id="pawdx" data-img="https://res.cloudinary.com/davvgg5sy/image/upload/v1/assets/pawdx_mobile.jpg">
+                <h1 class="fade-in">Formatting that makes diagnostics human-readable.</h1>
+                <p class="fade-in">Make raw health data much easier to read with PawDX. Clean up telemetry, linkify results, and give medical terms more human-friendly labels. All in real-time.</p>
+                <div class="mobile-visual"><img src="https://res.cloudinary.com/davvgg5sy/image/upload/v1/assets/pawdx_mobile.jpg" width="100%"></div>
+            </section>
+
+            <!-- Section 8: Hartaly (Flow) -->
+            <section id="hartaly" data-img="https://res.cloudinary.com/davvgg5sy/image/upload/v1/assets/hartaly_mobile.jpg">
+                <h1 class="fade-in">Stay in flow.</h1>
+                <p class="fade-in">Move through cardiac telemetry quickly with Node Flow. Swipe through charts and tap to jump right in — fast, frictionless, and built for speed.</p>
+                <div class="mobile-visual"><img src="https://res.cloudinary.com/davvgg5sy/image/upload/v1/assets/hartaly_mobile.jpg" width="100%"></div>
+            </section>
+
+            <!-- Section 9: Firmless (Editing) -->
+            <section id="firmless" data-img="https://res.cloudinary.com/davvgg5sy/image/upload/v1/assets/firmless_mobile.jpg">
+                <h1 class="fade-in">A long-overdue logic for the pocket.</h1>
+                <p class="fade-in">Skip the legal syntax. Edit and delete contracts with a tap in Firmless, using built-in safeguards that keep critical data protected.</p>
+                <div class="mobile-visual"><img src="https://res.cloudinary.com/davvgg5sy/image/upload/v1/assets/firmless_mobile.jpg" width="100%"></div>
+            </section>
+
+            <!-- Section 10: Senpai (Sharing) -->
+            <section id="senpai" data-img="https://res.cloudinary.com/davvgg5sy/image/upload/v1/assets/senpai_mobile.jpg">
+                <h1 class="fade-in">Share skill bits with an Expiring Link.</h1>
+                <p class="fade-in">When it's touch-and-go, share learning modules with links that vanish after a peek — or on a timer. The ultimate upgrade for rapid skill acquisition.</p>
+                <div class="mobile-visual"><img src="https://res.cloudinary.com/davvgg5sy/image/upload/v1/assets/senpai_mobile.jpg" width="100%"></div>
+            </section>
+        </div>
+
+        <div class="right-column">
+            <div class="sticky-wrapper">
+                <div class="iphone">
+                    <div class="iphone-notch"></div>
+                    <div class="iphone-screen" id="iphone-screen" style="background-image: url('https://res.cloudinary.com/davvgg5sy/image/upload/v1/assets/orcinos_hub_mobile.jpg');">
+                    </div>
+                </div>
             </div>
-        </section>
-
-        <!-- Sovereignty Section -->
-        <section id="sovereignty">
-            <span class="badge">Privacy First</span>
-            <h1>Data stored on-device.</h1>
-            <p class="subhead">Credentials and data are stored on-device, not on an Orcinos server. Connections are made directly between your phone and your nodes. As part of our commitment to sovereignty, Orcinos avoids any third-party tracking, analytics, or surveillance.</p>
-        </section>
-
-        <!-- Product Registry Section -->
-        <section id="registry">
-            <span class="badge">Nodes</span>
-            <h1>Meticulously refined nodes — active at scale.</h1>
-            <p class="subhead">Orcinos makes complex software simple when you're away from your desk — whether you're building something new or shipping at scale.</p>
-            
-            <div class="registry-list" id="registry-list">
-                <!-- Injected via JS -->
-            </div>
-        </section>
-
-        <!-- Intelligence Section -->
-        <section id="intelligence">
-            <span class="badge">Intelligence</span>
-            <h1>Formatting that makes data human-readable.</h1>
-            <p class="subhead">Make raw node data much easier to read with custom formatting. Convert complex outputs, clean up telemetry, linkify protocols, and give booleans more human-friendly labels. All without modifying the source.</p>
-        </section>
-
-        <!-- Mobile UX Section -->
-        <section id="mobile">
-            <span class="badge">UX</span>
-            <h1>Stay in flow.</h1>
-            <p class="subhead">Move through your division quickly with Node Flow. Swipe through active nodes and tap to jump right in — fast, frictionless, and built to speed up your workflow.</p>
-        </section>
-
-        <!-- Safe Deployment Section -->
-        <section id="security">
-            <span class="badge">Security</span>
-            <h1>Query carefully. Deploy safely.</h1>
-            <p class="subhead">Orcinos keeps production safe with built-in Deployment Safety. Set rules that ask for confirmation before edits or deletions. Block dangerous actions entirely. You always know where you are — before things go sideways.</p>
-        </section>
-
-        <!-- Offline Mode Section -->
-        <section id="offline">
-            <span class="badge">Mobility</span>
-            <h1>Works even when your connection doesn't.</h1>
-            <p class="subhead">Optimized for speedy asset access by storing some of your data on device. And with Offline Mode, Orcinos lets you access your critical division data without a working internet connection.</p>
-        </section>
-
-        <!-- Sharing Section -->
-        <section id="sharing">
-            <span class="badge">Collaboration</span>
-            <h1>Share assets with an Expiring Link.</h1>
-            <p class="subhead">When it's touch-and-go, share rows with links that vanish after a peek — or on a timer. An upgrade from copy and paste.</p>
-        </section>
-
-        <!-- Notifications Section -->
-        <section id="notifications">
-            <span class="badge">Monitor</span>
-            <h1>Notifications keep tabs on your division.</h1>
-            <p class="subhead">Global alerts monitor every table and node — so you can close the tabs kept in your browser. Real-time intelligence, delivered natively.</p>
-        </section>
+        </div>
     </div>
 
     <footer>
         <div>
-            <span class="god-trigger" id="god-trigger-text">&copy; 2026 ORCINOS</span><br>
+            <span class="god-trigger" id="god-trigger-text">&copy; 2026 ORCINOS DIVISION</span><br>
             A Prisicon Network Entity.
         </div>
-        <div class="footer-links">
-            <a href="#">Support</a>
-            <a href="#">Discord</a>
-            <a href="#">X</a>
+        <div style="text-align: right;">
+            Lattome.<br>
+            <span style="opacity: 0.5">Sovereign Architecture</span>
         </div>
     </footer>
 
     <script>
-        const products = [
-            { name: "Captio AI", slug: "captioai", desc: "Sovereign caption engine." },
-            { name: "OptiScout", slug: "optiscout", desc: "Autonomous deal discovery." },
-            { name: "SovSygnal", slug: "sovsygnal", desc: "Global signal processing." },
-            { name: "Nurasen", slug: "nurasen", desc: "Neural defense protocol." },
-            { name: "Syla", slug: "syla", desc: "Asset management handshake." },
-            { name: "Titan TraderX", slug: "titantraderx", desc: "Institutional trading infra." },
-            { name: "Nemuie", slug: "nemuie", desc: "Sleep optimization engine." },
-            { name: "Riddiim", slug: "riddiim", desc: "Audio engineering studio." },
-            { name: "Calalloo", slug: "calalloo", desc: "Caribbean heritage registry." },
-            { name: "PawDX", slug: "pawdx", desc: "AI veterinary diagnostics." },
-            { name: "Firmless", slug: "firmless", desc: "Legal contract logic." },
-            { name: "Senpai", slug: "senpai", desc: "Micro-learning platform." }
-        ];
+        const observerOptions = {
+            threshold: 0.6
+        };
 
-        const list = document.getElementById('registry-list');
-        products.forEach(p => {
-            const row = document.createElement('a');
-            row.href = `./${p.slug}/`;
-            row.className = 'registry-row';
-            row.innerHTML = `
-                <div class="row-name">${p.name}</div>
-                <div class="row-desc">${p.desc}</div>
-            `;
-            list.appendChild(row);
-        });
+        const screen = document.getElementById('iphone-screen');
+        const sidebarItems = document.querySelectorAll('.sidebar-item');
 
-        // Sidebar active state logic
-        const sections = document.querySelectorAll('section');
-        const navItems = document.querySelectorAll('.sidebar-item');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Update Phone Screen
+                    const imgUrl = entry.target.getAttribute('data-img');
+                    if (imgUrl) {
+                        screen.style.backgroundImage = `url('${imgUrl}')`;
+                    }
 
-        window.addEventListener('scroll', () => {
-            let current = "";
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop;
-                const sectionHeight = section.clientHeight;
-                if (pageYOffset >= (sectionTop - sectionHeight / 3)) {
-                    current = section.getAttribute('id');
+                    // Update Sidebar
+                    const id = entry.target.getAttribute('id');
+                    sidebarItems.forEach(item => {
+                        item.classList.remove('active');
+                        if (item.getAttribute('href') === `#${id}`) {
+                            item.classList.add('active');
+                        }
+                    });
+
+                    // Trigger Fades
+                    entry.target.querySelectorAll('.fade-in').forEach(el => {
+                        el.classList.add('visible');
+                    });
                 }
             });
+        }, observerOptions);
 
-            navItems.forEach(item => {
-                item.classList.remove('active');
-                if (item.getAttribute('href').includes(current)) {
-                    item.classList.add('active');
-                }
-            });
+        document.querySelectorAll('section').forEach(section => {
+            observer.observe(section);
         });
 
         // God Mode Handshake
