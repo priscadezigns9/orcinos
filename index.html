@@ -112,7 +112,22 @@
             background-size: cover;
             background-position: center;
             transition: background-image 0.5s ease-in-out;
+            display: flex;
+            flex-direction: column;
         }
+
+        .phone-header {
+            padding: 42px 20px 10px;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            z-index: 5;
+        }
+        .phone-header img { width: 18px; }
+        .phone-header span { font-weight: 900; font-size: 0.8rem; letter-spacing: -0.02em; text-transform: uppercase; }
 
         .iphone-notch {
             position: absolute;
@@ -233,6 +248,10 @@
                 <div class="iphone">
                     <div class="iphone-notch"></div>
                     <div class="iphone-screen" id="iphone-screen" style="background-image: url('https://res.cloudinary.com/davvgg5sy/image/upload/v1/assets/orcinos_hub_mobile.jpg');">
+                        <div class="phone-header">
+                            <img src="logos/orcinos_icon.png" alt="Orcinos Icon">
+                            <span>ORCINOS HUB</span>
+                        </div>
                     </div>
                 </div>
             </div>
