@@ -14,7 +14,6 @@
             --border: #f5f5f7;
             --sidebar-width: 260px;
             --phone-width: 320px;
-            --accent: #0071e3;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
@@ -47,15 +46,11 @@
         /* Sidebar */
         .sidebar {
             position: fixed;
-            left: 40px; top: 100px;
+            left: 40px; top: 120px;
             width: var(--sidebar-width);
             z-index: 100;
-            height: calc(100vh - 120px);
-            overflow-y: auto;
             display: none;
-            padding-right: 20px;
         }
-        .sidebar::-webkit-scrollbar { width: 0; }
         @media (min-width: 1200px) { .sidebar { display: block; } }
 
         .sidebar-section { margin-bottom: 32px; }
@@ -76,9 +71,7 @@
             padding-left: 40px;
             padding-right: 40px;
         }
-        @media (min-width: 1200px) { 
-            .content-column { padding-left: calc(var(--sidebar-width) + 60px); } 
-        }
+        @media (min-width: 1200px) { .content-column { padding-left: calc(var(--sidebar-width) + 80px); } }
 
         .phone-column {
             width: 500px;
@@ -99,51 +92,50 @@
         /* iPhone Mockup */
         .iphone {
             width: var(--phone-width);
-            height: 660px;
+            height: 700px;
             background: #000;
-            border-radius: 50px;
-            padding: 10px;
+            border-radius: 54px;
+            padding: 12px;
             position: relative;
-            box-shadow: 0 40px 80px -20px rgba(0,0,0,0.2);
-            border: 6px solid #1c1c1c;
+            box-shadow: 0 50px 100px -20px rgba(0,0,0,0.15);
+            border: 8px solid #1c1c1c;
+            overflow: hidden;
         }
 
         .iphone-screen {
             background: #FFF;
             width: 100%;
             height: 100%;
-            border-radius: 38px;
+            border-radius: 40px;
             overflow: hidden;
             position: relative;
-            display: flex;
-            flex-direction: column;
+            background-size: cover;
+            background-position: center;
+            transition: background-image 0.5s ease-in-out;
         }
 
         .iphone-notch {
             position: absolute;
             top: 0; left: 50%;
             transform: translateX(-50%);
-            width: 120px; height: 28px;
+            width: 140px; height: 32px;
             background: #000;
-            border-bottom-left-radius: 18px;
-            border-bottom-right-radius: 18px;
-            z-index: 100;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            z-index: 10;
         }
 
-        /* Sections */
+        /* Content Sections */
         section {
-            min-height: 80vh;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            padding: 120px 0;
-            opacity: 0.3;
-            transition: opacity 0.5s;
+            padding: 100px 0;
         }
-        section.active { opacity: 1; }
 
         section h1 {
-            font-size: clamp(2.2rem, 4vw, 3.8rem);
+            font-size: clamp(2.8rem, 6vw, 4.5rem);
             font-weight: 800;
             letter-spacing: -0.04em;
             line-height: 1.05;
@@ -151,84 +143,22 @@
         }
 
         section p {
-            font-size: clamp(1rem, 1.8vw, 1.4rem);
+            font-size: clamp(1.2rem, 2vw, 1.6rem);
             font-weight: 500;
             color: #6e6e73;
-            line-height: 1.3;
-            max-width: 500px;
+            line-height: 1.25;
+            max-width: 550px;
         }
 
-        /* Horizontal Scrolling Marquee */
-        .marquee-container {
-            width: 100%;
-            overflow: hidden;
-            background: #f5f5f7;
-            padding: 40px 0;
-            margin-top: 40px;
-            white-space: nowrap;
-            border-radius: 20px;
-        }
-        .marquee-inner {
-            display: inline-block;
-            animation: marquee 20s linear infinite;
-        }
-        .node-square {
-            display: inline-flex;
-            width: 100px;
-            height: 100px;
-            background: #FFF;
-            border-radius: 20px;
-            margin-right: 20px;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-            font-weight: 900;
-            font-size: 1.5rem;
-        }
-        @keyframes marquee {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
-
-        /* Bento Grid Squares */
-        .bento-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 16px;
-            margin-top: 40px;
-        }
-        .bento-square {
-            background: #f5f5f7;
-            aspect-ratio: 1;
-            border-radius: 20px;
-            padding: 20px;
+        footer {
+            padding: 100px 40px 40px;
+            border-top: 1px solid var(--border);
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--muted);
             display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            transition: transform 0.3s ease, background 0.3s ease;
-            cursor: pointer;
+            justify-content: space-between;
         }
-        .bento-square:hover { transform: scale(1.05); background: #e8e8ed; }
-        .bento-square span { font-weight: 800; font-size: 0.8rem; text-transform: uppercase; color: var(--muted); }
-
-        /* Phone UI */
-        .phone-header {
-            padding: 40px 20px 10px;
-            border-bottom: 1px solid #f0f0f0;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .phone-header img { width: 20px; }
-        .phone-header span { font-weight: 800; font-size: 0.85rem; text-transform: uppercase; }
-
-        .phone-content { flex: 1; padding: 20px; position: relative; overflow: hidden; }
-        .screen-state { position: absolute; top: 0; left: 0; width: 100%; height: 100%; padding: 20px; display: none; background: #FFF; }
-        .screen-state.active { display: block; animation: fadeIn 0.4s ease-out; }
-
-        @keyframes fadeIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
-
-        footer { padding: 80px 40px 40px; border-top: 1px solid var(--border); font-size: 0.8rem; font-weight: 600; color: var(--muted); display: flex; justify-content: space-between; }
         .god-trigger { cursor: pointer; }
     </style>
 </head>
@@ -244,19 +174,16 @@
     <div class="sidebar">
         <div class="sidebar-section">
             <span class="sidebar-label">Cover</span>
-            <a href="#intro" class="sidebar-item active">Introduction</a>
-            <a href="#security" class="sidebar-item">Security</a>
+            <a href="#cover" class="sidebar-item active">Orcinos Hub</a>
         </div>
         <div class="sidebar-section">
             <span class="sidebar-label">Active Nodes</span>
+            <a href="#nurasen" class="sidebar-item">Nurasen</a>
             <a href="#captioai" class="sidebar-item">Captio AI</a>
             <a href="#optiscout" class="sidebar-item">OptiScout</a>
-            <a href="#nurasen" class="sidebar-item">Nurasen</a>
             <a href="#titantraderx" class="sidebar-item">Titan TraderX</a>
             <a href="#pawdx" class="sidebar-item">PawDX</a>
-        </div>
-        <div class="sidebar-section">
-            <span class="sidebar-label">Safety</span>
+            <a href="#hartaly" class="sidebar-item">Hartaly</a>
             <a href="#firmless" class="sidebar-item">Firmless</a>
             <a href="#senpai" class="sidebar-item">Senpai</a>
         </div>
@@ -264,61 +191,40 @@
 
     <div class="page-container">
         <div class="content-column">
-            <!-- Intro -->
-            <section id="intro" class="active" data-state="intro">
+            <!-- Section 1: Hero -->
+            <section id="cover" data-img="https://res.cloudinary.com/davvgg5sy/image/upload/v1/assets/orcinos_hub_mobile.jpg">
                 <h1>Software for the Modern Pocket.</h1>
                 <p>Orcinos is a powerful pocket-sized software division. Designed for clarity, with high-fidelity logic that makes sense at a glance.</p>
-                <div class="marquee-container">
-                    <div class="marquee-inner">
-                        <div class="node-square">C</div><div class="node-square">O</div><div class="node-square">N</div><div class="node-square">T</div><div class="node-square">P</div><div class="node-square">T</div><div class="node-square">H</div><div class="node-square">F</div><div class="node-square">S</div>
-                        <div class="node-square">C</div><div class="node-square">O</div><div class="node-square">N</div><div class="node-square">T</div><div class="node-square">P</div><div class="node-square">T</div><div class="node-square">H</div><div class="node-square">F</div><div class="node-square">S</div>
-                    </div>
-                </div>
             </section>
 
-            <!-- Security -->
-            <section id="security" data-state="security">
+            <!-- Section 2: Nurasen -->
+            <section id="nurasen" data-img="https://res.cloudinary.com/davvgg5sy/image/upload/v1/assets/nurasen_mobile.jpg">
                 <h1>Nurasen. Data stored on-device.</h1>
                 <p>Credentials and data are stored on-device, not on an Orcinos server. Connections are made directly between your phone and your nodes.</p>
-                <div class="bento-grid">
-                    <div class="bento-square"><span>Local</span></div>
-                    <div class="bento-square"><span>Direct</span></div>
-                    <div class="bento-square"><span>Secure</span></div>
-                </div>
             </section>
 
-            <!-- Captio AI -->
-            <section id="captioai" data-state="captioai">
+            <!-- Section 3: Captio AI -->
+            <section id="captioai" data-img="https://res.cloudinary.com/davvgg5sy/image/upload/v1/assets/captioai_mobile.jpg">
                 <h1>Captio AI. Add nodes in seconds.</h1>
-                <p>Simply enter your node credentials or scan a division key to add it to your pocket division instantly. Social intelligence at scale.</p>
-                <div class="bento-grid">
-                    <div class="bento-square" style="grid-column: span 2; aspect-ratio: auto; height: 120px;"><span>One-Tap Active</span></div>
-                    <div class="bento-square"><span>Fast</span></div>
-                </div>
+                <p>Just one tap to add product nodes. Add social intelligence to your division with a single handshake.</p>
             </section>
 
-            <!-- OptiScout -->
-            <section id="optiscout" data-state="optiscout">
+            <!-- Section 4: OptiScout -->
+            <section id="optiscout" data-img="https://res.cloudinary.com/davvgg5sy/image/upload/v1/assets/optiscout_mobile.jpg">
                 <h1>OptiScout. Deals start simple.</h1>
-                <p>A spread gesture puts more details at your fingertips. Complex market data is turned back into a simple list with a single pinch.</p>
-                <div class="marquee-container" style="background: #000; height: 100px; padding: 20px 0;">
-                    <div class="marquee-inner">
-                        <div class="node-square" style="width: 60px; height: 60px; background: #333; color: #FFF;">$</div>
-                        <div class="node-square" style="width: 60px; height: 60px; background: #333; color: #FFF;">$</div>
-                        <div class="node-square" style="width: 60px; height: 60px; background: #333; color: #FFF;">$</div>
-                    </div>
-                </div>
+                <p>A spread gesture puts more details at your fingertips. Market data is turned back into a simple list with a single pinch.</p>
             </section>
 
-            <!-- Titan TraderX -->
-            <section id="titantraderx" data-state="titantraderx">
+            <!-- Section 5: Titan TraderX -->
+            <section id="titantraderx" data-img="https://res.cloudinary.com/davvgg5sy/image/upload/v1/assets/titantraderx_mobile.jpg">
                 <h1>Titan TraderX. Institutional logic.</h1>
                 <p>Institutional grade infrastructure for sovereign traders. Real-time market intelligence and execution, delivered natively.</p>
-                <div class="bento-grid">
-                    <div class="bento-square"><span>Charts</span></div>
-                    <div class="bento-square"><span>Exec</span></div>
-                    <div class="bento-square"><span>Intel</span></div>
-                </div>
+            </section>
+
+            <!-- Section 6: PawDX -->
+            <section id="pawdx" data-img="https://res.cloudinary.com/davvgg5sy/image/upload/v1/assets/pawdx_mobile.jpg">
+                <h1>PawDX. AI veterinary diagnostics.</h1>
+                <p>Formatting that makes diagnostics human-readable. Clean up telemetry and medical terms instantly.</p>
             </section>
         </div>
 
@@ -326,44 +232,7 @@
             <div class="sticky-wrapper">
                 <div class="iphone">
                     <div class="iphone-notch"></div>
-                    <div class="iphone-screen">
-                        <div class="phone-header">
-                            <img src="logos/orcinos_icon.png" alt="Icon">
-                            <span>ORCINOS HUB</span>
-                        </div>
-                        <div class="phone-content" id="phone-content">
-                            <div class="screen-state active" id="state-intro">
-                                <div style="text-align: center; margin-top: 100px;">
-                                    <img src="logos/orcinos_icon.png" style="width: 80px; margin-bottom: 20px;" alt="Logo">
-                                    <div style="font-weight: 900; font-size: 1.8rem; letter-spacing: -0.04em;">ORCINOS</div>
-                                    <div style="font-size: 0.8rem; color: #888; margin-top: 10px;">Sovereign Logic Active</div>
-                                </div>
-                            </div>
-                            <div class="screen-state" id="state-security">
-                                <div style="padding-top: 100px; text-align: center;">
-                                    <div style="font-size: 4rem;">🛡️</div>
-                                    <div style="font-weight: 800; font-size: 1.2rem; margin-top: 20px;">Nurasen Locked</div>
-                                </div>
-                            </div>
-                            <div class="screen-state" id="state-captioai">
-                                <div style="padding: 20px; background: #f5f5f7; border-radius: 16px; margin-top: 50px;">
-                                    <div style="font-weight: 800; font-size: 0.9rem;">Captio AI Active</div>
-                                    <div style="font-size: 0.8rem; color: #888; margin-top: 10px;">Monitoring 42 Signals...</div>
-                                </div>
-                            </div>
-                            <div class="screen-state" id="state-optiscout">
-                                <div style="padding: 20px; border: 2px solid #000; border-radius: 16px; margin-top: 50px;">
-                                    <div style="font-weight: 900;">$5,420.08</div>
-                                    <div style="font-size: 0.7rem; color: #888;">Deal Found in NY Zone</div>
-                                </div>
-                            </div>
-                            <div class="screen-state" id="state-titantraderx">
-                                <div style="height: 150px; background: #000; border-radius: 12px; position: relative; overflow: hidden;">
-                                    <div style="position: absolute; bottom: 0; width: 100%; height: 60px; background: linear-gradient(transparent, #00FF0033);"></div>
-                                </div>
-                                <div style="margin-top: 20px; font-weight: 800; font-size: 0.9rem;">Terminal Active</div>
-                            </div>
-                        </div>
+                    <div class="iphone-screen" id="iphone-screen" style="background-image: url('https://res.cloudinary.com/davvgg5sy/image/upload/v1/assets/orcinos_hub_mobile.jpg');">
                     </div>
                 </div>
             </div>
@@ -379,33 +248,26 @@
     </footer>
 
     <script>
-        const sections = document.querySelectorAll('section');
-        const screenStates = document.querySelectorAll('.screen-state');
-        const sidebarItems = document.querySelectorAll('.sidebar-item');
-
         const observerOptions = { threshold: 0.6 };
+        const screen = document.getElementById('iphone-screen');
+        const sidebarItems = document.querySelectorAll('.sidebar-item');
 
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    const stateId = entry.target.getAttribute('data-state');
-                    const sectionId = entry.target.getAttribute('id');
+                    const imgUrl = entry.target.getAttribute('data-img');
+                    if (imgUrl) screen.style.backgroundImage = `url('${imgUrl}')`;
 
-                    sections.forEach(s => s.classList.remove('active'));
-                    entry.target.classList.add('active');
-
-                    screenStates.forEach(s => s.classList.remove('active'));
-                    document.getElementById(`state-${stateId}`).classList.add('active');
-
+                    const id = entry.target.getAttribute('id');
                     sidebarItems.forEach(item => {
                         item.classList.remove('active');
-                        if (item.getAttribute('href') === `#${sectionId}`) item.classList.add('active');
+                        if (item.getAttribute('href') === `#${id}`) item.classList.add('active');
                     });
                 }
             });
         }, observerOptions);
 
-        sections.forEach(s => observer.observe(s));
+        document.querySelectorAll('section').forEach(s => observer.observe(s));
 
         // God Mode Handshake
         let clicks = 0;
