@@ -175,12 +175,12 @@
             if (!currentUser) return;
             const { data, error } = await _supabase
                 .from('user_setups')
-                .select('active_symbol')
+                .select('last_symbol')
                 .eq('user_id', currentUser.id)
                 .single();
             
-            if (data && data.active_symbol) {
-                initChart(data.active_symbol);
+            if (data && data.last_symbol) {
+                initChart(data.last_symbol);
             } else {
                 initChart("BINANCE:BTCUSDT");
             }
@@ -192,19 +192,19 @@
                 return;
             }
             
-            // Note: In TradingView Widget, the current symbol can be retrieved if we used the library, 
-            // but for the basic widget we'll save the last one set via initChart or a hardcoded default.
-            // A more robust way would be to listen to symbol changes if the widget allowed it.
             const { error } = await _supabase
                 .from('user_setups')
                 .upsert({ 
                     user_id: currentUser.id, 
-                    active_symbol: currentSymbol,
+                    last_symbol: currentSymbol,
                     updated_at: new Date()
                 }, { onConflict: 'user_id' });
             
-            if (error) alert("Error saving setup: " + error.message);
-            else alert("Setup saved successfully.");
+            if (error) {
+                console.error("Error saving setup:", error);
+            } else {
+                alert("Workspace anchored: " + currentSymbol);
+            }
         }
 
         async function loadWatchlist() {
