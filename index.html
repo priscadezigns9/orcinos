@@ -3,207 +3,202 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ORCINOS | High-Fidelity Software</title>
+    <title>ORCINOS | Trusted Software Division</title>
     <link rel="icon" type="image/png" href="logos/orcinos_icon.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg: #FFFFFF;
-            --text: #000000;
+            --text: #111111;
             --muted: #888888;
-            --accent: #000000;
-            --border: #EEEEEE;
-            --font-body: 'Inter', -apple-system, sans-serif;
+            --border: #F0F0F0;
+            --font: 'Inter', -apple-system, sans-serif;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { 
-            background-color: var(--bg); 
+            background: var(--bg); 
             color: var(--text); 
-            font-family: var(--font-body); 
-            line-height: 1.4; 
+            font-family: var(--font); 
+            line-height: 1.1; 
             -webkit-font-smoothing: antialiased; 
-            padding-bottom: 100px;
         }
 
+        /* Nav - Exact Schema Match */
         nav {
-            padding: 20px 4%;
+            position: fixed;
+            top: 0; width: 100%;
+            padding: 24px 32px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
             z-index: 1000;
             border-bottom: 1px solid var(--border);
         }
+        .logo { font-weight: 800; font-size: 1rem; letter-spacing: -0.01em; }
+        .nav-links { display: flex; gap: 32px; align-items: center; }
+        .nav-link { text-decoration: none; color: var(--muted); font-size: 0.9rem; font-weight: 600; transition: color 0.2s; }
+        .nav-link:hover { color: var(--text); }
+        .nav-btn { background: #000; color: #FFF; padding: 10px 20px; border-radius: 12px; text-decoration: none; font-weight: 700; font-size: 0.9rem; }
 
-        .logo { font-weight: 900; font-size: 1.1rem; letter-spacing: -0.02em; text-transform: uppercase; }
-        .nav-btn {
-            background: #000; color: #FFF; padding: 8px 18px; border-radius: 100px;
-            text-decoration: none; font-size: 0.85rem; font-weight: 700;
+        /* Sidebar - The Exact Left-Nav Pattern */
+        .sidebar {
+            position: fixed;
+            left: 32px; top: 160px;
+            width: 200px;
+            display: none; /* Mobile first hidden */
         }
+        @media (min-width: 1024px) { .sidebar { display: block; } .main-content { padding-left: 280px; } }
+        
+        .sidebar-section { margin-bottom: 32px; }
+        .sidebar-label { font-size: 0.75rem; font-weight: 700; color: #CCC; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; display: block; }
+        .sidebar-item { display: block; text-decoration: none; color: var(--muted); font-size: 0.9rem; font-weight: 600; margin-bottom: 8px; transition: color 0.2s; }
+        .sidebar-item.active { color: var(--text); }
+        .sidebar-item:hover { color: var(--text); }
 
-        .hero {
-            padding: 160px 8% 80px;
-            max-width: 1100px;
-        }
-
-        .label {
-            font-size: 0.75rem; font-weight: 800; text-transform: uppercase; 
-            letter-spacing: 0.15em; color: var(--muted); margin-bottom: 20px; display: block;
-        }
+        /* Main Content */
+        .main-content { padding: 160px 32px 100px; max-width: 1200px; }
 
         .hero h1 {
-            font-size: clamp(2.5rem, 9vw, 5.5rem);
+            font-size: clamp(3rem, 10vw, 6.5rem);
             font-weight: 900;
             letter-spacing: -0.05em;
-            line-height: 0.95;
+            line-height: 0.9;
             margin-bottom: 40px;
         }
 
         .hero p {
-            font-size: clamp(1.2rem, 3vw, 1.8rem);
-            font-weight: 500;
-            color: var(--text);
+            font-size: clamp(1.4rem, 4vw, 2.2rem);
+            font-weight: 600;
+            color: #555;
             max-width: 800px;
-            line-height: 1.2;
-            margin-bottom: 60px;
+            line-height: 1.1;
+            margin-bottom: 48px;
         }
 
-        /* Products Grid - Minimalist Cards */
-        .section-header { padding: 40px 8% 20px; border-bottom: 1px solid var(--border); margin-bottom: 40px; }
-        .section-header h2 { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.03em; }
+        /* Product Table - The Schema Database View */
+        .registry-container { margin-top: 100px; }
+        .registry-header { padding-bottom: 24px; border-bottom: 2px solid #000; display: flex; justify-content: space-between; align-items: flex-end; }
+        .registry-header h2 { font-size: 2rem; font-weight: 900; letter-spacing: -0.04em; }
 
-        .product-grid {
+        .product-list { margin-top: 24px; }
+        .product-row {
             display: grid;
-            grid-template-columns: 1fr;
-            gap: 2px;
-            background: var(--border);
-            border-top: 1px solid var(--border);
+            grid-template-columns: 1.5fr 1fr 2fr 0.5fr;
+            padding: 24px 0;
             border-bottom: 1px solid var(--border);
-        }
-
-        @media (min-width: 768px) {
-            .product-grid { grid-template-columns: repeat(2, 1fr); }
-        }
-
-        @media (min-width: 1100px) {
-            .product-grid { grid-template-columns: repeat(3, 1fr); }
-        }
-
-        .product-card {
-            background: #FFF;
-            padding: 60px 10%;
             text-decoration: none;
             color: inherit;
-            display: flex;
-            flex-direction: column;
-            transition: background 0.2s ease;
-            min-height: 400px;
+            align-items: center;
+            transition: background 0.1s;
+        }
+        .product-row:hover { background: #FAFAFA; }
+        
+        .row-name { font-weight: 800; font-size: 1.2rem; letter-spacing: -0.02em; }
+        .row-cat { font-size: 0.8rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+        .row-desc { font-size: 1rem; font-weight: 500; color: #666; padding-right: 20px; }
+        .row-arrow { text-align: right; }
+
+        @media (max-width: 768px) {
+            .product-row { grid-template-columns: 1fr 0.2fr; gap: 12px; }
+            .row-cat, .row-desc { display: none; }
         }
 
-        .product-card:hover { background: #FAFAFA; }
-
-        .product-card .cat {
-            font-size: 0.7rem; font-weight: 800; text-transform: uppercase;
-            letter-spacing: 0.1em; color: var(--muted); margin-bottom: 30px;
-        }
-
-        .product-card h3 {
-            font-size: 2.2rem; font-weight: 900; letter-spacing: -0.04em;
-            line-height: 1; margin-bottom: 20px;
-        }
-
-        .product-card p {
-            font-size: 1rem; color: var(--muted); font-weight: 500; line-height: 1.4; flex-grow: 1;
-        }
-
-        .product-card .arrow { margin-top: 40px; }
-
-        footer {
-            padding: 100px 8% 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: var(--muted);
-        }
-
-        .god-trigger { cursor: pointer; user-select: none; }
+        footer { padding: 80px 32px 40px; border-top: 1px solid var(--border); font-size: 0.8rem; font-weight: 700; color: #CCC; display: flex; justify-content: space-between; }
+        .god-trigger { cursor: pointer; color: #AAA; }
     </style>
 </head>
 <body>
 
     <nav>
         <div class="logo">ORCINOS</div>
-        <a href="https://priscion.com" class="nav-btn">Priscion Hub</a>
+        <div class="nav-links">
+            <a href="#" class="nav-link">Meet Orcinos</a>
+            <a href="https://priscion.com" class="nav-btn">Get Priscion</a>
+        </div>
     </nav>
 
-    <section class="hero">
-        <span class="label">Trusted Software Division</span>
-        <h1>High-Fidelity Software for the Modern Pocket.</h1>
-        <p>A suite of sovereign tools designed for clarity, performance, and absolute mobility.</p>
-    </section>
-
-    <div class="section-header">
-        <h2>Active Nodes</h2>
+    <div class="sidebar">
+        <div class="sidebar-section">
+            <span class="sidebar-label">Navigation</span>
+            <a href="#" class="sidebar-item active">Cover</a>
+            <a href="#registry" class="sidebar-item">Product Registry</a>
+        </div>
+        <div class="sidebar-section">
+            <span class="sidebar-label">Categories</span>
+            <a href="#" class="sidebar-item">AI Tools</a>
+            <a href="#" class="sidebar-item">Intelligence</a>
+            <a href="#" class="sidebar-item">Wellness</a>
+            <a href="#" class="sidebar-item">Security</a>
+        </div>
     </div>
 
-    <div class="product-grid" id="products">
-        <!-- Products injected via JS -->
+    <div class="main-content">
+        <section class="hero">
+            <h1>Software for the Modern Pocket.</h1>
+            <p>Orcinos is a powerful suite of sovereign applications. Designed for clarity, with high-fidelity logic that makes sense at a glance.</p>
+            <a href="https://priscion.com" class="nav-btn" style="padding: 16px 32px; font-size: 1.1rem; border-radius: 16px;">Launch Priscion</a>
+        </section>
+
+        <div class="registry-container" id="registry">
+            <div class="registry-header">
+                <h2>Product Registry</h2>
+                <span style="font-weight: 800; color: var(--muted); font-size: 0.9rem;">16 NODES ACTIVE</span>
+            </div>
+            
+            <div class="product-list" id="product-list">
+                <!-- Injected via JS -->
+            </div>
+        </div>
     </div>
 
     <footer>
         <div>
-            <span class="god-trigger" id="god-trigger-text">&copy; 2026 ORCINOS</span><br>
-            A Prisicon Network Entity.
+            <span class="god-trigger" id="god-trigger-text">&copy; 2026 ORCINOS DIVISION</span>
         </div>
-        <div style="text-align: right;">
-            Lattome.<br>
-            <span style="opacity: 0.5">Sovereign Architecture</span>
+        <div>
+            LATTOME.
         </div>
     </footer>
 
     <script>
         const products = [
-            { name: "Captio AI", slug: "captioai", cat: "AI Tools", desc: "Sovereign engine for high-fidelity social captioning." },
-            { name: "OptiScout", slug: "optiscout", cat: "Market", desc: "Autonomous deal discovery and real-time market intelligence." },
-            { name: "SovSygnal", slug: "sovsygnal", cat: "Intel", desc: "Global signal processing for data-driven decisions." },
-            { name: "Nurasen", slug: "nurasen", cat: "Security", desc: "Neural defense and high-fidelity protection protocols." },
-            { name: "Syla", slug: "syla", cat: "Logistics", desc: "The intelligent handshake for daily asset management." },
-            { name: "Titan TraderX", slug: "titantraderx", cat: "Finance", desc: "Institutional grade infrastructure for sovereign traders." },
-            { name: "Nemuie", slug: "nemuie", cat: "Wellness", desc: "Scientific sleep optimization and cognitive recovery." },
-            { name: "Riddiim", slug: "riddiim", cat: "Music", desc: "Audio engineering for the sovereign studio." },
+            { name: "Captio AI", cat: "AI Tools", slug: "captioai", desc: "Sovereign engine for high-fidelity social captioning." },
+            { name: "OptiScout", cat: "Shopping", slug: "optiscout", desc: "Autonomous deal discovery and market intelligence." },
+            { name: "SovSygnal", cat: "Intel", slug: "sovsygnal", desc: "Global signal processing for data-driven decisions." },
+            { name: "Nurasen", cat: "Security", slug: "nurasen", desc: "Neural defense and high-fidelity protection protocols." },
+            { name: "Syla", cat: "Logistics", slug: "syla", desc: "The intelligent handshake for daily asset management." },
+            { name: "Titan TraderX", cat: "Finance", slug: "titantraderx", desc: "Institutional grade infrastructure for sovereign traders." },
+            { name: "Nemuie", cat: "Wellness", slug: "nemuie", desc: "Scientific sleep optimization and cognitive recovery." },
+            { name: "Riddiim", cat: "Music", slug: "riddiim", desc: "Audio engineering for the sovereign studio." },
             { name: "Calalloo", cat: "Culture", slug: "calalloo", desc: "The registry for Caribbean heritage and culinary DNA." },
-            { name: "PawDX", slug: "pawdx", cat: "Health", desc: "AI veterinary diagnostics for modern pet care." },
-            { name: "Firmless", slug: "firmless", cat: "Legal", desc: "Automated contract logic for independent creators." },
-            { name: "Senpai", slug: "senpai", cat: "Learning", desc: "Micro-learning platform for rapid skill acquisition." },
-            { name: "Vyne", slug: "vyne", cat: "Social", desc: "The commerce network for sovereign creators." },
-            { name: "PrayerBlock", slug: "prayerblock", cat: "Faith", desc: "A decentralized ledger for spiritual discipline." },
-            { name: "Hartaly", slug: "hartaly", cat: "Health", desc: "Cardiac telemetry and heart-health intelligence." },
-            { name: "Dricil", slug: "dricil", cat: "Agency", desc: "Fully autonomous digital marketing agency logic." }
+            { name: "PawDX", cat: "Health", slug: "pawdx", desc: "AI veterinary diagnostics for modern pet care." },
+            { name: "Firmless", cat: "Legal", slug: "firmless", desc: "Automated contract logic for independent creators." },
+            { name: "Senpai", cat: "Learning", slug: "senpai", desc: "Micro-learning platform for rapid skill acquisition." },
+            { name: "Vyne", cat: "Social", slug: "vyne", desc: "The commerce network for sovereign creators." },
+            { name: "PrayerBlock", cat: "Faith", slug: "prayerblock", desc: "A decentralized ledger for spiritual discipline." },
+            { name: "Hartaly", cat: "Health", slug: "hartaly", desc: "Cardiac telemetry and heart-health intelligence." },
+            { name: "Dricil", cat: "Agency", slug: "dricil", desc: "Fully autonomous digital marketing agency logic." }
         ];
 
-        const grid = document.getElementById('products');
+        const list = document.getElementById('product-list');
         products.forEach(p => {
-            const card = document.createElement('a');
-            card.href = `./${p.slug}/`;
-            card.className = 'product-card';
-            card.innerHTML = `
-                <div class="cat">${p.cat}</div>
-                <h3>${p.name}</h3>
-                <p>${p.desc}</p>
-                <div class="arrow">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="black" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            const row = document.createElement('a');
+            row.href = `./${p.slug}/`;
+            row.className = 'product-row';
+            row.innerHTML = `
+                <div class="row-name">${p.name}</div>
+                <div class="row-cat">${p.cat}</div>
+                <div class="row-desc">${p.desc}</div>
+                <div class="row-arrow">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M7 17L17 7M17 7H7M17 7V17" stroke="black" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
                 </div>
             `;
-            grid.appendChild(card);
+            list.appendChild(row);
         });
 
         // God Mode Handshake
