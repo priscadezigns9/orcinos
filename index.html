@@ -46,11 +46,15 @@
         /* Sidebar */
         .sidebar {
             position: fixed;
-            left: 40px; top: 120px;
+            left: 40px; top: 100px;
             width: var(--sidebar-width);
             z-index: 100;
+            height: calc(100vh - 120px);
+            overflow-y: auto;
             display: none;
+            padding-right: 20px;
         }
+        .sidebar::-webkit-scrollbar { width: 0; }
         @media (min-width: 1200px) { .sidebar { display: block; } }
 
         .sidebar-section { margin-bottom: 32px; }
@@ -124,16 +128,10 @@
             opacity: 0;
             transition: opacity 0.5s ease;
             z-index: 1;
-            transform: scale(1); /* Ensure no unintended shrinking */
         }
 
-        /* Force mobile scaling via viewport emulation if needed, 
-           but standard iframes on mobile-responsive sites should work.
-           We ensure the container doesn't restrict the iframe. */
-        #iphone-screen {
-            position: relative;
-            width: 100%;
-            height: 100%;
+        .phone-iframe.active {
+            opacity: 1;
         }
 
         .phone-header {
@@ -159,7 +157,7 @@
             background: #000;
             border-bottom-left-radius: 20px;
             border-bottom-right-radius: 20px;
-            z-index: 10;
+            z-index: 100;
         }
 
         /* Content Sections */
@@ -214,17 +212,31 @@
             <a href="#cover" class="sidebar-item active">Orcinos Hub</a>
         </div>
         <div class="sidebar-section">
-            <span class="sidebar-label">Active Nodes</span>
-            <a href="#nurasen" class="sidebar-item">Nurasen</a>
-            <a href="#captioai" class="sidebar-item">Captio AI</a>
+            <span class="sidebar-label">Intelligence</span>
+            <a href="#sovsygnal" class="sidebar-item">SovSygnal</a>
             <a href="#optiscout" class="sidebar-item">OptiScout</a>
+            <a href="#captioai" class="sidebar-item">Captio AI</a>
+        </div>
+        <div class="sidebar-section">
+            <span class="sidebar-label">Engineering</span>
             <a href="#titantraderx" class="sidebar-item">Titan TraderX</a>
-            <a href="#pawdx" class="sidebar-item">PawDX</a>
+            <a href="#nurasen" class="sidebar-item">Nurasen</a>
             <a href="#riddiim" class="sidebar-item">Riddiim</a>
+            <a href="#dpanyard" class="sidebar-item">DPanyard</a>
+        </div>
+        <div class="sidebar-section">
+            <span class="sidebar-label">Lifestyle</span>
             <a href="#calalloo" class="sidebar-item">Calalloo</a>
+            <a href="#pawdx" class="sidebar-item">PawDX</a>
+            <a href="#nemuie" class="sidebar-item">Nemuie</a>
+            <a href="#syla" class="sidebar-item">Syla</a>
+        </div>
+        <div class="sidebar-section">
+            <span class="sidebar-label">Agency</span>
             <a href="#dricil" class="sidebar-item">Dricil</a>
             <a href="#firmless" class="sidebar-item">Firmless</a>
             <a href="#senpai" class="sidebar-item">Senpai</a>
+            <a href="#lattome" class="sidebar-item">Lattome</a>
         </div>
     </div>
 
@@ -236,64 +248,83 @@
                 <p>Orcinos is a powerful pocket-sized software division. Designed for clarity, with high-fidelity logic that makes sense at a glance.</p>
             </section>
 
-            <!-- Section 2: Nurasen -->
-            <section id="nurasen" data-url="https://orcinos.com/nurasen/index.html">
-                <h1>Nurasen. Data stored on-device.</h1>
-                <p>Credentials and data are stored on-device, not on an Orcinos server. Connections are made directly between your phone and your nodes.</p>
+            <!-- Intelligence -->
+            <section id="sovsygnal" data-url="https://orcinos.com/thesignal/index.html">
+                <h1>SovSygnal. Global Intel Hub.</h1>
+                <p>The Sovereign Signal. High-fidelity news and market intelligence delivered directly to your node system.</p>
             </section>
 
-            <!-- Section 3: Captio AI -->
-            <section id="captioai" data-url="https://orcinos.com/captioai/index.html">
-                <h1>Captio AI. Add nodes in seconds.</h1>
-                <p>Just one tap to add product nodes. Add social intelligence to your division with a single handshake.</p>
-            </section>
-
-            <!-- Section 4: OptiScout -->
             <section id="optiscout" data-url="https://orcinos.com/optiscout/index.html">
                 <h1>OptiScout. Deals start simple.</h1>
                 <p>A spread gesture puts more details at your fingertips. Market data is turned back into a simple list with a single pinch.</p>
             </section>
 
-            <!-- Section 5: Titan TraderX -->
-            <section id="titantraderx" data-url="https://priscion.com/titantraderx/index.html">
+            <section id="captioai" data-url="https://orcinos.com/captioai/index.html">
+                <h1>Captio AI. Add nodes in seconds.</h1>
+                <p>Just one tap to add product nodes. Add social intelligence to your division with a single handshake.</p>
+            </section>
+
+            <!-- Engineering -->
+            <section id="titantraderx" data-url="https://orcinos.com/titantraderx/index.html">
                 <h1>Titan TraderX. Institutional logic.</h1>
                 <p>Institutional grade infrastructure for sovereign traders. Real-time market intelligence and execution, delivered natively.</p>
             </section>
 
-            <!-- Section 6: PawDX -->
-            <section id="pawdx" data-url="https://orcinos.com/pawdx/index.html">
-                <h1>PawDX. AI veterinary diagnostics.</h1>
-                <p>Formatting that makes diagnostics human-readable. Clean up telemetry and medical terms instantly.</p>
+            <section id="nurasen" data-url="https://orcinos.com/nurasen/index.html">
+                <h1>Nurasen. Data stored on-device.</h1>
+                <p>Credentials and data are stored on-device, not on an Orcinos server. Connections are made directly between your phone and your nodes.</p>
             </section>
 
-            <!-- Section 7: Riddiim -->
             <section id="riddiim" data-url="https://orcinos.com/riddiim/index.html">
                 <h1>Riddiim. Audio engineering.</h1>
                 <p>High-fidelity audio playback and studio production tech, optimized for the pocket interface.</p>
             </section>
 
-            <!-- Section 8: Calalloo -->
-            <section id="calalloo" data-url="https://orcinos.com/calalloo/index.html">
+            <section id="dpanyard" data-url="https://orcinos.com/dpanthriq/index.html">
+                <h1>DPanyard. Smart logistics.</h1>
+                <p>Intelligent kitchen and home automation logistics. Streamlining high-fidelity living.</p>
+            </section>
+
+            <!-- Lifestyle -->
+            <section id="calalloo" data-url="https://calalloo.com/index.html">
                 <h1>Calalloo. Heritage Hub.</h1>
                 <p>Authentic Caribbean culinary intelligence. Data-driven recipes and cultural signals.</p>
             </section>
 
-            <!-- Section 9: Dricil -->
+            <section id="pawdx" data-url="https://orcinos.com/pawdx/index.html">
+                <h1>PawDX. AI veterinary diagnostics.</h1>
+                <p>Formatting that makes diagnostics human-readable. Clean up telemetry and medical terms instantly.</p>
+            </section>
+
+            <section id="nemuie" data-url="https://orcinos.com/nemuie/index.html">
+                <h1>Nemuie. Sleep Intelligence.</h1>
+                <p>High-fidelity sleep coaching and recovery metrics. Designed to optimize your most critical resource.</p>
+            </section>
+
+            <section id="syla" data-url="https://orcinos.com/syla/index.html">
+                <h1>Syla. Asset Tracking.</h1>
+                <p>A simple, institutional way to track your business assets and tools across the network.</p>
+            </section>
+
+            <!-- Agency -->
             <section id="dricil" data-url="https://orcinos.com/dricil/index.html">
                 <h1>Dricil. AI Digital Agency.</h1>
                 <p>Fully automatic digital agency. Social media, SEO, and marketing executed by sovereign AI agents.</p>
             </section>
 
-            <!-- Section 10: Firmless -->
-            <section id="firmless" data-url="https://priscion.com/firmless/index.html">
+            <section id="firmless" data-url="https://orcinos.com/firmless/index.html">
                 <h1>Firmless. Regulatory Logic.</h1>
                 <p>Advanced compliance and regulatory automation for modern software deployments.</p>
             </section>
 
-            <!-- Section 11: Senpai -->
-            <section id="senpai" data-url="https://priscion.com/senpai/index.html">
+            <section id="senpai" data-url="https://orcinos.com/senpai/index.html">
                 <h1>Senpai. Skill Acquisition.</h1>
                 <p>Interactive learning and skill-building logic designed for rapid mastery.</p>
+            </section>
+
+            <section id="lattome" data-url="https://orcinos.com/lattome/index.html">
+                <h1>Lattome. Spiritual Logic.</h1>
+                <p>High-fidelity meditative and spiritual intelligence. Anchoring the division in meaningful purpose.</p>
             </section>
         </div>
 
@@ -338,7 +369,6 @@
                         currentUrl = url;
                         iframe.classList.remove('active');
                         
-                        // Small delay to ensure clean transition
                         setTimeout(() => {
                             iframe.src = url;
                             iframe.onload = () => iframe.classList.add('active');
