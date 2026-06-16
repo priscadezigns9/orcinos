@@ -51,10 +51,30 @@
         .modal-close { position: absolute; top: 20px; right: 20px; cursor: pointer; font-size: 1.5rem; color: #888; }
         .pay-option { background: #F9F9F9; border: 1px solid rgba(0,0,0,0.05); padding: 18px; border-radius: 12px; margin-bottom: 12px; display: flex; align-items: center; gap: 15px; cursor: pointer; transition: 0.2s; text-decoration: none; color: #000; text-align: left; }
         footer { padding: 80px 6%; text-align: center; border-top: 1px solid var(--border); font-size: 0.8rem; color: var(--muted); text-transform: uppercase; letter-spacing: 2px; }
+    
+        /* Mobile Specific Styles */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.8rem; letter-spacing: -1.5px; }
+            .hero p { font-size: 1.1rem; }
+            .metrics-grid { grid-template-columns: 1fr; }
+            .hero-search { flex-direction: column; background: transparent; border: none; padding: 0; }
+            .hero-input { background: #f9f9f9; border: 1px solid var(--border); border-radius: 12px; margin-bottom: 10px; width: 100%; }
+            .btn-scout { width: 100%; }
+            header { padding: 15px 20px; }
+            .nav-links { display: none; } /* Hide desktop links */
+            .hamburger { display: flex !important; }
+        }
+        .hamburger {
+            display: none; width: 30px; height: 18px;
+            flex-direction: column; justify-content: space-between; cursor: pointer;
+        }
+        .hamburger span { height: 2px; width: 100%; background: #000; border-radius: 2px; }
+
     </style>
 </head>
 <body>
-    <header><div class="logo"><img src="/logos/OPTISCOUT_DEFINITIVE_2026.png" alt="OptiScout"></div></header>
+    <header><div class="logo"><img src="/logos/OPTISCOUT_DEFINITIVE_2026.png" alt="OptiScout"></div><div class="hamburger"><span></span><span></span><span></span></div>
+    </header>
     
     <section class="hero">
         <h1>Master the Amazon Shard.</h1>
