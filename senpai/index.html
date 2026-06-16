@@ -40,14 +40,8 @@
             border-bottom: 1px solid var(--border);
         }
 
-        .logo { 
-            font-family: 'Playfair Display', serif; 
-            font-weight: 900; 
-            font-size: 1.4rem; 
-            letter-spacing: -0.02em; 
-            color: var(--text);
-            text-decoration: none;
-        }
+        .logo-wrap { text-decoration: none; display: flex; align-items: center; }
+        .logo-wrap img { height: 32px; width: auto; }
 
         /* Hamburger Menu */
         .hamburger {
@@ -154,7 +148,9 @@
 <body>
 
     <header>
-        <a href="#" class="logo">Senpai</a>
+        <a href="#" class="logo-wrap">
+            <img src="../logos/senpai_logo.png" alt="Senpai Logo">
+        </a>
         <div class="hamburger" id="hamburger">
             <span></span>
             <span></span>
