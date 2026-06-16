@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ORCINOS | Databases for the Modern Pocket</title>
+    <title>ORCINOS | High-Fidelity Software for the Pocket</title>
     <link rel="icon" type="image/png" href="logos/orcinos_icon.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
@@ -13,15 +13,17 @@
             --muted: #86868b;
             --border: #f5f5f7;
             --accent: #000000;
+            --sidebar-width: 240px;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
         body { 
             background: var(--bg); 
             color: var(--text); 
             font-family: 'Inter', -apple-system, sans-serif; 
             -webkit-font-smoothing: antialiased; 
             overflow-x: hidden;
+            line-height: 1.1;
         }
 
         /* Nav */
@@ -38,130 +40,100 @@
             z-index: 1000;
             border-bottom: 1px solid var(--border);
         }
-        .logo { font-weight: 700; font-size: 0.95rem; letter-spacing: -0.01em; cursor: pointer; }
-        .get-btn { background: #000; color: #FFF; padding: 6px 12px; border-radius: 980px; text-decoration: none; font-weight: 600; font-size: 0.8rem; }
+        .logo { font-weight: 700; font-size: 0.95rem; letter-spacing: -0.01em; }
+        .get-btn { background: #000; color: #FFF; padding: 8px 16px; border-radius: 980px; text-decoration: none; font-weight: 600; font-size: 0.85rem; }
 
-        /* Sidebar - Exact Left-Nav TOC */
+        /* Sidebar - TOC */
         .sidebar {
             position: fixed;
-            left: 32px; top: 120px;
-            width: 180px;
+            left: 40px; top: 120px;
+            width: var(--sidebar-width);
             z-index: 100;
+            display: none; /* Mobile hidden */
         }
-        .sidebar-item { display: block; text-decoration: none; color: var(--muted); font-size: 0.85rem; font-weight: 500; margin-bottom: 10px; transition: color 0.2s; }
+        @media (min-width: 1024px) { .sidebar { display: block; } .main-content { padding-left: calc(var(--sidebar-width) + 80px); } }
+
+        .sidebar-section { margin-bottom: 32px; }
+        .sidebar-label { font-size: 0.75rem; font-weight: 700; color: #d2d2d7; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px; display: block; }
+        .sidebar-item { display: block; text-decoration: none; color: var(--muted); font-size: 0.9rem; font-weight: 600; margin-bottom: 8px; transition: color 0.2s; }
         .sidebar-item.active { color: var(--text); }
         .sidebar-item:hover { color: var(--text); }
-        .sidebar-label { font-size: 0.75rem; font-weight: 700; color: #d2d2d7; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px; display: block; }
 
-        /* Main Content Layout */
-        .page-wrapper {
-            display: grid;
-            grid-template-columns: 280px 1fr 400px;
-            padding-top: 100px;
-            max-width: 1400px;
-            margin: 0 auto;
+        /* Main Content */
+        .main-content { padding-right: 40px; padding-bottom: 100px; }
+
+        section {
+            min-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 120px 0;
+            max-width: 900px;
         }
 
-        @media (max-width: 1100px) {
-            .page-wrapper { grid-template-columns: 240px 1fr; }
-            .mockup-container { display: none; }
-        }
-
-        @media (max-width: 768px) {
-            .page-wrapper { display: block; padding-left: 32px; padding-right: 32px; }
-            .sidebar { display: none; }
-        }
-
-        /* Hero Content */
-        .content-section {
-            padding-bottom: 120px;
-        }
-
-        .hero h1 {
-            font-size: 4.5rem;
+        h1 {
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
             font-weight: 800;
             letter-spacing: -0.04em;
             line-height: 1.05;
-            margin-bottom: 24px;
+            margin-bottom: 32px;
         }
 
-        .hero p {
-            font-size: 1.5rem;
+        .subhead {
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
             font-weight: 500;
             color: #6e6e73;
-            line-height: 1.3;
-            max-width: 600px;
-            margin-bottom: 40px;
+            line-height: 1.25;
+            max-width: 800px;
         }
 
-        /* Phone Mockup on Right */
-        .mockup-container {
-            position: sticky;
-            top: 100px;
-            height: calc(100vh - 100px);
+        .visual-container {
+            margin-top: 64px;
+            width: 100%;
+            background: #FAFAFA;
+            border-radius: 32px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            aspect-ratio: 16/9;
             display: flex;
+            align-items: center;
             justify-content: center;
         }
 
-        .iphone {
-            width: 320px;
-            height: 650px;
-            background: #000;
-            border-radius: 48px;
-            padding: 12px;
-            position: relative;
-            box-shadow: 0 50px 100px -20px rgba(0,0,0,0.3);
-            border: 6px solid #1c1c1c;
-        }
+        .visual-container img { width: 100%; height: 100%; object-fit: cover; }
 
-        .iphone-screen {
-            background: #FFF;
-            width: 100%;
-            height: 100%;
-            border-radius: 36px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .iphone-notch {
-            position: absolute;
-            top: 0; left: 50%;
-            transform: translateX(-50%);
-            width: 120px; height: 30px;
-            background: #000;
-            border-bottom-left-radius: 18px;
-            border-bottom-right-radius: 18px;
-            z-index: 10;
-        }
-
-        /* Registry Table - Database Style */
-        .registry-table {
-            margin-top: 80px;
-            border-top: 1px solid var(--border);
-        }
-
-        .table-row {
+        /* Registry Specific */
+        .registry-list { margin-top: 64px; border-top: 1px solid var(--border); }
+        .registry-row {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            padding: 20px 0;
+            grid-template-columns: 1fr 2fr;
+            padding: 32px 0;
             border-bottom: 1px solid var(--border);
             text-decoration: none;
             color: inherit;
         }
-        .row-name { font-weight: 700; font-size: 1rem; }
-        .row-desc { color: var(--muted); font-size: 0.9rem; }
+        .row-name { font-weight: 800; font-size: 1.2rem; }
+        .row-desc { font-weight: 500; color: var(--muted); font-size: 1.1rem; }
+
+        @media (max-width: 768px) {
+            .main-content { padding-left: 24px; padding-right: 24px; }
+            .registry-row { grid-template-columns: 1fr; gap: 8px; }
+        }
 
         footer {
-            padding: 80px 32px 40px;
+            padding: 100px 40px 40px;
             border-top: 1px solid var(--border);
-            font-size: 0.75rem;
-            font-weight: 500;
+            font-size: 0.85rem;
+            font-weight: 600;
             color: var(--muted);
             display: flex;
             justify-content: space-between;
         }
-
+        .footer-links a { color: var(--muted); text-decoration: none; margin-left: 20px; }
         .god-trigger { cursor: pointer; }
+
+        /* Utility */
+        .badge { display: inline-block; padding: 4px 10px; background: #EEE; border-radius: 6px; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; margin-bottom: 16px; }
     </style>
 </head>
 <body>
@@ -171,50 +143,99 @@
         <a href="https://priscion.com" class="get-btn">Get Priscion</a>
     </nav>
 
-    <div class="page-wrapper">
-        <div class="sidebar">
+    <div class="sidebar">
+        <div class="sidebar-section">
             <span class="sidebar-label">Cover</span>
-            <a href="#" class="sidebar-item active">Introduction</a>
+            <a href="#introduction" class="sidebar-item active">Introduction</a>
+            <a href="#sovereignty" class="sidebar-item">Sovereignty</a>
+        </div>
+        <div class="sidebar-section">
+            <span class="sidebar-label">Nodes</span>
             <a href="#registry" class="sidebar-item">Product Registry</a>
-            <span class="sidebar-label" style="margin-top: 32px;">Security</span>
-            <a href="#" class="sidebar-item">Sovereign Data</a>
-            <a href="#" class="sidebar-item">Private Cloud</a>
+            <a href="#intelligence" class="sidebar-item">Data Intelligence</a>
+            <a href="#mobile" class="sidebar-item">Mobile UX</a>
         </div>
-
-        <div class="main-content">
-            <section class="hero content-section">
-                <h1>Software for the Modern Pocket.</h1>
-                <p>Orcinos is a powerful suite of sovereign apps. Simple, fast, and secure. Designed for absolute clarity and high-fidelity logic.</p>
-                
-                <div class="registry-table" id="registry">
-                    <div class="table-row" style="border-top: none; padding-top: 40px;">
-                        <div style="font-weight: 800; font-size: 1.2rem; margin-bottom: 20px;">The Registry</div>
-                    </div>
-                    <div id="product-list">
-                        <!-- Injected via JS -->
-                    </div>
-                </div>
-            </section>
+        <div class="sidebar-section">
+            <span class="sidebar-label">Safety</span>
+            <a href="#security" class="sidebar-item">Safe Deployment</a>
+            <a href="#offline" class="sidebar-item">Offline Mode</a>
         </div>
+        <div class="sidebar-section">
+            <span class="sidebar-label">Tools</span>
+            <a href="#sharing" class="sidebar-item">Sovereign Sharing</a>
+            <a href="#notifications" class="sidebar-item">Global Monitor</a>
+        </div>
+    </div>
 
-        <div class="mockup-container">
-            <div class="iphone">
-                <div class="iphone-notch"></div>
-                <div class="iphone-screen">
-                    <div style="padding: 60px 20px; text-align: center;">
-                        <img src="logos/orcinos_icon.png" style="width: 80px; margin-bottom: 20px;" alt="Logo">
-                        <div style="font-weight: 800; font-size: 1.4rem; letter-spacing: -0.02em;">ORCINOS</div>
-                        <div style="font-size: 0.8rem; color: #888; margin-top: 10px;">Sovereign Logic Active</div>
-                        
-                        <div style="margin-top: 40px; text-align: left;">
-                            <div style="padding: 12px; background: #f9f9f9; border-radius: 12px; margin-bottom: 8px; font-weight: 700; font-size: 0.8rem;">Captio AI</div>
-                            <div style="padding: 12px; background: #f9f9f9; border-radius: 12px; margin-bottom: 8px; font-weight: 700; font-size: 0.8rem;">PawDX</div>
-                            <div style="padding: 12px; background: #f9f9f9; border-radius: 12px; margin-bottom: 8px; font-weight: 700; font-size: 0.8rem;">Nurasen</div>
-                        </div>
-                    </div>
-                </div>
+    <div class="main-content">
+        <!-- Cover Section -->
+        <section id="introduction">
+            <h1>Software for the Modern Pocket.</h1>
+            <p class="subhead">Orcinos is a powerful, pocket-sized suite of sovereign applications. Designed for clarity, with high-fidelity logic that makes sense at a glance — or a tap.</p>
+            <div class="visual-container">
+                <img src="https://res.cloudinary.com/davvgg5sy/image/upload/v1/assets/orcinos_hero_full.jpg" alt="Orcinos Hub Display">
             </div>
-        </div>
+        </section>
+
+        <!-- Sovereignty Section -->
+        <section id="sovereignty">
+            <span class="badge">Privacy First</span>
+            <h1>Data stored on-device.</h1>
+            <p class="subhead">Credentials and data are stored on-device, not on an Orcinos server. Connections are made directly between your phone and your nodes. As part of our commitment to sovereignty, Orcinos avoids any third-party tracking, analytics, or surveillance.</p>
+        </section>
+
+        <!-- Product Registry Section -->
+        <section id="registry">
+            <span class="badge">Nodes</span>
+            <h1>Meticulously refined nodes — active at scale.</h1>
+            <p class="subhead">Orcinos makes complex software simple when you're away from your desk — whether you're building something new or shipping at scale.</p>
+            
+            <div class="registry-list" id="registry-list">
+                <!-- Injected via JS -->
+            </div>
+        </section>
+
+        <!-- Intelligence Section -->
+        <section id="intelligence">
+            <span class="badge">Intelligence</span>
+            <h1>Formatting that makes data human-readable.</h1>
+            <p class="subhead">Make raw node data much easier to read with custom formatting. Convert complex outputs, clean up telemetry, linkify protocols, and give booleans more human-friendly labels. All without modifying the source.</p>
+        </section>
+
+        <!-- Mobile UX Section -->
+        <section id="mobile">
+            <span class="badge">UX</span>
+            <h1>Stay in flow.</h1>
+            <p class="subhead">Move through your division quickly with Node Flow. Swipe through active nodes and tap to jump right in — fast, frictionless, and built to speed up your workflow.</p>
+        </section>
+
+        <!-- Safe Deployment Section -->
+        <section id="security">
+            <span class="badge">Security</span>
+            <h1>Query carefully. Deploy safely.</h1>
+            <p class="subhead">Orcinos keeps production safe with built-in Deployment Safety. Set rules that ask for confirmation before edits or deletions. Block dangerous actions entirely. You always know where you are — before things go sideways.</p>
+        </section>
+
+        <!-- Offline Mode Section -->
+        <section id="offline">
+            <span class="badge">Mobility</span>
+            <h1>Works even when your connection doesn't.</h1>
+            <p class="subhead">Optimized for speedy asset access by storing some of your data on device. And with Offline Mode, Orcinos lets you access your critical division data without a working internet connection.</p>
+        </section>
+
+        <!-- Sharing Section -->
+        <section id="sharing">
+            <span class="badge">Collaboration</span>
+            <h1>Share assets with an Expiring Link.</h1>
+            <p class="subhead">When it's touch-and-go, share rows with links that vanish after a peek — or on a timer. An upgrade from copy and paste.</p>
+        </section>
+
+        <!-- Notifications Section -->
+        <section id="notifications">
+            <span class="badge">Monitor</span>
+            <h1>Notifications keep tabs on your division.</h1>
+            <p class="subhead">Global alerts monitor every table and node — so you can close the tabs kept in your browser. Real-time intelligence, delivered natively.</p>
+        </section>
     </div>
 
     <footer>
@@ -222,8 +243,10 @@
             <span class="god-trigger" id="god-trigger-text">&copy; 2026 ORCINOS</span><br>
             A Prisicon Network Entity.
         </div>
-        <div>
-            Lattome.
+        <div class="footer-links">
+            <a href="#">Support</a>
+            <a href="#">Discord</a>
+            <a href="#">X</a>
         </div>
     </footer>
 
@@ -243,16 +266,38 @@
             { name: "Senpai", slug: "senpai", desc: "Micro-learning platform." }
         ];
 
-        const list = document.getElementById('product-list');
+        const list = document.getElementById('registry-list');
         products.forEach(p => {
             const row = document.createElement('a');
             row.href = `./${p.slug}/`;
-            row.className = 'table-row';
+            row.className = 'registry-row';
             row.innerHTML = `
                 <div class="row-name">${p.name}</div>
                 <div class="row-desc">${p.desc}</div>
             `;
             list.appendChild(row);
+        });
+
+        // Sidebar active state logic
+        const sections = document.querySelectorAll('section');
+        const navItems = document.querySelectorAll('.sidebar-item');
+
+        window.addEventListener('scroll', () => {
+            let current = "";
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (pageYOffset >= (sectionTop - sectionHeight / 3)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navItems.forEach(item => {
+                item.classList.remove('active');
+                if (item.getAttribute('href').includes(current)) {
+                    item.classList.add('active');
+                }
+            });
         });
 
         // God Mode Handshake
