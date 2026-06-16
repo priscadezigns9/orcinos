@@ -164,8 +164,8 @@
 
     <div class="auth-container">
         <div class="auth-card" id="auth-form">
-            <h1>Welcome to Titan</h1>
-            <p>Access your sovereign trading dashboard and academy.</p>
+            <h1 id="auth-title">Welcome to Titan</h1>
+            <p id="auth-subtitle">Access your sovereign trading dashboard and academy.</p>
             
             <div class="input-group">
                 <label>Email Address</label>
@@ -177,8 +177,10 @@
             </div>
 
             <div class="auth-buttons">
-                <button class="btn btn-signin" onclick="signIn()">LOGIN</button>
-                <button class="btn btn-signup" onclick="signUp()">Create Account</button>
+                <button id="primary-auth-btn" class="btn btn-signin" onclick="handleAuth()">LOGIN</button>
+                <p style="text-align:center; margin: 16px 0 8px; font-size: 0.85rem; color: var(--muted);" id="toggle-text">
+                    Don't have an account? <a href="#" onclick="toggleAuthMode(false)" style="color: var(--malachite); text-decoration: none; font-weight: 700;">Create Account</a>
+                </p>
             </div>
             <div id="error-message" class="error-msg"></div>
         </div>
@@ -204,6 +206,33 @@
         const supabaseUrl = 'https://sazhdnqzaqpqcralmthh.supabase.co';
         const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNhemhkbnF6YXFwcWNyYWxtdGhoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxNzE5NjYsImV4cCI6MjA5Mzc0Nzk2Nn0.uTyw31uWTNOTV5-HzNpm46vpAJABAsHLMzW-sYOkRhc';
         const _supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+        let isLoginMode = true;
+
+        function toggleAuthMode(isLogin) {
+            isLoginMode = isLogin;
+            const title = document.getElementById('auth-title');
+            const subtitle = document.getElementById('auth-subtitle');
+            const primaryBtn = document.getElementById('primary-auth-btn');
+            const toggleText = document.getElementById('toggle-text');
+
+            if (isLoginMode) {
+                title.innerText = 'Welcome to Titan';
+                subtitle.innerText = 'Access your sovereign trading dashboard and academy.';
+                primaryBtn.innerText = 'LOGIN';
+                toggleText.innerHTML = `Don't have an account? <a href="#" onclick="toggleAuthMode(false)" style="color: var(--malachite); text-decoration: none; font-weight: 700;">Create Account</a>`;
+            } else {
+                title.innerText = 'Join Titan';
+                subtitle.innerText = 'Create your sovereign trading identity.';
+                primaryBtn.innerText = 'CREATE ACCOUNT';
+                toggleText.innerHTML = `Already have an account? <a href="#" onclick="toggleAuthMode(true)" style="color: var(--malachite); text-decoration: none; font-weight: 700;">Login</a>`;
+            }
+        }
+
+        async function handleAuth() {
+            if (isLoginMode) await signIn();
+            else await signUp();
+        }
 
         async function signIn() {
             const email = document.getElementById('email').value;
