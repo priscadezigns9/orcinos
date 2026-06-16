@@ -3,219 +3,253 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SENPAI | Skill Acquisition Logic</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+    <title>SOV SYGNL | Intelligence Shard</title>
+    <link rel="icon" type="image/png" href="../logos/sovsygnal_icon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="../shared_godmode.css">
     <style>
         :root {
-            --bg: #FFFFFF;
-            --text: #000000;
-            --accent: #0071e3;
-            --muted: #86868b;
-            --border: #f5f5f7;
-            --nav-height: 60px;
+            --bg: #FFFFFF; --text: #000000; --muted: #666666; --accent: #1A1A1A;
+            --sygnal-red: #D0021B; --border: rgba(0,0,0,0.1);
+            --font-heading: 'Playfair Display', serif; --font-body: 'Inter', sans-serif;
         }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body { 
-            background: var(--bg); 
-            color: var(--text); 
-            font-family: 'Inter', -apple-system, sans-serif; 
-            -webkit-font-smoothing: antialiased;
-            overflow-x: hidden;
-            line-height: 1.5;
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: var(--bg); color: var(--text); font-family: var(--font-body); line-height: 1.5; overflow-x: hidden; }
+        header { padding: 40px 6% 20px; border-bottom: 5px solid var(--text); text-align: center; }
+        .logo { font-family: var(--font-heading); font-size: 4rem; font-weight: 900; letter-spacing: -2px; text-transform: uppercase; line-height: 1; }
+        nav { 
+            display: flex; justify-content: center; flex-wrap: wrap; gap: 20px; padding: 20px 6%; 
+            border-bottom: 1px solid var(--border); margin-bottom: 40px; position: sticky; top: 0; background: white; z-index: 100;
         }
-
-        /* Mobile-First Header */
-        header {
-            position: fixed;
-            top: 0; width: 100%;
-            height: var(--nav-height);
-            padding: 0 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: saturate(180%) blur(20px);
-            z-index: 1000;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .logo { 
-            font-family: 'Playfair Display', serif; 
-            font-weight: 900; 
-            font-size: 1.4rem; 
-            letter-spacing: -0.02em; 
-            color: var(--text);
-            text-decoration: none;
-        }
-
-        /* Hamburger Menu */
-        .hamburger {
-            width: 30px;
-            height: 20px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            cursor: pointer;
-            z-index: 1001;
-        }
-        .hamburger span {
-            display: block;
-            width: 100%;
-            height: 2px;
-            background: var(--text);
-            border-radius: 2px;
-            transition: 0.3s;
-        }
-        .hamburger.active span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
-        .hamburger.active span:nth-child(2) { opacity: 0; }
-        .hamburger.active span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
-
-        /* Mobile Nav Overlay */
-        .nav-overlay {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100vh;
-            background: var(--bg);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            gap: 30px;
-            transform: translateX(100%);
-            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 999;
-        }
-        .nav-overlay.active { transform: translateX(0); }
-        .nav-overlay a {
-            font-size: 1.8rem;
-            font-weight: 800;
-            text-decoration: none;
-            color: var(--text);
-            letter-spacing: -0.04em;
-        }
-
-        /* Hero */
-        .hero {
-            padding: 120px 20px 60px;
-            text-align: left;
-        }
-        .hero h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 3.2rem;
-            line-height: 1;
-            letter-spacing: -0.04em;
-            margin-bottom: 20px;
-        }
-        .hero p {
-            font-size: 1.1rem;
-            color: var(--muted);
-            font-weight: 500;
-            max-width: 400px;
-        }
-
-        /* Modules Grid */
-        .modules {
-            padding: 20px;
+        nav a { text-decoration: none; color: var(--text); font-weight: 900; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 1px; white-space: nowrap; }
+        nav a:hover { color: var(--sygnal-red); }
+        
+        .intelligence-dashboard {
             display: grid;
-            grid-template-columns: 1fr;
-            gap: 16px;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 15px;
+            margin-bottom: 60px;
+            padding: 20px;
+            background: #f8f8f8;
+            border: 2px solid #000;
         }
-        .module-card {
-            background: var(--border);
-            border-radius: 24px;
-            padding: 30px;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            min-height: 200px;
+        .dash-item {
             text-decoration: none;
-            color: var(--text);
-            transition: transform 0.2s;
+            color: #000;
+            padding: 15px;
+            border: 1px solid #ddd;
+            text-align: center;
+            font-weight: 900;
+            text-transform: uppercase;
+            font-size: 0.65rem;
+            letter-spacing: 1px;
+            transition: 0.2s;
+            background: #fff;
         }
-        .module-card:active { transform: scale(0.98); }
-        .module-card span { font-weight: 800; font-size: 0.7rem; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; }
-        .module-card h2 { font-weight: 800; font-size: 1.5rem; letter-spacing: -0.04em; line-height: 1.1; }
+        .dash-item:hover {
+            background: #000;
+            color: #fff;
+            border-color: #000;
+        }
 
-        footer {
-            padding: 60px 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: var(--muted);
-            border-top: 1px solid var(--border);
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 6% 100px; }
+        .section-block { margin-bottom: 80px; }
+        .section-title { 
+            font-family: var(--font-heading); font-size: 1.5rem; border-bottom: 3px solid var(--text); 
+            padding-bottom: 10px; margin-bottom: 30px; text-transform: uppercase; display: flex; align-items: center; gap: 10px;
         }
-
-        @media (min-width: 768px) {
-            .modules { grid-template-columns: repeat(2, 1fr); }
-            .hero h1 { font-size: 5rem; }
-        }
+        .news-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 40px; }
+        .news-card { border-bottom: 1px solid var(--border); padding-bottom: 20px; }
+        .news-card h3 { font-family: var(--font-heading); font-size: 1.25rem; margin-bottom: 10px; line-height: 1.2; }
+        .news-card p { color: var(--muted); font-size: 0.9rem; line-height: 1.6; }
+        footer { background: #000; color: #FFF; padding: 60px 6%; text-align: center; border-top: 10px solid var(--sygnal-red); }
     </style>
 </head>
 <body>
-
     <header>
-        <a href="#" class="logo">Senpai</a>
-        <div class="hamburger" id="hamburger">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
+        <div class="logo">SOV SYGNL</div>
+        <p style="text-transform:uppercase; font-weight:900; letter-spacing:8px; font-size:0.7rem; margin-top:10px; color:var(--muted);">Global News Intelligence Shard</p>
     </header>
+    <nav>
+        <a href="index.html" style="color:var(--sygnal-red);">Headlines</a>
+        <a href="geopolitics.html" style=""> Geo </a>
+        <a href="blockchain.html" style=""> Blockchain </a>
+        <a href="biohacking.html" style=""> Biohacking </a>
+        <a href="anime.html" style=""> Anime </a>
+        <a href="stocks.html" style=""> Equity </a>
+        <a href="forex.html" style=""> Currency </a>
+        <a href="entertainment.html" style=""> Global </a>
+        <a href="tech.html" style=""> Technological </a>
+        <a href="gaming.html" style=""> Gaming </a>
+        <a href="luxury.html" style=""> Luxury </a>
+        <a href="lifestyle.html" style=""> Sanctuary </a>
 
-    <div class="nav-overlay" id="nav-overlay">
-        <a href="#">Skill Hub</a>
-        <a href="#">My Progress</a>
-        <a href="#">Certifications</a>
-        <a href="#">Orcinos Division</a>
+    </nav>
+    <div class="container">
+        <div class="intelligence-dashboard">
+            <a href="geopolitics.html" class="dash-item">Geopolitical Intelligence</a>
+<a href="blockchain.html" class="dash-item">Blockchain & Web3</a>
+<a href="biohacking.html" class="dash-item">Biohacking & Longevity</a>
+<a href="anime.html" class="dash-item">Anime Media Intelligence</a>
+<a href="stocks.html" class="dash-item">Equity Markets</a>
+<a href="forex.html" class="dash-item">Currency & Forex</a>
+<a href="entertainment.html" class="dash-item">Global Entertainment</a>
+<a href="tech.html" class="dash-item">Technological Innovation</a>
+<a href="gaming.html" class="dash-item">Gaming & Metaverse</a>
+<a href="luxury.html" class="dash-item">Luxury Architecture</a>
+<a href="lifestyle.html" class="dash-item">Sanctuary Lifestyle</a>
+
+        </div>
+        <div class="section-block" id="geopolitics">
+            <h2 class="section-title">Geopolitical Intelligence</h2>
+            <div class="news-grid">
+                <div class="news-card">
+                    <h3>US-Iran Peace Agreement Near? Trump Claims Deal Close Amid Tehran Caution.</h3>
+                    <p>Diplomatic intelligence reports a potential breakthrough in US-Iran relations, though Tehran remains wary following reported ceasefire violations.</p>
+                </div>
+                <div class="news-card">
+                    <h3>Fresh US Strikes in Gulf Region Threaten Fragile Ceasefire.</h3>
+                    <p>Strategic intelligence monitors escalating tensions as recent strikes complicate peace talks and heighten regional security risks.</p>
+                </div>
+            </div>
+        </div>
+        <div class="section-block" id="blockchain">
+            <h2 class="section-title">Blockchain & Web3</h2>
+            <div class="news-grid">
+                <div class="news-card">
+                    <h3>Bitcoin ETF Market Consolidation: BlackRock and Fidelity Emerge as Dominant Leaders.</h3>
+                    <p>Market intelligence confirms the concentration of the Bitcoin ETF space as two major firms capture the majority of institutional inflows.</p>
+                </div>
+                <div class="news-card">
+                    <h3>Tokenized SpaceX Shares Launch Across Major Crypto Exchanges.</h3>
+                    <p>Financial intelligence monitors the integration of private equity into blockchain ecosystems, allowing retail access to aerospace giants.</p>
+                </div>
+            </div>
+        </div>
+        <div class="section-block" id="biohacking">
+            <h2 class="section-title">Biohacking & Longevity</h2>
+            <div class="news-grid">
+                <div class="news-card">
+                    <h3>Biohackers World New York 2026: Longevity and Performance Conference Set for June.</h3>
+                    <p>Wellness intelligence forecasts a premier gathering of researchers and founders in NYC to showcase the next generation of human optimization.</p>
+                </div>
+                <div class="news-card">
+                    <h3>Environmental Toxin Testing Becomes Primary Biohacking Trend for 2026.</h3>
+                    <p>Performance intelligence reports a surge in testing home environments for hidden toxins as users seek cleaner sources of peak performance.</p>
+                </div>
+            </div>
+        </div>
+        <div class="section-block" id="anime">
+            <h2 class="section-title">Anime Media Intelligence</h2>
+            <div class="news-grid">
+                <div class="news-card">
+                    <h3>MAPPA Announces New Historical Epic for Fall 2026 Season.</h3>
+                    <p>Production intelligence tracks major studio shifts toward high-fidelity historical narratives in the upcoming seasonal slate.</p>
+                </div>
+                <div class="news-card">
+                    <h3>Dreaming Cinema Expansion: Anime Theatrical Releases See Record Growth.</h3>
+                    <p>Media intelligence reports unprecedented global box office performance for specialized animation features.</p>
+                </div>
+            </div>
+        </div>
+        <div class="section-block" id="stocks">
+            <h2 class="section-title">Equity Markets</h2>
+            <div class="news-grid">
+                <div class="news-card">
+                    <h3>NVIDIA Q2 Forecast: AI Compute Demand Shows No Signs of Saturation.</h3>
+                    <p>Market intelligence monitors record-breaking guidance as enterprise AI infrastructure investment continues to accelerate.</p>
+                </div>
+                <div class="news-card">
+                    <h3>The $PRN Index: Tracking the Next Wave of Sovereign Digital Assets.</h3>
+                    <p>Institutional analysis of the Priscion Network's market performance and its impact on the broader equity landscape.</p>
+                </div>
+            </div>
+        </div>
+        <div class="section-block" id="forex">
+            <h2 class="section-title">Currency & Forex</h2>
+            <div class="news-grid">
+                <div class="news-card">
+                    <h3>GBP/USD Stability Tested Amidst New Trade Policy Announcements.</h3>
+                    <p>Currency intelligence tracks the impact of institutional shifts in the UK trade landscape on major currency pairings.</p>
+                </div>
+                <div class="news-card">
+                    <h3>Digital Yen Pilot Expansion: Japan Moves Toward Full CBDC Integration.</h3>
+                    <p>Sovereign intelligence monitors the evolution of national digital currencies in major global economies.</p>
+                </div>
+            </div>
+        </div>
+        <div class="section-block" id="entertainment">
+            <h2 class="section-title">Global Entertainment</h2>
+            <div class="news-grid">
+                <div class="news-card">
+                    <h3>The Rise of Virtual Concerts: 2026 Market Data Shows Paradigm Shift.</h3>
+                    <p>Engagement intelligence reports a significant migration of live audience activity toward high-fidelity digital performance spaces.</p>
+                </div>
+                <div class="news-card">
+                    <h3>Studio Mergers: Centralization of Global Media Rights Intensifies.</h3>
+                    <p>Strategic monitoring of the major acquisitions shaping the landscape of content distribution in the next decade.</p>
+                </div>
+            </div>
+        </div>
+        <div class="section-block" id="tech">
+            <h2 class="section-title">Technological Innovation</h2>
+            <div class="news-grid">
+                <div class="news-card">
+                    <h3>Quantum Computing Handshake: First Commercial Proof-of-Concept for Supply Chains.</h3>
+                    <p>Innovation intelligence tracks the first real-world application of quantum processing in logistical optimization.</p>
+                </div>
+                <div class="news-card">
+                    <h3>Neural Interface Safety Standards Proposed by Global Tech Coalition.</h3>
+                    <p>Regulatory intelligence monitors the formation of new safety protocols for emerging human-computer integration.</p>
+                </div>
+            </div>
+        </div>
+        <div class="section-block" id="gaming">
+            <h2 class="section-title">Gaming & Metaverse</h2>
+            <div class="news-grid">
+                <div class="news-card">
+                    <h3>Atelia Gaming Lab: Breakthroughs in Procedural World Generation.</h3>
+                    <p>Hardware intelligence monitors the release of next-gen rendering engines designed for persistent digital worlds.</p>
+                </div>
+                <div class="news-card">
+                    <h3>Esports Olympics 2026: Official Host Cities and Title Lineup Confirmed.</h3>
+                    <p>Competition intelligence forecasts a record-breaking year for professional gaming on the global stage.</p>
+                </div>
+            </div>
+        </div>
+        <div class="section-block" id="luxury">
+            <h2 class="section-title">Luxury Architecture</h2>
+            <div class="news-grid">
+                <div class="news-card">
+                    <h3>Minimalist Sanctuary Design: The Evolution of Quiet Luxury in 2026.</h3>
+                    <p>Design intelligence tracks the shift toward sustainable and intentional architectural engineering in high-end living spaces.</p>
+                </div>
+                <div class="news-card">
+                    <h3>The Artisan Renaissance: Handcrafted Precision Reclaims the Global Market.</h3>
+                    <p>Market intelligence reports a surge in demand for archival quality and primary-source craftsmanship.</p>
+                </div>
+            </div>
+        </div>
+        <div class="section-block" id="lifestyle">
+            <h2 class="section-title">Sanctuary Lifestyle</h2>
+            <div class="news-grid">
+                <div class="news-card">
+                    <h3>Mindful Productivity: The Rise of High-Fidelity Focus Environments.</h3>
+                    <p>Performance intelligence monitors new trends in ergonomic and cognitive-focused workspace design.</p>
+                </div>
+                <div class="news-card">
+                    <h3>Sustainable Living Hubs: Community-Driven Eco-Infrastructures Expand.</h3>
+                    <p>Social intelligence tracks the growth of intentional communities focused on circular economy principles.</p>
+                </div>
+            </div>
+        </div>
+
     </div>
-
-    <section class="hero">
-        <h1>Master the Mastery.</h1>
-        <p>High-fidelity skill acquisition for the modern sovereign agent. Interactive, institutional, and functional.</p>
-    </section>
-
-    <div class="modules">
-        <a href="#" class="module-card">
-            <span>Engineering</span>
-            <h2>Blockchain Architecture</h2>
-        </a>
-        <a href="#" class="module-card">
-            <span>Intelligence</span>
-            <h2>Market Signal Analysis</h2>
-        </a>
-        <a href="#" class="module-card" style="background: var(--text); color: var(--bg);">
-            <span>Agency</span>
-            <h2>AI Agent Orchestration</h2>
-        </a>
-        <a href="#" class="module-card">
-            <span>Logistics</span>
-            <h2>Autonomous Supply Chain</h2>
-        </a>
-    </div>
-
     <footer>
-        &copy; 2026 SENPAI | ORCINOS DIVISION<br>
-        A Prisicon Network Entity.
+        <img src="../logos/sovsygnal_icon.png" alt="SOV SYGNL Icon" style="height: 60px; margin-bottom: 20px;">
+        <p style="font-size:0.7rem; opacity:0.5; letter-spacing:2px;">&copy; 2026 SOV SYGNL // AN ORCINOS MEDIA DIVISION // ANCHORED TO ETERNITY</p>
     </footer>
-
-    <script>
-        const hamburger = document.getElementById('hamburger');
-        const navOverlay = document.getElementById('nav-overlay');
-
-        hamburger.addEventListener('click', () => {
-            hamburger.classList.toggle('active');
-            navOverlay.classList.toggle('active');
-            document.body.style.overflow = navOverlay.classList.contains('active') ? 'hidden' : 'auto';
-        });
-
-        // Close menu on link click
-        navOverlay.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                hamburger.classList.remove('active');
-                navOverlay.classList.remove('active');
-                document.body.style.overflow = 'auto';
-            });
-        });
-    </script>
+    <script src="../shared_godmode.js"></script>
 </body>
 </html>
