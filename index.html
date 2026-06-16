@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ORCINOS | Databases for the Modern Pocket</title>
+    <title>ORCINOS | High-Fidelity Software Division</title>
     <link rel="icon" type="image/png" href="logos/orcinos_icon.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
@@ -17,7 +17,7 @@
             --accent: #0071e3;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
         body { 
             background: var(--bg); 
             color: var(--text); 
@@ -43,9 +43,8 @@
         }
         .logo-nav { font-weight: 700; font-size: 0.95rem; letter-spacing: -0.01em; display: flex; align-items: center; gap: 8px; }
         .logo-nav img { width: 18px; }
-        .get-btn { background: #000; color: #FFF; padding: 8px 16px; border-radius: 980px; text-decoration: none; font-weight: 600; font-size: 0.85rem; }
 
-        /* Sidebar - Exact Left-Nav TOC */
+        /* Sidebar */
         .sidebar {
             position: fixed;
             left: 40px; top: 100px;
@@ -144,7 +143,7 @@
         section.active { opacity: 1; }
 
         section h1 {
-            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-size: clamp(2.2rem, 4vw, 3.8rem);
             font-weight: 800;
             letter-spacing: -0.04em;
             line-height: 1.05;
@@ -152,14 +151,67 @@
         }
 
         section p {
-            font-size: clamp(1.2rem, 2vw, 1.5rem);
+            font-size: clamp(1rem, 1.8vw, 1.4rem);
             font-weight: 500;
             color: #6e6e73;
             line-height: 1.3;
             max-width: 500px;
         }
 
-        /* Phone UI Components */
+        /* Horizontal Scrolling Marquee */
+        .marquee-container {
+            width: 100%;
+            overflow: hidden;
+            background: #f5f5f7;
+            padding: 40px 0;
+            margin-top: 40px;
+            white-space: nowrap;
+            border-radius: 20px;
+        }
+        .marquee-inner {
+            display: inline-block;
+            animation: marquee 20s linear infinite;
+        }
+        .node-square {
+            display: inline-flex;
+            width: 100px;
+            height: 100px;
+            background: #FFF;
+            border-radius: 20px;
+            margin-right: 20px;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            font-weight: 900;
+            font-size: 1.5rem;
+        }
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* Bento Grid Squares */
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-top: 40px;
+        }
+        .bento-square {
+            background: #f5f5f7;
+            aspect-ratio: 1;
+            border-radius: 20px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            transition: transform 0.3s ease, background 0.3s ease;
+            cursor: pointer;
+        }
+        .bento-square:hover { transform: scale(1.05); background: #e8e8ed; }
+        .bento-square span { font-weight: 800; font-size: 0.8rem; text-transform: uppercase; color: var(--muted); }
+
+        /* Phone UI */
         .phone-header {
             padding: 40px 20px 10px;
             border-bottom: 1px solid #f0f0f0;
@@ -167,37 +219,16 @@
             align-items: center;
             gap: 10px;
         }
-        .phone-header img { width: 24px; }
-        .phone-header span { font-weight: 800; font-size: 0.9rem; text-transform: uppercase; }
+        .phone-header img { width: 20px; }
+        .phone-header span { font-weight: 800; font-size: 0.85rem; text-transform: uppercase; }
 
-        .phone-content { flex: 1; padding: 20px; overflow: hidden; position: relative; }
-        
+        .phone-content { flex: 1; padding: 20px; position: relative; overflow: hidden; }
         .screen-state { position: absolute; top: 0; left: 0; width: 100%; height: 100%; padding: 20px; display: none; background: #FFF; }
-        .screen-state.active { display: block; animation: fadeIn 0.3s ease-out; }
+        .screen-state.active { display: block; animation: fadeIn 0.4s ease-out; }
 
         @keyframes fadeIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
 
-        /* Custom Phone UIs */
-        .db-list { display: flex; flex-direction: column; gap: 8px; }
-        .db-item { padding: 14px; background: #f5f5f7; border-radius: 12px; display: flex; align-items: center; gap: 12px; font-weight: 600; font-size: 0.85rem; }
-        .db-item .icon { width: 32px; height: 32px; background: #FFF; border-radius: 8px; }
-
-        .security-screen { text-align: center; padding-top: 60px; }
-        .security-icon { font-size: 4rem; margin-bottom: 20px; }
-
-        .form-mock { display: flex; flex-direction: column; gap: 12px; }
-        .form-input { height: 44px; background: #f5f5f7; border-radius: 10px; }
-
-        /* Footer */
-        footer {
-            padding: 80px 40px 40px;
-            border-top: 1px solid var(--border);
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: var(--muted);
-            display: flex;
-            justify-content: space-between;
-        }
+        footer { padding: 80px 40px 40px; border-top: 1px solid var(--border); font-size: 0.8rem; font-weight: 600; color: var(--muted); display: flex; justify-content: space-between; }
         .god-trigger { cursor: pointer; }
     </style>
 </head>
@@ -208,85 +239,86 @@
             <img src="logos/orcinos_icon.png" alt="Orcinos Icon">
             <span>ORCINOS</span>
         </div>
-        <a href="https://priscion.com" class="get-btn">Get Priscion</a>
     </nav>
 
     <div class="sidebar">
         <div class="sidebar-section">
             <span class="sidebar-label">Cover</span>
-            <a href="#cover" class="sidebar-item active">Introduction</a>
+            <a href="#intro" class="sidebar-item active">Introduction</a>
             <a href="#security" class="sidebar-item">Security</a>
         </div>
         <div class="sidebar-section">
-            <span class="sidebar-label">Databases</span>
-            <a href="#registry" class="sidebar-item">Registry</a>
-            <a href="#setup" class="sidebar-item">Easy Setup</a>
-            <a href="#lists" class="sidebar-item">Lists</a>
-            <a href="#gestures" class="sidebar-item">Gestures</a>
-            <a href="#customization" class="sidebar-item">Customization</a>
-            <a href="#formatting" class="sidebar-item">Formatting</a>
+            <span class="sidebar-label">Active Nodes</span>
+            <a href="#captioai" class="sidebar-item">Captio AI</a>
+            <a href="#optiscout" class="sidebar-item">OptiScout</a>
+            <a href="#nurasen" class="sidebar-item">Nurasen</a>
+            <a href="#titantraderx" class="sidebar-item">Titan TraderX</a>
+            <a href="#pawdx" class="sidebar-item">PawDX</a>
         </div>
         <div class="sidebar-section">
             <span class="sidebar-label">Safety</span>
-            <a href="#editing" class="sidebar-item">Editing</a>
-            <a href="#safedeploy" class="sidebar-item">Query Safety</a>
-        </div>
-        <div class="sidebar-section">
-            <span class="sidebar-label">Tools</span>
-            <a href="#expiring" class="sidebar-item">Expiring Links</a>
-            <a href="#notifications" class="sidebar-item">Notifications</a>
-            <a href="#search" class="sidebar-item">Search</a>
+            <a href="#firmless" class="sidebar-item">Firmless</a>
+            <a href="#senpai" class="sidebar-item">Senpai</a>
         </div>
     </div>
 
     <div class="page-container">
         <div class="content-column">
-            <!-- Introduction -->
-            <section id="cover" class="active" data-state="splash">
+            <!-- Intro -->
+            <section id="intro" class="active" data-state="intro">
                 <h1>Software for the Modern Pocket.</h1>
                 <p>Orcinos is a powerful pocket-sized software division. Designed for clarity, with high-fidelity logic that makes sense at a glance.</p>
+                <div class="marquee-container">
+                    <div class="marquee-inner">
+                        <div class="node-square">C</div><div class="node-square">O</div><div class="node-square">N</div><div class="node-square">T</div><div class="node-square">P</div><div class="node-square">T</div><div class="node-square">H</div><div class="node-square">F</div><div class="node-square">S</div>
+                        <div class="node-square">C</div><div class="node-square">O</div><div class="node-square">N</div><div class="node-square">T</div><div class="node-square">P</div><div class="node-square">T</div><div class="node-square">H</div><div class="node-square">F</div><div class="node-square">S</div>
+                    </div>
+                </div>
             </section>
 
             <!-- Security -->
             <section id="security" data-state="security">
-                <h1>Security. Data stored on-device.</h1>
-                <p>Credentials and data are stored on-device, not on an Orcinos server. Connections are made directly between your phone and your infrastructure.</p>
+                <h1>Nurasen. Data stored on-device.</h1>
+                <p>Credentials and data are stored on-device, not on an Orcinos server. Connections are made directly between your phone and your nodes.</p>
+                <div class="bento-grid">
+                    <div class="bento-square"><span>Local</span></div>
+                    <div class="bento-square"><span>Direct</span></div>
+                    <div class="bento-square"><span>Secure</span></div>
+                </div>
             </section>
 
-            <!-- Registry -->
-            <section id="registry" data-state="registry">
-                <h1>Databases. High-fidelity nodes.</h1>
-                <p>Connect to any node in your division. Orcinos supports the full spectrum of high-fidelity logic across the network.</p>
+            <!-- Captio AI -->
+            <section id="captioai" data-state="captioai">
+                <h1>Captio AI. Add nodes in seconds.</h1>
+                <p>Simply enter your node credentials or scan a division key to add it to your pocket division instantly. Social intelligence at scale.</p>
+                <div class="bento-grid">
+                    <div class="bento-square" style="grid-column: span 2; aspect-ratio: auto; height: 120px;"><span>One-Tap Active</span></div>
+                    <div class="bento-square"><span>Fast</span></div>
+                </div>
             </section>
 
-            <!-- Setup -->
-            <section id="setup" data-state="setup">
-                <h1>Easy Setup. Add nodes in seconds.</h1>
-                <p>Simply enter your node credentials or scan a division key to add it to your pocket division instantly.</p>
+            <!-- OptiScout -->
+            <section id="optiscout" data-state="optiscout">
+                <h1>OptiScout. Deals start simple.</h1>
+                <p>A spread gesture puts more details at your fingertips. Complex market data is turned back into a simple list with a single pinch.</p>
+                <div class="marquee-container" style="background: #000; height: 100px; padding: 20px 0;">
+                    <div class="marquee-inner">
+                        <div class="node-square" style="width: 60px; height: 60px; background: #333; color: #FFF;">$</div>
+                        <div class="node-square" style="width: 60px; height: 60px; background: #333; color: #FFF;">$</div>
+                        <div class="node-square" style="width: 60px; height: 60px; background: #333; color: #FFF;">$</div>
+                    </div>
+                </div>
             </section>
 
-            <!-- Customization -->
-            <section id="customization" data-state="custom">
-                <h1>Customization. Make it yours.</h1>
-                <p>Adjust themes, font scales, and accent colors to match your division's high-fidelity branding standards.</p>
-            </section>
-
-            <!-- Safe Deploy -->
-            <section id="safedeploy" data-state="safety">
-                <h1>Query Safety. Deploy carefully.</h1>
-                <p>Set rules that ask for confirmation before edits or deletions. Block dangerous actions entirely. You always know where you are.</p>
-            </section>
-
-            <!-- Expiring Links -->
-            <section id="expiring" data-state="sharing">
-                <h1>Tools. Share with an Expiring Link.</h1>
-                <p>Share node data with links that vanish after a single peek or on a timer. The ultimate upgrade for rapid collaboration.</p>
-            </section>
-
-            <!-- Search -->
-            <section id="search" data-state="search">
-                <h1>Search. Find anything instantly.</h1>
-                <p>Global search across all nodes, tables, and records. Rapid-fire intelligence at your fingertips.</p>
+            <!-- Titan TraderX -->
+            <section id="titantraderx" data-state="titantraderx">
+                <h1>Titan TraderX. Institutional logic.</h1>
+                <p>Institutional grade infrastructure for sovereign traders. Real-time market intelligence and execution, delivered natively.</p>
+                <div class="bento-grid">
+                    <div class="bento-square"><span>Charts</span></div>
+                    <div class="bento-square"><span>Exec</span></div>
+                    <div class="bento-square"><span>Intel</span></div>
+                </div>
             </section>
         </div>
 
@@ -297,82 +329,39 @@
                     <div class="iphone-screen">
                         <div class="phone-header">
                             <img src="logos/orcinos_icon.png" alt="Icon">
-                            <span>ORCINOS</span>
+                            <span>ORCINOS HUB</span>
                         </div>
                         <div class="phone-content" id="phone-content">
-                            <!-- Splash -->
-                            <div class="screen-state active" id="state-splash">
+                            <div class="screen-state active" id="state-intro">
                                 <div style="text-align: center; margin-top: 100px;">
-                                    <img src="logos/orcinos_icon.png" style="width: 60px; margin-bottom: 20px;" alt="Logo">
-                                    <h2 style="font-weight: 900; font-size: 1.5rem; letter-spacing: -0.04em;">ORCINOS</h2>
-                                    <p style="font-size: 0.8rem; color: #888; margin-top: 10px;">Sovereign Logic Active</p>
+                                    <img src="logos/orcinos_icon.png" style="width: 80px; margin-bottom: 20px;" alt="Logo">
+                                    <div style="font-weight: 900; font-size: 1.8rem; letter-spacing: -0.04em;">ORCINOS</div>
+                                    <div style="font-size: 0.8rem; color: #888; margin-top: 10px;">Sovereign Logic Active</div>
                                 </div>
                             </div>
-                            <!-- Security -->
                             <div class="screen-state" id="state-security">
-                                <div class="security-screen">
-                                    <div class="security-icon">🔒</div>
-                                    <h3 style="font-weight: 800; font-size: 1.2rem;">On-Device Encryption</h3>
-                                    <p style="font-size: 0.85rem; color: #888; margin-top: 10px; line-height: 1.4;">Your keys never leave your pocket.</p>
-                                </div>
-                            </div>
-                            <!-- Registry -->
-                            <div class="screen-state" id="state-registry">
-                                <div class="db-list">
-                                    <div class="db-item"><div class="icon"></div>Captio AI</div>
-                                    <div class="db-item"><div class="icon"></div>PawDX</div>
-                                    <div class="db-item"><div class="icon"></div>Nurasen</div>
-                                    <div class="db-item"><div class="icon"></div>Titan TraderX</div>
-                                </div>
-                            </div>
-                            <!-- Setup -->
-                            <div class="screen-state" id="state-setup">
-                                <div class="form-mock">
-                                    <div style="font-weight: 800; font-size: 0.8rem; text-transform: uppercase; color: #CCC;">Connect Node</div>
-                                    <div class="form-input"></div>
-                                    <div class="form-input"></div>
-                                    <div style="height: 44px; background: #000; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #FFF; font-weight: 700; font-size: 0.9rem;">Add Node</div>
-                                </div>
-                            </div>
-                            <!-- Custom -->
-                            <div class="screen-state" id="state-custom">
-                                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
-                                    <div style="height: 80px; background: #000; border-radius: 12px; border: 2px solid #EEE;"></div>
-                                    <div style="height: 80px; background: #FFF; border-radius: 12px; border: 2px solid #000;"></div>
-                                    <div style="height: 40px; background: #0071e3; border-radius: 12px;"></div>
-                                    <div style="height: 40px; background: #FF9500; border-radius: 12px;"></div>
-                                </div>
-                            </div>
-                            <!-- Safety -->
-                            <div class="screen-state" id="state-safety">
                                 <div style="padding-top: 100px; text-align: center;">
-                                    <div style="background: #fdf2f2; color: #d11a2a; padding: 20px; border-radius: 16px; border: 1px solid #fee2e2;">
-                                        <div style="font-weight: 800; margin-bottom: 10px;">Dangerous Action</div>
-                                        <div style="font-size: 0.75rem;">Are you sure you want to delete this node?</div>
-                                        <div style="margin-top: 15px; display: flex; gap: 8px;">
-                                            <div style="flex: 1; padding: 10px; background: #EEE; border-radius: 8px; color: #000; font-weight: 700; font-size: 0.7rem;">CANCEL</div>
-                                            <div style="flex: 1; padding: 10px; background: #d11a2a; border-radius: 8px; color: #FFF; font-weight: 700; font-size: 0.7rem;">DELETE</div>
-                                        </div>
-                                    </div>
+                                    <div style="font-size: 4rem;">🛡️</div>
+                                    <div style="font-weight: 800; font-size: 1.2rem; margin-top: 20px;">Nurasen Locked</div>
                                 </div>
                             </div>
-                            <!-- Sharing -->
-                            <div class="screen-state" id="state-sharing">
-                                <div style="padding: 20px; border: 1px dashed #CCC; border-radius: 12px;">
-                                    <div style="font-weight: 800; font-size: 0.8rem; margin-bottom: 10px;">Expiring Link</div>
-                                    <div style="font-size: 0.7rem; color: #888;">https://orcinos.com/s/72a...</div>
-                                    <div style="margin-top: 15px; font-weight: 700; font-size: 0.7rem; color: #0071e3;">Expires in 00:59</div>
+                            <div class="screen-state" id="state-captioai">
+                                <div style="padding: 20px; background: #f5f5f7; border-radius: 16px; margin-top: 50px;">
+                                    <div style="font-weight: 800; font-size: 0.9rem;">Captio AI Active</div>
+                                    <div style="font-size: 0.8rem; color: #888; margin-top: 10px;">Monitoring 42 Signals...</div>
                                 </div>
                             </div>
-                            <!-- Search -->
-                            <div class="screen-state" id="state-search">
-                                <div style="height: 40px; background: #f5f5f7; border-radius: 20px; padding: 0 15px; display: flex; align-items: center; font-size: 0.85rem; color: #CCC;">
-                                    🔍 Search division...
+                            <div class="screen-state" id="state-optiscout">
+                                <div style="padding: 20px; border: 2px solid #000; border-radius: 16px; margin-top: 50px;">
+                                    <div style="font-weight: 900;">$5,420.08</div>
+                                    <div style="font-size: 0.7rem; color: #888;">Deal Found in NY Zone</div>
                                 </div>
-                                <div style="margin-top: 20px;">
-                                    <div style="padding: 10px 0; border-bottom: 1px solid #EEE; font-size: 0.85rem; font-weight: 600;">PawDX Reports</div>
-                                    <div style="padding: 10px 0; border-bottom: 1px solid #EEE; font-size: 0.85rem; font-weight: 600;">Nurasen Alerts</div>
+                            </div>
+                            <div class="screen-state" id="state-titantraderx">
+                                <div style="height: 150px; background: #000; border-radius: 12px; position: relative; overflow: hidden;">
+                                    <div style="position: absolute; bottom: 0; width: 100%; height: 60px; background: linear-gradient(transparent, #00FF0033);"></div>
                                 </div>
+                                <div style="margin-top: 20px; font-weight: 800; font-size: 0.9rem;">Terminal Active</div>
                             </div>
                         </div>
                     </div>
@@ -386,9 +375,7 @@
             <span class="god-trigger" id="god-trigger-text">&copy; 2026 ORCINOS DIVISION</span><br>
             A Prisicon Network Entity.
         </div>
-        <div>
-            Lattome.
-        </div>
+        <div>Lattome.</div>
     </footer>
 
     <script>
@@ -396,7 +383,7 @@
         const screenStates = document.querySelectorAll('.screen-state');
         const sidebarItems = document.querySelectorAll('.sidebar-item');
 
-        const observerOptions = { threshold: 0.5 };
+        const observerOptions = { threshold: 0.6 };
 
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -404,16 +391,12 @@
                     const stateId = entry.target.getAttribute('data-state');
                     const sectionId = entry.target.getAttribute('id');
 
-                    // Active section style
                     sections.forEach(s => s.classList.remove('active'));
                     entry.target.classList.add('active');
 
-                    // Switch Phone Screen
                     screenStates.forEach(s => s.classList.remove('active'));
-                    const targetState = document.getElementById(`state-${stateId}`);
-                    if (targetState) targetState.classList.add('active');
+                    document.getElementById(`state-${stateId}`).classList.add('active');
 
-                    // Sidebar sync
                     sidebarItems.forEach(item => {
                         item.classList.remove('active');
                         if (item.getAttribute('href') === `#${sectionId}`) item.classList.add('active');
