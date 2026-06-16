@@ -1,105 +1,221 @@
 <!DOCTYPE html>
-<html lang='en'>
+<html lang="en">
 <head>
-    <meta charset='UTF-8'>
-    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-    <title>SOVSYGNAL | Headlines</title>
-    <meta name='description' content='SOVSYGNAL - Global Intelligence Hub. High-fidelity geopolitical, financial, and technological signals.'>
-    <link rel="icon" type="image/png" href="assets/logos/sovereign_favicon.png">
-    <link rel='preconnect' href='https://fonts.googleapis.com'>
-    <link href='https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;600;800&display=swap' rel='stylesheet'>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SENPAI | Skill Acquisition Logic</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
     <style>
-        :root { --primary: #8B0000; --bg: #F9F9F9; --text: #1A1A1A; --accent: #111; --font-heading: 'Playfair Display', serif; --font-body: 'Inter', sans-serif; }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: var(--bg); color: var(--text); font-family: var(--font-body); line-height: 1.6; overflow-x: hidden; min-height: 100vh; }
-        
-        .ticker-wrap { width: 100%; overflow: hidden; background: #000; color: #fff; padding: 12px 0; border-bottom: 2px solid var(--primary); z-index: 1001; position: relative; }
-        .ticker { display: inline-block; white-space: nowrap; padding-right: 100%; animation: ticker 240s linear infinite; }
-        @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
-        .ticker-item { display: inline-block; padding: 0 40px; font-weight: 800; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px; }
-        .ticker-item span { color: var(--primary); margin-right: 10px; }
+        :root {
+            --bg: #FFFFFF;
+            --text: #000000;
+            --accent: #0071e3;
+            --muted: #86868b;
+            --border: #f5f5f7;
+            --nav-height: 60px;
+        }
 
-        header { background: #fff; padding: 30px 6%; border-bottom: 3px solid #000; text-align: center; position: sticky; top: 0; z-index: 1000; }
-        header h1 { font-family: var(--font-heading); font-size: 3.5rem; letter-spacing: -2px; line-height: 1; }
-        header h1 a { text-decoration: none; color: black; }
-        header p { text-transform: uppercase; letter-spacing: 6px; font-size: 0.7rem; font-weight: 800; color: #444; margin: 10px 0 20px; }
-        
-        nav { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; border-top: 1px solid #eee; padding-top: 15px; align-items: center; }
-        nav a { text-decoration: none; color: #000; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
-        nav a:hover, nav a.active { color: var(--primary); border-bottom: 2px solid var(--primary); }
-        
-        .main-container { display: grid; grid-template-columns: 1fr 350px; gap: 60px; padding: 40px 6%; max-width: 1500px; margin: 0 auto; min-height: 1200px; position: relative; }
-        @media (max-width: 1100px) { .main-container { grid-template-columns: 1fr; min-height: auto; } .sidebar { position: relative !important; top: 0 !important; width: 100% !important; } }
-        
-        .category-tag { color: var(--primary); font-weight: 800; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; display: block; border-left: 4px solid var(--primary); padding-left: 10px; }
-        
-        .news-card { margin-bottom: 60px; border-bottom: 1px solid #ddd; padding-bottom: 40px; }
-        .news-card h3 { font-family: var(--font-heading); font-size: 2rem; line-height: 1.2; margin-bottom: 15px; }
-        .news-card h3 a { color: #000; text-decoration: none; }
-        .news-card p { font-size: 1rem; color: #444; max-width: 800px; }
-        
-        .sidebar { position: sticky; top: 180px; height: fit-content; align-self: start; display: block !important; }
-        .sidebar-block { background: #fff; border: 1px solid #ddd; padding: 25px; margin-bottom: 30px; border-radius: 4px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-        .sidebar-block h4 { font-family: var(--font-heading); font-size: 1.2rem; margin-bottom: 15px; text-transform: uppercase; }
-        .sidebar-ad img { width: 100%; border-radius: 4px; margin-bottom: 15px; display: block; }
-        .btn { display: block; text-align: center; padding: 12px; text-decoration: none; font-weight: 800; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; border-radius: 4px; transition: 0.3s; }
-        .btn:hover { opacity: 0.8; transform: translateY(-2px); }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { 
+            background: var(--bg); 
+            color: var(--text); 
+            font-family: 'Inter', -apple-system, sans-serif; 
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+            line-height: 1.5;
+        }
 
-        footer { background: #000; color: #fff; padding: 60px 6%; text-align: center; margin-top: 80px; position: relative; z-index: 10; }
-        footer img { width: 150px; margin-bottom: 20px; }
-        footer p { font-size: 0.7rem; letter-spacing: 2px; opacity: 0.6; }
-        
-        .source-tag { font-size: 0.65rem; text-transform: uppercase; font-weight: 900; background: #eee; padding: 4px 8px; display: inline-block; margin: 10px 0; letter-spacing: 1px; }
+        /* Mobile-First Header */
+        header {
+            position: fixed;
+            top: 0; width: 100%;
+            height: var(--nav-height);
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: saturate(180%) blur(20px);
+            z-index: 1000;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo { 
+            font-family: 'Playfair Display', serif; 
+            font-weight: 900; 
+            font-size: 1.4rem; 
+            letter-spacing: -0.02em; 
+            color: var(--text);
+            text-decoration: none;
+        }
+
+        /* Hamburger Menu */
+        .hamburger {
+            width: 30px;
+            height: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            cursor: pointer;
+            z-index: 1001;
+        }
+        .hamburger span {
+            display: block;
+            width: 100%;
+            height: 2px;
+            background: var(--text);
+            border-radius: 2px;
+            transition: 0.3s;
+        }
+        .hamburger.active span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
+        .hamburger.active span:nth-child(2) { opacity: 0; }
+        .hamburger.active span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
+
+        /* Mobile Nav Overlay */
+        .nav-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100vh;
+            background: var(--bg);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            transform: translateX(100%);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 999;
+        }
+        .nav-overlay.active { transform: translateX(0); }
+        .nav-overlay a {
+            font-size: 1.8rem;
+            font-weight: 800;
+            text-decoration: none;
+            color: var(--text);
+            letter-spacing: -0.04em;
+        }
+
+        /* Hero */
+        .hero {
+            padding: 120px 20px 60px;
+            text-align: left;
+        }
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.2rem;
+            line-height: 1;
+            letter-spacing: -0.04em;
+            margin-bottom: 20px;
+        }
+        .hero p {
+            font-size: 1.1rem;
+            color: var(--muted);
+            font-weight: 500;
+            max-width: 400px;
+        }
+
+        /* Modules Grid */
+        .modules {
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+        }
+        .module-card {
+            background: var(--border);
+            border-radius: 24px;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            min-height: 200px;
+            text-decoration: none;
+            color: var(--text);
+            transition: transform 0.2s;
+        }
+        .module-card:active { transform: scale(0.98); }
+        .module-card span { font-weight: 800; font-size: 0.7rem; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; }
+        .module-card h2 { font-weight: 800; font-size: 1.5rem; letter-spacing: -0.04em; line-height: 1.1; }
+
+        footer {
+            padding: 60px 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--muted);
+            border-top: 1px solid var(--border);
+        }
+
+        @media (min-width: 768px) {
+            .modules { grid-template-columns: repeat(2, 1fr); }
+            .hero h1 { font-size: 5rem; }
+        }
     </style>
 </head>
 <body>
-    <div class='ticker-wrap'>
-        <div class='ticker'><div class='ticker-item'><span>GEOPOLITICS</span> Fox to buy streaming device maker Roku for $22 billion</div><div class='ticker-item'><span>BLOCKCHAIN</span> Why an Iran peace deal won't pull the yen back from the brink - Reuters</div><div class='ticker-item'><span>BIOHACKING</span> G7 leaders meet in France after U.S. and Iran declare agreement to end war - Reuters</div><div class='ticker-item'><span>MARKETS</span> Japanese shippers await details on Hormuz reopening, mine clearance - Reuters</div><div class='ticker-item'><span>LIFESTYLE</span> Gold hits near one-week high after US-Iran peace deal - Reuters</div><div class='ticker-item'><span>INTELLIGENCE</span> UK, France, Germany and Italy ready to lift Iran sanctions after US-Iran deal - Reuters</div><div class='ticker-item'><span>FOREX</span> Oil hits 3-month low as US, Iran reach peace deal to reopen Strait of Hormuz - Reuters</div><div class='ticker-item'><span>STOCKS</span> Iran team arrive in US for World Cup opener as the two nations reach peace deal - Reuters</div><div class='ticker-item'><span>REALESTATE</span> In Tijuana, Iran's tiny diaspora agrees on little — except Team Melli - Reuters</div><div class='ticker-item'><span>ANIME</span> Here are the 3 big things we're watching in the stock market in the week ahead</div></div>
-    </div>
+
     <header>
-        <h1><a href='index.html'>SOVSYGNAL</a></h1>
-        <p>Global Intelligence Hub</p>
-        <nav>
-            <a href='geopolitics.html'>Geopolitics</a>
-            <a href='blockchain.html'>Blockchain</a>
-            <a href='biohacking.html'>Biohacking</a>
-            <a href='markets.html'>Markets</a>
-            <a href='lifestyle.html'>Lifestyle</a>
-            <a href='intelligence.html'>Intelligence</a>
-            <a href='forex.html'>Forex</a>
-            <a href='stocks.html'>Stocks</a>
-            <a href='realestate.html'>RealEstate</a>
-            <a href='anime.html'>Anime</a>
-            <a href='signup.html' style='color:var(--primary)'>Join Hub</a>
-        </nav>
+        <a href="#" class="logo">Senpai</a>
+        <div class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
     </header>
-    <div class='main-container'>
-        <main><article class='news-card'><span class='category-tag'><a href='geopolitics.html' style='color:inherit; text-decoration:none;'>Geopolitics</a> | Jun 15, 2026 | 02:54 PM AST</span><h3><a href='geopolitics.html'>Fox to buy streaming device maker Roku for $22 billion</a></h3><div class='source-tag'>Source: CNBC</div><p>Fox, the owner of the news and sports networks, said it has reached a deal to acquire Roku for about $22 billion in enterprise value.</p><a href='https://www.amazon.com/s?k=geopolitics+gear&tag=priscadezigns-20' style='display:inline-block; margin-top:15px; font-size:0.7rem; font-weight:800; color:var(--primary); text-decoration:none; border-bottom:1px solid var(--primary);'>SHOP THE SIGNAL &rarr;</a></article><article class='news-card'><span class='category-tag'><a href='blockchain.html' style='color:inherit; text-decoration:none;'>Blockchain</a> | Jun 15, 2026 | 02:54 PM AST</span><h3><a href='blockchain.html'>Why an Iran peace deal won't pull the yen back from the brink - Reuters</a></h3><div class='source-tag'>Source: Reuters</div><p>Why an Iran peace deal won't pull the yen back from the brink  Reuters</p><a href='https://www.amazon.com/s?k=blockchain+gear&tag=priscadezigns-20' style='display:inline-block; margin-top:15px; font-size:0.7rem; font-weight:800; color:var(--primary); text-decoration:none; border-bottom:1px solid var(--primary);'>SHOP THE SIGNAL &rarr;</a></article><article class='news-card'><span class='category-tag'><a href='biohacking.html' style='color:inherit; text-decoration:none;'>Biohacking</a> | Jun 15, 2026 | 02:54 PM AST</span><h3><a href='biohacking.html'>G7 leaders meet in France after U.S. and Iran declare agreement to end war - Reuters</a></h3><div class='source-tag'>Source: Reuters</div><p>G7 leaders meet in France after U.S. and Iran declare agreement to end war  Reuters</p><a href='https://www.amazon.com/s?k=biohacking+gear&tag=priscadezigns-20' style='display:inline-block; margin-top:15px; font-size:0.7rem; font-weight:800; color:var(--primary); text-decoration:none; border-bottom:1px solid var(--primary);'>SHOP THE SIGNAL &rarr;</a></article><article class='news-card'><span class='category-tag'><a href='markets.html' style='color:inherit; text-decoration:none;'>Markets</a> | Jun 15, 2026 | 02:54 PM AST</span><h3><a href='markets.html'>Japanese shippers await details on Hormuz reopening, mine clearance - Reuters</a></h3><div class='source-tag'>Source: Reuters</div><p>Japanese shippers await details on Hormuz reopening, mine clearance  Reuters</p><a href='https://www.amazon.com/s?k=markets+gear&tag=priscadezigns-20' style='display:inline-block; margin-top:15px; font-size:0.7rem; font-weight:800; color:var(--primary); text-decoration:none; border-bottom:1px solid var(--primary);'>SHOP THE SIGNAL &rarr;</a></article><article class='news-card'><span class='category-tag'><a href='lifestyle.html' style='color:inherit; text-decoration:none;'>Lifestyle</a> | Jun 15, 2026 | 02:54 PM AST</span><h3><a href='lifestyle.html'>Gold hits near one-week high after US-Iran peace deal - Reuters</a></h3><div class='source-tag'>Source: Reuters</div><p>Gold hits near one-week high after US-Iran peace deal  Reuters</p><a href='https://www.amazon.com/s?k=lifestyle+gear&tag=priscadezigns-20' style='display:inline-block; margin-top:15px; font-size:0.7rem; font-weight:800; color:var(--primary); text-decoration:none; border-bottom:1px solid var(--primary);'>SHOP THE SIGNAL &rarr;</a></article><article class='news-card'><span class='category-tag'><a href='intelligence.html' style='color:inherit; text-decoration:none;'>Intelligence</a> | Jun 15, 2026 | 02:54 PM AST</span><h3><a href='intelligence.html'>UK, France, Germany and Italy ready to lift Iran sanctions after US-Iran deal - Reuters</a></h3><div class='source-tag'>Source: Reuters</div><p>UK, France, Germany and Italy ready to lift Iran sanctions after US-Iran deal  Reuters</p><a href='https://www.amazon.com/s?k=intelligence+gear&tag=priscadezigns-20' style='display:inline-block; margin-top:15px; font-size:0.7rem; font-weight:800; color:var(--primary); text-decoration:none; border-bottom:1px solid var(--primary);'>SHOP THE SIGNAL &rarr;</a></article><article class='news-card'><span class='category-tag'><a href='forex.html' style='color:inherit; text-decoration:none;'>Forex</a> | Jun 15, 2026 | 02:54 PM AST</span><h3><a href='forex.html'>Oil hits 3-month low as US, Iran reach peace deal to reopen Strait of Hormuz - Reuters</a></h3><div class='source-tag'>Source: Reuters</div><p>Oil hits 3-month low as US, Iran reach peace deal to reopen Strait of Hormuz  Reuters</p><a href='https://www.amazon.com/s?k=forex+gear&tag=priscadezigns-20' style='display:inline-block; margin-top:15px; font-size:0.7rem; font-weight:800; color:var(--primary); text-decoration:none; border-bottom:1px solid var(--primary);'>SHOP THE SIGNAL &rarr;</a></article><article class='news-card'><span class='category-tag'><a href='stocks.html' style='color:inherit; text-decoration:none;'>Stocks</a> | Jun 15, 2026 | 02:54 PM AST</span><h3><a href='stocks.html'>Iran team arrive in US for World Cup opener as the two nations reach peace deal - Reuters</a></h3><div class='source-tag'>Source: Reuters</div><p>Iran team arrive in US for World Cup opener as the two nations reach peace deal  Reuters</p><a href='https://www.amazon.com/s?k=stocks+gear&tag=priscadezigns-20' style='display:inline-block; margin-top:15px; font-size:0.7rem; font-weight:800; color:var(--primary); text-decoration:none; border-bottom:1px solid var(--primary);'>SHOP THE SIGNAL &rarr;</a></article><article class='news-card'><span class='category-tag'><a href='realestate.html' style='color:inherit; text-decoration:none;'>RealEstate</a> | Jun 15, 2026 | 02:54 PM AST</span><h3><a href='realestate.html'>In Tijuana, Iran's tiny diaspora agrees on little — except Team Melli - Reuters</a></h3><div class='source-tag'>Source: Reuters</div><p>In Tijuana, Iran's tiny diaspora agrees on little — except Team Melli  Reuters</p><a href='https://www.amazon.com/s?k=realestate+gear&tag=priscadezigns-20' style='display:inline-block; margin-top:15px; font-size:0.7rem; font-weight:800; color:var(--primary); text-decoration:none; border-bottom:1px solid var(--primary);'>SHOP THE SIGNAL &rarr;</a></article><article class='news-card'><span class='category-tag'><a href='anime.html' style='color:inherit; text-decoration:none;'>Anime</a> | Jun 15, 2026 | 02:54 PM AST</span><h3><a href='anime.html'>Here are the 3 big things we're watching in the stock market in the week ahead</a></h3><div class='source-tag'>Source: CNBC</div><p>The Kevin Warsh era is upon us.</p><a href='https://www.amazon.com/s?k=anime+gear&tag=priscadezigns-20' style='display:inline-block; margin-top:15px; font-size:0.7rem; font-weight:800; color:var(--primary); text-decoration:none; border-bottom:1px solid var(--primary);'>SHOP THE SIGNAL &rarr;</a></article></main>
-        <aside class='sidebar'>
-            <div class='sidebar-block' style='background: #111; color: white; border: 2px solid var(--primary);'>
-                <h4 style='color: var(--primary);'>SOVSYGNAL PRO</h4>
-                <p style='font-size:0.8rem; opacity:0.8; margin-bottom: 15px;'>Institutional grade intelligence feeds. Real-time neural analysis for sovereign entities.</p>
-                <a href='#' class='btn' style='background:var(--primary); color:white;'>Upgrade Now</a>
-            </div>
-            
-    <div class='sidebar-block sidebar-ad'>
-        <img src='https://sktpjacowqaedddtrhuz.supabase.co/storage/v1/object/public/avatars/airpods_max.jpg' alt='AirPods Max'>
-        <h4>AirPods Max</h4>
-        <p style='font-size:0.75rem; color:#666; margin-bottom:10px;'>Ultimate fidelity for intelligence monitoring.</p>
-        <a href='https://www.amazon.com/dp/B08PZHYWJS?tag=priscadezigns-20' class='btn' style='background:#ff9900; color:#000;'>View on Amazon</a>
+
+    <div class="nav-overlay" id="nav-overlay">
+        <a href="#">Skill Hub</a>
+        <a href="#">My Progress</a>
+        <a href="#">Certifications</a>
+        <a href="#">Orcinos Division</a>
     </div>
-    <div class='sidebar-block sidebar-ad' style='background:#000; color:white;'>
-        <img src='https://m.media-amazon.com/images/I/71Y86x9mXUL._AC_SL1500_.jpg' alt='Elite Setup'>
-        <h4>Elite Setup</h4>
-        <p style='font-size:0.7rem; color:#aaa; margin-bottom:15px;'>Sovereign-grade ultrawide displays.</p>
-        <a href='https://www.amazon.com/s?k=ultrawide+monitor+34+inch&tag=priscadezigns-20' class='btn' style='background:white; color:black;'>Browse Setup</a>
+
+    <section class="hero">
+        <h1>Master the Mastery.</h1>
+        <p>High-fidelity skill acquisition for the modern sovereign agent. Interactive, institutional, and functional.</p>
+    </section>
+
+    <div class="modules">
+        <a href="#" class="module-card">
+            <span>Engineering</span>
+            <h2>Blockchain Architecture</h2>
+        </a>
+        <a href="#" class="module-card">
+            <span>Intelligence</span>
+            <h2>Market Signal Analysis</h2>
+        </a>
+        <a href="#" class="module-card" style="background: var(--text); color: var(--bg);">
+            <span>Agency</span>
+            <h2>AI Agent Orchestration</h2>
+        </a>
+        <a href="#" class="module-card">
+            <span>Logistics</span>
+            <h2>Autonomous Supply Chain</h2>
+        </a>
     </div>
-    
-        </aside>
-    </div>
+
     <footer>
-        <img src='assets/logos/sovereign_footer_logo.png' alt='Sovereign'>
-        <p>&copy; 2026 SOVSYGNAL &middot; PRISCA DEZIGNS EMPIRE MEDIA</p>
+        &copy; 2026 SENPAI | ORCINOS DIVISION<br>
+        A Prisicon Network Entity.
     </footer>
+
+    <script>
+        const hamburger = document.getElementById('hamburger');
+        const navOverlay = document.getElementById('nav-overlay');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navOverlay.classList.toggle('active');
+            document.body.style.overflow = navOverlay.classList.contains('active') ? 'hidden' : 'auto';
+        });
+
+        // Close menu on link click
+        navOverlay.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navOverlay.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            });
+        });
+    </script>
 </body>
 </html>
