@@ -3,221 +3,261 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ORCINOS | Trusted Software Division</title>
+    <title>ORCINOS | High-Fidelity Software Division</title>
     <link rel="icon" type="image/png" href="logos/orcinos_icon.png">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --navy: #0f172a;
-            --amber: #f59e0b;
-            --white: #FFFFFF;
-            --gray: #64748b;
-            --light-blue: #E0F2FE;
-            --border: #e2e8f0;
-            --font-header: 'Playfair Display', serif;
-            --font-body: 'Inter', sans-serif;
+            --bg: #FFFFFF;
+            --text: #000000;
+            --muted: #6B7280;
+            --accent: #000000;
+            --card-bg: #F9FAFB;
+            --border: #F3F4F6;
+            --font-body: 'Inter', -apple-system, sans-serif;
         }
-        body {
-            background-color: var(--white);
-            color: var(--navy);
-            font-family: var(--font-body);
+
+        * {
             margin: 0;
             padding: 0;
-            line-height: 1.6;
+            box-sizing: border-box;
         }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: var(--font-body);
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+        }
+
         nav {
+            padding: 24px 6%;
             display: flex;
-            justify-content: center;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
+            justify-content: space-between;
+            align-items: center;
             position: sticky;
             top: 0;
-            z-index: 1000;
-            border-bottom: 1px solid var(--border);
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+            z-index: 100;
         }
-        nav a {
-            color: var(--navy);
-            text-decoration: none;
-            margin: 0 20px;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-weight: 700;
-            transition: color 0.3s ease;
-        }
-        nav a:hover {
-            color: var(--amber);
-        }
-        header {
-            padding: 120px 20px;
-            text-align: center;
-            background-color: var(--light-blue);
-            border-bottom: 1px solid var(--border);
-        }
-        header img {
-            height: 140px;
-            margin-bottom: 30px;
-        }
-        h1 {
-            font-family: var(--font-header);
-            color: var(--navy);
-            font-size: 4rem;
-            margin: 0;
-            text-transform: uppercase;
-            letter-spacing: 6px;
-            font-weight: 900;
-        }
-        .subtitle {
-            color: var(--gray);
-            font-size: 1.25rem;
-            margin-top: 15px;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            font-weight: 700;
-        }
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 100px 20px;
-        }
-        .info-section {
-            text-align: center;
-            margin-bottom: 100px;
-        }
-        .info-section h2 {
-            font-family: var(--font-header);
-            font-size: 2.8rem;
+
+        .logo-text {
             font-weight: 800;
-            margin-bottom: 30px;
-            color: var(--navy);
+            font-size: 1.25rem;
+            letter-spacing: -0.02em;
+            text-transform: uppercase;
         }
-        .info-section p {
-            font-size: 1.2rem;
-            color: var(--gray);
-            max-width: 800px;
+
+        .hero {
+            padding: 120px 6% 80px;
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            font-weight: 800;
+            letter-spacing: -0.04em;
+            line-height: 1.1;
+            margin-bottom: 24px;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--muted);
+            max-width: 600px;
             margin: 0 auto 40px;
         }
-        .cta-button {
-            display: inline-block;
-            background-color: var(--navy);
-            color: var(--white);
-            padding: 18px 40px;
+
+        .btn-main {
+            background: var(--accent);
+            color: #FFF;
+            padding: 16px 32px;
+            border-radius: 100px;
             text-decoration: none;
+            font-weight: 600;
+            display: inline-block;
+            transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .btn-main:active {
+            transform: scale(0.95);
+        }
+
+        /* Product List - Mobile-First Grid */
+        .product-grid {
+            padding: 40px 6% 120px;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 24px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        @media (min-width: 768px) {
+            .product-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .product-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .product-card {
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 32px;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 280px;
+            border: 1px solid transparent;
+        }
+
+        .product-card:hover {
+            background: #FFF;
+            border-color: var(--border);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            transform: translateY(-4px);
+        }
+
+        .product-category {
+            font-size: 0.75rem;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            border-radius: 4px;
-            transition: background 0.3s ease;
+            letter-spacing: 0.1em;
+            color: var(--muted);
+            margin-bottom: 12px;
         }
-        .cta-button:hover {
-            background-color: var(--amber);
-        }
-        .feature-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 50px;
-            margin-top: 60px;
-        }
-        .feature-item {
-            text-align: left;
-        }
-        .feature-item h3 {
-            font-family: var(--font-header);
+
+        .product-card h3 {
             font-size: 1.5rem;
-            color: var(--navy);
-            margin-bottom: 15px;
-        }
-        .feature-item p {
-            font-size: 1rem;
-            color: var(--gray);
-        }
-        footer {
-            text-align: center;
-            padding: 100px 20px;
-            color: var(--gray);
-            font-size: 1rem;
-            background: #f8fafc;
-            border-top: 1px solid var(--border);
-        }
-        footer img {
-            height: 60px;
-            margin-bottom: 30px;
-            opacity: 0.9;
-        }
-        .god-trigger-text {
-            cursor: pointer;
             font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 12px;
+        }
+
+        .product-card p {
+            color: var(--muted);
+            font-size: 0.95rem;
+            flex-grow: 1;
+        }
+
+        .product-footer {
+            margin-top: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .status-badge {
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 4px 12px;
+            background: #E5E7EB;
+            border-radius: 100px;
+        }
+
+        footer {
+            padding: 80px 6%;
+            border-top: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-weight: 800;
+            font-size: 1rem;
+            margin-bottom: 16px;
+            display: block;
+        }
+
+        .footer-links {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            color: var(--muted);
+            font-size: 0.9rem;
         }
     </style>
 </head>
 <body>
+
     <nav>
-        <a href="index.html">Home</a>
-        <a href="about.html">About</a>
-        <a href="products.html">Products</a>
+        <div class="logo-text">Orcinos</div>
+        <div>
+            <a href="https://priscion.com" style="text-decoration: none; color: var(--text); font-weight: 600; font-size: 0.9rem;">Priscion Hub</a>
+        </div>
     </nav>
 
-    <header>
-        <img src="logos/ORCINOS_DEFINITIVE_2026.png" alt="ORCINOS">
-        <h1>ORCINOS</h1>
-        <div class="subtitle">Trusted Software Division</div>
-    </header>
+    <section class="hero">
+        <h1>Sovereign Apps for the Modern Pocket.</h1>
+        <p>A suite of high-fidelity tools designed for clarity, mobility, and absolute performance.</p>
+        <a href="#products" class="btn-main">Explore Products</a>
+    </section>
 
-    <div class="container">
-        <section class="info-section">
-            <h2>Architecting Digital Sovereignty</h2>
-            <p>Orcinos is a high-fidelity software entity. We build autonomous tools and AI-powered platforms designed to restore digital independence and engineering excellence to the sovereign individual.</p>
-            <a href="products.html" class="cta-button">Explore Products</a>
-        </section>
-
-        <section class="info-section" style="background: var(--light-blue); padding: 80px 40px; border-radius: 20px;">
-            <h2>The Orcinos Mission</h2>
-            <p>Our mandate is clear: Eliminate digital complexity through precise engineering. We don't just build apps; we architect ecosystems that empower individuals to take full control of their data, their time, and their digital future.</p>
-            <div class="feature-grid">
-                <div class="feature-item">
-                    <h3>High Fidelity Design</h3>
-                    <p>Every interface is crafted with institutional precision, ensuring clarity and performance across all platforms.</p>
-                </div>
-                <div class="feature-item">
-                    <h3>Neural Intelligence</h3>
-                    <p>Leveraging advanced AI patterns to automate complex tasks, from market intelligence to cybersecurity defense.</p>
-                </div>
-                <div class="feature-item">
-                    <h3>Sovereign Utility</h3>
-                    <p>Tools that work for you, not the other way around. No data harvesting, no distractions—just pure utility.</p>
-                </div>
-            </div>
-        </section>
+    <div class="product-grid" id="products">
+        <!-- Products will be injected here via JS to match current registry -->
     </div>
 
     <footer>
-        <img src="logos/orcinos_icon.png" alt="ORCINOS Icon" id="god-trigger" width="40"><br>
-        <p>&copy; 2026 ORCINOS · <span id="god-trigger-text" class="god-trigger-text">TRUSTED SOFTWARE</span> · ANCHORED TO ETERNITY</p>
+        <span class="footer-logo">ORCINOS</span>
+        <ul class="footer-links">
+            <li>&copy; 2026</li>
+            <li>Trusted Division</li>
+            <li>Lattome</li>
+        </ul>
     </footer>
 
     <script>
-        let clickCount = 0;
-        const triggerText = document.getElementById('god-trigger-text');
-        const triggerImg = document.getElementById('god-trigger');
+        const products = [
+            { name: "Captio AI", slug: "captioai", category: "AI Tools", desc: "High-fidelity AI social media engine for caption generation." },
+            { name: "OptiScout", slug: "optiscout", category: "Shopping", desc: "Autonomous market intelligence and real-time deal discovery." },
+            { name: "SovSygnal", slug: "sovsygnal", category: "Intelligence", desc: "Global intelligence hub for data analysis and news signal processing." },
+            { name: "Nurasen", slug: "nurasen", category: "Security", desc: "Neural cybersecurity and high-fidelity antivirus protection." },
+            { name: "Syla", slug: "syla", category: "Logistics", desc: "Intelligent logistics and asset management dashboard." },
+            { name: "Titan TraderX", slug: "titantraderx", category: "Finance", desc: "Institutional grade prop firm infrastructure and sovereign logic." },
+            { name: "Nemuie", slug: "nemuie", category: "Wellness", desc: "AI-powered sleep optimization and wellness engineering system." },
+            { name: "Riddiim", slug: "riddiim", category: "Music", desc: "High-fidelity audio engineering and sovereign music studio." },
+            { name: "Calalloo", slug: "calalloo", category: "Culture", desc: "Caribbean heritage hub and culinary DNA registry." },
+            { name: "PawDX", slug: "pawdx", category: "Health", desc: "AI-powered veterinary diagnostics and health intelligence." },
+            { name: "Firmless", slug: "firmless", category: "Legal", desc: "Legal automation and contract generation for creators." },
+            { name: "Senpai Learning", slug: "senpai", category: "Education", desc: "Micro-learning platform for rapid high-fidelity skill acquisition." },
+            { name: "Vyne", slug: "vyne", category: "Social", desc: "Social commerce and brand discovery network." },
+            { name: "PrayerBlock", slug: "prayerblock", category: "Spirituality", desc: "Spiritual discipline tracker and decentralized prayer ledger." },
+            { name: "Hartaly", slug: "hartaly", category: "Health", desc: "Institutional-grade heart health monitoring and cardiac intelligence." },
+            { name: "Dricil", slug: "dricil", category: "Agency", desc: "Fully autonomous AI digital agency and marketing hub." }
+        ];
 
-        function handleGodMode() {
-            clickCount++;
-            if (clickCount === 5) {
-                const token = prompt("ARCHITECT_HANDSHAKE: ENTER ACCESS TOKEN");
-                if (token === 'alice') {
-                    window.location.href = './godmode/hub.html';
-                } else {
-                    alert("ACCESS_DENIED: UNAUTHORIZED SHARD");
-                    clickCount = 0;
-                }
-            }
-            clearTimeout(this.timeout);
-            this.timeout = setTimeout(() => { clickCount = 0; }, 3000);
-        }
-
-        triggerText.addEventListener('click', handleGodMode);
-        triggerImg.addEventListener('click', handleGodMode);
+        const grid = document.getElementById('products');
+        products.forEach(p => {
+            const card = document.createElement('a');
+            card.href = `./${p.slug}/`;
+            card.className = 'product-card';
+            card.innerHTML = `
+                <div>
+                    <div class="product-category">${p.category}</div>
+                    <h3>${p.name}</h3>
+                    <p>${p.desc}</p>
+                </div>
+                <div class="product-footer">
+                    <span class="status-badge">Live</span>
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M5 15L15 5M15 5H7M15 5V13" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+            `;
+            grid.appendChild(card);
+        });
     </script>
 </body>
 </html>
