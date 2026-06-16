@@ -6,12 +6,11 @@
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
     <title>Titan Terminal | Institutional Workspace</title>
     <script src='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2'></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
     <link href='https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap' rel='stylesheet'>
     <style>
         :root {
             --bg: #050505; --surface: #0F0F11; --text: #FFFFFF; --muted: #888; --malachite: #00FF7F; --border: rgba(255,255,255,0.05);
+            --error: #ff4d4d;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); overflow: hidden; height: 100vh; display: flex; flex-direction: column; }
@@ -21,129 +20,140 @@
         .logo img { height: 24px; width: auto; border-radius: 50%; }
         
         .header-right { display: flex; align-items: center; gap: 15px; }
-        .user-pill { background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 6px 15px; border-radius: 100px; font-size: 0.75rem; font-weight: 600; color: var(--muted); }
-        .logout-btn { background: none; border: none; color: #ff4d4d; font-weight: 800; cursor: pointer; font-size: 0.75rem; }
-
-        main { flex: 1; display: flex; overflow: hidden; }
+        .user-pill { 
+            background: rgba(255,255,255,0.03); border: 1px solid var(--border); 
+            padding: 6px 12px; border-radius: 100px; display: flex; align-items: center; gap: 8px;
+            font-size: 0.8rem; font-weight: 600;
+        }
+        .status-dot { width: 8px; height: 8px; background: var(--malachite); border-radius: 50%; box-shadow: 0 0 10px var(--malachite); }
         
-        /* Sidebar Styles */
-        .sidebar { width: 220px; background: var(--surface); border-right: 1px solid var(--border); padding: 20px 0; display: flex; flex-direction: column; }
-        .sidebar h3 { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); padding: 0 20px; margin-bottom: 15px; }
-        .nav-item { padding: 12px 20px; display: flex; align-items: center; gap: 12px; cursor: pointer; transition: 0.2s; font-size: 0.85rem; font-weight: 600; color: var(--muted); }
-        .nav-item:hover, .nav-item.active { background: rgba(255,255,255,0.03); color: #fff; }
-        .nav-item i { width: 18px; height: 18px; }
+        .btn-save {
+            background: var(--malachite); border: none; color: #000;
+            padding: 6px 12px; border-radius: 8px; cursor: pointer; font-size: 0.75rem;
+            font-weight: 800; transition: 0.3s;
+        }
+        .btn-save:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,255,127,0.3); }
 
-        /* Chart Center */
-        .chart-center { flex: 1; background: #000; position: relative; }
-        #tv_chart_container { height: 100%; width: 100%; }
-
-        /* Watchlist Right */
-        .watchlist-sidebar { width: 280px; background: var(--surface); border-left: 1px solid var(--border); display: flex; flex-direction: column; }
-        .watchlist-header { padding: 15px; border-bottom: 1px solid var(--border); }
-        .search-box { position: relative; width: 100%; }
-        .search-box input { width: 100%; background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 10px 35px 10px 15px; border-radius: 8px; color: #fff; font-size: 0.8rem; outline: none; }
-        .search-box i { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); color: var(--muted); width: 14px; }
+        .btn-exit { 
+            background: transparent; border: 1px solid var(--border); color: var(--muted); 
+            padding: 6px 12px; border-radius: 8px; cursor: pointer; font-size: 0.75rem; 
+            font-weight: 800; transition: 0.3s;
+        }
+        .btn-exit:hover { border-color: var(--error); color: var(--error); background: rgba(255,77,77,0.05); }
         
-        .watchlist-label { font-size: 0.65rem; font-weight: 800; color: var(--muted); padding: 15px 15px 5px; text-transform: uppercase; letter-spacing: 1px; }
-        .asset-list { flex: 1; overflow-y: auto; padding-bottom: 20px; }
-        .asset-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 15px; cursor: pointer; transition: 0.2s; border-bottom: 1px solid rgba(255,255,255,0.02); }
-        .asset-row:hover { background: rgba(255,255,255,0.03); }
-        .asset-info { display: flex; flex-direction: column; flex: 1; }
-        .asset-symbol { font-weight: 700; font-size: 0.85rem; color: #fff; }
-        .asset-name { font-size: 0.65rem; color: var(--muted); text-transform: uppercase; }
-        .star-btn { cursor: pointer; color: var(--muted); transition: 0.2s; width: 16px; }
-        .star-btn.active { color: #f1c40f; fill: #f1c40f; }
+        .workspace { display: grid; grid-template-columns: 240px 1fr 300px; flex-grow: 1; overflow: hidden; }
+        .sidebar { background: var(--surface); border-right: 1px solid var(--border); padding: 20px; display: flex; flex-direction: column; }
+        .main-terminal { background: #000; position: relative; border-right: 1px solid var(--border); }
+        .watchlist { background: var(--surface); padding: 20px; display: flex; flex-direction: column; border-left: 1px solid var(--border); }
+        
+        h3 { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); margin-bottom: 20px; font-weight: 800; }
+        .nav-item { padding: 12px; border-radius: 12px; cursor: pointer; transition: 0.2s; font-size: 0.85rem; color: var(--muted); margin-bottom: 5px; font-weight: 600; display: flex; align-items: center; gap: 10px; }
+        .nav-item:hover, .nav-item.active { background: rgba(255,255,255,0.05); color: #fff; }
+        .nav-item.active { color: var(--malachite); background: rgba(0,255,127,0.05); }
+
+        .watchlist-container { flex-grow: 1; overflow-y: auto; }
+        .watchlist-item { 
+            display: flex; justify-content: space-between; align-items: center; 
+            padding: 12px; border-radius: 10px; margin-bottom: 5px; 
+            background: rgba(255,255,255,0.01); border: 1px solid var(--border); transition: 0.2s;
+            cursor: pointer;
+        }
+        .watchlist-item:hover { background: rgba(255,255,255,0.03); border-color: var(--malachite); }
+        .symbol { font-weight: 700; font-size: 0.85rem; }
+        .price { font-family: monospace; font-weight: 600; color: var(--malachite); font-size: 0.75rem; }
+        .remove-btn { color: var(--error); font-size: 0.8rem; cursor: pointer; padding: 4px; border-radius: 4px; }
+        .remove-btn:hover { background: rgba(255,77,77,0.1); }
+
+        .add-symbol-box { margin-top: 20px; display: flex; gap: 8px; }
+        .add-input { 
+            flex-grow: 1; background: rgba(0,0,0,0.2); border: 1px solid var(--border); 
+            border-radius: 8px; padding: 10px; color: #fff; font-size: 0.8rem; outline: none;
+        }
+        .add-input:focus { border-color: var(--malachite); }
+        .add-btn { background: var(--malachite); color: #000; border: none; padding: 0 15px; border-radius: 8px; font-weight: 800; cursor: pointer; }
+
+        @media screen and (max-width: 1200px) {
+            .workspace { grid-template-columns: 200px 1fr 250px; }
+        }
     </style>
+    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
     <header>
         <div class='header-left'>
-            <a href='index.html' class='logo'><img src='../logos/TITAN_TRADERX_LOGO.png'></a>
-            <div class='user-pill'>Institutional Desk: <span id='user-email'>GUEST</span></div>
+            <a href='index.html' class='logo'><img src='../logos/TITAN_ICON.png' alt='Titan'></a>
+            <h2 style='font-size: 0.9rem; font-weight: 800; letter-spacing: 1px;'>TERMINAL</h2>
         </div>
         <div class='header-right'>
-            <button class='logout-btn' onclick='logout()'>LOGOUT</button>
+            <button class='btn-save' onclick='saveSetup()'>SAVE SETUP</button>
+            <div class='user-pill'>
+                <div class='status-dot'></div>
+                <span id='user-email'>GUEST</span>
+            </div>
+            <button class='btn-exit' onclick='logout()'>LOGOUT</button>
         </div>
     </header>
 
-    <main>
+    <div class='workspace'>
         <aside class='sidebar'>
             <h3>Navigation</h3>
-            <div class='nav-item active' onclick='window.location.reload()'>
+            <div class='nav-item active' onclick='location.reload()'>
                 <i data-lucide='layout-dashboard'></i> <span>Charts</span>
             </div>
-            <div class='nav-item' onclick='window.location.href="academy.html"'>
+            <div class='nav-item' onclick='location.href="academy/index.html"'>
                 <i data-lucide='book-open'></i> <span>Academy</span>
             </div>
-            <div class='nav-item' onclick='window.location.href="partners.html"'>
+            <div class='nav-item' onclick='location.href="partners.html"'>
                 <i data-lucide='users'></i> <span>Partners</span>
             </div>
             
             <h3 style='margin-top: 30px;'>Workspace</h3>
-            <div class='nav-item' onclick='window.open("risk-calculator.html", "_blank")'>
-                <i data-lucide='calculator'></i> <span>Risk Calc</span>
-            </div>
-            <div class='nav-item' onclick='window.open("market-intelligence.html", "_blank")'>
-                <i data-lucide='brain'></i> <span>Neural Desk</span>
+            <div class='nav-item' onclick='window.open("https://www.tradingview.com/chart/", "_blank")'>
+                <i data-lucide='external-link'></i> <span>TV Original</span>
             </div>
         </aside>
 
-        <section class='chart-center'>
-            <div id='tv_chart_container'></div>
-        </section>
+        <main class='main-terminal'>
+            <div id='tv_chart_container' style='height: 100%; width: 100%;'></div>
+        </main>
 
-        <aside class='watchlist-sidebar'>
-            <div class='watchlist-header'>
-                <div class='search-box'>
-                    <input type='text' id='asset-search' placeholder='Search pairs, stocks...' onkeyup='filterAssets()'>
-                    <i data-lucide='search'></i>
-                </div>
+        <aside class='watchlist'>
+            <h3>Watchlist</h3>
+            <div class='watchlist-container' id='watchlist-items'>
+                <!-- Symbols injected here -->
             </div>
-            
-            <div class='watchlist-label'>Market Assets</div>
-            <div class='asset-list' id='market-assets'></div>
-            
-            <div class='watchlist-label' style="border-top: 1px solid var(--border); padding-top: 20px;">My Watchlist</div>
-            <div class='asset-list' id='watchlist-items'></div>
+            <div class='add-symbol-box'>
+                <input type='text' id='symbol-input' class='add-input' placeholder='BTCUSDT'>
+                <button class='add-btn' onclick='addSymbol()'>+</button>
+            </div>
         </aside>
-    </main>
+    </div>
 
+    <script type='text/javascript' src='https://s3.tradingview.com/tv.js'></script>
     <script>
-        const supabaseUrl = 'https://sazhdnqzaxppcralmthh.supabase.co';
+        const supabaseUrl = 'https://sazhdnqzaqpqcralmthh.supabase.co';
         const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNhemhkbnF6YXFwcWNyYWxtdGhoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxNzE5NjYsImV4cCI6MjA5Mzc0Nzk2Nn0.uTyw31uWTNOTV5-HzNpm46vpAJABAsHLMzW-sYOkRhc';
         const _supabase = supabase.createClient(supabaseUrl, supabaseKey);
         
         let currentUser = null;
         let tvWidget = null;
-        let savedSymbols = [];
-
-        const MARKET_ASSETS = [
-            { symbol: 'BTCUSDT', name: 'Bitcoin / Tether' },
-            { symbol: 'ETHUSDT', name: 'Ethereum / Tether' },
-            { symbol: 'SOLUSDT', name: 'Solana / Tether' },
-            { symbol: 'XAUUSD', name: 'Gold / US Dollar' },
-            { symbol: 'GBPUSD', name: 'British Pound / USD' },
-            { symbol: 'EURUSD', name: 'Euro / US Dollar' },
-            { symbol: 'NAS100', name: 'Nasdaq 100' },
-            { symbol: 'US30', name: 'Dow Jones 30' },
-            { symbol: 'TSLA', name: 'Tesla, Inc.' },
-            { symbol: 'AAPL', name: 'Apple Inc.' },
-            { symbol: 'NVDA', name: 'Nvidia Corp' }
-        ];
+        let currentSymbol = "BINANCE:BTCUSDT";
 
         _supabase.auth.onAuthStateChange((event, session) => {
             if (session) { 
                 currentUser = session.user;
-                document.getElementById("user-email").innerText = currentUser.email.split("@")[0];
+                document.getElementById("user-email").innerText = currentUser.email.split("@")[0].toUpperCase();
+                loadWatchlist();
+                loadSetup();
             } else {
-                currentUser = null;
                 document.getElementById("user-email").innerText = "GUEST";
+                renderDefaultWatchlist();
+                initChart(currentSymbol);
             }
-            initChart("BINANCE:BTCUSDT");
-            loadWatchlist();
         });
 
         function initChart(symbol) {
+            currentSymbol = symbol;
             tvWidget = new TradingView.widget({
               'autosize': true,
               'symbol': symbol,
@@ -155,81 +165,103 @@
               'enable_publishing': false,
               'hide_side_toolbar': false,
               'allow_symbol_change': true,
+              'save_image': false,
               'backgroundColor': '#000000',
               'gridColor': '#0F0F11'
             });
         }
 
-        async function loadWatchlist() {
-            if (!currentUser) {
-                savedSymbols = ['BTCUSDT', 'ETHUSDT', 'XAUUSD'];
+        async function loadSetup() {
+            if (!currentUser) return;
+            const { data, error } = await _supabase
+                .from('user_setups')
+                .select('active_symbol')
+                .eq('user_id', currentUser.id)
+                .single();
+            
+            if (data && data.active_symbol) {
+                initChart(data.active_symbol);
             } else {
-                const { data } = await _supabase.from('user_watchlists').select('symbol').eq('user_id', currentUser.id);
-                savedSymbols = data ? data.map(i => i.symbol) : [];
+                initChart("BINANCE:BTCUSDT");
             }
-            
-            // Render Watchlist
-            const watchContainer = document.getElementById('watchlist-items');
-            watchContainer.innerHTML = '';
-            savedSymbols.forEach(symbol => {
-                const row = createAssetRow(symbol, true);
-                watchContainer.appendChild(row);
-            });
-
-            // Render Market List
-            const marketContainer = document.getElementById('market-assets');
-            marketContainer.innerHTML = '';
-            MARKET_ASSETS.forEach(asset => {
-                const row = createAssetRow(asset.symbol, false, asset.name);
-                marketContainer.appendChild(row);
-            });
-            lucide.createIcons();
         }
 
-        function createAssetRow(symbol, isWatchlist, name = '') {
-            const assetData = MARKET_ASSETS.find(a => a.symbol === symbol) || { symbol, name: 'Market Asset' };
-            const displayName = name || assetData.name;
-            const isSaved = savedSymbols.includes(symbol);
-            
-            const div = document.createElement('div');
-            div.className = 'asset-row';
-            div.innerHTML = `
-                <div class='asset-info' onclick='initChart("BINANCE:${symbol}")'>
-                    <span class='asset-symbol'>${symbol}</span>
-                    <span class='asset-name'>${displayName}</span>
-                </div>
-                <div class='asset-actions'>
-                    <i data-lucide='star' class='star-btn ${isSaved ? 'active' : ''}' onclick='toggleWatchlist("${symbol}")'></i>
-                </div>
-            `;
-            return div;
-        }
-
-        function filterAssets() {
-            const query = document.getElementById('asset-search').value.toUpperCase();
-            const rows = document.querySelectorAll('#market-assets .asset-row');
-            rows.forEach(row => {
-                const sym = row.querySelector('.asset-symbol').innerText;
-                row.style.display = sym.includes(query) ? 'flex' : 'none';
-            });
-        }
-
-        async function toggleWatchlist(symbol) {
+        async function saveSetup() {
             if (!currentUser) {
-                alert("Login to save your watchlists.");
+                alert("Login to save your workspace setup.");
                 return;
             }
-            if (savedSymbols.includes(symbol)) {
-                await _supabase.from('user_watchlists').delete().eq('user_id', currentUser.id).eq('symbol', symbol);
+            
+            // Note: In TradingView Widget, the current symbol can be retrieved if we used the library, 
+            // but for the basic widget we'll save the last one set via initChart or a hardcoded default.
+            // A more robust way would be to listen to symbol changes if the widget allowed it.
+            const { error } = await _supabase
+                .from('user_setups')
+                .upsert({ 
+                    user_id: currentUser.id, 
+                    active_symbol: currentSymbol,
+                    updated_at: new Date()
+                }, { onConflict: 'user_id' });
+            
+            if (error) alert("Error saving setup: " + error.message);
+            else alert("Setup saved successfully.");
+        }
+
+        async function loadWatchlist() {
+            if (!currentUser) return;
+            const { data, error } = await _supabase
+                .from('user_watchlists')
+                .select('*')
+                .eq('user_id', currentUser.id);
+            
+            const container = document.getElementById('watchlist-items');
+            container.innerHTML = '';
+            
+            if (data && data.length > 0) {
+                data.forEach(item => renderSymbol(item.symbol, item.id));
             } else {
-                await _supabase.from('user_watchlists').insert([{ user_id: currentUser.id, symbol: symbol }]);
+                container.innerHTML = "<p style='padding:20px; font-size:0.7rem; color:#444;'>Watchlist empty.</p>";
             }
+        }
+
+        function renderDefaultWatchlist() {
+            const container = document.getElementById('watchlist-items');
+            container.innerHTML = "";
+            ['BTCUSDT', 'ETHUSDT', 'XAUUSD'].forEach(s => renderSymbol(s, null));
+        }
+
+        function renderSymbol(symbol, id) {
+            const div = document.createElement('div');
+            div.className = 'watchlist-item';
+            div.innerHTML = `
+                <div style="flex-grow:1" onclick="initChart('BINANCE:${symbol}')">
+                    <span class='symbol'>${symbol}</span>
+                </div>
+                <span class='price'>LIVE</span>
+                ${id ? `<span class='remove-btn' onclick='removeSymbol("${id}")'>✕</span>` : ''}
+            `;
+            document.getElementById('watchlist-items').appendChild(div);
+        }
+
+        async function addSymbol() {
+            const input = document.getElementById('symbol-input');
+            const symbol = input.value.toUpperCase().trim();
+            if (!symbol) return;
+            if (!currentUser) { alert("Login to add symbols."); return; }
+
+            await _supabase.from('user_watchlists').insert([{ user_id: currentUser.id, symbol: symbol }]);
+            input.value = '';
+            loadWatchlist();
+        }
+
+        async function removeSymbol(id) {
+            await _supabase.from('user_watchlists').delete().eq('id', id);
             loadWatchlist();
         }
 
         async function logout() {
             await _supabase.auth.signOut();
-            window.location.href = 'dashboard.html';
+            location.href = 'dashboard.html';
         }
 
         lucide.createIcons();
