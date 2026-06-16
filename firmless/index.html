@@ -3,71 +3,141 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Firmless | Autonomous Legal Architecture</title>
-    <link rel="icon" type="image/png" href="../logos/firmless_logo.png">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <title>FIRMLESS | Regulatory Logic Division</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #0A0A0B; --surface: #111113; --text: #F0F0F0; --muted: #71717A; 
-            --accent: #E5B323; --border: rgba(229, 179, 35, 0.15);
-            --font-header: 'Playfair Display', serif; --font-body: 'Inter', sans-serif;
+            --bg: #FFFFFF;
+            --text: #1c1c1c;
+            --primary: #5e17eb; /* Firmless Purple */
+            --secondary: #ff6a00; /* Firmless Orange */
+            --muted: #86868b;
+            --border: #f5f5f7;
+            --nav-height: 60px;
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: var(--bg); color: var(--text); font-family: var(--font-body); min-height: 100vh; line-height: 1.6; }
-        
-        header { padding: 40px 6%; border-bottom: 1px solid var(--border); background: rgba(10,10,11,0.9); backdrop-filter: blur(20px); position: sticky; top: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; }
-        .logo-container { display: flex; align-items: center; gap: 15px; }
-        .logo-text { font-family: var(--font-header); font-size: 2.2rem; font-weight: 900; color: var(--accent); letter-spacing: -1px; }
 
-        .hero { padding: 140px 6% 100px; text-align: center; }
-        .hero h1 { font-family: var(--font-header); font-size: clamp(2.5rem, 8vw, 4.5rem); line-height: 1; margin-bottom: 30px; letter-spacing: -2px; }
-        .hero p { color: var(--muted); font-size: 1.25rem; max-width: 650px; margin: 0 auto 50px; text-transform: uppercase; letter-spacing: 3px; font-weight: 700; }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { 
+            background: var(--bg); 
+            color: var(--text); 
+            font-family: 'Inter', -apple-system, sans-serif; 
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+            line-height: 1.5;
+        }
 
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 40px; padding: 0 6% 120px; }
-        .card { padding: 50px; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; transition: 0.5s cubic-bezier(0.19, 1, 0.22, 1); }
-        .card:hover { border-color: var(--accent); transform: translateY(-5px); background: #161618; }
-        .card h3 { font-family: var(--font-header); font-size: 1.8rem; margin-bottom: 20px; color: var(--accent); }
-        .card p { color: var(--muted); font-size: 1rem; }
+        header {
+            position: fixed;
+            top: 0; width: 100%;
+            height: var(--nav-height);
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            border-bottom: 1px solid var(--border);
+        }
 
-        footer { padding: 100px 6%; text-align: center; border-top: 1px solid var(--border); background: #070708; }
-        .footer-logo { height: 60px; margin-bottom: 30px; }
-        .legal-text { font-size: 0.7rem; color: var(--muted); letter-spacing: 2px; font-weight: 700; text-transform: uppercase; }
+        .logo-wrap { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+        .logo-wrap img { height: 28px; }
+        .logo-wrap span { font-weight: 900; font-size: 1.2rem; color: var(--primary); letter-spacing: -0.02em; }
+        .logo-wrap span b { color: var(--secondary); }
+
+        .hamburger {
+            width: 30px; height: 18px;
+            display: flex; flex-direction: column;
+            justify-content: space-between;
+            cursor: pointer;
+        }
+        .hamburger span { height: 2px; width: 100%; background: var(--text); border-radius: 2px; }
+
+        .hero {
+            padding: 140px 20px 60px;
+            text-align: center;
+            background: linear-gradient(to bottom, #fcfcfd, #fff);
+        }
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 900;
+            letter-spacing: -0.05em;
+            line-height: 1;
+            margin-bottom: 20px;
+        }
+        .hero h1 span { color: var(--primary); }
+        .hero p { font-size: 1.1rem; color: var(--muted); max-width: 450px; margin: 0 auto; font-weight: 500; }
+
+        .grid { padding: 20px; display: grid; grid-template-columns: 1fr; gap: 16px; }
+        .card {
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 28px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+        }
+        .card .icon { 
+            width: 50px; height: 50px; 
+            background: var(--primary); 
+            border-radius: 14px; 
+            margin-bottom: 20px;
+            display: flex; align-items: center; justify-content: center;
+            color: #fff; font-weight: 900; font-size: 1.5rem;
+        }
+        .card h3 { font-weight: 800; font-size: 1.4rem; letter-spacing: -0.03em; margin-bottom: 10px; }
+        .card p { font-size: 0.95rem; color: var(--muted); line-height: 1.4; }
+
+        footer {
+            padding: 60px 20px;
+            text-align: center;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--muted);
+            border-top: 1px solid var(--border);
+        }
+
+        @media (min-width: 768px) {
+            .grid { grid-template-columns: repeat(2, 1fr); }
+            .hero h1 { font-size: 5rem; }
+        }
     </style>
 </head>
 <body>
+
     <header>
-        <div class="logo-container">
-            <img src="../logos/firmless_logo_new.png" alt="Firmless Logo" style="height: 50px;">
-            <span class="logo-text">Firmless</span>
+        <a href="#" class="logo-wrap">
+            <img src="../logos/firmless_icon.png" alt="Icon">
+            <span>firm<b>less</b></span>
+        </a>
+        <div class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
         </div>
-        <div style="font-weight: 900; font-size: 0.65rem; color: var(--accent); letter-spacing: 3px; text-transform: uppercase;">CREATOR LEGAL ENGINE // AUTONOMOUS</div>
     </header>
 
     <section class="hero">
-        <h1>Protect your work. Own your legacy.</h1>
-        <p>Legal Automation // Contract Generation</p>
+        <h1>Compliance <span>Unlocked.</span></h1>
+        <p>Advanced institutional logic for regulatory automation. Sovereign software, globally compliant.</p>
     </section>
 
     <div class="grid">
         <div class="card">
-            <h3>Clause Engine</h3>
-            <p>Predictive legal drafting using high-fidelity autonomous logic for ironclad contractual protection across digital jurisdictions.</p>
+            <div class="icon">S</div>
+            <h3>Sovereign Audit</h3>
+            <p>Real-time regulatory telemetry for decentralized nodes and software divisions.</p>
         </div>
         <div class="card">
-            <h3>Structure Audit</h3>
-            <p>Real-time structural analysis of creator agreements to ensure 100% sovereign alignment with your brand DNA.</p>
-        </div>
-        <div class="card">
-            <h3>Identity Vault</h3>
-            <p>Secure management of legal identities and signing authorities within a unified neural framework for global protection.</p>
+            <div class="icon" style="background: var(--secondary);">L</div>
+            <h3>Legal Handshake</h3>
+            <p>Automated contract verification and on-chain identity settlement.</p>
         </div>
     </div>
 
     <footer>
-        <img src="../logos/firmless_logo_new.png" alt="Firmless" class="footer-logo">
-        <p class="legal-text">&copy; 2026 FIRMLESS · AN ORCINOS LEGAL TECHNOLOGY NODE · ANCHORED TO ETERNITY</p>
+        &copy; 2026 FIRMLESS | ORCINOS DIVISION<br>
+        Lattome.
     </footer>
 
-    <script src="../shared_godmode.js"></script>
 </body>
 </html>
