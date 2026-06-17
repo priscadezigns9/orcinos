@@ -3,135 +3,225 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Titan TraderX | Sovereign Market Intelligence</title>
-    <link rel="icon" href="../logos/TITAN_ICON.png" type="image/png">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <title>Titan TraderX | Dashboard (High-Fidelity)</title>
     <style>
         :root {
-            --bg: #050505;
-            --surface: #0F0F11;
-            --malachite: #00FF7F;
+            --navy: #0a192f;
+            --gold: #d4af37;
+            --cyan: #64ffda;
             --text: #ccd6f6;
             --white: #ffffff;
-            --border: rgba(255, 255, 255, 0.08);
-            --glass: rgba(255, 255, 255, 0.03);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            font-family: 'Plus Jakarta Sans', sans-serif; 
-            background: var(--bg); 
-            color: var(--text); 
-            line-height: 1.6;
+        body {
+            background-color: var(--navy);
+            color: var(--text);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
 
         header {
-            padding: 20px 6%;
+            background-color: rgba(10, 25, 47, 0.95);
+            border-bottom: 2px solid var(--gold);
+            padding: 1rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid var(--border);
-            background: rgba(5, 5, 5, 0.8);
-            backdrop-filter: blur(20px);
             position: sticky;
             top: 0;
-            z-index: 1000;
+            z-index: 100;
         }
 
-        .logo-container { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-        .logo-container img { height: 32px; border-radius: 50%; }
-        .logo-container span { font-weight: 800; font-size: 1.2rem; color: var(--white); letter-spacing: -0.5px; }
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
 
-        nav { display: flex; gap: 30px; }
-        nav a { 
-            text-decoration: none; 
-            color: var(--text); 
-            font-size: 0.85rem; 
-            font-weight: 600; 
-            opacity: 0.6; 
-            transition: 0.3s;
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--gold);
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
         }
-        nav a:hover, nav a.active { opacity: 1; color: var(--malachite); }
 
-        .btn-login {
-            background: var(--malachite);
-            color: #000;
-            padding: 10px 20px;
+        nav a {
+            color: var(--cyan);
+            text-decoration: none;
+            margin-left: 20px;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--gold);
+        }
+
+        main {
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(100, 255, 218, 0.1);
             border-radius: 8px;
-            font-weight: 800;
-            opacity: 1 !important;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
         }
 
-        main { padding: 60px 6%; max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: 1fr 350px; gap: 40px; }
+        h2 {
+            color: var(--gold);
+            border-left: 4px solid var(--cyan);
+            padding-left: 1rem;
+            margin-top: 0;
+            font-size: 1.25rem;
+            text-transform: uppercase;
+        }
 
-        .hero-section { background: var(--surface); padding: 60px; border-radius: 30px; border: 1px solid var(--border); }
-        .hero-section h1 { font-size: 3.5rem; font-weight: 800; color: var(--white); margin-bottom: 20px; line-height: 1.1; }
-        .hero-section p { font-size: 1.1rem; opacity: 0.7; margin-bottom: 30px; max-width: 600px; }
+        .placeholder-box {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px dashed var(--cyan);
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--cyan);
+            font-style: italic;
+        }
 
-        .card { background: var(--surface); padding: 30px; border-radius: 20px; border: 1px solid var(--border); }
-        .card h2 { font-size: 1rem; text-transform: uppercase; letter-spacing: 2px; color: var(--malachite); margin-bottom: 20px; font-weight: 800; }
+        .prop-directory {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
 
-        .market-item { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
-        .market-item:last-child { border-bottom: none; }
+        .prop-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--gold);
+            padding: 1rem;
+            text-align: center;
+            border-radius: 4px;
+            transition: transform 0.2s;
+        }
 
-        .footer { padding: 60px 6%; border-top: 1px solid var(--border); text-align: center; color: #444; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; }
+        .prop-item:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.08);
+        }
 
-        @media (max-width: 1024px) {
-            main { grid-template-columns: 1fr; }
+        .btn {
+            background: var(--gold);
+            color: var(--navy);
+            padding: 0.5rem 1rem;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+            display: inline-block;
+            margin-top: 1rem;
+        }
+
+        .footer {
+            margin-top: auto;
+            padding: 2rem;
+            text-align: center;
+            border-top: 1px solid rgba(212, 175, 55, 0.2);
+            font-size: 0.8rem;
+        }
+
+        @media (max-width: 900px) {
+            main {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
     <header>
-        <a href="index.html" class="logo-container">
-            <img src="../logos/TITAN_ICON.png" alt="Titan Logo">
-            <span>TITAN TRADERX</span>
-        </a>
+        <div class="logo-container">
+            <img src="https://lh3.googleusercontent.com/d/1ERqvFXcmdfgQsJXfrtRjyb5GvivpgimT" alt="Titan TraderX" height="40">
+            <span class="logo-text">Titan TraderX</span>
+        </div>
         <nav>
-            <a href="index.html" class="active">Dashboard</a>
-            <a href="terminal.html">Terminal</a>
-            <a href="academy/index.html">Academy</a>
-            <a href="partners.html">Partners</a>
-            <a href="dashboard.html" class="btn-login">LOGIN</a>
+            <a href="index.html">Dashboard</a>
+            <a href="prop-firms.html">Prop Firms</a>
+            <a href="#">Analysis</a>
+            <a href="#">Tools</a>
         </nav>
     </header>
 
     <main>
         <section class="left-column">
-            <div class="hero-section">
-                <h1>Master the <span style="color: var(--malachite);">Sovereign</span> Liquidity.</h1>
-                <p>Titan TraderX is the definitive institutional order flow terminal. Engineered for those who demand high-fidelity market intelligence and surgical execution.</p>
-                <a href="terminal.html" style="background: var(--malachite); color: #000; padding: 15px 30px; border-radius: 12px; text-decoration: none; font-weight: 800; display: inline-block;">ENTER TERMINAL &rarr;</a>
+            <div class="card">
+                <h2>Market Analysis</h2>
+                <div id="tradingview_widget" style="height: 500px; width: 100%;"></div>
+                <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+                <script type="text/javascript">
+                    new TradingView.widget({
+                        "autosize": true,
+                        "symbol": "FX:EURUSD",
+                        "interval": "D",
+                        "timezone": "Etc/UTC",
+                        "theme": "dark",
+                        "style": "1",
+                        "locale": "en",
+                        "toolbar_bg": "#f1f3f6",
+                        "enable_publishing": false,
+                        "allow_symbol_change": true,
+                        "container_id": "tradingview_widget"
+                    });
+                </script>
             </div>
 
-            <div class="card" style="margin-top: 30px;">
-                <h2>Institutional Pulse (Live)</h2>
-                <div class="market-item"><span>EUR/USD</span><span style="color: var(--malachite);">1.0842 (BULLISH)</span></div>
-                <div class="market-item"><span>GOLD (XAU)</span><span style="color: var(--malachite);">$2,342.50 (EXPANSION)</span></div>
-                <div class="market-item"><span>NASDAQ (NAS100)</span><span style="color: #ff4d4d;">18,432.10 (RETRACEMENT)</span></div>
+            <div class="card">
+                <h2>Prop Firm & DEX Directory</h2>
+                <div class="prop-directory">
+                    <div class="prop-item">
+                        FTMO
+                        <br>
+                        <a href="prop-firms.html" class="btn">View Details</a>
+                    </div>
+                    <div class="prop-item">
+                        GMX (DEX)
+                        <br>
+                        <a href="prop-firms.html" class="btn">Trade Now</a>
+                    </div>
+                    <div class="prop-item">
+                        Gains Network
+                        <br>
+                        <a href="prop-firms.html" class="btn">Trade Now</a>
+                    </div>
+                </div>
+                <div style="text-align: center; margin-top: 1.5rem;">
+                    <a href="prop-firms.html" style="color: var(--cyan);">View all 15+ partners &rarr;</a>
+                </div>
             </div>
         </section>
 
         <section class="right-column">
-            <div class="card" style="margin-bottom: 30px;">
-                <h2>Academy Preview</h2>
-                <p style="font-size: 0.9rem; opacity: 0.6; margin-bottom: 20px;">Master the Sovereign Liquidity engine with our curated trading modules.</p>
-                <a href="academy/index.html" style="color: var(--malachite); font-weight: 700; text-decoration: none; font-size: 0.8rem;">ENTER ACADEMY &rarr;</a>
-            </div>
-
             <div class="card">
-                <h2>Market Gainers</h2>
-                <div class="market-item"><span>BTC</span><span>$68,432</span></div>
-                <div class="market-item"><span>ETH</span><span>$3,842</span></div>
-                <div class="market-item"><span>SOL</span><span>$164</span></div>
+                <h2>Economic Calendar</h2>
+                <div style="height: 600px;">
+                    <iframe src="https://www.mql5.com/en/economic-calendar/widget?mode=1&amp;utm_source=localhost" style="width: 100%; height: 100%; border: none;"></iframe>
+                </div>
             </div>
         </section>
     </main>
 
     <footer class="footer">
-        &copy; 2026 ORCINOS NETWORK | TITAN TRADERX | ANCHORED TO ETERNITY
+        &copy; 2026 Prisca Dezigns | Titan TraderX. All rights reserved. High-End Trading Solutions.
     </footer>
 </body>
 </html>
