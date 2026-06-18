@@ -9,97 +9,112 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
-        :root { --primary: #8B0000; --bg: #F9F9F9; --text: #1A1A1A; --accent: #111; --font-heading: 'Playfair Display', serif; --font-body: 'Inter', sans-serif; }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: var(--bg); color: var(--text); font-family: var(--font-body); line-height: 1.6; overflow-x: hidden; min-height: 100vh; }
-        
-        .ticker-wrap { width: 100%; overflow: hidden; background: #000; color: #fff; padding: 12px 0; border-bottom: 2px solid var(--primary); z-index: 1001; position: relative; }
-        .ticker { display: inline-block; white-space: nowrap; padding-right: 100%; animation: ticker 240s linear infinite; }
-        @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
-        .ticker-item { display: inline-block; padding: 0 40px; font-weight: 800; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px; }
-        .ticker-item span { color: var(--primary); margin-right: 10px; }
-
-        header { background: #fff; padding: 30px 6%; border-bottom: 3px solid #000; text-align: center; position: sticky; top: 0; z-index: 1000; }
-        header h1 { font-family: var(--font-heading); font-size: 3.5rem; letter-spacing: -2px; line-height: 1; }
-        header h1 a { text-decoration: none; color: black; }
-        header p { text-transform: uppercase; letter-spacing: 6px; font-size: 0.7rem; font-weight: 800; color: #444; margin: 10px 0 20px; }
-        
-        nav { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; border-top: 1px solid #eee; padding-top: 15px; align-items: center; }
-        nav a { text-decoration: none; color: #000; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
-        nav a:hover, nav a.active { color: var(--primary); border-bottom: 2px solid var(--primary); }
-        
-        .main-container { display: grid; grid-template-columns: 1fr 350px; gap: 60px; padding: 40px 6%; max-width: 1500px; margin: 0 auto; min-height: 1200px; position: relative; }
-        @media (max-width: 1100px) { .main-container { grid-template-columns: 1fr; min-height: auto; } .sidebar { position: relative !important; top: 0 !important; width: 100% !important; } }
-        
-        .category-tag { color: var(--primary); font-weight: 800; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; display: block; border-left: 4px solid var(--primary); padding-left: 10px; }
-        
-        .news-card { margin-bottom: 60px; border-bottom: 1px solid #ddd; padding-bottom: 40px; }
-        .news-card h3 { font-family: var(--font-heading); font-size: 2rem; line-height: 1.2; margin-bottom: 15px; }
-        .news-card h3 a { color: #000; text-decoration: none; }
-        .news-card p { font-size: 1rem; color: #444; max-width: 800px; }
-        
-        .sidebar { position: sticky; top: 180px; height: fit-content; align-self: start; display: block !important; }
-        .sidebar-block { background: #fff; border: 1px solid #ddd; padding: 25px; margin-bottom: 30px; border-radius: 4px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-        .sidebar-block h4 { font-family: var(--font-heading); font-size: 1.2rem; margin-bottom: 15px; text-transform: uppercase; }
-        .sidebar-ad img { width: 100%; border-radius: 4px; margin-bottom: 15px; display: block; }
-        .btn { display: block; text-align: center; padding: 12px; text-decoration: none; font-weight: 800; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; border-radius: 4px; transition: 0.3s; }
-        .btn:hover { opacity: 0.8; transform: translateY(-2px); }
-
-        footer { background: #000; color: #fff; padding: 60px 6%; text-align: center; margin-top: 80px; position: relative; z-index: 10; }
-        footer img { width: 150px; margin-bottom: 20px; }
-        footer p { font-size: 0.7rem; letter-spacing: 2px; opacity: 0.6; }
-        
-        .source-tag { font-size: 0.65rem; text-transform: uppercase; font-weight: 900; background: #eee; padding: 4px 8px; display: inline-block; margin: 10px 0; letter-spacing: 1px; }
-    </style>
+    :root { --primary: #8B0000; --bg: #F9F9F9; --text: #1A1A1A; --accent: #111; --font-heading: 'Playfair Display', serif; --font-body: 'Inter', sans-serif; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: var(--bg); color: var(--text); font-family: var(--font-body); line-height: 1.6; overflow-x: hidden; }
+    .ticker-wrap { width:100%;overflow:hidden;background:#000;color:#fff;padding:10px 0;border-bottom:2px solid var(--primary); }
+    .ticker { display:inline-block;white-space:nowrap;padding-right:100%;animation:ticker 240s linear infinite; }
+    @keyframes ticker { 0%{transform:translateX(0)} 100%{transform:translateX(-100%)} }
+    .ticker-item { display:inline-block;padding:0 30px;font-weight:800;font-size:0.72rem;text-transform:uppercase;letter-spacing:1.5px; }
+    .ticker-item span { color:var(--primary);margin-right:8px; }
+    header { background:#fff;padding:25px 6%;border-bottom:3px solid #000;text-align:center;position:sticky;top:0;z-index:1000; }
+    header h1 { font-family:var(--font-heading);font-size:3.2rem;letter-spacing:-2px;line-height:1; }
+    header h1 a { text-decoration:none;color:black; }
+    header p { text-transform:uppercase;letter-spacing:6px;font-size:0.68rem;font-weight:800;color:#444;margin:8px 0 18px; }
+    nav { display:flex;justify-content:center;gap:18px;flex-wrap:wrap;border-top:1px solid #eee;padding-top:14px;align-items:center; }
+    nav a { text-decoration:none;color:#000;font-size:0.68rem;font-weight:800;text-transform:uppercase;letter-spacing:1px; }
+    nav a:hover, nav a.active { color:var(--primary);border-bottom:2px solid var(--primary); }
+    .container { max-width:1400px;margin:0 auto;padding:40px 6%;display:grid;grid-template-columns:1fr 300px;gap:40px; }
+    @media(max-width:900px){.container{grid-template-columns:1fr;}}
+    .news-grid { display:grid;gap:30px; }
+    .news-card { background:#fff;border:1px solid #e8e8e8;border-radius:8px;padding:24px;transition:box-shadow 0.2s; }
+    .news-card:hover { box-shadow:0 4px 20px rgba(0,0,0,0.08); }
+    .news-card h2 { font-family:var(--font-heading);font-size:1.3rem;margin-bottom:8px;line-height:1.35; }
+    .news-card h2 a { text-decoration:none;color:var(--text); }
+    .news-card h2 a:hover { color:var(--primary); }
+    .sidebar-block { margin-bottom:24px;border-radius:8px;padding:20px; }
+    .section-label { font-size:0.65rem;font-weight:800;text-transform:uppercase;letter-spacing:3px;color:var(--primary);border-bottom:2px solid var(--primary);padding-bottom:8px;margin-bottom:24px; }
+    footer { background:#000;color:#fff;text-align:center;padding:30px;margin-top:60px;font-size:0.8rem; }
+    footer img { height:30px;margin-bottom:10px;opacity:0.8; }
+</style>
 </head>
 <body>
-    <div class="ticker-wrap">
-        <div class="ticker"><div class="ticker-item"><span>GEOPOLITICS</span> Trump thanks China's Xi, Russia's Putin for being 'neutral' in Iran war - Reuters</div><div class="ticker-item"><span>BLOCKCHAIN</span> Explainer: What challenges could stand in the way of a final US-Iran deal? - Reuters</div><div class="ticker-item"><span>BIOHACKING</span> Trump says Iran deal averted 'economic catastrophe' but says he could still restart war - Reuters</div><div class="ticker-item"><span>MARKETS</span> CarMax shares fall after used car retailer reports earnings beats, CEO details turnaround plan</div><div class="ticker-item"><span>LIFESTYLE</span> 3 of our stocks striking gold and 3 others hitting the skids over the past 3 weeks</div><div class="ticker-item"><span>INTELLIGENCE</span> Jim Cramer's top 10 things to watch in the stock market Wednesday</div><div class="ticker-item"><span>FOREX</span> Netanyahu, Israel's arch-survivor, set to face voter fury over Iran deal - Reuters</div><div class="ticker-item"><span>STOCKS</span> Trump's Iran war weighs on G7 economies, but don't expect hard talk in France - Reuters</div><div class="ticker-item"><span>REALESTATE</span> Stocks edge up as oil hovers near 3-month lows ahead of Warsh debut - Reuters</div><div class="ticker-item"><span>ANIME</span> Cramer's lightning round: Buy Cava</div></div>
+<div class="ticker-wrap"><div class="ticker"><span class="ticker-item"><span>●</span>Asian stocks steady, oil lower as US and Iran sign peace deal - Reuters</span> <span class="ticker-item"><span>●</span>Oil slips again as US, Iran sign peace deal - Reuters</span> <span class="ticker-item"><span>●</span>US and Iran presidents sign ceasefire agreement, but Trump says he could still r</span> <span class="ticker-item"><span>●</span>Iran MOU was signed on Wednesday by Trump and Iran president, U.S. official says</span> <span class="ticker-item"><span>●</span>Trump signs memo aimed at ending Iran war, White House official says - Reuters</span> <span class="ticker-item"><span>●</span>Trump ties Iran deal to market swings, warns war risked 'catastrophe' - Reuters</span> <span class="ticker-item"><span>●</span>Trump thanks China's Xi, Russia's Putin for being 'neutral' in Iran war - Reuter</span> <span class="ticker-item"><span>●</span>Verification is key in US-Iran nuclear talks, Saudi foreign minister says - Reut</span> <span class="ticker-item"><span>●</span>The market didn't like what it heard from the Fed and its new leader Kevin Warsh</span> <span class="ticker-item"><span>●</span>Iran and US to end fighting and maritime blockades in the Gulf area per MoU, Ira</span> <span class="ticker-item"><span>●</span>Trump: unfair for Iran to lack ballistic missiles if other countries have them -</span> <span class="ticker-item"><span>●</span>Strong US retail sales showcase economy's resilience despite Iran war - Reuters</span> <span class="ticker-item"><span>●</span>What challenges could stand in the way of a final US-Iran deal? - Reuters</span> <span class="ticker-item"><span>●</span>We're buying more of one industrial-focused stock and booking some profits in an</span> <span class="ticker-item"><span>●</span>Making money in this market requires rigor and passion — just not in equal parts</span> <span class="ticker-item"><span>●</span>CarMax shares fall after used car retailer reports earnings beats, CEO details t</span> <span class="ticker-item"><span>●</span>The 14-point US-Iran pact as read by US official - Reuters</span> <span class="ticker-item"><span>●</span>JetBlue to reduce Newark, LaGuardia footprint as it forges ahead in Fort Lauderd</span> <span class="ticker-item"><span>●</span>UniQure to seek FDA approval for Huntington's disease gene therapy after previou</span> <span class="ticker-item"><span>●</span>3 of our stocks striking gold and 3 others hitting the skids over the past 3 wee</span></div></div>
+<header>
+    <h1><a href="index.html">SOVSYGNAL</a></h1>
+    <p>Global Intelligence Hub &middot; Updated Jun 18, 2026 | 04:50 AM AST</p>
+    <nav><a href="index.html" class="active">Headlines</a>
+<a href="geopolitics.html" class="">Geopolitics</a>
+<a href="stocks.html" class="">Stocks</a>
+<a href="blockchain.html" class="">Blockchain</a>
+<a href="intelligence.html" class="">Intelligence</a>
+<a href="forex.html" class="">Forex</a>
+<a href="markets.html" class="">Commodities</a>
+<a href="realestate.html" class="">Real Estate</a>
+<a href="anime.html" class="">Anime & Gaming</a>
+<a href="lifestyle.html" class="">Lifestyle</a>
+<a href="biohacking.html" class="">Biohacking</a>
+</nav>
+</header>
+<div class="container">
+    <main>
+        <div class="section-label">Headlines</div>
+        <div class="news-grid">
+<article class="news-card">
+<img src="https://static2.finnhub.io/file/finnhub/logo/reuters_logo.jpeg" alt="" style="width:100%;height:180px;object-fit:cover;border-radius:4px;margin-bottom:12px;">
+<h2><a href="https://news.google.com/rss/articles/CBMigwFBVV95cUxPQWc5blRuNGVXLWNEeGRWUHBJTi1tNG1oR2wzR3R0RXY1dWdVS3JVMmRRSlI0NEgwZUpVNTNLdUphd1Q4OGpXSmtSc0lwVmNONzFpYWZFVG05OFQ4Y1JtaVAyN0lCblhSVEUwZ2RDTUx4eTFzWl9SR1NVT1RvTGxwSTg0dw?oc=5" target="_blank" rel="noopener">Asian stocks steady, oil lower as US and Iran sign peace deal - Reuters</a></h2>
+<p style="color:#555;font-size:0.88rem;margin:8px 0 12px;">Asian stocks steady, oil lower as US and Iran sign peace deal  Reuters</p>
+<div class="meta"><span style="font-weight:700;font-size:0.75rem;text-transform:uppercase;letter-spacing:1px;">Reuters</span></div>
+</article>
+<article class="news-card">
+<img src="https://static2.finnhub.io/file/finnhub/logo/reuters_logo.jpeg" alt="" style="width:100%;height:180px;object-fit:cover;border-radius:4px;margin-bottom:12px;">
+<h2><a href="https://news.google.com/rss/articles/CBMilgFBVV95cUxOZU5Zdm80MlhXLVFYajFEdy1GcU9zNGNaa2FvM2ExTmZkZXJieS10V1ZjQ3NqTndMcG1hT1hpb0FGYTN5M1ZMY2VFRG9QNDZkVGhxVEJTcUVpakJGQWNtODJYOTJpSFJOM0hwN01DT21ZaUxKN2FBa2czX3ZFUHlTMXpuUnZpa1dNOFUtOXFFaUx1LTJwN1E?oc=5" target="_blank" rel="noopener">Oil slips again as US, Iran sign peace deal - Reuters</a></h2>
+<p style="color:#555;font-size:0.88rem;margin:8px 0 12px;">Oil slips again as US, Iran sign peace deal  Reuters</p>
+<div class="meta"><span style="font-weight:700;font-size:0.75rem;text-transform:uppercase;letter-spacing:1px;">Reuters</span></div>
+</article>
+<article class="news-card">
+<img src="https://static2.finnhub.io/file/finnhub/logo/reuters_logo.jpeg" alt="" style="width:100%;height:180px;object-fit:cover;border-radius:4px;margin-bottom:12px;">
+<h2><a href="https://news.google.com/rss/articles/CBMiqwFBVV95cUxPSklNM1g3ZG9QYmFoMkJRS3o2T2ZRMTJ1azE5eG1YLU5TUXdEY1F5TkFBU01GMUt1UUstcHRrekJsOHBmRURqd2NTMVpzVVFoQlRPWHNvUVVQLU5ZRkJsNzZKNURTd01PQ1pubzFrR0UzdlMzbXU2RXBwLU9fT25GSU80UkRVcUlpWE9MOGhxYW4yS1lIbDJ3UkR5anJudnZPcDhhOHhqN3JxcWM?oc=5" target="_blank" rel="noopener">US and Iran presidents sign ceasefire agreement, but Trump says he could still resume attacks - Reuters</a></h2>
+<p style="color:#555;font-size:0.88rem;margin:8px 0 12px;">US and Iran presidents sign ceasefire agreement, but Trump says he could still resume attacks  Reuters</p>
+<div class="meta"><span style="font-weight:700;font-size:0.75rem;text-transform:uppercase;letter-spacing:1px;">Reuters</span></div>
+</article>
+<article class="news-card">
+<img src="https://static2.finnhub.io/file/finnhub/logo/reuters_logo.jpeg" alt="" style="width:100%;height:180px;object-fit:cover;border-radius:4px;margin-bottom:12px;">
+<h2><a href="https://news.google.com/rss/articles/CBMiwgFBVV95cUxNbzlqYWJEWUxoWXRqWTMtVVlRQnoxLWI4enhRSEFfQ2s4Y2MyT0J1UUpTTmlkejZoNklidnFBeWppUUlrM3BJbjZzSEczWGdVNy1vUi1pdE1OM2NQR0lzbzdyMGZpcXEzWTJNMHdsQ200d3QzdHhKZFp2NkFsc0Q2S1FHWjZQNXZ0MmdNYjlrOHQ1OXBVYXJMRHRpb0x4QkZPUV9WdUNuSE96UElJbElFRFNLanhMVTVGd1JjMlRNRTlIQQ?oc=5" target="_blank" rel="noopener">Iran MOU was signed on Wednesday by Trump and Iran president, U.S. official says - Reuters</a></h2>
+<p style="color:#555;font-size:0.88rem;margin:8px 0 12px;">Iran MOU was signed on Wednesday by Trump and Iran president, U.S. official says  Reuters</p>
+<div class="meta"><span style="font-weight:700;font-size:0.75rem;text-transform:uppercase;letter-spacing:1px;">Reuters</span></div>
+</article>
+<article class="news-card">
+<img src="https://static2.finnhub.io/file/finnhub/logo/reuters_logo.jpeg" alt="" style="width:100%;height:180px;object-fit:cover;border-radius:4px;margin-bottom:12px;">
+<h2><a href="https://news.google.com/rss/articles/CBMiqgFBVV95cUxNckM0TE4tcWU4eXF5amFvMFo5REU1TDNLYVF6ZHQ4UHk5akkwMEg4Q0J3WVQ2SXlQaWtfc1h5SXFjS2Fqdm1mY3FRWnktbHFUeDAwUUVXRzF4M3Uwa1hhN25CZ0JsTVFxR0NZUTkxamszeWstVm9NSE9xcGFyYVJFN1VGeEU3OTNzcDJ2R0xRcmFKWHZzNnYwZWxDdk5wT01IcFBCeVpld0R0dw?oc=5" target="_blank" rel="noopener">Trump signs memo aimed at ending Iran war, White House official says - Reuters</a></h2>
+<p style="color:#555;font-size:0.88rem;margin:8px 0 12px;">Trump signs memo aimed at ending Iran war, White House official says  Reuters</p>
+<div class="meta"><span style="font-weight:700;font-size:0.75rem;text-transform:uppercase;letter-spacing:1px;">Reuters</span></div>
+</article>
+<article class="news-card">
+<img src="https://static2.finnhub.io/file/finnhub/logo/reuters_logo.jpeg" alt="" style="width:100%;height:180px;object-fit:cover;border-radius:4px;margin-bottom:12px;">
+<h2><a href="https://news.google.com/rss/articles/CBMixAFBVV95cUxPTTFUblBYMU1GNThsMnJyWWU2WUY5RVJVOHJmNno4OXNSRk9tMVdyNUhpVXVVQUFDNUZ2eXl6ZUtud193WUZvVW1VTWF4S1hubmxFNTZQYmRmZGZ6b0REdGNTQW1QWjdzZTZmSmpWZ2hWSG02VzlKY09FaFE3cFlfdFd6eEE4eGVqeURhMTFuSDhuSXBJeTllQ3h5OUQtNmhud1FHay1vMGtWempXZWI3ci1HajhicnlLaDZ3UzFIZDZpdWxm?oc=5" target="_blank" rel="noopener">Trump ties Iran deal to market swings, warns war risked 'catastrophe' - Reuters</a></h2>
+<p style="color:#555;font-size:0.88rem;margin:8px 0 12px;">Trump ties Iran deal to market swings, warns war risked 'catastrophe'  Reuters</p>
+<div class="meta"><span style="font-weight:700;font-size:0.75rem;text-transform:uppercase;letter-spacing:1px;">Reuters</span></div>
+</article>
+        </div>
+    </main>
+    <aside class="sidebar">
+    <div class="sidebar-block sidebar-ad" style="background:#000;color:white;">
+        <img src="https://m.media-amazon.com/images/I/71Y86x9mXUL._AC_SL1500_.jpg" alt="Elite Setup" style="width:100%;border-radius:4px;margin-bottom:10px;">
+        <h4 style="font-family:'Playfair Display',serif;font-size:1rem;margin-bottom:6px;">Elite Setup</h4>
+        <p style="font-size:0.75rem;color:#aaa;margin-bottom:15px;">Sovereign-grade ultrawide displays.</p>
+        <a href="https://www.amazon.com/s?k=ultrawide+monitor+34+inch&tag=priscadezigns-20" class="btn" style="background:white;color:black;padding:8px 16px;text-decoration:none;font-weight:700;font-size:0.75rem;display:inline-block;">Browse Setup</a>
     </div>
-    <header>
-        <h1><a href="index.html">SOVSYGNAL</a></h1>
-        <p>Global Intelligence Hub</p>
-        <nav>
-            <a href="geopolitics.html">Geopolitics</a>
-            <a href="blockchain.html">Blockchain</a>
-            <a href="biohacking.html">Biohacking</a>
-            <a href="markets.html">Markets</a>
-            <a href="lifestyle.html">Lifestyle</a>
-            <a href="intelligence.html">Intelligence</a>
-            <a href="forex.html">Forex</a>
-            <a href="stocks.html">Stocks</a>
-            <a href="realestate.html">RealEstate</a>
-            <a href="anime.html">Anime</a>
-            <a href="signup.html" style="color:var(--primary)">Join Hub</a>
-        </nav>
-    </header>
-    <div class="main-container">
-        <main><article class="news-card"><span class="category-tag"><a href="geopolitics.html" style="color:inherit; text-decoration:none;">Geopolitics</a> | Jun 17, 2026 | 06:48 PM AST</span><h3><a href="geopolitics.html">Trump thanks China's Xi, Russia's Putin for being 'neutral' in Iran war - Reuters</a></h3><div class="source-tag">Source: Reuters</div><p>Trump thanks China's Xi, Russia's Putin for being 'neutral' in Iran war  Reuters</p><a href="https://www.amazon.com/s?k=geopolitics+gear&tag=priscadezigns-20" style="display:inline-block; margin-top:15px; font-size:0.7rem; font-weight:800; color:var(--primary); text-decoration:none; border-bottom:1px solid var(--primary);">SHOP THE SIGNAL &rarr;</a></article><article class="news-card"><span class="category-tag"><a href="blockchain.html" style="color:inherit; text-decoration:none;">Blockchain</a> | Jun 17, 2026 | 06:48 PM AST</span><h3><a href="blockchain.html">Explainer: What challenges could stand in the way of a final US-Iran deal? - Reuters</a></h3><div class="source-tag">Source: Reuters</div><p>Explainer: What challenges could stand in the way of a final US-Iran deal?  Reuters</p><a href="https://www.amazon.com/s?k=blockchain+gear&tag=priscadezigns-20" style="display:inline-block; margin-top:15px; font-size:0.7rem; font-weight:800; color:var(--primary); text-decoration:none; border-bottom:1px solid var(--primary);">SHOP THE SIGNAL &rarr;</a></article><article class="news-card"><span class="category-tag"><a href="biohacking.html" style="color:inherit; text-decoration:none;">Biohacking</a> | Jun 17, 2026 | 06:48 PM AST</span><h3><a href="biohacking.html">Trump says Iran deal averted 'economic catastrophe' but says he could still restart war - Reuters</a></h3><div class="source-tag">Source: Reuters</div><p>Trump says Iran deal averted 'economic catastrophe' but says he could still restart war  Reuters</p><a href="https://www.amazon.com/s?k=biohacking+gear&tag=priscadezigns-20" style="display:inline-block; margin-top:15px; font-size:0.7rem; font-weight:800; color:var(--primary); text-decoration:none; border-bottom:1px solid var(--primary);">SHOP THE SIGNAL &rarr;</a></article><article class="news-card"><span class="category-tag"><a href="markets.html" style="color:inherit; text-decoration:none;">Markets</a> | Jun 17, 2026 | 06:48 PM AST</span><h3><a href="markets.html">CarMax shares fall after used car retailer reports earnings beats, CEO details turnaround plan</a></h3><div class="source-tag">Source: CNBC</div><p>Despite the beats, questions remain about the company's ability to grow and cut costs under the plan amid tougher market conditions, including margin pressure.</p><a href="https://www.amazon.com/s?k=markets+gear&tag=priscadezigns-20" style="display:inline-block; margin-top:15px; font-size:0.7rem; font-weight:800; color:var(--primary); text-decoration:none; border-bottom:1px solid var(--primary);">SHOP THE SIGNAL &rarr;</a></article><article class="news-card"><span class="category-tag"><a href="lifestyle.html" style="color:inherit; text-decoration:none;">Lifestyle</a> | Jun 17, 2026 | 06:48 PM AST</span><h3><a href="lifestyle.html">3 of our stocks striking gold and 3 others hitting the skids over the past 3 weeks</a></h3><div class="source-tag">Source: CNBC</div><p>It was a volatile period for stocks. The S&P 500 saw its worst session in eight months, just days after the index reached record highs.</p><a href="https://www.amazon.com/s?k=lifestyle+gear&tag=priscadezigns-20" style="display:inline-block; margin-top:15px; font-size:0.7rem; font-weight:800; color:var(--primary); text-decoration:none; border-bottom:1px solid var(--primary);">SHOP THE SIGNAL &rarr;</a></article><article class="news-card"><span class="category-tag"><a href="intelligence.html" style="color:inherit; text-decoration:none;">Intelligence</a> | Jun 17, 2026 | 06:48 PM AST</span><h3><a href="intelligence.html">Jim Cramer's top 10 things to watch in the stock market Wednesday</a></h3><div class="source-tag">Source: CNBC</div><p>Fed Chairman Kevin Warsh hold his first post-meeting press conference, and Broadcom gets an "aggressive" buy recommendation.</p><a href="https://www.amazon.com/s?k=intelligence+gear&tag=priscadezigns-20" style="display:inline-block; margin-top:15px; font-size:0.7rem; font-weight:800; color:var(--primary); text-decoration:none; border-bottom:1px solid var(--primary);">SHOP THE SIGNAL &rarr;</a></article><article class="news-card"><span class="category-tag"><a href="forex.html" style="color:inherit; text-decoration:none;">Forex</a> | Jun 17, 2026 | 06:48 PM AST</span><h3><a href="forex.html">Netanyahu, Israel's arch-survivor, set to face voter fury over Iran deal - Reuters</a></h3><div class="source-tag">Source: Reuters</div><p>Netanyahu, Israel's arch-survivor, set to face voter fury over Iran deal  Reuters</p><a href="https://www.amazon.com/s?k=forex+gear&tag=priscadezigns-20" style="display:inline-block; margin-top:15px; font-size:0.7rem; font-weight:800; color:var(--primary); text-decoration:none; border-bottom:1px solid var(--primary);">SHOP THE SIGNAL &rarr;</a></article><article class="news-card"><span class="category-tag"><a href="stocks.html" style="color:inherit; text-decoration:none;">Stocks</a> | Jun 17, 2026 | 06:48 PM AST</span><h3><a href="stocks.html">Trump's Iran war weighs on G7 economies, but don't expect hard talk in France - Reuters</a></h3><div class="source-tag">Source: Reuters</div><p>Trump's Iran war weighs on G7 economies, but don't expect hard talk in France  Reuters</p><a href="https://www.amazon.com/s?k=stocks+gear&tag=priscadezigns-20" style="display:inline-block; margin-top:15px; font-size:0.7rem; font-weight:800; color:var(--primary); text-decoration:none; border-bottom:1px solid var(--primary);">SHOP THE SIGNAL &rarr;</a></article><article class="news-card"><span class="category-tag"><a href="realestate.html" style="color:inherit; text-decoration:none;">RealEstate</a> | Jun 17, 2026 | 06:48 PM AST</span><h3><a href="realestate.html">Stocks edge up as oil hovers near 3-month lows ahead of Warsh debut - Reuters</a></h3><div class="source-tag">Source: Reuters</div><p>Stocks edge up as oil hovers near 3-month lows ahead of Warsh debut  Reuters</p><a href="https://www.amazon.com/s?k=realestate+gear&tag=priscadezigns-20" style="display:inline-block; margin-top:15px; font-size:0.7rem; font-weight:800; color:var(--primary); text-decoration:none; border-bottom:1px solid var(--primary);">SHOP THE SIGNAL &rarr;</a></article><article class="news-card"><span class="category-tag"><a href="anime.html" style="color:inherit; text-decoration:none;">Anime</a> | Jun 17, 2026 | 06:48 PM AST</span><h3><a href="anime.html">Cramer's lightning round: Buy Cava</a></h3><div class="source-tag">Source: CNBC</div><p>"Mad Money" host Jim Cramer rings the lightning round bell, which means he's giving his answers to callers' stock questions at rapid speed.</p><a href="https://www.amazon.com/s?k=anime+gear&tag=priscadezigns-20" style="display:inline-block; margin-top:15px; font-size:0.7rem; font-weight:800; color:var(--primary); text-decoration:none; border-bottom:1px solid var(--primary);">SHOP THE SIGNAL &rarr;</a></article></main>
-        <aside class="sidebar">
-            <div class="sidebar-block" style="background: #111; color: white; border: 2px solid var(--primary);">
-                <h4 style="color: var(--primary);">SOVSYGNAL PRO</h4>
-                <p style="font-size:0.8rem; opacity:0.8; margin-bottom: 15px;">Institutional grade intelligence feeds. Real-time neural analysis for sovereign entities.</p>
-                <a href="#" class="btn" style="background:var(--primary); color:white;">Upgrade Now</a>
-            </div>
-            
-    <div class="sidebar-block sidebar-ad">
-        <img src="https://sktpjacowqaedddtrhuz.supabase.co/storage/v1/object/public/avatars/airpods_max.jpg" alt="AirPods Max">
-        <h4>AirPods Max</h4>
-        <p style="font-size:0.75rem; color:#666; margin-bottom:10px;">Ultimate fidelity for intelligence monitoring.</p>
-        <a href="https://www.amazon.com/dp/B08PZHYWJS?tag=priscadezigns-20" class="btn" style="background:#ff9900; color:#000;">View on Amazon</a>
+    <div class="sidebar-block" style="background:#f4f4f4;padding:20px;border-radius:6px;">
+        <h4 style="font-family:'Playfair Display',serif;font-size:1rem;margin-bottom:10px;">Intelligence Monitor</h4>
+        <p style="font-size:0.8rem;color:#555;margin-bottom:15px;">Professional-grade screens for high-fidelity intelligence monitoring.</p>
+        <a href="https://www.amazon.com/dp/B08PZHYWJS?tag=priscadezigns-20" class="btn" style="background:#ff9900;color:#000;padding:8px 16px;text-decoration:none;font-weight:700;font-size:0.75rem;display:inline-block;">View on Amazon</a>
     </div>
-    <div class="sidebar-block sidebar-ad" style="background:#000; color:white;">
-        <img src="https://m.media-amazon.com/images/I/71Y86x9mXUL._AC_SL1500_.jpg" alt="Elite Setup">
-        <h4>Elite Setup</h4>
-        <p style="font-size:0.7rem; color:#aaa; margin-bottom:15px;">Sovereign-grade ultrawide displays.</p>
-        <a href="https://www.amazon.com/s?k=ultrawide+monitor+34+inch&tag=priscadezigns-20" class="btn" style="background:white; color:black;">Browse Setup</a>
-    </div>
-    
-        </aside>
-    </div>
-    <footer>
-        <img src="assets/logos/sovereign_footer_logo.png" alt="Sovereign">
-        <p>&copy; 2026 SOVSYGNAL &middot; PRISCA DEZIGNS EMPIRE MEDIA</p>
-    </footer>
+</aside>
+</div>
+<footer>
+    <img src="assets/logos/sovereign_footer_logo.png" alt="Sovereign">
+    <p>&copy; 2026 SOVSYGNAL &middot; PRISCION INTELLIGENCE MEDIA</p>
+</footer>
 </body>
 </html>
