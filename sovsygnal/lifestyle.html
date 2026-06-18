@@ -9,97 +9,112 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
-        :root { --primary: #8B0000; --bg: #F9F9F9; --text: #1A1A1A; --accent: #111; --font-heading: 'Playfair Display', serif; --font-body: 'Inter', sans-serif; }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: var(--bg); color: var(--text); font-family: var(--font-body); line-height: 1.6; overflow-x: hidden; min-height: 100vh; }
-        
-        .ticker-wrap { width: 100%; overflow: hidden; background: #000; color: #fff; padding: 12px 0; border-bottom: 2px solid var(--primary); z-index: 1001; position: relative; }
-        .ticker { display: inline-block; white-space: nowrap; padding-right: 100%; animation: ticker 240s linear infinite; }
-        @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
-        .ticker-item { display: inline-block; padding: 0 40px; font-weight: 800; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px; }
-        .ticker-item span { color: var(--primary); margin-right: 10px; }
-
-        header { background: #fff; padding: 30px 6%; border-bottom: 3px solid #000; text-align: center; position: sticky; top: 0; z-index: 1000; }
-        header h1 { font-family: var(--font-heading); font-size: 3.5rem; letter-spacing: -2px; line-height: 1; }
-        header h1 a { text-decoration: none; color: black; }
-        header p { text-transform: uppercase; letter-spacing: 6px; font-size: 0.7rem; font-weight: 800; color: #444; margin: 10px 0 20px; }
-        
-        nav { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; border-top: 1px solid #eee; padding-top: 15px; align-items: center; }
-        nav a { text-decoration: none; color: #000; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
-        nav a:hover, nav a.active { color: var(--primary); border-bottom: 2px solid var(--primary); }
-        
-        .main-container { display: grid; grid-template-columns: 1fr 350px; gap: 60px; padding: 40px 6%; max-width: 1500px; margin: 0 auto; min-height: 1200px; position: relative; }
-        @media (max-width: 1100px) { .main-container { grid-template-columns: 1fr; min-height: auto; } .sidebar { position: relative !important; top: 0 !important; width: 100% !important; } }
-        
-        .category-tag { color: var(--primary); font-weight: 800; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; display: block; border-left: 4px solid var(--primary); padding-left: 10px; }
-        
-        .news-card { margin-bottom: 60px; border-bottom: 1px solid #ddd; padding-bottom: 40px; }
-        .news-card h3 { font-family: var(--font-heading); font-size: 2rem; line-height: 1.2; margin-bottom: 15px; }
-        .news-card h3 a { color: #000; text-decoration: none; }
-        .news-card p { font-size: 1rem; color: #444; max-width: 800px; }
-        
-        .sidebar { position: sticky; top: 180px; height: fit-content; align-self: start; display: block !important; }
-        .sidebar-block { background: #fff; border: 1px solid #ddd; padding: 25px; margin-bottom: 30px; border-radius: 4px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-        .sidebar-block h4 { font-family: var(--font-heading); font-size: 1.2rem; margin-bottom: 15px; text-transform: uppercase; }
-        .sidebar-ad img { width: 100%; border-radius: 4px; margin-bottom: 15px; display: block; }
-        .btn { display: block; text-align: center; padding: 12px; text-decoration: none; font-weight: 800; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; border-radius: 4px; transition: 0.3s; }
-        .btn:hover { opacity: 0.8; transform: translateY(-2px); }
-
-        footer { background: #000; color: #fff; padding: 60px 6%; text-align: center; margin-top: 80px; position: relative; z-index: 10; }
-        footer img { width: 150px; margin-bottom: 20px; }
-        footer p { font-size: 0.7rem; letter-spacing: 2px; opacity: 0.6; }
-        
-        .source-tag { font-size: 0.65rem; text-transform: uppercase; font-weight: 900; background: #eee; padding: 4px 8px; display: inline-block; margin: 10px 0; letter-spacing: 1px; }
-    </style>
+    :root { --primary: #8B0000; --bg: #F9F9F9; --text: #1A1A1A; --accent: #111; --font-heading: 'Playfair Display', serif; --font-body: 'Inter', sans-serif; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: var(--bg); color: var(--text); font-family: var(--font-body); line-height: 1.6; overflow-x: hidden; }
+    .ticker-wrap { width:100%;overflow:hidden;background:#000;color:#fff;padding:10px 0;border-bottom:2px solid var(--primary); }
+    .ticker { display:inline-block;white-space:nowrap;padding-right:100%;animation:ticker 240s linear infinite; }
+    @keyframes ticker { 0%{transform:translateX(0)} 100%{transform:translateX(-100%)} }
+    .ticker-item { display:inline-block;padding:0 30px;font-weight:800;font-size:0.72rem;text-transform:uppercase;letter-spacing:1.5px; }
+    .ticker-item span { color:var(--primary);margin-right:8px; }
+    header { background:#fff;padding:25px 6%;border-bottom:3px solid #000;text-align:center;position:sticky;top:0;z-index:1000; }
+    header h1 { font-family:var(--font-heading);font-size:3.2rem;letter-spacing:-2px;line-height:1; }
+    header h1 a { text-decoration:none;color:black; }
+    header p { text-transform:uppercase;letter-spacing:6px;font-size:0.68rem;font-weight:800;color:#444;margin:8px 0 18px; }
+    nav { display:flex;justify-content:center;gap:18px;flex-wrap:wrap;border-top:1px solid #eee;padding-top:14px;align-items:center; }
+    nav a { text-decoration:none;color:#000;font-size:0.68rem;font-weight:800;text-transform:uppercase;letter-spacing:1px; }
+    nav a:hover, nav a.active { color:var(--primary);border-bottom:2px solid var(--primary); }
+    .container { max-width:1400px;margin:0 auto;padding:40px 6%;display:grid;grid-template-columns:1fr 300px;gap:40px; }
+    @media(max-width:900px){.container{grid-template-columns:1fr;}}
+    .news-grid { display:grid;gap:30px; }
+    .news-card { background:#fff;border:1px solid #e8e8e8;border-radius:8px;padding:24px;transition:box-shadow 0.2s; }
+    .news-card:hover { box-shadow:0 4px 20px rgba(0,0,0,0.08); }
+    .news-card h2 { font-family:var(--font-heading);font-size:1.3rem;margin-bottom:8px;line-height:1.35; }
+    .news-card h2 a { text-decoration:none;color:var(--text); }
+    .news-card h2 a:hover { color:var(--primary); }
+    .sidebar-block { margin-bottom:24px;border-radius:8px;padding:20px; }
+    .section-label { font-size:0.65rem;font-weight:800;text-transform:uppercase;letter-spacing:3px;color:var(--primary);border-bottom:2px solid var(--primary);padding-bottom:8px;margin-bottom:24px; }
+    footer { background:#000;color:#fff;text-align:center;padding:30px;margin-top:60px;font-size:0.8rem; }
+    footer img { height:30px;margin-bottom:10px;opacity:0.8; }
+</style>
 </head>
 <body>
-    <div class="ticker-wrap">
-        <div class="ticker"><div class="ticker-item"><span>GEOPOLITICS</span> Trump thanks China's Xi, Russia's Putin for being 'neutral' in Iran war - Reuters</div><div class="ticker-item"><span>BLOCKCHAIN</span> Explainer: What challenges could stand in the way of a final US-Iran deal? - Reuters</div><div class="ticker-item"><span>BIOHACKING</span> Trump says Iran deal averted 'economic catastrophe' but says he could still restart war - Reuters</div><div class="ticker-item"><span>MARKETS</span> CarMax shares fall after used car retailer reports earnings beats, CEO details turnaround plan</div><div class="ticker-item"><span>LIFESTYLE</span> 3 of our stocks striking gold and 3 others hitting the skids over the past 3 weeks</div><div class="ticker-item"><span>INTELLIGENCE</span> Jim Cramer's top 10 things to watch in the stock market Wednesday</div><div class="ticker-item"><span>FOREX</span> Netanyahu, Israel's arch-survivor, set to face voter fury over Iran deal - Reuters</div><div class="ticker-item"><span>STOCKS</span> Trump's Iran war weighs on G7 economies, but don't expect hard talk in France - Reuters</div><div class="ticker-item"><span>REALESTATE</span> Stocks edge up as oil hovers near 3-month lows ahead of Warsh debut - Reuters</div><div class="ticker-item"><span>ANIME</span> Cramer's lightning round: Buy Cava</div></div>
+<div class="ticker-wrap"><div class="ticker"><span class="ticker-item"><span>●</span>Asian stocks steady, oil lower as US and Iran sign peace deal - Reuters</span> <span class="ticker-item"><span>●</span>Oil slips again as US, Iran sign peace deal - Reuters</span> <span class="ticker-item"><span>●</span>US and Iran presidents sign ceasefire agreement, but Trump says he could still r</span> <span class="ticker-item"><span>●</span>Iran MOU was signed on Wednesday by Trump and Iran president, U.S. official says</span> <span class="ticker-item"><span>●</span>Trump signs memo aimed at ending Iran war, White House official says - Reuters</span> <span class="ticker-item"><span>●</span>Trump ties Iran deal to market swings, warns war risked 'catastrophe' - Reuters</span> <span class="ticker-item"><span>●</span>Trump thanks China's Xi, Russia's Putin for being 'neutral' in Iran war - Reuter</span> <span class="ticker-item"><span>●</span>Verification is key in US-Iran nuclear talks, Saudi foreign minister says - Reut</span> <span class="ticker-item"><span>●</span>The market didn't like what it heard from the Fed and its new leader Kevin Warsh</span> <span class="ticker-item"><span>●</span>Iran and US to end fighting and maritime blockades in the Gulf area per MoU, Ira</span> <span class="ticker-item"><span>●</span>Trump: unfair for Iran to lack ballistic missiles if other countries have them -</span> <span class="ticker-item"><span>●</span>Strong US retail sales showcase economy's resilience despite Iran war - Reuters</span> <span class="ticker-item"><span>●</span>What challenges could stand in the way of a final US-Iran deal? - Reuters</span> <span class="ticker-item"><span>●</span>We're buying more of one industrial-focused stock and booking some profits in an</span> <span class="ticker-item"><span>●</span>Making money in this market requires rigor and passion — just not in equal parts</span> <span class="ticker-item"><span>●</span>CarMax shares fall after used car retailer reports earnings beats, CEO details t</span> <span class="ticker-item"><span>●</span>The 14-point US-Iran pact as read by US official - Reuters</span> <span class="ticker-item"><span>●</span>JetBlue to reduce Newark, LaGuardia footprint as it forges ahead in Fort Lauderd</span> <span class="ticker-item"><span>●</span>UniQure to seek FDA approval for Huntington's disease gene therapy after previou</span> <span class="ticker-item"><span>●</span>3 of our stocks striking gold and 3 others hitting the skids over the past 3 wee</span></div></div>
+<header>
+    <h1><a href="index.html">SOVSYGNAL</a></h1>
+    <p>Global Intelligence Hub &middot; Updated Jun 18, 2026 | 04:50 AM AST</p>
+    <nav><a href="index.html" class="">Headlines</a>
+<a href="geopolitics.html" class="">Geopolitics</a>
+<a href="stocks.html" class="">Stocks</a>
+<a href="blockchain.html" class="">Blockchain</a>
+<a href="intelligence.html" class="">Intelligence</a>
+<a href="forex.html" class="">Forex</a>
+<a href="markets.html" class="">Commodities</a>
+<a href="realestate.html" class="">Real Estate</a>
+<a href="anime.html" class="">Anime & Gaming</a>
+<a href="lifestyle.html" class="active">Lifestyle</a>
+<a href="biohacking.html" class="">Biohacking</a>
+</nav>
+</header>
+<div class="container">
+    <main>
+        <div class="section-label">Lifestyle</div>
+        <div class="news-grid">
+<article class="news-card">
+<img src="https://image.cnbcfm.com/api/v1/image/108322795-1781641359682-gettyimages-2280043322-Indiana_Fever_v_Washington_Mystics.jpeg?v=1781649872&w=1920&h=1080" alt="" style="width:100%;height:180px;object-fit:cover;border-radius:4px;margin-bottom:12px;">
+<h2><a href="https://www.cnbc.com/2026/06/17/cnbc-versant-wnba-games.html" target="_blank" rel="noopener">CNBC to simulcast 11 WNBA games this season</a></h2>
+<p style="color:#555;font-size:0.88rem;margin:8px 0 12px;">The simulcasts will expose the WNBA to an affluent audience on CNBC and marks a new chapter for the business news network after it spun out from Comcast.</p>
+<div class="meta"><span style="font-weight:700;font-size:0.75rem;text-transform:uppercase;letter-spacing:1px;">CNBC</span></div>
+</article>
+<article class="news-card">
+<img src="https://static2.finnhub.io/file/finnhub/logo/reuters_logo.jpeg" alt="" style="width:100%;height:180px;object-fit:cover;border-radius:4px;margin-bottom:12px;">
+<h2><a href="https://news.google.com/rss/articles/CBMiwAFBVV95cUxQWWJwRnV3bEdjWmlpdnVyTmlCU0duNEtnX2huUlJySnQtOUFDcHY0N3FjS21Zcm5VdTQzWms2UGFCV0ttNkExSG9hWlhEaGJXalo3REFrdHpPMjZoQUVJdlJqRG9pSVd6TkUwa3hRdFRodko1c2xJd3RVY1JWVVlCQW83R0ZnV1ZfVnpYQmZwRU1IdGpyT1g3dEF2eUtUclFRUFhvOTY5aGhSU3BwWFkxZm12Q1IwMXIwWVFkdWY4M2c?oc=5" target="_blank" rel="noopener">Australia relaxes Gulf travel advice in boost for Middle Eastern airlines - Reuters</a></h2>
+<p style="color:#555;font-size:0.88rem;margin:8px 0 12px;">Australia relaxes Gulf travel advice in boost for Middle Eastern airlines  Reuters</p>
+<div class="meta"><span style="font-weight:700;font-size:0.75rem;text-transform:uppercase;letter-spacing:1px;">Reuters</span></div>
+</article>
+<article class="news-card">
+<img src="https://static2.finnhub.io/file/finnhub/logo/reuters_logo.jpeg" alt="" style="width:100%;height:180px;object-fit:cover;border-radius:4px;margin-bottom:12px;">
+<h2><a href="https://news.google.com/rss/articles/CBMitAFBVV95cUxOT2lsQ01zNGpfblZQQnlTaUFFeUZfbUdCVWlBREtRcDNjRUhhaEtLejJ6UnFZaFR1TjJNaWk3TFBrNW5kMnhMSTd3M2FRcF9lTXdWVUUzOXd0dU9FVGxabFowTHgzQkJjSElXdEx5VUpJbVRoQ0NXSHRMaDdmbnp2VXZhVnp5UXdQRnczT0R6VlA0Z2oyRWNjNzREX1ZwVC1sSUpTd0hMQk9PTGlUMndXS1kzVHc?oc=5" target="_blank" rel="noopener">ECB will be proactive against high inflation even after Iran deal, Lane says - Reuters</a></h2>
+<p style="color:#555;font-size:0.88rem;margin:8px 0 12px;">ECB will be proactive against high inflation even after Iran deal, Lane says  Reuters</p>
+<div class="meta"><span style="font-weight:700;font-size:0.75rem;text-transform:uppercase;letter-spacing:1px;">Reuters</span></div>
+</article>
+<article class="news-card">
+<img src="https://image.cnbcfm.com/api/v1/image/107130270-1665062045729-gettyimages-1195409503-6w1a1965.jpeg?v=1752085622&w=1920&h=1080" alt="" style="width:100%;height:180px;object-fit:cover;border-radius:4px;margin-bottom:12px;">
+<h2><a href="https://www.cnbc.com/2026/06/16/novig-wins-cftc-approval-as-competition-intensifies-in-sports-prediction-markets.html" target="_blank" rel="noopener">Novig wins CFTC approval as competition intensifies in sports prediction markets</a></h2>
+<p style="color:#555;font-size:0.88rem;margin:8px 0 12px;">Novig is building a peer-to-peer sports trading platform that allows users to trade directly against one another rather than bet against the house.</p>
+<div class="meta"><span style="font-weight:700;font-size:0.75rem;text-transform:uppercase;letter-spacing:1px;">CNBC</span></div>
+</article>
+<article class="news-card">
+<img src="https://static2.finnhub.io/file/finnhub/logo/reuters_logo.jpeg" alt="" style="width:100%;height:180px;object-fit:cover;border-radius:4px;margin-bottom:12px;">
+<h2><a href="https://news.google.com/rss/articles/CBMitwFBVV95cUxNY094clQ0MV9OeHVjejFBc2lhMHhVMk1GS1E2QWF2WlBNQjJCXzA3STVBTHhHRmFYd0l4YWR0dFpGUFBxVGxfMm9vREVZcnpLeEYyX3hFejFHVHV2bkpydnVLWEFIZzlDSkFyc2JhWVJJWm51X01EdmdrNWxFZW9MOFl0a0dnal9DV0RDQmx0Q1YzVjl5cVFVWENmb01FbnhFZzJWcGN1NjczVHVVMENGR3Y4cF9NQjQ?oc=5" target="_blank" rel="noopener">German investor morale rebounds on hopes Iran conflict will end - Reuters</a></h2>
+<p style="color:#555;font-size:0.88rem;margin:8px 0 12px;">German investor morale rebounds on hopes Iran conflict will end  Reuters</p>
+<div class="meta"><span style="font-weight:700;font-size:0.75rem;text-transform:uppercase;letter-spacing:1px;">Reuters</span></div>
+</article>
+<article class="news-card">
+<img src="https://static2.finnhub.io/file/finnhub/logo/reuters_logo.jpeg" alt="" style="width:100%;height:180px;object-fit:cover;border-radius:4px;margin-bottom:12px;">
+<h2><a href="https://news.google.com/rss/articles/CBMirwFBVV95cUxQMS0zNVNpMmJCM3BPeHFJRDROV0JoMmdZbk1ndVRDTzhKbWIxcmVBSUI1eTNZMExUa215VnVVZ3JIS2dVdkpBSmNWNy1uYXlCZmhJVWJnRVFhWnFvVkZUcE9DbUJtS0hIQ01WTUdrZFpWdklSZ3VvelhTdGFsZC1OaHdYV3VQS08tRml2MDd3dUF1ZkRxVjBNMmRnYk1iTWJ4TGRGTWRlX1Z6aDduUkR3?oc=5" target="_blank" rel="noopener">Iran coach says team 'oppressed' by travel chaos after 2‑2 draw - Reuters</a></h2>
+<p style="color:#555;font-size:0.88rem;margin:8px 0 12px;">Iran coach says team 'oppressed' by travel chaos after 2‑2 draw  Reuters</p>
+<div class="meta"><span style="font-weight:700;font-size:0.75rem;text-transform:uppercase;letter-spacing:1px;">Reuters</span></div>
+</article>
+        </div>
+    </main>
+    <aside class="sidebar">
+    <div class="sidebar-block sidebar-ad" style="background:#000;color:white;">
+        <img src="https://m.media-amazon.com/images/I/71Y86x9mXUL._AC_SL1500_.jpg" alt="Elite Setup" style="width:100%;border-radius:4px;margin-bottom:10px;">
+        <h4 style="font-family:'Playfair Display',serif;font-size:1rem;margin-bottom:6px;">Elite Setup</h4>
+        <p style="font-size:0.75rem;color:#aaa;margin-bottom:15px;">Sovereign-grade ultrawide displays.</p>
+        <a href="https://www.amazon.com/s?k=ultrawide+monitor+34+inch&tag=priscadezigns-20" class="btn" style="background:white;color:black;padding:8px 16px;text-decoration:none;font-weight:700;font-size:0.75rem;display:inline-block;">Browse Setup</a>
     </div>
-    <header>
-        <h1><a href="index.html">SOVSYGNAL</a></h1>
-        <p>Global Intelligence Hub</p>
-        <nav>
-            <a href="geopolitics.html">Geopolitics</a>
-            <a href="blockchain.html">Blockchain</a>
-            <a href="biohacking.html">Biohacking</a>
-            <a href="markets.html">Markets</a>
-            <a href="lifestyle.html">Lifestyle</a>
-            <a href="intelligence.html">Intelligence</a>
-            <a href="forex.html">Forex</a>
-            <a href="stocks.html">Stocks</a>
-            <a href="realestate.html">RealEstate</a>
-            <a href="anime.html">Anime</a>
-            <a href="signup.html" style="color:var(--primary)">Join Hub</a>
-        </nav>
-    </header>
-    <div class="main-container">
-        <main><section class="news-card"><span class="category-tag">Lifestyle | Jun 17, 2026 | 06:48 PM AST</span><h2 style="font-family: var(--font-heading); font-size: 2.8rem; line-height:1.1; margin-bottom:15px;">3 of our stocks striking gold and 3 others hitting the skids over the past 3 weeks</h2><div class="source-tag">Source: CNBC</div><p style="font-size:1.1rem; margin-top:10px;">It was a volatile period for stocks. The S&P 500 saw its worst session in eight months, just days after the index reached record highs.</p><a href="https://www.amazon.com/s?k=lifestyle+gear&tag=priscadezigns-20" style="display:inline-block; margin-top:25px; padding:12px 30px; background:black; color:white; font-size:0.75rem; font-weight:800; text-decoration:none; letter-spacing:1px; border-radius:4px;">SHOP THE SIGNAL</a></section><section class="news-card"><span class="category-tag">Lifestyle | Jun 17, 2026 | 06:48 PM AST</span><h2 style="font-family: var(--font-heading); font-size: 2.8rem; line-height:1.1; margin-bottom:15px;">While Trump hails Gulf oil flowing, Iran's fleet also gearing up to boost exports - Reuters</h2><div class="source-tag">Source: Reuters</div><p style="font-size:1.1rem; margin-top:10px;">While Trump hails Gulf oil flowing, Iran's fleet also gearing up to boost exports  Reuters</p><a href="https://www.amazon.com/s?k=lifestyle+gear&tag=priscadezigns-20" style="display:inline-block; margin-top:25px; padding:12px 30px; background:black; color:white; font-size:0.75rem; font-weight:800; text-decoration:none; letter-spacing:1px; border-radius:4px;">SHOP THE SIGNAL</a></section><section class="news-card"><span class="category-tag">Lifestyle | Jun 17, 2026 | 06:48 PM AST</span><h2 style="font-family: var(--font-heading); font-size: 2.8rem; line-height:1.1; margin-bottom:15px;">CME Group's Terry Duffy to step down in 2027, CFO Lynne Fitzpatrick to become CEO</h2><div class="source-tag">Source: CNBC</div><p style="font-size:1.1rem; margin-top:10px;">Duffy, 67, will transition to executive chairman effective March 1, 2027, the company said Wednesday.</p><a href="https://www.amazon.com/s?k=lifestyle+gear&tag=priscadezigns-20" style="display:inline-block; margin-top:25px; padding:12px 30px; background:black; color:white; font-size:0.75rem; font-weight:800; text-decoration:none; letter-spacing:1px; border-radius:4px;">SHOP THE SIGNAL</a></section></main>
-        <aside class="sidebar">
-            <div class="sidebar-block" style="background: #111; color: white; border: 2px solid var(--primary);">
-                <h4 style="color: var(--primary);">SOVSYGNAL PRO</h4>
-                <p style="font-size:0.8rem; opacity:0.8; margin-bottom: 15px;">Institutional grade intelligence feeds. Real-time neural analysis for sovereign entities.</p>
-                <a href="#" class="btn" style="background:var(--primary); color:white;">Upgrade Now</a>
-            </div>
-            
-    <div class="sidebar-block sidebar-ad">
-        <img src="https://sktpjacowqaedddtrhuz.supabase.co/storage/v1/object/public/avatars/airpods_max.jpg" alt="AirPods Max">
-        <h4>AirPods Max</h4>
-        <p style="font-size:0.75rem; color:#666; margin-bottom:10px;">Ultimate fidelity for intelligence monitoring.</p>
-        <a href="https://www.amazon.com/dp/B08PZHYWJS?tag=priscadezigns-20" class="btn" style="background:#ff9900; color:#000;">View on Amazon</a>
+    <div class="sidebar-block" style="background:#f4f4f4;padding:20px;border-radius:6px;">
+        <h4 style="font-family:'Playfair Display',serif;font-size:1rem;margin-bottom:10px;">Intelligence Monitor</h4>
+        <p style="font-size:0.8rem;color:#555;margin-bottom:15px;">Professional-grade screens for high-fidelity intelligence monitoring.</p>
+        <a href="https://www.amazon.com/dp/B08PZHYWJS?tag=priscadezigns-20" class="btn" style="background:#ff9900;color:#000;padding:8px 16px;text-decoration:none;font-weight:700;font-size:0.75rem;display:inline-block;">View on Amazon</a>
     </div>
-    <div class="sidebar-block sidebar-ad" style="background:#000; color:white;">
-        <img src="https://m.media-amazon.com/images/I/71Y86x9mXUL._AC_SL1500_.jpg" alt="Elite Setup">
-        <h4>Elite Setup</h4>
-        <p style="font-size:0.7rem; color:#aaa; margin-bottom:15px;">Sovereign-grade ultrawide displays.</p>
-        <a href="https://www.amazon.com/s?k=ultrawide+monitor+34+inch&tag=priscadezigns-20" class="btn" style="background:white; color:black;">Browse Setup</a>
-    </div>
-    
-        </aside>
-    </div>
-    <footer>
-        <img src="assets/logos/sovereign_footer_logo.png" alt="Sovereign">
-        <p>&copy; 2026 SOVSYGNAL &middot; PRISCA DEZIGNS EMPIRE MEDIA</p>
-    </footer>
+</aside>
+</div>
+<footer>
+    <img src="assets/logos/sovereign_footer_logo.png" alt="Sovereign">
+    <p>&copy; 2026 SOVSYGNAL &middot; PRISCION INTELLIGENCE MEDIA</p>
+</footer>
 </body>
 </html>
