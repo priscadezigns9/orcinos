@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
-    :root { --primary: #8B0000; --bg: #F9F9F9; --text: #1A1A1A; --font-heading: Playfair Display, serif; --font-body: Inter, sans-serif; }
+    :root { --primary: #8B0000; --bg: #F9F9F9; --text: #1A1A1A; --font-heading: 'Playfair Display', serif; --font-body: 'Inter', sans-serif; }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { background: var(--bg); color: var(--text); font-family: var(--font-body); line-height: 1.6; overflow-x: hidden; }
     .ticker-wrap { width:100%;overflow:hidden;background:#000;color:#fff;padding:10px 0;border-bottom:2px solid var(--primary); }
@@ -18,15 +18,15 @@
     .ticker-item { display:inline-block;padding:0 30px;font-weight:800;font-size:0.72rem;text-transform:uppercase;letter-spacing:1.5px; }
     .ticker-item span { color:var(--primary);margin-right:8px; }
     header { background:#fff;padding:25px 6%;border-bottom:3px solid #000;text-align:center;position:sticky;top:0;z-index:1000; }
-    header h1 { font-family:var(--font-heading);font-size:3.2rem;letter-spacing:-2px;line-height:1; }
-    header h1 a { text-decoration:none;color:black; }
-    header p { text-transform:uppercase;letter-spacing:6px;font-size:0.68rem;font-weight:800;color:#444;margin:8px 0 18px; }
-    nav { display:flex;justify-content:center;gap:14px;flex-wrap:wrap;border-top:1px solid #eee;padding-top:14px;align-items:center; }
-    nav a { text-decoration:none;color:#000;font-size:0.65rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;padding:2px 0; }
-    nav a:hover, nav a.active { color:var(--primary);border-bottom:2px solid var(--primary); }
-    .container { max-width:1400px;margin:0 auto;padding:40px 6%;display:grid;grid-template-columns:1fr 300px;gap:40px; }
+    header h1 { font-family:var(--font-heading);font-size:2.8rem;letter-spacing:6px;text-transform:uppercase; }
+    header h1 a { text-decoration:none;color:#000; }
+    header p { font-size:0.72rem;color:#888;letter-spacing:2px;text-transform:uppercase;margin-top:4px; }
+    nav { margin-top:16px;display:flex;flex-wrap:wrap;justify-content:center;gap:6px; }
+    nav a { text-decoration:none;font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;padding:6px 14px;border:1.5px solid #000;color:#000;border-radius:2px;transition:all 0.2s; }
+    nav a:hover,nav a.active { background:#000;color:#fff; }
+    .container { max-width:1300px;margin:40px auto;padding:0 5%;display:grid;grid-template-columns:1fr 300px;gap:40px; }
     @media(max-width:900px){.container{grid-template-columns:1fr;}}
-    .news-grid { display:grid;gap:30px; }
+    .news-grid { display:grid;gap:20px; }
     .news-card { background:#fff;border:1px solid #e8e8e8;border-radius:8px;padding:24px;transition:box-shadow 0.2s; }
     .news-card:hover { box-shadow:0 4px 20px rgba(0,0,0,0.08); }
     .news-card h2 { font-family:var(--font-heading);font-size:1.3rem;margin-bottom:8px;line-height:1.35; }
@@ -38,86 +38,81 @@
 </style>
 </head>
 <body>
-<div class="ticker-wrap"><div class="ticker"><span class="ticker-item"><span>●</span>Republicans blast Trump's Iran agreement as details emerge - Reuters</span> <span class="ticker-item"><span>●</span>Wall St indexes advance with boost from chips, Iran optimism - Reuters</span> <span class="ticker-item"><span>●</span>In photos: Star-studded crowd gathers to celebrate the Obama Presidential Center</span> <span class="ticker-item"><span>●</span>UPDATE Brent rises after Vance warns Israel against breaking cease-fire - Reuter</span> <span class="ticker-item"><span>●</span>Traffic flows through Hormuz as U.S.-Iran deal takes effect, questions remain - </span> <span class="ticker-item"><span>●</span>Vance warns Israeli critics over Iran deal: Trump is your only ally - Reuters</span> <span class="ticker-item"><span>●</span>High-wire diplomacy delivered US-Iran deal but hardest stage lies ahead, sources</span> <span class="ticker-item"><span>●</span>NBA to name winning bids for Europe teams in the coming months, deputy commissio</span> <span class="ticker-item"><span>●</span>Explainer: How Trump's deal with Iran compares to Obama's - Reuters</span> <span class="ticker-item"><span>●</span>US Treasury imposes sanctions on Lebanese officials, others for aiding Hezbollah</span> <span class="ticker-item"><span>●</span>US-Iran deal redraws the Middle East: Iran gains, rivals alarmed - Reuters</span> <span class="ticker-item"><span>●</span>Iran's Khamenei says he approved MoU with US, despite reservations, after assura</span> <span class="ticker-item"><span>●</span>Markets are set for a much more hawkish Warsh Fed than expected</span> <span class="ticker-item"><span>●</span>Accenture forecast takes hit from Iran war, shares tumble over 17% - Reuters</span> <span class="ticker-item"><span>●</span>White House sends text of interim US-Iran agreement to US Congress - Reuters</span> <span class="ticker-item"><span>●</span>What sanctions are there on Iran and will they be lifted? - Reuters</span> <span class="ticker-item"><span>●</span>Vance says 60-day period in Iran deal begins Thursday - Reuters</span> <span class="ticker-item"><span>●</span>Israel demarcates expanded Lebanon occupation zone, challenging US-Iran pact - R</span> <span class="ticker-item"><span>●</span>Bank of England keeps rates steady as it weighs Iran truce - Reuters</span> <span class="ticker-item"><span>●</span>Three Saudi-flagged supertankers sail through Hormuz after Iran deal signed, dat</span></div></div>
+<div class="ticker-wrap"><div class="ticker"><span class="ticker-item"><span>●</span>Vance Issues Blunt Warning to Israel as He Defends Trump’s Deal</span> <span class="ticker-item"><span>●</span>Critics of Russia Say This Critic Isn’t Critical Enough</span> <span class="ticker-item"><span>●</span>Iran and the U.S. Have an Understanding. Will It Lead to a Deal?</span> <span class="ticker-item"><span>●</span>Ukraine Strikes Moscow Refinery in Large-Scale Drone Attack</span> <span class="ticker-item"><span>●</span>Afghanistan Issues Ban on Smartphones for Civil Servants and Military</span> <span class="ticker-item"><span>●</span>Dow Jones Futures Fall; Nvidia Leads 5 Stocks Near Buy Points, SpaceX Needs This</span> <span class="ticker-item"><span>●</span>Does Constellation Energy Stock's Surge Broaden Your Portfolio Or Just Amplify It?</span> <span class="ticker-item"><span>●</span>Google Has The Best Problem Money Can’t Quite Buy</span> <span class="ticker-item"><span>●</span>The 1 Tech Stock I'd Buy With My Eyes Closed at Today's Prices</span> <span class="ticker-item"><span>●</span>VOO’s 0.03% Fee Hides a Costlier Truth About Taxes and Concentration</span> <span class="ticker-item"><span>●</span>US crypto ETFs are pulling Bitcoiners into TradFi: BlackRock's Jay Jacobs</span> <span class="ticker-item"><span>●</span>Celsius’ Mashinsky gets permanent trading ban in CFTC settlement</span> <span class="ticker-item"><span>●</span>Ether analysts predict another ‘selling wave’ as ETH struggles to overcome $1.7K</span> <span class="ticker-item"><span>●</span>Malta proposes DeFi rulebook covering DAOs under MiCA-era framework</span> <span class="ticker-item"><span>●</span>Bitcoin decouples from tech stocks: Is $60K BTC’s next stop?</span> <span class="ticker-item"><span>●</span>Senate Democrats Aren’t Happy About Trump’s Spy Law Ultimatum</span> <span class="ticker-item"><span>●</span>U.S. Casualties in Iran Are Still Rising</span> <span class="ticker-item"><span>●</span>Bernie Sanders Backs Justin J. Pearson, House Candidate at the Heart of Tennessee Voting R</span> <span class="ticker-item"><span>●</span>They Weren’t Convicted of Terrorism, But These Palestine Activists Got Sentenced as Terror</span> <span class="ticker-item"><span>●</span>Swiss National Bank cuts interest rates by a half point to 0.5%</span> <span class="ticker-item"><span>●</span>Dollar jumps 0.5% to 0.8890 francs</span> <span class="ticker-item"><span>●</span>Fed’s Powell says rate cut ‘on the table’ as soon as September</span> <span class="ticker-item"><span>●</span>An Nvidia Stock Strategy That Holds Large Profit Zone, Even With A Fall</span> <span class="ticker-item"><span>●</span>Keurig Dr Pepper (KDP): The Best Undervalued Counter Cyclical Stock to Buy Now</span> <span class="ticker-item"><span>●</span>Powell says labor market not a source of significant inflation pressure</span> <span class="ticker-item"><span>●</span>Final S&P U.S. manufacturing index is 52.2 in February vs. initial 51.5</span> <span class="ticker-item"><span>●</span>Jim Cramer on Cadence: “If It Comes Down, It’s a Buy”</span> <span class="ticker-item"><span>●</span>‘Wait, isn’t Bed Bath and Beyond out of business?’ What the Fathom deal means for real est</span> <span class="ticker-item"><span>●</span>Sotheby’s report: Aging in place is reshaping luxury real estate</span> <span class="ticker-item"><span>●</span>How redlining built the housing market agents work in today</span> <span class="ticker-item"><span>●</span>Kamini Lane: When it comes to listings, ‘one size does not fit all’</span> <span class="ticker-item"><span>●</span>When the listing won’t sell, have this marketing audit conversation</span> <span class="ticker-item"><span>●</span>'Ojisan wa Kawaii Mono ga Osuki.' Reveals Main Cast, Staff, First Promo for Fall 2026</span> <span class="ticker-item"><span>●</span>'Kabushikigaisha Magi-Lumière 2nd Season' Unveils Additional Cast, Opening Theme, Second P</span> <span class="ticker-item"><span>●</span>'Majutsu wo Kiwamete Tabi ni Deta Tensei Elf, Moteamashita Jumyou de Ikeru Densetsu to Nar</span> <span class="ticker-item"><span>●</span>Manga 'Nisemono no Renkinjutsushi' Receives TV Anime Adaptation</span> <span class="ticker-item"><span>●</span>'Mebius Dust' Announces Additional Cast</span> <span class="ticker-item"><span>●</span>The Hunger Games Deluxe Edition Books Are All on Sale Before Amazon Prime Day</span> <span class="ticker-item"><span>●</span>The Rugged, Waterproof DJI Osmo Action 4 4K 120fps Action Camera Drops to $169</span> <span class="ticker-item"><span>●</span>PlayStation Reportedly Pulled Out of PC Ports Due to 'Inconsistent' Releases and Lack of R</span></div></div>
 <header>
     <h1><a href="index.html">SOVSYGNAL</a></h1>
-    <p>Global Intelligence Hub &middot; Updated Jun 19, 2026 | 12:18 AM AST</p>
+    <p>Global Intelligence Hub &middot; Updated Jun 19, 2026 | 04:52 AM AST</p>
     <nav><a href="index.html" class="">Headlines</a>
 <a href="geopolitics.html" class="active">Geopolitics</a>
 <a href="stocks.html" class="">Stocks</a>
 <a href="blockchain.html" class="">Blockchain</a>
 <a href="intelligence.html" class="">Intelligence</a>
 <a href="forex.html" class="">Forex</a>
-<a href="markets.html" class="">Commodities</a>
+<a href="markets.html" class="">Markets</a>
 <a href="realestate.html" class="">Real Estate</a>
 <a href="anime.html" class="">Anime</a>
 <a href="gaming.html" class="">Gaming</a>
 <a href="entertainment.html" class="">Entertainment</a>
 <a href="lifestyle.html" class="">Lifestyle</a>
 <a href="biohacking.html" class="">Biohacking</a>
+<a href="advertise.html">Advertise</a>
 </nav>
 </header>
 <div class="container">
     <main>
         <div class="section-label">Geopolitics</div>
         <div class="news-grid">
-<article class="news-card">
-<img src="https://static2.finnhub.io/file/finnhub/logo/reuters_logo.jpeg" alt="" style="width:100%;height:180px;object-fit:cover;border-radius:4px;margin-bottom:12px;">
-<h2><a href="https://news.google.com/rss/articles/CBMinAFBVV95cUxPa0FBNEpEUk9sRDhBMkp2bERRNEtLX3oweFJuTlM0ejdMZDZhX2ktUlg3cFk3TWc3aVcxc0xFeVlBTzg4eGZBMHNNS2dHbW1YSFJkZXYtZ3FGNWhKeTlZSU9KVWR2ZXphRlJjWk11ckFwUDM2cDM3Mm5rRk14ZkxoNEp3Qy1kdUR6OEFnczJHZzdhTUJUbW9LdGRGV2s?oc=5" target="_blank" rel="noopener">Republicans blast Trump's Iran agreement as details emerge - Reuters</a></h2>
-<p style="color:#555;font-size:0.88rem;margin:8px 0 12px;">Republicans blast Trump's Iran agreement as details emerge  Reuters</p>
-<div class="meta"><span style="font-weight:700;font-size:0.75rem;text-transform:uppercase;letter-spacing:1px;">Reuters</span></div>
-</article>
-<article class="news-card">
-<img src="https://static2.finnhub.io/file/finnhub/logo/reuters_logo.jpeg" alt="" style="width:100%;height:180px;object-fit:cover;border-radius:4px;margin-bottom:12px;">
-<h2><a href="https://news.google.com/rss/articles/CBMiwgFBVV95cUxNbk9OU3cxZnFJZTJuS2dhU3hka1hTQjc0ay1fMUgzTHl5cnhpb2F1NzUzbEkwTmQ1TzkxWHJscTJKVGRkMEFvdC1ieXJ1RDhWVjRvNERsaHdwUVBROEE4ckpaaUwyY1I0RlJwMVRDWFBSd1BmYkF0OC02UXIxMXFwSFU2RGNpd1hwNG9lN1NqbWVMTlhRUUhkVk5jdHN4MVhfRXpnZkdXYUFiT25WOWVndVktRVBNUHY3WjQ1SkNDeWFNZw?oc=5" target="_blank" rel="noopener">Wall St indexes advance with boost from chips, Iran optimism - Reuters</a></h2>
-<p style="color:#555;font-size:0.88rem;margin:8px 0 12px;">Wall St indexes advance with boost from chips, Iran optimism  Reuters</p>
-<div class="meta"><span style="font-weight:700;font-size:0.75rem;text-transform:uppercase;letter-spacing:1px;">Reuters</span></div>
-</article>
-<article class="news-card">
-<img src="https://image.cnbcfm.com/api/v1/image/108324055-1781801797445-gettyimages-2281596724-AFP_B7K47V8.jpeg?v=1781808528&w=1920&h=1080" alt="" style="width:100%;height:180px;object-fit:cover;border-radius:4px;margin-bottom:12px;">
-<h2><a href="https://www.cnbc.com/2026/06/18/obama-presidential-center-opening-chicago-photos-trump.html" target="_blank" rel="noopener">In photos: Star-studded crowd gathers to celebrate the Obama Presidential Center dedication</a></h2>
-<p style="color:#555;font-size:0.88rem;margin:8px 0 12px;">Barack Obama opened his presidential center in Chicago with former presidents, celebrities and dignitaries in attendance. President Donald Trump was absent.</p>
-<div class="meta"><span style="font-weight:700;font-size:0.75rem;text-transform:uppercase;letter-spacing:1px;">CNBC</span></div>
-</article>
-<article class="news-card">
-<img src="https://static2.finnhub.io/file/finnhub/logo/reuters_logo.jpeg" alt="" style="width:100%;height:180px;object-fit:cover;border-radius:4px;margin-bottom:12px;">
-<h2><a href="https://news.google.com/rss/articles/CBMilgFBVV95cUxOZU5Zdm80MlhXLVFYajFEdy1GcU9zNGNaa2FvM2ExTmZkZXJieS10V1ZjQ3NqTndMcG1hT1hpb0FGYTN5M1ZMY2VFRG9QNDZkVGhxVEJTcUVpakJGQWNtODJYOTJpSFJOM0hwN01DT21ZaUxKN2FBa2czX3ZFUHlTMXpuUnZpa1dNOFUtOXFFaUx1LTJwN1E?oc=5" target="_blank" rel="noopener">UPDATE Brent rises after Vance warns Israel against breaking cease-fire - Reuters</a></h2>
-<p style="color:#555;font-size:0.88rem;margin:8px 0 12px;">UPDATE Brent rises after Vance warns Israel against breaking cease-fire  Reuters</p>
-<div class="meta"><span style="font-weight:700;font-size:0.75rem;text-transform:uppercase;letter-spacing:1px;">Reuters</span></div>
-</article>
-<article class="news-card">
-<img src="https://static2.finnhub.io/file/finnhub/logo/reuters_logo.jpeg" alt="" style="width:100%;height:180px;object-fit:cover;border-radius:4px;margin-bottom:12px;">
-<h2><a href="https://news.google.com/rss/articles/CBMiywFBVV95cUxQR2xiMDYySHk3ZzFXaHcyR1ZHNDFJQUJVNzF4MTRQcmdmZ1pDUVNyR1Z5N255MjkzSHItckpnalNfRUo5VWpjTDVHSHE3R3kybW1NRGd5NGJKV0prTFA0eUZBd0hVZzlMTTNNcXVWR3JTV1lOMzhwYXVtMEc4N05QVlFCSDlnYnZ5S24zMVdMSjl2M2pTYnc0eDdJUkZhWVlwS0tQaUJjTnJIMTNka1E5dm9RcHprVkkydVo4a3dzUmV3RTg4bE5feDN5dw?oc=5" target="_blank" rel="noopener">Traffic flows through Hormuz as U.S.-Iran deal takes effect, questions remain - Reuters</a></h2>
-<p style="color:#555;font-size:0.88rem;margin:8px 0 12px;">Traffic flows through Hormuz as U.S.-Iran deal takes effect, questions remain  Reuters</p>
-<div class="meta"><span style="font-weight:700;font-size:0.75rem;text-transform:uppercase;letter-spacing:1px;">Reuters</span></div>
-</article>
-<article class="news-card">
-<img src="https://static2.finnhub.io/file/finnhub/logo/reuters_logo.jpeg" alt="" style="width:100%;height:180px;object-fit:cover;border-radius:4px;margin-bottom:12px;">
-<h2><a href="https://news.google.com/rss/articles/CBMixAFBVV95cUxOQXNyRDhPaS1YLXpCcE5sWnNCNWdCMENzLUI2bnk2ZkpteXZOWGpNMWVUeDZTR3M5WW92bnpIS3l1dnF1czFEcVZkNXpCRncwR0JGeVZuZkFCcUhLdVA0NTAzVDhXdTN5d0ItOUpQc29KdFdVeHduUHlqTFNnSHRkeG9rSGFxSm90Q1dWLWdqUXFURk5UUzVfZHJtRi0xaE1pQmlaZ3dib2NmSnJkWk44Y0phYk9PZk1RU2FNNXdGd0tDSG5t?oc=5" target="_blank" rel="noopener">Vance warns Israeli critics over Iran deal: Trump is your only ally - Reuters</a></h2>
-<p style="color:#555;font-size:0.88rem;margin:8px 0 12px;">Vance warns Israeli critics over Iran deal: Trump is your only ally  Reuters</p>
-<div class="meta"><span style="font-weight:700;font-size:0.75rem;text-transform:uppercase;letter-spacing:1px;">Reuters</span></div>
-</article>
+        <div class="news-card">
+            <h2><a href="https://www.nytimes.com/live/2026/06/18/world/iran-war-trump-us-deal" target="_blank" rel="noopener">Vance Issues Blunt Warning to Israel as He Defends Trump’s Deal</a></h2>
+            <p style="font-size:0.82rem;color:#555;margin-top:6px;">The vice president delivered a rebuke to Israeli critics of the agreement, warning them not to alienate their most important ally, as the administration sought </p>
+            <p style="font-size:0.7rem;color:#999;margin-top:10px;">Fri, 19 Jun 2026</p>
+        </div>
+        <div class="news-card">
+            <h2><a href="https://www.nytimes.com/2026/06/18/world/europe/alexander-sokurov-russia-director.html" target="_blank" rel="noopener">Critics of Russia Say This Critic Isn’t Critical Enough</a></h2>
+            <p style="font-size:0.82rem;color:#555;margin-top:6px;">Alexander Sokurov has questioned the Russian president about government repression, but he is still controversial among his country’s exiles.</p>
+            <p style="font-size:0.7rem;color:#999;margin-top:10px;">Thu, 18 Jun 2026</p>
+        </div>
+        <div class="news-card">
+            <h2><a href="https://www.nytimes.com/2026/06/18/world/europe/iran-united-states-deal-israel.html" target="_blank" rel="noopener">Iran and the U.S. Have an Understanding. Will It Lead to a Deal?</a></h2>
+            <p style="font-size:0.82rem;color:#555;margin-top:6px;">Europe and the larger world will be watching carefully to see if talks produce a lasting agreement on Iran’s nuclear program and the Strait of Hormuz.</p>
+            <p style="font-size:0.7rem;color:#999;margin-top:10px;">Thu, 18 Jun 2026</p>
+        </div>
+        <div class="news-card">
+            <h2><a href="https://www.nytimes.com/2026/06/18/world/europe/moscow-ukraine-drone-attack-fire.html" target="_blank" rel="noopener">Ukraine Strikes Moscow Refinery in Large-Scale Drone Attack</a></h2>
+            <p style="font-size:0.82rem;color:#555;margin-top:6px;">The attack, which shut down the capital’s airports for several hours, was part of an escalating campaign to bring the conflict home to Russians.</p>
+            <p style="font-size:0.7rem;color:#999;margin-top:10px;">Fri, 19 Jun 2026</p>
+        </div>
+        <div class="news-card">
+            <h2><a href="https://www.nytimes.com/2026/06/18/world/asia/afghanistan-taliban-smartphone-ban.html" target="_blank" rel="noopener">Afghanistan Issues Ban on Smartphones for Civil Servants and Military</a></h2>
+            <p style="font-size:0.82rem;color:#555;margin-top:6px;">Those using their phones at work will see them smashed and face punishment, according to a written order from the Taliban government’s highest court.</p>
+            <p style="font-size:0.7rem;color:#999;margin-top:10px;">Thu, 18 Jun 2026</p>
+        </div>
+        <div class="news-card">
+            <h2><a href="https://www.nytimes.com/2026/06/18/world/middleeast/iran-deal-oil-strait-of-hormuz-nuclear.html" target="_blank" rel="noopener">Iran Gets Major Economic Lifeline for Minimal Concessions in Initial Deal</a></h2>
+            <p style="font-size:0.82rem;color:#555;margin-top:6px;">The agreement delays the most difficult steps for Iran for later talks, while granting it crucial benefits.</p>
+            <p style="font-size:0.7rem;color:#999;margin-top:10px;">Thu, 18 Jun 2026</p>
+        </div>
         </div>
     </main>
     <aside class="sidebar">
-<div style="background:#1a1a2e;color:#e8c97a;padding:22px;border-radius:8px;margin-bottom:18px;">
+<div style="background:#000;color:#fff;padding:22px;border-radius:8px;margin-bottom:18px;">
     <div style="font-size:0.58rem;font-weight:800;text-transform:uppercase;letter-spacing:2px;opacity:0.7;margin-bottom:6px;">Featured Brand</div>
-    <h4 style="font-family:Playfair Display,serif;font-size:1.05rem;margin-bottom:8px;line-height:1.3;color:#e8c97a;">The Trusted Signal</h4>
-    <p style="font-size:0.75rem;opacity:0.8;margin-bottom:16px;line-height:1.5;">Sovereign global news and geopolitical intelligence.</p>
-    <a href="https://orcinos.com/sovsygnal/" target="_blank" rel="noopener" style="background:#e8c97a;color:#1a1a2e;padding:9px 18px;text-decoration:none;font-weight:800;font-size:0.72rem;text-transform:uppercase;letter-spacing:1px;display:inline-block;border-radius:4px;">Read More</a>
+    <h4 style="font-family:Playfair Display,serif;font-size:1.1rem;margin-bottom:4px;">The Trusted Signal</h4>
+    <p style="font-size:0.78rem;opacity:0.8;margin-bottom:14px;">Global Intel Hub</p>
+    <a href="https://orcinos.com/thesignal/" target="_blank" style="display:inline-block;background:#8B0000;color:#fff;padding:8px 16px;border-radius:4px;font-size:0.75rem;font-weight:700;text-decoration:none;text-transform:uppercase;letter-spacing:1px;">Visit →</a>
 </div>
-<div style="background:#fff7ed;border:1px solid #fed7aa;padding:22px;border-radius:8px;margin-bottom:18px;">
-    <div style="font-size:0.58rem;font-weight:800;text-transform:uppercase;letter-spacing:2px;color:#ea580c;margin-bottom:6px;">Amazon Pick</div>
-    <h4 style="font-family:Playfair Display,serif;font-size:1rem;margin-bottom:8px;color:#1a1a1a;">Analyst Desk Setup</h4>
-    <p style="font-size:0.75rem;color:#555;margin-bottom:16px;line-height:1.5;">Professional monitor, keyboard and desk gear.</p>
-    <a href="https://www.amazon.com/s?k=professional+monitor+desk+setup&tag=priscadezigns-20" target="_blank" rel="noopener" style="background:#ff9900;color:#000;padding:9px 18px;text-decoration:none;font-weight:800;font-size:0.72rem;text-transform:uppercase;letter-spacing:1px;display:inline-block;border-radius:4px;">Shop Amazon →</a>
+<div style="background:#fff;border:1px solid #e8e8e8;padding:22px;border-radius:8px;margin-bottom:18px;">
+    <div style="font-size:0.58rem;font-weight:800;text-transform:uppercase;letter-spacing:2px;color:#8B0000;margin-bottom:8px;">Recommended</div>
+    <h4 style="font-size:1rem;margin-bottom:10px;font-family:Playfair Display,serif;">World Affairs Library</h4>
+    <a href="https://www.amazon.com/s?k=geopolitics+books&tag=priscadezigns-20" target="_blank" style="display:inline-block;background:#FF9900;color:#000;padding:8px 16px;border-radius:4px;font-size:0.75rem;font-weight:700;text-decoration:none;">Shop on Amazon →</a>
 </div>
-<div style="background:linear-gradient(135deg,#8B0000,#1a1a1a);color:white;padding:22px;border-radius:8px;margin-bottom:24px;border:1px solid #8B0000;">
-    <div style="font-size:0.6rem;font-weight:800;text-transform:uppercase;letter-spacing:2px;color:#e8c97a;margin-bottom:8px;">Advertise Here</div>
-    <h4 style="font-family:Playfair Display,serif;font-size:1.05rem;margin-bottom:8px;line-height:1.3;">Reach a Sovereign Audience</h4>
-    <p style="font-size:0.75rem;color:#ccc;margin-bottom:16px;line-height:1.5;">Businesses and brands — get your product or service in front of SOVSYGNAL readers. Premium sidebar and banner placements available.</p>
-    <a href="advertise.html" style="background:#e8c97a;color:#000;padding:9px 18px;text-decoration:none;font-weight:800;font-size:0.72rem;text-transform:uppercase;letter-spacing:1px;display:inline-block;border-radius:4px;">Get Ad Placement</a>
-</div></aside>
+
+<div style="background:linear-gradient(135deg,#8B0000,#000);color:#fff;padding:22px;border-radius:8px;margin-bottom:18px;text-align:center;">
+    <div style="font-size:0.58rem;font-weight:800;text-transform:uppercase;letter-spacing:2px;opacity:0.8;margin-bottom:8px;">Advertise Here</div>
+    <p style="font-size:0.8rem;opacity:0.9;margin-bottom:14px;line-height:1.5;">Reach a global audience of investors, analysts &amp; decision makers.</p>
+    <a href="advertise.html" style="display:inline-block;background:#fff;color:#8B0000;padding:9px 18px;border-radius:4px;font-weight:800;font-size:0.75rem;text-decoration:none;text-transform:uppercase;letter-spacing:1px;">Get Featured →</a>
+</div>
+</aside>
 </div>
 <footer>
     <img src="assets/logos/sovereign_footer_logo.png" alt="Sovereign">
