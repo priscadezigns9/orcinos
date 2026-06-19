@@ -13,7 +13,7 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background: #F8FAFC; color: var(--text); font-family: var(--font-body); }
         nav { background: #FFF; padding: 20px 6%; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
-        .logo img { height: 80px; }
+        .logo img { height: 60px; }
         .container { padding: 40px 6%; max-width: 1200px; margin: 0 auto; }
         .instruction-box { background: #FFF; padding: 30px; border-radius: 20px; border-left: 6px solid var(--accent); margin-bottom: 40px; box-shadow: 0 4px 15px rgba(0,0,0,0.02); }
         .instruction-box h2 { font-size: 1.25rem; margin-bottom: 10px; }
@@ -30,6 +30,16 @@
         .tier-badge { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: #FFF; background: #000; padding: 6px 18px; border-radius: 100px; }
         .loading-text { font-weight: 700; color: var(--accent); animation: pulse 1.5s infinite; }
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
+        
+        @media (max-width: 768px) {
+            .logo img { height: 40px; }
+            .editor-area { grid-template-columns: 1fr; }
+            .input-panel, .output-panel { padding: 25px; }
+            .container { padding: 20px 4%; }
+        }
+
+        footer { background: #FFF; padding: 40px 6%; text-align: center; border-top: 1px solid var(--border); margin-top: 40px; }
+        footer p { font-size: 0.75rem; color: var(--muted); letter-spacing: 1px; font-weight: 700; }
     </style>
 </head>
 <body>
@@ -63,14 +73,12 @@
         <img src="../logos/captioai_icon.png" alt="CAPTIO AI Icon" style="height: 40px; margin-bottom: 10px;">
         <p>&copy; 2026 PRISCION NETWORK · CAPTIO AI · ANCHORED TO ETERNITY</p>
     </footer>
-    <style>
-        footer { background: #FFF; padding: 40px 6%; text-align: center; border-top: 1px solid var(--border); margin-top: 40px; }
-        footer p { font-size: 0.75rem; color: var(--muted); letter-spacing: 1px; font-weight: 700; }
-    </style>
-        
+
+    <script>
         const urlParams = new URLSearchParams(window.location.search);
         const isPremium = urlParams.get('premium') === 'true';
         const tierBadge = document.getElementById('tier-badge');
+        
         if (isPremium) { 
             tierBadge.textContent = 'Premium Intelligence Active'; 
             tierBadge.style.background = '#2E5BBA'; 
@@ -79,7 +87,10 @@
             tierBadge.style.background = '#000'; 
         }
 
-        
+        async function generateCopy() {
+            const input = document.getElementById('neural-input').value;
+            if (!input) { alert('Please enter an input signal.'); return; }
+            
             const output = document.getElementById('neural-output');
             const copyBtn = document.getElementById('copy-btn');
             output.innerHTML = '<span class="loading-text">Neural Engine Syncing...</span>';
@@ -88,18 +99,14 @@
             setTimeout(() => {
                 let final = '';
                 if (isPremium) {
-                    // High-Fidelity Professional Archetypes
                     const premiumResults = [
                         "Architectural purity in every line. Precision-engineered for the modern workflow. #HighFidelity #Orcinos",
                         "Neural processing meets sovereign design. Elevate your brand architecture with precision. 🛡️⚡",
                         "The intersection of autonomous intelligence and high-fidelity aesthetics. 📈🌐"
                     ];
                     final = premiumResults[Math.floor(Math.random() * premiumResults.length)];
-                    final += "
-
-[Neural Analysis: High Performance Detection Verified]";
+                    final += "\n\n[Neural Analysis: High Performance Detection Verified]";
                 } else {
-                    // Generic Standard Results
                     const standardResults = [
                         "Check out this cool setup! #AI #Marketing",
                         "Working hard on new projects. Stay tuned.",
@@ -113,22 +120,6 @@
             }, 2000);
         }
 
-        else { tierBadge.textContent = 'Freemium Node (Standard)'; tierBadge.style.background = '#000'; }
-
-        async function generateCopy() {
-            const input = document.getElementById('neural-input').value;
-            if (!input) { alert('Please enter an input signal.'); return; }
-            const output = document.getElementById('neural-output');
-            const copyBtn = document.getElementById('copy-btn');
-            output.innerHTML = '<span class="loading-text">Neural Engine Syncing...</span>';
-            copyBtn.style.display = 'none';
-            setTimeout(() => {
-                const results = ["Precision-engineered for the modern architect. Elevate your workspace workflow. 🛡️⚔️⚡", "High-fidelity focus in every pixel. 🌐📈", "Neural processing meets architectural purity. 🛡️"];
-                const final = results[Math.floor(Math.random() * results.length)];
-                output.innerHTML = final + (isPremium ? "\n\n[Neural Analysis: High Performance Detection]" : "");
-                copyBtn.style.display = 'block';
-            }, 2000);
-        }
         function copyResult() {
             const text = document.getElementById('neural-output').textContent;
             navigator.clipboard.writeText(text).then(() => {
@@ -140,6 +131,3 @@
     </script>
 </body>
 </html>
-
-
-
