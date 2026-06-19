@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOVSYGNAL | Advertise With Us</title>
+    <meta name="description" content="Advertise on SOVSYGNAL — reach a sovereign global intelligence audience.">
+    <link rel="icon" type="image/png" href="assets/logos/sovereign_favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+    
+    :root { --primary: #8B0000; --bg: #F9F9F9; --text: #1A1A1A; --font-heading: Playfair Display, serif; --font-body: Inter, sans-serif; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: var(--bg); color: var(--text); font-family: var(--font-body); line-height: 1.6; overflow-x: hidden; }
+    .ticker-wrap { width:100%;overflow:hidden;background:#000;color:#fff;padding:10px 0;border-bottom:2px solid var(--primary); }
+    .ticker { display:inline-block;white-space:nowrap;padding-right:100%;animation:ticker 240s linear infinite; }
+    @keyframes ticker { 0%{transform:translateX(0)} 100%{transform:translateX(-100%)} }
+    .ticker-item { display:inline-block;padding:0 30px;font-weight:800;font-size:0.72rem;text-transform:uppercase;letter-spacing:1.5px; }
+    .ticker-item span { color:var(--primary);margin-right:8px; }
+    header { background:#fff;padding:25px 6%;border-bottom:3px solid #000;text-align:center;position:sticky;top:0;z-index:1000; }
+    header h1 { font-family:var(--font-heading);font-size:3.2rem;letter-spacing:-2px;line-height:1; }
+    header h1 a { text-decoration:none;color:black; }
+    header p { text-transform:uppercase;letter-spacing:6px;font-size:0.68rem;font-weight:800;color:#444;margin:8px 0 18px; }
+    nav { display:flex;justify-content:center;gap:14px;flex-wrap:wrap;border-top:1px solid #eee;padding-top:14px;align-items:center; }
+    nav a { text-decoration:none;color:#000;font-size:0.65rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;padding:2px 0; }
+    nav a:hover, nav a.active { color:var(--primary);border-bottom:2px solid var(--primary); }
+    .container { max-width:1400px;margin:0 auto;padding:40px 6%;display:grid;grid-template-columns:1fr 300px;gap:40px; }
+    @media(max-width:900px){.container{grid-template-columns:1fr;}}
+    .news-grid { display:grid;gap:30px; }
+    .news-card { background:#fff;border:1px solid #e8e8e8;border-radius:8px;padding:24px;transition:box-shadow 0.2s; }
+    .news-card:hover { box-shadow:0 4px 20px rgba(0,0,0,0.08); }
+    .news-card h2 { font-family:var(--font-heading);font-size:1.3rem;margin-bottom:8px;line-height:1.35; }
+    .news-card h2 a { text-decoration:none;color:var(--text); }
+    .news-card h2 a:hover { color:var(--primary); }
+    .section-label { font-size:0.65rem;font-weight:800;text-transform:uppercase;letter-spacing:3px;color:var(--primary);border-bottom:2px solid var(--primary);padding-bottom:8px;margin-bottom:24px; }
+    footer { background:#000;color:#fff;text-align:center;padding:30px;margin-top:60px;font-size:0.8rem; }
+    footer img { height:30px;margin-bottom:10px;opacity:0.8; }
+
+    .adv-hero { background:#000;color:#fff;padding:80px 6%;text-align:center; }
+    .adv-hero h2 { font-family:Playfair Display,serif;font-size:3rem;margin-bottom:16px;letter-spacing:-1px; }
+    .adv-hero p { font-size:1rem;color:#aaa;max-width:600px;margin:0 auto; }
+    .adv-grid { display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px;max-width:1100px;margin:60px auto;padding:0 6%; }
+    @media(max-width:768px){.adv-grid{grid-template-columns:1fr;}}
+    .adv-card { background:#fff;border:1px solid #e8e8e8;border-radius:8px;padding:30px;text-align:center; }
+    .adv-card h3 { font-family:Playfair Display,serif;font-size:1.3rem;margin-bottom:12px; }
+    .adv-card .price { font-size:2rem;font-weight:800;color:#8B0000;margin:12px 0; }
+    .adv-card p { font-size:0.85rem;color:#555;line-height:1.6; }
+    .form-wrap { max-width:680px;margin:0 auto 80px;padding:0 6%; }
+    .form-wrap h3 { font-family:Playfair Display,serif;font-size:2rem;margin-bottom:8px; }
+    .form-wrap p { color:#555;margin-bottom:32px;font-size:0.9rem; }
+    .form-group { margin-bottom:20px; }
+    .form-group label { display:block;font-weight:700;font-size:0.78rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px; }
+    .form-group input, .form-group textarea, .form-group select {
+        width:100%;padding:12px 16px;border:1.5px solid #ddd;border-radius:6px;
+        font-family:Inter,sans-serif;font-size:0.9rem;background:#fff;
+        transition:border-color 0.2s;outline:none;
+    }
+    .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color:#8B0000; }
+    .form-group textarea { height:130px;resize:vertical; }
+    .submit-btn {
+        background:#8B0000;color:#fff;border:none;padding:14px 36px;
+        font-family:Inter,sans-serif;font-weight:800;font-size:0.85rem;
+        text-transform:uppercase;letter-spacing:1.5px;border-radius:6px;
+        cursor:pointer;width:100%;transition:background 0.2s;
+    }
+    .submit-btn:hover { background:#6b0000; }
+    .success-msg { display:none;background:#f0fdf4;border:1px solid #86efac;color:#166534;padding:16px;border-radius:6px;margin-top:16px;text-align:center;font-weight:700; }
+    </style>
+</head>
+<body>
+<div class="ticker-wrap"><div class="ticker"><span class="ticker-item"><span>●</span>Republicans blast Trump's Iran agreement as details emerge - Reuters</span> <span class="ticker-item"><span>●</span>Wall St indexes advance with boost from chips, Iran optimism - Reuters</span> <span class="ticker-item"><span>●</span>In photos: Star-studded crowd gathers to celebrate the Obama Presidential Center</span> <span class="ticker-item"><span>●</span>UPDATE Brent rises after Vance warns Israel against breaking cease-fire - Reuter</span> <span class="ticker-item"><span>●</span>Traffic flows through Hormuz as U.S.-Iran deal takes effect, questions remain - </span> <span class="ticker-item"><span>●</span>Vance warns Israeli critics over Iran deal: Trump is your only ally - Reuters</span> <span class="ticker-item"><span>●</span>High-wire diplomacy delivered US-Iran deal but hardest stage lies ahead, sources</span> <span class="ticker-item"><span>●</span>NBA to name winning bids for Europe teams in the coming months, deputy commissio</span> <span class="ticker-item"><span>●</span>Explainer: How Trump's deal with Iran compares to Obama's - Reuters</span> <span class="ticker-item"><span>●</span>US Treasury imposes sanctions on Lebanese officials, others for aiding Hezbollah</span> <span class="ticker-item"><span>●</span>US-Iran deal redraws the Middle East: Iran gains, rivals alarmed - Reuters</span> <span class="ticker-item"><span>●</span>Iran's Khamenei says he approved MoU with US, despite reservations, after assura</span> <span class="ticker-item"><span>●</span>Markets are set for a much more hawkish Warsh Fed than expected</span> <span class="ticker-item"><span>●</span>Accenture forecast takes hit from Iran war, shares tumble over 17% - Reuters</span> <span class="ticker-item"><span>●</span>White House sends text of interim US-Iran agreement to US Congress - Reuters</span> <span class="ticker-item"><span>●</span>What sanctions are there on Iran and will they be lifted? - Reuters</span> <span class="ticker-item"><span>●</span>Vance says 60-day period in Iran deal begins Thursday - Reuters</span> <span class="ticker-item"><span>●</span>Israel demarcates expanded Lebanon occupation zone, challenging US-Iran pact - R</span> <span class="ticker-item"><span>●</span>Bank of England keeps rates steady as it weighs Iran truce - Reuters</span> <span class="ticker-item"><span>●</span>Three Saudi-flagged supertankers sail through Hormuz after Iran deal signed, dat</span></div></div>
+<header>
+    <h1><a href="index.html">SOVSYGNAL</a></h1>
+    <p>Global Intelligence Hub &middot; Updated Jun 19, 2026 | 12:18 AM AST</p>
+    <nav><a href="index.html" class="">Headlines</a>
+<a href="geopolitics.html" class="">Geopolitics</a>
+<a href="stocks.html" class="">Stocks</a>
+<a href="blockchain.html" class="">Blockchain</a>
+<a href="intelligence.html" class="">Intelligence</a>
+<a href="forex.html" class="">Forex</a>
+<a href="markets.html" class="">Commodities</a>
+<a href="realestate.html" class="">Real Estate</a>
+<a href="anime.html" class="">Anime</a>
+<a href="gaming.html" class="">Gaming</a>
+<a href="entertainment.html" class="">Entertainment</a>
+<a href="lifestyle.html" class="">Lifestyle</a>
+<a href="biohacking.html" class="">Biohacking</a>
+</nav>
+</header>
+
+<div class="adv-hero">
+    <div style="font-size:0.65rem;font-weight:800;text-transform:uppercase;letter-spacing:4px;color:#e8c97a;margin-bottom:16px;">Partner With Us</div>
+    <h2>Advertise on SOVSYGNAL</h2>
+    <p>Put your brand in front of a high-intent, globally-aware audience tracking geopolitics, markets, tech, crypto, and culture in real time.</p>
+</div>
+
+<div class="adv-grid">
+    <div class="adv-card">
+        <div style="font-size:0.65rem;font-weight:800;text-transform:uppercase;letter-spacing:2px;color:#8B0000;margin-bottom:12px;">Starter</div>
+        <h3>Sidebar Placement</h3>
+        <div class="price">Contact</div>
+        <p>Your brand block in the sidebar of one niche section. Includes logo, tagline, and CTA button. Weekly placement.</p>
+    </div>
+    <div class="adv-card" style="border:2px solid #8B0000;">
+        <div style="font-size:0.65rem;font-weight:800;text-transform:uppercase;letter-spacing:2px;color:#8B0000;margin-bottom:12px;">Featured</div>
+        <h3>Multi-Section Placement</h3>
+        <div class="price">Contact</div>
+        <p>Your ad rotates across multiple niche sections. Ideal for brands targeting diverse intelligent audiences. Monthly placement.</p>
+    </div>
+    <div class="adv-card">
+        <div style="font-size:0.65rem;font-weight:800;text-transform:uppercase;letter-spacing:2px;color:#8B0000;margin-bottom:12px;">Premium</div>
+        <h3>Full Network Placement</h3>
+        <div class="price">Contact</div>
+        <p>Sitewide presence across all 13 SOVSYGNAL sectors plus ticker banner inclusion. Maximum sovereign reach.</p>
+    </div>
+</div>
+
+<div class="form-wrap">
+    <h3>Submit Your Inquiry</h3>
+    <p>Fill out the form below and we will reach out within 48 hours to discuss placement options and pricing.</p>
+    <form id="adv-form" onsubmit="handleSubmit(event)">
+        <div class="form-group">
+            <label>Your Name</label>
+            <input type="text" name="name" placeholder="Full name" required>
+        </div>
+        <div class="form-group">
+            <label>Company / Brand</label>
+            <input type="text" name="company" placeholder="Your company or brand name" required>
+        </div>
+        <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" name="email" placeholder="your@email.com" required>
+        </div>
+        <div class="form-group">
+            <label>Website</label>
+            <input type="url" name="website" placeholder="https://yourwebsite.com">
+        </div>
+        <div class="form-group">
+            <label>Preferred Ad Section</label>
+            <select name="section">
+                <option value="">Select a section...</option>
+                <option>Headlines (All Sections)</option>
+                <option>Geopolitics</option>
+                <option>Stocks</option>
+                <option>Blockchain</option>
+                <option>Intelligence</option>
+                <option>Forex</option>
+                <option>Commodities</option>
+                <option>Real Estate</option>
+                <option>Anime</option>
+                <option>Gaming</option>
+                <option>Entertainment</option>
+                <option>Lifestyle</option>
+                <option>Biohacking</option>
+                <option>Full Network (All Sections)</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Tell Us About Your Brand & Goals</label>
+            <textarea name="message" placeholder="Describe your brand, target audience, and what you are looking to achieve..." required></textarea>
+        </div>
+        <button type="submit" class="submit-btn">Submit Advertising Inquiry</button>
+        <div class="success-msg" id="success-msg">
+            ✓ Thank you! Your inquiry has been received. We will be in touch within 48 hours.
+        </div>
+    </form>
+</div>
+
+<footer>
+    <img src="assets/logos/sovereign_footer_logo.png" alt="Sovereign">
+    <p>&copy; 2026 SOVSYGNAL &middot; PRISCION INTELLIGENCE MEDIA</p>
+</footer>
+<script>
+function handleSubmit(e) {
+    e.preventDefault();
+    const form = document.getElementById('adv-form');
+    const data = new FormData(form);
+    const body = Object.fromEntries(data.entries());
+    // Send to Formspree (replace with your endpoint once set up)
+    fetch('https://formspree.io/f/priscillanarine@gmail.com', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+        body: JSON.stringify(body)
+    }).then(() => {
+        form.reset();
+        document.getElementById('success-msg').style.display = 'block';
+    }).catch(() => {
+        document.getElementById('success-msg').style.display = 'block';
+        document.getElementById('success-msg').textContent = 'Inquiry received. We will be in touch!';
+    });
+}
+</script>
+</body>
+</html>
