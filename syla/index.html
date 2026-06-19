@@ -3,25 +3,91 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Syla - Your Friendly Assistant</title>
-    <link rel="stylesheet" href="../shared/style.css">
+    <title>SYLA | Your High-Fidelity Assistant</title>
+    <link rel="icon" type="image/png" href="../logos/syla_icon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../shared_godmode.css">
+    <style>
+        :root {
+            --bg: #FDFCFB; --surface: #FFFFFF; --text: #1C1C1C; --muted: #7A7A7A; 
+            --accent: #B08D57; --border: rgba(176, 141, 87, 0.15);
+            --font-header: 'Playfair Display', serif; --font-body: 'Inter', sans-serif;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: var(--bg); color: var(--text); font-family: var(--font-body); min-height: 100vh; overflow-x: hidden; }
+        
+        header { padding: 30px 6%; display: flex; justify-content: center; align-items: center; background: rgba(253, 252, 251, 0.8); backdrop-filter: blur(15px); position: sticky; top: 0; z-index: 100; border-bottom: 1px solid var(--border); }
+        .logo-img { height: 60px; }
+
+        .emergency-btn { position: fixed; top: 30px; right: 6%; background: #D0021B; color: white; padding: 10px 20px; border-radius: 50px; text-decoration: none; font-weight: 700; font-size: 0.75rem; letter-spacing: 2px; z-index: 1000; transition: transform 0.3s; }
+        .emergency-btn:hover { transform: scale(1.05); }
+
+        .hero { padding: 100px 6% 60px; text-align: center; max-width: 900px; margin: 0 auto; }
+        .hero h1 { font-family: var(--font-header); font-size: 4rem; line-height: 1.1; margin-bottom: 25px; color: var(--text); letter-spacing: -1px; }
+        .hero p { font-size: 1.4rem; color: var(--accent); font-weight: 300; line-height: 1.5; margin-bottom: 40px; }
+        
+        .main-card { background: var(--surface); border: 1px solid var(--border); padding: 60px; border-radius: 2px; box-shadow: 0 30px 60px rgba(0,0,0,0.03); max-width: 600px; margin: 0 auto 100px; text-align: center; }
+        .main-card h2 { font-family: var(--font-header); font-size: 2rem; margin-bottom: 30px; }
+        
+        .big-btn { display: inline-block; background: var(--text); color: white; padding: 20px 50px; text-decoration: none; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; border-radius: 100px; transition: all 0.3s; }
+        .big-btn:hover { background: var(--accent); transform: translateY(-5px); box-shadow: 0 10px 30px rgba(176, 141, 87, 0.3); }
+
+        .features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; padding: 0 6% 120px; text-align: center; }
+        .feature-item h3 { font-family: var(--font-header); font-size: 1.4rem; margin-bottom: 15px; }
+        .feature-item p { color: var(--muted); font-size: 0.95rem; line-height: 1.6; }
+
+        footer { padding: 80px 6%; text-align: center; border-top: 1px solid var(--border); background: #F9F7F5; }
+        .footer-logo { height: 40px; opacity: 0.6; margin-bottom: 20px; }
+        .footer-text { font-size: 0.8rem; color: var(--muted); letter-spacing: 1px; }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .hero p { font-size: 1.1rem; }
+            .main-card { padding: 40px 20px; margin: 0 20px 60px; }
+            .features { grid-template-columns: 1fr; gap: 40px; padding-bottom: 60px; }
+            .emergency-btn { top: auto; bottom: 20px; right: 20px; font-size: 0.7rem; }
+            .big-btn { padding: 15px 30px; font-size: 0.9rem; }
+        }
+    </style>
 </head>
 <body>
-    <a href="tel:911" class="emergency-btn">EMERGENCY HELP</a>
+    <a href="tel:911" class="emergency-btn">EMERGENCY ASSIST</a>
+    
+    <header>
+        <img src="../logos/syla_logo.png" alt="SYLA" class="logo-img">
+    </header>
 
-    <div class="container" style="margin-top: 100px; text-align: center;">
-        <h1 style="font-size: 48px;">Hello, I'm Syla.</h1>
-        <p style="font-size: 28px;">I am here to help you with your phone, your medicine, and talking to your family.</p>
-        
-        <div class="card">
-            <h2 style="color: #333;">Would you like to start?</h2>
-            <a href="../app/dashboard.html" class="big-btn">Yes, let's start</a>
+    <section class="hero">
+        <h1>Intelligent companionship for a sovereign life.</h1>
+        <p>Your high-fidelity AI assistant for communication, wellness, and daily logistics.</p>
+    </section>
+
+    <div class="main-card">
+        <h2>Ready to begin?</h2>
+        <a href="../app/dashboard.html" class="big-btn">Activate Syla</a>
+    </div>
+
+    <div class="features">
+        <div class="feature-item">
+            <h3>Health Link</h3>
+            <p>Seamless medication tracking and direct neural coordination with your care providers.</p>
         </div>
-
-        <div style="margin-top: 50px; color: var(--text-gray);">
-            <p>Syla is made with love by Orcinos.</p>
+        <div class="feature-item">
+            <h3>Family Bridge</h3>
+            <p>Stay connected with your loved ones through simplified, high-fidelity communication channels.</p>
+        </div>
+        <div class="feature-item">
+            <h3>Living Assistant</h3>
+            <p>Autonomous management of your smart environment and daily logistical requirements.</p>
         </div>
     </div>
+
+    <footer>
+        <img src="../logos/syla_icon.png" alt="Syla" class="footer-logo">
+        <p class="footer-text">SYLA IS A PRODUCT OF ORCINOS · CRAFTED WITH LOVE · 2026</p>
+    </footer>
+
+    <script src="../shared_godmode.js"></script>
+    <!-- Traffic tracking included via shared_godmode.js -->
 </body>
 </html>
-
