@@ -4,13 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SOVSYGNAL | Advertise With Us</title>
-    <meta name="description" content="Advertise on SOVSYGNAL — reach a sovereign global intelligence audience.">
     <link rel="icon" type="image/png" href="assets/logos/sovereign_favicon.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
     
-    :root { --primary: #8B0000; --bg: #F9F9F9; --text: #1A1A1A; --font-heading: Playfair Display, serif; --font-body: Inter, sans-serif; }
+    :root { --primary: #8B0000; --bg: #F9F9F9; --text: #1A1A1A; --font-heading: 'Playfair Display', serif; --font-body: 'Inter', sans-serif; }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { background: var(--bg); color: var(--text); font-family: var(--font-body); line-height: 1.6; overflow-x: hidden; }
     .ticker-wrap { width:100%;overflow:hidden;background:#000;color:#fff;padding:10px 0;border-bottom:2px solid var(--primary); }
@@ -19,15 +17,15 @@
     .ticker-item { display:inline-block;padding:0 30px;font-weight:800;font-size:0.72rem;text-transform:uppercase;letter-spacing:1.5px; }
     .ticker-item span { color:var(--primary);margin-right:8px; }
     header { background:#fff;padding:25px 6%;border-bottom:3px solid #000;text-align:center;position:sticky;top:0;z-index:1000; }
-    header h1 { font-family:var(--font-heading);font-size:3.2rem;letter-spacing:-2px;line-height:1; }
-    header h1 a { text-decoration:none;color:black; }
-    header p { text-transform:uppercase;letter-spacing:6px;font-size:0.68rem;font-weight:800;color:#444;margin:8px 0 18px; }
-    nav { display:flex;justify-content:center;gap:14px;flex-wrap:wrap;border-top:1px solid #eee;padding-top:14px;align-items:center; }
-    nav a { text-decoration:none;color:#000;font-size:0.65rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;padding:2px 0; }
-    nav a:hover, nav a.active { color:var(--primary);border-bottom:2px solid var(--primary); }
-    .container { max-width:1400px;margin:0 auto;padding:40px 6%;display:grid;grid-template-columns:1fr 300px;gap:40px; }
+    header h1 { font-family:var(--font-heading);font-size:2.8rem;letter-spacing:6px;text-transform:uppercase; }
+    header h1 a { text-decoration:none;color:#000; }
+    header p { font-size:0.72rem;color:#888;letter-spacing:2px;text-transform:uppercase;margin-top:4px; }
+    nav { margin-top:16px;display:flex;flex-wrap:wrap;justify-content:center;gap:6px; }
+    nav a { text-decoration:none;font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;padding:6px 14px;border:1.5px solid #000;color:#000;border-radius:2px;transition:all 0.2s; }
+    nav a:hover,nav a.active { background:#000;color:#fff; }
+    .container { max-width:1300px;margin:40px auto;padding:0 5%;display:grid;grid-template-columns:1fr 300px;gap:40px; }
     @media(max-width:900px){.container{grid-template-columns:1fr;}}
-    .news-grid { display:grid;gap:30px; }
+    .news-grid { display:grid;gap:20px; }
     .news-card { background:#fff;border:1px solid #e8e8e8;border-radius:8px;padding:24px;transition:box-shadow 0.2s; }
     .news-card:hover { box-shadow:0 4px 20px rgba(0,0,0,0.08); }
     .news-card h2 { font-family:var(--font-heading);font-size:1.3rem;margin-bottom:8px;line-height:1.35; }
@@ -38,172 +36,172 @@
     footer img { height:30px;margin-bottom:10px;opacity:0.8; }
 
     .adv-hero { background:#000;color:#fff;padding:80px 6%;text-align:center; }
-    .adv-hero h2 { font-family:Playfair Display,serif;font-size:3rem;margin-bottom:16px;letter-spacing:-1px; }
-    .adv-hero p { font-size:1rem;color:#aaa;max-width:600px;margin:0 auto; }
-    .adv-grid { display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px;max-width:1100px;margin:60px auto;padding:0 6%; }
-    @media(max-width:768px){.adv-grid{grid-template-columns:1fr;}}
-    .adv-card { background:#fff;border:1px solid #e8e8e8;border-radius:8px;padding:30px;text-align:center; }
-    .adv-card h3 { font-family:Playfair Display,serif;font-size:1.3rem;margin-bottom:12px; }
-    .adv-card .price { font-size:2rem;font-weight:800;color:#8B0000;margin:12px 0; }
-    .adv-card p { font-size:0.85rem;color:#555;line-height:1.6; }
-    .form-wrap { max-width:680px;margin:0 auto 80px;padding:0 6%; }
-    .form-wrap h3 { font-family:Playfair Display,serif;font-size:2rem;margin-bottom:8px; }
-    .form-wrap p { color:#555;margin-bottom:32px;font-size:0.9rem; }
+    .adv-hero h2 { font-family:Playfair Display,serif;font-size:2.5rem;margin-bottom:16px; }
+    .adv-hero p { opacity:0.8;max-width:600px;margin:0 auto; }
+    .adv-container { max-width:800px;margin:60px auto;padding:0 5%; }
+    .tiers { display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;margin-bottom:60px; }
+    .tier { border:2px solid #e8e8e8;border-radius:8px;padding:28px;text-align:center; }
+    .tier.featured { border-color:#8B0000;background:#fff8f8; }
+    .tier h3 { font-family:Playfair Display,serif;font-size:1.2rem;margin-bottom:8px; }
+    .tier .price { font-size:1.8rem;font-weight:800;color:#8B0000;margin:12px 0; }
+    .tier ul { list-style:none;font-size:0.82rem;color:#555;text-align:left; }
+    .tier ul li { padding:4px 0; }
+    .tier ul li::before { content:"✓ ";color:#8B0000;font-weight:700; }
+    .form-section { background:#fff;border:1px solid #e8e8e8;border-radius:8px;padding:40px; }
+    .form-section h3 { font-family:Playfair Display,serif;font-size:1.5rem;margin-bottom:24px; }
     .form-group { margin-bottom:20px; }
-    .form-group label { display:block;font-weight:700;font-size:0.78rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px; }
-    .form-group input, .form-group textarea, .form-group select {
-        width:100%;padding:12px 16px;border:1.5px solid #ddd;border-radius:6px;
-        font-family:Inter,sans-serif;font-size:0.9rem;background:#fff;
-        transition:border-color 0.2s;outline:none;
-    }
-    .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color:#8B0000; }
-    .form-group textarea { height:130px;resize:vertical; }
-    .submit-btn {
-        background:#8B0000;color:#fff;border:none;padding:14px 36px;
-        font-family:Inter,sans-serif;font-weight:800;font-size:0.85rem;
-        text-transform:uppercase;letter-spacing:1.5px;border-radius:6px;
-        cursor:pointer;width:100%;transition:background 0.2s;
-    }
-    .submit-btn:hover { background:#6b0000; }
-    .success-msg { display:none;background:#f0fdf4;border:1px solid #86efac;color:#166534;padding:16px;border-radius:6px;margin-top:16px;text-align:center;font-weight:700; }
+    .form-group label { display:block;font-size:0.78rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px; }
+    .form-group input,.form-group select,.form-group textarea { width:100%;padding:12px;border:1.5px solid #e8e8e8;border-radius:4px;font-family:Inter,sans-serif;font-size:0.9rem;outline:none;transition:border 0.2s; }
+    .form-group input:focus,.form-group select:focus,.form-group textarea:focus { border-color:#8B0000; }
+    .form-group textarea { height:140px;resize:vertical; }
+    .submit-btn { background:#8B0000;color:#fff;border:none;padding:14px 32px;border-radius:4px;font-size:0.9rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;cursor:pointer;width:100%;transition:background 0.2s; }
+    .submit-btn:hover { background:#6B0000; }
+    .success-msg { display:none;background:#f0fdf4;border:1px solid #86efac;color:#166534;padding:16px;border-radius:4px;margin-top:16px;font-weight:600;text-align:center; }
     </style>
 </head>
 <body>
-<div class="ticker-wrap"><div class="ticker"><span class="ticker-item"><span>●</span>Republicans blast Trump's Iran agreement as details emerge - Reuters</span> <span class="ticker-item"><span>●</span>Wall St indexes advance with boost from chips, Iran optimism - Reuters</span> <span class="ticker-item"><span>●</span>In photos: Star-studded crowd gathers to celebrate the Obama Presidential Center</span> <span class="ticker-item"><span>●</span>UPDATE Brent rises after Vance warns Israel against breaking cease-fire - Reuter</span> <span class="ticker-item"><span>●</span>Traffic flows through Hormuz as U.S.-Iran deal takes effect, questions remain - </span> <span class="ticker-item"><span>●</span>Vance warns Israeli critics over Iran deal: Trump is your only ally - Reuters</span> <span class="ticker-item"><span>●</span>High-wire diplomacy delivered US-Iran deal but hardest stage lies ahead, sources</span> <span class="ticker-item"><span>●</span>NBA to name winning bids for Europe teams in the coming months, deputy commissio</span> <span class="ticker-item"><span>●</span>Explainer: How Trump's deal with Iran compares to Obama's - Reuters</span> <span class="ticker-item"><span>●</span>US Treasury imposes sanctions on Lebanese officials, others for aiding Hezbollah</span> <span class="ticker-item"><span>●</span>US-Iran deal redraws the Middle East: Iran gains, rivals alarmed - Reuters</span> <span class="ticker-item"><span>●</span>Iran's Khamenei says he approved MoU with US, despite reservations, after assura</span> <span class="ticker-item"><span>●</span>Markets are set for a much more hawkish Warsh Fed than expected</span> <span class="ticker-item"><span>●</span>Accenture forecast takes hit from Iran war, shares tumble over 17% - Reuters</span> <span class="ticker-item"><span>●</span>White House sends text of interim US-Iran agreement to US Congress - Reuters</span> <span class="ticker-item"><span>●</span>What sanctions are there on Iran and will they be lifted? - Reuters</span> <span class="ticker-item"><span>●</span>Vance says 60-day period in Iran deal begins Thursday - Reuters</span> <span class="ticker-item"><span>●</span>Israel demarcates expanded Lebanon occupation zone, challenging US-Iran pact - R</span> <span class="ticker-item"><span>●</span>Bank of England keeps rates steady as it weighs Iran truce - Reuters</span> <span class="ticker-item"><span>●</span>Three Saudi-flagged supertankers sail through Hormuz after Iran deal signed, dat</span></div></div>
+<div class="ticker-wrap"><div class="ticker"><span class="ticker-item"><span>●</span>Vance Issues Blunt Warning to Israel as He Defends Trump’s Deal</span> <span class="ticker-item"><span>●</span>Critics of Russia Say This Critic Isn’t Critical Enough</span> <span class="ticker-item"><span>●</span>Iran and the U.S. Have an Understanding. Will It Lead to a Deal?</span> <span class="ticker-item"><span>●</span>Ukraine Strikes Moscow Refinery in Large-Scale Drone Attack</span> <span class="ticker-item"><span>●</span>Afghanistan Issues Ban on Smartphones for Civil Servants and Military</span> <span class="ticker-item"><span>●</span>Dow Jones Futures Fall; Nvidia Leads 5 Stocks Near Buy Points, SpaceX Needs This</span> <span class="ticker-item"><span>●</span>Does Constellation Energy Stock's Surge Broaden Your Portfolio Or Just Amplify It?</span> <span class="ticker-item"><span>●</span>Google Has The Best Problem Money Can’t Quite Buy</span> <span class="ticker-item"><span>●</span>The 1 Tech Stock I'd Buy With My Eyes Closed at Today's Prices</span> <span class="ticker-item"><span>●</span>VOO’s 0.03% Fee Hides a Costlier Truth About Taxes and Concentration</span> <span class="ticker-item"><span>●</span>US crypto ETFs are pulling Bitcoiners into TradFi: BlackRock's Jay Jacobs</span> <span class="ticker-item"><span>●</span>Celsius’ Mashinsky gets permanent trading ban in CFTC settlement</span> <span class="ticker-item"><span>●</span>Ether analysts predict another ‘selling wave’ as ETH struggles to overcome $1.7K</span> <span class="ticker-item"><span>●</span>Malta proposes DeFi rulebook covering DAOs under MiCA-era framework</span> <span class="ticker-item"><span>●</span>Bitcoin decouples from tech stocks: Is $60K BTC’s next stop?</span> <span class="ticker-item"><span>●</span>Senate Democrats Aren’t Happy About Trump’s Spy Law Ultimatum</span> <span class="ticker-item"><span>●</span>U.S. Casualties in Iran Are Still Rising</span> <span class="ticker-item"><span>●</span>Bernie Sanders Backs Justin J. Pearson, House Candidate at the Heart of Tennessee Voting R</span> <span class="ticker-item"><span>●</span>They Weren’t Convicted of Terrorism, But These Palestine Activists Got Sentenced as Terror</span> <span class="ticker-item"><span>●</span>Swiss National Bank cuts interest rates by a half point to 0.5%</span> <span class="ticker-item"><span>●</span>Dollar jumps 0.5% to 0.8890 francs</span> <span class="ticker-item"><span>●</span>Fed’s Powell says rate cut ‘on the table’ as soon as September</span> <span class="ticker-item"><span>●</span>An Nvidia Stock Strategy That Holds Large Profit Zone, Even With A Fall</span> <span class="ticker-item"><span>●</span>Keurig Dr Pepper (KDP): The Best Undervalued Counter Cyclical Stock to Buy Now</span> <span class="ticker-item"><span>●</span>Powell says labor market not a source of significant inflation pressure</span> <span class="ticker-item"><span>●</span>Final S&P U.S. manufacturing index is 52.2 in February vs. initial 51.5</span> <span class="ticker-item"><span>●</span>Jim Cramer on Cadence: “If It Comes Down, It’s a Buy”</span> <span class="ticker-item"><span>●</span>‘Wait, isn’t Bed Bath and Beyond out of business?’ What the Fathom deal means for real est</span> <span class="ticker-item"><span>●</span>Sotheby’s report: Aging in place is reshaping luxury real estate</span> <span class="ticker-item"><span>●</span>How redlining built the housing market agents work in today</span> <span class="ticker-item"><span>●</span>Kamini Lane: When it comes to listings, ‘one size does not fit all’</span> <span class="ticker-item"><span>●</span>When the listing won’t sell, have this marketing audit conversation</span> <span class="ticker-item"><span>●</span>'Ojisan wa Kawaii Mono ga Osuki.' Reveals Main Cast, Staff, First Promo for Fall 2026</span> <span class="ticker-item"><span>●</span>'Kabushikigaisha Magi-Lumière 2nd Season' Unveils Additional Cast, Opening Theme, Second P</span> <span class="ticker-item"><span>●</span>'Majutsu wo Kiwamete Tabi ni Deta Tensei Elf, Moteamashita Jumyou de Ikeru Densetsu to Nar</span> <span class="ticker-item"><span>●</span>Manga 'Nisemono no Renkinjutsushi' Receives TV Anime Adaptation</span> <span class="ticker-item"><span>●</span>'Mebius Dust' Announces Additional Cast</span> <span class="ticker-item"><span>●</span>The Hunger Games Deluxe Edition Books Are All on Sale Before Amazon Prime Day</span> <span class="ticker-item"><span>●</span>The Rugged, Waterproof DJI Osmo Action 4 4K 120fps Action Camera Drops to $169</span> <span class="ticker-item"><span>●</span>PlayStation Reportedly Pulled Out of PC Ports Due to 'Inconsistent' Releases and Lack of R</span></div></div>
 <header>
     <h1><a href="index.html">SOVSYGNAL</a></h1>
-    <p>Global Intelligence Hub &middot; Updated Jun 19, 2026 | 12:53 AM AST</p>
+    <p>Global Intelligence Hub &middot; Updated Jun 19, 2026 | 04:52 AM AST</p>
     <nav><a href="index.html" class="">Headlines</a>
 <a href="geopolitics.html" class="">Geopolitics</a>
 <a href="stocks.html" class="">Stocks</a>
 <a href="blockchain.html" class="">Blockchain</a>
 <a href="intelligence.html" class="">Intelligence</a>
 <a href="forex.html" class="">Forex</a>
-<a href="markets.html" class="">Commodities</a>
+<a href="markets.html" class="">Markets</a>
 <a href="realestate.html" class="">Real Estate</a>
 <a href="anime.html" class="">Anime</a>
 <a href="gaming.html" class="">Gaming</a>
 <a href="entertainment.html" class="">Entertainment</a>
 <a href="lifestyle.html" class="">Lifestyle</a>
 <a href="biohacking.html" class="">Biohacking</a>
+<a href="advertise.html">Advertise</a>
 </nav>
 </header>
-
 <div class="adv-hero">
-    <div style="font-size:0.65rem;font-weight:800;text-transform:uppercase;letter-spacing:4px;color:#e8c97a;margin-bottom:16px;">Partner With Us</div>
     <h2>Advertise on SOVSYGNAL</h2>
-    <p>Put your brand in front of a high-intent, globally-aware audience tracking geopolitics, markets, tech, crypto, and culture in real time.</p>
+    <p>Reach a global audience of investors, analysts, crypto natives, and decision-makers across 13 intelligence sectors.</p>
 </div>
-
-<div class="adv-grid">
-    <div class="adv-card">
-        <div style="font-size:0.65rem;font-weight:800;text-transform:uppercase;letter-spacing:2px;color:#8B0000;margin-bottom:12px;">Starter</div>
-        <h3>Sidebar Placement</h3>
-        <div class="price">Contact</div>
-        <p>Your brand block in the sidebar of one niche section. Includes logo, tagline, and CTA button. Weekly placement.</p>
+<div class="adv-container">
+    <div class="tiers">
+        <div class="tier">
+            <h3>Sector Spotlight</h3>
+            <div class="price">$49<span style="font-size:1rem;font-weight:400">/mo</span></div>
+            <ul>
+                <li>1 sector sidebar placement</li>
+                <li>Brand logo + tagline</li>
+                <li>Direct link to your site</li>
+                <li>Monthly refresh</li>
+            </ul>
+        </div>
+        <div class="tier featured">
+            <h3>Network Feature</h3>
+            <div class="price">$149<span style="font-size:1rem;font-weight:400">/mo</span></div>
+            <ul>
+                <li>All 13 sectors</li>
+                <li>Featured brand block</li>
+                <li>Priority placement</li>
+                <li>Weekly refresh</li>
+                <li>Analytics report</li>
+            </ul>
+        </div>
+        <div class="tier">
+            <h3>Intelligence Banner</h3>
+            <div class="price">$299<span style="font-size:1rem;font-weight:400">/mo</span></div>
+            <ul>
+                <li>Full-width banner</li>
+                <li>All sectors + homepage</li>
+                <li>Custom creative</li>
+                <li>Priority support</li>
+                <li>Performance report</li>
+            </ul>
+        </div>
     </div>
-    <div class="adv-card" style="border:2px solid #8B0000;">
-        <div style="font-size:0.65rem;font-weight:800;text-transform:uppercase;letter-spacing:2px;color:#8B0000;margin-bottom:12px;">Featured</div>
-        <h3>Multi-Section Placement</h3>
-        <div class="price">Contact</div>
-        <p>Your ad rotates across multiple niche sections. Ideal for brands targeting diverse intelligent audiences. Monthly placement.</p>
-    </div>
-    <div class="adv-card">
-        <div style="font-size:0.65rem;font-weight:800;text-transform:uppercase;letter-spacing:2px;color:#8B0000;margin-bottom:12px;">Premium</div>
-        <h3>Full Network Placement</h3>
-        <div class="price">Contact</div>
-        <p>Sitewide presence across all 13 SOVSYGNAL sectors plus ticker banner inclusion. Maximum sovereign reach.</p>
+    <div class="form-section">
+        <h3>Submit an Inquiry</h3>
+        <form id="adv-form" onsubmit="handleSubmit(event)">
+            <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" name="name" placeholder="Your name" required>
+            </div>
+            <div class="form-group">
+                <label>Company / Brand</label>
+                <input type="text" name="company" placeholder="Your company or brand name">
+            </div>
+            <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" name="email" placeholder="your@email.com" required>
+            </div>
+            <div class="form-group">
+                <label>Website</label>
+                <input type="url" name="website" placeholder="https://yourwebsite.com">
+            </div>
+            <div class="form-group">
+                <label>Preferred Ad Section</label>
+                <select name="section">
+                    <option value="">Select a section...</option>
+                    <option>Headlines (All Sections)</option>
+                    <option>Geopolitics</option>
+                    <option>Stocks</option>
+                    <option>Blockchain</option>
+                    <option>Intelligence</option>
+                    <option>Forex</option>
+                    <option>Markets</option>
+                    <option>Real Estate</option>
+                    <option>Anime</option>
+                    <option>Gaming</option>
+                    <option>Entertainment</option>
+                    <option>Lifestyle</option>
+                    <option>Biohacking</option>
+                    <option>Full Network (All Sections)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Tell Us About Your Brand &amp; Goals</label>
+                <textarea name="message" placeholder="Describe your brand, target audience, and what you are looking to achieve..." required></textarea>
+            </div>
+            <button type="submit" class="submit-btn">Submit Advertising Inquiry</button>
+            <div class="success-msg" id="success-msg">
+                ✓ Thank you! Your inquiry has been received. We will be in touch within 48 hours.
+            </div>
+        </form>
     </div>
 </div>
-
-<div class="form-wrap">
-    <h3>Submit Your Inquiry</h3>
-    <p>Fill out the form below and we will reach out within 48 hours to discuss placement options and pricing.</p>
-    <form id="adv-form" onsubmit="handleSubmit(event)">
-        <div class="form-group">
-            <label>Your Name</label>
-            <input type="text" name="name" placeholder="Full name" required>
-        </div>
-        <div class="form-group">
-            <label>Company / Brand</label>
-            <input type="text" name="company" placeholder="Your company or brand name" required>
-        </div>
-        <div class="form-group">
-            <label>Email Address</label>
-            <input type="email" name="email" placeholder="your@email.com" required>
-        </div>
-        <div class="form-group">
-            <label>Website</label>
-            <input type="url" name="website" placeholder="https://yourwebsite.com">
-        </div>
-        <div class="form-group">
-            <label>Preferred Ad Section</label>
-            <select name="section">
-                <option value="">Select a section...</option>
-                <option>Headlines (All Sections)</option>
-                <option>Geopolitics</option>
-                <option>Stocks</option>
-                <option>Blockchain</option>
-                <option>Intelligence</option>
-                <option>Forex</option>
-                <option>Commodities</option>
-                <option>Real Estate</option>
-                <option>Anime</option>
-                <option>Gaming</option>
-                <option>Entertainment</option>
-                <option>Lifestyle</option>
-                <option>Biohacking</option>
-                <option>Full Network (All Sections)</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label>Tell Us About Your Brand & Goals</label>
-            <textarea name="message" placeholder="Describe your brand, target audience, and what you are looking to achieve..." required></textarea>
-        </div>
-        <button type="submit" class="submit-btn">Submit Advertising Inquiry</button>
-        <div class="success-msg" id="success-msg">
-            ✓ Thank you! Your inquiry has been received. We will be in touch within 48 hours.
-        </div>
-    </form>
-</div>
-
 <footer>
     <img src="assets/logos/sovereign_footer_logo.png" alt="Sovereign">
     <p>&copy; 2026 SOVSYGNAL &middot; PRISCION INTELLIGENCE MEDIA</p>
 </footer>
 <script>
 // ⚠️ LOCKED — Supabase insert. Do NOT reroute to email or Formspree.
-// Table: ad_inquiries | RLS: insert-only (anon allowed)
-const SUPA_URL  = 'https://sazhdnqzaqpqcralmthh.supabase.co';
-const SUPA_KEY  = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNhemhkbnF6YXFwcWNyYWxtdGhoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxNzE5NjYsImV4cCI6MjA5Mzc0Nzk2Nn0.uTyw31uWTNOTV5-HzNpm46vpAJABAsHLMzW-sYOkRhc';
-
+const SUPA_URL = 'https://sazhdnqzaqpqcralmthh.supabase.co';
+const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNhemhkbnF6YXFwcWNyYWxtdGhoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxNzE5NjYsImV4cCI6MjA5Mzc0Nzk2Nn0.uTyw31uWTNOTV5-HzNpm46vpAJABAsHLMzW-sYOkRhc';
 async function handleSubmit(e) {
     e.preventDefault();
-    const btn  = e.target.querySelector('.submit-btn');
-    const msg  = document.getElementById('success-msg');
+    const btn = e.target.querySelector('.submit-btn');
+    const msg = document.getElementById('success-msg');
     const form = document.getElementById('adv-form');
     btn.textContent = 'Sending...';
     btn.disabled = true;
-
     const data = new FormData(form);
     const payload = {
-        name:       data.get('name'),
-        company:    data.get('company'),
-        email:      data.get('email'),
-        website:    data.get('website') || null,
+        name: data.get('name'),
+        company: data.get('company'),
+        email: data.get('email'),
+        website: data.get('website') || null,
         ad_section: data.get('section') || null,
-        message:    data.get('message'),
+        message: data.get('message'),
         submitted_at: new Date().toISOString()
     };
-
     try {
         const res = await fetch(SUPA_URL + '/rest/v1/ad_inquiries', {
             method: 'POST',
             headers: {
-                'Content-Type':  'application/json',
-                'apikey':         SUPA_KEY,
+                'Content-Type': 'application/json',
+                'apikey': SUPA_KEY,
                 'Authorization': 'Bearer ' + SUPA_KEY,
-                'Prefer':        'return=minimal'
+                'Prefer': 'return=minimal'
             },
             body: JSON.stringify(payload)
         });
@@ -211,15 +209,12 @@ async function handleSubmit(e) {
             form.reset();
             msg.style.display = 'block';
             msg.textContent = '✓ Inquiry received. We will be in touch within 48 hours.';
-        } else {
-            throw new Error('Server error ' + res.status);
-        }
+        } else { throw new Error('err'); }
     } catch(err) {
         msg.style.display = 'block';
         msg.style.background = '#fff1f2';
-        msg.style.borderColor = '#fca5a5';
         msg.style.color = '#991b1b';
-        msg.textContent = 'Something went wrong. Please email us at priscillanarine@gmail.com';
+        msg.textContent = 'Something went wrong. Please try again.';
     } finally {
         btn.textContent = 'Submit Advertising Inquiry';
         btn.disabled = false;
