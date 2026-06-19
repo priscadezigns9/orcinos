@@ -142,8 +142,33 @@
         }
 
         @media (max-width: 900px) {
+            header {
+                flex-direction: column;
+                padding: 1rem;
+                height: auto;
+            }
+            .logo-container {
+                margin-bottom: 1rem;
+            }
+            nav {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 10px;
+            }
+            nav a {
+                margin-left: 0;
+                font-size: 0.9rem;
+            }
             main {
                 grid-template-columns: 1fr;
+                padding: 1rem;
+            }
+            .card {
+                padding: 1rem;
+            }
+            .logo-text {
+                font-size: 1.2rem;
             }
         }
     </style>
