@@ -3,438 +3,134 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ORCINOS | High-Fidelity Software Division</title>
-    <link rel="icon" type="image/png" href="logos/orcinos_icon.png">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <title>SOVSYGNAL | Headlines</title>
+    <meta name="description" content="SOVSYGNAL - Global Intelligence Hub. High-fidelity Headlines intelligence signals.">
+    <link rel="icon" type="image/png" href="assets/logos/sovereign_favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --bg: #FFFFFF;
-            --text: #000000;
-            --muted: #86868b;
-            --border: #f5f5f7;
-            --sidebar-width: 260px;
-            --phone-width: 320px;
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
-        body { 
-            background: var(--bg); 
-            color: var(--text); 
-            font-family: 'Inter', -apple-system, sans-serif; 
-            -webkit-font-smoothing: antialiased; 
-            overflow-x: hidden;
-            line-height: 1.1;
-        }
-
-        /* Nav */
-        nav {
-            position: fixed;
-            top: 0; width: 100%;
-            height: 52px;
-            padding: 0 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: saturate(180%) blur(20px);
-            z-index: 1000;
-            border-bottom: 1px solid var(--border);
-        }
-        .logo-nav { font-weight: 700; font-size: 0.95rem; letter-spacing: -0.01em; display: flex; align-items: center; gap: 8px; }
-        .logo-nav img { width: 18px; }
-
-        /* Sidebar */
-        .sidebar {
-            position: fixed;
-            left: 40px; top: 100px;
-            width: var(--sidebar-width);
-            z-index: 100;
-            height: calc(100vh - 120px);
-            overflow-y: auto;
-            display: none;
-            padding-right: 20px;
-        }
-        .sidebar::-webkit-scrollbar { width: 0; }
-        @media (min-width: 1200px) { .sidebar { display: block; } }
-
-        .sidebar-section { margin-bottom: 32px; }
-        .sidebar-label { font-size: 0.75rem; font-weight: 700; color: #d2d2d7; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px; display: block; }
-        .sidebar-item { display: block; text-decoration: none; color: var(--muted); font-size: 0.9rem; font-weight: 600; margin-bottom: 8px; transition: color 0.2s; }
-        .sidebar-item.active { color: var(--text); }
-
-        /* Layout */
-        .page-container {
-            display: flex;
-            max-width: 1400px;
-            margin: 0 auto;
-            padding-top: 52px;
-        }
-
-        .content-column {
-            flex: 1;
-            padding-left: 40px;
-            padding-right: 40px;
-        }
-        @media (min-width: 1200px) { .content-column { padding-left: calc(var(--sidebar-width) + 80px); } }
-
-        .phone-column {
-            width: 500px;
-            position: relative;
-            display: none;
-        }
-        @media (min-width: 1024px) { .phone-column { display: block; } }
-
-        .sticky-wrapper {
-            position: sticky;
-            top: 52px;
-            height: calc(100vh - 52px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        /* iPhone Mockup */
-        .iphone {
-            width: var(--phone-width);
-            height: 700px;
-            background: #000;
-            border-radius: 54px;
-            padding: 12px;
-            position: relative;
-            box-shadow: 0 50px 100px -20px rgba(0,0,0,0.15);
-            border: 8px solid #1c1c1c;
-            overflow: hidden;
-        }
-
-        .iphone-screen {
-            background: #FFF;
-            width: 100%;
-            height: 100%;
-            border-radius: 40px;
-            overflow: hidden;
-            position: relative;
-            transition: background-image 0.5s ease-in-out;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .phone-iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: none;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-            z-index: 1;
-        }
-
-        .phone-iframe.active {
-            opacity: 1;
-        }
-
-        .phone-header {
-            padding: 42px 20px 12px;
-            background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(20px);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            border-bottom: 1px solid rgba(0,0,0,0.08);
-            z-index: 10;
-            position: relative;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.02);
-        }
-        .phone-header img { width: 18px; }
-        .phone-header span { font-weight: 900; font-size: 0.8rem; letter-spacing: -0.02em; text-transform: uppercase; }
-
-        .iphone-notch {
-            position: absolute;
-            top: 0; left: 50%;
-            transform: translateX(-50%);
-            width: 140px; height: 32px;
-            background: #000;
-            border-bottom-left-radius: 20px;
-            border-bottom-right-radius: 20px;
-            z-index: 100;
-        }
-
-        /* Content Sections */
-        section {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 100px 0;
-        }
-
-        section h1 {
-            font-size: clamp(2.8rem, 6vw, 4.5rem);
-            font-weight: 800;
-            letter-spacing: -0.04em;
-            line-height: 1.05;
-            margin-bottom: 24px;
-        }
-
-        section p {
-            font-size: clamp(1.2rem, 2vw, 1.6rem);
-            font-weight: 500;
-            color: #6e6e73;
-            line-height: 1.25;
-            max-width: 550px;
-            margin-bottom: 30px;
-        }
-
-        .btn-visit {
-            display: inline-flex;
-            align-items: center;
-            padding: 12px 24px;
-            background: #0071e3;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 980px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            transition: background 0.2s, transform 0.2s;
-        }
-        .btn-visit:hover {
-            background: #0077ed;
-            transform: scale(1.02);
-        }
-        .btn-visit svg {
-            margin-left: 8px;
-            width: 16px;
-            height: 16px;
-        }
-
-        footer {
-            padding: 100px 40px 40px;
-            border-top: 1px solid var(--border);
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: var(--muted);
-            display: flex;
-            justify-content: space-between;
-        }
-        .god-trigger { cursor: pointer; }
-    </style>
+    :root { --primary: #8B0000; --bg: #F9F9F9; --text: #1A1A1A; --font-heading: 'Playfair Display', serif; --font-body: 'Inter', sans-serif; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: var(--bg); color: var(--text); font-family: var(--font-body); line-height: 1.6; overflow-x: hidden; }
+    .ticker-wrap { width:100%;overflow:hidden;background:#000;color:#fff;padding:10px 0;border-bottom:2px solid var(--primary); }
+    .ticker { display:inline-block;white-space:nowrap;padding-right:100%;animation:ticker 240s linear infinite; }
+    @keyframes ticker { 0%{transform:translateX(0)} 100%{transform:translateX(-100%)} }
+    .ticker-item { display:inline-block;padding:0 30px;font-weight:800;font-size:0.72rem;text-transform:uppercase;letter-spacing:1.5px; }
+    .ticker-item span { color:var(--primary);margin-right:8px; }
+    header { background:#fff;padding:25px 6%;border-bottom:3px solid #000;text-align:center;position:relative;z-index:1000; }
+    header h1 { font-family:var(--font-heading);font-size:2.8rem;letter-spacing:6px;text-transform:uppercase;line-height:1.1; }
+    header h1 a { text-decoration:none;color:#000; }
+    header p { font-size:0.72rem;color:#888;letter-spacing:2px;text-transform:uppercase;margin-top:8px; }
+    nav { margin-top:20px;display:flex;flex-wrap:wrap;justify-content:center;gap:8px;padding:0 10px; }
+    nav a { text-decoration:none;font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;padding:8px 14px;border:1.5px solid #000;color:#000;border-radius:2px;transition:all 0.2s;margin-bottom:8px; }
+    nav a:hover,nav a.active { background:#000;color:#fff; }
+    .container { max-width:1300px;margin:40px auto;padding:0 5%;display:grid;grid-template-columns:1fr 300px;gap:40px; }
+    @media(max-width:900px){
+        .container{grid-template-columns:1fr;}
+        header h1 { font-size: 1.8rem; letter-spacing: 4px; }
+        header { padding: 20px 4%; }
+        .news-card { padding: 16px; }
+        nav { gap: 6px; }
+        nav a { padding: 6px 10px; font-size: 0.65rem; }
+    }
+    @media(max-width:480px){
+        header h1 { font-size: 1.5rem; letter-spacing: 2px; }
+        header p { font-size: 0.6rem; letter-spacing: 1px; }
+        .ticker-item { padding: 0 15px; font-size: 0.65rem; }
+        nav { margin-top: 15px; }
+        nav a { font-size: 0.58rem; padding: 5px 8px; margin-bottom: 5px; letter-spacing: 0.5px; }
+    }
+    .news-grid { display:grid;gap:20px; }
+    .news-card { background:#fff;border:1px solid #e8e8e8;border-radius:8px;padding:24px;transition:box-shadow 0.2s; }
+    .news-card:hover { box-shadow:0 4px 20px rgba(0,0,0,0.08); }
+    .news-card h2 { font-family:var(--font-heading);font-size:1.3rem;margin-bottom:8px;line-height:1.35; }
+    .news-card h2 a { text-decoration:none;color:var(--text); }
+    .news-card h2 a:hover { color:var(--primary); }
+    .section-label { font-size:0.65rem;font-weight:800;text-transform:uppercase;letter-spacing:3px;color:var(--primary);border-bottom:2px solid var(--primary);padding-bottom:8px;margin-bottom:24px; }
+    footer { background:#000;color:#fff;text-align:center;padding:30px;margin-top:60px;font-size:0.8rem; }
+    footer img { height:30px;margin-bottom:10px;opacity:0.8; }
+</style>
 </head>
 <body>
-
-    <nav>
-        <div class="logo-nav">
-            <img src="logos/orcinos_icon.png" alt="Orcinos Icon">
-            <span>ORCINOS</span>
+<div class="ticker-wrap"><div class="ticker"><span class="ticker-item"><span>●</span>U.K. Live Updates: Starmer Announces Resignation; Burnham Wins Key Endorsement</span> <span class="ticker-item"><span>●</span>Mideast Live Updates: Mediators Point to Progress After First Round of U.S.-Iran Talks</span> <span class="ticker-item"><span>●</span>First Round of U.S.-Iran Talks Ends With High Hopes and Big Challenges</span> <span class="ticker-item"><span>●</span>Thousands Are Fleeing Ukraine’s Donbas Strongholds as Russia Pushes Closer</span> <span class="ticker-item"><span>●</span>Explosion at Qatar Gas Plant Leaves at Least 54 Injured</span> <span class="ticker-item"><span>●</span>Bonds Are Heeding Warsh’s Hawkish Tone and Making It Harder for the Stock Market</span> <span class="ticker-item"><span>●</span>2 Insurance Stocks with Solid Fundamentals and 1 Facing Headwinds</span> <span class="ticker-item"><span>●</span>AI Developments and Iran Diplomacy Drive Market Sentiment: Dow Jones, S&P, Nasdaq, Wall St</span> <span class="ticker-item"><span>●</span>Micron earnings, PCE data, gas prices: What to watch this week</span> <span class="ticker-item"><span>●</span>US Equity Investors to Watch Out for Micron Technology's Earnings, PCE Inflation, Iran Pea</span> <span class="ticker-item"><span>●</span>Bitcoin Network Activity Is Rising as BTC Falls Nearly 50% Below Peak Price: CryptoQuant</span> <span class="ticker-item"><span>●</span>The 5 Largest Publicly Traded Solana Treasury Firms</span> <span class="ticker-item"><span>●</span>Strive Blames Leverage Liquidations After SATA and Bitcoin Giant Strategy's STRC Plunge</span> <span class="ticker-item"><span>●</span>Anime Girls Could Steal Your Crypto as Wallpaper Malware Targets Steam Gamers</span> <span class="ticker-item"><span>●</span>Texas Brothers Plead Guilty to $8M Armed Crypto Kidnapping</span> <span class="ticker-item"><span>●</span>Undercover Cops Infiltrated Delaney Hall ICE Protest to Spy and Make Arrest</span> <span class="ticker-item"><span>●</span>Senate Democrats Aren’t Happy About Trump’s Spy Law Ultimatum</span> <span class="ticker-item"><span>●</span>Are Jeffries and Schumer Getting Ready to Greenlight Domestic Spy Power for Trump?</span> <span class="ticker-item"><span>●</span>U.S. Casualties in Iran Are Still Rising</span> <span class="ticker-item"><span>●</span>Bernie Sanders Backs Justin J. Pearson, House Candidate at the Heart of Tennessee Voting R</span> <span class="ticker-item"><span>●</span>The loneliness crisis has gotten so bad that lawmakers are ready to spend millions of doll</span> <span class="ticker-item"><span>●</span>The pound will not like Burnham as UK prime minister - Credit Agricole</span> <span class="ticker-item"><span>●</span>BofA now expects Fed to hike interest rates three times this year</span> <span class="ticker-item"><span>●</span>Gold maintains the bearish bias following the hawkish Fed decision; focus shifts to data</span> <span class="ticker-item"><span>●</span>Dollar continues to press higher to start the new week</span> <span class="ticker-item"><span>●</span>Starmer says he’s resigning as U.K. prime minister. Here’s what it means for markets.</span> <span class="ticker-item"><span>●</span>A major test is coming for the stock market, and Morgan Stanley warns the Fed won’t rescue</span> <span class="ticker-item"><span>●</span>The late Diane Keaton’s ‘Pinterest’ house in L.A. is relisted with a big price cut</span> <span class="ticker-item"><span>●</span>This bull market isn’t going to end because of Fed rate hikes under Warsh</span> <span class="ticker-item"><span>●</span>Methanex: Positioned To Benefit From A Tightening Methanol Market</span> <span class="ticker-item"><span>●</span>How this agent grew her business 74% YOY, spending next to nothing</span> <span class="ticker-item"><span>●</span>NAREB president talks about private listing networks and the history of MLS exclusion</span> <span class="ticker-item"><span>●</span>The Knicks just won a title on a night they couldn’t shoot. Here’s the lesson for agents</span> <span class="ticker-item"><span>●</span>‘Wait, isn’t Bed Bath and Beyond out of business?’ What the Fathom deal means for real est</span> <span class="ticker-item"><span>●</span>Sotheby’s report: Aging in place is reshaping luxury real estate</span> <span class="ticker-item"><span>●</span>'Saikyou Degarashi Ouji no Anyaku Teii Arasoi' Announces Additional Cast Pair</span> <span class="ticker-item"><span>●</span>'World Is Dancing' Unveils Additional Cast, Ending Theme, Third Promo</span> <span class="ticker-item"><span>●</span>Manga 'Koisuru (Otome) no Tsukurikata' Gets TV Anime Adaptation</span> <span class="ticker-item"><span>●</span>Supporting Cast for 'Honoo no Toukyuujo: Dodge Danko' Announced</span> <span class="ticker-item"><span>●</span>'Higurashi no Naku Koro ni' New Anime Announced</span></div></div>
+<header>
+    <h1><a href="index.html">SOVSYGNAL</a></h1>
+    <p>Global Intelligence Hub &middot; Updated Jun 22, 2026 | 11:09 AM AST</p>
+    <nav><a href="index.html" class="active">Headlines</a>
+<a href="geopolitics.html" class="">Geopolitics</a>
+<a href="stocks.html" class="">Stocks</a>
+<a href="blockchain.html" class="">Blockchain</a>
+<a href="intelligence.html" class="">Intelligence</a>
+<a href="forex.html" class="">Forex</a>
+<a href="markets.html" class="">Markets</a>
+<a href="realestate.html" class="">Real Estate</a>
+<a href="anime.html" class="">Anime</a>
+<a href="gaming.html" class="">Gaming</a>
+<a href="entertainment.html" class="">Entertainment</a>
+<a href="lifestyle.html" class="">Lifestyle</a>
+<a href="biohacking.html" class="">Biohacking</a>
+<a href="advertise.html">Advertise</a>
+</nav>
+</header>
+<div class="container">
+    <main>
+        <div class="section-label">Headlines</div>
+        <div class="news-grid">
+        <div class="news-card">
+            <h2><a href="https://www.nytimes.com/live/2026/06/22/world/uk-keir-starmer-resign-pressure" target="_blank" rel="noopener">U.K. Live Updates: Starmer Announces Resignation; Burnham Wins Key Endorsement</a></h2>
+            <p style="font-size:0.82rem;color:#555;margin-top:6px;">Prime Minister Keir Starmer stepped down as leader of the governing Labour Party. Andy Burnham, the party’s most popular politician, said he would seek the prim</p>
+            <p style="font-size:0.7rem;color:#999;margin-top:10px;">Mon, 22 Jun 2026</p>
         </div>
-    </nav>
-
-    <div class="sidebar">
-        <div class="sidebar-section">
-            <span class="sidebar-label">Cover</span>
-            <a href="#cover" class="sidebar-item active">Orcinos Hub</a>
+        <div class="news-card">
+            <h2><a href="https://www.nytimes.com/live/2026/06/22/world/iran-us-trump-lebanon" target="_blank" rel="noopener">Mideast Live Updates: Mediators Point to Progress After First Round of U.S.-Iran Talks</a></h2>
+            <p style="font-size:0.82rem;color:#555;margin-top:6px;">Qatar and Pakistan said that high-level talks in Switzerland ended early Monday, with technical discussions to follow. Tensions over fighting in Lebanon and oth</p>
+            <p style="font-size:0.7rem;color:#999;margin-top:10px;">Mon, 22 Jun 2026</p>
         </div>
-        <div class="sidebar-section">
-            <span class="sidebar-label">Intelligence</span>
-            <a href="#sovsygnal" class="sidebar-item">SovSygnal</a>
-            <a href="#optiscout" class="sidebar-item">OptiScout</a>
-            <a href="#captioai" class="sidebar-item">Captio AI</a>
+        <div class="news-card">
+            <h2><a href="https://finance.yahoo.com/m/d8c48714-15ad-3e0f-87f8-d56cf063d371/bonds-are-heeding-warsh%E2%80%99s.html?.tsrc=rss" target="_blank" rel="noopener">Bonds Are Heeding Warsh’s Hawkish Tone and Making It Harder for the Stock Market</a></h2>
+            <p style="font-size:0.82rem;color:#555;margin-top:6px;">The moves suggested a reset for U.S. Treasury yields tied to the surprisingly hawkish tone established by new Federal Reserve Chairman Kevin Warsh last week, wh</p>
+            <p style="font-size:0.7rem;color:#999;margin-top:10px;">Mon, 22 Jun 2026</p>
         </div>
-        <div class="sidebar-section">
-            <span class="sidebar-label">Engineering</span>
-            <a href="#titantraderx" class="sidebar-item">Titan TraderX</a>
-            <a href="#nurasen" class="sidebar-item">Nurasen</a>
-            <a href="#riddiim" class="sidebar-item">Riddiim</a>
-            <a href="#dpanyard" class="sidebar-item">DPanyard</a>
+        <div class="news-card">
+            <h2><a href="https://finance.yahoo.com/markets/stocks/articles/2-insurance-stocks-solid-fundamentals-101119537.html?.tsrc=rss" target="_blank" rel="noopener">2 Insurance Stocks with Solid Fundamentals and 1 Facing Headwinds</a></h2>
+            <p style="font-size:0.82rem;color:#555;margin-top:6px;">Insurance firms play a critical role in the financial system, offering everything from property coverage to life insurance and specialized risk solutions. Still</p>
+            <p style="font-size:0.7rem;color:#999;margin-top:10px;">Mon, 22 Jun 2026</p>
         </div>
-        <div class="sidebar-section">
-            <span class="sidebar-label">Lifestyle</span>
-            <a href="#calalloo" class="sidebar-item">Calalloo</a>
-            <a href="#pawdx" class="sidebar-item">PawDX</a>
-            <a href="#nemuie" class="sidebar-item">Nemuie</a>
-            <a href="#syla" class="sidebar-item">Syla</a>
+        <div class="news-card">
+            <h2><a href="https://decrypt.co/371702/bitcoin-network-activity-rising-btc-falls-50-percent-below-peak-price" target="_blank" rel="noopener">Bitcoin Network Activity Is Rising as BTC Falls Nearly 50% Below Peak Price: CryptoQuant</a></h2>
+            <p style="font-size:0.82rem;color:#555;margin-top:6px;">Activity on the Bitcoin network is surging, CryptoQuant said, but it's not correlating with price movement for its native asset.</p>
+            <p style="font-size:0.7rem;color:#999;margin-top:10px;">Sat, 20 Jun 2026</p>
         </div>
-        <div class="sidebar-section">
-            <span class="sidebar-label">Agency</span>
-            <a href="#dricil" class="sidebar-item">Dricil</a>
-            <a href="#firmless" class="sidebar-item">Firmless</a>
-            <a href="#senpai" class="sidebar-item">Senpai</a>
-            <a href="#lattome" class="sidebar-item">Lattome</a>
+        <div class="news-card">
+            <h2><a href="https://decrypt.co/339551/5-largest-publicly-traded-solana-treasury-firms" target="_blank" rel="noopener">The 5 Largest Publicly Traded Solana Treasury Firms</a></h2>
+            <p style="font-size:0.82rem;color:#555;margin-top:6px;">Institutions are gobbling up Solana for their balance sheets. These are the top publicly traded treasuries.</p>
+            <p style="font-size:0.7rem;color:#999;margin-top:10px;">Fri, 19 Jun 2026</p>
         </div>
-    </div>
-
-    <div class="page-container">
-        <div class="content-column">
-            <!-- Section 1: Hero -->
-            <section id="cover" data-url="https://orcinos.com/index.html">
-                <h1>Software for the Modern Pocket.</h1>
-                <p>Orcinos is a powerful pocket-sized software division. Designed for clarity, with high-fidelity logic that makes sense at a glance.</p>
-            </section>
-
-            <!-- Intelligence -->
-            <section id="sovsygnal" data-url="https://orcinos.com/sovsygnal/">
-                <h1>SovSygnal. Global Intel Hub.</h1>
-                <p>The Sovereign Signal. High-fidelity news and market intelligence delivered directly to your node system.</p>
-                <a href="https://orcinos.com/sovsygnal/" target="_blank" class="btn-visit">Visit SovSygnal <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg></a>
-            </section>
-
-            <section id="optiscout" data-url="https://orcinos.com/optiscout/index.html">
-                <h1>OptiScout. Deals start simple.</h1>
-                <p>A spread gesture puts more details at your fingertips. Market data is turned back into a simple list with a single pinch.</p>
-                <a href="https://orcinos.com/optiscout/index.html" target="_blank" class="btn-visit">Visit OptiScout <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg></a>
-            </section>
-
-            <section id="captioai" data-url="https://orcinos.com/captioai/index.html">
-                <h1>Captio AI. Add nodes in seconds.</h1>
-                <p>Just one tap to add product nodes. Add social intelligence to your division with a single handshake.</p>
-                <a href="https://orcinos.com/captioai/index.html" target="_blank" class="btn-visit">Visit Captio AI <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg></a>
-            </section>
-
-            <!-- Engineering -->
-            <section id="titantraderx" data-url="https://orcinos.com/titantraderx/index.html">
-                <h1>Titan TraderX. Institutional logic.</h1>
-                <p>Institutional grade infrastructure for sovereign traders. Real-time market intelligence and execution, delivered natively.</p>
-                <a href="https://orcinos.com/titantraderx/index.html" target="_blank" class="btn-visit">Visit Titan TraderX <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg></a>
-            </section>
-
-            <section id="nurasen" data-url="https://orcinos.com/nurasen/index.html">
-                <h1>Nurasen. Data stored on-device.</h1>
-                <p>Credentials and data are stored on-device, not on an Orcinos server. Connections are made directly between your phone and your nodes.</p>
-                <a href="https://orcinos.com/nurasen/index.html" target="_blank" class="btn-visit">Visit Nurasen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg></a>
-            </section>
-
-            <section id="riddiim" data-url="https://orcinos.com/riddiim/index.html">
-                <h1>Riddiim. Audio engineering.</h1>
-                <p>High-fidelity audio playback and studio production tech, optimized for the pocket interface.</p>
-                <a href="https://orcinos.com/riddiim/index.html" target="_blank" class="btn-visit">Visit Riddiim <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg></a>
-            </section>
-
-            <section id="dpanyard" data-url="https://orcinos.com/dpanyard/index.html">
-                <h1>DPanyard. Smart logistics.</h1>
-                <p>Intelligent kitchen and home automation logistics. Streamlining high-fidelity living.</p>
-                <a href="https://orcinos.com/dpanyard/index.html" target="_blank" class="btn-visit">Visit DPanyard <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg></a>
-            </section>
-
-            <!-- Lifestyle -->
-            <section id="calalloo" data-url="https://calalloo.com/index.html">
-                <h1>Calalloo. Heritage Hub.</h1>
-                <p>Authentic Caribbean culinary intelligence. Data-driven recipes and cultural signals.</p>
-                <a href="https://calalloo.com/index.html" target="_blank" class="btn-visit">Visit Calalloo <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg></a>
-            </section>
-
-            <section id="pawdx" data-url="https://orcinos.com/pawdx/index.html">
-                <h1>PawDX. AI veterinary diagnostics.</h1>
-                <p>Formatting that makes diagnostics human-readable. Clean up telemetry and medical terms instantly.</p>
-                <a href="https://orcinos.com/pawdx/index.html" target="_blank" class="btn-visit">Visit PawDX <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg></a>
-            </section>
-
-            <section id="nemuie" data-url="https://orcinos.com/nemuie/index.html">
-                <h1>Nemuie. Sleep Intelligence.</h1>
-                <p>High-fidelity sleep coaching and recovery metrics. Designed to optimize your most critical resource.</p>
-                <a href="https://orcinos.com/nemuie/index.html" target="_blank" class="btn-visit">Visit Nemuie <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg></a>
-            </section>
-
-            <section id="syla" data-url="https://orcinos.com/syla/index.html">
-                <h1>Syla. Asset Tracking.</h1>
-                <p>A simple, institutional way to track your business assets and tools across the network.</p>
-                <a href="https://orcinos.com/syla/index.html" target="_blank" class="btn-visit">Visit Syla <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg></a>
-            </section>
-
-            <!-- Agency -->
-            <section id="dricil" data-url="https://orcinos.com/dricil/index.html">
-                <h1>Dricil. AI Digital Agency.</h1>
-                <p>Fully automatic digital agency. Social media, SEO, and marketing executed by sovereign AI agents.</p>
-                <a href="https://orcinos.com/dricil/index.html" target="_blank" class="btn-visit">Visit Dricil <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg></a>
-            </section>
-
-            <section id="firmless" data-url="https://orcinos.com/firmless/index.html">
-                <h1>Firmless. Regulatory Logic.</h1>
-                <p>Advanced compliance and regulatory automation for modern software deployments.</p>
-                <a href="https://orcinos.com/firmless/index.html" target="_blank" class="btn-visit">Visit Firmless <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg></a>
-            </section>
-
-            <section id="senpai" data-url="https://orcinos.com/senpai/index.html">
-                <h1>Senpai. Skill Acquisition.</h1>
-                <p>Interactive learning and skill-building logic designed for rapid mastery.</p>
-                <a href="https://orcinos.com/senpai/index.html" target="_blank" class="btn-visit">Visit Senpai <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg></a>
-            </section>
-
-            <section id="lattome" data-url="https://orcinos.com/lattome/index.html">
-                <h1>Lattome. Spiritual Logic.</h1>
-                <p>High-fidelity meditative and spiritual intelligence. Anchoring the division in meaningful purpose.</p>
-                <a href="https://orcinos.com/lattome/index.html" target="_blank" class="btn-visit">Visit Lattome <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg></a>
-            </section>
         </div>
+    </main>
+    <aside class="sidebar">
+<div style="background:#000;color:#fff;padding:22px;border-radius:8px;margin-bottom:18px;">
+    <div style="font-size:0.58rem;font-weight:800;text-transform:uppercase;letter-spacing:2px;opacity:0.7;margin-bottom:6px;">Featured Brand</div>
+    <h4 style="font-family:Playfair Display,serif;font-size:1.1rem;margin-bottom:4px;">PRISCION</h4>
+    <p style="font-size:0.78rem;opacity:0.8;margin-bottom:14px;">AI Intelligence Network</p>
+    <a href="https://orcinos.com/" target="_blank" style="display:inline-block;background:#8B0000;color:#fff;padding:8px 16px;border-radius:4px;font-size:0.75rem;font-weight:700;text-decoration:none;text-transform:uppercase;letter-spacing:1px;">Visit →</a>
+</div>
+<div style="background:#fff;border:1px solid #e8e8e8;padding:22px;border-radius:8px;margin-bottom:18px;">
+    <div style="font-size:0.58rem;font-weight:800;text-transform:uppercase;letter-spacing:2px;color:#8B0000;margin-bottom:8px;">Recommended</div>
+    <h4 style="font-size:1rem;margin-bottom:10px;font-family:Playfair Display,serif;">Premium Tech Bundle</h4>
+    <a href="https://www.amazon.com/s?k=smart+home+bundle&tag=priscadezigns-20" target="_blank" style="display:inline-block;background:#FF9900;color:#000;padding:8px 16px;border-radius:4px;font-size:0.75rem;font-weight:700;text-decoration:none;">Shop on Amazon →</a>
+</div>
 
-        <div class="phone-column">
-            <div class="sticky-wrapper">
-                <div class="iphone">
-                    <div class="iphone-notch"></div>
-                    <div class="iphone-screen" id="iphone-screen">
-                        <div class="phone-header">
-                            <img src="logos/orcinos_icon.png" alt="Orcinos Icon">
-                            <span>ORCINOS HUB</span>
-                        </div>
-                        <iframe class="phone-iframe" id="phone-iframe" src="about:blank" style="width: 100%; height: 100%;"></iframe>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <footer>
-        <div>
-            <img src="logos/orcinos_icon.png" alt="Orcinos Icon" style="width: 28px; margin-bottom: 20px; filter: grayscale(1); opacity: 0.5;"><br>
-            <span class="god-trigger" id="god-trigger-text">&copy; 2026 ORCINOS DIVISION</span><br>
-            A Priscion Network Entity.
-        </div>
-        <div>Lattome.</div>
-    </footer>
-
-    <script>
-        const observerOptions = { threshold: 0.6 };
-        const iframe = document.getElementById('phone-iframe');
-        const sidebarItems = document.querySelectorAll('.sidebar-item');
-
-        let currentUrl = '';
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const url = entry.target.getAttribute('data-url');
-                    const id = entry.target.getAttribute('id');
-
-                    if (url && url !== currentUrl) {
-                        currentUrl = url;
-                        iframe.classList.remove('active');
-                        
-                        setTimeout(() => {
-                            iframe.src = url;
-                            iframe.onload = () => iframe.classList.add('active');
-                        }, 100);
-                    }
-
-                    sidebarItems.forEach(item => {
-                        item.classList.remove('active');
-                        if (item.getAttribute('href') === `#${id}`) item.classList.add('active');
-                    });
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('section').forEach(s => observer.observe(s));
-
-        // God Mode Handshake
-        let clicks = 0;
-        document.getElementById('god-trigger-text').addEventListener('click', () => {
-            clicks++;
-            if (clicks === 5) {
-                const token = prompt("ENTER_ARCHITECT_TOKEN:");
-                if (token === 'alice') window.location.href = './godmode/hub.html';
-                clicks = 0;
-            }
-            setTimeout(() => { clicks = 0; }, 3000);
-        });
-    </script>
+<div style="background:linear-gradient(135deg,#8B0000,#000);color:#fff;padding:22px;border-radius:8px;margin-bottom:18px;text-align:center;">
+    <div style="font-size:0.58rem;font-weight:800;text-transform:uppercase;letter-spacing:2px;opacity:0.8;margin-bottom:8px;">Advertise Here</div>
+    <p style="font-size:0.8rem;opacity:0.9;margin-bottom:14px;line-height:1.5;">Reach a global audience of investors, analysts &amp; decision makers.</p>
+    <a href="advertise.html" style="display:inline-block;background:#fff;color:#8B0000;padding:9px 18px;border-radius:4px;font-weight:800;font-size:0.75rem;text-decoration:none;text-transform:uppercase;letter-spacing:1px;">Get Featured →</a>
+</div>
+</aside>
+</div>
+<footer>
+    <img src="assets/logos/sovereign_footer_logo.png" alt="Sovereign">
+    <p>&copy; 2026 SOVSYGNAL &middot; PRISCION INTELLIGENCE MEDIA</p>
+</footer>
 </body>
 </html>
