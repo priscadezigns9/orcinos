@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOVSYGNAL | Forex</title>
+    <meta name="description" content="SOVSYGNAL - Global Intelligence Hub. High-fidelity Forex intelligence signals.">
+    <link rel="icon" type="image/png" href="assets/logos/sovereign_favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+    :root { --primary: #8B0000; --bg: #F9F9F9; --text: #1A1A1A; --font-heading: 'Playfair Display', serif; --font-body: 'Inter', sans-serif; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: var(--bg); color: var(--text); font-family: var(--font-body); line-height: 1.6; overflow-x: hidden; }
+    .ticker-wrap { width:100%;overflow:hidden;background:#000;color:#fff;padding:10px 0;border-bottom:2px solid var(--primary); }
+    .ticker { display:inline-block;white-space:nowrap;padding-right:100%;animation:ticker 240s linear infinite; }
+    @keyframes ticker { 0%{transform:translateX(0)} 100%{transform:translateX(-100%)} }
+    .ticker-item { display:inline-block;padding:0 30px;font-weight:800;font-size:0.72rem;text-transform:uppercase;letter-spacing:1.5px; }
+    .ticker-item span { color:var(--primary);margin-right:8px; }
+    header { background:#fff;padding:25px 6%;border-bottom:3px solid #000;text-align:center;position:relative;z-index:1000; }
+    header h1 { font-family:var(--font-heading);font-size:2.8rem;letter-spacing:6px;text-transform:uppercase;line-height:1.1; }
+    header h1 a { text-decoration:none;color:#000; }
+    header p { font-size:0.72rem;color:#888;letter-spacing:2px;text-transform:uppercase;margin-top:8px; }
+    nav { margin-top:20px;display:flex;flex-wrap:wrap;justify-content:center;gap:8px;padding:0 10px; }
+    nav a { text-decoration:none;font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;padding:8px 14px;border:1.5px solid #000;color:#000;border-radius:2px;transition:all 0.2s;margin-bottom:8px; }
+    nav a:hover,nav a.active { background:#000;color:#fff; }
+    .container { max-width:1300px;margin:40px auto;padding:0 5%;display:grid;grid-template-columns:1fr 300px;gap:40px; }
+    @media(max-width:900px){
+        .container{grid-template-columns:1fr;}
+        header h1 { font-size: 1.8rem; letter-spacing: 4px; }
+        header { padding: 20px 4%; }
+        .news-card { padding: 16px; }
+        nav { gap: 6px; }
+        nav a { padding: 6px 10px; font-size: 0.65rem; }
+    }
+    @media(max-width:480px){
+        header h1 { font-size: 1.5rem; letter-spacing: 2px; }
+        header p { font-size: 0.6rem; letter-spacing: 1px; }
+        .ticker-item { padding: 0 15px; font-size: 0.65rem; }
+        nav { margin-top: 15px; }
+        nav a { font-size: 0.58rem; padding: 5px 8px; margin-bottom: 5px; letter-spacing: 0.5px; }
+    }
+    .news-grid { display:grid;gap:20px; }
+    .news-card { background:#fff;border:1px solid #e8e8e8;border-radius:8px;padding:24px;transition:box-shadow 0.2s; }
+    .news-card:hover { box-shadow:0 4px 20px rgba(0,0,0,0.08); }
+    .news-card h2 { font-family:var(--font-heading);font-size:1.3rem;margin-bottom:8px;line-height:1.35; }
+    .news-card h2 a { text-decoration:none;color:var(--text); }
+    .news-card h2 a:hover { color:var(--primary); }
+    .section-label { font-size:0.65rem;font-weight:800;text-transform:uppercase;letter-spacing:3px;color:var(--primary);border-bottom:2px solid var(--primary);padding-bottom:8px;margin-bottom:24px; }
+    footer { background:#000;color:#fff;text-align:center;padding:30px;margin-top:60px;font-size:0.8rem; }
+    footer img { height:30px;margin-bottom:10px;opacity:0.8; }
+</style>
+</head>
+<body>
+<div class="ticker-wrap"><div class="ticker"><span class="ticker-item"><span>●</span>U.K. Live Updates: Starmer Announces Resignation; Burnham Wins Key Endorsement</span> <span class="ticker-item"><span>●</span>Mideast Live Updates: Mediators Point to Progress After First Round of U.S.-Iran Talks</span> <span class="ticker-item"><span>●</span>First Round of U.S.-Iran Talks Ends With High Hopes and Big Challenges</span> <span class="ticker-item"><span>●</span>Thousands Are Fleeing Ukraine’s Donbas Strongholds as Russia Pushes Closer</span> <span class="ticker-item"><span>●</span>Explosion at Qatar Gas Plant Leaves at Least 54 Injured</span> <span class="ticker-item"><span>●</span>Bonds Are Heeding Warsh’s Hawkish Tone and Making It Harder for the Stock Market</span> <span class="ticker-item"><span>●</span>2 Insurance Stocks with Solid Fundamentals and 1 Facing Headwinds</span> <span class="ticker-item"><span>●</span>AI Developments and Iran Diplomacy Drive Market Sentiment: Dow Jones, S&P, Nasdaq, Wall St</span> <span class="ticker-item"><span>●</span>Micron earnings, PCE data, gas prices: What to watch this week</span> <span class="ticker-item"><span>●</span>US Equity Investors to Watch Out for Micron Technology's Earnings, PCE Inflation, Iran Pea</span> <span class="ticker-item"><span>●</span>Bitcoin Network Activity Is Rising as BTC Falls Nearly 50% Below Peak Price: CryptoQuant</span> <span class="ticker-item"><span>●</span>The 5 Largest Publicly Traded Solana Treasury Firms</span> <span class="ticker-item"><span>●</span>Strive Blames Leverage Liquidations After SATA and Bitcoin Giant Strategy's STRC Plunge</span> <span class="ticker-item"><span>●</span>Anime Girls Could Steal Your Crypto as Wallpaper Malware Targets Steam Gamers</span> <span class="ticker-item"><span>●</span>Texas Brothers Plead Guilty to $8M Armed Crypto Kidnapping</span> <span class="ticker-item"><span>●</span>Undercover Cops Infiltrated Delaney Hall ICE Protest to Spy and Make Arrest</span> <span class="ticker-item"><span>●</span>Senate Democrats Aren’t Happy About Trump’s Spy Law Ultimatum</span> <span class="ticker-item"><span>●</span>Are Jeffries and Schumer Getting Ready to Greenlight Domestic Spy Power for Trump?</span> <span class="ticker-item"><span>●</span>U.S. Casualties in Iran Are Still Rising</span> <span class="ticker-item"><span>●</span>Bernie Sanders Backs Justin J. Pearson, House Candidate at the Heart of Tennessee Voting R</span> <span class="ticker-item"><span>●</span>The loneliness crisis has gotten so bad that lawmakers are ready to spend millions of doll</span> <span class="ticker-item"><span>●</span>The pound will not like Burnham as UK prime minister - Credit Agricole</span> <span class="ticker-item"><span>●</span>BofA now expects Fed to hike interest rates three times this year</span> <span class="ticker-item"><span>●</span>Gold maintains the bearish bias following the hawkish Fed decision; focus shifts to data</span> <span class="ticker-item"><span>●</span>Dollar continues to press higher to start the new week</span> <span class="ticker-item"><span>●</span>Starmer says he’s resigning as U.K. prime minister. Here’s what it means for markets.</span> <span class="ticker-item"><span>●</span>A major test is coming for the stock market, and Morgan Stanley warns the Fed won’t rescue</span> <span class="ticker-item"><span>●</span>The late Diane Keaton’s ‘Pinterest’ house in L.A. is relisted with a big price cut</span> <span class="ticker-item"><span>●</span>This bull market isn’t going to end because of Fed rate hikes under Warsh</span> <span class="ticker-item"><span>●</span>Methanex: Positioned To Benefit From A Tightening Methanol Market</span> <span class="ticker-item"><span>●</span>How this agent grew her business 74% YOY, spending next to nothing</span> <span class="ticker-item"><span>●</span>NAREB president talks about private listing networks and the history of MLS exclusion</span> <span class="ticker-item"><span>●</span>The Knicks just won a title on a night they couldn’t shoot. Here’s the lesson for agents</span> <span class="ticker-item"><span>●</span>‘Wait, isn’t Bed Bath and Beyond out of business?’ What the Fathom deal means for real est</span> <span class="ticker-item"><span>●</span>Sotheby’s report: Aging in place is reshaping luxury real estate</span> <span class="ticker-item"><span>●</span>'Saikyou Degarashi Ouji no Anyaku Teii Arasoi' Announces Additional Cast Pair</span> <span class="ticker-item"><span>●</span>'World Is Dancing' Unveils Additional Cast, Ending Theme, Third Promo</span> <span class="ticker-item"><span>●</span>Manga 'Koisuru (Otome) no Tsukurikata' Gets TV Anime Adaptation</span> <span class="ticker-item"><span>●</span>Supporting Cast for 'Honoo no Toukyuujo: Dodge Danko' Announced</span> <span class="ticker-item"><span>●</span>'Higurashi no Naku Koro ni' New Anime Announced</span></div></div>
+<header>
+    <h1><a href="index.html">SOVSYGNAL</a></h1>
+    <p>Global Intelligence Hub &middot; Updated Jun 22, 2026 | 11:09 AM AST</p>
+    <nav><a href="index.html" class="">Headlines</a>
+<a href="geopolitics.html" class="">Geopolitics</a>
+<a href="stocks.html" class="">Stocks</a>
+<a href="blockchain.html" class="">Blockchain</a>
+<a href="intelligence.html" class="">Intelligence</a>
+<a href="forex.html" class="active">Forex</a>
+<a href="markets.html" class="">Markets</a>
+<a href="realestate.html" class="">Real Estate</a>
+<a href="anime.html" class="">Anime</a>
+<a href="gaming.html" class="">Gaming</a>
+<a href="entertainment.html" class="">Entertainment</a>
+<a href="lifestyle.html" class="">Lifestyle</a>
+<a href="biohacking.html" class="">Biohacking</a>
+<a href="advertise.html">Advertise</a>
+</nav>
+</header>
+<div class="container">
+    <main>
+        <div class="section-label">Forex</div>
+        <div class="news-grid">
+        <div class="news-card">
+            <h2><a href="https://www.marketwatch.com/story/the-loneliness-crisis-has-gotten-so-bad-that-lawmakers-are-ready-to-spend-millions-of-dollars-to-fight-it-f7e7c7b7?mod=mw_rss_topstories" target="_blank" rel="noopener">The loneliness crisis has gotten so bad that lawmakers are ready to spend millions of dollars to fight it</a></h2>
+            <p style="font-size:0.82rem;color:#555;margin-top:6px;">The health damage of loneliness is similar to heavy smoking and obesity</p>
+            <p style="font-size:0.7rem;color:#999;margin-top:10px;">Sun, 21 Jun 2026</p>
+        </div>
+        <div class="news-card">
+            <h2><a href="https://investinglive.com/forex/the-pound-will-not-like-burnham-as-uk-prime-minister-credit-agricole-20260622/" target="_blank" rel="noopener">The pound will not like Burnham as UK prime minister - Credit Agricole</a></h2>
+            <p style="font-size:0.82rem;color:#555;margin-top:6px;">The wheels have been set in motion already and with Streeting backing out, Burnham looks to be the uncontested favourite to take over as UK prime minister next.</p>
+            <p style="font-size:0.7rem;color:#999;margin-top:10px;">Mon, 22 Jun 2026</p>
+        </div>
+        <div class="news-card">
+            <h2><a href="https://investinglive.com/news/bofa-now-expects-fed-to-hike-interest-rates-three-times-this-year-20260622/" target="_blank" rel="noopener">BofA now expects Fed to hike interest rates three times this year</a></h2>
+            <p style="font-size:0.82rem;color:#555;margin-top:6px;">That shows how quickly the perception in markets can change. Just six weeks ago, BofA changed their call from rate cuts to expecting the Fed to stand pat for th</p>
+            <p style="font-size:0.7rem;color:#999;margin-top:10px;">Mon, 22 Jun 2026</p>
+        </div>
+        <div class="news-card">
+            <h2><a href="https://investinglive.com/commodities/gold-maintains-the-bearish-bias-following-the-hawkish-fed-decision-focus-shifts-to-data-20260622/" target="_blank" rel="noopener">Gold maintains the bearish bias following the hawkish Fed decision; focus shifts to data</a></h2>
+            <p style="font-size:0.82rem;color:#555;margin-top:6px;">FUNDAMENTAL
+OVERVIEWGold maintains the bearish bias following the hawkish Fed dot plot last
+week as the central bank’s tightening bias led to a rise in re</p>
+            <p style="font-size:0.7rem;color:#999;margin-top:10px;">Mon, 22 Jun 2026</p>
+        </div>
+        <div class="news-card">
+            <h2><a href="https://investinglive.com/forex/dollar-continues-to-press-higher-to-start-the-new-week-20260622/" target="_blank" rel="noopener">Dollar continues to press higher to start the new week</a></h2>
+            <p style="font-size:0.82rem;color:#555;margin-top:6px;">The US and Iran framework agreement remains fragile at best and as seen from the weekend, it can all fall apart at any point in time.The</p>
+            <p style="font-size:0.7rem;color:#999;margin-top:10px;">Mon, 22 Jun 2026</p>
+        </div>
+        <div class="news-card">
+            <h2><a href="https://investinglive.com/forex/the-indian-rupees-relief-rally-pauses-after-the-surprisingly-hawkish-fed-hormuz-tensions-20260622/" target="_blank" rel="noopener">The Indian Rupee's relief rally pauses after the surprisingly hawkish Fed, Hormuz tensions</a></h2>
+            <p style="font-size:0.82rem;color:#555;margin-top:6px;">FUNDAMENTAL
+OVERVIEWUSD:The US dollar surged across the board on Wednesday on the more hawkish than
+expected dot plot (the consensus was looking fo</p>
+            <p style="font-size:0.7rem;color:#999;margin-top:10px;">Mon, 22 Jun 2026</p>
+        </div>
+        </div>
+    </main>
+    <aside class="sidebar">
+<div style="background:#000;color:#fff;padding:22px;border-radius:8px;margin-bottom:18px;">
+    <div style="font-size:0.58rem;font-weight:800;text-transform:uppercase;letter-spacing:2px;opacity:0.7;margin-bottom:6px;">Featured Brand</div>
+    <h4 style="font-family:Playfair Display,serif;font-size:1.1rem;margin-bottom:4px;">OptiScout</h4>
+    <p style="font-size:0.78rem;opacity:0.8;margin-bottom:14px;">Market Intelligence AI</p>
+    <a href="https://orcinos.com/optiscout/" target="_blank" style="display:inline-block;background:#8B0000;color:#fff;padding:8px 16px;border-radius:4px;font-size:0.75rem;font-weight:700;text-decoration:none;text-transform:uppercase;letter-spacing:1px;">Visit →</a>
+</div>
+<div style="background:#fff;border:1px solid #e8e8e8;padding:22px;border-radius:8px;margin-bottom:18px;">
+    <div style="font-size:0.58rem;font-weight:800;text-transform:uppercase;letter-spacing:2px;color:#8B0000;margin-bottom:8px;">Recommended</div>
+    <h4 style="font-size:1rem;margin-bottom:10px;font-family:Playfair Display,serif;">Forex Trading Guide</h4>
+    <a href="https://www.amazon.com/s?k=forex+trading+books&tag=priscadezigns-20" target="_blank" style="display:inline-block;background:#FF9900;color:#000;padding:8px 16px;border-radius:4px;font-size:0.75rem;font-weight:700;text-decoration:none;">Shop on Amazon →</a>
+</div>
+
+<div style="background:linear-gradient(135deg,#8B0000,#000);color:#fff;padding:22px;border-radius:8px;margin-bottom:18px;text-align:center;">
+    <div style="font-size:0.58rem;font-weight:800;text-transform:uppercase;letter-spacing:2px;opacity:0.8;margin-bottom:8px;">Advertise Here</div>
+    <p style="font-size:0.8rem;opacity:0.9;margin-bottom:14px;line-height:1.5;">Reach a global audience of investors, analysts &amp; decision makers.</p>
+    <a href="advertise.html" style="display:inline-block;background:#fff;color:#8B0000;padding:9px 18px;border-radius:4px;font-weight:800;font-size:0.75rem;text-decoration:none;text-transform:uppercase;letter-spacing:1px;">Get Featured →</a>
+</div>
+</aside>
+</div>
+<footer>
+    <img src="assets/logos/sovereign_footer_logo.png" alt="Sovereign">
+    <p>&copy; 2026 SOVSYGNAL &middot; PRISCION INTELLIGENCE MEDIA</p>
+</footer>
+</body>
+</html>
