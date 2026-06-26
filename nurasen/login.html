@@ -156,16 +156,28 @@
             if (error) {
                 alert("Login failed: " + error.message);
             } else {
-                // Persistent User Data check
-                const { data: profile, error: profileError } = await supabase
-                    .from('profiles')
+                // Check Subscription Status
+                const { data: sub, error: subError } = await supabase
+                    .from('subscriptions')
                     .select('*')
-                    .eq('id', data.user.id)
+                    .eq('user_id', data.user.id)
                     .single();
                 
-                if (!profileError) {
-                    localStorage.setItem('nurasen_user_stats', JSON.stringify(profile));
+                if (sub) {
+                    const now = new Date();
+                    const expiry = new Date(sub.expiry_date);
+                    if (now > expiry) {
+                        // Revert to Freemium in metadata
+                        await supabase.from('profiles').update({ tier: 'basic' }).eq('id', data.user.id);
+                        localStorage.setItem('nurasen_tier', 'basic');
+                    } else {
+                        localStorage.setItem('nurasen_tier', 'premium');
+                        localStorage.setItem('nurasen_expiry', sub.expiry_date);
+                    }
+                } else {
+                    localStorage.setItem('nurasen_tier', 'basic');
                 }
+                
                 window.location.href = 'dashboard.html';
             }
         }
