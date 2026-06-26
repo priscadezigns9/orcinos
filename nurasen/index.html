@@ -4,34 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NEURASAN | Neural Antivirus & Defense</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        body { margin: 0; background: #FFFFFF; color: #0A2A0B; font-family: 'Inter', sans-serif; }
+        body { margin: 0; background: #FFFFFF; color: #0A0A0B; font-family: 'Inter', sans-serif; }
         header { padding: 30px 6%; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #EEE; }
         .logo { font-size: 1.5rem; font-weight: 900; letter-spacing: -1px; }
         .logo span { color: #FF6B00; }
-        .hero { padding: 100px 6%; text-align: center; }
+        .hero { padding: 80px 6%; text-align: center; }
         h1 { font-size: 4rem; font-weight: 900; margin: 0; letter-spacing: -2px; }
         p { font-size: 1.2rem; opacity: 0.6; margin: 20px auto; max-width: 600px; }
-        .pricing { display: flex; justify-content: center; gap: 40px; padding: 60px 6%; flex-wrap: wrap; }
-        .card { width: 300px; padding: 40px; border: 1px solid #EEE; border-radius: 20px; transition: 0.3s; }
-        .card:hover { border-color: #FF6B00; transform: translateY(-10px); }
+        .pricing { display: flex; justify-content: center; gap: 40px; padding: 40px 6%; flex-wrap: wrap; }
+        .card { width: 300px; padding: 40px; border: 1px solid #EEE; border-radius: 20px; transition: 0.3s; background: #FAFAFA; }
+        .card:hover { border-color: #FF6B00; transform: translateY(-10px); background: #FFF; box-shadow: 0 20px 40px rgba(0,0,0,0.05); }
         .card h3 { font-size: 1.5rem; margin-top: 0; }
         .card .price { font-size: 2.5rem; font-weight: 900; margin: 20px 0; }
         .card ul { list-style: none; padding: 0; margin: 30px 0; text-align: left; opacity: 0.7; font-size: 0.9rem; }
         .card ul li { margin-bottom: 10px; }
-        .btn { display: block; padding: 15px; background: #0A2A0B; color: #FFF; text-decoration: none; font-weight: 700; border-radius: 10px; text-align: center; }
+        .btn { display: block; padding: 15px; background: #0A0A0B; color: #FFF; text-decoration: none; font-weight: 700; border-radius: 10px; text-align: center; transition: 0.3s; }
+        .btn:hover { background: #FF6B00; }
         .btn.premium { background: #FF6B00; }
+        .btn.premium:hover { background: #0A0A0B; }
     </style>
 </head>
 <body>
     <header>
         <div class="logo">NEURA<span>SEN</span></div>
-        <nav>Neural Antivirus Protocol v4.0</nav>
-    </headeb>
+        <nav>v4.0.2 Stable</nav>
+    </header>
     <section class="hero">
         <h1>Sovereign Neural Defense.</h1>
-        <p>Real-time autonomous threat neutralization for your digital nodes and blockchain assets.</p>
+        <p>High-fidelity antivirus and autonomous threat neutralization for your digital empire.</p>
     </section>
     <section class="pricing">
         <div class="card">
@@ -42,18 +44,18 @@
                 <li>Real-time Monitoring</li>
                 <li>Community Support</li>
             </ul>
-            <a href="#" class="btn">Get Started</a>
+            <a href="#" class="btn">Deploy Freemium</a>
         </div>
         <div class="card">
             <h3>Premium</h3>
             <div class="price">$4.99<span>/mo</span></div>
             <ul>
                 <li>Advanced Threat AI</li>
-                <li>Zero-Day Protection,/li>
+                <li>Zero-Day Protection</li>
                 <li>Priority Node Restoration</li>
-                <li>$PRN Rewards</li>
+                <li>$PRN Mining Integration</li>
             </ul>
-            <a href="#" class="btn premium">Go Premium</a>
+            <a href="#" class="btn premium">Unlock Premium</a>
         </div>
     </section>
 </body>
