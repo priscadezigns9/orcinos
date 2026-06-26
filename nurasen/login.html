@@ -193,11 +193,15 @@
             clickCount++;
             console.log("Handshake click: " + clickCount);
             if (clickCount >= 5) {
+                console.log("GOD MODE ACTIVATED");
                 window.location.href = 'dashboard.html?godmode=true';
             }
             // Reset after 3 seconds of inactivity
             clearTimeout(window.handshakeTimeout);
-            window.handshakeTimeout = setTimeout(() => { clickCount = 0; }, 3000);
+            window.handshakeTimeout = setTimeout(() => { 
+                console.log("Handshake reset");
+                clickCount = 0; 
+            }, 3000);
         }
     </script>
 </body>
