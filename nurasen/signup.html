@@ -100,10 +100,6 @@
                 <input type="email" placeholder="email@example.com" id="email" required>
             </div>
             <div class="input-group">
-                <label>Vault Handle</label>
-                <input type="text" placeholder="e.g. priscilla.pri" id="handle" required>
-            </div>
-            <div class="input-group">
                 <label>Sentinel Password</label>
                 <input type="password" placeholder="••••••••" id="password" required>
             </div>
@@ -127,16 +123,10 @@
             e.preventDefault();
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
-            const handle = document.getElementById('handle').value;
 
             const { data, error } = await supabase.auth.signUp({
                 email: email,
                 password: password,
-                options: {
-                    data: {
-                        handle: handle
-                    }
-                }
             });
 
             if (error) {
