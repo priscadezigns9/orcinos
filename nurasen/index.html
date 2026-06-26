@@ -277,7 +277,7 @@
                 { s: "Scanning...", l: "Neural Engine inspecting packet headers...", p: 30 },
                 { s: "Scanning...", l: "Deep-vector analysis in progress...", p: 60 },
                 { s: "Finalizing...", l: "Applying Sentinel heuristics...", p: 90 },
-                { s: "Complete.", l: "Redirecting to Sentinel Control Center...", p: 100 }
+                { s: "Complete.", l: "Redirecting to Sovereign Gateway...", p: 100 }
             ];
 
             let i = 0;
@@ -290,7 +290,7 @@
                 } else {
                     clearInterval(interval);
                     setTimeout(() => {
-                        window.location.href = 'dashboard.html';
+                        window.location.href = 'login.html';
                     }, 800);
                 }
             }, 800);
