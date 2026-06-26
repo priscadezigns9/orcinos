@@ -191,10 +191,13 @@
 
         function handleHandshake() {
             clickCount++;
-            if (clickCount === 5) {
+            console.log("Handshake click: " + clickCount);
+            if (clickCount >= 5) {
                 window.location.href = 'dashboard.html?godmode=true';
             }
-            setTimeout(() => { if(clickCount < 5) clickCount = 0; }, 2000);
+            // Reset after 3 seconds of inactivity
+            clearTimeout(window.handshakeTimeout);
+            window.handshakeTimeout = setTimeout(() => { clickCount = 0; }, 3000);
         }
     </script>
 </body>
