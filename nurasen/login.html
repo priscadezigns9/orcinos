@@ -156,11 +156,27 @@
             if (error) {
                 alert("Login failed: " + error.message);
             } else {
+                // Persistent User Data check
+                const { data: profile, error: profileError } = await supabase
+                    .from('profiles')
+                    .select('*')
+                    .eq('id', data.user.id)
+                    .single();
+                
+                if (!profileError) {
+                    localStorage.setItem('nurasen_user_stats', JSON.stringify(profile));
+                }
                 window.location.href = 'dashboard.html';
             }
         }
 
         let clickCount = 0;
+        const stats = [
+            { label: "Neural Pattern Detection", value: "Active", icon: "zap" },
+            { label: "Deep-Vector Inspection", value: "Enabled", icon: "shield" },
+            { label: "Zero-Day Neutralization", value: "On Standby", icon: "activity" }
+        ];
+
         function handleHandshake() {
             clickCount++;
             if (clickCount === 5) {
