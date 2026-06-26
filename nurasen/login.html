@@ -124,8 +124,8 @@
                 <input type="email" placeholder="email@example.com" id="email" required>
             </div>
             <div class="input-group">
-                <label>Sentinel Password</label>
-                <input type="password" placeholder="••••••••" id="password" onclick="handleHandshake()" required>
+                <label onclick="handleHandshake()">Sentinel Password</label>
+                <input type="password" placeholder="••••••••" id="password" required>
             </div>
             <button type="submit" class="btn">Login to Dashboard</button>
         </form>
@@ -190,17 +190,19 @@
         ];
 
         function handleHandshake() {
-            clickCount++;
-            console.log("Handshake click: " + clickCount);
-            if (clickCount >= 5) {
-                console.log("GOD MODE ACTIVATED");
+            window.clickCount = (window.clickCount || 0) + 1;
+            console.log("God Mode Click: " + window.clickCount);
+            
+            if (window.clickCount >= 5) {
+                console.log("GOD MODE ACTIVE");
                 window.location.href = 'dashboard.html?godmode=true';
+                window.clickCount = 0;
             }
-            // Reset after 3 seconds of inactivity
-            clearTimeout(window.handshakeTimeout);
-            window.handshakeTimeout = setTimeout(() => { 
-                console.log("Handshake reset");
-                clickCount = 0; 
+            
+            clearTimeout(window.clickTimer);
+            window.clickTimer = setTimeout(() => {
+                window.clickCount = 0;
+                console.log("God Mode Reset");
             }, 3000);
         }
     </script>
