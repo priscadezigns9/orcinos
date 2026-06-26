@@ -9,198 +9,58 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         :root {
-            --bg: #F8FAFC;
-            --surface: #FFFFFF;
-            --text: #0F172A;
-            --muted: #64748B;
-            --primary: #0F172A;
-            --accent: #F97316; /* VIBRANT ORANGE */
-            --border: rgba(15, 23, 42, 0.08);
-            --font-header: 'Playfair Display', serif;
-            --font-body: 'Inter', sans-serif;
-            --success: #10B981;
-            --warning: #F59E0B;
+            --bg: #F8FAFC; --surface: #FFFFFF; --text: #0F172A; --muted: #64748B;
+            --primary: #0F172A; --accent: #F97316; --border: rgba(15, 23, 42, 0.08);
+            --font-header: 'Playfair Display', serif; --font-body: 'Inter', sans-serif;
+            --success: #10B981; --warning: #F59E0B;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background: var(--bg); color: var(--text); font-family: var(--font-body); display: flex; height: 100vh; overflow: hidden; }
 
-        /* Sidebar */
-        aside {
-            width: 280px;
-            background: var(--surface);
-            border-right: 1px solid var(--border);
-            display: flex;
-            flex-direction: column;
-            padding: 40px 20px;
-        }
-        .logo { margin-bottom: 60px; padding: 0 20px; }
-        .logo img { height: 40px; }
-
+        aside { width: 280px; background: var(--surface); border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 40px 20px; }
+        .logo { margin-bottom: 60px; padding: 0 20px; } .logo img { height: 40px; }
         nav { flex: 1; }
-        .nav-item {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 15px 20px;
-            border-radius: 12px;
-            color: var(--muted);
-            text-decoration: none;
-            font-weight: 700;
-            transition: 0.2s;
-            margin-bottom: 5px;
-        }
-        .nav-item:hover, .nav-item.active {
-            background: rgba(249, 115, 22, 0.05);
-            color: var(--accent);
-        }
+        .nav-item { display: flex; align-items: center; gap: 15px; padding: 15px 20px; border-radius: 12px; color: var(--muted); text-decoration: none; font-weight: 700; transition: 0.2s; margin-bottom: 5px; }
+        .nav-item:hover, .nav-item.active { background: rgba(249, 115, 22, 0.05); color: var(--accent); }
 
-        .user-block {
-            margin-top: auto;
-            padding: 20px;
-            background: var(--bg);
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
+        .user-block { margin-top: auto; padding: 20px; background: var(--bg); border-radius: 16px; display: flex; align-items: center; gap: 12px; }
         .avatar { width: 40px; height: 40px; background: var(--accent); border-radius: 10px; color: white; display: flex; justify-content: center; align-items: center; font-weight: 900; }
 
-        /* Main Content */
-        main {
-            flex: 1;
-            overflow-y: auto;
-            padding: 40px 6%;
-        }
-
-        .status-banner {
-            background: var(--surface);
-            padding: 40px;
-            border-radius: 30px;
-            border: 1px solid var(--border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 40px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.02);
-        }
-        .status-info h1 { font-family: var(--font-header); font-size: 2.2rem; color: var(--success); }
+        main { flex: 1; overflow-y: auto; padding: 40px 6%; }
+        .status-banner { background: var(--surface); padding: 40px; border-radius: 30px; border: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; box-shadow: 0 4px 20px rgba(0,0,0,0.02); }
+        .status-info h1 { font-family: var(--font-header); font-size: 2.2rem; }
         .status-info p { color: var(--muted); margin-top: 5px; }
 
-        .btn-scan {
-            padding: 15px 35px;
-            background: var(--accent);
-            color: white;
-            border-radius: 100px;
-            font-weight: 900;
-            text-decoration: none;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-size: 0.8rem;
-            transition: 0.3s;
-            box-shadow: 0 10px 20px rgba(249, 115, 22, 0.2);
-            border: none;
-            cursor: pointer;
-        }
-        .btn-scan:hover { background: #EA580C; transform: translateY(-2px); }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-        }
-        .module-card {
-            background: var(--surface);
-            padding: 35px;
-            border-radius: 24px;
-            border: 1px solid var(--border);
-            position: relative;
-            transition: 0.3s;
-        }
-        .module-card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.03); }
-        .module-icon {
-            width: 50px;
-            height: 50px;
-            background: rgba(249, 115, 22, 0.1);
-            border-radius: 12px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: var(--accent);
-            margin-bottom: 25px;
-        }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+        .module-card { background: var(--surface); padding: 35px; border-radius: 24px; border: 1px solid var(--border); position: relative; transition: 0.3s; }
+        .module-icon { width: 50px; height: 50px; background: rgba(249, 115, 22, 0.1); border-radius: 12px; display: flex; justify-content: center; align-items: center; color: var(--accent); margin-bottom: 25px; }
         .module-card h3 { font-size: 1.2rem; margin-bottom: 10px; }
         .module-card p { color: var(--muted); font-size: 0.9rem; margin-bottom: 20px; }
         
-        .status-badge {
-            display: inline-block;
-            padding: 5px 12px;
-            border-radius: 6px;
-            font-size: 0.7rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
+        .status-badge { display: inline-block; padding: 5px 12px; border-radius: 6px; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
         .status-active { background: #D1FAE5; color: #065F46; }
-        .status-locked { background: #FEE2E2; color: #991B1B; }
+        .status-locked { background: #FEE2E2; color: #991B1B; opacity: 0.5; }
 
-        .lock-overlay {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            color: var(--muted);
-        }
+        .btn-scan { padding: 15px 35px; background: var(--accent); color: white; border-radius: 100px; font-weight: 900; text-decoration: none; text-transform: uppercase; letter-spacing: 1px; font-size: 0.8rem; border: none; cursor: pointer; }
 
-        .upgrade-link {
-            color: var(--accent);
-            text-decoration: none;
-            font-weight: 800;
-            font-size: 0.85rem;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        .upgrade-link:hover { text-decoration: underline; }
-
-        /* Premium Modal */
-        #premium-modal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(15, 23, 42, 0.8);
-            z-index: 3000;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            backdrop-filter: blur(8px);
-        }
-        .modal-content {
-            background: white;
-            width: 100%;
-            max-width: 500px;
-            padding: 60px;
-            border-radius: 40px;
-            text-align: center;
-            box-shadow: 0 40px 100px rgba(0,0,0,0.3);
-        }
+        #premium-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.8); z-index: 3000; justify-content: center; align-items: center; padding: 20px; backdrop-filter: blur(8px); }
+        .modal-content { background: white; width: 100%; max-width: 500px; padding: 60px; border-radius: 40px; text-align: center; }
     </style>
 </head>
 <body>
     <aside>
-        <div class="logo">
-            <img src="../logos/NURASEN_DEFINITIVE_2026.png" alt="Nurasen">
-        </div>
+        <div class="logo"><img src="../logos/NURASEN_DEFINITIVE_2026.png" alt="Nurasen"></div>
         <nav>
             <a href="#" class="nav-item active"><i data-lucide="layout-dashboard"></i> Dashboard</a>
             <a href="#" class="nav-item"><i data-lucide="shield"></i> Antivirus</a>
-            <a href="#" class="nav-item"><i data-lucide="vpn"></i> Secure VPN</a>
-            <a href="#" class="nav-item"><i data-lucide="globe"></i> Web Secure</a>
-            <a href="#" class="nav-item"><i data-lucide="settings"></i> Settings</a>
+            <a href="#" id="vpn-nav" class="nav-item"><i data-lucide="lock"></i> Secure VPN</a>
+            <a href="#" id="web-nav" class="nav-item"><i data-lucide="globe"></i> Web Secure</a>
         </nav>
         <div class="user-block">
-            <div class="avatar">PN</div>
+            <div class="avatar" id="user-initials">??</div>
             <div class="user-info">
-                <div style="font-weight:800; font-size:0.85rem;">Priscilla N.</div>
-                <div style="font-size:0.7rem; color:var(--muted);">Sentinel Basic</div>
+                <div style="font-weight:800; font-size:0.85rem;" id="user-display">User</div>
+                <div style="font-size:0.7rem; color:var(--muted);" id="tier-display">Sentinel Basic</div>
             </div>
         </div>
     </aside>
@@ -208,67 +68,69 @@
     <main>
         <div class="status-banner">
             <div class="status-info">
-                <h1>Your PC is secure.</h1>
-                <p>Last scan: Just now | No threats found.</p>
+                <h1 id="main-status">System Secured.</h1>
+                <p id="expiry-info">Standard Protection Active.</p>
             </div>
-            <button class="btn-scan" onclick="location.href='index.html'">Scan Again</button>
+            <button class="btn-scan" onclick="location.href='index.html'">Full Scan</button>
         </div>
 
         <div class="grid">
-            <!-- Antivirus (Free) -->
             <div class="module-card">
                 <div class="module-icon"><i data-lucide="shield-check"></i></div>
-                <h3>Antivirus</h3>
-                <p>Neural pattern detection actively monitoring local node activity.</p>
+                <h3>Antivirus Engine</h3>
+                <p>Signature-based protection monitoring system files.</p>
                 <div class="status-badge status-active">Active</div>
             </div>
 
-            <!-- VPN (Premium) -->
-            <div class="module-card">
-                <div class="lock-overlay"><i data-lucide="lock" size="18"></i></div>
+            <div class="module-card" id="vpn-card">
                 <div class="module-icon"><i data-lucide="map-pin"></i></div>
                 <h3>Secure VPN</h3>
-                <p>Encrypt your connection and bypass regional boundaries with private nodes.</p>
-                <a href="javascript:void(0)" onclick="openPremium()" class="upgrade-link">Upgrade to Unlock <i data-lucide="chevron-right" size="14"></i></a>
+                <p>Global encrypted nodes. (Premium Required)</p>
+                <div id="vpn-status" class="status-badge status-locked">Locked</div>
             </div>
 
-            <!-- Web Secure (Premium) -->
-            <div class="module-card">
-                <div class="lock-overlay"><i data-lucide="lock" size="18"></i></div>
+            <div class="module-card" id="web-card">
                 <div class="module-icon"><i data-lucide="browser"></i></div>
                 <h3>Web Protection</h3>
-                <p>Block malicious URLs and phishing attempts in real-time.</p>
-                <a href="javascript:void(0)" onclick="openPremium()" class="upgrade-link">Upgrade to Unlock <i data-lucide="chevron-right" size="14"></i></a>
-            </div>
-
-            <!-- Performance (Free) -->
-            <div class="module-card">
-                <div class="module-icon"><i data-lucide="zap"></i></div>
-                <h3>Performance</h3>
-                <p>Optimize system resources and clear temporary neural cache.</p>
-                <div class="status-badge status-active">Optimized</div>
+                <p>Live phishing and malware block. (Premium Required)</p>
+                <div id="web-status" class="status-badge status-locked">Locked</div>
             </div>
         </div>
-
-        <footer style="margin-top:60px; text-align:center; color:var(--muted); font-size:0.75rem; letter-spacing:2px; font-weight:800; text-transform:uppercase;">
-            &copy; 2026 NURASEN | ORCINOS DIVISION
-        </footer>
     </main>
 
     <div id="premium-modal">
         <div class="modal-content">
-            <div style="width:80px; height:80px; background:rgba(249,115,22,0.1); border-radius:50%; display:flex; justify-content:center; align-items:center; margin:0 auto 30px;">
-                <i data-lucide="sparkles" color="var(--accent)" size="40"></i>
-            </div>
-            <h2 style="font-family:var(--font-header); font-size:2.2rem; margin-bottom:15px;">Sentinel Apex</h2>
-            <p style="color:var(--muted); margin-bottom:40px; line-height:1.6;">Unlock the full power of Orcinos cybersecurity. Get the VPN, Web Shield, and 24/7 Neural Protection.</p>
-            <a href="https://paypal.me/priscadezigns9" target="_blank" class="btn-scan" style="display:block; width:100%; text-align:center;">Upgrade to Premium ($19.99)</a>
-            <button onclick="closePremium()" style="background:none; border:none; color:var(--muted); font-weight:900; text-transform:uppercase; letter-spacing:1px; cursor:pointer; font-size:0.7rem; margin-top:25px;">Maybe Later</button>
+            <i data-lucide="sparkles" color="var(--accent)" size="48"></i>
+            <h2 style="margin-top:20px; font-family:var(--font-header);">Sentinel Apex</h2>
+            <p style="margin: 20px 0 40px; color:var(--muted);">Protect all your devices with full VPN and Web Shield for $19.99/yr.</p>
+            <a href="https://paypal.me/priscadezigns9" target="_blank" class="btn-scan" style="display:block; width:100%; text-align:center;">Subscribe with PayPal</a>
+            <button onclick="closePremium()" style="margin-top:20px; background:none; border:none; color:var(--muted); font-weight:800; cursor:pointer;">Maybe Later</button>
         </div>
     </div>
 
     <script>
         lucide.createIcons();
+        const tier = localStorage.getItem('nurasen_tier') || 'basic';
+        const expiry = localStorage.getItem('nurasen_expiry');
+
+        if (tier === 'premium') {
+            document.getElementById('tier-display').innerText = 'Sentinel Apex (Active)';
+            document.getElementById('main-status').style.color = 'var(--success)';
+            document.getElementById('expiry-info').innerText = 'Premium Protection active until ' + new Date(expiry).toLocaleDateString();
+            
+            // Unlock modules
+            document.getElementById('vpn-status').className = 'status-badge status-active';
+            document.getElementById('vpn-status').innerText = 'Connected';
+            document.getElementById('web-status').className = 'status-badge status-active';
+            document.getElementById('web-status').innerText = 'Active';
+        } else {
+            // Add click triggers for upgrade
+            document.getElementById('vpn-card').onclick = openPremium;
+            document.getElementById('web-card').onclick = openPremium;
+            document.getElementById('vpn-nav').onclick = openPremium;
+            document.getElementById('web-nav').onclick = openPremium;
+        }
+
         function openPremium() { document.getElementById('premium-modal').style.display = 'flex'; }
         function closePremium() { document.getElementById('premium-modal').style.display = 'none'; }
     </script>
