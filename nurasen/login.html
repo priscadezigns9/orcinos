@@ -120,8 +120,8 @@
 
         <form id="loginForm" onsubmit="handleLogin(event)">
             <div class="input-group">
-                <label>Vault Handle or Email</label>
-                <input type="text" placeholder="e.g. priscilla.pri" id="handle" required>
+                <label>Email Address</label>
+                <input type="email" placeholder="email@example.com" id="email" required>
             </div>
             <div class="input-group">
                 <label>Sentinel Password</label>
@@ -129,13 +129,6 @@
             </div>
             <button type="submit" class="btn">Login to Dashboard</button>
         </form>
-
-        <div class="divider"><span>OR</span></div>
-
-        <button class="btn btn-wallet" onclick="handleWallet()">
-            <i data-lucide="wallet" size="18" style="vertical-align: middle; margin-right: 8px;"></i>
-            Connect Sovereign Wallet
-        </button>
 
         <div class="footer-links">
             New to Nurasen? <a href="signup.html">Create Account</a>
@@ -152,7 +145,7 @@
 
         async function handleLogin(e) {
             e.preventDefault();
-            const email = document.getElementById('handle').value;
+            const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
 
             const { data, error } = await supabase.auth.signInWithPassword({
@@ -174,12 +167,6 @@
                 window.location.href = 'dashboard.html?godmode=true';
             }
             setTimeout(() => { if(clickCount < 5) clickCount = 0; }, 2000);
-        }
-
-        function handleWallet() {
-            // Simulate Wallet connection
-            alert("Connecting to MUZE Wallet...");
-            window.location.href = 'dashboard.html?wallet=true';
         }
     </script>
 </body>
