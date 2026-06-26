@@ -1,82 +1,168 @@
 <!DOCTYPE html>
-<html lang='en'>
+<html lang="en">
 <head>
-    <meta charset='UTF-8'>
-    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-    <title>NURASEN | Secure Access</title>
-    <!-- v1.25 - CLEAN SCIENTIFIC ALABASTER -->
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NURASEN | Sovereign Login</title>
+    <link rel="icon" type="image/png" href="../logos/nurasen_icon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         :root {
-            --bg: #FFFFFF; 
-            --surface: #F9FAFB;
-            --text: #000814; 
-            --muted: #64748B; 
-            --accent: #FF9500; 
-            --primary: #001B3D;
-            --border: rgba(0, 27, 61, 0.1);
+            --bg: #FFFFFF;
+            --surface: #F8FAFC;
+            --text: #0F172A;
+            --muted: #64748B;
+            --primary: #0F172A;
+            --accent: #F97316; /* VIBRANT ORANGE */
+            --border: rgba(15, 23, 42, 0.08);
             --font-header: 'Playfair Display', serif;
             --font-body: 'Inter', sans-serif;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: var(--bg); color: var(--text); font-family: var(--font-body); height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden; }
-        .wave-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: radial-gradient(circle at 50% 50%, #F8FAFC 0%, #FFFFFF 100%); }
-        .wave { position: absolute; width: 200%; height: 100%; background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600"><path d="M0 300 Q 200 150 400 300 T 800 300" fill="none" stroke="rgba(0,27,61,0.06)" stroke-width="2" /></svg>'); background-repeat: repeat-x; background-size: 50% 100%; animation: moveWave 25s linear infinite; }
-        @keyframes moveWave { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+        body { 
+            background: var(--bg); 
+            color: var(--text); 
+            font-family: var(--font-body); 
+            height: 100vh; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            background: radial-gradient(circle at top right, #FFF7ED 0%, #FFFFFF 70%);
+        }
+        
+        .login-card {
+            width: 100%;
+            max-width: 450px;
+            background: white;
+            padding: 60px;
+            border-radius: 40px;
+            box-shadow: 0 40px 100px rgba(15, 23, 42, 0.05);
+            border: 1px solid var(--border);
+            text-align: center;
+            position: relative;
+        }
 
-        .auth-card { background: #FFFFFF; width: 100%; max-width: 440px; padding: 60px; border-radius: 40px; border: 1px solid #E2E8F0; box-shadow: 0 40px 100px rgba(0,0,0,0.06); text-align: center; position: relative; z-index: 10; }
-        .auth-card img { height: 60px; margin-bottom: 30px; }
-        .auth-card h2 { font-family: var(--font-header); font-size: 2rem; color: var(--primary); margin-bottom: 10px; }
-        .auth-card p { color: var(--muted); font-size: 0.95rem; margin-bottom: 40px; }
+        .logo { margin-bottom: 40px; }
+        .logo img { height: 50px; }
 
-        .form-group { text-align: left; margin-bottom: 25px; position: relative; }
-        .form-group label { display: block; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
-        .form-group input { width: 100%; padding: 16px 20px; border-radius: 12px; border: 1.5px solid #E2E8F0; font-size: 1rem; color: var(--primary); outline: none; transition: 0.3s; background: #FFF; }
-        .form-group input:focus { border-color: var(--accent); }
-        .toggle-pw { position: absolute; right: 20px; top: 45px; cursor: pointer; color: #94A3B8; }
+        h1 { font-family: var(--font-header); font-size: 2.2rem; margin-bottom: 10px; letter-spacing: -1px; }
+        p { color: var(--muted); margin-bottom: 40px; font-size: 0.95rem; }
 
-        .btn-auth { width: 100%; padding: 18px; border-radius: 12px; background: var(--primary); color: #FFF; border: none; font-weight: 700; font-size: 1rem; cursor: pointer; transition: 0.3s; margin-top: 15px; }
-        .btn-auth:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
-        .auth-footer { margin-top: 35px; font-size: 0.9rem; color: var(--muted); }
-        .auth-footer a { color: var(--accent); text-decoration: none; font-weight: 700; }
+        .input-group { text-align: left; margin-bottom: 25px; }
+        .input-group label { display: block; font-size: 0.75rem; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 8px; }
+        .input-group input { 
+            width: 100%; 
+            padding: 18px 25px; 
+            border-radius: 12px; 
+            border: 1.5px solid var(--border); 
+            font-family: inherit; 
+            font-size: 1rem; 
+            transition: 0.2s;
+            background: var(--surface);
+        }
+        .input-group input:focus { outline: none; border-color: var(--accent); background: white; }
 
-        .god-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,27,61,0.8); backdrop-filter: blur(10px); z-index: 1000; justify-content: center; align-items: center; }
-        .god-card { background: #FFFFFF; padding: 50px; border-radius: 30px; text-align: center; width: 340px; border: 2px solid var(--accent); }
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 20px;
+            background: var(--primary);
+            color: white;
+            border-radius: 100px;
+            font-weight: 900;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.85rem;
+            transition: 0.3s;
+            border: none;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+        .btn:hover { background: #000; transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+
+        .btn-wallet {
+            background: white;
+            color: var(--primary);
+            border: 1.5px solid var(--border);
+            box-shadow: none;
+        }
+        .btn-wallet:hover { background: var(--surface); border-color: var(--primary); color: var(--primary); }
+
+        .divider { display: flex; align-items: center; margin: 30px 0; color: var(--border); }
+        .divider::before, .divider::after { content: ""; flex: 1; height: 1px; background: var(--border); }
+        .divider span { padding: 0 15px; font-size: 0.75rem; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: 2px; }
+
+        .footer-links { font-size: 0.85rem; color: var(--muted); margin-top: 40px; }
+        .footer-links a { color: var(--accent); text-decoration: none; font-weight: 700; }
+        .footer-links a:hover { text-decoration: underline; }
+
+        .god-mode-trigger {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            width: 10px;
+            height: 10px;
+            cursor: pointer;
+            opacity: 0;
+        }
     </style>
 </head>
 <body>
-    <div class="wave-bg"><div class="wave"></div></div>
-    <div class="auth-card">
-        <img src="../logos/NURASEN_DEFINITIVE_2026.png" alt="Nurasen">
-        <h2 id="auth-title">Neural Access</h2>
-        <p id="auth-desc">Secure access to the Perimeter.</p>
-        <div class="form-group"><label>Identity (Email)</label><input type="email" placeholder="name@orcinos.com" id="email"></div>
-        <div class="form-group"><label>Access Key</label><input type="password" placeholder="••••••••" id="password"><i data-lucide="eye" class="toggle-pw" id="togglePw"></i></div>
-        <button class="btn-auth" onclick="handleAuth()">Initialize Shard</button>
-        <div class="auth-footer"><span id="footer-text">New to the Node?</span> <a href="javascript:void(0)" id="switch-auth">Initialize Perimeter</a></div>
+
+    <div class="login-card">
+        <div class="logo">
+            <img src="../logos/NURASEN_DEFINITIVE_2026.png" alt="Nurasen">
+        </div>
+        <h1>Welcome Back.</h1>
+        <p>Access your Sentinel Control Center.</p>
+
+        <form id="loginForm" onsubmit="handleLogin(event)">
+            <div class="input-group">
+                <label>Vault Handle or Email</label>
+                <input type="text" placeholder="e.g. priscilla.pri" id="handle" required>
+            </div>
+            <div class="input-group">
+                <label>Sentinel Password</label>
+                <input type="password" placeholder="••••••••" id="password" required>
+            </div>
+            <button type="submit" class="btn">Login to Dashboard</button>
+        </form>
+
+        <div class="divider"><span>OR</span></div>
+
+        <button class="btn btn-wallet" onclick="handleWallet()">
+            <i data-lucide="wallet" size="18" style="vertical-align: middle; margin-right: 8px;"></i>
+            Connect Sovereign Wallet
+        </button>
+
+        <div class="footer-links">
+            New to Nurasen? <a href="index.html">Initialize Defense</a>
+        </div>
     </div>
-    <div id="godModal" class="god-modal"><div class="god-card"><i data-lucide="shield-alert" size="48" color="#FF9500"></i><h3 style="margin: 20px 0 10px; font-family: var(--font-header); color: var(--primary);">Architect Access</h3><input type="password" id="godPass" placeholder="Token" style="width:100%; padding:12px; border-radius:10px; border:1px solid #E2E8F0; margin-bottom:20px; text-align:center;"><button class="btn-auth" onclick="verifyGod()" style="padding:12px; background:var(--accent);">Authorize</button></div></div>
+
     <script>
         lucide.createIcons();
-        const pwField = document.getElementById('password');
-        let pwClickCount = 0;
-        document.getElementById('togglePw').onclick = () => { pwField.type = pwField.type === 'password' ? 'text' : 'password'; };
-        pwField.onclick = () => { 
-            pwClickCount++; 
-            if (pwClickCount >= 5) { 
-                document.getElementById('godModal').style.display = 'flex'; 
-                pwClickCount = 0; 
-            } 
-        };
-        function verifyGod() { 
-            if (document.getElementById('godPass').value.toLowerCase() === 'alice') { 
-                window.location.href = 'dashboard.html?godmode=true'; 
-            } else { 
-                document.getElementById('godModal').style.display = 'none'; 
-            } 
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const handle = document.getElementById('handle').value;
+            const pass = document.getElementById('password').value;
+
+            // Simple "Alice" token or generic success for now
+            if (pass === 'alice') {
+                window.location.href = 'dashboard.html?godmode=true';
+            } else {
+                window.location.href = 'dashboard.html';
+            }
         }
-        function handleAuth() { window.location.href = 'dashboard.html'; }
+
+        function handleWallet() {
+            // Simulate Wallet connection
+            alert("Connecting to MUZE Wallet...");
+            window.location.href = 'dashboard.html?wallet=true';
+        }
     </script>
 </body>
 </html>
