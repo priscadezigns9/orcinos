@@ -3,309 +3,274 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NURASEN | Sovereign Control Center</title>
-    <!-- v1.29 - DUAL-ENGINE ARCHITECTURE + TIER SIMULATOR -->
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;700;900&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+    <title>NURASEN | Sentinel Control Center</title>
+    <link rel="icon" type="image/png" href="../logos/nurasen_icon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         :root {
-            --bg: #FFFFFF; --surface: #F8FAFC; --text: #000814; --muted: #64748B; 
-            --accent: #FF9500; --primary: #001B3D; --border: rgba(0, 27, 61, 0.1);
-            --font-header: 'Playfair Display', serif; --font-body: 'Inter', sans-serif; --font-mono: 'Fira Code', monospace;
+            --bg: #F8FAFC;
+            --surface: #FFFFFF;
+            --text: #0F172A;
+            --muted: #64748B;
+            --primary: #0F172A;
+            --accent: #F97316; /* VIBRANT ORANGE */
+            --border: rgba(15, 23, 42, 0.08);
+            --font-header: 'Playfair Display', serif;
+            --font-body: 'Inter', sans-serif;
+            --success: #10B981;
+            --warning: #F59E0B;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        html, body { height: 100vh; width: 100vw; overflow: hidden; background: var(--bg); color: var(--text); font-family: var(--font-body); display: flex; }
+        body { background: var(--bg); color: var(--text); font-family: var(--font-body); display: flex; height: 100vh; overflow: hidden; }
 
-        /* THE LIVE PRODUCT VIEWPORT */
-        #live-product-view { flex: 1; height: 100%; display: flex; flex-direction: column; position: relative; border-right: 1px solid var(--border); background: #FFF; transition: 0.3s; }
-        nav { background: #FFF; padding: 15px 40px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        /* Sidebar */
+        aside {
+            width: 280px;
+            background: var(--surface);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            padding: 40px 20px;
+        }
+        .logo { margin-bottom: 60px; padding: 0 20px; }
         .logo img { height: 40px; }
-        .tier-indicator { font-size: 0.65rem; font-weight: 900; background: var(--accent); color: #FFF; padding: 5px 12px; border-radius: 100px; text-transform: uppercase; }
 
-        .app-container { display: flex; flex: 1; overflow: hidden; }
-        .app-sidebar { width: 260px; border-right: 1px solid var(--border); padding: 30px 15px; display: flex; flex-direction: column; gap: 6px; background: #F8FAFC; }
-        .nav-btn { display: flex; align-items: center; gap: 12px; padding: 12px 18px; border-radius: 10px; font-size: 0.85rem; font-weight: 600; color: var(--muted); cursor: pointer; transition: 0.2s; border: 1px solid transparent; }
-        .nav-btn:hover { background: #F1F5F9; color: var(--primary); }
-        .nav-btn.active { background: var(--primary); color: #FFF; border-color: var(--primary); }
+        nav { flex: 1; }
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px 20px;
+            border-radius: 12px;
+            color: var(--muted);
+            text-decoration: none;
+            font-weight: 700;
+            transition: 0.2s;
+            margin-bottom: 5px;
+        }
+        .nav-item:hover, .nav-item.active {
+            background: rgba(249, 115, 22, 0.05);
+            color: var(--accent);
+        }
 
-        .app-main { flex: 1; padding: 40px; overflow-y: auto; position: relative; }
-        .view-panel { display: none; animation: fadeIn 0.3s ease; }
-        .view-panel.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .user-block {
+            margin-top: auto;
+            padding: 20px;
+            background: var(--bg);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .avatar { width: 40px; height: 40px; background: var(--accent); border-radius: 10px; color: white; display: flex; justify-content: center; align-items: center; font-weight: 900; }
 
-        /* PAYWALL OVERLAY */
-        .paywall-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.8); backdrop-filter: blur(4px); z-index: 50; display: none; align-items: center; justify-content: center; flex-direction: column; text-align: center; padding: 40px; }
-        .paywall-overlay.active { display: flex; }
-        .paywall-card { background: #FFF; border: 2px solid var(--accent); padding: 40px; border-radius: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); max-width: 450px; }
+        /* Main Content */
+        main {
+            flex: 1;
+            overflow-y: auto;
+            padding: 40px 6%;
+        }
 
-        /* COMPONENTS */
-        .card { background: #FFF; border: 1px solid #E2E8F0; border-radius: 16px; padding: 25px; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.02); }
-        .toggle { width: 48px; height: 24px; background: #CBD5E1; border-radius: 100px; position: relative; cursor: pointer; transition: 0.3s; }
-        .toggle.on { background: var(--accent); }
-        .toggle::after { content: ''; position: absolute; width: 18px; height: 18px; background: #FFF; border-radius: 50%; top: 3px; left: 3px; transition: 0.3s; }
-        .toggle.on::after { left: 27px; }
+        .status-banner {
+            background: var(--surface);
+            padding: 40px;
+            border-radius: 30px;
+            border: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+        }
+        .status-info h1 { font-family: var(--font-header); font-size: 2.2rem; color: var(--success); }
+        .status-info p { color: var(--muted); margin-top: 5px; }
 
-        /* GOD CONSOLE */
-        #god-console { width: 0; background: #000814; color: #FFF; height: 100%; transition: 0.4s; display: flex; flex-direction: column; overflow: hidden; position: relative; }
-        #god-console.active { width: 450px; border-left: 2px solid var(--accent); }
+        .btn-scan {
+            padding: 15px 35px;
+            background: var(--accent);
+            color: white;
+            border-radius: 100px;
+            font-weight: 900;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.8rem;
+            transition: 0.3s;
+            box-shadow: 0 10px 20px rgba(249, 115, 22, 0.2);
+            border: none;
+            cursor: pointer;
+        }
+        .btn-scan:hover { background: #EA580C; transform: translateY(-2px); }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+        .module-card {
+            background: var(--surface);
+            padding: 35px;
+            border-radius: 24px;
+            border: 1px solid var(--border);
+            position: relative;
+            transition: 0.3s;
+        }
+        .module-card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.03); }
+        .module-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(249, 115, 22, 0.1);
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--accent);
+            margin-bottom: 25px;
+        }
+        .module-card h3 { font-size: 1.2rem; margin-bottom: 10px; }
+        .module-card p { color: var(--muted); font-size: 0.9rem; margin-bottom: 20px; }
         
-        #god-toggle { position: fixed; top: 15px; right: 15px; z-index: 2000; background: var(--primary); color: #FFF; border: 1px solid var(--accent); width: 40px; height: 40px; border-radius: 8px; cursor: pointer; display: none; align-items: center; justify-content: center; }
-        #god-toggle.visible { display: flex; }
-        
-        .god-header { padding: 30px; border-bottom: 1px solid rgba(255,149,0,0.2); min-width: 450px; }
-        .god-header h2 { font-family: var(--font-mono); color: var(--accent); font-size: 0.8rem; letter-spacing: 2px; }
-        .god-content { flex: 1; padding: 30px; overflow-y: auto; min-width: 450px; font-family: var(--font-mono); }
-        .simulator-selector { background: rgba(255,255,255,0.05); border: 1px solid var(--accent); color: #FFF; padding: 10px; border-radius: 8px; width: 100%; margin-top: 15px; font-family: var(--font-mono); }
-        
-        .metric-box { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; padding: 20px; margin-bottom: 20px; }
-        .metric-title { font-size: 0.65rem; color: #64748B; text-transform: uppercase; margin-bottom: 10px; }
-        .metric-value { font-size: 1.5rem; font-weight: 700; color: var(--accent); }
-        
-        .live-feed { height: 200px; background: rgba(0,0,0,0.3); border-radius: 10px; padding: 15px; overflow-y: auto; font-size: 0.7rem; color: #94A3B8; margin-top: 10px; }
-        .feed-item { margin-bottom: 8px; border-left: 2px solid var(--accent); padding-left: 10px; }
-        .feed-item span { color: var(--accent); }
+        .status-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-size: 0.7rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .status-active { background: #D1FAE5; color: #065F46; }
+        .status-locked { background: #FEE2E2; color: #991B1B; }
 
-        /* PRICING */
-        .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 30px; }
-        .price-card { border: 1px solid #E2E8F0; padding: 30px; border-radius: 20px; text-align: center; }
-        .price-card.featured { border: 2px solid var(--accent); box-shadow: 0 10px 30px rgba(255,149,0,0.1); }
+        .lock-overlay {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: var(--muted);
+        }
+
+        .upgrade-link {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .upgrade-link:hover { text-decoration: underline; }
+
+        /* Premium Modal */
+        #premium-modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(15, 23, 42, 0.8);
+            z-index: 3000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            backdrop-filter: blur(8px);
+        }
+        .modal-content {
+            background: white;
+            width: 100%;
+            max-width: 500px;
+            padding: 60px;
+            border-radius: 40px;
+            text-align: center;
+            box-shadow: 0 40px 100px rgba(0,0,0,0.3);
+        }
     </style>
 </head>
 <body>
-
-    <div id="live-product-view">
-        <button id="god-toggle" onclick="toggleGodConsole()"><i data-lucide="menu"></i></button>
+    <aside>
+        <div class="logo">
+            <img src="../logos/NURASEN_DEFINITIVE_2026.png" alt="Nurasen">
+        </div>
         <nav>
-            <div class="logo"><img src="../logos/NURASEN_DEFINITIVE_2026.png" alt="Nurasen"></div>
-            <div class="tier-indicator" id="tier-badge">Institutional Defense</div>
+            <a href="#" class="nav-item active"><i data-lucide="layout-dashboard"></i> Dashboard</a>
+            <a href="#" class="nav-item"><i data-lucide="shield"></i> Antivirus</a>
+            <a href="#" class="nav-item"><i data-lucide="vpn"></i> Secure VPN</a>
+            <a href="#" class="nav-item"><i data-lucide="globe"></i> Web Secure</a>
+            <a href="#" class="nav-item"><i data-lucide="settings"></i> Settings</a>
         </nav>
-        <div class="app-container">
-            <aside class="app-sidebar">
-                <div class="nav-btn active" data-tab="home" onclick="switchTab('home', this)"><i data-lucide="layout-dashboard"></i> Neural Home</div>
-                <div class="nav-btn" data-tab="scan" onclick="switchTab('scan', this)"><i data-lucide="search"></i> Advanced Scan</div>
-                <div class="nav-btn" data-tab="shield" onclick="switchTab('shield', this)"><i data-lucide="shield"></i> Neural Shield</div>
-                <div class="nav-btn" data-tab="email" onclick="switchTab('email', this)"><i data-lucide="mail"></i> Email Guard</div>
-                <div class="nav-btn" data-tab="device" onclick="switchTab('device', this)"><i data-lucide="smartphone"></i> Device Monitor</div>
-                <div class="nav-btn" data-tab="pricing" onclick="switchTab('pricing', this)" style="margin-top:auto;"><i data-lucide="zap"></i> Upgrade Plan</div>
-            </aside>
-            <main class="app-main">
-                
-                <div id="paywall" class="paywall-overlay">
-                    <div class="paywall-card">
-                        <i data-lucide="lock" style="width:48px; height:48px; color:var(--accent); margin-bottom:20px;"></i>
-                        <h2 style="font-family:var(--font-header);">Feature Locked</h2>
-                        <p style="color:var(--muted); margin: 15px 0 25px;">This neural shard requires a <b>Pro</b> or <b>Apex</b> subscription.</p>
-                        <button onclick="switchTab('pricing', document.querySelector('[data-tab=pricing]'))" style="background:var(--primary); color:#FFF; border:none; padding:15px 30px; border-radius:12px; font-weight:700; cursor:pointer; width:100%;">View Upgrade Options</button>
-                    </div>
-                </div>
-
-                <!-- HOME -->
-                <div id="view-home" class="view-panel active">
-                    <h1>Neural Perimeter</h1>
-                    <p style="color:var(--muted); margin-bottom:30px;">Architecture Status: <span id="home-status">Institutional</span></p>
-                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px;">
-                        <div class="card"><h3>Active Protection</h3><p id="home-protection" style="color:#22C55E; font-weight:700; margin-top:10px;">100% SECURE</p></div>
-                        <div class="card"><h3>Global Shards</h3><p style="color:var(--accent); font-weight:700; margin-top:10px;">VERIFIED</p></div>
-                    </div>
-                </div>
-
-                <!-- SCAN -->
-                <div id="view-scan" class="view-panel" data-restricted="true">
-                    <h1>Advanced Scan</h1>
-                    <div class="card" style="margin-top:20px;">
-                        <button onclick="startScan()" style="background:var(--primary); color:#FFF; border:none; padding:12px 30px; border-radius:8px; font-weight:700; cursor:pointer;">Initialize Live Scan</button>
-                        <div style="height:6px; background:#F1F5F9; border-radius:10px; margin-top:25px; overflow:hidden;">
-                            <div id="scan-bar" style="height:100%; background:var(--accent); width:0%; transition: 0.1s;"></div>
-                        </div>
-                        <div id="scan-log" style="font-family:var(--font-mono); font-size:0.7rem; color:var(--muted); margin-top:15px; height:80px; overflow-y:auto;">> SYSTEM_IDLE</div>
-                    </div>
-                </div>
-
-                <!-- SHIELD -->
-                <div id="view-shield" class="view-panel" data-restricted="true">
-                    <h1>Neural Shield</h1>
-                    <div class="card" style="display:flex; justify-content:space-between; align-items:center;">
-                        <div><h3>Institutional Firewall</h3><p style="color:var(--muted); font-size:0.8rem;">Live Shard Encryption Protocol</p></div>
-                        <div class="toggle on" id="shield-toggle" onclick="this.classList.toggle('on')"></div>
-                    </div>
-                </div>
-
-                <!-- EMAIL -->
-                <div id="view-email" class="view-panel" data-restricted="true">
-                    <h1>Email Guard</h1>
-                    <div class="card">
-                        <h3>Active Monitoring</h3>
-                        <div id="email-monitor-list" style="margin-top:20px; display:flex; flex-direction:column; gap:12px;">
-                            <!-- Content generated by tier -->
-                        </div>
-                    </div>
-                </div>
-
-                <!-- DEVICE -->
-                <div id="view-device" class="view-panel">
-                    <h1>Device Monitor</h1>
-                    <div class="card">
-                        <div style="display:flex; align-items:center; gap:15px;">
-                            <div style="background:var(--primary); color:#FFF; padding:15px; border-radius:12px;"><i data-lucide="monitor"></i></div>
-                            <div><h4 id="browser-name">Terminal Identified</h4><p id="browser-os" style="color:var(--muted); font-size:0.75rem;">Detecting Node...</p></div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- PRICING -->
-                <div id="view-pricing" class="view-panel">
-                    <h1 style="text-align:center; font-family:var(--font-header);">Select Your Shard Access</h1>
-                    <div class="pricing-grid">
-                        <div class="price-card">
-                            <h3>Freemium</h3>
-                            <div style="font-size:2rem; font-weight:900; margin:20px 0;">$0</div>
-                            <p style="color:var(--muted); font-size:0.8rem; margin-bottom:20px;">Basic Neural Home & Device Monitor.</p>
-                            <button style="width:100%; padding:12px; border:1px solid var(--primary); border-radius:10px; background:transparent; font-weight:700;">Current Plan</button>
-                        </div>
-                        <div class="price-card featured">
-                            <h3>Pro Shard</h3>
-                            <div style="font-size:2rem; font-weight:900; margin:20px 0;">$9.99<span style="font-size:1rem;">/mo</span></div>
-                            <p style="color:var(--muted); font-size:0.8rem; margin-bottom:20px;">Advanced Scan + Neural Shield + 3 Emails.</p>
-                            <button style="width:100%; padding:12px; border:none; border-radius:10px; background:var(--accent); color:#FFF; font-weight:700; cursor:pointer;">Upgrade Now</button>
-                        </div>
-                        <div class="price-card">
-                            <h3>Apex Defense</h3>
-                            <div style="font-size:2rem; font-weight:900; margin:20px 0;">$19.99<span style="font-size:1rem;">/mo</span></div>
-                            <p style="color:var(--muted); font-size:0.8rem; margin-bottom:20px;">Apex Heartbeat + Priority Support + Unlimited.</p>
-                            <button style="width:100%; padding:12px; border:1px solid var(--primary); border-radius:10px; background:transparent; font-weight:700;">Select Apex</button>
-                        </div>
-                    </div>
-                </div>
-            </main>
-        </div>
-    </div>
-
-    <!-- GOD CONSOLE -->
-    <div id="god-console">
-        <div class="god-header">
-            <h2>GOD_MODE // ARCHITECT</h2>
-            <p style="font-size:0.6rem; color:#64748B; margin-top:5px;">TIER SIMULATOR DETECTED</p>
-            <select class="simulator-selector" id="tier-sim" onchange="simulateTier(this.value)">
-                <option value="Institutional">Institutional (Architect)</option>
-                <option value="Freemium">Freemium (User View)</option>
-                <option value="Pro">Pro Shard (User View)</option>
-                <option value="Apex">Apex Defense (User View)</option>
-            </select>
-        </div>
-        <div class="god-content">
-            <div class="metric-box">
-                <div class="metric-title">Live Signups (Supabase)</div>
-                <div class="metric-value" id="user-count">0</div>
+        <div class="user-block">
+            <div class="avatar">PN</div>
+            <div class="user-info">
+                <div style="font-weight:800; font-size:0.85rem;">Priscilla N.</div>
+                <div style="font-size:0.7rem; color:var(--muted);">Sentinel Basic</div>
             </div>
-            <p class="metric-title">Real-Time Intelligence Pulse</p>
-            <div class="live-feed" id="pulse-feed"></div>
-            <div style="margin-top:30px; border-top:1px solid rgba(255,255,255,0.1); padding-top:20px;">
-                <p class="metric-title">Active Database Mirror</p>
-                <div id="user-list" style="font-size:0.7rem; color:var(--accent);">Awaiting login events...</div>
+        </div>
+    </aside>
+
+    <main>
+        <div class="status-banner">
+            <div class="status-info">
+                <h1>Your PC is secure.</h1>
+                <p>Last scan: Just now | No threats found.</p>
             </div>
+            <button class="btn-scan" onclick="location.href='index.html'">Scan Again</button>
+        </div>
+
+        <div class="grid">
+            <!-- Antivirus (Free) -->
+            <div class="module-card">
+                <div class="module-icon"><i data-lucide="shield-check"></i></div>
+                <h3>Antivirus</h3>
+                <p>Neural pattern detection actively monitoring local node activity.</p>
+                <div class="status-badge status-active">Active</div>
+            </div>
+
+            <!-- VPN (Premium) -->
+            <div class="module-card">
+                <div class="lock-overlay"><i data-lucide="lock" size="18"></i></div>
+                <div class="module-icon"><i data-lucide="map-pin"></i></div>
+                <h3>Secure VPN</h3>
+                <p>Encrypt your connection and bypass regional boundaries with private nodes.</p>
+                <a href="javascript:void(0)" onclick="openPremium()" class="upgrade-link">Upgrade to Unlock <i data-lucide="chevron-right" size="14"></i></a>
+            </div>
+
+            <!-- Web Secure (Premium) -->
+            <div class="module-card">
+                <div class="lock-overlay"><i data-lucide="lock" size="18"></i></div>
+                <div class="module-icon"><i data-lucide="browser"></i></div>
+                <h3>Web Protection</h3>
+                <p>Block malicious URLs and phishing attempts in real-time.</p>
+                <a href="javascript:void(0)" onclick="openPremium()" class="upgrade-link">Upgrade to Unlock <i data-lucide="chevron-right" size="14"></i></a>
+            </div>
+
+            <!-- Performance (Free) -->
+            <div class="module-card">
+                <div class="module-icon"><i data-lucide="zap"></i></div>
+                <h3>Performance</h3>
+                <p>Optimize system resources and clear temporary neural cache.</p>
+                <div class="status-badge status-active">Optimized</div>
+            </div>
+        </div>
+
+        <footer style="margin-top:60px; text-align:center; color:var(--muted); font-size:0.75rem; letter-spacing:2px; font-weight:800; text-transform:uppercase;">
+            &copy; 2026 NURASEN | ORCINOS DIVISION
+        </footer>
+    </main>
+
+    <div id="premium-modal">
+        <div class="modal-content">
+            <div style="width:80px; height:80px; background:rgba(249,115,22,0.1); border-radius:50%; display:flex; justify-content:center; align-items:center; margin:0 auto 30px;">
+                <i data-lucide="sparkles" color="var(--accent)" size="40"></i>
+            </div>
+            <h2 style="font-family:var(--font-header); font-size:2.2rem; margin-bottom:15px;">Sentinel Apex</h2>
+            <p style="color:var(--muted); margin-bottom:40px; line-height:1.6;">Unlock the full power of Orcinos cybersecurity. Get the VPN, Web Shield, and 24/7 Neural Protection.</p>
+            <a href="https://paypal.me/priscadezigns9" target="_blank" class="btn-scan" style="display:block; width:100%; text-align:center;">Upgrade to Premium ($19.99)</a>
+            <button onclick="closePremium()" style="background:none; border:none; color:var(--muted); font-weight:900; text-transform:uppercase; letter-spacing:1px; cursor:pointer; font-size:0.7rem; margin-top:25px;">Maybe Later</button>
         </div>
     </div>
 
     <script>
         lucide.createIcons();
-        const sbUrl = "https://sazhdnqzaqpqcralmthh.supabase.co";
-        const sbKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNhe mhkbnF6YXFwcWNyYWxtdGhoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTU5Nzk4MDMsImV4cCI6MjAzMTU1NTgwM30.uTyw31uWTNOTV5-HzNpm46vpAJABAsHLMzW-sYOkRhc";
-        const sb = supabase.createClient(sbUrl, sbKey);
-
-        let currentTier = "Institutional";
-
-        function switchTab(viewId, el) {
-            const panel = document.getElementById('view-' + viewId);
-            const isRestricted = panel.getAttribute('data-restricted') === 'true';
-            const paywall = document.getElementById('paywall');
-            
-            paywall.classList.remove('active');
-            
-            if (isRestricted && currentTier === "Freemium") {
-                paywall.classList.add('active');
-            }
-
-            document.querySelectorAll('.view-panel').forEach(v => v.classList.remove('active'));
-            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-            panel.classList.add('active');
-            el.classList.add('active');
-        }
-
-        function simulateTier(tier) {
-            currentTier = tier;
-            document.getElementById('tier-badge').textContent = (tier === 'Institutional') ? 'Architect Access' : tier + ' Plan';
-            
-            // Update Home UI
-            document.getElementById('home-status').textContent = tier;
-            document.getElementById('home-protection').textContent = (tier === 'Freemium') ? 'BASIC PROTECTION' : '100% SECURE';
-            document.getElementById('home-protection').style.color = (tier === 'Freemium') ? '#FF9500' : '#22C55E';
-
-            // Update Email List
-            const emailList = document.getElementById('email-monitor-list');
-            if (tier === 'Freemium') {
-                emailList.innerHTML = `<div style="padding:15px; background:#F8FAFC; border-radius:12px; font-size:0.8rem; color:var(--muted);">Monitoring current registration email only.</div>`;
-            } else {
-                emailList.innerHTML = `
-                    <div style="display:flex; align-items:center; gap:10px; padding:15px; background:#F8FAFC; border-radius:12px; font-size:0.9rem;"><i data-lucide="check-circle" style="color:#22C55E; width:18px;"></i> priscadezigns9@gmail.com</div>
-                    <div style="display:flex; align-items:center; gap:10px; padding:15px; background:#F8FAFC; border-radius:12px; font-size:0.9rem;"><i data-lucide="check-circle" style="color:#22C55E; width:18px;"></i> priscillanarine@gmail.com</div>
-                    <div style="display:flex; align-items:center; gap:10px; padding:15px; background:#F8FAFC; border-radius:12px; font-size:0.9rem;"><i data-lucide="check-circle" style="color:#22C55E; width:18px;"></i> animedreaming17@gmail.com</div>
-                `;
-                lucide.createIcons();
-            }
-
-            // Reset current view if restricted
-            const activeTab = document.querySelector('.nav-btn.active').getAttribute('data-tab');
-            switchTab(activeTab, document.querySelector('.nav-btn.active'));
-        }
-
-        function startScan() {
-            let p = 0;
-            const bar = document.getElementById('scan-bar');
-            const log = document.getElementById('scan-log');
-            const int = setInterval(() => {
-                p += 1; bar.style.width = p + '%';
-                if(p % 10 === 0) log.innerHTML = `> Analyzing Shard_${p}... [PASS]<br>` + log.innerHTML;
-                if(p >= 100) { clearInterval(int); log.innerHTML = `> SCAN_COMPLETE: PERIMETER_CLEAN<br>` + log.innerHTML; }
-            }, 50);
-        }
-
-        const ua = navigator.userAgent;
-        let os = "Browser Node";
-        if (ua.indexOf("Win") != -1) os = "Windows Terminal";
-        if (ua.indexOf("Mac") != -1) os = "macOS Node";
-        if (ua.indexOf("like Mac") != -1) os = "iOS Device";
-        document.getElementById('browser-os').textContent = os + " Identified.";
-
-        function toggleGodConsole() {
-            const console = document.getElementById('god-console');
-            console.classList.toggle('active');
-        }
-
-        window.onload = function() {
-            if(new URLSearchParams(window.location.search).get('godmode') === 'true') {
-                document.getElementById('god-console').classList.add('active');
-                document.getElementById('god-toggle').classList.add('visible');
-                simulateTier('Institutional');
-                syncGodData();
-                setInterval(syncGodData, 10000);
-            } else {
-                simulateTier('Freemium');
-            }
-        }
-
-        async function syncGodData() {
-            const { count, data } = await sb.from('profiles').select('username', { count: 'exact' });
-            document.getElementById('user-count').textContent = count || 0;
-            const feed = document.getElementById('pulse-feed');
-            const div = document.createElement('div');
-            div.className = 'feed-item';
-            div.innerHTML = `[<span>${new Date().toLocaleTimeString()}</span>] Supabase Sync: Success.`;
-            feed.prepend(div);
-            if(feed.children.length > 5) feed.lastChild.remove();
-            const list = document.getElementById('user-list');
-            list.innerHTML = data ? data.map(u => u.username).join('<br>') : "No active signups.";
-        }
+        function openPremium() { document.getElementById('premium-modal').style.display = 'flex'; }
+        function closePremium() { document.getElementById('premium-modal').style.display = 'none'; }
     </script>
 </body>
 </html>
