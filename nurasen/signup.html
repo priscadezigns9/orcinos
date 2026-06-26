@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NURASEN | Create Sovereign Account</title>
+    <link rel="icon" type="image/png" href="../logos/nurasen_icon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --bg: #FFFFFF;
+            --surface: #F8FAFC;
+            --text: #0F172A;
+            --muted: #64748B;
+            --primary: #0F172A;
+            --accent: #F97316;
+            --border: rgba(15, 23, 42, 0.08);
+            --font-header: 'Playfair Display', serif;
+            --font-body: 'Inter', sans-serif;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            background: var(--bg); 
+            color: var(--text); 
+            font-family: var(--font-body); 
+            height: 100vh; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            background: radial-gradient(circle at top right, #FFF7ED 0%, #FFFFFF 70%);
+        }
+        
+        .login-card {
+            width: 100%;
+            max-width: 450px;
+            background: white;
+            padding: 60px;
+            border-radius: 40px;
+            box-shadow: 0 40px 100px rgba(15, 23, 42, 0.05);
+            border: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .logo { margin-bottom: 40px; }
+        .logo img { height: 50px; }
+
+        h1 { font-family: var(--font-header); font-size: 2.2rem; margin-bottom: 10px; letter-spacing: -1px; }
+        p { color: var(--muted); margin-bottom: 40px; font-size: 0.95rem; }
+
+        .input-group { text-align: left; margin-bottom: 25px; }
+        .input-group label { display: block; font-size: 0.75rem; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 8px; }
+        .input-group input { 
+            width: 100%; 
+            padding: 18px 25px; 
+            border-radius: 12px; 
+            border: 1.5px solid var(--border); 
+            font-family: inherit; 
+            font-size: 1rem; 
+            transition: 0.2s;
+            background: var(--surface);
+        }
+        .input-group input:focus { outline: none; border-color: var(--accent); background: white; }
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 20px;
+            background: var(--accent);
+            color: white;
+            border-radius: 100px;
+            font-weight: 900;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.85rem;
+            transition: 0.3s;
+            border: none;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+        .btn:hover { background: #EA580C; transform: translateY(-2px); box-shadow: 0 10px 20px rgba(234, 88, 12, 0.2); }
+
+        .footer-links { font-size: 0.85rem; color: var(--muted); margin-top: 40px; }
+        .footer-links a { color: var(--accent); text-decoration: none; font-weight: 700; }
+    </style>
+</head>
+<body>
+
+    <div class="login-card">
+        <div class="logo">
+            <img src="../logos/NURASEN_DEFINITIVE_2026.png" alt="Nurasen">
+        </div>
+        <h1>Create Account.</h1>
+        <p>Protect your PC with Neural Intelligence.</p>
+
+        <form id="signupForm" onsubmit="handleSignup(event)">
+            <div class="input-group">
+                <label>Email Address</label>
+                <input type="email" placeholder="email@example.com" id="email" required>
+            </div>
+            <div class="input-group">
+                <label>Vault Handle</label>
+                <input type="text" placeholder="e.g. priscilla.pri" id="handle" required>
+            </div>
+            <div class="input-group">
+                <label>Sentinel Password</label>
+                <input type="password" placeholder="••••••••" id="password" required>
+            </div>
+            <button type="submit" class="btn">Start Free Trial</button>
+        </form>
+
+        <div class="footer-links">
+            Already a Sentinel? <a href="login.html">Login</a>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script>
+        lucide.createIcons();
+
+        const supabaseUrl = 'https://sazhdnqzaqpqcralmthh.supabase.co';
+        const supabaseKey = '{{credential:supabase_anon_key}}';
+        const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+        async function handleSignup(e) {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const handle = document.getElementById('handle').value;
+
+            const { data, error } = await supabase.auth.signUp({
+                email: email,
+                password: password,
+                options: {
+                    data: {
+                        handle: handle
+                    }
+                }
+            });
+
+            if (error) {
+                alert("Account creation failed: " + error.message);
+            } else {
+                alert("Account created successfully! Welcome to the Sovereign Web.");
+                window.location.href = 'dashboard.html';
+            }
+        }
+    </script>
+</body>
+</html>
