@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NURASEN | Neural Cybersecurity</title>
+    <style>
+        body { margin: 0; background: #FFFFFF; color: #0A2A0B; font-family: sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; overflow: hidden; }
+        .logo { font-size: 3rem; font-weight: 900; }
+        .logo span { color: #FF6B00; }
+        canvas { position: absolute; top: 0; left: 0; zi-ndex: -1; }
+    </style>
+</head>
+<body>
+    <div class="logo">NURA<span>SEN</span></div>
+    <canvas id="spiral"></canvas>
+    <script>
+        const canvas = document.getElementById('spiral');
+        const ctx = canvas.getContext('2d');
+        let w = canvas.width = window.innerWidth;
+        let h = canvas.height = window.innerHeight;
+        function draw() {
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.05)';
+            ctx.fillRect(0, 0, w, h);
+            const time = Date.now() * 0.001;
+            ctx.beginPath();
+            ctx.strokeStyle = '#FF6B0022';
+            for(let i=0; i<200; i++) {
+                const r = i * 2;
+                const a = i * 0.1 + time;
+                ctx.lineTo(w/2 + r*Math.cos(a), h/2 + r*Math.sin(a));
+            }
+            ctx.stroke();
+            requestAnimationFrame(draw);
+        }
+        draw();
+    </script>
+</body>
+</html>
