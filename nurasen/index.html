@@ -3,37 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NURASEN | Neural Cybersecurity</title>
+    <title>NEURASAN | Neural Antivirus & Defense</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;700;900&display=swap" rel="stylesheet">
     <style>
-        body { margin: 0; background: #FFFFFF; color: #0A2A0B; font-family: sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; overflow: hidden; }
-        .logo { font-size: 3rem; font-weight: 900; }
+        body { margin: 0; background: #FFFFFF; color: #0A2A0B; font-family: 'Inter', sans-serif; }
+        header { padding: 30px 6%; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #EEE; }
+        .logo { font-size: 1.5rem; font-weight: 900; letter-spacing: -1px; }
         .logo span { color: #FF6B00; }
-        canvas { position: absolute; top: 0; left: 0; zi-ndex: -1; }
+        .hero { padding: 100px 6%; text-align: center; }
+        h1 { font-size: 4rem; font-weight: 900; margin: 0; letter-spacing: -2px; }
+        p { font-size: 1.2rem; opacity: 0.6; margin: 20px auto; max-width: 600px; }
+        .pricing { display: flex; justify-content: center; gap: 40px; padding: 60px 6%; flex-wrap: wrap; }
+        .card { width: 300px; padding: 40px; border: 1px solid #EEE; border-radius: 20px; transition: 0.3s; }
+        .card:hover { border-color: #FF6B00; transform: translateY(-10px); }
+        .card h3 { font-size: 1.5rem; margin-top: 0; }
+        .card .price { font-size: 2.5rem; font-weight: 900; margin: 20px 0; }
+        .card ul { list-style: none; padding: 0; margin: 30px 0; text-align: left; opacity: 0.7; font-size: 0.9rem; }
+        .card ul li { margin-bottom: 10px; }
+        .btn { display: block; padding: 15px; background: #0A2A0B; color: #FFF; text-decoration: none; font-weight: 700; border-radius: 10px; text-align: center; }
+        .btn.premium { background: #FF6B00; }
     </style>
 </head>
 <body>
-    <div class="logo">NURA<span>SEN</span></div>
-    <canvas id="spiral"></canvas>
-    <script>
-        const canvas = document.getElementById('spiral');
-        const ctx = canvas.getContext('2d');
-        let w = canvas.width = window.innerWidth;
-        let h = canvas.height = window.innerHeight;
-        function draw() {
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.05)';
-            ctx.fillRect(0, 0, w, h);
-            const time = Date.now() * 0.001;
-            ctx.beginPath();
-            ctx.strokeStyle = '#FF6B0022';
-            for(let i=0; i<200; i++) {
-                const r = i * 2;
-                const a = i * 0.1 + time;
-                ctx.lineTo(w/2 + r*Math.cos(a), h/2 + r*Math.sin(a));
-            }
-            ctx.stroke();
-            requestAnimationFrame(draw);
-        }
-        draw();
-    </script>
+    <header>
+        <div class="logo">NEURA<span>SEN</span></div>
+        <nav>Neural Antivirus Protocol v4.0</nav>
+    </headeb>
+    <section class="hero">
+        <h1>Sovereign Neural Defense.</h1>
+        <p>Real-time autonomous threat neutralization for your digital nodes and blockchain assets.</p>
+    </section>
+    <section class="pricing">
+        <div class="card">
+            <h3>Freemium</h3>
+            <div class="price">$0<span>/mo</span></div>
+            <ul>
+                <li>Basic Neural Scan</li>
+                <li>Real-time Monitoring</li>
+                <li>Community Support</li>
+            </ul>
+            <a href="#" class="btn">Get Started</a>
+        </div>
+        <div class="card">
+            <h3>Premium</h3>
+            <div class="price">$4.99<span>/mo</span></div>
+            <ul>
+                <li>Advanced Threat AI</li>
+                <li>Zero-Day Protection,/li>
+                <li>Priority Node Restoration</li>
+                <li>$PRN Rewards</li>
+            </ul>
+            <a href="#" class="btn premium">Go Premium</a>
+        </div>
+    </section>
 </body>
 </html>
