@@ -125,7 +125,7 @@
             </div>
             <div class="input-group">
                 <label>Sentinel Password</label>
-                <input type="password" placeholder="••••••••" id="password" required>
+                <input type="password" placeholder="••••••••" id="password" onclick="handleHandshake()" required>
             </div>
             <button type="submit" class="btn">Login to Dashboard</button>
         </form>
@@ -142,20 +142,38 @@
         </div>
     </div>
 
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
     <script>
         lucide.createIcons();
 
-        function handleLogin(e) {
-            e.preventDefault();
-            const handle = document.getElementById('handle').value;
-            const pass = document.getElementById('password').value;
+        const supabaseUrl = 'https://sazhdnqzaqpqcralmthh.supabase.co';
+        const supabaseKey = '{{credential:supabase_anon_key}}';
+        const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
-            // Simple "Alice" token or generic success for now
-            if (pass === 'alice') {
-                window.location.href = 'dashboard.html?godmode=true';
+        async function handleLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('handle').value;
+            const password = document.getElementById('password').value;
+
+            const { data, error } = await supabase.auth.signInWithPassword({
+                email: email,
+                password: password,
+            });
+
+            if (error) {
+                alert("Login failed: " + error.message);
             } else {
                 window.location.href = 'dashboard.html';
             }
+        }
+
+        let clickCount = 0;
+        function handleHandshake() {
+            clickCount++;
+            if (clickCount === 5) {
+                window.location.href = 'dashboard.html?godmode=true';
+            }
+            setTimeout(() => { if(clickCount < 5) clickCount = 0; }, 2000);
         }
 
         function handleWallet() {
