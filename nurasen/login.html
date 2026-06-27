@@ -125,7 +125,12 @@
             </div>
             <div class="input-group">
                 <label onclick="handleHandshake()">Sentinel Password</label>
-                <input type="password" placeholder="••••••••" id="password" required>
+                <div style="position: relative;">
+                    <input type="password" placeholder="••••••••" id="password" required style="width: 100%; padding-right: 45px;">
+                    <button type="button" id="togglePassword" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: var(--muted); display: flex; align-items: center;">
+                        <i data-lucide="eye" id="eyeIcon" style="width: 20px; height: 20px;"></i>
+                    </button>
+                </div>
             </div>
             <button type="submit" class="btn">Login to Dashboard</button>
         </form>
@@ -138,6 +143,18 @@
     <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
     <script>
         lucide.createIcons();
+
+        // Password Visibility Toggle
+        const passwordInput = document.getElementById('password');
+        const toggleButton = document.getElementById('togglePassword');
+        const eyeIcon = document.getElementById('eyeIcon');
+
+        toggleButton.addEventListener('click', () => {
+            const isPassword = passwordInput.type === 'password';
+            passwordInput.type = isPassword ? 'text' : 'password';
+            eyeIcon.setAttribute('data-lucide', isPassword ? 'eye-off' : 'eye');
+            lucide.createIcons(); // Refresh icon
+        });
 
         const supabaseUrl = 'https://sazhdnqzaqpqcralmthh.supabase.co';
         const supabaseKey = '{{credential:supabase_anon_key}}';
