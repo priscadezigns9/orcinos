@@ -1,100 +1,73 @@
-// Dricil Shared App Logic (Supabase + Auth)
+// Dricil Shared App Logic — uses shared OrcinosDB utility
 
-const CONFIG = {
-    SUPABASE_URL: '{{credential:supabase-project-url}}',
-    SUPABASE_ANON_KEY: '{{credential:supabase-anon-key}}'
-};
-
-// Initialize Supabase Client (Assuming supabase.js is loaded via CDN)
-let supabase;
-if (typeof supabase !== 'undefined') {
-    // This would be initialized if the script is loaded
-}
+const dricilDB = new OrcinosDB({
+    url: '{{credential:supabase-project-url}}',
+    anonKey: '{{credential:supabase-anon-key}}'
+});
 
 const dricilApp = {
     async init() {
-        if (typeof createClient !== 'undefined') {
-            supabase = createClient(CONFIG.SUPABASE_URL, CONFIG.SUPABASE_ANON_KEY);
-        }
+        dricilDB.init();
     },
 
     async signUp(email, password) {
-        const { user, error } = await supabase.auth.signUp({ email, password });
-        return { user, error };
+        return await dricilDB.signUp(email, password);
     },
 
     async signIn(email, password) {
-        const { user, error } = await supabase.auth.signIn({ email, password });
-        return { user, error };
+        return await dricilDB.signIn(email, password);
     },
 
     async getClientProfile(userId) {
-        const { data, error } = await supabase
-            .from('clients')
-            .select('*')
-            .eq('user_id', userId)
-            .single();
-        return { data, error };
+        return await dricilDB.fetchOne('clients', { user_id: userId });
     },
 
     async saveOnboarding(onboardingData) {
-        const { data, error } = await supabase
-            .from('clients')
-            .insert([onboardingData]);
-        return { data, error };
+        return await dricilDB.insert('clients', onboardingData);
     },
 
     async getContentQueue(clientId) {
-        const { data, error } = await supabase
-            .from('content_queue')
-            .select('*')
-            .eq('client_id', clientId)
-            .order('scheduled_date', { ascending: true });
-        return { data, error };
+        return await dricilDB.fetchMany('content_queue', {
+            filters: { client_id: clientId },
+            orderBy: 'scheduled_date',
+            ascending: true
+        });
     },
 
     async getReports(clientId) {
-        const { data, error } = await supabase
-            .from('reports')
-            .select('*')
-            .eq('client_id', clientId)
-            .order('created_at', { ascending: false });
-        return { data, error };
+        return await dricilDB.fetchMany('reports', {
+            filters: { client_id: clientId },
+            orderBy: 'created_at',
+            ascending: false
+        });
     },
 
     async updateAutoPublish(clientId, status) {
-        const { data, error } = await supabase
-            .from('clients')
-            .update({ auto_publish: status })
-            .eq('id', clientId);
-        return { data, error };
+        return await dricilDB.update('clients', { auto_publish: status }, { id: clientId });
     },
 
-    // Bridge Logic: Orchestrate AI Automation
     async runAutomationCycle(clientId) {
         console.log(`[DRICIL] Initiating Automation Cycle for Client: ${clientId}`);
-        
-        // 1. Fetch Profile
+
         const { data: profile } = await this.getClientProfile(clientId);
         if (!profile) return { error: "Profile not found" };
 
-        // 2. Generate Content Batch via dricilApi
         const contentJson = await dricilApi.generateSocialBatch(profile);
         if (!contentJson) return { error: "AI Generation failed" };
 
         try {
             const contentArray = JSON.parse(contentJson);
-            // 3. Save to Supabase Queue
-            const { error: insertError } = await supabase
-                .from('content_queue')
-                .insert(contentArray.map(item => ({
+            const { error: insertError } = await dricilDB.insert(
+                'content_queue',
+                contentArray.map(item => ({
                     client_id: clientId,
                     platform: item.platform,
                     content_text: item.content_text,
                     scheduled_date: item.scheduled_date || new Date().toISOString(),
                     status: profile.auto_publish ? 'PUBLISHED' : 'PENDING'
-                })));
-            
+                }))
+            );
+
             return { success: !insertError, error: insertError };
         } catch (e) {
             return { error: "JSON Parse Error", raw: contentJson };
@@ -102,32 +75,23 @@ const dricilApp = {
     },
 
     async generateMarketingReport(clientId) {
-        // Fetch recent metrics from Supabase
-        const { data: metrics } = await supabase
-            .from('analytics')
-            .select('*')
-            .eq('client_id', clientId)
-            .limit(30);
+        const { data: metrics } = await dricilDB.fetchMany('analytics', {
+            filters: { client_id: clientId },
+            limit: 30
+        });
 
         const reportContent = await dricilApi.generateMonthlyReport(metrics);
-        
-        // Save report to Supabase
-        const { data, error } = await supabase
-            .from('reports')
-            .insert([{
-                client_id: clientId,
-                title: `Marketing Report - ${new Date().toLocaleString('default', { month: 'long' })} 2026`,
-                content: reportContent,
-                type: 'MONTHLY'
-            }]);
-        
-        return { data, error };
+
+        return await dricilDB.insert('reports', {
+            client_id: clientId,
+            title: `Marketing Report - ${new Date().toLocaleString('default', { month: 'long' })} 2026`,
+            content: reportContent,
+            type: 'MONTHLY'
+        });
     }
 };
 
 // Auto-init on load if libraries are present
 document.addEventListener('DOMContentLoaded', () => {
-    if (typeof createClient !== 'undefined') {
-        dricilApp.init();
-    }
+    dricilApp.init();
 });
