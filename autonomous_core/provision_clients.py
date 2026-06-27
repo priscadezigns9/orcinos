@@ -10,11 +10,20 @@ GITHUB_TOKEN = "{{credential:github-pat-laboratory-deploy-v7}}"
 def get_clients_from_github():
     url = f"https://api.github.com/repos/{GITHUB_REPO}/contents/CLIENTS.json"
     headers = {"Authorization": f"token {GITHUB_TOKEN}"}
-    r = requests.get(url, headers=headers)
+    try:
+        r = requests.get(url, headers=headers)
+    except requests.RequestException as e:
+        print(f"[ERROR] GitHub API request failed: {e}")
+        return None, None
     if r.status_code == 200:
-        data = r.json()
-        content = base64.b64decode(data['content']).decode()
-        return json.loads(content), data['sha']
+        try:
+            data = r.json()
+            content = base64.b64decode(data['content']).decode()
+            return json.loads(content), data['sha']
+        except (json.JSONDecodeError, KeyError) as e:
+            print(f"[ERROR] Failed to parse CLIENTS.json from GitHub: {e}")
+            return None, None
+    print(f"[ERROR] GitHub API returned {r.status_code}: {r.text}")
     return None, None
 
 def update_clients_on_github(data, sha):
@@ -25,7 +34,13 @@ def update_clients_on_github(data, sha):
         "content": base64.b64encode(json.dumps(data, indent=2).encode()).decode(),
         "sha": sha
     }
-    r = requests.put(url, headers=headers, json=payload)
+    try:
+        r = requests.put(url, headers=headers, json=payload)
+    except requests.RequestException as e:
+        print(f"[ERROR] GitHub API update failed: {e}")
+        return None
+    if r.status_code not in (200, 201):
+        print(f"[ERROR] GitHub update returned {r.status_code}: {r.text}")
     return r.status_code
 
 def send_welcome_email(client_email, plan_name, ref_id):
@@ -56,13 +71,21 @@ Prisca Dezigns
     # For this simulation/setup, we will use 'gog gmail send' if the email is available.
     if "@" in client_email:
         cmd = ['outlook', 'mail', 'send', client_email, '--subject', subject, '--body', body]
-        subprocess.run(cmd)
+        try:
+            result = subprocess.run(cmd, capture_output=True, text=True)
+            if result.returncode != 0:
+                print(f"[ERROR] Failed to send email to {client_email}: {result.stderr}")
+                return False
+        except OSError as e:
+            print(f"[ERROR] Failed to run mail send command: {e}")
+            return False
         return True
     return False
 
 def run_provisioning():
     clients, sha = get_clients_from_github()
     if not clients:
+        print("[ERROR] Could not fetch CLIENTS.json from GitHub")
         return
 
     updated = False

@@ -11,6 +11,9 @@ def register_pending_payment(ref_id, plan, price, bank="FCB"):
             data = json.load(f)
     except FileNotFoundError:
         data = {"pending_verifications": [], "active_subscriptions": []}
+    except json.JSONDecodeError as e:
+        print(f"[ERROR] Corrupted {CLIENTS_FILE}, resetting: {e}")
+        data = {"pending_verifications": [], "active_subscriptions": []}
 
     pending_entry = {
         "ref_id": ref_id,
@@ -23,14 +26,25 @@ def register_pending_payment(ref_id, plan, price, bank="FCB"):
     
     data["pending_verifications"].append(pending_entry)
     
-    with open(CLIENTS_FILE, "w") as f:
-        json.dump(data, f, indent=2)
+    try:
+        with open(CLIENTS_FILE, "w") as f:
+            json.dump(data, f, indent=2)
+    except OSError as e:
+        print(f"[ERROR] Failed to write {CLIENTS_FILE}: {e}")
+        return f"Failed to register payment: {ref_id}"
     return f"Registered pending payment: {ref_id}"
 
 def verify_bank_clearance(ref_id):
     """The 'Watchdog' function. In production, this would be triggered by a Bank API or Mail parse."""
-    with open(CLIENTS_FILE, "r") as f:
-        data = json.load(f)
+    try:
+        with open(CLIENTS_FILE, "r") as f:
+            data = json.load(f)
+    except FileNotFoundError:
+        print(f"[ERROR] {CLIENTS_FILE} not found")
+        return f"Error: {CLIENTS_FILE} not found. Cannot verify {ref_id}."
+    except json.JSONDecodeError as e:
+        print(f"[ERROR] Corrupted {CLIENTS_FILE}: {e}")
+        return f"Error: corrupted registry. Cannot verify {ref_id}."
     
     found = False
     for entry in data["pending_verifications"]:
@@ -48,8 +62,12 @@ def verify_bank_clearance(ref_id):
             break
     
     if found:
-        with open(CLIENTS_FILE, "w") as f:
-            json.dump(data, f, indent=2)
+        try:
+            with open(CLIENTS_FILE, "w") as f:
+                json.dump(data, f, indent=2)
+        except OSError as e:
+            print(f"[ERROR] Failed to write {CLIENTS_FILE}: {e}")
+            return f"Payment {ref_id} verified but failed to save."
         return f"Payment {ref_id} CLEARED. Client activated."
     else:
         return f"Reference {ref_id} not found in pending."

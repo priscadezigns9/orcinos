@@ -53,20 +53,27 @@ async function fetchProfile() {
     // For this build, we'll use localStorage to ensure functionality
     const savedProfile = localStorage.getItem('skillbit_profile');
     if (savedProfile) {
-        profile = JSON.parse(savedProfile);
-    } else {
-        profile = {
-            user_id: user.id,
-            username: user.email?.split('@')[0] || 'User',
-            track: 'Web Dev',
-            lessons_completed: 0,
-            xp_total: 0,
-            current_streak: 0,
-            longest_streak: 0,
-            last_activity: new Date().toISOString(),
-            tier: 'free'
-        };
-        saveProfile();
+        try {
+            profile = JSON.parse(savedProfile);
+        } catch (e) {
+            console.error("Corrupted profile data in localStorage, resetting:", e);
+            localStorage.removeItem('skillbit_profile');
+            profile = null;
+        }
+    }
+    if (!profile) {
+    profile = {
+        user_id: user.id,
+        username: user.email?.split('@')[0] || 'User',
+        track: 'Web Dev',
+        lessons_completed: 0,
+        xp_total: 0,
+        current_streak: 0,
+        longest_streak: 0,
+        last_activity: new Date().toISOString(),
+        tier: 'free'
+    };
+    saveProfile();
     }
     checkStreak();
 }
@@ -96,15 +103,19 @@ function saveProfile() {
 }
 
 async function loadLessons() {
-    try {
-        const tracks = ['ail', 'cop', 'dig', 'ent', 'per', 'pub', 'uiu', 'web'];
-        for (const t of tracks) {
+    const tracks = ['ail', 'cop', 'dig', 'ent', 'per', 'pub', 'uiu', 'web'];
+    for (const t of tracks) {
+        try {
             const response = await fetch(`../data/lessons_${t}.json`);
+            if (!response.ok) {
+                console.error(`Failed to load lessons for track '${t}':`, response.status, response.statusText);
+                continue;
+            }
             const trackLessons = await response.json();
             lessons = [...lessons, ...trackLessons];
+        } catch (e) {
+            console.error(`Failed to load lessons for track '${t}':`, e);
         }
-    } catch (e) {
-        console.error("Failed to load lessons", e);
     }
 }
 

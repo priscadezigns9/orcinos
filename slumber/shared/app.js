@@ -65,40 +65,71 @@ async function getAICoachResponse(logs, userPrompt) {
     
     const context = logs.map(l => `Date: ${l.date}, Duration: ${l.duration_mins}m, Quality: ${l.quality_rating}/5`).join('\n');
     
-    const response = await fetch('https://api.openai.com/v1/chat/completions', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${OPENAI_API_KEY}`
-        },
-        body: JSON.stringify({
-            model: "gpt-4o-mini",
-            messages: [
-                {
-                    role: "system", 
-                    content: "You are Slumber AI, a professional sleep coach. Analyze the user's sleep logs and provide specific, scientific, and actionable advice to improve their sleep. Keep it concise and encouraging."
-                },
-                {
-                    role: "user",
-                    content: `Here are my sleep logs for the last week:\n${context}\n\nUser Question: ${userPrompt}`
-                }
-            ]
-        })
-    });
-    
-    const data = await response.json();
-    return data.choices[0].message.content;
+    try {
+        const response = await fetch('https://api.openai.com/v1/chat/completions', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${OPENAI_API_KEY}`
+            },
+            body: JSON.stringify({
+                model: "gpt-4o-mini",
+                messages: [
+                    {
+                        role: "system", 
+                        content: "You are Slumber AI, a professional sleep coach. Analyze the user's sleep logs and provide specific, scientific, and actionable advice to improve their sleep. Keep it concise and encouraging."
+                    },
+                    {
+                        role: "user",
+                        content: `Here are my sleep logs for the last week:\n${context}\n\nUser Question: ${userPrompt}`
+                    }
+                ]
+            })
+        });
+
+        if (!response.ok) {
+            console.error("OpenAI API error:", response.status, response.statusText);
+            return "I'm having trouble connecting to my sleep analysis engine. Please try again shortly.";
+        }
+        const data = await response.json();
+        if (!data.choices || !data.choices[0]) {
+            console.error("Unexpected API response structure:", data);
+            return "I'm having trouble connecting to my sleep analysis engine. Please try again shortly.";
+        }
+        return data.choices[0].message.content;
+    } catch (error) {
+        console.error("AI Coach request failed:", error);
+        return "I'm having trouble connecting to my sleep analysis engine. Please try again shortly.";
+    }
 }
 
 // Data Loaders
 async function loadArticles() {
-    const res = await fetch('../data/articles.json');
-    return await res.json();
+    try {
+        const res = await fetch('../data/articles.json');
+        if (!res.ok) {
+            console.error("Failed to load articles:", res.status, res.statusText);
+            return [];
+        }
+        return await res.json();
+    } catch (error) {
+        console.error("Failed to load articles:", error);
+        return [];
+    }
 }
 
 async function loadSounds() {
-    const res = await fetch('../data/sounds.json');
-    return await res.json();
+    try {
+        const res = await fetch('../data/sounds.json');
+        if (!res.ok) {
+            console.error("Failed to load sounds:", res.status, res.statusText);
+            return [];
+        }
+        return await res.json();
+    } catch (error) {
+        console.error("Failed to load sounds:", error);
+        return [];
+    }
 }
 
 // Shared UI Handlers

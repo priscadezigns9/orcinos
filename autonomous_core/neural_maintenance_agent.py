@@ -8,17 +8,30 @@ def perform_neural_maintenance():
     
     # 1. Audit CLIENTS.json
     if os.path.exists('CLIENTS.json'):
-        with open('CLIENTS.json', 'r') as f:
-            clients = json.load(f)
-        
-        # Check for stale "pending" transactions (> 48h)
-        # (Simulated logic for now)
-        log.append("CLIENTS.json: Registry integrity verified.")
+        try:
+            with open('CLIENTS.json', 'r') as f:
+                clients = json.load(f)
+            # Check for stale "pending" transactions (> 48h)
+            # (Simulated logic for now)
+            log.append("CLIENTS.json: Registry integrity verified.")
+        except json.JSONDecodeError as e:
+            log.append(f"CLIENTS.json: [ERROR] Corrupted JSON: {e}")
+        except OSError as e:
+            log.append(f"CLIENTS.json: [ERROR] Read failed: {e}")
 
     # 2. Audit LINKS.json (Shadow Registry)
     if os.path.exists('LINKS.json'):
-        with open('LINKS.json', 'r') as f:
-            links = json.load(f)
+        try:
+            with open('LINKS.json', 'r') as f:
+                links = json.load(f)
+        except json.JSONDecodeError as e:
+            log.append(f"LINKS.json: [ERROR] Corrupted JSON: {e}")
+            print("\n".join(log))
+            return
+        except OSError as e:
+            log.append(f"LINKS.json: [ERROR] Read failed: {e}")
+            print("\n".join(log))
+            return
         
         # Verify brand mapping
         for brand in links.get('brands', {}):
@@ -26,8 +39,11 @@ def perform_neural_maintenance():
                  log.append(f"LINKS.json Warning: Brand directory '{brand}' missing.")
         
         links['last_maintenance'] = datetime.now().isoformat()
-        with open('LINKS.json', 'w') as f:
-            json.dump(links, f, indent=2)
+        try:
+            with open('LINKS.json', 'w') as f:
+                json.dump(links, f, indent=2)
+        except OSError as e:
+            log.append(f"LINKS.json: [ERROR] Write failed: {e}")
             
     print("\n".join(log))
 
