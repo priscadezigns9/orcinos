@@ -67,7 +67,15 @@ async function sendMessageToHartaly(message, history = []) {
             })
         });
 
+        if (!response.ok) {
+            console.error("OpenAI API error:", response.status, response.statusText);
+            return "I'm here for you, but I'm having a little trouble connecting right now. Take a deep breath with me?";
+        }
         const data = await response.json();
+        if (!data.choices || !data.choices[0]) {
+            console.error("Unexpected API response structure:", data);
+            return "I'm here for you, but I'm having a little trouble connecting right now. Take a deep breath with me?";
+        }
         return data.choices[0].message.content;
     } catch (error) {
         console.error("AI Error:", error);
@@ -86,35 +94,57 @@ async function logMood(score, note) {
 
 // Journal Logic
 async function generateJournalPrompt() {
-    // Get recent mood
-    const { data: moods } = await supabaseClient
-        .from('mood_logs')
-        .select('score')
-        .order('created_at', { ascending: false })
-        .limit(3);
-    
-    let context = "Neutral mood";
-    if (moods && moods.length > 0) {
-        const avg = moods.reduce((a, b) => a + b.score, 0) / moods.length;
-        context = avg < 4 ? "low mood/sad" : avg > 7 ? "high mood/happy" : "stable mood";
-    }
+    try {
+        if (!supabaseClient) {
+            console.error("Supabase client not initialized");
+            return "What is one thing you are grateful for today?";
+        }
 
-    const promptRequest = `User has been feeling ${context}. Generate a warm, single-sentence guided journal prompt for them to reflect on their day.`;
-    
-    const response = await fetch('https://api.openai.com/v1/chat/completions', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${OPENAI_API_KEY}`
-        },
-        body: JSON.stringify({
-            model: "gpt-4o",
-            messages: [{ role: "user", content: promptRequest }],
-            max_tokens: 100
-        })
-    });
-    const data = await response.json();
-    return data.choices[0].message.content;
+        // Get recent mood
+        const { data: moods, error: moodError } = await supabaseClient
+            .from('mood_logs')
+            .select('score')
+            .order('created_at', { ascending: false })
+            .limit(3);
+
+        if (moodError) {
+            console.error("Failed to fetch mood logs:", moodError);
+        }
+
+        let context = "Neutral mood";
+        if (moods && moods.length > 0) {
+            const avg = moods.reduce((a, b) => a + b.score, 0) / moods.length;
+            context = avg < 4 ? "low mood/sad" : avg > 7 ? "high mood/happy" : "stable mood";
+        }
+
+        const promptRequest = `User has been feeling ${context}. Generate a warm, single-sentence guided journal prompt for them to reflect on their day.`;
+
+        const response = await fetch('https://api.openai.com/v1/chat/completions', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${OPENAI_API_KEY}`
+            },
+            body: JSON.stringify({
+                model: "gpt-4o",
+                messages: [{ role: "user", content: promptRequest }],
+                max_tokens: 100
+            })
+        });
+        if (!response.ok) {
+            console.error("OpenAI API error:", response.status, response.statusText);
+            return "What is one thing you are grateful for today?";
+        }
+        const data = await response.json();
+        if (!data.choices || !data.choices[0]) {
+            console.error("Unexpected API response structure:", data);
+            return "What is one thing you are grateful for today?";
+        }
+        return data.choices[0].message.content;
+    } catch (error) {
+        console.error("Journal prompt generation failed:", error);
+        return "What is one thing you are grateful for today?";
+    }
 }
 
 // Breathing Room Audio

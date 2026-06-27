@@ -57,6 +57,10 @@ function startListening(onResult) {
         const text = event.results[0][0].transcript;
         onResult(text);
     };
+    recognition.onerror = (event) => {
+        console.error("Speech recognition error:", event.error);
+        alert("I had trouble hearing you. Please try again.");
+    };
     recognition.start();
 }
 
@@ -87,9 +91,18 @@ async function askAI(prompt, systemMessage = SYLA_SYSTEM_PROMPT) {
                 ]
             })
         });
+        if (!response.ok) {
+            console.error("OpenAI API error:", response.status, response.statusText);
+            return "I'm having a little trouble connecting right now. Can we try again in a moment?";
+        }
         const data = await response.json();
+        if (!data.choices || !data.choices[0]) {
+            console.error("Unexpected API response structure:", data);
+            return "I'm having a little trouble connecting right now. Can we try again in a moment?";
+        }
         return data.choices[0].message.content;
     } catch (error) {
+        console.error("AI request failed:", error);
         return "I'm having a little trouble connecting right now. Can we try again in a moment?";
     }
 }

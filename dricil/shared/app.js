@@ -75,7 +75,11 @@ const dricilApp = {
         console.log(`[DRICIL] Initiating Automation Cycle for Client: ${clientId}`);
         
         // 1. Fetch Profile
-        const { data: profile } = await this.getClientProfile(clientId);
+        const { data: profile, error: profileError } = await this.getClientProfile(clientId);
+        if (profileError) {
+            console.error("Failed to fetch client profile:", profileError);
+            return { error: "Profile lookup failed: " + profileError.message };
+        }
         if (!profile) return { error: "Profile not found" };
 
         // 2. Generate Content Batch via dricilApi
@@ -102,26 +106,39 @@ const dricilApp = {
     },
 
     async generateMarketingReport(clientId) {
-        // Fetch recent metrics from Supabase
-        const { data: metrics } = await supabase
-            .from('analytics')
-            .select('*')
-            .eq('client_id', clientId)
-            .limit(30);
+        try {
+            // Fetch recent metrics from Supabase
+            const { data: metrics, error: metricsError } = await supabase
+                .from('analytics')
+                .select('*')
+                .eq('client_id', clientId)
+                .limit(30);
 
-        const reportContent = await dricilApi.generateMonthlyReport(metrics);
-        
-        // Save report to Supabase
-        const { data, error } = await supabase
-            .from('reports')
-            .insert([{
-                client_id: clientId,
-                title: `Marketing Report - ${new Date().toLocaleString('default', { month: 'long' })} 2026`,
-                content: reportContent,
-                type: 'MONTHLY'
-            }]);
-        
-        return { data, error };
+            if (metricsError) {
+                console.error("Failed to fetch analytics:", metricsError);
+                return { data: null, error: metricsError };
+            }
+
+            const reportContent = await dricilApi.generateMonthlyReport(metrics);
+            if (!reportContent) {
+                return { data: null, error: "AI report generation failed" };
+            }
+
+            // Save report to Supabase
+            const { data, error } = await supabase
+                .from('reports')
+                .insert([{
+                    client_id: clientId,
+                    title: `Marketing Report - ${new Date().toLocaleString('default', { month: 'long' })} 2026`,
+                    content: reportContent,
+                    type: 'MONTHLY'
+                }]);
+
+            return { data, error };
+        } catch (error) {
+            console.error("Marketing report generation failed:", error);
+            return { data: null, error: error.message };
+        }
     }
 };
 

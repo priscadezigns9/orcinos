@@ -11,11 +11,20 @@ GITHUB_TOKEN = "{{credential:github-pat-laboratory-deploy-v7}}"
 def get_clients_from_github():
     url = f"https://api.github.com/repos/{GITHUB_REPO}/contents/CLIENTS.json"
     headers = {"Authorization": f"token {GITHUB_TOKEN}"}
-    r = requests.get(url, headers=headers)
+    try:
+        r = requests.get(url, headers=headers)
+    except requests.RequestException as e:
+        print(f"[ERROR] GitHub API request failed: {e}")
+        return None, None
     if r.status_code == 200:
-        data = r.json()
-        content = base64.b64decode(data['content']).decode()
-        return json.loads(content), data['sha']
+        try:
+            data = r.json()
+            content = base64.b64decode(data['content']).decode()
+            return json.loads(content), data['sha']
+        except (json.JSONDecodeError, KeyError) as e:
+            print(f"[ERROR] Failed to parse CLIENTS.json from GitHub: {e}")
+            return None, None
+    print(f"[ERROR] GitHub API returned {r.status_code}: {r.text}")
     return None, None
 
 def update_clients_on_github(data, sha):
@@ -26,7 +35,13 @@ def update_clients_on_github(data, sha):
         "content": base64.b64encode(json.dumps(data, indent=2).encode()).decode(),
         "sha": sha
     }
-    r = requests.put(url, headers=headers, json=payload)
+    try:
+        r = requests.put(url, headers=headers, json=payload)
+    except requests.RequestException as e:
+        print(f"[ERROR] GitHub API update failed: {e}")
+        return None
+    if r.status_code not in (200, 201):
+        print(f"[ERROR] GitHub update returned {r.status_code}: {r.text}")
     return r.status_code
 
 def check_gmail_for_payments():
@@ -34,9 +49,14 @@ def check_gmail_for_payments():
     # Using a broad query to catch bank and paypal notifications
     query = 'is:unread (subject:payment OR subject:received OR subject:transfer OR subject:notification OR subject:credit)'
     cmd = ['outlook', 'mail', 'search', query, '--limit', '10']
-    result = subprocess.run(cmd, capture_output=True, text=True)
+    try:
+        result = subprocess.run(cmd, capture_output=True, text=True)
+    except OSError as e:
+        print(f"[ERROR] Failed to run mail search: {e}")
+        return []
     
     if result.returncode != 0:
+        print(f"[ERROR] Mail search returned non-zero exit code: {result.returncode}, stderr: {result.stderr}")
         return []
 
     lines = result.stdout.split('\n')
@@ -51,7 +71,14 @@ def check_gmail_for_payments():
     for eid in email_ids:
         # Get email body
         read_cmd = ['outlook', 'mail', 'read', eid]
-        read_res = subprocess.run(read_cmd, capture_output=True, text=True)
+        try:
+            read_res = subprocess.run(read_cmd, capture_output=True, text=True)
+        except OSError as e:
+            print(f"[ERROR] Failed to read email {eid}: {e}")
+            continue
+        if read_res.returncode != 0:
+            print(f"[ERROR] Failed to read email {eid}: {read_res.stderr}")
+            continue
         body = read_res.stdout
         
         # Search for Reference ID (PD-XXXXXX or LAB-XXXXXX)
@@ -60,7 +87,10 @@ def check_gmail_for_payments():
             ref = match.group(0)
             verified_refs.append(ref)
             # Mark as read to avoid duplicate processing
-            subprocess.run(['outlook', 'mail', 'move', eid, 'Archive'])
+            try:
+                subprocess.run(['outlook', 'mail', 'move', eid, 'Archive'])
+            except OSError as e:
+                print(f"[ERROR] Failed to archive email {eid}: {e}")
             
     return verified_refs
 
@@ -72,7 +102,7 @@ def run_watchdog():
 
     clients, sha = get_clients_from_github()
     if not clients:
-        print("Could not fetch CLIENTS.json")
+        print("[ERROR] Could not fetch CLIENTS.json from GitHub")
         return
 
     updated = False

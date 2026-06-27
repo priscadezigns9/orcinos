@@ -48,7 +48,10 @@ const Clausify = {
         const jurisdiction = document.getElementById('jurisdiction').value || '[State/Country]';
 
         fetch('../data/contract-templates.json')
-            .then(res => res.json())
+            .then(res => {
+                if (!res.ok) throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+                return res.json();
+            })
             .then(templates => {
                 const template = templates.find(t => t.id === type);
                 if (template) {
@@ -62,6 +65,9 @@ const Clausify = {
                     
                     document.getElementById('contract-preview').innerHTML = html;
                 }
+            })
+            .catch(error => {
+                console.error("Failed to load contract templates:", error);
             });
     },
 
@@ -75,7 +81,10 @@ const Clausify = {
         if (!container) return;
 
         fetch('../data/ip-guide.json')
-            .then(res => res.json())
+            .then(res => {
+                if (!res.ok) throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+                return res.json();
+            })
             .then(data => {
                 container.innerHTML = data.map(item => `
                     <div class="card">
@@ -85,6 +94,9 @@ const Clausify = {
                         </ul>
                     </div>
                 `).join('');
+            })
+            .catch(error => {
+                console.error("Failed to load IP guide:", error);
             });
     },
 
@@ -161,7 +173,10 @@ const Clausify = {
         if (!container) return;
 
         fetch('../data/faq.json')
-            .then(res => res.json())
+            .then(res => {
+                if (!res.ok) throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+                return res.json();
+            })
             .then(faqs => {
                 container.innerHTML = faqs.map(faq => `
                     <div class="faq-item">
@@ -173,6 +188,9 @@ const Clausify = {
                         </div>
                     </div>
                 `).join('');
+            })
+            .catch(error => {
+                console.error("Failed to load FAQs:", error);
             });
     }
 };

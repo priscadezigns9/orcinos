@@ -30,9 +30,17 @@ const dricilApi = {
                 })
             });
 
+            if (!response.ok) {
+                console.error("OpenAI API error:", response.status, response.statusText);
+                return null;
+            }
             const data = await response.json();
             if (data.error) {
                 console.error("OpenAI Error:", data.error);
+                return null;
+            }
+            if (!data.choices || !data.choices[0]) {
+                console.error("Unexpected API response structure:", data);
                 return null;
             }
             return data.choices[0].message.content;
