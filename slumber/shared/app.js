@@ -87,7 +87,8 @@ async function getAICoachResponse(logs, userPrompt) {
     });
     
     const data = await response.json();
-    return data.choices[0].message.content;
+    if (data.error) return "Unable to get a response. Please check your API key.";
+    return data.choices?.[0]?.message?.content || "No response received.";
 }
 
 // Data Loaders

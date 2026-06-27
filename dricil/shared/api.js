@@ -1,7 +1,7 @@
 // Dricil OpenAI API Integration Layer - Optimized for June 2026
 
 const API_CONFIG = {
-    OPENAI_API_KEY: '{{credential:openai-vision-business-v3}}',
+    OPENAI_API_KEY: window.DRICIL_CONFIG?.OPENAI_API_KEY || '',
     BASE_URL: 'https://api.openai.com/v1'
 };
 

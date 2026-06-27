@@ -6,7 +6,7 @@ import base64
 import requests
 
 GITHUB_REPO = "priscadezigns9/priscadezignswebsite"
-GITHUB_TOKEN = "{{credential:github-pat-laboratory-deploy-v7}}"
+GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN", "")
 
 def get_clients_from_github():
     url = f"https://api.github.com/repos/{GITHUB_REPO}/contents/CLIENTS.json"
@@ -60,11 +60,15 @@ def check_gmail_for_payments():
             ref = match.group(0)
             verified_refs.append(ref)
             # Mark as read to avoid duplicate processing
-            subprocess.run(['outlook', 'mail', 'move', eid, 'Archive'])
+            if re.fullmatch(r'[a-fA-F0-9]{16}', eid):
+                subprocess.run(['outlook', 'mail', 'move', eid, 'Archive'])
             
     return verified_refs
 
 def run_watchdog():
+    if not GITHUB_TOKEN:
+        print("GITHUB_TOKEN environment variable is not set.")
+        return
     refs = check_gmail_for_payments()
     if not refs:
         print("No new payment references found in Gmail.")
