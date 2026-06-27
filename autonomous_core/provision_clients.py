@@ -1,11 +1,12 @@
 import subprocess
+import re
 import json
 import os
 import base64
 import requests
 
 GITHUB_REPO = "priscadezigns9/priscadezignswebsite"
-GITHUB_TOKEN = "{{credential:github-pat-laboratory-deploy-v7}}"
+GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN", "")
 
 def get_clients_from_github():
     url = f"https://api.github.com/repos/{GITHUB_REPO}/contents/CLIENTS.json"
@@ -54,13 +55,16 @@ Prisca Dezigns
     # We can't actually send to external emails easily without the user's specific contact
     # So we'll log it for the user to see, OR if we have the client email we use 'gog gmail send'
     # For this simulation/setup, we will use 'gog gmail send' if the email is available.
-    if "@" in client_email:
+    if re.fullmatch(r'[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}', client_email):
         cmd = ['outlook', 'mail', 'send', client_email, '--subject', subject, '--body', body]
         subprocess.run(cmd)
         return True
     return False
 
 def run_provisioning():
+    if not GITHUB_TOKEN:
+        print("GITHUB_TOKEN environment variable is not set.")
+        return
     clients, sha = get_clients_from_github()
     if not clients:
         return

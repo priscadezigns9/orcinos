@@ -131,9 +131,9 @@
 
     <script type='text/javascript' src='https://s3.tradingview.com/tv.js'></script>
     <script>
-        const supabaseUrl = 'https://sazhdnqzaqpqcralmthh.supabase.co';
-        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNhemhkbnF6YXFwcWNyYWxtdGhoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxNzE5NjYsImV4cCI6MjA5Mzc0Nzk2Nn0.uTyw31uWTNOTV5-HzNpm46vpAJABAsHLMzW-sYOkRhc';
-        const _supabase = supabase.createClient(supabaseUrl, supabaseKey);
+        const supabaseUrl = window.TITAN_CONFIG?.SUPABASE_URL || '';
+        const supabaseKey = window.TITAN_CONFIG?.SUPABASE_ANON_KEY || '';
+        const _supabase = supabaseUrl && supabaseKey ? supabase.createClient(supabaseUrl, supabaseKey) : null;
         
         let currentUser = null;
         let tvWidget = null;

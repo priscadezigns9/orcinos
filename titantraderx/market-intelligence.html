@@ -179,12 +179,14 @@
     </footer>
 
     <script>
-        const FINNHUB_TOKEN = '{{credential:finnhub-api-key}}';
+        const FINNHUB_TOKEN = window.TITAN_CONFIG?.FINNHUB_TOKEN || '';
 
         async function fetchMarketIntel() {
             try {
                 // 1. Fetch Market Sentiment / News via Finnhub
-                const newsResponse = await fetch(`https://finnhub.io/api/v1/news?category=forex&token=${FINNHUB_TOKEN}`);
+                const newsResponse = await fetch('https://finnhub.io/api/v1/news?category=forex', {
+                    headers: { 'X-Finnhub-Token': FINNHUB_TOKEN }
+                });
                 const news = await newsResponse.json();
                 
                 if (news && news.length > 0) {

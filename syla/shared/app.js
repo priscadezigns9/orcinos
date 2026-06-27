@@ -14,6 +14,12 @@ Format your response as:
 VERDICT: [SAFE/SUSPICIOUS/SCAM]
 EXPLANATION: [Simple explanation]`;
 
+function escapeHtml(str) {
+    const div = document.createElement('div');
+    div.appendChild(document.createTextNode(str));
+    return div.innerHTML;
+}
+
 // --- Configuration ---
 // These would be set via environment variables or a config screen in a real app
 const CONFIG = {
@@ -145,8 +151,8 @@ function loadMedications() {
     const meds = JSON.parse(localStorage.getItem('syla_meds') || '[]');
     list.innerHTML = meds.map(m => `
         <div class="card">
-            <strong>${m.name}</strong> - ${m.dosage}<br>
-            Time: ${m.time}
+            <strong>${escapeHtml(m.name)}</strong> - ${escapeHtml(m.dosage)}<br>
+            Time: ${escapeHtml(m.time)}
         </div>
     `).join('');
 }
@@ -179,8 +185,8 @@ async function checkScam() {
 
     resultDiv.innerHTML = `
         <div class="card">
-            <h2 class="scam-${verdict.toLowerCase()}">${verdict}</h2>
-            <p>${explanation}</p>
+            <h2 class="scam-${escapeHtml(verdict.toLowerCase())}">${escapeHtml(verdict)}</h2>
+            <p>${escapeHtml(explanation)}</p>
         </div>
     `;
 }

@@ -1,5 +1,11 @@
 // Clausify App Logic
 
+function escapeHtml(str) {
+    const div = document.createElement('div');
+    div.appendChild(document.createTextNode(str));
+    return div.innerHTML;
+}
+
 const Clausify = {
     // Supabase Config (Placeholder - to be filled by user)
     supabaseUrl: '',
@@ -53,12 +59,12 @@ const Clausify = {
                 const template = templates.find(t => t.id === type);
                 if (template) {
                     let html = template.template;
-                    html = html.replace(/{{creator_name}}/g, creatorName);
-                    html = html.replace(/{{client_name}}/g, clientName);
-                    html = html.replace(/{{deliverables}}/g, deliverables);
-                    html = html.replace(/{{payment_amount}}/g, paymentAmount);
-                    html = html.replace(/{{deadline}}/g, deadline);
-                    html = html.replace(/{{jurisdiction}}/g, jurisdiction);
+                    html = html.replace(/{{creator_name}}/g, escapeHtml(creatorName));
+                    html = html.replace(/{{client_name}}/g, escapeHtml(clientName));
+                    html = html.replace(/{{deliverables}}/g, escapeHtml(deliverables));
+                    html = html.replace(/{{payment_amount}}/g, escapeHtml(paymentAmount));
+                    html = html.replace(/{{deadline}}/g, escapeHtml(deadline));
+                    html = html.replace(/{{jurisdiction}}/g, escapeHtml(jurisdiction));
                     
                     document.getElementById('contract-preview').innerHTML = html;
                 }

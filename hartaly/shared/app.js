@@ -1,7 +1,7 @@
-// Supabase & OpenAI Keys (Placeholders - User must provide real keys in production)
-const SUPABASE_URL = 'https://sktpjacowqaedddtrhuz.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNrdHBqYWNvd3FhZWRkZHRyaHV6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2NDk5MzEsImV4cCI6MjA5NDIyNTkzMX0.FK4N_ATFTaUuGXrYu_7OBn3qCdlo0rOzxk-E6TxJxqs';
-const OPENAI_API_KEY = 'your-openai-key';
+// Keys loaded from runtime config — never hardcode real credentials in source
+const SUPABASE_URL = window.HARTALY_CONFIG?.SUPABASE_URL || '';
+const SUPABASE_ANON_KEY = window.HARTALY_CONFIG?.SUPABASE_ANON_KEY || '';
+const OPENAI_API_KEY = window.HARTALY_CONFIG?.OPENAI_API_KEY || '';
 
 // Check if crisis keywords are present
 function detectCrisis(text) {
@@ -68,9 +68,9 @@ async function sendMessageToHartaly(message, history = []) {
         });
 
         const data = await response.json();
-        return data.choices[0].message.content;
+        if (data.error) return "I'm here for you, but I'm having a little trouble connecting right now. Take a deep breath with me?";
+        return data.choices?.[0]?.message?.content || "I'm here for you. Let me try again in a moment.";
     } catch (error) {
-        console.error("AI Error:", error);
         return "I'm here for you, but I'm having a little trouble connecting right now. Take a deep breath with me?";
     }
 }
@@ -114,7 +114,8 @@ async function generateJournalPrompt() {
         })
     });
     const data = await response.json();
-    return data.choices[0].message.content;
+    if (data.error) return "Unable to generate prompt right now.";
+    return data.choices?.[0]?.message?.content || "Take a moment to reflect on something that made you smile today.";
 }
 
 // Breathing Room Audio
