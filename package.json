@@ -1,0 +1,12 @@
+{
+  "name": "orcinos-tests",
+  "private": true,
+  "scripts": {
+    "test": "jest",
+    "test:js": "jest",
+    "test:py": "pytest tests/ -v"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}
