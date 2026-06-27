@@ -1,36 +1,42 @@
+/**
+ * DEPRECATED: This file was a duplicate of syla/shared/style.css.
+ * 
+ * Use shared/base.css for common component styles, then import 
+ * product-specific theme CSS on top.
+ * 
+ * For Syla-specific styling, see: syla/shared/style.css
+ * 
+ * This file is kept for backward compatibility — it imports base.css
+ * and applies the Syla theme variables.
+ */
+@import url('./base.css');
+
+/* Syla Theme (backward compat for pages referencing shared/style.css) */
 :root {
     --bg-color: #FFFDF8;
-    --primary-blue: #2E86C1;
-    --primary-green: #27AE60;
-    --text-gray: #6C7A89;
-    --emergency-red: #C0392B;
-    --font-size-body: 22px;
-    --font-size-heading: 32px;
+    --heading-color: #2E86C1;
+    --link-color: #2E86C1;
+    --btn-primary-bg: #2E86C1;
+    --btn-primary-color: #FFFFFF;
+    --container-max-width: 800px;
+    --font-family: 'Open Sans', Arial, sans-serif;
+    --card-padding: 30px;
+    --card-radius: 20px;
+    --card-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    --chat-ai-bg: #e3f2fd;
+    --chat-user-bg: #f1f1f1;
 }
 
 body {
-    background-color: var(--bg-color);
-    color: #333;
-    font-family: 'Open Sans', Arial, sans-serif;
-    font-size: var(--font-size-body);
-    line-height: 1.6;
-    margin: 0;
-    padding: 0;
+    font-size: 22px;
 }
 
 h1, h2, h3 {
-    font-size: var(--font-size-heading);
-    color: var(--primary-blue);
-}
-
-.container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
+    font-size: 32px;
 }
 
 .emergency-btn {
-    background-color: var(--emergency-red);
+    background-color: #C0392B;
     color: white;
     border: none;
     padding: 15px 25px;
@@ -60,15 +66,15 @@ h1, h2, h3 {
 .nav-item {
     font-size: 24px;
     text-decoration: none;
-    color: var(--primary-blue);
+    color: #2E86C1;
     font-weight: bold;
     padding: 10px 20px;
-    border: 2px solid var(--primary-blue);
+    border: 2px solid #2E86C1;
     border-radius: 10px;
 }
 
 .nav-item.active {
-    background-color: var(--primary-blue);
+    background-color: #2E86C1;
     color: white;
 }
 
@@ -77,7 +83,7 @@ h1, h2, h3 {
     width: 100%;
     min-height: 80px;
     margin: 20px 0;
-    background-color: var(--primary-blue);
+    background-color: #2E86C1;
     color: white;
     border: none;
     border-radius: 15px;
@@ -90,47 +96,11 @@ h1, h2, h3 {
 }
 
 .big-btn-green {
-    background-color: var(--primary-green);
-}
-
-input, textarea {
-    width: 100%;
-    padding: 20px;
-    font-size: 22px;
-    border: 2px solid #ccc;
-    border-radius: 10px;
-    margin-bottom: 20px;
-    box-sizing: border-box;
-}
-
-.card {
-    background: white;
-    padding: 30px;
-    border-radius: 20px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-    margin-bottom: 30px;
-}
-
-.chat-bubble {
-    padding: 20px;
-    border-radius: 15px;
-    margin-bottom: 20px;
-    max-width: 80%;
-}
-
-.chat-bubble.syla {
-    background-color: #e3f2fd;
-    align-self: flex-start;
-}
-
-.chat-bubble.user {
-    background-color: #f1f1f1;
-    align-self: flex-end;
-    margin-left: auto;
+    background-color: #27AE60;
 }
 
 .voice-btn {
-    background-color: var(--primary-green);
+    background-color: #27AE60;
     color: white;
     border-radius: 50%;
     width: 80px;
@@ -144,9 +114,9 @@ input, textarea {
     margin: 0 auto;
 }
 
-.scam-safe { color: var(--primary-green); font-weight: bold; }
+.scam-safe { color: #27AE60; font-weight: bold; }
 .scam-suspicious { color: #f39c12; font-weight: bold; }
-.scam-danger { color: var(--emergency-red); font-weight: bold; }
+.scam-danger { color: #C0392B; font-weight: bold; }
 
 @media (max-width: 600px) {
     .emergency-btn {

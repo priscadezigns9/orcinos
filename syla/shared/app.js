@@ -1,4 +1,4 @@
-// Syla Core Application Logic
+// Syla Core Application Logic — uses shared OrcinosAI utility
 
 const SYLA_SYSTEM_PROMPT = `You are Syla, a warm, patient, and friendly AI assistant for elderly people (65+). 
 Your goal is to help them with technology and daily tasks without using any technical jargon. 
@@ -14,13 +14,11 @@ Format your response as:
 VERDICT: [SAFE/SUSPICIOUS/SCAM]
 EXPLANATION: [Simple explanation]`;
 
-// --- Configuration ---
-// These would be set via environment variables or a config screen in a real app
-const CONFIG = {
-    OPENAI_API_KEY: '', // To be filled by user/system
-    SUPABASE_URL: '',
-    SUPABASE_ANON_KEY: ''
-};
+// Initialize shared AI client
+const sylaAI = new OrcinosAI({
+    apiKey: '', // To be filled by user/system
+    model: 'gpt-4o-mini'
+});
 
 // --- Initialization ---
 function initApp() {
@@ -62,36 +60,17 @@ function startListening(onResult) {
 
 function speak(text) {
     const utterance = new SpeechSynthesisUtterance(text);
-    utterance.rate = 0.9; // Slightly slower for clarity
+    utterance.rate = 0.9;
     window.speechSynthesis.speak(utterance);
 }
 
 // --- AI Interaction ---
 async function askAI(prompt, systemMessage = SYLA_SYSTEM_PROMPT) {
-    if (!CONFIG.OPENAI_API_KEY) {
-        return "I'm sorry, I need an API key to talk to you. Please ask your family to help set up my 'OpenAI key'.";
-    }
-
-    try {
-        const response = await fetch('https://api.openai.com/v1/chat/completions', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${CONFIG.OPENAI_API_KEY}`
-            },
-            body: JSON.stringify({
-                model: "gpt-4o-mini",
-                messages: [
-                    { role: "system", content: systemMessage },
-                    { role: "user", content: prompt }
-                ]
-            })
-        });
-        const data = await response.json();
-        return data.choices[0].message.content;
-    } catch (error) {
-        return "I'm having a little trouble connecting right now. Can we try again in a moment?";
-    }
+    return await sylaAI.chat(prompt, {
+        systemPrompt: systemMessage,
+        noKeyMessage: "I'm sorry, I need an API key to talk to you. Please ask your family to help set up my 'OpenAI key'.",
+        errorMessage: "I'm having a little trouble connecting right now. Can we try again in a moment?"
+    });
 }
 
 // --- Feature Logic ---
@@ -99,7 +78,6 @@ async function askAI(prompt, systemMessage = SYLA_SYSTEM_PROMPT) {
 // 1. Chat
 async function handleChatInput() {
     const input = document.getElementById('chat-input');
-    const display = document.getElementById('chat-display');
     const text = input.value;
     if (!text) return;
 
@@ -155,7 +133,6 @@ function scheduleNotification(name, time) {
     if (!("Notification" in window)) return;
     Notification.requestPermission().then(permission => {
         if (permission === "granted") {
-            // In a real PWA this would use a Service Worker
             console.log(`Reminder set for ${name} at ${time}`);
         }
     });
@@ -170,7 +147,7 @@ async function checkScam() {
 
     resultDiv.innerHTML = "Checking... please wait.";
     const response = await askAI(text, SCAM_DETECTOR_PROMPT);
-    
+
     let verdict = "SUSPICIOUS";
     if (response.includes("SAFE")) verdict = "SAFE";
     if (response.includes("SCAM")) verdict = "SCAM";

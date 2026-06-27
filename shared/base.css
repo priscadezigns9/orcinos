@@ -1,0 +1,290 @@
+/**
+ * Orcinos Shared Base CSS
+ * 
+ * Common reset, layout primitives, and component patterns extracted from
+ * duplicated styles across products (Slumber, Skillbit, Dricil, Clausify, Riddiim, Syla).
+ * 
+ * Each product imports this then overrides CSS variables for its own theme.
+ * 
+ * Usage:
+ *   <link rel="stylesheet" href="../shared/base.css">
+ *   <link rel="stylesheet" href="./theme.css">
+ */
+
+/* === Reset === */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* === Base Typography === */
+body {
+    font-family: var(--font-family, 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
+    background-color: var(--bg-color, #FFFFFF);
+    color: var(--text-color, #333333);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: var(--heading-color, inherit);
+    line-height: 1.2;
+}
+
+a {
+    text-decoration: none;
+    color: var(--link-color, inherit);
+    transition: opacity 0.3s;
+}
+
+a:hover {
+    opacity: 0.8;
+}
+
+/* === Layout === */
+.container {
+    max-width: var(--container-max-width, 1200px);
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* === Buttons === */
+.btn {
+    display: inline-block;
+    padding: 12px 24px;
+    border-radius: var(--btn-radius, 8px);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+    text-align: center;
+    text-decoration: none;
+    font-size: 1rem;
+}
+
+.btn:active {
+    transform: scale(0.98);
+}
+
+.btn-primary {
+    background-color: var(--btn-primary-bg, #007bff);
+    color: var(--btn-primary-color, #FFFFFF);
+}
+
+.btn-primary:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+}
+
+.btn-outline {
+    background-color: transparent;
+    border: 2px solid var(--btn-outline-border, currentColor);
+    color: var(--btn-outline-color, currentColor);
+}
+
+.btn-outline:hover {
+    background-color: var(--btn-outline-border, currentColor);
+    color: var(--btn-outline-hover-color, #FFFFFF);
+}
+
+/* === Cards === */
+.card {
+    background: var(--card-bg, #FFFFFF);
+    padding: var(--card-padding, 1.5rem);
+    border-radius: var(--card-radius, 12px);
+    box-shadow: var(--card-shadow, 0 2px 10px rgba(0, 0, 0, 0.05));
+    margin-bottom: 1.5rem;
+    border: var(--card-border, none);
+    transition: 0.3s;
+}
+
+/* === Forms === */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+input,
+textarea,
+select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--input-border, #E0E0E0);
+    border-radius: var(--input-radius, 8px);
+    font-family: inherit;
+    font-size: 1rem;
+    background-color: var(--input-bg, #FFFFFF);
+    color: var(--input-color, inherit);
+    margin-bottom: 1rem;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    outline: none;
+    border-color: var(--input-focus-border, var(--btn-primary-bg, #007bff));
+}
+
+/* === Navigation === */
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 2rem;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--logo-color, inherit);
+}
+
+.nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+}
+
+/* === Hero Section === */
+.hero {
+    padding: 100px 0;
+    text-align: center;
+}
+
+.hero h1 {
+    font-size: clamp(2rem, 5vw, 4rem);
+    margin-bottom: 20px;
+}
+
+.hero p {
+    font-size: 1.25rem;
+    color: var(--text-muted, #666666);
+    max-width: 700px;
+    margin: 0 auto 40px;
+}
+
+/* === Dashboard Layout === */
+.dashboard-layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: var(--sidebar-width, 250px);
+    background-color: var(--sidebar-bg, #1a1a2e);
+    color: var(--sidebar-color, #FFFFFF);
+    padding: 2rem 1rem;
+}
+
+.sidebar .nav-item {
+    display: block;
+    padding: 12px 15px;
+    margin-bottom: 5px;
+    border-radius: 6px;
+    transition: background 0.2s;
+}
+
+.sidebar .nav-item:hover,
+.sidebar .nav-item.active {
+    background-color: var(--sidebar-active-bg, rgba(255, 255, 255, 0.1));
+}
+
+.main-content {
+    flex: 1;
+    padding: 2rem;
+}
+
+/* === Grid Utilities === */
+.grid-2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+}
+
+.grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+}
+
+.grid-auto {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+/* === Chat Components === */
+.chat-container {
+    height: 400px;
+    overflow-y: auto;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.chat-bubble {
+    max-width: 80%;
+    padding: 1rem;
+    border-radius: 12px;
+}
+
+.chat-bubble.ai,
+.chat-bubble.assistant {
+    background-color: var(--chat-ai-bg, #e3f2fd);
+    align-self: flex-start;
+}
+
+.chat-bubble.user {
+    background-color: var(--chat-user-bg, #f1f1f1);
+    align-self: flex-end;
+    margin-left: auto;
+}
+
+/* === Utility Classes === */
+.hidden { display: none; }
+.text-center { text-align: center; }
+.mb-1 { margin-bottom: 1rem; }
+.mb-2 { margin-bottom: 2rem; }
+.mt-1 { margin-top: 1rem; }
+.mt-2 { margin-top: 2rem; }
+
+/* === Responsive === */
+@media (max-width: 768px) {
+    .grid-2,
+    .grid-3 {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-layout {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        padding: 1rem;
+    }
+
+    .hero {
+        padding: 60px 0;
+    }
+
+    nav {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .nav-links {
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+}
