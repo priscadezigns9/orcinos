@@ -1,50 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <!-- Core -->
-  <url><loc>https://orcinos.com/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
-  <url><loc>https://orcinos.com/about/</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
-
-  <!-- High-Fidelity Product Nodes -->
-  <url><loc>https://orcinos.com/nurasen/</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://orcinos.com/captioai/</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://orcinos.com/optiscout/</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://orcinos.com/dricil/</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://orcinos.com/calalloo/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://orcinos.com/riddiim/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://orcinos.com/pawsdx/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://orcinos.com/panthriq/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://orcinos.com/dpanthriq/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://orcinos.com/sovsygnal/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  
-  <!-- Network Utilities -->
-  <url><loc>https://orcinos.com/pricepulse/</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://orcinos.com/clausify/</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://orcinos.com/skillbit/</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://orcinos.com/slumber/</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://orcinos.com/syla/</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://orcinos.com/titantraderx/</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://orcinos.com/prayerblock/</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://orcinos.com/dpanyard/</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://orcinos.com/hartaly/</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://orcinos.com/hearthly/</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  
-  <!-- Emerging Nodes -->
-  <url><loc>https://orcinos.com/blankedout/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://orcinos.com/thesignal/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://orcinos.com/sellit/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://orcinos.com/ebony/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://orcinos.com/vibe/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://orcinos.com/handy/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
-
-  <!-- Global Intelligence Pages -->
-  <url><loc>https://orcinos.com/anime.html</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://orcinos.com/biohacking.html</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://orcinos.com/blockchain.html</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://orcinos.com/forex.html</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://orcinos.com/geopolitics.html</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://orcinos.com/intelligence.html</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://orcinos.com/lifestyle.html</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://orcinos.com/markets.html</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://orcinos.com/realestate.html</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://orcinos.com/stocks.html</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://orcinos.com/</loc><lastmod>2026-06-27</lastmod><changefreq>daily</changefreq><priority>1.0</priority></url>
+  <url><loc>https://orcinos.com/sovsygnal/</loc><lastmod>2026-06-27</lastmod><changefreq>hourly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://orcinos.com/nurasen/</loc><lastmod>2026-06-27</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://orcinos.com/captioai/</loc><lastmod>2026-06-27</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://orcinos.com/optiscout/</loc><lastmod>2026-06-27</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://orcinos.com/calalloo/</loc><lastmod>2026-06-27</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>
+  <url><loc>https://orcinos.com/riddiim/</loc><lastmod>2026-06-27</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
 </urlset>
