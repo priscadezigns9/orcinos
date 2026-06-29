@@ -46,54 +46,126 @@
     .news-card h2 { font-family:var(--font-heading);font-size:1.3rem;margin-bottom:8px;line-height:1.35; }
     .news-card h2 a { text-decoration:none;color:var(--text); }
     .news-card h2 a:hover { color:var(--primary); }
+    .news-card p { font-size:0.88rem;color:#444;line-height:1.6;margin-bottom:10px; }
+    .news-meta { font-size:0.7rem;color:#999;text-transform:uppercase;letter-spacing:1px; }
+    .tag { display:inline-block;background:#000;color:#fff;font-size:0.6rem;font-weight:800;text-transform:uppercase;letter-spacing:2px;padding:3px 8px;border-radius:2px;margin-bottom:10px; }
+    .tag.secondary { background:var(--primary); }
     .section-label { font-size:0.65rem;font-weight:800;text-transform:uppercase;letter-spacing:3px;color:var(--primary);border-bottom:2px solid var(--primary);padding-bottom:8px;margin-bottom:24px; }
     footer { background:#000;color:#fff;text-align:center;padding:30px;margin-top:60px;font-size:0.8rem; }
     footer img { height:30px;margin-bottom:10px;opacity:0.8; }
-</style>
+    </style>
 </head>
 <body>
-<div class="ticker-wrap"><div class="ticker"><span class="ticker-item"><span>●</span>NVIDIA Hits T Market Cap</span> <span class="ticker-item"><span>●</span>SPCX: .3B Inflows Projected</span> <span class="ticker-item"><span>●</span>Bitcoin Stabilizes: 0,157</span> <span class="ticker-item"><span>●</span>S&P 500: 7,354 Support</span> <span class="ticker-item"><span>●</span>Nasdaq Composite: 25,297</span></div></div>
-<header>
-    <h1><a href="index.html">SOVSYGNAL</a></h1>
-    <p>Global Intelligence Hub &middot; Updated Jun 27, 2026 | 11:15 AM AST</p>
-    <nav><a href="index.html" class="active">Headlines</a>
-<a href="geopolitics.html" class="">Geopolitics</a>
-<a href="stocks.html" class="">Stocks</a>
-<a href="blockchain.html" class="">Blockchain</a>
-<a href="intelligence.html" class="">Intelligence</a>
-<a href="forex.html" class="">Forex</a>
-<a href="markets.html" class="">Markets</a>
-<a href="realestate.html" class="">Real Estate</a>
-<a href="anime.html" class="">Anime</a>
-<a href="gaming.html" class="">Gaming</a>
-<a href="entertainment.html" class="">Entertainment</a>
-<a href="lifestyle.html" class="">Lifestyle</a>
-<a href="biohacking.html" class="">Biohacking</a>
-<a href="advertise.html">Advertise</a>
-</nav>
-</header>
-<div class="container">
-    <main><div class="news-item"><span class="tag">[Primary]</span> <h3>SpaceX Orbital AI Compute: The IPO Vision</h3><p>Following its historic Nasdaq debut, SpaceX reveals plans for orbital AI compute clusters, positioning itself as the only provider of space-hardened neural infrastructure.</p></div><div class="news-item"><span class="tag">[Primary]</span> <h3>NVIDIA Next-Gen PC AI Silicon Dominance</h3><p>NVIDIA CEO Jensen Huang confirms new high-fidelity PC AI chips designed for local neural processing, sending market valuations to new record highs.</p></div></main>
-    <aside class="sidebar">
-<div style="background:#000;color:#fff;padding:22px;border-radius:8px;margin-bottom:18px;">
-    <div style="font-size:0.58rem;font-weight:800;text-transform:uppercase;letter-spacing:2px;opacity:0.7;margin-bottom:6px;">Featured Brand</div>
-    <h4 style="font-family:Playfair Display,serif;font-size:1.1rem;margin-bottom:4px;">Prisca Dezigns</h4>
-    <p style="font-size:0.78rem;opacity:0.8;margin-bottom:14px;">The Growth Agency & Global Architectural Hub</p>
-    <a href="https://priscadezigns.org/" target="_blank" style="display:inline-block;background:#FF6B00;color:#fff;padding:8px 16px;border-radius:4px;font-size:0.75rem;font-weight:700;text-decoration:none;text-transform:uppercase;letter-spacing:1px;">Explore →</a>
-</div>
-<div style="background:#FFFFF0;border:1px solid #e8e8e8;padding:22px;border-radius:8px;margin-bottom:18px;">
-    <div style="font-size:0.58rem;font-weight:800;text-transform:uppercase;letter-spacing:2px;color:#FF6B00;margin-bottom:8px;">Recommended</div>
-    <h4 style="font-size:1rem;margin-bottom:10px;font-family:Playfair Display,serif;">Portable EV Charger (Level 2)</h4>
-    <a href="https://www.amazon.com/s?k=portable+ev+charger+level+2&tag=priscadezigns-20" target="_blank" style="display:inline-block;background:#FF9900;color:#000;padding:8px 16px;border-radius:4px;font-size:0.75rem;font-weight:700;text-decoration:none;">Shop on Amazon →</a>
+
+<div class="ticker-wrap">
+  <div class="ticker">
+    <span class="ticker-item"><span>●</span>BIS WARNS: AI BUST RISKS GLOBAL CREDIT RIPPLE — Bloomberg, Jun 28</span>
+    <span class="ticker-item"><span>●</span>S&P 500 POSTS FIFTH STRAIGHT DOWN DAY — Market Watch, Jun 26</span>
+    <span class="ticker-item"><span>●</span>BITCOIN PLUNGES TO $58,000 — LOWEST SINCE 2024 — CoinDesk, Jun 25</span>
+    <span class="ticker-item"><span>●</span>AI STOCKS SELL-OFF SPREADS FROM WALL STREET TO ASIA — The Guardian, Jun 23</span>
+    <span class="ticker-item"><span>●</span>SPACEX VALUED AT $1.77 TRILLION — The Guardian, Jun 7</span>
+    <span class="ticker-item"><span>●</span>MICROSOFT ANNOUNCES SWEEPING AI DEVICE & CLOUD INITIATIVE — Reuters, Jun 3</span>
+    <span class="ticker-item"><span>●</span>CRYPTO ETFs: $1.67B WEEKLY OUTFLOWS — Bitcoin Foundation</span>
+    <span class="ticker-item"><span>●</span>CSIS: INDUSTRIAL BASE WARTIME FOOTING REVIEW — Jun 29, 2026</span>
+  </div>
 </div>
 
-<div style="background:linear-gradient(135deg,#FF6B00,#000);color:#fff;padding:22px;border-radius:8px;margin-bottom:18px;text-align:center;">
-    <div style="font-size:0.58rem;font-weight:800;text-transform:uppercase;letter-spacing:2px;opacity:0.8;margin-bottom:8px;">Advertise Here</div>
-    <p style="font-size:0.8rem;opacity:0.9;margin-bottom:14px;line-height:1.5;">Reach a global audience of investors, analysts &amp; decision makers.</p>
-    <a href="advertise.html" style="display:inline-block;background:#fff;color:#FF6B00;padding:9px 18px;border-radius:4px;font-weight:800;font-size:0.75rem;text-decoration:none;text-transform:uppercase;letter-spacing:1px;">Get Featured →</a>
-</div>
+<header>
+    <h1><a href="index.html">SOVSYGNAL</a></h1>
+    <p>Global Intelligence Hub &middot; Updated Jun 29, 2026 | 08:45 PM AST</p>
+    <nav>
+        <a href="index.html" class="active">Headlines</a>
+        <a href="geopolitics.html">Geopolitics</a>
+        <a href="stocks.html">Stocks</a>
+        <a href="blockchain.html">Blockchain</a>
+        <a href="intelligence.html">Intelligence</a>
+        <a href="forex.html">Forex</a>
+        <a href="markets.html">Markets</a>
+        <a href="realestate.html">Real Estate</a>
+        <a href="anime.html">Anime</a>
+        <a href="gaming.html">Gaming</a>
+        <a href="entertainment.html">Entertainment</a>
+        <a href="lifestyle.html">Lifestyle</a>
+        <a href="biohacking.html">Biohacking</a>
+        <a href="advertise.html">Advertise</a>
+    </nav>
+</header>
+
+<div class="container">
+<main>
+    <div class="section-label">Top Headlines — Jun 29, 2026</div>
+    <div class="news-grid">
+
+        <div class="news-card">
+            <span class="tag">Primary · Bloomberg</span>
+            <h2><a href="https://www.bloomberg.com/news/articles/2026-06-28/ai-bust-risks-ripple-effects-from-growth-to-credit-bis-says" target="_blank">BIS Warns: AI Bust Could Trigger Global Credit & Growth Shock</a></h2>
+            <p>The Bank for International Settlements issued a high-alert warning on June 28, identifying an AI valuation collapse, inflation persistence, and fiscal stress as the three most critical threats to global economic stability heading into Q3 2026.</p>
+            <div class="news-meta">Bloomberg · Jun 28, 2026</div>
+        </div>
+
+        <div class="news-card">
+            <span class="tag">Primary · The Guardian</span>
+            <h2><a href="https://www.theguardian.com/business/2026/jun/23/ai-stocks-sell-off-us-markets" target="_blank">AI Stock Sell-Off Shakes Markets From Wall Street to Asia</a></h2>
+            <p>A broad AI-sector correction sent losses rippling from U.S. exchanges to Asian markets, with investors questioning the soaring capital expenditure and valuations tied to AI infrastructure build-out. The S&P 500 recorded five consecutive down days through June 26.</p>
+            <div class="news-meta">The Guardian · Jun 23, 2026</div>
+        </div>
+
+        <div class="news-card">
+            <span class="tag">Primary · CoinDesk</span>
+            <h2><a href="https://www.coindesk.com/markets/2026/06/25/bitcoin-plunges-to-new-multi-year-low-of-usd58-000-but-a-short-squeeze-setup-emerges" target="_blank">Bitcoin Plunges to $58,000 — Multi-Year Low — Short Squeeze Setup Emerges</a></h2>
+            <p>Bitcoin dropped 5% in early U.S. trading on June 25, hitting $58,000 — its lowest level since 2024 — amid broader risk-off sentiment tied to AI market volatility and $1.67B in crypto ETF outflows recorded the prior week.</p>
+            <div class="news-meta">CoinDesk · Jun 25, 2026</div>
+        </div>
+
+        <div class="news-card">
+            <span class="tag">Primary · Reuters</span>
+            <h2><a href="https://www.reuters.com/world/china/microsoft-expected-showcase-new-pc-cloud-ai-tools-developer-conference-2026-06-02/" target="_blank">Microsoft Unveils Sweeping AI Initiative: Autonomous Assistants, NVIDIA-Powered PCs & Cloud Tools</a></h2>
+            <p>At its annual developer conference, Microsoft announced a major AI expansion including autonomous workplace assistants, new AI-native hardware devices, and deep NVIDIA chip integration across both consumer and enterprise cloud tiers.</p>
+            <div class="news-meta">Reuters · Jun 3, 2026</div>
+        </div>
+
+        <div class="news-card">
+            <span class="tag">Primary · The Guardian</span>
+            <h2><a href="https://www.theguardian.com/technology/2026/jun/07/billions-spent-hypothetical-returns-the-ai-boom-explained-with-six-charts" target="_blank">SpaceX Eyes $1.77 Trillion Valuation — AI and Space Collide</a></h2>
+            <p>SpaceX, which has expanded beyond rockets into AI model development, is seeking a $1.77 trillion valuation. The move positions the company at the intersection of orbital infrastructure and artificial intelligence — a dual bet on the future of compute.</p>
+            <div class="news-meta">The Guardian · Jun 7, 2026</div>
+        </div>
+
+        <div class="news-card">
+            <span class="tag secondary">Intelligence · CSIS</span>
+            <h2><a href="https://www.csis.org/" target="_blank">CSIS Report: Is the Industrial Base on a Wartime Footing?</a></h2>
+            <p>The Center for Strategic and International Studies released a live analysis on June 29, examining whether the U.S. industrial base has adequately shifted to wartime production capacity — a signal of escalating geopolitical pressure globally.</p>
+            <div class="news-meta">CSIS · Jun 29, 2026</div>
+        </div>
+
+    </div>
+</main>
+
+<aside class="sidebar">
+    <!-- BLOCK 1: FEATURED BRAND — LOCKED -->
+    <div style="background:#000;color:#fff;padding:22px;border-radius:8px;margin-bottom:18px;">
+        <div style="font-size:0.58rem;font-weight:800;text-transform:uppercase;letter-spacing:2px;opacity:0.7;margin-bottom:6px;">Featured Brand</div>
+        <h4 style="font-family:Playfair Display,serif;font-size:1.1rem;margin-bottom:4px;">Prisca Dezigns</h4>
+        <p style="font-size:0.78rem;opacity:0.8;margin-bottom:14px;">The Growth Agency & Global Architectural Hub</p>
+        <a href="https://priscadezigns.org/" target="_blank" style="display:inline-block;background:#FF6B00;color:#fff;padding:8px 16px;border-radius:4px;font-size:0.75rem;font-weight:700;text-decoration:none;text-transform:uppercase;letter-spacing:1px;">Explore →</a>
+    </div>
+
+    <!-- BLOCK 2: AMAZON AFFILIATE — LOCKED -->
+    <div style="background:#FFFFF0;border:1px solid #e8e8e8;padding:22px;border-radius:8px;margin-bottom:18px;">
+        <div style="font-size:0.58rem;font-weight:800;text-transform:uppercase;letter-spacing:2px;color:#FF6B00;margin-bottom:8px;">Recommended</div>
+        <h4 style="font-size:1rem;margin-bottom:10px;font-family:Playfair Display,serif;">Portable EV Charger (Level 2)</h4>
+        <a href="https://www.amazon.com/s?k=portable+ev+charger+level+2&tag=priscadezigns-20" target="_blank" style="display:inline-block;background:#FF9900;color:#000;padding:8px 16px;border-radius:4px;font-size:0.75rem;font-weight:700;text-decoration:none;">Shop on Amazon →</a>
+    </div>
+
+    <!-- BLOCK 3: ADVERTISE HERE — PERMANENT, LOCKED -->
+    <div style="background:linear-gradient(135deg,#FF6B00,#000);color:#fff;padding:22px;border-radius:8px;margin-bottom:18px;text-align:center;">
+        <div style="font-size:0.58rem;font-weight:800;text-transform:uppercase;letter-spacing:2px;opacity:0.8;margin-bottom:8px;">Advertise Here</div>
+        <p style="font-size:0.8rem;opacity:0.9;margin-bottom:14px;line-height:1.5;">Reach a global audience of investors, analysts &amp; decision makers.</p>
+        <a href="advertise.html" style="display:inline-block;background:#fff;color:#FF6B00;padding:9px 18px;border-radius:4px;font-weight:800;font-size:0.75rem;text-decoration:none;text-transform:uppercase;letter-spacing:1px;">Get Featured →</a>
+    </div>
 </aside>
 </div>
+
 <footer>
     <img src="assets/logos/sovereign_footer_logo.png" alt="Sovereign">
     <p>&copy; 2026 SOVSYGNAL &middot; PRISCA DEZIGNS INTELLIGENCE MEDIA</p>
