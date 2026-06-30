@@ -4,59 +4,77 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SOVSYGNAL | Lifestyle</title>
-    <meta name="description" content="SOVSYGNAL - Global Intelligence Hub. High-fidelity Lifestyle intelligence signals.">
+    <meta name="description" content="SOVSYGNAL - Luxury lifestyle intelligence. Wellness, design, and high-fidelity living signals.">
     <link rel="icon" type="image/png" href="assets/logos/sovereign_favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
-    <style>
-    :root { --primary: #8B0000; --bg: #F9F9F9; --text: #1A1A1A; --font-heading: 'Playfair Display', serif; --font-body: 'Inter', sans-serif; }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { background: var(--bg); color: var(--text); font-family: var(--font-body); line-height: 1.6; overflow-x: hidden; }
-    .ticker-wrap { width:100%;overflow:hidden;background:#000;color:#fff;padding:10px 0;border-bottom:2px solid var(--primary); }
-    .ticker { display:inline-block;white-space:nowrap;padding-right:100%;animation:ticker 240s linear infinite; }
-    @keyframes ticker { 0%{transform:translateX(0)} 100%{transform:translateX(-100%)} }
-    .ticker-item { display:inline-block;padding:0 30px;font-weight:800;font-size:0.72rem;text-transform:uppercase;letter-spacing:1.5px; }
-    .ticker-item span { color:var(--primary);margin-right:8px; }
-    header { background:#fff;padding:25px 6%;border-bottom:3px solid #000;text-align:center;position:relative;z-index:1000; }
-    header h1 { font-family:var(--font-heading);font-size:2.8rem;letter-spacing:6px;text-transform:uppercase;line-height:1.1; }
-    header h1 a { text-decoration:none;color:#000; }
-    header p { font-size:0.72rem;color:#888;letter-spacing:2px;text-transform:uppercase;margin-top:8px; }
-    nav { margin-top:20px;display:flex;flex-wrap:wrap;justify-content:center;gap:8px;padding:0 10px; }
-    nav a { text-decoration:none;font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;padding:8px 14px;border:1.5px solid #000;color:#000;border-radius:2px;transition:all 0.2s;margin-bottom:8px; }
-    nav a:hover,nav a.active { background:#000;color:#fff; }
-    .container { max-width:1300px;margin:40px auto;padding:0 5%;display:grid;grid-template-columns:1fr 300px;gap:40px; }
-    @media(max-width:900px){
-        .container{grid-template-columns:1fr;}
-        header h1 { font-size: 1.8rem; letter-spacing: 4px; }
-        header { padding: 20px 4%; }
-        .news-card { padding: 16px; }
-        nav { gap: 6px; }
-        nav a { padding: 6px 10px; font-size: 0.65rem; }
-    }
-    @media(max-width:480px){
-        header h1 { font-size: 1.5rem; letter-spacing: 2px; }
-        header p { font-size: 0.6rem; letter-spacing: 1px; }
-        .ticker-item { padding: 0 15px; font-size: 0.65rem; }
-        nav { margin-top: 15px; }
-        nav a { font-size: 0.58rem; padding: 5px 8px; margin-bottom: 5px; letter-spacing: 0.5px; }
-    }
-    .news-grid { display:grid;gap:20px; }
-    .news-card { background:#fff;border:1px solid #e8e8e8;border-radius:8px;padding:24px;transition:box-shadow 0.2s; }
+<style>
+    :root { --primary: #8B0000; --bg: #f9f9f7; --card-bg: #fff; --text: #1a1a1a; }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { background:var(--bg); color:var(--text); font-family:'Inter',sans-serif; font-size:15px; line-height:1.6; }
+    header { background:#000; color:#fff; padding:18px 28px; display:flex; align-items:center; gap:20px; flex-wrap:wrap; position:sticky; top:0; z-index:100; }
+    header h1 { font-family:'Playfair Display',serif; font-size:1.6rem; letter-spacing:2px; }
+    header h1 a { color:#fff; text-decoration:none; }
+    header p { font-size:0.72rem; opacity:0.6; letter-spacing:1px; }
+    nav { display:flex; gap:4px; flex-wrap:wrap; margin-left:auto; }
+    nav a { color:#ccc; text-decoration:none; font-size:0.74rem; padding:5px 10px; border-radius:3px; transition:0.2s; font-weight:600; letter-spacing:0.5px; }
+    nav a:hover, nav a.active { background:#8B0000; color:#fff; }
+    .hamburger { display:none; cursor:pointer; flex-direction:column; gap:5px; margin-left:auto; }
+    .hamburger div { width:24px; height:2px; background:#fff; }
+    .ticker-wrap { background:#111; overflow:hidden; padding:8px 0; border-bottom:1px solid #333; }
+    .ticker { display:flex; animation:ticker 60s linear infinite; white-space:nowrap; }
+    .ticker-item { color:#ccc; font-size:0.7rem; padding:0 40px; letter-spacing:0.5px; }
+    .ticker-item span { color:#8B0000; margin-right:8px; }
+    @keyframes ticker { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+    .container { max-width:1200px; margin:0 auto; padding:32px 20px; display:grid; grid-template-columns:1fr 280px; gap:32px; }
+    main { min-width:0; }
+    .section-label { font-size:0.65rem; font-weight:800; text-transform:uppercase; letter-spacing:3px; color:var(--primary); border-bottom:2px solid var(--primary); padding-bottom:8px; margin-bottom:24px; }
+    .news-grid { display:grid; gap:20px; }
+    .news-card { background:var(--card-bg); border:1px solid #e8e8e8; padding:22px; border-radius:6px; transition:box-shadow 0.2s; }
     .news-card:hover { box-shadow:0 4px 20px rgba(0,0,0,0.08); }
-    .news-card h2 { font-family:var(--font-heading);font-size:1.3rem;margin-bottom:8px;line-height:1.35; }
-    .news-card h2 a { text-decoration:none;color:var(--text); }
+    .news-card h2 { font-family:'Playfair Display',serif; font-size:1.1rem; line-height:1.4; margin-bottom:8px; }
+    .news-card h2 a { color:var(--text); text-decoration:none; }
     .news-card h2 a:hover { color:var(--primary); }
-    .section-label { font-size:0.65rem;font-weight:800;text-transform:uppercase;letter-spacing:3px;color:var(--primary);border-bottom:2px solid var(--primary);padding-bottom:8px;margin-bottom:24px; }
-    footer { background:#000;color:#fff;text-align:center;padding:30px;margin-top:60px;font-size:0.8rem; }
-    footer img { height:30px;margin-bottom:10px;opacity:0.8; }
+    .sidebar { position:sticky; top:80px; align-self:start; }
+    footer { background:#000; color:#666; text-align:center; padding:28px; font-size:0.75rem; letter-spacing:1px; }
+    footer img { height:30px; margin-bottom:10px; display:block; margin-left:auto; margin-right:auto; }
+    @media(max-width:768px) {
+        .container { grid-template-columns:1fr; }
+        nav { display:none; position:absolute; top:100%; left:0; right:0; background:#fff; flex-direction:column; align-items:center; padding:20px; border-bottom:2px solid #000; z-index:999; }
+        nav.active { display:flex; }
+        nav a { font-size:0.9rem; padding:12px 20px; width:80%; text-align:center; border:1px solid #eee; color:#000; }
+        .hamburger { display:flex; }
+        .sidebar { order:2; width:100%; }
+    }
 </style>
 </head>
 <body>
-<div class="ticker-wrap"><div class="ticker"><span class="ticker-item"><span>●</span>God's Eye Aesthetic: Denza Z9GT Carbon Fiber Architecture</span> <span class="ticker-item"><span>●</span>Chainsaw Man Movie: Reze-hen Trailer Analysis</span> <span class="ticker-item"><span>●</span>Solo Leveling Season 2: Arise - Production Deep Dive</span> <span class="ticker-item"><span>●</span>Oshi no Ko Season 3: Key Visual and Premiere Window</span> <span class="ticker-item"><span>●</span>Mission Benchmarks: MEGURI2040 Level 4 Success Standards</span> <span class="ticker-item"><span>●</span>RTX 5090 Blackwell Architecture: First Technical Specs</span> <span class="ticker-item"><span>●</span>Elden Ring: Shadow of the Erdtree - PC Performance Guide</span> <span class="ticker-item"><span>●</span>Grand Theft Auto VI: RAGE Engine 9.0 Evolution</span> <span class="ticker-item"><span>●</span>MEGURI2040 Autonomous Milestone: Genbu Vessel Receives ClassNK AUTO-Nav2</span> <span class="ticker-item"><span>●</span>BRICS Expansion 2026: The New Global Trade Architecture</span> <span class="ticker-item"><span>●</span>NATO 2026: Arctic Defense and Technology Integration</span> <span class="ticker-item"><span>●</span>The Middle East AI Pact: Saudi-UAE Digital Corridor</span> <span class="ticker-item"><span>●</span>Precision Human-Machine Synergy: 10ms Latency Suspension</span> <span class="ticker-item"><span>●</span>Neuralink 2026: The Interface Evolution Roadmap</span> <span class="ticker-item"><span>●</span>Continuous Glucose Monitoring: Performance Optimization for Non-Diabetics</span> <span class="ticker-item"><span>●</span>Oura Ring Gen 4: Advanced Neural Stress Tracking</span> <span class="ticker-item"><span>●</span>Micron Strong Earnings Spark Tech sector Rebound</span> <span class="ticker-item"><span>●</span>Apple AI Strategy: Neural Processing Units Drive Stock Growth</span> <span class="ticker-item"><span>●</span>NVIDIA Blackwell Demand Exceeds Production for 2026</span> <span class="ticker-item"><span>●</span>Tesla Model 2 Production Targets Revealed</span> <span class="ticker-item"><span>●</span>S&P 500 Index Trading Firm at 7,381 Points</span> <span class="ticker-item"><span>●</span>Gold Reaches All-Time High Amid Geopolitical Uncertainty</span> <span class="ticker-item"><span>●</span>Oil Prices Stabilize After Saudi Production Update</span> <span class="ticker-item"><span>●</span>The Crypto Renaissance: Bitcoin Tests 100k Support</span> <span class="ticker-item"><span>●</span>ClassNK Grants AUTO-Nav2 Notation to Autonomous Liner Genbu</span> <span class="ticker-item"><span>●</span>Cybersecurity Forecast: Neural Defense Against AI Threats</span> <span class="ticker-item"><span>●</span>Quantum Encryption: The Next Frontier in Data Governance</span> <span class="ticker-item"><span>●</span>Satellite Intelligence: Monitoring Global Trade Flow in Real-Time</span> <span class="ticker-item"><span>●</span>Premium GT Wagon: Denza Challenges European Luxury Class</span> <span class="ticker-item"><span>●</span>The Architecture of a 100-Year Life: Longevity Suites</span> <span class="ticker-item"><span>●</span>San Fernando Standard: Caribbean Sophistication in 2026</span> <span class="ticker-item"><span>●</span>The Private Jet Evolution: Sustainable Aviation Fuel</span> <span class="ticker-item"><span>●</span>Denza Z9GT Global Deployment: The 850 kW Electric Wagon Flagship</span> <span class="ticker-item"><span>●</span>Cardano Midnight: The Privacy Layer Mainnet Launch</span> <span class="ticker-item"><span>●</span>Solana Firedancer: The 1M TPS Technical Milestone</span> <span class="ticker-item"><span>●</span>The Tokenization of Real World Assets: 10T Forecast</span> <span class="ticker-item"><span>●</span>Denza Z Supercar: High-Performance Entertainment Redefined</span> <span class="ticker-item"><span>●</span>The Future of Cinema: AI-Generated High-Fidelity Environments</span> <span class="ticker-item"><span>●</span>Streaming Wars 2026: The Consolidation Era</span> <span class="ticker-item"><span>●</span>Virtual Concerts: The Metaverse Stadium Tour</span></div></div>
+<div class="ticker-wrap"><div class="ticker">
+<span class="ticker-item"><span>&#9679;</span>US-Iran Delegation Talks Begin in Qatar</span>
+<span class="ticker-item"><span>&#9679;</span>Dow Hits Record Above 52,000 &mdash; Wall St. Rallies</span>
+<span class="ticker-item"><span>&#9679;</span>Apple Rushes AI Security Update &mdash; Reuters</span>
+<span class="ticker-item"><span>&#9679;</span>BTC ~$60,183 &mdash; ETH ~$1,574 &mdash; Crypto Consolidates</span>
+<span class="ticker-item"><span>&#9679;</span>EUR/USD 1.1406 &mdash; JPY 184.62 &mdash; ECB Official Rates</span>
+<span class="ticker-item"><span>&#9679;</span>Gold Falls &mdash; Oil Rises to $70.75 on Iran Risk Premium</span>
+<span class="ticker-item"><span>&#9679;</span>Venezuela Earthquake: Rescue Teams Still Searching Rubble</span>
+<span class="ticker-item"><span>&#9679;</span>Nintendo Direct June 2026: Zelda OoT Remake, Kingdom Hearts IV Confirmed</span>
+<span class="ticker-item"><span>&#9679;</span>Anime Expo 2026 &mdash; July 2&ndash;5 &mdash; Los Angeles</span>
+<span class="ticker-item"><span>&#9679;</span>US-Iran Delegation Talks Begin in Qatar</span>
+<span class="ticker-item"><span>&#9679;</span>Dow Hits Record Above 52,000 &mdash; Wall St. Rallies</span>
+<span class="ticker-item"><span>&#9679;</span>Apple Rushes AI Security Update &mdash; Reuters</span>
+<span class="ticker-item"><span>&#9679;</span>BTC ~$60,183 &mdash; ETH ~$1,574 &mdash; Crypto Consolidates</span>
+<span class="ticker-item"><span>&#9679;</span>EUR/USD 1.1406 &mdash; JPY 184.62 &mdash; ECB Official Rates</span>
+<span class="ticker-item"><span>&#9679;</span>Gold Falls &mdash; Oil Rises to $70.75 on Iran Risk Premium</span>
+<span class="ticker-item"><span>&#9679;</span>Venezuela Earthquake: Rescue Teams Still Searching Rubble</span>
+<span class="ticker-item"><span>&#9679;</span>Nintendo Direct June 2026: Zelda OoT Remake, Kingdom Hearts IV Confirmed</span>
+<span class="ticker-item"><span>&#9679;</span>Anime Expo 2026 &mdash; July 2&ndash;5 &mdash; Los Angeles</span>
+</div></div>
 <header>
     <h1><a href="index.html">SOVSYGNAL</a></h1>
-    <p>Global Intelligence Hub &middot; Updated Jun 25, 2026 | 11:00 PM AST</p>
-    <nav><a href="index.html" class="">Headlines</a>
+    <p>Global Intelligence Hub &middot; Updated Jun 29, 2026 | 10:59 PM AST</p>
+    <div class="hamburger" id="hamburger"><div></div><div></div><div></div></div>
+    <nav id="main-nav">
+<a href="index.html" class="">Headlines</a>
 <a href="geopolitics.html" class="">Geopolitics</a>
 <a href="stocks.html" class="">Stocks</a>
 <a href="blockchain.html" class="">Blockchain</a>
@@ -69,7 +87,7 @@
 <a href="entertainment.html" class="">Entertainment</a>
 <a href="lifestyle.html" class="active">Lifestyle</a>
 <a href="biohacking.html" class="">Biohacking</a>
-<a href="advertise.html">Advertise</a>
+<a href="advertise.html" class="">Advertise</a>
 </nav>
 </header>
 <div class="container">
@@ -77,44 +95,40 @@
         <div class="section-label">Lifestyle</div>
         <div class="news-grid">
         <div class="news-card">
-            <h2><a href="https://media.byd.com/denza-z9gt-arrives-in-europe-to-inspire-through-technology/?lang=eng" target="_blank" rel="noopener">Premium GT Wagon: Denza Challenges European Luxury Class</a></h2>
-            <p style="font-size:0.82rem;color:#555;margin-top:6px;">BYD's premium grand tourer enters the global luxury fight with 850 kW explosive acceleration.</p>
-            <p style="font-size:0.7rem;color:#999;margin-top:10px;">June 25, 2026</p>
-        </div>
-        <div class="news-card">
-            <h2><a href="https://www.vogue.com/living" target="_blank" rel="noopener">The Architecture of a 100-Year Life: Longevity Suites</a></h2>
-            <p style="font-size:0.82rem;color:#555;margin-top:6px;">High-fidelity interior design meets biohacking in the new wave of sanctuary-focused luxury homes.</p>
-            <p style="font-size:0.7rem;color:#999;margin-top:10px;">June 25, 2026</p>
-        </div>
-        <div class="news-card">
-            <h2><a href="https://www.architecturaldigest.com/" target="_blank" rel="noopener">San Fernando Standard: Caribbean Sophistication in 2026</a></h2>
-            <p style="font-size:0.82rem;color:#555;margin-top:6px;">Exploring the nexus of Caribbean resilience and international luxury design in Trinidad's second city.</p>
-            <p style="font-size:0.7rem;color:#999;margin-top:10px;">June 25, 2026</p>
-        </div>
-        <div class="news-card">
-            <h2><a href="https://www.robbreport.com/motors/aviation" target="_blank" rel="noopener">The Private Jet Evolution: Sustainable Aviation Fuel</a></h2>
-            <p style="font-size:0.82rem;color:#555;margin-top:6px;">Bombardier and Gulfstream lead the shift toward carbon-neutral transcontinental travel for HNWIs.</p>
-            <p style="font-size:0.7rem;color:#999;margin-top:10px;">June 25, 2026</p>
-        </div>
+        <h2><a href="https://www.housingwire.com/articles/longevity-emerges-as-key-driver-of-luxury-real-estate-demand/" target="_blank" rel="noopener">Longevity Science Redefines Luxury Living — Wellness Now the #1 Buyer Demand Signal</a></h2>
+        <p style="font-size:0.82rem;color:#555;margin-top:6px;">HousingWire's mid-year luxury report confirms longevity is now the primary driver of ultra-HNW real estate decisions. Buyers demand biohacking amenities, circadian lighting, and longevity-optimised architecture.</p>
+        <p style="font-size:0.7rem;color:#999;margin-top:10px;">Jun 29, 2026</p>
+    </div><div class="news-card">
+        <h2><a href="https://globalwellnessinstitute.org/press-room/press-releases/global-wellness-summit-releases-10-wellness-trends-for-2026/" target="_blank" rel="noopener">Global Wellness Summit 2026 Releases 10 Trends — Biohacking, AI Health Tracking Lead</a></h2>
+        <p style="font-size:0.82rem;color:#555;margin-top:6px;">The Global Wellness Institute's annual trends report names biohacking and AI-enabled health tracking as the top two wellness movements of 2026. Breathwork and touch therapy also rank in the top five.</p>
+        <p style="font-size:0.7rem;color:#999;margin-top:10px;">Jun 29, 2026</p>
+    </div><div class="news-card">
+        <h2><a href="https://www.sixsenses.com/en/corporate/news/biohacking-in-rome/" target="_blank" rel="noopener">Six Senses Rome: Biohacking Enters the Luxury Hotel Market</a></h2>
+        <p style="font-size:0.82rem;color:#555;margin-top:6px;">Six Senses Rome now offers cutting-edge biohacking programmes as part of its premium wellness experience. The property signals a shift: luxury travel guests now expect performance optimisation alongside relaxation.</p>
+        <p style="font-size:0.7rem;color:#999;margin-top:10px;">Jun 29, 2026</p>
+    </div><div class="news-card">
+        <h2><a href="https://www.facebook.com/christiesinternationalrealestate/videos/our-2026-global-luxury-perspectives-reveals-the-key-trends-shaping-high-end-real/820669197716746/" target="_blank" rel="noopener">Christie's 2026: Ultra-HNW Buyers Are Designing Homes as Private Sanctuaries</a></h2>
+        <p style="font-size:0.82rem;color:#555;margin-top:6px;">Christie's International Real Estate 2026 outlook confirms the dominant design narrative: ultra-high-net-worth buyers are no longer buying homes — they're engineering private wellness sanctuaries.</p>
+        <p style="font-size:0.7rem;color:#999;margin-top:10px;">Jun 29, 2026</p>
+    </div>
         </div>
     </main>
     <aside class="sidebar">
 <div style="background:#000;color:#fff;padding:22px;border-radius:8px;margin-bottom:18px;">
     <div style="font-size:0.58rem;font-weight:800;text-transform:uppercase;letter-spacing:2px;opacity:0.7;margin-bottom:6px;">Featured Brand</div>
-    <h4 style="font-family:Playfair Display,serif;font-size:1.1rem;margin-bottom:4px;">Couture Gallery</h4>
-    <p style="font-size:0.78rem;opacity:0.8;margin-bottom:14px;">Luxury Fashion & Bags</p>
-    <a href="https://orcinos.com/" target="_blank" style="display:inline-block;background:#8B0000;color:#fff;padding:8px 16px;border-radius:4px;font-size:0.75rem;font-weight:700;text-decoration:none;text-transform:uppercase;letter-spacing:1px;">Visit →</a>
+    <h4 style="font-family:'Playfair Display',serif;font-size:1.1rem;margin-bottom:4px;">PRISCION</h4>
+    <p style="font-size:0.78rem;opacity:0.8;margin-bottom:14px;">AI Intelligence Network</p>
+    <a href="https://orcinos.com/" target="_blank" style="display:inline-block;background:#8B0000;color:#fff;padding:8px 16px;border-radius:4px;font-size:0.75rem;font-weight:700;text-decoration:none;text-transform:uppercase;letter-spacing:1px;">Visit &rarr;</a>
 </div>
 <div style="background:#fff;border:1px solid #e8e8e8;padding:22px;border-radius:8px;margin-bottom:18px;">
     <div style="font-size:0.58rem;font-weight:800;text-transform:uppercase;letter-spacing:2px;color:#8B0000;margin-bottom:8px;">Recommended</div>
-    <h4 style="font-size:1rem;margin-bottom:10px;font-family:Playfair Display,serif;">Luxury Lifestyle Picks</h4>
-    <a href="https://www.amazon.com/s?k=luxury+handbag+accessories&tag=priscadezigns-20" target="_blank" style="display:inline-block;background:#FF9900;color:#000;padding:8px 16px;border-radius:4px;font-size:0.75rem;font-weight:700;text-decoration:none;">Shop on Amazon →</a>
+    <h4 style="font-size:1rem;margin-bottom:10px;font-family:'Playfair Display',serif;">Premium Tech Bundle</h4>
+    <a href="https://www.amazon.com/s?k=smart+home+bundle&tag=priscadezigns-20" target="_blank" style="display:inline-block;background:#FF9900;color:#000;padding:8px 16px;border-radius:4px;font-size:0.75rem;font-weight:700;text-decoration:none;">Shop on Amazon &rarr;</a>
 </div>
-
-<div style="background:linear-gradient(135deg,#8B0000,#000);color:#fff;padding:22px;border-radius:8px;margin-bottom:18px;text-align:center;">
-    <div style="font-size:0.58rem;font-weight:800;text-transform:uppercase;letter-spacing:2px;opacity:0.8;margin-bottom:8px;">Advertise Here</div>
-    <p style="font-size:0.8rem;opacity:0.9;margin-bottom:14px;line-height:1.5;">Reach a global audience of investors, analysts &amp; decision makers.</p>
-    <a href="advertise.html" style="display:inline-block;background:#fff;color:#8B0000;padding:9px 18px;border-radius:4px;font-weight:800;font-size:0.75rem;text-decoration:none;text-transform:uppercase;letter-spacing:1px;">Get Featured →</a>
+<div style="background:linear-gradient(135deg,#8B0000,#000);color:#fff;padding:22px;border-radius:8px;text-align:center;">
+    <div style="font-size:0.58rem;font-weight:800;text-transform:uppercase;letter-spacing:2px;opacity:0.7;margin-bottom:8px;">Advertise Here</div>
+    <p style="font-size:0.8rem;opacity:0.85;margin-bottom:14px;">Reach a high-fidelity intelligence audience</p>
+    <a href="advertise.html" style="display:inline-block;background:#fff;color:#8B0000;padding:8px 16px;border-radius:4px;font-size:0.75rem;font-weight:700;text-decoration:none;text-transform:uppercase;letter-spacing:1px;">Get Started &rarr;</a>
 </div>
 </aside>
 </div>
@@ -122,5 +136,10 @@
     <img src="assets/logos/sovereign_footer_logo.png" alt="Sovereign">
     <p>&copy; 2026 SOVSYGNAL &middot; PRISCION INTELLIGENCE MEDIA</p>
 </footer>
+<script>
+    const hamburger = document.getElementById('hamburger');
+    const nav = document.getElementById('main-nav');
+    hamburger.addEventListener('click', () => { nav.classList.toggle('active'); });
+</script>
 </body>
 </html>
