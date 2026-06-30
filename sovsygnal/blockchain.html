@@ -4,102 +4,131 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SOVSYGNAL | Blockchain</title>
-    <meta name="description" content="SOVSYGNAL - Global Intelligence Hub. High-fidelity Blockchain and Crypto intelligence.">
+    <meta name="description" content="SOVSYGNAL - Crypto and blockchain market intelligence. Bitcoin, Ethereum, Web3 signals.">
     <link rel="icon" type="image/png" href="assets/logos/sovereign_favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
-    <style>
-    :root { --primary: #8B0000; --bg: #F9F9F9; --text: #1A1A1A; --font-heading: 'Playfair Display', serif; --font-body: 'Inter', sans-serif; }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { background: var(--bg); color: var(--text); font-family: var(--font-body); line-height: 1.6; overflow-x: hidden; }
-    .ticker-wrap { width:100%;overflow:hidden;background:#000;color:#fff;padding:10px 0;border-bottom:2px solid var(--primary); }
-    .ticker { display:inline-block;white-space:nowrap;padding-right:100%;animation:ticker 240s linear infinite; }
-    @keyframes ticker { 0%{transform:translateX(0)} 100%{transform:translateX(-100%)} }
-    .ticker-item { display:inline-block;padding:0 30px;font-weight:800;font-size:0.72rem;text-transform:uppercase;letter-spacing:1.5px; }
-    .ticker-item span { color:var(--primary); }
-    header { background:#000;color:#fff;padding:30px 4%;border-bottom:3px solid var(--primary); }
-    header h1 { font-family:var(--font-heading);font-size:2.2rem;letter-spacing:6px;text-transform:uppercase; }
-    header p { font-size:0.7rem;letter-spacing:3px;opacity:0.6;text-transform:uppercase;margin-top:4px; }
-    nav { display:flex;flex-wrap:wrap;gap:8px;padding:14px 4%;background:#111;border-bottom:1px solid #222; }
-    nav a { color:#fff;text-decoration:none;font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:2px;padding:7px 14px;border:1px solid #333;border-radius:3px;transition:all 0.2s; }
-    nav a:hover,nav a.active { background:var(--primary);border-color:var(--primary); }
-    .layout { display:grid;grid-template-columns:1fr 280px;gap:30px;max-width:1200px;margin:40px auto;padding:0 4%; }
-    .section-label { font-size:0.65rem;font-weight:800;text-transform:uppercase;letter-spacing:3px;color:var(--primary);border-bottom:2px solid var(--primary);padding-bottom:8px;margin-bottom:24px; }
-    .news-grid { display:grid;gap:20px; }
-    .news-card { background:#fff;border:1px solid #e8e8e8;border-radius:8px;padding:24px;transition:box-shadow 0.2s; }
+<style>
+    :root { --primary: #8B0000; --bg: #f9f9f7; --card-bg: #fff; --text: #1a1a1a; }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { background:var(--bg); color:var(--text); font-family:'Inter',sans-serif; font-size:15px; line-height:1.6; }
+    header { background:#000; color:#fff; padding:18px 28px; display:flex; align-items:center; gap:20px; flex-wrap:wrap; position:sticky; top:0; z-index:100; }
+    header h1 { font-family:'Playfair Display',serif; font-size:1.6rem; letter-spacing:2px; }
+    header h1 a { color:#fff; text-decoration:none; }
+    header p { font-size:0.72rem; opacity:0.6; letter-spacing:1px; }
+    nav { display:flex; gap:4px; flex-wrap:wrap; margin-left:auto; }
+    nav a { color:#ccc; text-decoration:none; font-size:0.74rem; padding:5px 10px; border-radius:3px; transition:0.2s; font-weight:600; letter-spacing:0.5px; }
+    nav a:hover, nav a.active { background:#8B0000; color:#fff; }
+    .hamburger { display:none; cursor:pointer; flex-direction:column; gap:5px; margin-left:auto; }
+    .hamburger div { width:24px; height:2px; background:#fff; }
+    .ticker-wrap { background:#111; overflow:hidden; padding:8px 0; border-bottom:1px solid #333; }
+    .ticker { display:flex; animation:ticker 60s linear infinite; white-space:nowrap; }
+    .ticker-item { color:#ccc; font-size:0.7rem; padding:0 40px; letter-spacing:0.5px; }
+    .ticker-item span { color:#8B0000; margin-right:8px; }
+    @keyframes ticker { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+    .container { max-width:1200px; margin:0 auto; padding:32px 20px; display:grid; grid-template-columns:1fr 280px; gap:32px; }
+    main { min-width:0; }
+    .section-label { font-size:0.65rem; font-weight:800; text-transform:uppercase; letter-spacing:3px; color:var(--primary); border-bottom:2px solid var(--primary); padding-bottom:8px; margin-bottom:24px; }
+    .news-grid { display:grid; gap:20px; }
+    .news-card { background:var(--card-bg); border:1px solid #e8e8e8; padding:22px; border-radius:6px; transition:box-shadow 0.2s; }
     .news-card:hover { box-shadow:0 4px 20px rgba(0,0,0,0.08); }
-    .news-card h2 { font-family:var(--font-heading);font-size:1.3rem;margin-bottom:8px;line-height:1.35; }
-    .news-card h2 a { text-decoration:none;color:var(--text); }
+    .news-card h2 { font-family:'Playfair Display',serif; font-size:1.1rem; line-height:1.4; margin-bottom:8px; }
+    .news-card h2 a { color:var(--text); text-decoration:none; }
     .news-card h2 a:hover { color:var(--primary); }
-    .news-card .meta { font-size:0.68rem;color:#888;font-weight:600;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px; }
-    .news-card p { font-size:0.88rem;color:#555;line-height:1.7; }
-    .sidebar { position:sticky;top:20px;height:fit-content; }
-    .timestamp { font-size:0.65rem;color:#aaa;text-align:right;margin-bottom:20px;letter-spacing:1px; }
-    footer { background:#000;color:#fff;text-align:center;padding:30px;margin-top:60px;font-size:0.8rem; }
-    footer img { height:30px;margin-bottom:10px;opacity:0.8; }
-    @media(max-width:900px){.layout{grid-template-columns:1fr}.sidebar{display:none}}
-    @media(max-width:600px){header h1{font-size:1.8rem;letter-spacing:4px}header{padding:20px 4%}.news-card{padding:16px}nav{gap:6px}nav a{padding:6px 10px;font-size:0.65rem}}
-    </style>
+    .sidebar { position:sticky; top:80px; align-self:start; }
+    footer { background:#000; color:#666; text-align:center; padding:28px; font-size:0.75rem; letter-spacing:1px; }
+    footer img { height:30px; margin-bottom:10px; display:block; margin-left:auto; margin-right:auto; }
+    @media(max-width:768px) {
+        .container { grid-template-columns:1fr; }
+        nav { display:none; position:absolute; top:100%; left:0; right:0; background:#fff; flex-direction:column; align-items:center; padding:20px; border-bottom:2px solid #000; z-index:999; }
+        nav.active { display:flex; }
+        nav a { font-size:0.9rem; padding:12px 20px; width:80%; text-align:center; border:1px solid #eee; color:#000; }
+        .hamburger { display:flex; }
+        .sidebar { order:2; width:100%; }
+    }
+</style>
 </head>
 <body>
 <div class="ticker-wrap"><div class="ticker">
-<span class="ticker-item"><span>&#9679;</span>BitMEX Purges CEO, CFO &amp; Chief Growth Officer Simultaneously &mdash; CoinDesk</span>
-<span class="ticker-item"><span>&#9679;</span>South Korea's $518B AI Chip Push Siphons Capital Away From Crypto &mdash; CoinDesk</span>
-<span class="ticker-item"><span>&#9679;</span>Israel &amp; Lebanon Sign Framework Agreement After US-Brokered Talks &mdash; BBC</span>
-<span class="ticker-item"><span>&#9679;</span>Iran Halts Hostilities After US Standdown &mdash; Asian Stocks Wobble &mdash; Reuters</span>
-<span class="ticker-item"><span>&#9679;</span>Spot Bitcoin ETFs Bleed $4B in June &mdash; Worst Month on Record &mdash; CoinDesk</span>
-<span class="ticker-item"><span>&#9679;</span>Gold Eases as US-Iran Strikes Push Oil Higher &mdash; Rate-Hike Bets Weigh &mdash; Reuters</span>
-<span class="ticker-item"><span>&#9679;</span>Pakistan Kills 29 Militants in Afghan Border Strike &mdash; Kabul Reports Dozens Dead</span>
-<span class="ticker-item"><span>&#9679;</span>Bitcoin Holds Near $59,700 as Q2 2026 Closes Under Pressure</span>
+<span class="ticker-item"><span>&#9679;</span>US-Iran Delegation Talks Begin in Qatar</span>
+<span class="ticker-item"><span>&#9679;</span>Dow Hits Record Above 52,000 &mdash; Wall St. Rallies</span>
+<span class="ticker-item"><span>&#9679;</span>Apple Rushes AI Security Update &mdash; Reuters</span>
+<span class="ticker-item"><span>&#9679;</span>BTC ~$60,183 &mdash; ETH ~$1,574 &mdash; Crypto Consolidates</span>
+<span class="ticker-item"><span>&#9679;</span>EUR/USD 1.1406 &mdash; JPY 184.62 &mdash; ECB Official Rates</span>
+<span class="ticker-item"><span>&#9679;</span>Gold Falls &mdash; Oil Rises to $70.75 on Iran Risk Premium</span>
+<span class="ticker-item"><span>&#9679;</span>Venezuela Earthquake: Rescue Teams Still Searching Rubble</span>
+<span class="ticker-item"><span>&#9679;</span>Nintendo Direct June 2026: Zelda OoT Remake, Kingdom Hearts IV Confirmed</span>
+<span class="ticker-item"><span>&#9679;</span>Anime Expo 2026 &mdash; July 2&ndash;5 &mdash; Los Angeles</span>
+<span class="ticker-item"><span>&#9679;</span>US-Iran Delegation Talks Begin in Qatar</span>
+<span class="ticker-item"><span>&#9679;</span>Dow Hits Record Above 52,000 &mdash; Wall St. Rallies</span>
+<span class="ticker-item"><span>&#9679;</span>Apple Rushes AI Security Update &mdash; Reuters</span>
+<span class="ticker-item"><span>&#9679;</span>BTC ~$60,183 &mdash; ETH ~$1,574 &mdash; Crypto Consolidates</span>
+<span class="ticker-item"><span>&#9679;</span>EUR/USD 1.1406 &mdash; JPY 184.62 &mdash; ECB Official Rates</span>
+<span class="ticker-item"><span>&#9679;</span>Gold Falls &mdash; Oil Rises to $70.75 on Iran Risk Premium</span>
+<span class="ticker-item"><span>&#9679;</span>Venezuela Earthquake: Rescue Teams Still Searching Rubble</span>
+<span class="ticker-item"><span>&#9679;</span>Nintendo Direct June 2026: Zelda OoT Remake, Kingdom Hearts IV Confirmed</span>
+<span class="ticker-item"><span>&#9679;</span>Anime Expo 2026 &mdash; July 2&ndash;5 &mdash; Los Angeles</span>
 </div></div>
 <header>
-    <h1>SOVSYGNAL</h1>
-    <p>Sovereign Intelligence Media &middot; Blockchain &middot; Crypto &amp; Web3 Intelligence</p>
+    <h1><a href="index.html">SOVSYGNAL</a></h1>
+    <p>Global Intelligence Hub &middot; Updated Jun 29, 2026 | 10:59 PM AST</p>
+    <div class="hamburger" id="hamburger"><div></div><div></div><div></div></div>
+    <nav id="main-nav">
+<a href="index.html" class="">Headlines</a>
+<a href="geopolitics.html" class="">Geopolitics</a>
+<a href="stocks.html" class="">Stocks</a>
+<a href="blockchain.html" class="active">Blockchain</a>
+<a href="intelligence.html" class="">Intelligence</a>
+<a href="forex.html" class="">Forex</a>
+<a href="markets.html" class="">Markets</a>
+<a href="realestate.html" class="">Real Estate</a>
+<a href="anime.html" class="">Anime</a>
+<a href="gaming.html" class="">Gaming</a>
+<a href="entertainment.html" class="">Entertainment</a>
+<a href="lifestyle.html" class="">Lifestyle</a>
+<a href="biohacking.html" class="">Biohacking</a>
+<a href="advertise.html" class="">Advertise</a>
+</nav>
 </header>
-<nav><a href="index.html">Home</a><a href="geopolitics.html">Geopolitics</a><a href="blockchain.html" class="active">Blockchain</a><a href="markets.html">Markets</a><a href="stocks.html">Stocks</a><a href="forex.html">Forex</a><a href="intelligence.html">Intelligence</a><a href="lifestyle.html">Lifestyle</a><a href="signup.html">Subscribe</a></nav>
-<div class="layout">
-<main>
-    <div class="timestamp">Last updated: Monday, June 29, 2026 — 05:59 AST</div>
-    <div class="section-label">Blockchain &amp; Crypto Intelligence Feed</div>
-    <div class="news-grid">
+<div class="container">
+    <main>
+        <div class="section-label">Blockchain</div>
+        <div class="news-grid">
         <div class="news-card">
-            <div class="meta">CoinDesk &middot; June 29, 2026 &middot; Exchange Governance</div>
-            <h2><a href="https://www.coindesk.com/business/2026/06/29/crypto-exchange-bitmex-removes-ceo-cfo-and-head-of-growth" target="_blank">BitMEX Purges CEO, CFO &amp; Chief Growth Officer Simultaneously &mdash; GC Takes Over</a></h2>
-            <p>Crypto derivatives exchange BitMEX simultaneously removed CEO Stephan Lutz, CFO Ina Steiner, and Chief Growth Officer Raphael Polansky &mdash; an unprecedented triple executive exit published June 29 at 12:03 AM. Global General Counsel Peter Wilkinson has been appointed acting CEO. The mass clearout, described by analysts as unusual even by crypto industry standards, comes amid reports of a possible sale of the exchange. BitMEX was once among the most powerful derivatives platforms in the world before legal troubles and market share erosion began in 2020.</p>
-        </div>
-        <div class="news-card">
-            <div class="meta">CoinDesk &middot; June 29, 2026 &middot; Macro &amp; Capital Flows</div>
-            <h2><a href="https://www.coindesk.com/latest-crypto-news" target="_blank">South Korea's $518B AI Chip Push Shows Crypto Is Still Losing the Capital Race</a></h2>
-            <p>Samsung and SK Hynix are accelerating a massive AI chip plant buildout under South Korea's $518 billion national investment push &mdash; a programme that CoinDesk argues represents the clearest evidence yet that institutional and sovereign capital is flowing into AI infrastructure rather than digital assets. The analysis highlights a structural capital competition between AI and crypto that is suppressing BTC and ETH price recovery despite macro tailwinds from partial de-escalation in the Middle East.</p>
-        </div>
-        <div class="news-card">
-            <div class="meta">CoinDesk &middot; June 29, 2026 &middot; ETF Outflows</div>
-            <h2><a href="https://www.coindesk.com/markets/2026/06/29/usd4-billion-gone-spot-bitcoin-etfs-are-on-track-for-their-worst-month-on-record" target="_blank">$4 Billion Gone &mdash; Spot Bitcoin ETFs on Track for Worst Month on Record</a></h2>
-            <p>US-listed spot Bitcoin ETFs have shed $4 billion in June 2026 &mdash; the highest monthly outflow since their landmark January 2024 launch. The sustained institutional retreat signals a broader risk-off posture, with fund managers rotating out of digital assets amid Federal Reserve hawkishness, Middle East uncertainty, and AI-driven capital allocation shifts. Analysts say a Q3 Fed pivot or major on-chain catalyst is needed to reverse the trend.</p>
-        </div>
-        <div class="news-card">
-            <div class="meta">CoinDesk &middot; June 29, 2026 &middot; Bitcoin Price</div>
-            <h2><a href="https://www.coindesk.com/markets/2026/06/29/usd4-billion-gone-spot-bitcoin-etfs-are-on-track-for-their-worst-month-on-record" target="_blank">Bitcoin Dips to $59,700 &mdash; Q2 2026 Closes as Worst Quarter for ETF Investors</a></h2>
-            <p>Bitcoin enters the final hours of Q2 2026 trading near $59,700, closing out a difficult quarter marked by geopolitical shocks, a hawkish Fed, and relentless ETF outflows. The AI capital competition narrative has become a dominant force in suppressing crypto's recovery, with sovereign and institutional players increasingly preferring chip infrastructure over digital assets as a hedge against macro uncertainty. All eyes now shift to Q3 data and Fed signals.</p>
-        </div>
+        <h2><a href="https://www.coindesk.com/markets/2026/06/29/bitcoin-hovers-below-usd60-000-as-crypto-braces-for-a-pivotal-week" target="_blank" rel="noopener">Bitcoin Hovers Below $60,000 — Crypto Braces for Pivotal Week</a></h2>
+        <p style="font-size:0.82rem;color:#555;margin-top:6px;">BTC is trading at $60,183 — still navigating the $60,000 threshold after losing more than 50% of its value since earlier highs. The market is entering a pivotal week with macro catalysts converging.</p>
+        <p style="font-size:0.7rem;color:#999;margin-top:10px;">Jun 29, 2026</p>
+    </div><div class="news-card">
+        <h2><a href="https://www.coinbase.com/price/ethereum" target="_blank" rel="noopener">Ethereum Holds at $1,574 — Institutional Demand Supports Key Price Floor</a></h2>
+        <p style="font-size:0.82rem;color:#555;margin-top:6px;">ETH is stabilising at $1,574 with institutional buyers stepping in at support levels. Strong developer activity and upcoming protocol upgrades continue to provide long-term bullish tailwinds.</p>
+        <p style="font-size:0.7rem;color:#999;margin-top:10px;">Jun 29, 2026</p>
+    </div><div class="news-card">
+        <h2><a href="https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/eurofxref-graph-usd.en.html" target="_blank" rel="noopener">EUR/USD at 1.1406 Creates Macro Tailwind — Dollar Weakness Supports Crypto</a></h2>
+        <p style="font-size:0.82rem;color:#555;margin-top:6px;">The ECB confirmed EUR/USD at 1.1406. Broad dollar weakness historically correlates with crypto market strength. Traders are watching the next Federal Reserve communication closely.</p>
+        <p style="font-size:0.7rem;color:#999;margin-top:10px;">Jun 29, 2026</p>
+    </div><div class="news-card">
+        <h2><a href="https://www.reuters.com/business/apple-says-it-is-releasing-updates-early-response-ai-cybersecurity-concerns-2026-06-29/" target="_blank" rel="noopener">Apple Emergency AI Security Update Signals Growing Threat Surface for Web3</a></h2>
+        <p style="font-size:0.82rem;color:#555;margin-top:6px;">Apple's rushed security update in response to AI vulnerabilities highlights growing attack surfaces in the Web3 and mobile wallet space. Security researchers are calling for accelerated hardening of on-chain interfaces.</p>
+        <p style="font-size:0.7rem;color:#999;margin-top:10px;">Jun 29, 2026</p>
     </div>
-</main>
-<aside class="sidebar">
+        </div>
+    </main>
+    <aside class="sidebar">
 <div style="background:#000;color:#fff;padding:22px;border-radius:8px;margin-bottom:18px;">
     <div style="font-size:0.58rem;font-weight:800;text-transform:uppercase;letter-spacing:2px;opacity:0.7;margin-bottom:6px;">Featured Brand</div>
-    <h4 style="font-family:Playfair Display,serif;font-size:1.1rem;margin-bottom:4px;">MUZE Wallet</h4>
-    <p style="font-size:0.78rem;opacity:0.8;margin-bottom:14px;">Web3 Wallet &amp; DeFi Hub</p>
+    <h4 style="font-family:'Playfair Display',serif;font-size:1.1rem;margin-bottom:4px;">PRISCION</h4>
+    <p style="font-size:0.78rem;opacity:0.8;margin-bottom:14px;">AI Intelligence Network</p>
     <a href="https://orcinos.com/" target="_blank" style="display:inline-block;background:#8B0000;color:#fff;padding:8px 16px;border-radius:4px;font-size:0.75rem;font-weight:700;text-decoration:none;text-transform:uppercase;letter-spacing:1px;">Visit &rarr;</a>
 </div>
 <div style="background:#fff;border:1px solid #e8e8e8;padding:22px;border-radius:8px;margin-bottom:18px;">
     <div style="font-size:0.58rem;font-weight:800;text-transform:uppercase;letter-spacing:2px;color:#8B0000;margin-bottom:8px;">Recommended</div>
-    <h4 style="font-size:1rem;margin-bottom:10px;font-family:Playfair Display,serif;">Crypto Hardware Wallet</h4>
-    <a href="https://www.amazon.com/s?k=hardware+crypto+wallet&tag=priscadezigns-20" target="_blank" style="display:inline-block;background:#FF9900;color:#000;padding:8px 16px;border-radius:4px;font-size:0.75rem;font-weight:700;text-decoration:none;">Shop on Amazon &rarr;</a>
+    <h4 style="font-size:1rem;margin-bottom:10px;font-family:'Playfair Display',serif;">Premium Tech Bundle</h4>
+    <a href="https://www.amazon.com/s?k=smart+home+bundle&tag=priscadezigns-20" target="_blank" style="display:inline-block;background:#FF9900;color:#000;padding:8px 16px;border-radius:4px;font-size:0.75rem;font-weight:700;text-decoration:none;">Shop on Amazon &rarr;</a>
 </div>
-<div style="background:linear-gradient(135deg,#8B0000,#000);color:#fff;padding:22px;border-radius:8px;margin-bottom:18px;text-align:center;">
-    <div style="font-size:0.58rem;font-weight:800;text-transform:uppercase;letter-spacing:2px;opacity:0.8;margin-bottom:8px;">Advertise Here</div>
-    <p style="font-size:0.8rem;opacity:0.9;margin-bottom:14px;line-height:1.5;">Reach a global audience of investors, analysts &amp; decision makers.</p>
-    <a href="advertise.html" style="display:inline-block;background:#fff;color:#8B0000;padding:9px 18px;border-radius:4px;font-weight:800;font-size:0.75rem;text-decoration:none;text-transform:uppercase;letter-spacing:1px;">Get Featured &rarr;</a>
+<div style="background:linear-gradient(135deg,#8B0000,#000);color:#fff;padding:22px;border-radius:8px;text-align:center;">
+    <div style="font-size:0.58rem;font-weight:800;text-transform:uppercase;letter-spacing:2px;opacity:0.7;margin-bottom:8px;">Advertise Here</div>
+    <p style="font-size:0.8rem;opacity:0.85;margin-bottom:14px;">Reach a high-fidelity intelligence audience</p>
+    <a href="advertise.html" style="display:inline-block;background:#fff;color:#8B0000;padding:8px 16px;border-radius:4px;font-size:0.75rem;font-weight:700;text-decoration:none;text-transform:uppercase;letter-spacing:1px;">Get Started &rarr;</a>
 </div>
 </aside>
 </div>
@@ -107,4 +136,10 @@
     <img src="assets/logos/sovereign_footer_logo.png" alt="Sovereign">
     <p>&copy; 2026 SOVSYGNAL &middot; PRISCION INTELLIGENCE MEDIA</p>
 </footer>
-</body></html>
+<script>
+    const hamburger = document.getElementById('hamburger');
+    const nav = document.getElementById('main-nav');
+    hamburger.addEventListener('click', () => { nav.classList.toggle('active'); });
+</script>
+</body>
+</html>
