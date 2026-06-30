@@ -3,11 +3,10 @@ name: SOVSYGNAL Hourly Refresh
 on:
   schedule:
     # Runs every hour from 13:00–01:00 UTC = 09:00–21:00 AST
-    # GitHub Actions cron is UTC. AST = UTC-4.
     - cron: '0 13 * * *'   # 09:00 AST
     - cron: '0 14 * * *'   # 10:00 AST
     - cron: '0 15 * * *'   # 11:00 AST
-    - cron: '0 16 * * *'   # 12:00 AST (noon)
+    - cron: '0 16 * * *'   # 12:00 AST
     - cron: '0 17 * * *'   # 13:00 AST
     - cron: '0 18 * * *'   # 14:00 AST
     - cron: '0 19 * * *'   # 15:00 AST
@@ -17,7 +16,10 @@ on:
     - cron: '0 23 * * *'   # 19:00 AST
     - cron: '0 0 * * *'    # 20:00 AST
     - cron: '0 1 * * *'    # 21:00 AST
-  workflow_dispatch:       # Allow manual trigger from GitHub UI
+  workflow_dispatch:        # Manual trigger from GitHub Actions tab
+
+permissions:
+  contents: write           # Allow the workflow to push commits to this repo
 
 jobs:
   refresh:
@@ -33,9 +35,12 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: Install dependencies
+        run: pip install PyNaCl
+
       - name: Run SOVSYGNAL refresh
         env:
-          GH_PAT: ${{ secrets.SOVSYGNAL_PAT }}
+          GH_PAT: ${{ secrets.GITHUB_TOKEN }}
         run: python sovsygnal/sovsygnal_refresh.py
 
       - name: Log completion
