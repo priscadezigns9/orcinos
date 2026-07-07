@@ -14,6 +14,7 @@
     header h1 { font-family:'Playfair Display',serif; font-size:1.6rem; letter-spacing:2px; }
     header h1 a { color:#fff; text-decoration:none; }
     header p { font-size:0.72rem; opacity:0.6; letter-spacing:1px; }
+    #last-updated { font-size:0.72rem; opacity:0.6; letter-spacing:1px; }
     nav { display:flex; gap:4px; flex-wrap:wrap; margin-left:auto; }
     nav a { color:#ccc; text-decoration:none; font-size:0.74rem; padding:5px 10px; border-radius:3px; transition:0.2s; font-weight:600; letter-spacing:0.5px; }
     nav a:hover, nav a.active { background:#8B0000; color:#fff; }
@@ -26,13 +27,27 @@
     @keyframes ticker { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
     .container { max-width:1200px; margin:0 auto; padding:32px 20px; display:grid; grid-template-columns:1fr 280px; gap:32px; }
     main { min-width:0; }
-    .section-label { font-size:0.65rem; font-weight:800; text-transform:uppercase; letter-spacing:3px; color:var(--primary); border-bottom:2px solid var(--primary); padding-bottom:8px; margin-bottom:24px; }
+    .section-label { font-size:0.65rem; font-weight:800; text-transform:uppercase; letter-spacing:3px; color:var(--primary); border-bottom:2px solid var(--primary); padding-bottom:8px; margin-bottom:24px; display:flex; align-items:center; justify-content:space-between; }
+    .refresh-btn { font-size:0.6rem; font-weight:700; text-transform:uppercase; letter-spacing:2px; color:var(--primary); background:none; border:1px solid var(--primary); padding:3px 10px; border-radius:3px; cursor:pointer; transition:0.2s; }
+    .refresh-btn:hover { background:var(--primary); color:#fff; }
     .news-grid { display:grid; gap:20px; }
     .news-card { background:var(--card-bg); border:1px solid #e8e8e8; padding:22px; border-radius:6px; transition:box-shadow 0.2s; }
     .news-card:hover { box-shadow:0 4px 20px rgba(0,0,0,0.08); }
     .news-card h2 { font-family:'Playfair Display',serif; font-size:1.1rem; line-height:1.4; margin-bottom:8px; }
     .news-card h2 a { color:var(--text); text-decoration:none; }
     .news-card h2 a:hover { color:var(--primary); }
+    .news-card .card-image { width:100%; height:180px; object-fit:cover; border-radius:4px; margin-bottom:14px; background:#eee; display:block; }
+    .news-card .card-meta { font-size:0.7rem; color:#999; margin-top:10px; display:flex; gap:12px; flex-wrap:wrap; }
+    .news-card .card-source { font-weight:700; color:#666; text-transform:uppercase; letter-spacing:0.5px; }
+    .news-card .card-desc { font-size:0.82rem; color:#555; margin-top:6px; line-height:1.55; }
+    .news-card .card-tag { display:inline-block; font-size:0.6rem; font-weight:800; text-transform:uppercase; letter-spacing:1px; color:var(--primary); border:1px solid var(--primary); padding:2px 7px; border-radius:3px; margin-bottom:10px; }
+    .skeleton { background:linear-gradient(90deg,#eee 25%,#f5f5f5 50%,#eee 75%); background-size:200% 100%; animation:shimmer 1.4s infinite; border-radius:4px; }
+    .skeleton-title { height:22px; width:85%; margin-bottom:10px; }
+    .skeleton-line { height:13px; width:100%; margin-bottom:7px; }
+    .skeleton-line.short { width:40%; }
+    @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+    .error-state { text-align:center; padding:40px 20px; color:#999; font-size:0.85rem; }
+    .error-state strong { display:block; color:#555; font-size:1rem; margin-bottom:8px; }
     .sidebar { position:sticky; top:80px; align-self:start; }
     footer { background:#000; color:#666; text-align:center; padding:28px; font-size:0.75rem; letter-spacing:1px; }
     @media(max-width:768px) {
@@ -46,89 +61,48 @@
 </style>
 </head>
 <body>
-<div class="ticker-wrap"><div class="ticker">
-<span class="ticker-item"><span>&#9679;</span>US-Iran Doha Talks Collapse &mdash; Qatar Confirms No Direct Meeting, Witkoff &amp; Kushner Still Landing | Reuters</span>
-<span class="ticker-item"><span>&#9679;</span>US Files Declaration to Exit USMCA &mdash; Triggers Six-Year Review &amp; Decade-Long Countdown | Reuters</span>
-<span class="ticker-item"><span>&#9679;</span>Monaco Bomb Injures Ukrainian Oligarch &amp; Family &mdash; Device Contained Bolts &amp; Pellets | BBC</span>
-<span class="ticker-item"><span>&#9679;</span>South Africa Heavy Security Deployed &mdash; Anti-Migrant Protests Shut Down Major Cities | BBC</span>
-<span class="ticker-item"><span>&#9679;</span>Tech Selloff Stirs Bubble Fears &mdash; Soaring Valuations &amp; Trillion-Dollar Swings Under Scrutiny | Reuters</span>
-<span class="ticker-item"><span>&#9679;</span>Stablecoin Rules Soften &mdash; Blockchain Stocks Emerge as New Investment Frontier | Reuters</span>
-<span class="ticker-item"><span>&#9679;</span>Gojek Founder Nadiem Makarim Sentenced to Jail for Corruption in Indonesia | BBC</span>
-<span class="ticker-item"><span>&#9679;</span>Venezuela Health System Strained After Twin Earthquakes &mdash; WHO Issues Alert | Reuters</span>
-<span class="ticker-item"><span>&#9679;</span>NATO Joins Exercises Off US Coast &mdash; Reaffirms Alliance Despite Political Fight in Washington | Reuters</span>
-<span class="ticker-item"><span>&#9679;</span>Two Iranian Revolutionary Guards Killed by Gunmen in Western Iran | Reuters</span>
-<span class="ticker-item"><span>&#9679;</span>US-Iran Doha Talks Collapse &mdash; Qatar Confirms No Direct Meeting, Witkoff &amp; Kushner Still Landing | Reuters</span>
-<span class="ticker-item"><span>&#9679;</span>US Files Declaration to Exit USMCA &mdash; Triggers Six-Year Review &amp; Decade-Long Countdown | Reuters</span>
-<span class="ticker-item"><span>&#9679;</span>Monaco Bomb Injures Ukrainian Oligarch &amp; Family &mdash; Device Contained Bolts &amp; Pellets | BBC</span>
-<span class="ticker-item"><span>&#9679;</span>South Africa Heavy Security Deployed &mdash; Anti-Migrant Protests Shut Down Major Cities | BBC</span>
+
+<div class="ticker-wrap"><div class="ticker" id="ticker-inner">
+<span class="ticker-item"><span>&#9679;</span>Loading live signals...</span>
 </div></div>
+
 <header>
 <h1><a href="index.html">SOVSYGNAL</a></h1>
-<p>Global Intelligence Hub &middot; Updated Jun 30, 2026 | 8:00 AM AST</p>
+<span id="last-updated">Global Intelligence Hub &middot; Loading...</span>
 <div class="hamburger" id="hamburger"><div></div><div></div><div></div></div>
 <nav id="main-nav">
 <a href="index.html" class="active">Headlines</a>
-<a href="geopolitics.html" class="">Geopolitics</a>
-<a href="stocks.html" class="">Stocks</a>
-<a href="blockchain.html" class="">Blockchain</a>
-<a href="intelligence.html" class="">Intelligence</a>
-<a href="forex.html" class="">Forex</a>
-<a href="markets.html" class="">Markets</a>
-<a href="realestate.html" class="">Real Estate</a>
-<a href="anime.html" class="">Anime</a>
-<a href="gaming.html" class="">Gaming</a>
-<a href="entertainment.html" class="">Entertainment</a>
-<a href="lifestyle.html" class="">Lifestyle</a>
-<a href="biohacking.html" class="">Biohacking</a>
-<a href="advertise.html" class="">Advertise</a>
+<a href="geopolitics.html">Geopolitics</a>
+<a href="stocks.html">Stocks</a>
+<a href="blockchain.html">Blockchain</a>
+<a href="intelligence.html">Intelligence</a>
+<a href="forex.html">Forex</a>
+<a href="markets.html">Markets</a>
+<a href="realestate.html">Real Estate</a>
+<a href="anime.html">Anime</a>
+<a href="gaming.html">Gaming</a>
+<a href="entertainment.html">Entertainment</a>
+<a href="lifestyle.html">Lifestyle</a>
+<a href="biohacking.html">Biohacking</a>
+<a href="advertise.html">Advertise</a>
 </nav>
 </header>
+
 <div class="container">
-<main><div class="section-label">Headlines</div><div class="news-grid">
-
-<div class="news-card">
-<h2><a href="https://www.reuters.com/world/middle-east/us-envoy-witkoff-kushner-will-be-qatar-no-meeting-with-iran-qatari-official-says-2026-06-30/" target="_blank" rel="noopener">US-Iran Doha Talks Collapse — Qatar Confirms No Direct Meeting, Witkoff &amp; Kushner Still Landing — Reuters</a></h2>
-<p style="font-size:0.82rem;color:#555;margin-top:6px;">Reuters: A Qatari official has confirmed that while US envoys Witkoff and Kushner will land in Doha, there will be no direct meeting with Iran. The White House had framed the trip as "high-level meetings," but the diplomatic channel has effectively failed to produce a direct negotiation. This collapse significantly raises the risk of renewed military escalation in the Gulf heading into Q3.</p>
-<p style="font-size:0.7rem;color:#999;margin-top:10px;">Jun 30, 2026 &mdash; Reuters</p>
-</div>
-
-<div class="news-card">
-<h2><a href="https://www.reuters.com/world/americas/us-declaration-exit-usmca-start-decade-long-countdown-pact-2026-06-30/" target="_blank" rel="noopener">US Files Declaration to Exit USMCA — Triggers Six-Year Review &amp; Decade-Long Countdown for North America Trade Pact — Reuters</a></h2>
-<p style="font-size:0.82rem;color:#555;margin-top:6px;">Reuters: The United States has formally filed a declaration to exit USMCA, activating the trade deal's sunset clause from Trump's first term. The move kicks off a mandatory six-year joint review. If no agreement is reached, the pact terminates in 2036. This is a seismic disruption for the $1.3 trillion annual trade relationship between the US, Canada, and Mexico.</p>
-<p style="font-size:0.7rem;color:#999;margin-top:10px;">Jun 30, 2026 &mdash; Reuters</p>
-</div>
-
-<div class="news-card">
-<h2><a href="https://www.bbc.com/news/articles/cpv37wx03v7o" target="_blank" rel="noopener">Monaco Bomb Injures Ukrainian Oligarch &amp; Family — Explosive Device Contained Bolts &amp; Pellets, Manhunt Underway — BBC</a></h2>
-<p style="font-size:0.82rem;color:#555;margin-top:6px;">BBC: An explosive device packed with bolts and pellets was detonated in Monaco, injuring a Ukrainian-born oligarch and family members. Monaco's head of government confirmed the device composition. A joint French-Monegasque manhunt is now active. The attack bears the hallmarks of a targeted assassination tied to the Russia-Ukraine financial conflict.</p>
-<p style="font-size:0.7rem;color:#999;margin-top:10px;">Jun 30, 2026 &mdash; BBC</p>
-</div>
-
-<div class="news-card">
-<h2><a href="https://www.reuters.com/legal/transactional/tech-selloff-stirs-bubble-fears-us-stock-market-2026-06-30/" target="_blank" rel="noopener">Tech Selloff Stirs US Stock Market Bubble Fears — Dramatic Swings in Trillion-Dollar Valuations — Reuters</a></h2>
-<p style="font-size:0.82rem;color:#555;margin-top:6px;">Reuters: The dramatic swings in the market value of trillion-dollar tech companies are reigniting bubble fears just days after Q2's record close. Analysts warn that AI-driven valuations have outpaced earnings fundamentals at the sharpest rate since 2021. The selloff is being watched as a potential precursor to a broader market correction.</p>
-<p style="font-size:0.7rem;color:#999;margin-top:10px;">Jun 30, 2026 &mdash; Reuters</p>
-</div>
-
-<div class="news-card">
-<h2><a href="https://www.reuters.com/video/watch/idRW165223062026RP1/" target="_blank" rel="noopener">Stablecoin Rules Soften &amp; Blockchain Stocks Emerge as Market Revolution — Reuters Crypto Weekly</a></h2>
-<p style="font-size:0.82rem;color:#555;margin-top:6px;">Reuters Crypto Weekly: Regulatory softening on stablecoins is clearing the path for institutional adoption at scale. Simultaneously, blockchain-based equities are being positioned as a potential revolution for traditional stock markets. These are the two defining signals for the digital asset and fintech space entering Q3 2026.</p>
-<p style="font-size:0.7rem;color:#999;margin-top:10px;">Jun 30, 2026 &mdash; Reuters</p>
-</div>
-
-<div class="news-card">
-<h2><a href="https://www.bbc.com/news/articles/c5yzd18dxzxo" target="_blank" rel="noopener">Venezuela Earthquake Crisis — Government Accused of Negligence, WHO Warns Health System at Breaking Point — BBC</a></h2>
-<p style="font-size:0.82rem;color:#555;margin-top:6px;">BBC &amp; Reuters: Survivors of twin earthquakes in La Guaira are digging through rubble with bare hands and pickaxes. Venezuelans are publicly accusing the government of negligence. The WHO has issued an emergency alert warning the national health system is critically strained. International aid efforts are being frustrated by government restrictions.</p>
-<p style="font-size:0.7rem;color:#999;margin-top:10px;">Jun 30, 2026 &mdash; BBC / Reuters</p>
-</div>
-
-<div class="news-card">
-<h2><a href="https://www.bbc.com/news/articles/cy4eq1l184po" target="_blank" rel="noopener">South Africa: Heavy Security Deployed as Anti-Migrant Protests Shut Down Major Cities — BBC</a></h2>
-<p style="font-size:0.82rem;color:#555;margin-top:6px;">BBC: Thousands have fled South African cities ahead of a deadline set by anti-migrant groups. Heavy police and military presence is now active across Johannesburg, Durban, and Cape Town. The protests follow months of escalating tension over economic strain and immigration policy. This is the largest civil disruption in South Africa since 2021.</p>
-<p style="font-size:0.7rem;color:#999;margin-top:10px;">Jun 30, 2026 &mdash; BBC</p>
-</div>
-
-</div></main>
+<main>
+  <div class="section-label">
+    Headlines
+    <button class="refresh-btn" onclick="loadNews(true)">&#8635; Refresh</button>
+  </div>
+  <div class="news-grid" id="news-grid">
+    <!-- skeletons while loading -->
+    <div class="news-card"><div class="skeleton skeleton-title"></div><div class="skeleton skeleton-line"></div><div class="skeleton skeleton-line"></div><div class="skeleton skeleton-line short"></div></div>
+    <div class="news-card"><div class="skeleton skeleton-title"></div><div class="skeleton skeleton-line"></div><div class="skeleton skeleton-line"></div><div class="skeleton skeleton-line short"></div></div>
+    <div class="news-card"><div class="skeleton skeleton-title"></div><div class="skeleton skeleton-line"></div><div class="skeleton skeleton-line"></div><div class="skeleton skeleton-line short"></div></div>
+    <div class="news-card"><div class="skeleton skeleton-title"></div><div class="skeleton skeleton-line"></div><div class="skeleton skeleton-line"></div><div class="skeleton skeleton-line short"></div></div>
+    <div class="news-card"><div class="skeleton skeleton-title"></div><div class="skeleton skeleton-line"></div><div class="skeleton skeleton-line"></div><div class="skeleton skeleton-line short"></div></div>
+  </div>
+</main>
 <aside class="sidebar">
 <div style="background:#000;color:#fff;padding:22px;border-radius:8px;margin-bottom:18px;">
     <div style="font-size:0.58rem;font-weight:800;text-transform:uppercase;letter-spacing:2px;opacity:0.7;margin-bottom:6px;">Featured Brand</div>
@@ -148,10 +122,157 @@
 </div>
 </aside>
 </div>
+
 <footer><p>&copy; 2026 SOVSYGNAL &middot; PRISCION INTELLIGENCE MEDIA</p></footer>
+
 <script>
-    const hamburger = document.getElementById('hamburger');
-    const nav = document.getElementById('main-nav');
-    hamburger.addEventListener('click', () => { nav.classList.toggle('active'); });
+const API_KEY = '{{credential:gnews-api}}';
+const CACHE_KEY = 'sovsygnal_headlines';
+const CACHE_TS_KEY = 'sovsygnal_headlines_ts';
+const CACHE_TTL = 30 * 60 * 1000; // 30 minutes
+
+// Nav categories mapped to GNews topics
+const NAV_TOPICS = {
+  'index.html':          { topic: 'breaking-news', label: 'Headlines' },
+  'geopolitics.html':    { topic: 'world', label: 'Geopolitics' },
+  'stocks.html':         { topic: 'business', label: 'Stocks' },
+  'blockchain.html':     { q: 'blockchain crypto bitcoin', label: 'Blockchain' },
+  'intelligence.html':   { q: 'intelligence security geopolitics', label: 'Intelligence' },
+  'forex.html':          { q: 'forex currency exchange rate', label: 'Forex' },
+  'markets.html':        { topic: 'business', label: 'Markets' },
+  'realestate.html':     { q: 'real estate housing property market', label: 'Real Estate' },
+  'anime.html':          { q: 'anime manga crunchyroll', label: 'Anime' },
+  'gaming.html':         { topic: 'technology', label: 'Gaming' },
+  'entertainment.html':  { topic: 'entertainment', label: 'Entertainment' },
+  'lifestyle.html':      { topic: 'health', label: 'Lifestyle' },
+  'biohacking.html':     { q: 'biohacking longevity health optimization', label: 'Biohacking' },
+};
+
+function currentPage() {
+  const path = window.location.pathname.split('/').pop() || 'index.html';
+  return path === '' ? 'index.html' : path;
+}
+
+function buildApiUrl(forceRefresh) {
+  const page = currentPage();
+  const cfg = NAV_TOPICS[page] || NAV_TOPICS['index.html'];
+  const base = 'https://gnews.io/api/v4/';
+  const params = new URLSearchParams({ lang:'en', max:'10', apikey: API_KEY });
+  if (cfg.topic) {
+    params.set('topic', cfg.topic);
+    return base + 'top-headlines?' + params.toString();
+  } else {
+    params.set('q', cfg.q);
+    params.set('sortby', 'publishedAt');
+    return base + 'search?' + params.toString();
+  }
+}
+
+function formatDate(iso) {
+  const d = new Date(iso);
+  return d.toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' }) +
+    ' — ' + d.toLocaleTimeString('en-US', { hour:'2-digit', minute:'2-digit', timeZoneName:'short' });
+}
+
+function escHtml(s) {
+  return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function renderCards(articles) {
+  const grid = document.getElementById('news-grid');
+  if (!articles || !articles.length) {
+    grid.innerHTML = '<div class="error-state"><strong>No results found</strong>Try refreshing or check back shortly.</div>';
+    return;
+  }
+  grid.innerHTML = articles.map(a => {
+    const src = escHtml(a.source && a.source.name ? a.source.name : 'Source');
+    const title = escHtml(a.title || '');
+    const desc = escHtml(a.description || '');
+    const url = escHtml(a.url || '#');
+    const pub = a.publishedAt ? formatDate(a.publishedAt) : '';
+    const img = a.image ? `<img class="card-image" src="${escHtml(a.image)}" alt="" loading="lazy" onerror="this.style.display='none'">` : '';
+    return `<div class="news-card">
+      ${img}
+      <span class="card-tag">${src}</span>
+      <h2><a href="${url}" target="_blank" rel="noopener">${title}</a></h2>
+      <p class="card-desc">${desc}</p>
+      <div class="card-meta"><span>${pub}</span></div>
+    </div>`;
+  }).join('');
+}
+
+function renderTicker(articles) {
+  const ticker = document.getElementById('ticker-inner');
+  if (!articles || !articles.length) return;
+  const items = articles.map(a =>
+    `<span class="ticker-item"><span>&#9679;</span>${escHtml(a.title)} | ${escHtml(a.source && a.source.name ? a.source.name : '')}</span>`
+  );
+  // double for seamless loop
+  ticker.innerHTML = items.join('') + items.join('');
+}
+
+function updateTimestamp() {
+  const now = new Date();
+  const formatted = now.toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' }) +
+    ' | ' + now.toLocaleTimeString('en-US', { hour:'2-digit', minute:'2-digit', timeZoneName:'short' });
+  document.getElementById('last-updated').textContent = 'Global Intelligence Hub · Updated ' + formatted;
+}
+
+async function loadNews(forceRefresh) {
+  const page = currentPage();
+  const cacheKey = CACHE_KEY + '_' + page;
+  const cacheTs  = CACHE_TS_KEY + '_' + page;
+
+  // Check cache unless forced
+  if (!forceRefresh) {
+    const cached = localStorage.getItem(cacheKey);
+    const cachedTs = parseInt(localStorage.getItem(cacheTs) || '0');
+    if (cached && (Date.now() - cachedTs < CACHE_TTL)) {
+      try {
+        const articles = JSON.parse(cached);
+        renderCards(articles);
+        renderTicker(articles);
+        updateTimestamp();
+        return;
+      } catch(e) {}
+    }
+  }
+
+  try {
+    const url = buildApiUrl();
+    const res = await fetch(url);
+    if (!res.ok) throw new Error('API error ' + res.status);
+    const data = await res.json();
+    const articles = data.articles || [];
+    localStorage.setItem(cacheKey, JSON.stringify(articles));
+    localStorage.setItem(cacheTs, Date.now().toString());
+    renderCards(articles);
+    renderTicker(articles);
+    updateTimestamp();
+  } catch(err) {
+    const grid = document.getElementById('news-grid');
+    // Try to show cached even if stale on error
+    const cached = localStorage.getItem(cacheKey);
+    if (cached) {
+      try {
+        renderCards(JSON.parse(cached));
+        renderTicker(JSON.parse(cached));
+        updateTimestamp();
+        return;
+      } catch(e) {}
+    }
+    grid.innerHTML = '<div class="error-state"><strong>Could not load headlines</strong>Check your connection and try refreshing.</div>';
+  }
+}
+
+// Hamburger
+document.getElementById('hamburger').addEventListener('click', () => {
+  document.getElementById('main-nav').classList.toggle('active');
+});
+
+// Auto-refresh every 30 minutes
+loadNews(false);
+setInterval(() => loadNews(true), CACHE_TTL);
 </script>
-</body></html>
+</body>
+</html>
