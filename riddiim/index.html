@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>RIDDIIM | The AI Music Super-App</title>
+  <!-- SEO / AEO / GEO -->
+  <meta name="description" content="Riddiim — AI-powered music super-app and studio platform for high-fidelity audio engineering, playback, and creative production."/>
+  <meta name="robots" content="index, follow"/>
+  <link rel="canonical" href="https://priscadezigns.org/riddiim/"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:site_name" content="Prisca Dezigns"/>
+  <meta property="og:title" content="Riddiim | AI Music Super-App & Studio Platform"/>
+  <meta property="og:description" content="AI-powered music playback, high-fidelity audio engineering and creative studio — Riddiim."/>
+  <meta property="og:url" content="https://priscadezigns.org/riddiim/"/>
+  <meta property="og:image" content="https://priscadezigns.org/logos/PRISCA_DEZIGNS_DEFINITIVE_2026.png"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="Riddiim | AI Music Super-App & Studio Platform"/>
+  <meta name="twitter:description" content="AI-powered music playback, high-fidelity audio engineering and creative studio — Riddiim."/>
+  <meta name="twitter:image" content="https://priscadezigns.org/logos/PRISCA_DEZIGNS_DEFINITIVE_2026.png"/>
+  <script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "WebSite", "name": "Riddiim", "url": "https://priscadezigns.org/riddiim/", "description": "AI-powered music super-app and studio platform.", "image": "https://priscadezigns.org/logos/PRISCA_DEZIGNS_DEFINITIVE_2026.png", "publisher": {"@type": "Organization", "name": "Prisca Dezigns", "url": "https://priscadezigns.org"}}
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>.sidebar { position: fixed; right: -400px; top: 0; width: 400px; height: 100vh; background: rgba(5,5,5,0.98); backdrop-filter: blur(25px); border-left: 1px solid #222; transition: 0.5s cubic-bezier(0.8,0,0.2,1); z-index: 10000; overflow-y: auto; font-family: sans-serif; } .sidebar.active { right: 0; } .sidebar-header { padding: 30px; border-bottom: 1px solid #111; display: flex; justify-content: space-between; align-items: center; color: white; } .close-btn { background: none; border: none; color: #555; font-size: 2rem; cursor: pointer; } .sidebar-tabs { display: flex; border-bottom: 1px solid #111; } .sidebar-tabs button { flex: 1; background: none; border: none; color: #444; padding: 15px; font-size: 0.6rem; font-weight: 800; cursor: pointer; transition: 0.3s; } @media (max-width: 480px) { .sidebar { width: 100%; right: -100%; } }</style><style>
+    :root {
+      --bg: #050508;
+      --bg2: #0a0a0f;
+      --white: #FFFFFF;
+      --muted: #888899;
+      --off: #CCCCCC;
+      --accent: #FFFFFF;
+      --border: rgba(255,255,255,0.08);
+    }
+    
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: var(--bg);
+      color: var(--white);
+      font-family: 'Space Grotesk', sans-serif;
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200; padding: 0 48px; height: 80px; display: flex; align-items: center; justify-content: space-between; background: rgba(5,5,8,0.8); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border);
+    }
+    .nav-brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+    .nav-vinyl{width:28px;height:28px;border-radius:50%;background:radial-gradient(circle,#1a1a22 30%,#0a0a0f 30%,#0a0a0f 35%,#1a1a22 35%,#1a1a22 55%,#0a0a0f 55%);border:1px solid rgba(255,255,255,0.15);animation:spin 8s linear infinite;flex-shrink:0}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .nav-wordmark{font-family:"Space Mono",monospace;font-size:17px;font-weight:700;letter-spacing:4px;color:var(--white)}
+    .nav-links{display:flex;align-items:center;gap:32px}
+    .nav-links a{font-size:12px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .2s}
+    .nav-links a:hover{color:var(--white)}
+    .nav-cta{background:var(--white)!important;color:var(--bg)!important;padding:9px 22px!important;font-weight:700!important;letter-spacing:1.5px!important;border-radius:2px;transition:opacity .2s!important}
+    .nav-cta:hover{opacity:.88!important}
+    @media(max-width:720px){.nav-links .hide-mob{display:none}.nav-wordmark{font-size:14px;letter-spacing:2px}nav{padding:0 20px}}
+
+    /* ── HERO ── */
+    .hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:140px 24px 100px;position:relative;overflow:hidden}
+    #neural-pulse { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; opacity: 0.25; pointer-events: none; }
+    .hero-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-60%);width:700px;height:700px;background:radial-gradient(ellipse,rgba(255,255,255,0.04) 0%,transparent 70%);pointer-events:none}
+    .hero-ring{width:240px;height:240px;border-radius:50%;background:radial-gradient(circle at 50% 50%,#222228 0%,#222228 22%,#0e0e14 22%,#0e0e14 24%,#1a1a22 24%,#1a1a22 30%,#111118 30%,#111118 38%,#1a1a22 38%,#1a1a22 46%,#0e0e14 46%,#0e0e14 54%,#1a1a22 54%,#1a1a22 62%,#111118 62%,#111118 70%,#1a1a22 70%,#1a1a22 78%,#0e0e14 78%,#0e0e14 84%,#111118 84%,#111118 100%);box-shadow:0 0 0 1px rgba(255,255,255,0.08),0 0 80px rgba(255,255,255,0.04),inset 0 0 30px rgba(0,0,0,0.8);animation:spin 14s linear infinite;margin:0 auto 56px;position:relative;z-index:1}
+    .hero-eyebrow{font-family:"Space Mono",monospace;font-size:10px;letter-spacing:5px;text-transform:uppercase;color:var(--muted);margin-bottom:28px;position:relative;z-index:1}
+    .hero-h1{font-family:"Space Mono",monospace;font-size:clamp(60px,11vw,130px);font-weight:700;letter-spacing:8px;line-height:1;margin-bottom:20px;animation:fadeUp .8s ease both;position:relative;z-index:1}
+    .hero-tagline{font-family:"Space Mono",monospace;font-size:clamp(11px,1.6vw,15px);letter-spacing:5px;text-transform:uppercase;color:var(--muted);margin-bottom:36px;animation:fadeUp .9s .1s ease both;position:relative;z-index:1}
+    .hero-sub{font-size:clamp(15px,1.8vw,18px);color:var(--off);max-width:500px;margin:0 auto 52px;line-height:1.85;font-weight:300;animation:fadeUp 1s .2s ease both;position:relative;z-index:1}
+    .hero-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;animation:fadeUp 1s .3s ease both;position:relative;z-index:1}
+    .btn-primary{background:var(--white);color:var(--bg);padding:16px 40px;font-weight:800;font-size:12px;text-decoration:none;letter-spacing:2.5px;text-transform:uppercase;border-radius:2px;transition:opacity .2s;display:inline-block}
+    .btn-primary:hover{opacity:.85}
+    .btn-ghost{border:1px solid rgba(255,255,255,0.2);color:var(--white);padding:16px 40px;font-weight:600;font-size:12px;text-decoration:none;letter-spacing:2.5px;text-transform:uppercase;border-radius:2px;transition:border-color .2s;display:inline-block}
+    .btn-ghost:hover{border-color:rgba(255,255,255,0.5)}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+
+    /* ── TICKER ── */
+    .ticker-wrap{border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:14px 0;overflow:hidden;white-space:nowrap;background:var(--bg2)}
+    .ticker-track{display:inline-block;animation:ticker 30s linear infinite}
+    .ticker-track span{font-family:"Space Mono",monospace;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);padding:0 40px}
+    @keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+    /* ── SECTIONS ── */
+    .sec{padding:120px 6%;max-width:1400px;margin:0 auto}
+    .sec-label{font-family:"Space Mono",monospace;font-size:10px;letter-spacing:6px;text-transform:uppercase;color:var(--muted);margin-bottom:60px;display:flex;align-items:center;gap:20px}
+    .sec-label::after{content:"";height:1px;background:var(--border);flex:1}
+
+    /* ── FEATURES ── */
+    .feat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2px;background:var(--border);border:1px solid var(--border)}
+    .feat-card{background:var(--bg);padding:80px 60px;transition:background .3s}
+    .feat-card:hover{background:var(--bg2)}
+    .feat-num{font-family:"Space Mono",monospace;font-size:12px;color:var(--muted);margin-bottom:32px;display:block}
+    .feat-card h3{font-size:28px;font-weight:700;letter-spacing:1px;margin-bottom:24px}
+    .feat-card p{color:var(--muted);font-size:16px;line-height:1.75;max-width:400px}
+    @media(max-width:900px){.feat-grid{grid-template-columns:1fr}.feat-card{padding:60px 40px}}
+
+    /* ── BRAND KIT ── */
+    .brand-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2px;background:var(--border)}
+    .brand-box{background:var(--bg2);padding:60px;text-align:center}
+    .brand-box h4{font-family:"Space Mono",monospace;font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--muted);margin-bottom:40px}
+    .neural-placeholder { width: 160px; height: 160px; margin: 0 auto; background: var(--bg); border: 1px solid var(--border); position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+    .neural-placeholder::before { content: ""; position: absolute; width: 100%; height: 100%; background: linear-gradient(45deg, transparent 48%, rgba(255,255,255,0.05) 50%, transparent 52%); animation: sweep 3s infinite; }
+    @keyframes sweep { from { transform: translateX(-100%); } to { transform: translateX(100%); } }
+
+    /* ── ROADMAP ── */
+    .road-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:40px}
+    .road-card{padding:32px;border:1px solid var(--border);background:var(--bg2);border-radius:4px}
+    .road-phase{font-family:"Space Mono",monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:24px;display:flex;align-items:center;gap:12px}
+    .road-dot{width:8px;height:8px;border-radius:50%}
+    .dot-live{background:#22C55E;box-shadow:0 0 10px #22C55E}
+    .dot-plan{background:var(--muted)}
+    .road-card h3{font-size:20px;margin-bottom:20px}
+    .road-card ul{list-style:none;color:var(--muted);font-size:14px}
+    .road-card li{margin-bottom:12px;padding-left:16px;position:relative}
+    .road-card li::before{content:"→";position:absolute;left:0;color:var(--white)}
+    @media(max-width:1000px){.road-grid{grid-template-columns:1fr}}
+
+    /* ── FOOTER ── */
+    footer{padding:100px 6% 60px;border-top:1px solid var(--border)}
+    .foot-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:80px;margin-bottom:80px}
+    .foot-brand{font-family:"Space Mono",monospace;font-size:18px;font-weight:700;letter-spacing:4px;margin-bottom:24px}
+    .foot-links h5{font-family:"Space Mono",monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:28px}
+    .foot-links a{display:block;color:var(--muted);text-decoration:none;margin-bottom:16px;font-size:14px;transition:color .2s}
+    .foot-links a:hover{color:var(--white)}
+    .foot-btm{display:flex;justify-content:space-between;align-items:center;padding-top:40px;border-top:1px solid var(--border);color:var(--muted);font-size:12px}
+    @media(max-width:800px){.foot-grid{grid-template-columns:1fr;gap:60px}}
+
+    /* ── UTILS ── */
+    .std-float-bt{position:fixed;bottom:30px;right:30px;width:48px;height:48px;background:var(--white);color:var(--bg);border:none;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:0;visibility:hidden;transition:all .3s;z-index:300;font-weight:900}
+    .std-float-bt.vis{opacity:1;visibility:visible}
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-brand">
+    <div class="nav-vinyl"></div>
+    <span class="nav-wordmark">RIDDIIM</span>
+  </a>
+  <div class="nav-links">
+    <a href="#features" class="hide-mob">Features</a>
+    <a href="shop.html" class="hide-mob">Shop</a>
+    <a href="detect/" class="hide-mob">Detect</a>
+    <a href="login/" class="hide-mob">Player</a>
+    <a href="studio/" class="hide-mob">Studio</a>
+    <a href="#waitlist" class="nav-cta">Early Access</a>
+  </div>
+<a href="/ledger/?view=wallet" style="margin-left:15px; color:#7B35D4; font-weight:800; font-size:0.7rem; text-decoration:none; border:1px solid #7B35D4; padding:5px 12px; border-radius:20px;">Wallet</a></nav>
+
+<!-- HERO -->
+<section class="hero">
+  <canvas id="neural-pulse"></canvas>
+  <div class="hero-glow"></div>
+  <div class="hero-ring"></div>
+  <div class="hero-eyebrow">Music Super-App</div>
+  <h1 class="hero-h1">RIDDIIM</h1>
+  <div class="hero-tagline">Hear It. &nbsp; Find It. &nbsp; Create It.</div>
+  <p class="hero-sub">One app for everything music — detect any song, stream your favorites, create with AI, and connect with the global artist community.</p>
+  <div class="hero-actions">
+    <a href="detect/" class="btn-primary">Detect Music Now</a>
+    <a href="login/" class="btn-ghost">Open Neural Deck</a>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker-track">
+    <span><b>DETECT</b> any song in seconds</span>
+    <span><b>STREAM</b> millions of tracks</span>
+    <span><b>CREATE</b> with AI Studio Core</span>
+    <span><b>COLLECT</b> limited edition gear</span>
+    <span><b>DETECT</b> any song in seconds</span>
+    <span><b>STREAM</b> millions of tracks</span>
+    <span><b>CREATE</b> with AI Studio Core</span>
+    <span><b>COLLECT</b> limited edition gear</span>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section class="sec" id="features">
+  <div class="sec-label">Core Ecosystem</div>
+  <div class="feat-grid">
+    <div class="feat-card">
+      <span class="feat-num">01</span>
+      <h3>Neural Detection</h3>
+      <p>Identify any track instantly with 99.8% accuracy. Our proprietary engine analyzes frequencies in real-time, even in loud environments.</p>
+    </div>
+    <div class="feat-card">
+      <span class="feat-num">02</span>
+      <h3>Sovereign Streaming</h3>
+      <p>Access 100M+ tracks without switching apps. Curated playlists, mood-based radio, and a library that actually learns your taste.</p>
+    </div>
+    <div class="feat-card">
+      <span class="feat-num">03</span>
+      <h3>Studio Core</h3>
+      <p>Generate beats, melodies, and full tracks with AI. Describe a vibe, upload a reference, or start from scratch — frictionless creation.</p>
+      <a href="studio/" style="color:white; font-weight:700; text-decoration:none; border-bottom:1px solid white; padding-bottom:2px; font-size:0.8rem; text-transform:uppercase; margin-top:24px; display:inline-block;">Launch Core →</a>
+    </div>
+    <div class="feat-card">
+      <span class="feat-num">04</span>
+      <h3>Global Hub</h3>
+      <p>Connect with artists and producers. Share stems, collaborate on "Neural Sessions," and build your reputation in the ecosystem.</p>
+    </div>
+  </div>
+</section>
+
+<!-- BRAND IDENTITY -->
+<section class="sec" id="brand">
+  <div class="sec-label">Brand Identity</div>
+  <div class="brand-grid">
+    <div class="brand-box">
+      <h4>App Icon</h4>
+      <div class="neural-placeholder"><div class="nav-vinyl" style="width: 80px; height: 80px; background: radial-gradient(circle, #222 30%, #000 30%);"></div></div>
+    </div>
+    <div class="brand-box">
+      <h4>Wordmark</h4>
+      <div class="neural-placeholder"><span style="font-family: 'Space Mono'; letter-spacing: 5px; font-weight: 700; font-size: 20px;">RIDDIIM</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ROADMAP -->
+<section class="sec" id="roadmap">
+  <div class="sec-label">Roadmap</div>
+  <div class="road-grid">
+    <div class="road-card">
+      <div class="road-phase"><span class="road-dot dot-live"></span>Phase 1 — Live</div>
+      <h3>The Foundation</h3>
+      <ul>
+        <li>Neural track identification</li>
+        <li>High-fidelity streaming</li>
+        <li>Mobile app (Alpha)</li>
+      </ul>
+    </div>
+    <div class="road-card">
+      <div class="road-phase"><span class="road-dot dot-plan"></span>Phase 2 — Q4 2026</div>
+      <h3>Studio Expansion</h3>
+      <ul>
+        <li>Studio Core (Beta)</li>
+        <li>AI Beat Generation</li>
+        <li>Collaborative Sessions</li>
+      </ul>
+    </div>
+    <div class="road-card">
+      <div class="road-phase"><span class="road-dot dot-plan"></span>Phase 3 — 2027</div>
+      <h3>The Ecosystem</h3>
+      <ul>
+        <li>Marketplace for Stems</li>
+        <li>$NRL Integration</li>
+        <li>Global Creator Fund</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- WAITLIST -->
+<section class="sec" id="waitlist" style="text-align: center;">
+  <div class="sec-label">Waitlist</div>
+  <h2 style="font-size: 48px; margin-bottom: 24px;">Secure Your Handle.</h2>
+  <p style="color: var(--muted); max-width: 500px; margin: 0 auto 40px;">Be the first to experience the future of music. Alpha access begins soon.</p>
+  
+  <form onsubmit="join(event)" style="max-width: 400px; margin: 0 auto; display: flex; gap: 10px;">
+    <input type="email" placeholder="Email Address" required style="flex: 1; background: var(--bg2); border: 1px solid var(--border); color: #fff; padding: 16px; border-radius: 2px; outline: none;">
+    <button type="submit" id="joinBtn" class="btn-primary" style="padding: 16px 24px; border: none; cursor: pointer;">Join</button>
+  </form>
+  <div id="joinMsg" style="margin-top: 20px; font-family: var(--font-mono); font-size: 11px; letter-spacing: 1px;"></div>
+</section>
+
+<footer>
+  <div class="foot-grid">
+    <div class="foot-info">
+      <div class="foot-brand">RIDDIIM</div>
+      <p style="color: var(--muted); max-width: 300px;">The AI music super-app for the next generation of creators and listeners.</p>
+    </div>
+    <div class="foot-links">
+      <h5>Product</h5>
+      <a href="#features">Features</a>
+      <a href="studio/">Studio Core</a>
+      <a href="shop.html">Shop</a>
+    </div>
+    <div class="foot-links">
+      <h5>Sovereign</h5>
+      <a href="/about/">Priscion</a>
+      <a href="legal/">Legal</a>
+      <a href="mailto:riddiim@priscadezigns.org">Support</a>
+    </div>
+  </div>
+  <div class="foot-btm">
+    <div>© 2026 RIDDIIM AUDIO LABS • NEURAL AUDIO DIVISION</div>
+    <div>DESIGNED BY PRISCION</div>
+  </div>
+</footer>
+
+<button class="std-float-bt" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+  // Neural Pulse Visualizer
+  const canvas = document.getElementById('neural-pulse');
+  const ctx = canvas.getContext('2d');
+  let width, height;
+
+  function resize() {
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  const particles = [];
+  for(let i=0; i<50; i++) {
+    particles.push({
+      x: Math.random() * width,
+      y: Math.random() * height,
+      vx: (Math.random() - 0.5) * 0.5,
+      vy: (Math.random() - 0.5) * 0.5,
+      size: Math.random() * 2
+    });
+  }
+
+  function draw() {
+    ctx.clearRect(0,0,width,height);
+    ctx.fillStyle = "rgba(255,255,255,0.4)";
+    particles.forEach(p => {
+      p.x += p.vx; p.y += p.vy;
+      if(p.x < 0) p.x = width; if(p.x > width) p.x = 0;
+      if(p.y < 0) p.y = height; if(p.y > height) p.y = 0;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size, 0, Math.PI*2);
+      ctx.fill();
+    });
+    requestAnimationFrame(draw);
+  }
+  draw();
+
+  // Waitlist Logic
+  function join(e) {
+    e.preventDefault();
+    const btn = document.getElementById('joinBtn');
+    const msg = document.getElementById('joinMsg');
+    btn.textContent = 'Joining...';
+    btn.disabled = true;
+    setTimeout(() => {
+      msg.textContent = 'Neural Record Created. You are on the list.';
+      msg.style.color = '#fff';
+      btn.textContent = 'Done';
+    }, 1000);
+  }
+
+  // Back to Top
+  window.addEventListener('scroll', () => {
+    const b = document.getElementById('backTop');
+    if(window.scrollY > 400) b.classList.add('vis');
+    else b.classList.remove('vis');
+  });
+</script>
+
+<div id="sidebar" class="sidebar"><div class="sidebar-header"><h2 style="font-size:1.1rem; margin:0; font-weight: 900;">PRISCION WALLET</h2><button onclick="toggleSidebar()" class="close-btn">&times;</button></div><div class="sidebar-tabs"><button id="tab-assets" onclick="switchWalletTabCore('assets')">Assets</button><button id="tab-vault" onclick="switchWalletTabCore('vault')">Vault</button><button id="tab-shop" onclick="switchWalletTabCore('shop')">Hub</button><button id="tab-sync" onclick="switchWalletTabCore('sync')">Security</button></div><div id="wallet-main-view"></div></div><script src="wallet-core.js"></script><script>function toggleSidebar(){ const s=document.getElementById('sidebar'); s.classList.toggle('active'); if(s.classList.contains('active')){ if(typeof initializeWallet==='function') initializeWallet('sidebar'); } }</script></body>
+</html>
+
