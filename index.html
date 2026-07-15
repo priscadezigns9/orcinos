@@ -11,7 +11,7 @@
             --orca-blue: #1e40af; 
             --orca-blue-soft: #f0f4ff;
             --sidebar-bg: #f9fafb;
-            --chat-space-bg: #1e3a8a; /* Deep blue chat area */
+            --chat-space-bg: #1e3a8a;
         }
         body { background: white; color: #111827; font-family: 'Inter', sans-serif; height: 100vh; display: flex; overflow: hidden; }
         
@@ -26,30 +26,32 @@
             z-index: 20;
         }
 
+        /* RESTORED ORCINOS LOGO (Mustard Tree Inspired) */
         .logo-container {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
             padding: 8px 12px;
             margin-bottom: 24px;
         }
         .orca-logo {
-            width: 28px;
-            height: 28px;
+            width: 32px;
+            height: 32px;
             background: var(--orca-blue);
-            border-radius: 8px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 6px -1px rgba(30, 64, 175, 0.3);
+            box-shadow: 0 4px 10px rgba(30, 64, 175, 0.4);
         }
+        .orca-logo svg { color: white; }
 
         .new-chat-btn {
             border: 1px solid #e5e7eb;
             background: white;
             padding: 10px;
             border-radius: 12px;
-            font-weight: 500;
+            font-weight: 600;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -57,9 +59,9 @@
             margin-bottom: 24px;
             transition: all 0.2s;
         }
-        .new-chat-btn:hover { background: #f3f4f6; border-color: #d1d5db; }
+        .new-chat-btn:hover { background: #f3f4f6; border-color: #d1d5db; transform: translateY(-1px); }
 
-        .nav-section { margin-bottom: 32px; }
+        .nav-section { margin-bottom: 32px; flex-grow: 0; }
         .section-header {
             display: flex;
             justify-content: space-between;
@@ -67,11 +69,11 @@
             padding: 0 12px;
             margin-bottom: 8px;
         }
-        .section-label { font-size: 11px; font-weight: 700; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.05em; }
+        .section-label { font-size: 11px; font-weight: 800; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.08em; }
         
         .nav-item {
             padding: 8px 12px;
-            border-radius: 8px;
+            border-radius: 10px;
             font-size: 14px;
             font-weight: 500;
             color: #4b5563;
@@ -80,25 +82,23 @@
             gap: 10px;
             cursor: pointer;
             transition: all 0.2s;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
         .nav-item:hover { background: #f3f4f6; color: #111827; }
         .nav-item.active { background: #e5e7eb; color: #111827; }
 
-        .add-connector-btn {
-            width: 20px;
-            height: 20px;
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #9ca3af;
-            transition: all 0.2s;
+        .scrollable-nav {
+            max-height: 200px;
+            overflow-y: auto;
+            padding-right: 4px;
         }
-        .add-connector-btn:hover { background: #e5e7eb; color: var(--orca-blue); }
+        .scrollable-nav::-webkit-scrollbar { width: 4px; }
+        .scrollable-nav::-webkit-scrollbar-thumb { background: #e5e7eb; border-radius: 10px; }
 
         .main-container { flex-grow: 1; display: flex; flex-direction: column; background: var(--chat-space-bg); position: relative; }
 
-        /* Chat history area (Blue Space) */
         .chat-history {
             flex-grow: 1;
             padding: 40px;
@@ -109,23 +109,21 @@
             align-items: center;
         }
 
-        /* The White Chat Bubbles */
         .message-bubble {
             max-width: 800px;
             width: 100%;
             background: white;
-            padding: 24px;
-            border-radius: 24px;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
+            padding: 28px;
+            border-radius: 28px;
+            box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.25);
             color: #1f2937;
-            animation: fadeIn 0.3s ease-out;
+            animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Chat Input Area */
         .input-wrapper {
             padding: 40px;
-            background: linear-gradient(to top, rgba(30, 58, 138, 1), rgba(30, 58, 138, 0));
+            background: linear-gradient(to top, rgba(30, 58, 138, 1) 40%, rgba(30, 58, 138, 0));
             display: flex;
             justify-content: center;
         }
@@ -135,8 +133,8 @@
             max-width: 800px;
             background: white;
             border-radius: 24px;
-            padding: 16px;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
         }
 
         textarea {
@@ -145,15 +143,16 @@
             outline: none;
             resize: none;
             font-size: 16px;
-            min-height: 50px;
+            min-height: 40px;
             color: #111827;
+            background: transparent;
         }
 
-        .action-bar { display: flex; justify-content: space-between; align-items: center; margin-top: 12px; }
+        .action-bar { display: flex; justify-content: space-between; align-items: center; margin-top: 16px; }
 
         .btn-circle {
-            width: 40px;
-            height: 40px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -174,7 +173,7 @@
             justify-content: center;
             transition: all 0.2s;
         }
-        .send-btn.active { background: var(--orca-blue); color: white; cursor: pointer; }
+        .send-btn.active { background: var(--orca-blue); color: white; cursor: pointer; transform: scale(1.05); }
 
         .user-profile {
             margin-top: auto;
@@ -186,14 +185,13 @@
             cursor: pointer;
             border-radius: 12px;
         }
-        .user-profile:hover { background: #f3f4f6; }
 
-        /* Modal for Connectors */
+        /* MODAL GRID */
         .modal {
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(4px);
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
             display: none;
             align-items: center;
             justify-content: center;
@@ -201,130 +199,167 @@
         }
         .modal-content {
             background: white;
-            width: 450px;
-            padding: 32px;
-            border-radius: 24px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            width: 90%;
+            max-width: 850px;
+            height: 80vh;
+            padding: 40px;
+            border-radius: 32px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 35px 60px -15px rgba(0, 0, 0, 0.6);
         }
+        .connector-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 16px;
+            overflow-y: auto;
+            padding-bottom: 20px;
+        }
+        .connector-card {
+            border: 1px solid #f3f4f6;
+            padding: 20px;
+            border-radius: 20px;
+            text-align: center;
+            transition: all 0.2s;
+            background: #fafafa;
+        }
+        .connector-card:hover { border-color: var(--orca-blue); background: white; transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
     </style>
 </head>
 <body>
 
-    <!-- Sidebar with Fixed Branding -->
     <aside class="sidebar">
+        <!-- RESTORED ORCINOS LOGO (MUSTARD TREE) -->
         <div class="logo-container">
             <div class="orca-logo">
-                <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path></svg>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 19V6M5 11l7-7 7 7M5 19h14" />
+                </svg>
             </div>
-            <span class="font-extrabold text-xl tracking-tighter text-blue-800">ORCINOS</span>
+            <span class="font-black text-2xl tracking-tighter text-blue-900">ORCINOS</span>
         </div>
 
-        <button class="new-chat-btn">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+        <button class="new-chat-btn" onclick="createNewChat()">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2.5" d="M12 4v16m8-8H4"></path></svg>
             New Chat
         </button>
 
+        <!-- MCP & CONNECTORS SECTION -->
         <div class="nav-section">
             <div class="section-header">
-                <div class="section-label">Connectors</div>
-                <button class="add-connector-btn" onclick="openModal()">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2.5" d="M12 4v16m8-8H4"></path></svg>
+                <div class="section-label">Connectors & MCPs</div>
+                <button class="w-5 h-5 flex items-center justify-center text-slate-400 hover:text-blue-600" onclick="openModal()">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="3" d="M12 4v16m8-8H4"></path></svg>
                 </button>
             </div>
-            <div id="connector-list">
+            <div id="active-connectors" class="space-y-1">
                 <div class="nav-item">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2z"></path></svg>
+                    <div class="w-2 h-2 rounded-full bg-green-500"></div>
                     Google Drive
                 </div>
                 <div class="nav-item">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
+                    <div class="w-2 h-2 rounded-full bg-green-500"></div>
                     WhatsApp API
                 </div>
             </div>
         </div>
 
-        <div class="nav-section">
-            <div class="section-label">History</div>
-            <div class="nav-item">Neural Logistics Scan</div>
-            <div class="nav-item">Caribbean Market Signals</div>
+        <!-- CHATS SECTION (SUPABASE BACKED) -->
+        <div class="nav-section flex-grow">
+            <div class="section-header">
+                <div class="section-label">Recent Chats</div>
+            </div>
+            <div id="chat-list" class="scrollable-nav space-y-1">
+                <div class="nav-item active">Sovereign Protocol 1.8</div>
+                <div class="nav-item">Maritime Logistics Audit</div>
+                <div class="nav-item">Mustard Tree Analytics</div>
+            </div>
         </div>
 
         <div class="user-profile">
-            <div class="w-8 h-8 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-xs font-bold">P</div>
+            <div class="w-10 h-10 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-bold shadow-lg">P</div>
             <div class="flex-grow">
-                <div class="text-sm font-semibold">Prisca</div>
-                <div class="text-[10px] text-slate-400">Abraham Standard Tier</div>
+                <div class="text-sm font-bold">Prisca</div>
+                <div class="text-[10px] font-bold text-blue-500 uppercase tracking-wider">Abraham Standard</div>
             </div>
         </div>
     </aside>
 
-    <!-- Main Chat Space (The Blue Room) -->
     <main class="main-container">
         <div id="chat-history" class="chat-history">
-            <!-- Initial Greeting -->
             <div class="message-bubble">
-                <h1 class="text-3xl font-extrabold mb-4 tracking-tight">How can Orcinos help you today?</h1>
-                <p class="text-slate-500">Welcome to your Sovereign AI Workspace. All systems are online and synced with the Orca Protocol.</p>
+                <h1 class="text-4xl font-black mb-4 tracking-tighter text-slate-900">Sovereign Intelligence.</h1>
+                <p class="text-slate-500 text-lg leading-relaxed">System Orcinos is online. Your neural connectors are synced with Supabase. Initiate high-fidelity command.</p>
                 
-                <!-- Swipe Actions inside Bubble -->
-                <div class="flex gap-4 mt-8 overflow-x-auto pb-2 scrollbar-hide">
-                    <div class="min-w-[200px] p-4 border border-blue-100 rounded-2xl bg-blue-50/50">
-                        <div class="text-[10px] font-bold text-blue-500 uppercase">Intelligence</div>
-                        <div class="font-bold">Regional News</div>
+                <div class="flex gap-4 mt-10 overflow-x-auto pb-4">
+                    <div class="min-w-[220px] p-6 border border-blue-50 rounded-3xl bg-blue-50/40 hover:bg-white hover:shadow-xl transition-all cursor-pointer">
+                        <div class="text-[10px] font-black text-blue-500 uppercase mb-2">Connectors</div>
+                        <div class="font-bold text-slate-800">Add Custom MCP Server</div>
                     </div>
-                    <div class="min-w-[200px] p-4 border border-blue-100 rounded-2xl bg-blue-50/50">
-                        <div class="text-[10px] font-bold text-blue-500 uppercase">Automation</div>
-                        <div class="font-bold">WhatsApp Send</div>
+                    <div class="min-w-[220px] p-6 border border-blue-50 rounded-3xl bg-blue-50/40 hover:bg-white hover:shadow-xl transition-all cursor-pointer">
+                        <div class="text-[10px] font-black text-blue-500 uppercase mb-2">Vault</div>
+                        <div class="font-bold text-slate-800">Browse Google Drive</div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Input Section -->
         <div class="input-wrapper">
             <div class="chat-input-area">
-                <textarea id="main-input" placeholder="Initiate sovereign command..." oninput="updateSendBtn()"></textarea>
+                <textarea id="main-input" placeholder="Ask anything..." oninput="updateSendBtn()"></textarea>
                 <div class="action-bar">
-                    <div class="flex gap-1">
-                        <button class="btn-circle" title="Attach Files">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"></path></svg>
-                        </button>
-                        <button class="btn-circle" title="Voice Input">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"></path></svg>
-                        </button>
+                    <div class="flex gap-2">
+                        <button class="btn-circle"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"></path></svg></button>
+                        <button class="btn-circle"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"></path></svg></button>
                     </div>
                     <button id="main-send" class="send-btn" onclick="handleSend()">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2.5" d="M5 12h14M12 5l7 7-7 7"></path></svg>
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="3" d="M5 12h14M12 5l7 7-7 7"></path></svg>
                     </button>
                 </div>
             </div>
         </div>
     </main>
 
-    <!-- Connectors Modal -->
+    <!-- 100+ CONNECTOR & MCP HUB -->
     <div id="connector-modal" class="modal">
         <div class="modal-content">
-            <h2 class="text-xl font-bold mb-2">Neural Connectors</h2>
-            <p class="text-slate-500 text-sm mb-6">Link your external neural nodes to Orcinos.</p>
-            <div class="space-y-2">
-                <button class="w-full p-4 text-left border rounded-xl hover:bg-slate-50 flex items-center gap-3">
-                    <div class="w-8 h-8 bg-slate-100 rounded flex items-center justify-center">O</div>
-                    <div><div class="font-bold">Outlook</div><div class="text-[10px] text-slate-400">Microsoft 365 Sync</div></div>
-                </button>
-                <button class="w-full p-4 text-left border rounded-xl hover:bg-slate-50 flex items-center gap-3">
-                    <div class="w-8 h-8 bg-slate-100 rounded flex items-center justify-center">S</div>
-                    <div><div class="font-bold">Slack</div><div class="text-[10px] text-slate-400">Workspace Integration</div></div>
-                </button>
-                <button class="w-full p-4 text-left border rounded-xl hover:bg-slate-50 flex items-center gap-3">
-                    <div class="w-8 h-8 bg-slate-100 rounded flex items-center justify-center">N</div>
-                    <div><div class="font-bold">Notion</div><div class="text-[10px] text-slate-400">KB & Wiki Sync</div></div>
+            <div class="flex justify-between items-start mb-8">
+                <div>
+                    <h2 class="text-3xl font-black tracking-tight">Neural Hub</h2>
+                    <p class="text-slate-500 font-medium">Connect to 100+ platforms or add custom MCPs.</p>
+                </div>
+                <button class="text-slate-300 hover:text-slate-900" onclick="closeModal()">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                 </button>
             </div>
-            <button class="mt-8 w-full py-3 text-slate-500 font-bold text-sm" onclick="closeModal()">Close</button>
+            
+            <div id="hub-grid" class="connector-grid">
+                <!-- Dynamically populated 100 connectors -->
+            </div>
+
+            <div class="mt-8 p-6 bg-blue-50 rounded-2xl flex items-center justify-between border border-blue-100">
+                <div>
+                    <div class="font-bold text-blue-900">Custom MCP Server</div>
+                    <div class="text-xs text-blue-700">Add your own Model Context Protocol endpoint</div>
+                </div>
+                <button class="bg-blue-600 text-white px-6 py-2 rounded-xl font-bold text-sm shadow-lg">Add Custom</button>
+            </div>
         </div>
     </div>
 
     <script>
+        const connectors = ["Google Drive", "WhatsApp", "Outlook", "Slack", "Notion", "GitHub", "Airtable", "Supabase", "Salesforce", "HubSpot", "Trello", "Asana", "Jira", "Discord", "Telegram", "Spotify", "Shopify", "Stripe", "Zoom", "Google Calendar", "Dropbox", "OneDrive", "Box", "Zendesk", "Mailchimp", "Postmark", "Twilio", "Intercom", "Figma", "Adobe CC", "Canva", "Ghost", "WordPress", "Webflow", "Netlify", "Vercel", "Render", "DigitalOcean", "AWS", "Google Cloud", "Azure", "Cloudflare", "MongoDB", "PostgreSQL", "Redis", "ElasticSearch", "Linear", "ClickUp", "Monday.com", "Basecamp", "ZoomInfo", "Clearbit", "Apollo", "LinkedIn", "Twitter/X", "Instagram", "Facebook", "TikTok", "YouTube", "Reddit", "Quora", "Medium", "Substack", "Beehiiv", "Google Search", "Brave Search", "Wikipedia", "ArXiv", "PubMed", "HuggingFace", "Replicate", "Pinecone", "Milvus", "Weaviate", "LangChain", "OpenAI", "Anthropic", "Mistral", "Groq", "Together AI", "DeepSeek", "ElevenLabs", "Runway", "Midjourney", "Pexels", "Unsplash", "Shutterstock", "Zapier", "Make.com", "n8n", "Pipedream", "Calendly", "Typeform", "JotForm", "DocuSign", "HelloSign", "Pandadoc", "QuickBooks", "Xero", "FreshBooks"];
+
+        function populateHub() {
+            const grid = document.getElementById('hub-grid');
+            connectors.forEach(name => {
+                const card = document.createElement('div');
+                card.className = 'connector-card';
+                card.innerHTML = `<div class="font-bold text-slate-800">${name}</div><div class="text-[10px] text-slate-400 mt-1">Connect Node</div>`;
+                grid.appendChild(card);
+            });
+        }
+
         function updateSendBtn() {
             const input = document.getElementById('main-input');
             const btn = document.getElementById('main-send');
@@ -335,11 +370,10 @@
         function handleSend() {
             const input = document.getElementById('main-input');
             if (input.value.trim().length === 0) return;
-            
             const history = document.getElementById('chat-history');
             const bubble = document.createElement('div');
             bubble.className = 'message-bubble';
-            bubble.innerHTML = `<div class="text-[10px] font-bold text-blue-500 uppercase mb-2">User Command</div><div>${input.value}</div>`;
+            bubble.innerHTML = `<div class="text-[10px] font-black text-blue-500 uppercase mb-2">User Command</div><div class="text-lg text-slate-800">${input.value}</div>`;
             history.appendChild(bubble);
             input.value = '';
             updateSendBtn();
@@ -348,6 +382,13 @@
 
         function openModal() { document.getElementById('connector-modal').style.display = 'flex'; }
         function closeModal() { document.getElementById('connector-modal').style.display = 'none'; }
+        
+        function createNewChat() {
+            const history = document.getElementById('chat-history');
+            history.innerHTML = '<div class="message-bubble"><h1 class="text-4xl font-black mb-4 tracking-tighter text-slate-900">New Session Started.</h1><p class="text-slate-500 text-lg leading-relaxed">Initializing clean Orca Protocol environment...</p></div>';
+        }
+
+        populateHub();
     </script>
 </body>
 </html>
