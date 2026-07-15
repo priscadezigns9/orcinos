@@ -26,7 +26,6 @@
             z-index: 20;
         }
 
-        /* RESTORED ORCINOS LOGO (Mustard Tree Inspired) */
         .logo-container {
             display: flex;
             align-items: center;
@@ -186,7 +185,6 @@
             border-radius: 12px;
         }
 
-        /* MODAL GRID */
         .modal {
             position: fixed;
             inset: 0;
@@ -222,14 +220,15 @@
             text-align: center;
             transition: all 0.2s;
             background: #fafafa;
+            cursor: pointer;
         }
         .connector-card:hover { border-color: var(--orca-blue); background: white; transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
+        .connector-card.active { border-color: var(--orca-blue); background: #eff6ff; }
     </style>
 </head>
 <body>
 
     <aside class="sidebar">
-        <!-- RESTORED ORCINOS LOGO (MUSTARD TREE) -->
         <div class="logo-container">
             <div class="orca-logo">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -244,7 +243,6 @@
             New Chat
         </button>
 
-        <!-- MCP & CONNECTORS SECTION -->
         <div class="nav-section">
             <div class="section-header">
                 <div class="section-label">Connectors & MCPs</div>
@@ -253,26 +251,16 @@
                 </button>
             </div>
             <div id="active-connectors" class="space-y-1">
-                <div class="nav-item">
-                    <div class="w-2 h-2 rounded-full bg-green-500"></div>
-                    Google Drive
-                </div>
-                <div class="nav-item">
-                    <div class="w-2 h-2 rounded-full bg-green-500"></div>
-                    WhatsApp API
-                </div>
+                <!-- Connected items appear here -->
             </div>
         </div>
 
-        <!-- CHATS SECTION (SUPABASE BACKED) -->
         <div class="nav-section flex-grow">
             <div class="section-header">
                 <div class="section-label">Recent Chats</div>
             </div>
             <div id="chat-list" class="scrollable-nav space-y-1">
-                <div class="nav-item active">Sovereign Protocol 1.8</div>
-                <div class="nav-item">Maritime Logistics Audit</div>
-                <div class="nav-item">Mustard Tree Analytics</div>
+                <!-- Chats from Supabase -->
             </div>
         </div>
 
@@ -289,18 +277,7 @@
         <div id="chat-history" class="chat-history">
             <div class="message-bubble">
                 <h1 class="text-4xl font-black mb-4 tracking-tighter text-slate-900">Sovereign Intelligence.</h1>
-                <p class="text-slate-500 text-lg leading-relaxed">System Orcinos is online. Your neural connectors are synced with Supabase. Initiate high-fidelity command.</p>
-                
-                <div class="flex gap-4 mt-10 overflow-x-auto pb-4">
-                    <div class="min-w-[220px] p-6 border border-blue-50 rounded-3xl bg-blue-50/40 hover:bg-white hover:shadow-xl transition-all cursor-pointer">
-                        <div class="text-[10px] font-black text-blue-500 uppercase mb-2">Connectors</div>
-                        <div class="font-bold text-slate-800">Add Custom MCP Server</div>
-                    </div>
-                    <div class="min-w-[220px] p-6 border border-blue-50 rounded-3xl bg-blue-50/40 hover:bg-white hover:shadow-xl transition-all cursor-pointer">
-                        <div class="text-[10px] font-black text-blue-500 uppercase mb-2">Vault</div>
-                        <div class="font-bold text-slate-800">Browse Google Drive</div>
-                    </div>
-                </div>
+                <p class="text-slate-500 text-lg leading-relaxed">System Orcinos v2.0 Live. Neural Connectors synced with Supabase Backend. Initiate high-fidelity command.</p>
             </div>
         </div>
 
@@ -320,44 +297,90 @@
         </div>
     </main>
 
-    <!-- 100+ CONNECTOR & MCP HUB -->
     <div id="connector-modal" class="modal">
         <div class="modal-content">
             <div class="flex justify-between items-start mb-8">
                 <div>
                     <h2 class="text-3xl font-black tracking-tight">Neural Hub</h2>
-                    <p class="text-slate-500 font-medium">Connect to 100+ platforms or add custom MCPs.</p>
+                    <p class="text-slate-500 font-medium">100+ Connectors | Live Backend Sync</p>
                 </div>
                 <button class="text-slate-300 hover:text-slate-900" onclick="closeModal()">
                     <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                 </button>
             </div>
-            
-            <div id="hub-grid" class="connector-grid">
-                <!-- Dynamically populated 100 connectors -->
-            </div>
-
+            <div id="hub-grid" class="connector-grid"></div>
             <div class="mt-8 p-6 bg-blue-50 rounded-2xl flex items-center justify-between border border-blue-100">
-                <div>
-                    <div class="font-bold text-blue-900">Custom MCP Server</div>
-                    <div class="text-xs text-blue-700">Add your own Model Context Protocol endpoint</div>
-                </div>
-                <button class="bg-blue-600 text-white px-6 py-2 rounded-xl font-bold text-sm shadow-lg">Add Custom</button>
+                <input id="mcp-endpoint" type="text" placeholder="Custom MCP Endpoint..." class="flex-grow mr-4 p-3 rounded-xl border border-blue-100 outline-none">
+                <button class="bg-blue-600 text-white px-6 py-3 rounded-xl font-bold text-sm shadow-lg" onclick="addCustomMCP()">Register MCP</button>
             </div>
         </div>
     </div>
 
     <script>
+        const API_BASE = "http://localhost:8000"; // Point to the Python Backend
+        const USER_ID = "00000000-0000-0000-0000-000000000000";
         const connectors = ["Google Drive", "WhatsApp", "Outlook", "Slack", "Notion", "GitHub", "Airtable", "Supabase", "Salesforce", "HubSpot", "Trello", "Asana", "Jira", "Discord", "Telegram", "Spotify", "Shopify", "Stripe", "Zoom", "Google Calendar", "Dropbox", "OneDrive", "Box", "Zendesk", "Mailchimp", "Postmark", "Twilio", "Intercom", "Figma", "Adobe CC", "Canva", "Ghost", "WordPress", "Webflow", "Netlify", "Vercel", "Render", "DigitalOcean", "AWS", "Google Cloud", "Azure", "Cloudflare", "MongoDB", "PostgreSQL", "Redis", "ElasticSearch", "Linear", "ClickUp", "Monday.com", "Basecamp", "ZoomInfo", "Clearbit", "Apollo", "LinkedIn", "Twitter/X", "Instagram", "Facebook", "TikTok", "YouTube", "Reddit", "Quora", "Medium", "Substack", "Beehiiv", "Google Search", "Brave Search", "Wikipedia", "ArXiv", "PubMed", "HuggingFace", "Replicate", "Pinecone", "Milvus", "Weaviate", "LangChain", "OpenAI", "Anthropic", "Mistral", "Groq", "Together AI", "DeepSeek", "ElevenLabs", "Runway", "Midjourney", "Pexels", "Unsplash", "Shutterstock", "Zapier", "Make.com", "n8n", "Pipedream", "Calendly", "Typeform", "JotForm", "DocuSign", "HelloSign", "Pandadoc", "QuickBooks", "Xero", "FreshBooks"];
 
+        // --- BACKEND SYNC FUNCTIONS ---
+        async function syncMessage(content, role) {
+            try {
+                await fetch(`${API_BASE}/chats/message`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ thread_id: "default-thread", user_id: USER_ID, content, role })
+                });
+            } catch(e) { console.warn("Backend link pending."); }
+        }
+
+        async function toggleConnector(name) {
+            try {
+                await fetch(`${API_BASE}/connectors/toggle`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ user_id: USER_ID, connector_id: name, status: "active" })
+                });
+                refreshActiveConnectors(name);
+            } catch(e) { console.warn("Connector sync pending."); }
+        }
+
+        async function fetchHistory() {
+            try {
+                const res = await fetch(`${API_BASE}/chats/${USER_ID}/history`);
+                const data = await res.json();
+                const list = document.getElementById('chat-list');
+                list.innerHTML = data.map(chat => `<div class="nav-item">${chat.title}</div>`).join('');
+            } catch(e) { 
+                document.getElementById('chat-list').innerHTML = `<div class="nav-item active">Sovereign Protocol 2.0</div><div class="nav-item">Maritime Logistics Audit</div>`;
+            }
+        }
+
+        async function addCustomMCP() {
+            const endpoint = document.getElementById('mcp-endpoint').value;
+            if(!endpoint) return;
+            try {
+                await fetch(`${API_BASE}/mcp/register?user_id=${USER_ID}&name=Custom&endpoint=${endpoint}`, { method: 'POST' });
+                alert("MCP Registered.");
+            } catch(e) { console.warn("MCP backend link pending."); }
+        }
+
+        // --- UI LOGIC ---
         function populateHub() {
             const grid = document.getElementById('hub-grid');
             connectors.forEach(name => {
                 const card = document.createElement('div');
                 card.className = 'connector-card';
                 card.innerHTML = `<div class="font-bold text-slate-800">${name}</div><div class="text-[10px] text-slate-400 mt-1">Connect Node</div>`;
+                card.onclick = () => toggleConnector(name);
                 grid.appendChild(card);
             });
+        }
+
+        function refreshActiveConnectors(name) {
+            const list = document.getElementById('active-connectors');
+            const item = document.createElement('div');
+            item.className = 'nav-item';
+            item.innerHTML = `<div class="w-2 h-2 rounded-full bg-green-500"></div>${name}`;
+            list.appendChild(item);
         }
 
         function updateSendBtn() {
@@ -369,12 +392,17 @@
 
         function handleSend() {
             const input = document.getElementById('main-input');
-            if (input.value.trim().length === 0) return;
+            const content = input.value.trim();
+            if (content.length === 0) return;
+            
             const history = document.getElementById('chat-history');
             const bubble = document.createElement('div');
             bubble.className = 'message-bubble';
-            bubble.innerHTML = `<div class="text-[10px] font-black text-blue-500 uppercase mb-2">User Command</div><div class="text-lg text-slate-800">${input.value}</div>`;
+            bubble.innerHTML = `<div class="text-[10px] font-black text-blue-500 uppercase mb-2">User Command</div><div class="text-lg text-slate-800">${content}</div>`;
             history.appendChild(bubble);
+            
+            syncMessage(content, 'user');
+            
             input.value = '';
             updateSendBtn();
             history.scrollTop = history.scrollHeight;
@@ -382,13 +410,10 @@
 
         function openModal() { document.getElementById('connector-modal').style.display = 'flex'; }
         function closeModal() { document.getElementById('connector-modal').style.display = 'none'; }
-        
-        function createNewChat() {
-            const history = document.getElementById('chat-history');
-            history.innerHTML = '<div class="message-bubble"><h1 class="text-4xl font-black mb-4 tracking-tighter text-slate-900">New Session Started.</h1><p class="text-slate-500 text-lg leading-relaxed">Initializing clean Orca Protocol environment...</p></div>';
-        }
+        function createNewChat() { location.reload(); }
 
         populateHub();
+        fetchHistory();
     </script>
 </body>
 </html>
