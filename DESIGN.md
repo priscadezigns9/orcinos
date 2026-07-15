@@ -1,20 +1,25 @@
-# ORCINOS DESIGN DNA - PHASE 1.1 (ORCA REFRESH)
+# ORCINOS DESIGN DNA - PHASE 1.2 (THE MARINE PROTOCOL)
 
-## 🎨 BRAND IDENTITY (THE ORCA STANDARD)
-Orcinos is moving away from the agency purple and adopting its true biological identity: **The Orca Whale.**
+## 🐳 BRAND IDENTITY: THE APEX PREDATOR
+Orcinos is a public-facing sovereign AI platform. It is an independent entity, built for the people.
 
-- **Primary:** #FFFFFF (Pure White - The Light/The Surface)
-- **Secondary:** #000000 (Void Black - The Deep/Intelligence)
-- **Accent:** #1E3A8A (Orca Deep Blue - Precision/Flow)
-- **Surface:** #F8FAFC (Glass Frost)
+- **Brand Name:** ORCINOS (derived from *Orcinus orca*)
+- **Primary Color:** #1E3A8A (Orca Blue - Precision/Depth)
+- **Secondary:** #050505 (Void Black)
+- **Surface:** #FFFFFF (Pure White)
 
-## 🐳 VISUAL LANGUAGE
-- **Architecture:** "The Apex Predator of Data." Sleek, powerful, and silent.
-- **Logo:** `tiny_logos/orcinos_icon.png` is the central node.
-- **Aesthetic:** High-contrast Monochrome with Deep Blue accents. 
-- **Philosophy:** Intelligence that surfaces from the deep to provide strategic clarity.
+## 🧬 VERSIONING: THE MARINE SCALE
+We do not use version numbers. We use the hierarchy of the sea.
+1. **ORCA (Current):** The Apex Intelligence (Public Launch)
+2. **KRAKEN:** The Deep Search / Multi-Agent Layer (Future)
+3. **LEVIATHAN:** The Sovereign Infrastructure Layer (Future)
 
-## 🛠️ UI COMPONENTS
-- **Panels:** White glass with subtle blue shadows.
-- **Typography:** Bold, high-contrast black on white.
-- **Motion:** Fluid, aquatic transitions.
+## ✨ UI/UX: GLASSMORPHISM & MINIMALISM
+- **Icons:** Glassmorphic, minimalist, high-fidelity. High transparency with soft blur.
+- **Tone:** Collective, professional, and accessible. No personal references.
+- **Logo Integration:** The word "ORCINOS" must match the #1E3A8A Blue.
+
+## 👥 USER MODEL
+- **Identity:** The User (Universal).
+- **Access:** Open Sign-up / Google OAuth.
+- **Experience:** Personalized but structured as a global service like OpenAI or Claude.
