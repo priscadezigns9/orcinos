@@ -11,30 +11,24 @@
             --orca-blue: #2563eb; 
             --orca-purple: #7c3aed;
             --sidebar-bg: #f9fafb;
-            --chat-space-bg: #1e3a8a;
-            --orca-gradient: linear-gradient(135deg, var(--orca-blue) 0%, var(--orca-purple) 100%);
+            --orca-gradient: linear-gradient(135deg, #2563eb, #7c3aed);
         }
-        body { background: white; color: #111827; font-family: 'Inter', sans-serif; height: 100vh; display: flex; overflow: hidden; }
         
+        * { box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { margin: 0; background: #fff; display: flex; height: 100vh; overflow: hidden; color: #111827; }
+
+        /* SIDEBAR */
         .sidebar {
             width: 280px;
             background: var(--sidebar-bg);
             border-right: 1px solid #e5e7eb;
             display: flex;
             flex-direction: column;
-            padding: 16px;
+            padding: 24px 12px;
             flex-shrink: 0;
-            z-index: 20;
         }
 
-        .logo-container {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 32px;
-            padding: 8px;
-        }
-
+        .logo-container { padding: 0 12px 32px; }
         .orca-brand-icon {
             width: 100%;
             height: auto;
@@ -47,12 +41,7 @@
             align-items: center;
             justify-content: center;
         }
-
-        .orca-brand-icon img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-        }
+        .orca-brand-icon img { width: 100%; height: 100%; object-fit: contain; }
 
         .nav-item {
             display: flex;
@@ -61,23 +50,15 @@
             padding: 12px;
             border-radius: 12px;
             color: #4b5563;
-            font-size: 14px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
+            font-size: 14px;
         }
+        .nav-item:hover { background: #f3f4f6; color: #111827; }
+        .nav-item.active { background: white; color: var(--orca-blue); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
 
-        .nav-item:hover {
-            background: #f3f4f6;
-            color: #111827;
-        }
-
-        .nav-item.active {
-            background: white;
-            color: var(--orca-blue);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-        }
-
+        /* CHAT SPACE */
         .chat-space {
             flex-grow: 1;
             display: flex;
@@ -98,59 +79,47 @@
             width: 100%;
         }
 
+        /* TINDER SWIPE CAROUSEL */
         .card-grid {
             display: flex;
             overflow-x: auto;
             scroll-snap-type: x mandatory;
-            gap: 16px;
+            gap: 24px;
             width: 100%;
-            margin-top: 24px;
-            padding: 20px 0;
-            flex-wrap: nowrap; /* Force single row for swipe */
-            display: flex;
-            overflow-x: auto;
-            scroll-snap-type: x mandatory;
-            gap: 16px;
-            width: 100%;
-            margin-top: 24px;
-            padding-bottom: 12px;
-            scrollbar-width: none; /* Firefox */
+            margin: 40px 0;
+            padding: 20px;
+            flex-wrap: nowrap;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
         }
-
-        .card-grid::-webkit-scrollbar {
-            display: none; /* Chrome/Safari */
-        }
+        .card-grid::-webkit-scrollbar { display: none; }
 
         .welcome-card {
-            flex: 0 0 280px;
+            flex: 0 0 320px;
+            height: 420px;
             scroll-snap-align: center;
             background: white;
             border: 1px solid #e5e7eb;
-            border-radius: 24px;
-            padding: 32px;
+            border-radius: 32px;
+            padding: 40px;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: center;
             text-align: center;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08);
+            user-select: none;
         }
+        .welcome-card:hover { transform: scale(1.02); border-color: var(--orca-blue); }
 
-        .welcome-card:hover {
-            border-color: var(--orca-blue);
-            box-shadow: 0 20px 40px -10px rgba(37, 99, 235, 0.15);
-            transform: scale(1.02);
-        }
+        .message-bubble { max-width: 80%; padding: 16px 24px; border-radius: 20px; line-height: 1.6; }
+        .message-bubble.self-end { background: #f3f4f6; align-self: flex-end; border-bottom-right-radius: 4px; }
+        .message-bubble.ai { background: var(--orca-blue); color: white; align-self: flex-start; border-bottom-left-radius: 4px; box-shadow: 0 10px 20px rgba(37, 99, 235, 0.2); }
 
-        .input-area {
-            padding: 24px 40px 40px;
-            background: white;
-            max-width: 1000px;
-            margin: 0 auto;
-            width: 100%;
-        }
-
+        /* INPUT AREA */
+        .input-area { padding: 24px 40px 40px; background: white; max-width: 1000px; margin: 0 auto; width: 100%; }
         .input-wrapper {
             position: relative;
             display: flex;
@@ -161,65 +130,39 @@
             border: 2px solid transparent;
             transition: all 0.2s;
         }
+        .input-wrapper:focus-within { background: white; border-color: var(--orca-blue); box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1); }
+        .input-wrapper input { flex-grow: 1; background: transparent; border: none; outline: none; padding: 12px; font-size: 16px; color: #111827; }
 
-        .input-wrapper:focus-within {
-            background: white;
-            border-color: var(--orca-blue);
-            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
-        }
-
-        .input-wrapper input {
-            flex-grow: 1;
-            background: transparent;
-            border: none;
-            outline: none;
-            padding: 12px;
-            font-size: 16px;
-            color: #111827;
-        }
-
-        .message-bubble {
-            max-width: 80%;
-            padding: 16px 24px;
-            border-radius: 24px;
-            font-size: 16px;
-            line-height: 1.6;
-        }
-
-        .message-bubble.self-end {
-            background: var(--orca-blue);
-            color: white;
-            align-self: flex-end;
-            border-bottom-right-radius: 4px;
-        }
-
+        /* MODALS */
         .modal-overlay {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.5);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 100;
+            background: rgba(0,0,0,0.4);
             backdrop-filter: blur(8px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
         }
-
         .modal-content {
             background: white;
-            width: 90%;
+            width: 100%;
             max-width: 800px;
             border-radius: 32px;
             overflow: hidden;
-            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.2);
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
         }
-
         .connector-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
             gap: 20px;
             padding: 40px;
+            overflow-y: auto;
         }
-
         .connector-card {
             background: #f9fafb;
             border-radius: 24px;
@@ -229,27 +172,8 @@
             transition: all 0.2s;
             border: 2px solid transparent;
         }
-
-        .connector-card:hover {
-            background: white;
-            border-color: var(--orca-blue);
-            transform: scale(1.05);
-        }
-
-        .btn-plus {
-            width: 32px;
-            height: 32px;
-            background: var(--orca-blue);
-            color: white;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-
-        .btn-plus:hover { transform: scale(1.1); }
+        .connector-card:hover { background: white; border-color: var(--orca-blue); transform: translateY(-4px); }
+        .connector-card.active { border-color: #10b981; background: #ecfdf5; }
     </style>
 </head>
 <body>
@@ -262,32 +186,27 @@
 
         <div class="nav-item active" onclick="createNewChat()">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
-            Chat
+            Sovereign Chat
+        </div>
+        
+        <div class="nav-item" onclick="openModal()">
+            <svg class="w-5 h-5 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+            Connectors
+        </div>
+
+        <div class="mt-8 text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4 px-3">Identity Layer</div>
+        <div class="nav-item" onclick="alert('Login System Initialized')">
+            <svg class="w-5 h-5 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+            Sovereign Login
+        </div>
+        <div class="nav-item" onclick="alert('Registration System Initialized')">
+            <svg class="w-5 h-5 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/></svg>
+            Create Identity
         </div>
 
         <div class="mt-8 text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4 px-3">Recent Intelligence</div>
         <div id="chat-history-list" class="space-y-1">
             <div class="px-3 py-2 text-xs text-slate-400 italic">No recent sessions</div>
-        </div>
-
-        <div class="mt-8 text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4 px-3">Protocol Store</div>
-        <div class="nav-item">
-            <svg class="w-5 h-5 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
-            Template Shop
-        </div>
-        <div class="nav-item">
-            <svg class="w-5 h-5 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
-            Skill Marketplace
-        </div>
-
-        <div class="mt-auto">
-            <div class="flex items-center justify-between mb-4 px-3">
-                <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Connectors</span>
-                <div class="btn-plus" onclick="openModal()">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/></svg>
-                </div>
-            </div>
-            <div id="active-connectors" class="space-y-1"></div>
         </div>
     </div>
 
@@ -308,7 +227,7 @@
         </div>
     </div>
 
-    <!-- MODAL -->
+    <!-- CONNECTOR MODAL -->
     <div class="modal-overlay" id="connector-modal">
         <div class="modal-content">
             <div class="p-8 border-b flex justify-between items-center">
@@ -326,7 +245,7 @@
 
     <script>
         const hubTiles = [
-            { id: 'commenting', icon: '💬', title: 'Commenting on Strucker', desc: 'Sovereign engagement node' },
+            { id: 'comment', icon: '💬', title: 'Commenting on Strucker', desc: 'Social engagement node' },
             { id: 'antivirus', icon: '🛡️', title: 'Antivirus', desc: 'System security audit' },
             { id: 'legal', icon: '⚖️', title: 'Legal', desc: 'Regional legal intelligence' },
             { id: 'meals', icon: '🍲', title: 'Weekly Meal Planner', desc: 'Authentic Caribbean recipes' },
@@ -336,7 +255,7 @@
             { id: 'teach', icon: '🧠', title: 'Teach me something new', desc: 'Skill acquisition hub' },
             { id: 'news', icon: '📰', title: 'What\'s the news today?', desc: 'Global & regional intel' },
             { id: 'contacts', icon: '👥', title: 'Call the people who matter', desc: 'Connection manager' },
-            { id: 'replies', icon: '📩', title: 'Pending Replies', desc: 'Communication layer sync' },
+            { id: 'replies', icon: '📩', title: 'Pending Replies', desc: 'WhatsApp & communication' },
             { id: 'emails', icon: '📧', title: 'Read my emails', desc: 'Sovereign inbox sync' },
             { id: 'assistant', icon: '🤖', title: 'Personal Assistant', desc: 'Task & schedule automation' },
             { id: 'therapy', icon: '🧘', title: 'Therapy', desc: 'Mental wellness sanctuary' }
@@ -346,58 +265,20 @@
             const welcomeGrid = document.getElementById('welcome-grid');
             welcomeGrid.innerHTML = hubTiles.map(tile => `
                 <div class="welcome-card" onclick="setCommand('${tile.title}')">
-                    <div class="text-5xl mb-6">${tile.icon}</div>
-                    <div class="font-extrabold text-xl mb-2 text-slate-900">${tile.title}</div>
-                    <p class="text-slate-500 text-sm leading-relaxed">${tile.desc}</p>
-                </div>
-            `).join('');
-
-            const baseConnectors = [
-                { id: 'whatsapp', name: 'WhatsApp', icon: 'https://cdn-icons-png.flaticon.com/512/124/124034.png' },
-                { id: 'gmail', name: 'Gmail', icon: 'https://cdn-icons-png.flaticon.com/512/5968/5968534.png' },
-                { id: 'supabase', name: 'Supabase', icon: 'https://raw.githubusercontent.com/supabase/supabase/master/packages/common/assets/images/supabase-logo.png' },
-                { id: 'outlook', name: 'Outlook', icon: 'https://cdn-icons-png.flaticon.com/512/732/732200.png' },
-                { id: 'slack', name: 'Slack', icon: 'https://cdn-icons-png.flaticon.com/512/3800/3800024.png' },
-                { id: 'drive', name: 'Google Drive', icon: 'https://cdn-icons-png.flaticon.com/512/2991/2991148.png' },
-                { id: 'stripe', name: 'Stripe', icon: 'https://cdn-icons-png.flaticon.com/512/5968/5968382.png' },
-                { id: 'github', name: 'GitHub', icon: 'https://cdn-icons-png.flaticon.com/512/25/25231.png' },
-                { id: 'notion', name: 'Notion', icon: 'https://cdn-icons-png.flaticon.com/512/5968/5968914.png' },
-                { id: 'trello', name: 'Trello', icon: 'https://cdn-icons-png.flaticon.com/512/2111/2111656.png' },
-                { id: 'discord', name: 'Discord', icon: 'https://cdn-icons-png.flaticon.com/512/3670/3670157.png' },
-                { id: 'zoom', name: 'Zoom', icon: 'https://cdn-icons-png.flaticon.com/512/4406/4406234.png' }
-            ];
-
-            const connectors = [...baseConnectors];
-            for (let i = connectors.length + 1; i <= 100; i++) {
-                connectors.push({
-                    id: `node-${i}`,
-                    name: `Node ${i}`,
-                    icon: 'https://cdn-icons-png.flaticon.com/512/2083/2083626.png'
-                });
-            }
-
-            const grid = document.getElementById('hub-grid');
-            grid.innerHTML = connectors.map(conn => `
-                <div class="connector-card" onclick="toggleConnector('${conn.id}')">
-                    <img src="${conn.icon}" class="w-12 h-12 mb-4 object-contain" alt="${conn.name}">
-                    <div class="font-bold text-slate-900">${conn.name}</div>
-                    <div class="text-xs text-slate-400 mt-1 uppercase font-black">Disconnect</div>
+                    <div class="text-6xl mb-8">${tile.icon}</div>
+                    <div class="font-extrabold text-2xl mb-4 text-slate-900">${tile.title}</div>
+                    <p class="text-slate-500 text-base leading-relaxed">${tile.desc}</p>
                 </div>
             `).join('');
         }
 
-        function setCommand(text) {
-            document.getElementById('main-input').value = text;
-        }
-
-        
         async function syncToSupabase(message) {
             console.log('Syncing to Supabase:', message);
             try {
-                const response = await fetch('http://localhost:8000/chat', {
+                const response = await fetch('http://localhost:8000/chats/message', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ message: message })
+                    body: JSON.stringify({ thread_id: "main", user_id: "prisca", content: message, role: "user" })
                 });
                 return await response.json();
             } catch (e) {
@@ -408,8 +289,9 @@
         async function handleSend() {
             const input = document.getElementById('main-input');
             const text = input.value.trim();
-            syncToSupabase(text);
             if (!text) return;
+            
+            syncToSupabase(text);
 
             const grid = document.getElementById('welcome-grid');
             if (grid) grid.remove();
@@ -424,25 +306,36 @@
             history.scrollTop = history.scrollHeight;
         }
 
-        function toggleConnector(id) {
-            const list = document.getElementById('active-connectors');
-            const existing = document.getElementById(`active-${id}`);
-            if (existing) {
-                existing.remove();
-            } else {
-                const item = document.createElement('div');
-                item.id = `active-${id}`;
-                item.className = 'nav-item text-xs py-2';
-                item.innerHTML = `<div class="w-2 h-2 rounded-full bg-green-500"></div><span>${id.toUpperCase()} Active</span>`;
-                list.appendChild(item);
+        const baseConnectors = [
+            { id: 'whatsapp', name: 'WhatsApp', icon: 'https://cdn-icons-png.flaticon.com/512/124/124034.png' },
+            { id: 'gmail', name: 'Gmail', icon: 'https://cdn-icons-png.flaticon.com/512/5968/5968534.png' },
+            { id: 'supabase', name: 'Supabase', icon: 'https://raw.githubusercontent.com/supabase/supabase/master/packages/common/assets/images/supabase-logo.png' },
+            { id: 'outlook', name: 'Outlook', icon: 'https://cdn-icons-png.flaticon.com/512/732/732200.png' },
+            { id: 'slack', name: 'Slack', icon: 'https://cdn-icons-png.flaticon.com/512/3800/3800024.png' },
+            { id: 'drive', name: 'Google Drive', icon: 'https://cdn-icons-png.flaticon.com/512/2991/2991148.png' },
+            { id: 'stripe', name: 'Stripe', icon: 'https://cdn-icons-png.flaticon.com/512/5968/5968382.png' },
+            { id: 'github', name: 'GitHub', icon: 'https://cdn-icons-png.flaticon.com/512/25/25231.png' }
+        ];
+
+        function openModal() {
+            const grid = document.getElementById('hub-grid');
+            const connectors = [...baseConnectors];
+            for (let i = connectors.length + 1; i <= 100; i++) {
+                connectors.push({ id: `node-${i}`, name: `Node ${i}`, icon: 'https://cdn-icons-png.flaticon.com/512/2083/2083626.png' });
             }
-            closeModal();
+            grid.innerHTML = connectors.map(conn => `
+                <div class="connector-card">
+                    <img src="${conn.icon}" class="w-12 h-12 mb-4 mx-auto object-contain">
+                    <div class="font-bold text-slate-900">${conn.name}</div>
+                </div>
+            `).join('');
+            document.getElementById('connector-modal').style.display = 'flex';
         }
 
-        function openModal() { document.getElementById('connector-modal').style.display = 'flex'; }
         function closeModal() { document.getElementById('connector-modal').style.display = 'none'; }
-
+        function setCommand(text) { document.getElementById('main-input').value = text; }
         function createNewChat() { location.reload(); }
+        
         populateHub();
     </script>
 </body>
