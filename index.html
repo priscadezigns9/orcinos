@@ -3,15 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ORCINOS | Sovereign Intelligence</title>
+    <title>ORCINOS | Your Caribbean AI Assistant</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root { 
-            --orca-blue: #2563eb; 
-            --orca-purple: #7c3aed;
+            --accent-purple: #301934; 
+            --accent-lilac: #C8A2C8;
             --sidebar-bg: #f9fafb;
-            --orca-gradient: linear-gradient(135deg, #2563eb, #7c3aed);
         }
         
         * { box-sizing: border-box; font-family: 'Inter', sans-serif; }
@@ -24,31 +23,37 @@
             border-right: 1px solid #e5e7eb;
             display: flex;
             flex-direction: column;
-            padding: 24px 12px;
+            padding: 20px 12px;
             flex-shrink: 0;
         }
 
-        .logo-container { padding: 0 12px 32px; }
-        .orca-brand-icon {
+        .logo-container { padding: 0 12px 24px; }
+        .brand-logo {
             width: 100%;
-            height: auto;
-            max-height: 80px;
-            border-radius: 12px;
-            overflow: hidden;
+            max-height: 60px;
+            object-fit: contain;
             background: white;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            padding: 8px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
-        .orca-brand-icon img { width: 100%; height: 100%; object-fit: contain; }
+
+        .nav-group { margin-bottom: 24px; }
+        .nav-label { 
+            font-size: 10px; 
+            font-weight: 800; 
+            color: #9ca3af; 
+            text-transform: uppercase; 
+            letter-spacing: 0.1em;
+            padding: 0 12px 8px;
+        }
 
         .nav-item {
             display: flex;
             align-items: center;
             gap: 12px;
-            padding: 12px;
-            border-radius: 12px;
+            padding: 10px 12px;
+            border-radius: 10px;
             color: #4b5563;
             font-weight: 600;
             cursor: pointer;
@@ -56,17 +61,68 @@
             font-size: 14px;
         }
         .nav-item:hover { background: #f3f4f6; color: #111827; }
-        .nav-item.active { background: white; color: var(--orca-blue); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        .nav-item.active { background: white; color: var(--accent-purple); box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
 
-        /* CHAT SPACE */
-        .chat-space {
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            background: white;
+        /* PROFILE SECTION AT BOTTOM */
+        .profile-section {
+            margin-top: auto;
+            border-top: 1px solid #e5e7eb;
+            padding: 16px 12px 8px;
             position: relative;
         }
+        .profile-trigger {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .profile-trigger:hover { background: #f3f4f6; }
+        .avatar {
+            width: 32px;
+            height: 32px;
+            background: var(--accent-purple);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 12px;
+        }
 
+        .profile-menu {
+            position: absolute;
+            bottom: 100%;
+            left: 12px;
+            right: 12px;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 16px;
+            box-shadow: 0 -10px 30px rgba(0,0,0,0.1);
+            padding: 8px;
+            display: none;
+            z-index: 50;
+            margin-bottom: 8px;
+        }
+        .profile-menu.show { display: block; }
+        .menu-item {
+            padding: 10px 12px;
+            font-size: 13px;
+            font-weight: 500;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .menu-item:hover { background: #f9fafb; }
+
+        /* CHAT SPACE */
+        .chat-space { flex-grow: 1; display: flex; flex-direction: column; background: white; position: relative; }
+        
         .message-container {
             flex-grow: 1;
             overflow-y: auto;
@@ -79,264 +135,281 @@
             width: 100%;
         }
 
-        /* TINDER SWIPE CAROUSEL */
-        .card-grid {
-            display: flex;
-            overflow-x: auto;
-            scroll-snap-type: x mandatory;
-            gap: 24px;
+        /* SWIPEABLE CARD CONTAINER */
+        .swipe-container {
+            position: relative;
             width: 100%;
+            height: 450px;
             margin: 40px 0;
-            padding: 20px;
-            flex-wrap: nowrap;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            perspective: 1000px;
         }
-        .card-grid::-webkit-scrollbar { display: none; }
 
-        .welcome-card {
-            flex: 0 0 320px;
+        .swipe-card {
+            position: absolute;
+            width: 320px;
             height: 420px;
-            scroll-snap-align: center;
             background: white;
-            border: 1px solid #e5e7eb;
             border-radius: 32px;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.08);
             padding: 40px;
-            cursor: pointer;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             text-align: center;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08);
+            transition: transform 0.5s ease, opacity 0.5s ease;
+            cursor: grab;
             user-select: none;
         }
-        .welcome-card:hover { transform: scale(1.02); border-color: var(--orca-blue); }
 
-        .message-bubble { max-width: 80%; padding: 16px 24px; border-radius: 20px; line-height: 1.6; }
-        .message-bubble.self-end { background: #f3f4f6; align-self: flex-end; border-bottom-right-radius: 4px; }
-        .message-bubble.ai { background: var(--orca-blue); color: white; align-self: flex-start; border-bottom-left-radius: 4px; box-shadow: 0 10px 20px rgba(37, 99, 235, 0.2); }
+        /* CARD STACKING EFFECT */
+        .swipe-card:nth-last-child(1) { z-index: 3; transform: translateZ(0); }
+        .swipe-card:nth-last-child(2) { z-index: 2; transform: translateZ(-50px) translateY(10px) scale(0.95); opacity: 0.8; }
+        .swipe-card:nth-last-child(3) { z-index: 1; transform: translateZ(-100px) translateY(20px) scale(0.9); opacity: 0.5; }
+
+        /* MESSAGES */
+        .message-bubble { 
+            max-width: 80%; 
+            padding: 16px 20px; 
+            border-radius: 18px; 
+            line-height: 1.5; 
+            font-size: 15px;
+            position: relative;
+        }
+        .message-bubble.user { background: #f3f4f6; align-self: flex-end; border-bottom-right-radius: 4px; }
+        .message-bubble.ai { background: var(--accent-purple); color: white; align-self: flex-start; border-bottom-left-radius: 4px; }
+
+        .chat-actions {
+            position: absolute;
+            right: -40px;
+            top: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        .message-bubble:hover .chat-actions { opacity: 1; }
+        .action-btn { 
+            padding: 4px; 
+            border-radius: 6px; 
+            background: #fff; 
+            border: 1px solid #e5e7eb; 
+            color: #6b7280;
+            cursor: pointer;
+        }
+        .action-btn:hover { color: #ef4444; }
 
         /* INPUT AREA */
-        .input-area { padding: 24px 40px 40px; background: white; max-width: 1000px; margin: 0 auto; width: 100%; }
+        .input-area { padding: 24px 40px 40px; max-width: 1000px; margin: 0 auto; width: 100%; }
         .input-wrapper {
-            position: relative;
             display: flex;
             align-items: center;
             background: #f3f4f6;
-            border-radius: 20px;
-            padding: 8px 16px;
+            border-radius: 18px;
+            padding: 6px 16px;
             border: 2px solid transparent;
-            transition: all 0.2s;
         }
-        .input-wrapper:focus-within { background: white; border-color: var(--orca-blue); box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1); }
-        .input-wrapper input { flex-grow: 1; background: transparent; border: none; outline: none; padding: 12px; font-size: 16px; color: #111827; }
+        .input-wrapper:focus-within { background: white; border-color: #e5e7eb; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        .input-wrapper input { flex-grow: 1; background: transparent; border: none; outline: none; padding: 12px; font-size: 15px; }
 
-        /* MODALS */
-        .modal-overlay {
+        /* MODAL */
+        .modal {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.4);
-            backdrop-filter: blur(8px);
+            background: rgba(0,0,0,0.3);
             display: none;
             align-items: center;
             justify-content: center;
-            z-index: 1000;
-            padding: 20px;
+            z-index: 100;
         }
-        .modal-content {
+        .modal-body {
             background: white;
-            width: 100%;
-            max-width: 800px;
-            border-radius: 32px;
-            overflow: hidden;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.2);
-            max-height: 90vh;
-            display: flex;
-            flex-direction: column;
-        }
-        .connector-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-            gap: 20px;
-            padding: 40px;
-            overflow-y: auto;
-        }
-        .connector-card {
-            background: #f9fafb;
+            width: 90%;
+            max-width: 500px;
             border-radius: 24px;
-            padding: 24px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.2s;
-            border: 2px solid transparent;
+            padding: 32px;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
         }
-        .connector-card:hover { background: white; border-color: var(--orca-blue); transform: translateY(-4px); }
-        .connector-card.active { border-color: #10b981; background: #ecfdf5; }
     </style>
 </head>
 <body>
     <div class="sidebar">
         <div class="logo-container">
-            <div class="orca-brand-icon">
-                <img src="logo.jpg" alt="Orcinos Logo">
+            <img src="logo.jpg" alt="Orcinos" class="brand-logo">
+        </div>
+
+        <div class="nav-group">
+            <div class="nav-item active" onclick="location.reload()">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                New Chat
+            </div>
+            <div class="nav-item" onclick="toggleModal('connectors')">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                Connected Apps
+            </div>
+            <div class="nav-item">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                Scheduled
+            </div>
+            <div class="nav-item">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+                Notifications
             </div>
         </div>
 
-        <div class="nav-item active" onclick="createNewChat()">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
-            Sovereign Chat
-        </div>
-        
-        <div class="nav-item" onclick="openModal()">
-            <svg class="w-5 h-5 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-            Connectors
+        <div class="nav-group">
+            <div class="nav-label">Recent Chats</div>
+            <div id="history-list" class="space-y-1">
+                <div class="px-3 py-2 text-xs text-slate-400 italic">No recent history</div>
+            </div>
         </div>
 
-        <div class="mt-8 text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4 px-3">Identity Layer</div>
-        <div class="nav-item" onclick="alert('Login System Initialized')">
-            <svg class="w-5 h-5 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
-            Sovereign Login
-        </div>
-        <div class="nav-item" onclick="alert('Registration System Initialized')">
-            <svg class="w-5 h-5 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/></svg>
-            Create Identity
-        </div>
-
-        <div class="mt-8 text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4 px-3">Recent Intelligence</div>
-        <div id="chat-history-list" class="space-y-1">
-            <div class="px-3 py-2 text-xs text-slate-400 italic">No recent sessions</div>
+        <div class="profile-section">
+            <div class="profile-menu" id="profile-menu">
+                <div class="menu-item"><span>🚀</span> Upgrade Plan</div>
+                <div class="menu-item"><span>👤</span> Profile Settings</div>
+                <div class="menu-item"><span>⚙️</span> Personalization</div>
+                <div class="menu-item"><span>❓</span> Help & Support</div>
+                <div class="border-t my-2"></div>
+                <div class="menu-item text-red-500"><span>🚪</span> Log out</div>
+            </div>
+            <div class="profile-trigger" onclick="toggleProfile()">
+                <div class="avatar">P</div>
+                <div class="flex-grow">
+                    <div class="text-sm font-bold">Prisca</div>
+                    <div class="text-[10px] text-slate-400 uppercase font-black">Free Plan</div>
+                </div>
+                <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </div>
         </div>
     </div>
 
     <div class="chat-space">
         <div class="message-container" id="chat-history">
-            <div class="card-grid" id="welcome-grid">
-                <!-- Tiles injected via JS -->
+            <div class="swipe-container" id="card-stack">
+                <!-- Stacked Cards Injected via JS -->
             </div>
         </div>
 
         <div class="input-area">
             <div class="input-wrapper">
-                <input type="text" id="main-input" placeholder="Hello, how can I help you today?" onkeydown="if(event.key==='Enter') handleSend()">
-                <button id="send-btn" onclick="handleSend()" class="p-2 text-slate-400 hover:text-blue-600 transition-colors">
-                    <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+                <input type="text" id="main-input" placeholder="What's on your mind?" onkeydown="if(event.key==='Enter') handleSend()">
+                <button onclick="handleSend()" class="p-2 text-slate-400 hover:text-purple-900 transition-colors">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- CONNECTOR MODAL -->
-    <div class="modal-overlay" id="connector-modal">
-        <div class="modal-content">
-            <div class="p-8 border-b flex justify-between items-center">
-                <div>
-                    <h2 class="text-2xl font-black text-slate-900">Neural Connector Hub</h2>
-                    <p class="text-slate-500">Integrate sovereign nodes and third-party workspaces.</p>
-                </div>
-                <button onclick="closeModal()" class="text-slate-400 hover:text-slate-900">
-                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-                </button>
+    <div class="modal" id="login-modal">
+        <div class="modal-body">
+            <h2 class="text-2xl font-black mb-6">Welcome back</h2>
+            <button class="w-full py-4 border-2 border-slate-200 rounded-xl font-bold flex items-center justify-center gap-3 hover:bg-slate-50 transition-all">
+                <img src="https://cdn-icons-png.flaticon.com/512/2991/2991148.png" class="w-6 h-6">
+                Continue with Google
+            </button>
+            <div class="text-center mt-6 text-sm text-slate-400">
+                Average person jargon: Secure login with your preferred account.
             </div>
-            <div class="connector-grid" id="hub-grid"></div>
         </div>
     </div>
 
     <script>
-        const hubTiles = [
-            { id: 'comment', icon: '💬', title: 'Commenting on Strucker', desc: 'Social engagement node' },
-            { id: 'antivirus', icon: '🛡️', title: 'Antivirus', desc: 'System security audit' },
-            { id: 'legal', icon: '⚖️', title: 'Legal', desc: 'Regional legal intelligence' },
-            { id: 'meals', icon: '🍲', title: 'Weekly Meal Planner', desc: 'Authentic Caribbean recipes' },
-            { id: 'fitness', icon: '🏃', title: 'Fitness Check', desc: 'Health & wellness tracking' },
-            { id: 'friday', icon: '🌃', title: 'Friday Night', desc: 'Local events & lifestyle' },
-            { id: 'reading', icon: '📚', title: 'Read me a book a month', desc: 'Literary curation node' },
-            { id: 'teach', icon: '🧠', title: 'Teach me something new', desc: 'Skill acquisition hub' },
-            { id: 'news', icon: '📰', title: 'What\'s the news today?', desc: 'Global & regional intel' },
-            { id: 'contacts', icon: '👥', title: 'Call the people who matter', desc: 'Connection manager' },
-            { id: 'replies', icon: '📩', title: 'Pending Replies', desc: 'WhatsApp & communication' },
-            { id: 'emails', icon: '📧', title: 'Read my emails', desc: 'Sovereign inbox sync' },
-            { id: 'assistant', icon: '🤖', title: 'Personal Assistant', desc: 'Task & schedule automation' },
-            { id: 'therapy', icon: '🧘', title: 'Therapy', desc: 'Mental wellness sanctuary' }
+        const tasks = [
+            { id: '1', icon: '🍲', title: 'Meal Planner', desc: 'Authentic Caribbean recipes' },
+            { id: '2', icon: '🛡️', title: 'Antivirus', desc: 'Scan your system security' },
+            { id: '3', icon: '⚖️', title: 'Legal Help', desc: 'Regional law intelligence' },
+            { id: '4', icon: '🧘', title: 'Therapy', desc: 'Mental wellness check-in' }
         ];
 
-        function populateHub() {
-            const welcomeGrid = document.getElementById('welcome-grid');
-            welcomeGrid.innerHTML = hubTiles.map(tile => `
-                <div class="welcome-card" onclick="setCommand('${tile.title}')">
-                    <div class="text-6xl mb-8">${tile.icon}</div>
-                    <div class="font-extrabold text-2xl mb-4 text-slate-900">${tile.title}</div>
-                    <p class="text-slate-500 text-base leading-relaxed">${tile.desc}</p>
+        function renderStack() {
+            const stack = document.getElementById('card-stack');
+            stack.innerHTML = tasks.reverse().map(t => `
+                <div class="swipe-card" onmousedown="startDrag(event)" onclick="setCommand('${t.title}')">
+                    <div class="text-8xl mb-8">${t.icon}</div>
+                    <div class="font-extrabold text-3xl mb-4 text-slate-900">${t.title}</div>
+                    <p class="text-slate-500 text-lg">${t.desc}</p>
                 </div>
             `).join('');
         }
 
-        async function syncToSupabase(message) {
-            console.log('Syncing to Supabase:', message);
-            try {
-                const response = await fetch('http://localhost:8000/chats/message', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ thread_id: "main", user_id: "prisca", content: message, role: "user" })
-                });
-                return await response.json();
-            } catch (e) {
-                console.warn('Backend not reachable, operating in local-only mode.');
-            }
+        let isDragging = false;
+        let startX = 0;
+        let currentCard = null;
+
+        function startDrag(e) {
+            isDragging = true;
+            startX = e.clientX;
+            currentCard = e.currentTarget;
+            document.addEventListener('mousemove', drag);
+            document.addEventListener('mouseup', endDrag);
         }
 
-        async function handleSend() {
+        function drag(e) {
+            if (!isDragging || !currentCard) return;
+            const diffX = e.clientX - startX;
+            const rotation = diffX / 20;
+            currentCard.style.transform = `translateX(${diffX}px) rotate(${rotation}deg)`;
+            currentCard.style.opacity = 1 - Math.abs(diffX) / 1000;
+        }
+
+        function endDrag(e) {
+            if (!isDragging || !currentCard) return;
+            const diffX = e.clientX - startX;
+            if (Math.abs(diffX) > 150) {
+                currentCard.remove();
+                if (document.querySelectorAll('.swipe-card').length === 0) {
+                    document.getElementById('card-stack').style.display = 'none';
+                }
+            } else {
+                currentCard.style.transform = '';
+                currentCard.style.opacity = '';
+            }
+            isDragging = false;
+            document.removeEventListener('mousemove', drag);
+            document.removeEventListener('mouseup', endDrag);
+        }
+
+        function handleSend() {
             const input = document.getElementById('main-input');
             const text = input.value.trim();
             if (!text) return;
             
-            syncToSupabase(text);
-
-            const grid = document.getElementById('welcome-grid');
-            if (grid) grid.remove();
-
+            document.getElementById('card-stack').style.display = 'none';
             const history = document.getElementById('chat-history');
-            const bubble = document.createElement('div');
-            bubble.className = 'message-bubble self-end';
-            bubble.innerHTML = `<div class="text-lg text-slate-800">${text}</div>`;
-            history.appendChild(bubble);
             
+            const userMsg = document.createElement('div');
+            userMsg.className = 'message-bubble user group';
+            userMsg.innerHTML = `${text}
+                <div class="chat-actions">
+                    <button class="action-btn" title="Rename">✏️</button>
+                    <button class="action-btn" title="Delete" onclick="this.closest('.message-bubble').remove()">🗑️</button>
+                </div>`;
+            
+            history.appendChild(userMsg);
             input.value = '';
             history.scrollTop = history.scrollHeight;
         }
 
-        const baseConnectors = [
-            { id: 'whatsapp', name: 'WhatsApp', icon: 'https://cdn-icons-png.flaticon.com/512/124/124034.png' },
-            { id: 'gmail', name: 'Gmail', icon: 'https://cdn-icons-png.flaticon.com/512/5968/5968534.png' },
-            { id: 'supabase', name: 'Supabase', icon: 'https://raw.githubusercontent.com/supabase/supabase/master/packages/common/assets/images/supabase-logo.png' },
-            { id: 'outlook', name: 'Outlook', icon: 'https://cdn-icons-png.flaticon.com/512/732/732200.png' },
-            { id: 'slack', name: 'Slack', icon: 'https://cdn-icons-png.flaticon.com/512/3800/3800024.png' },
-            { id: 'drive', name: 'Google Drive', icon: 'https://cdn-icons-png.flaticon.com/512/2991/2991148.png' },
-            { id: 'stripe', name: 'Stripe', icon: 'https://cdn-icons-png.flaticon.com/512/5968/5968382.png' },
-            { id: 'github', name: 'GitHub', icon: 'https://cdn-icons-png.flaticon.com/512/25/25231.png' }
-        ];
-
-        function openModal() {
-            const grid = document.getElementById('hub-grid');
-            const connectors = [...baseConnectors];
-            for (let i = connectors.length + 1; i <= 100; i++) {
-                connectors.push({ id: `node-${i}`, name: `Node ${i}`, icon: 'https://cdn-icons-png.flaticon.com/512/2083/2083626.png' });
-            }
-            grid.innerHTML = connectors.map(conn => `
-                <div class="connector-card">
-                    <img src="${conn.icon}" class="w-12 h-12 mb-4 mx-auto object-contain">
-                    <div class="font-bold text-slate-900">${conn.name}</div>
-                </div>
-            `).join('');
-            document.getElementById('connector-modal').style.display = 'flex';
+        function toggleProfile() {
+            document.getElementById('profile-menu').classList.toggle('show');
         }
 
-        function closeModal() { document.getElementById('connector-modal').style.display = 'none'; }
-        function setCommand(text) { document.getElementById('main-input').value = text; }
-        function createNewChat() { location.reload(); }
-        
-        populateHub();
+        function toggleModal(type) {
+            const modal = document.getElementById('login-modal');
+            modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
+        }
+
+        function setCommand(text) {
+            document.getElementById('main-input').value = text;
+        }
+
+        renderStack();
     </script>
 </body>
 </html>
