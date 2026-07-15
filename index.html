@@ -285,7 +285,7 @@
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
                 New Chat
             </div>
-            <div class="nav-item" onclick="toggleModal('connectors')">
+            <div class="nav-item" onclick="openConnectors()">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 4a2 2 0 114 0v1a2 2 0 01-4 0V4zM7 8a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H9a2 2 0 01-2-2V8z"/></svg>
                 Apps & MCPs
             </div>
@@ -367,27 +367,118 @@
         </div>
         
         <div class="space-y-4 overflow-y-auto">
-            <div class="help-card" onclick="setCommand('How do I connect my WhatsApp?')">
-                <h3 class="font-bold text-purple-900 mb-1">Getting Started</h3>
-                <p class="text-xs text-slate-500">Learn how to connect your apps and start your first sovereign chat.</p>
+            <div class="help-card" onclick="setCommand('How do I use Orcinos? Show me the basics.')">
+                <h3 class="font-bold text-blue-900 mb-1">Getting Started</h3>
+                <p class="text-xs text-slate-500">A quick guide on using the people's choice AI for your daily tasks.</p>
             </div>
             
-            <div class="help-card" onclick="setCommand('Tell me about Orcinos security')">
-                <h3 class="font-bold text-purple-900 mb-1">Security & Privacy</h3>
-                <p class="text-xs text-slate-500">How we keep your regional data safe and independent from global giants.</p>
+            <div class="help-card" onclick="toggleModal('security')">
+                <h3 class="font-bold text-blue-900 mb-1">Security & Privacy</h3>
+                <p class="text-xs text-slate-500">How your regional data stays sovereign and protected in the Caribbean.</p>
             </div>
 
-            <div class="help-card" onclick="window.open('https://priscadezigns.org', '_blank')">
-                <h3 class="font-bold text-purple-900 mb-1">Community Hub</h3>
-                <p class="text-xs text-slate-500">Join the Caribbean AI revolution and see what others are building.</p>
+            <div class="help-card" onclick="toggleModal('personalization')">
+                <h3 class="font-bold text-blue-900 mb-1">Personalization</h3>
+                <p class="text-xs text-slate-500">Make Orcinos yours. Adjust themes, regional focus, and UI preferences.</p>
             </div>
 
-            <div class="mt-8 p-6 bg-purple-50 rounded-2xl border border-purple-100">
-                <p class="text-sm font-medium text-purple-900 mb-2">Need direct human help?</p>
-                <button class="w-full py-3 bg-purple-900 text-white rounded-xl font-bold text-sm shadow-lg shadow-purple-200">
+            <div class="mt-8 p-6 bg-blue-50 rounded-2xl border border-blue-100">
+                <p class="text-sm font-medium text-blue-900 mb-2">Need direct human help?</p>
+                <button onclick="window.open('https://wa.me/18683424101', '_blank')" class="w-full py-3 bg-blue-900 text-white rounded-xl font-bold text-sm shadow-lg shadow-blue-200">
                     Message Support
                 </button>
             </div>
+        </div>
+    </div>
+
+    <div class="modal" id="connectors-modal">
+        <div class="modal-body max-w-2xl">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-black text-blue-900">Apps & MCPs</h2>
+                <button onclick="toggleModal('connectors')" class="text-slate-400 hover:text-slate-600">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+                <div class="p-4 border border-slate-100 rounded-2xl hover:border-blue-500 cursor-pointer transition-all">
+                    <div class="font-bold text-blue-900">WhatsApp</div>
+                    <div class="text-[10px] text-slate-400">Connect your personal or business account.</div>
+                </div>
+                <div class="p-4 border border-slate-100 rounded-2xl hover:border-blue-500 cursor-pointer transition-all">
+                    <div class="font-bold text-blue-900">Google Workspace</div>
+                    <div class="text-[10px] text-slate-400">Sync Gmail, Calendar, and Drive.</div>
+                </div>
+                <div class="p-4 border border-slate-100 rounded-2xl hover:border-blue-500 cursor-pointer transition-all">
+                    <div class="font-bold text-blue-900">Supabase</div>
+                    <div class="text-[10px] text-slate-400">The People's choice database node.</div>
+                </div>
+                <div class="p-4 border border-slate-100 rounded-2xl hover:border-blue-500 cursor-pointer transition-all">
+                    <div class="font-bold text-blue-900">Custom MCP</div>
+                    <div class="text-[10px] text-slate-400">Add a model context protocol endpoint.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="security-modal">
+        <div class="modal-body">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-black text-blue-900">Security & Privacy</h2>
+                <button onclick="toggleModal('security')" class="text-slate-400 hover:text-slate-600">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+            </div>
+            <div class="space-y-4 text-sm text-slate-600 leading-relaxed">
+                <div class="p-4 bg-blue-50 rounded-xl border border-blue-100">
+                    <p class="font-bold text-blue-900 mb-1">Sovereign Data Storage</p>
+                    <p>Your messages and connections are stored in your own regional identity layer, never used for training global models.</p>
+                </div>
+                <div class="p-4 bg-blue-50 rounded-xl border border-blue-100">
+                    <p class="font-bold text-blue-900 mb-1">End-to-End Connector Security</p>
+                    <p>External apps (WhatsApp, Gmail) connect via secure OAuth2 protocols. Orcinos never sees your passwords.</p>
+                </div>
+                <div class="p-4 bg-blue-50 rounded-xl border border-blue-100">
+                    <p class="font-bold text-blue-900 mb-1">Regional Intelligence</p>
+                    <p>Processing is optimized for Caribbean context while maintaining strict international privacy standards.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="personalization-modal">
+        <div class="modal-body">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-black text-blue-900">Personalization</h2>
+                <button onclick="toggleModal('personalization')" class="text-slate-400 hover:text-slate-600">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+            </div>
+            <div class="space-y-6">
+                <div>
+                    <label class="block text-xs font-black text-slate-400 uppercase mb-3">Accent Theme</label>
+                    <div class="flex gap-3">
+                        <div class="w-8 h-8 rounded-full bg-blue-900 cursor-pointer border-2 border-white ring-2 ring-blue-900" title="Orcinos Deep Blue"></div>
+                        <div class="w-8 h-8 rounded-full bg-slate-900 cursor-pointer border-2 border-white hover:ring-2 hover:ring-slate-900" title="Midnight"></div>
+                        <div class="w-8 h-8 rounded-full bg-indigo-600 cursor-pointer border-2 border-white hover:ring-2 hover:ring-indigo-600" title="Ocean"></div>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-black text-slate-400 uppercase mb-3">Regional Focus</label>
+                    <select class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium outline-none">
+                        <option>Trinidad & Tobago (Default)</option>
+                        <option>Caribbean Basin</option>
+                        <option>Global (Neutral)</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-black text-slate-400 uppercase mb-3">UI Density</label>
+                    <div class="grid grid-cols-2 gap-3">
+                        <button class="py-3 px-4 bg-blue-50 border-2 border-blue-900 rounded-xl text-xs font-bold text-blue-900">Comfortable</button>
+                        <button class="py-3 px-4 bg-white border-2 border-slate-100 rounded-xl text-xs font-bold text-slate-400">Compact</button>
+                    </div>
+                </div>
+            </div>
+            <button onclick="toggleModal('personalization')" class="w-full mt-8 py-4 bg-blue-900 text-white rounded-xl font-bold hover:shadow-lg transition-all">Save Preferences</button>
         </div>
     </div>
 
@@ -485,9 +576,15 @@
             document.getElementById('profile-menu').classList.toggle('show');
         }
 
-        function toggleModal(type) {
-            const modal = document.getElementById('login-modal');
-            modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
+        function toggleModal(id) {
+            const modal = document.getElementById(id + '-modal');
+            if (modal) {
+                modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
+            }
+        }
+
+        function openConnectors() {
+            toggleModal('connectors');
         }
 
         function toggleHelp() {
