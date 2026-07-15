@@ -11,6 +11,7 @@
             --accent-purple: #301934; 
             --accent-lilac: #C8A2C8;
             --sidebar-bg: #f9fafb;
+            --orca-blue: #1e3a8a;
         }
         
         * { box-sizing: border-box; font-family: 'Inter', sans-serif; }
@@ -193,10 +194,12 @@
         .modal-body {
             background: white;
             width: 90%;
-            max-width: 500px;
+            max-width: 800px;
             border-radius: 24px;
             padding: 32px;
             box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+            max-height: 90vh;
+            overflow-y: auto;
         }
 
         .help-drawer {
@@ -232,6 +235,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            transition: opacity 0.5s ease;
         }
         .login-card {
             width: 100%;
@@ -245,23 +249,37 @@
     <!-- LOGIN PAGE -->
     <div id="login-overlay">
         <div class="login-card">
-            <img src="logo.jpg" alt="Orcinos" class="w-48 mx-auto mb-12">
+            <img src="logo.jpg" alt="Orcinos" class="w-48 mx-auto mb-10">
             <h1 class="text-3xl font-black mb-2 text-slate-900">Welcome Back</h1>
             <p class="text-slate-500 mb-8">Access your sovereign AI ecosystem.</p>
-            <div class="space-y-4">
+            
+            <div class="space-y-3">
+                <button onclick="handleLogin()" class="w-full py-4 border border-slate-200 rounded-2xl font-bold flex items-center justify-center gap-3 hover:bg-slate-50 transition-colors">
+                    <img src="https://cdn-icons-png.flaticon.com/512/2991/2991148.png" class="w-5 h-5">
+                    Continue with Google
+                </button>
+                <div class="py-4 flex items-center gap-4">
+                    <div class="h-[1px] bg-slate-100 flex-grow"></div>
+                    <span class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">OR</span>
+                    <div class="h-[1px] bg-slate-100 flex-grow"></div>
+                </div>
                 <input type="email" placeholder="Email Address" class="w-full p-4 bg-slate-50 rounded-2xl border-none outline-none text-sm">
                 <div class="relative">
                     <input type="password" id="login-pass" placeholder="Password" class="w-full p-4 bg-slate-50 rounded-2xl border-none outline-none text-sm">
                 </div>
-                <button onclick="handleLogin()" class="w-full py-4 bg-blue-900 text-white rounded-2xl font-bold shadow-lg shadow-blue-200 hover:scale-[1.02] transition-transform">Continue to Orcinos</button>
-                <div class="pt-4 text-xs text-slate-400">
+                <button onclick="handleLogin()" class="w-full py-4 bg-blue-900 text-white rounded-2xl font-bold shadow-lg shadow-blue-200 hover:scale-[1.02] transition-transform">Continue with Email</button>
+                
+                <div class="pt-6">
+                    <button onclick="toggleModal('plans')" class="text-sm font-bold text-blue-900 hover:underline">Explore Orcinos Plans</button>
+                </div>
+                <div class="pt-2 text-xs text-slate-400">
                     Don't have an account? <span class="text-blue-900 font-bold cursor-pointer">Join the waitlist</span>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- MAIN APP (Hidden until login) -->
+    <!-- MAIN APP -->
     <div class="sidebar">
         <div class="logo-container">
             <img src="logo.jpg" alt="Orcinos" class="brand-logo">
@@ -301,7 +319,7 @@
                 <div class="avatar">P</div>
                 <div class="flex-grow">
                     <div class="text-sm font-bold">Prisca</div>
-                    <div class="text-[10px] text-slate-400 uppercase font-black">Free Plan</div>
+                    <div class="text-[10px] text-slate-400 uppercase font-black">Starfish Plan</div>
                 </div>
             </div>
         </div>
@@ -391,6 +409,57 @@
         </div>
     </div>
 
+    <div class="modal" id="plans-modal">
+        <div class="modal-body max-w-4xl">
+            <div class="flex justify-between items-center mb-10">
+                <h2 class="text-3xl font-black">Orcinos Ecosystem Plans</h2>
+                <button onclick="toggleModal('plans')">✕</button>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Free Tier -->
+                <div class="p-8 border border-slate-100 rounded-3xl hover:shadow-xl transition-shadow flex flex-col">
+                    <div class="text-4xl mb-4">⭐</div>
+                    <h3 class="text-xl font-bold mb-2">The Starfish</h3>
+                    <div class="text-sm text-slate-400 mb-6 uppercase tracking-widest font-black">Free Tier</div>
+                    <ul class="space-y-3 mb-8 text-sm text-slate-600 flex-grow">
+                        <li>• Basic Regional AI</li>
+                        <li>• 3 Swipe Cards / Day</li>
+                        <li>• Standard Speed</li>
+                        <li>• Community Support</li>
+                    </ul>
+                    <button class="w-full py-3 bg-slate-100 text-slate-900 rounded-xl font-bold">Current Plan</button>
+                </div>
+                <!-- Pro Tier -->
+                <div class="p-8 border-2 border-blue-900 rounded-3xl shadow-xl flex flex-col relative overflow-hidden">
+                    <div class="absolute top-0 right-0 bg-blue-900 text-white px-4 py-1 text-[10px] font-bold uppercase tracking-widest">Popular</div>
+                    <div class="text-4xl mb-4">🐬</div>
+                    <h3 class="text-xl font-bold mb-2">The Dolphin</h3>
+                    <div class="text-sm text-blue-900 mb-6 uppercase tracking-widest font-black">$20 / Month</div>
+                    <ul class="space-y-3 mb-8 text-sm text-slate-600 flex-grow">
+                        <li>• Enhanced Regional Context</li>
+                        <li>• Unlimited Swipe Cards</li>
+                        <li>• WhatsApp & Google Sync</li>
+                        <li>• Priority Response Speed</li>
+                    </ul>
+                    <button class="w-full py-3 bg-blue-900 text-white rounded-xl font-bold">Upgrade to Dolphin</button>
+                </div>
+                <!-- Enterprise Tier -->
+                <div class="p-8 border border-slate-100 rounded-3xl hover:shadow-xl transition-shadow flex flex-col">
+                    <div class="text-4xl mb-4">🐳</div>
+                    <h3 class="text-xl font-bold mb-2">The Orca</h3>
+                    <div class="text-sm text-slate-400 mb-6 uppercase tracking-widest font-black">Enterprise</div>
+                    <ul class="space-y-3 mb-8 text-sm text-slate-600 flex-grow">
+                        <li>• Full Network Sovereignty</li>
+                        <li>• Custom MCP Connectors</li>
+                        <li>• 24/7 Dedicated Support</li>
+                        <li>• Private Node Access</li>
+                    </ul>
+                    <button class="w-full py-3 bg-slate-900 text-white rounded-xl font-bold">Contact Sales</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         const tasks = [
             { id: '1', icon: '🍲', title: 'Meal Planner', desc: 'Caribbean recipes' },
@@ -415,15 +484,33 @@
         function endDrag(e) { if (!isDragging || !currentCard) return; const diffX = e.clientX - startX; if (Math.abs(diffX) > 150) { currentCard.remove(); if (!document.querySelector('.swipe-card')) document.getElementById('card-stack').style.display = 'none'; } else { currentCard.style.transform = ''; currentCard.style.opacity = ''; } isDragging = false; document.removeEventListener('mousemove', drag); document.removeEventListener('mouseup', endDrag); }
 
         function handleLogin() {
-            const pass = document.getElementById('login-pass').value;
-            // Secret God Mode handshake check (5 clicks on pass field triggers something elsewhere, but for now plain check)
             document.getElementById('login-overlay').style.opacity = '0';
-            setTimeout(() => document.getElementById('login-overlay').style.display = 'none', 500);
+            setTimeout(() => {
+                document.getElementById('login-overlay').style.display = 'none';
+            }, 500);
         }
 
-        function toggleProfile() { document.getElementById('profile-menu').classList.toggle('show'); }
-        function toggleHelp() { document.getElementById('help-drawer').classList.toggle('open'); document.getElementById('profile-menu').classList.remove('show'); }
-        function toggleModal(id) { document.getElementById(id + '-modal').style.display = document.getElementById(id + '-modal').style.display === 'flex' ? 'none' : 'flex'; document.getElementById('profile-menu').classList.remove('show'); }
+        function toggleProfile() { 
+            const menu = document.getElementById('profile-menu');
+            if (menu) menu.classList.toggle('show'); 
+        }
+
+        function toggleHelp() { 
+            const drawer = document.getElementById('help-drawer');
+            if (drawer) {
+                drawer.classList.toggle('open');
+                document.getElementById('profile-menu').classList.remove('show');
+            }
+        }
+
+        function toggleModal(id) { 
+            const modal = document.getElementById(id + '-modal');
+            if (modal) {
+                modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex'; 
+                document.getElementById('profile-menu').classList.remove('show');
+            }
+        }
+
         function handleSchedule(f) { alert(f + ' hub coming soon!'); }
         function handleAppClick(a) { alert('Connecting to ' + a + '...'); }
         function handleAttachment() { document.getElementById('file-input').click(); }
