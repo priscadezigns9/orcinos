@@ -231,6 +231,39 @@
             justify-content: center;
             z-index: 100;
         }
+        /* HELP DRAWER */
+        .help-drawer {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 400px;
+            height: 100vh;
+            background: white;
+            box-shadow: -10px 0 30px rgba(0,0,0,0.1);
+            transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            padding: 24px;
+        }
+        .help-drawer.open { right: 0; }
+        .help-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+        }
+        .help-card {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 16px;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        .help-card:hover { border-color: var(--accent-purple); background: white; transform: translateY(-2px); }
+
         .modal-body {
             background: white;
             width: 90%;
@@ -287,7 +320,7 @@
                     <svg class="menu-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/></svg>
                     Personalization
                 </div>
-                <div class="menu-item">
+                <div class="menu-item" onclick="toggleHelp()">
                     <svg class="menu-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                     Help & Support
                 </div>
@@ -320,6 +353,39 @@
                 <input type="text" id="main-input" placeholder="What's on your mind?" onkeydown="if(event.key==='Enter') handleSend()">
                 <button onclick="handleSend()" class="p-2 text-slate-400 hover:text-purple-900 transition-colors">
                     <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="help-drawer" id="help-drawer">
+        <div class="help-header">
+            <h2 class="text-xl font-bold">Help & Support</h2>
+            <button onclick="toggleHelp()" class="p-2 hover:bg-slate-100 rounded-full">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+        </div>
+        
+        <div class="space-y-4 overflow-y-auto">
+            <div class="help-card" onclick="setCommand('How do I connect my WhatsApp?')">
+                <h3 class="font-bold text-purple-900 mb-1">Getting Started</h3>
+                <p class="text-xs text-slate-500">Learn how to connect your apps and start your first sovereign chat.</p>
+            </div>
+            
+            <div class="help-card" onclick="setCommand('Tell me about Orcinos security')">
+                <h3 class="font-bold text-purple-900 mb-1">Security & Privacy</h3>
+                <p class="text-xs text-slate-500">How we keep your regional data safe and independent from global giants.</p>
+            </div>
+
+            <div class="help-card" onclick="window.open('https://priscadezigns.org', '_blank')">
+                <h3 class="font-bold text-purple-900 mb-1">Community Hub</h3>
+                <p class="text-xs text-slate-500">Join the Caribbean AI revolution and see what others are building.</p>
+            </div>
+
+            <div class="mt-8 p-6 bg-purple-50 rounded-2xl border border-purple-100">
+                <p class="text-sm font-medium text-purple-900 mb-2">Need direct human help?</p>
+                <button class="w-full py-3 bg-purple-900 text-white rounded-xl font-bold text-sm shadow-lg shadow-purple-200">
+                    Message Support
                 </button>
             </div>
         </div>
@@ -424,8 +490,17 @@
             modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
         }
 
+        function toggleHelp() {
+            const drawer = document.getElementById('help-drawer');
+            drawer.classList.toggle('open');
+            if (drawer.classList.contains('open')) {
+                document.getElementById('profile-menu').classList.remove('show');
+            }
+        }
+
         function setCommand(text) {
             document.getElementById('main-input').value = text;
+            toggleHelp();
         }
 
         renderStack();
