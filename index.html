@@ -105,6 +105,14 @@
             gap: 16px;
             width: 100%;
             margin-top: 24px;
+            padding: 20px 0;
+            flex-wrap: nowrap; /* Force single row for swipe */
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            gap: 16px;
+            width: 100%;
+            margin-top: 24px;
             padding-bottom: 12px;
             scrollbar-width: none; /* Firefox */
         }
@@ -382,9 +390,25 @@
             document.getElementById('main-input').value = text;
         }
 
-        function handleSend() {
+        
+        async function syncToSupabase(message) {
+            console.log('Syncing to Supabase:', message);
+            try {
+                const response = await fetch('http://localhost:8000/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: message })
+                });
+                return await response.json();
+            } catch (e) {
+                console.warn('Backend not reachable, operating in local-only mode.');
+            }
+        }
+
+        async function handleSend() {
             const input = document.getElementById('main-input');
             const text = input.value.trim();
+            syncToSupabase(text);
             if (!text) return;
 
             const grid = document.getElementById('welcome-grid');
