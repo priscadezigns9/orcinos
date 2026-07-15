@@ -344,21 +344,34 @@
                 </div>
             `).join('');
 
-            const connectors = [
-                { id: 'whatsapp', name: 'WhatsApp', icon: '📱' },
-                { id: 'gmail', name: 'Gmail', icon: '✉️' },
-                { id: 'supabase', name: 'Supabase', icon: '⚡' },
-                { id: 'outlook', name: 'Outlook', icon: '📬' },
-                { id: 'slack', name: 'Slack', icon: '💬' },
-                { id: 'drive', name: 'Google Drive', icon: '📁' },
-                { id: 'stripe', name: 'Stripe', icon: '💳' },
-                { id: 'github', name: 'GitHub', icon: '🐙' }
+            const baseConnectors = [
+                { id: 'whatsapp', name: 'WhatsApp', icon: 'https://cdn-icons-png.flaticon.com/512/124/124034.png' },
+                { id: 'gmail', name: 'Gmail', icon: 'https://cdn-icons-png.flaticon.com/512/5968/5968534.png' },
+                { id: 'supabase', name: 'Supabase', icon: 'https://raw.githubusercontent.com/supabase/supabase/master/packages/common/assets/images/supabase-logo.png' },
+                { id: 'outlook', name: 'Outlook', icon: 'https://cdn-icons-png.flaticon.com/512/732/732200.png' },
+                { id: 'slack', name: 'Slack', icon: 'https://cdn-icons-png.flaticon.com/512/3800/3800024.png' },
+                { id: 'drive', name: 'Google Drive', icon: 'https://cdn-icons-png.flaticon.com/512/2991/2991148.png' },
+                { id: 'stripe', name: 'Stripe', icon: 'https://cdn-icons-png.flaticon.com/512/5968/5968382.png' },
+                { id: 'github', name: 'GitHub', icon: 'https://cdn-icons-png.flaticon.com/512/25/25231.png' },
+                { id: 'notion', name: 'Notion', icon: 'https://cdn-icons-png.flaticon.com/512/5968/5968914.png' },
+                { id: 'trello', name: 'Trello', icon: 'https://cdn-icons-png.flaticon.com/512/2111/2111656.png' },
+                { id: 'discord', name: 'Discord', icon: 'https://cdn-icons-png.flaticon.com/512/3670/3670157.png' },
+                { id: 'zoom', name: 'Zoom', icon: 'https://cdn-icons-png.flaticon.com/512/4406/4406234.png' }
             ];
+
+            const connectors = [...baseConnectors];
+            for (let i = connectors.length + 1; i <= 100; i++) {
+                connectors.push({
+                    id: `node-${i}`,
+                    name: `Node ${i}`,
+                    icon: 'https://cdn-icons-png.flaticon.com/512/2083/2083626.png'
+                });
+            }
 
             const grid = document.getElementById('hub-grid');
             grid.innerHTML = connectors.map(conn => `
                 <div class="connector-card" onclick="toggleConnector('${conn.id}')">
-                    <div class="text-4xl mb-4">${conn.icon}</div>
+                    <img src="${conn.icon}" class="w-12 h-12 mb-4 object-contain" alt="${conn.name}">
                     <div class="font-bold text-slate-900">${conn.name}</div>
                     <div class="text-xs text-slate-400 mt-1 uppercase font-black">Disconnect</div>
                 </div>
