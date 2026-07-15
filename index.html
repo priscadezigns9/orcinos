@@ -31,45 +31,54 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            padding: 8px 12px;
-            margin-bottom: 24px;
+            margin-bottom: 32px;
+            padding: 8px;
         }
 
         .orca-brand-icon {
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            overflow: hidden;
+            background: white;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
         }
 
         .orca-brand-icon img {
             width: 100%;
             height: 100%;
-            object-contain: contain;
+            object-fit: cover;
         }
 
         .nav-item {
             display: flex;
             align-items: center;
             gap: 12px;
-            padding: 10px 12px;
-            border-radius: 8px;
+            padding: 12px;
+            border-radius: 12px;
             color: #4b5563;
-            font-weight: 500;
-            transition: all 0.2s;
+            font-size: 14px;
+            font-weight: 600;
             cursor: pointer;
-            margin-bottom: 4px;
+            transition: all 0.2s;
         }
-        .nav-item:hover { background: #f3f4f6; color: #111827; }
-        .nav-item.active { background: #eff6ff; color: var(--orca-blue); }
+
+        .nav-item:hover {
+            background: #f3f4f6;
+            color: #111827;
+        }
+
+        .nav-item.active {
+            background: white;
+            color: var(--orca-blue);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
 
         .chat-space {
             flex-grow: 1;
-            background: var(--chat-space-bg);
             display: flex;
             flex-direction: column;
+            background: white;
             position: relative;
         }
 
@@ -80,123 +89,145 @@
             display: flex;
             flex-direction: column;
             gap: 24px;
+            max-width: 1000px;
+            margin: 0 auto;
+            width: 100%;
         }
 
         .card-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 16px;
             width: 100%;
+            margin-top: 24px;
         }
 
         .welcome-card {
             background: white;
-            padding: 24px;
+            border: 1px solid #e5e7eb;
             border-radius: 16px;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
-            animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            transition: transform 0.2s;
+            padding: 20px;
             cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            text-align: left;
         }
+
         .welcome-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .message-bubble {
-            background: white;
-            padding: 24px;
-            border-radius: 16px;
-            max-width: 85%;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
-            animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            border-color: var(--orca-blue);
+            box-shadow: 0 8px 24px rgba(37, 99, 235, 0.08);
+            transform: translateY(-2px);
         }
 
         .input-area {
             padding: 24px 40px 40px;
-            background: linear-gradient(to top, var(--chat-space-bg) 80%, transparent);
+            background: white;
+            max-width: 1000px;
+            margin: 0 auto;
+            width: 100%;
         }
 
         .input-wrapper {
-            background: white;
-            border-radius: 16px;
-            padding: 12px 24px;
+            position: relative;
             display: flex;
             align-items: center;
-            gap: 12px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
-            width: 100%;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-
-        input {
-            flex-grow: 1;
-            border: none;
-            padding: 12px 0;
-            font-size: 18px;
-            outline: none;
-        }
-
-        .btn-plus {
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
             background: #f3f4f6;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: background 0.2s;
+            border-radius: 20px;
+            padding: 8px 16px;
+            border: 2px solid transparent;
+            transition: all 0.2s;
         }
-        .btn-plus:hover { background: #e5e7eb; }
 
-        /* MODAL */
+        .input-wrapper:focus-within {
+            background: white;
+            border-color: var(--orca-blue);
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+        }
+
+        .input-wrapper input {
+            flex-grow: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            padding: 12px;
+            font-size: 16px;
+            color: #111827;
+        }
+
+        .message-bubble {
+            max-width: 80%;
+            padding: 16px 24px;
+            border-radius: 24px;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .message-bubble.self-end {
+            background: var(--orca-blue);
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 4px;
+        }
+
         .modal-overlay {
             position: fixed;
-            inset: 0;
-            background: rgba(15, 23, 42, 0.8);
-            backdrop-filter: blur(8px);
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5);
             display: none;
-            align-items: center;
             justify-content: center;
-            z-index: 50;
-            padding: 20px;
+            align-items: center;
+            z-index: 100;
+            backdrop-filter: blur(8px);
         }
 
         .modal-content {
             background: white;
-            width: 100%;
-            max-width: 900px;
-            max-height: 85vh;
-            border-radius: 24px;
-            display: flex;
-            flex-direction: column;
+            width: 90%;
+            max-width: 800px;
+            border-radius: 32px;
             overflow: hidden;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
         }
 
         .connector-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-            gap: 16px;
-            padding: 32px;
-            overflow-y: auto;
+            gap: 20px;
+            padding: 40px;
         }
 
         .connector-card {
-            border: 1px solid #f3f4f6;
-            padding: 16px;
-            border-radius: 16px;
+            background: #f9fafb;
+            border-radius: 24px;
+            padding: 24px;
             text-align: center;
-            transition: all 0.2s;
             cursor: pointer;
+            transition: all 0.2s;
+            border: 2px solid transparent;
         }
-        .connector-card:hover { border-color: var(--orca-blue); background: #eff6ff; }
+
+        .connector-card:hover {
+            background: white;
+            border-color: var(--orca-blue);
+            transform: scale(1.05);
+        }
+
+        .btn-plus {
+            width: 32px;
+            height: 32px;
+            background: var(--orca-blue);
+            color: white;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .btn-plus:hover { transform: scale(1.1); }
     </style>
 </head>
 <body>
@@ -241,27 +272,13 @@
     <div class="chat-space">
         <div class="message-container" id="chat-history">
             <div class="card-grid" id="welcome-grid">
-                <div class="welcome-card" onclick="setCommand('Regional Intelligence Audit')">
-                    <div class="text-blue-600 mb-2 font-bold uppercase text-[10px]">Intelligence</div>
-                    <div class="font-bold text-lg mb-2">Regional Audit</div>
-                    <p class="text-slate-500 text-sm">Scan Caribbean datasets for local node optimization.</p>
-                </div>
-                <div class="welcome-card" onclick="setCommand('Connect WhatsApp Node')">
-                    <div class="text-green-600 mb-2 font-bold uppercase text-[10px]">Connectivity</div>
-                    <div class="font-bold text-lg mb-2">WhatsApp Bridge</div>
-                    <p class="text-slate-500 text-sm">Initiate high-fidelity WhatsApp communication layer.</p>
-                </div>
-                <div class="welcome-card" onclick="setCommand('Neural Search')">
-                    <div class="text-purple-600 mb-2 font-bold uppercase text-[10px]">Discovery</div>
-                    <div class="font-bold text-lg mb-2">Neural Search</div>
-                    <p class="text-slate-500 text-sm">Search regional news and high-fidelity global signals.</p>
-                </div>
+                <!-- Tiles injected via JS -->
             </div>
         </div>
 
         <div class="input-area">
             <div class="input-wrapper">
-                <input type="text" id="main-input" placeholder="Enter a command..." onkeydown="if(event.key==='Enter') handleSend()">
+                <input type="text" id="main-input" placeholder="Hello, how can I help you today?" onkeydown="if(event.key==='Enter') handleSend()">
                 <button id="send-btn" onclick="handleSend()" class="p-2 text-slate-400 hover:text-blue-600 transition-colors">
                     <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
                 </button>
@@ -286,29 +303,74 @@
     </div>
 
     <script>
-        const connectors = [
-            { id: 'whatsapp', name: 'WhatsApp', icon: '📱' },
-            { id: 'gmail', name: 'Gmail', icon: '✉️' },
-            { id: 'supabase', name: 'Supabase', icon: '⚡' },
-            { id: 'outlook', name: 'Outlook', icon: '📬' },
-            { id: 'slack', name: 'Slack', icon: '💬' },
-            { id: 'drive', name: 'Google Drive', icon: '📁' },
-            { id: 'stripe', name: 'Stripe', icon: '💳' },
-            { id: 'github', name: 'GitHub', icon: '🐙' }
+        const hubTiles = [
+            { id: 'commenting', icon: '💬', title: 'Commenting on Strucker', desc: 'Sovereign engagement node' },
+            { id: 'antivirus', icon: '🛡️', title: 'Antivirus', desc: 'System security audit' },
+            { id: 'legal', icon: '⚖️', title: 'Legal', desc: 'Regional legal intelligence' },
+            { id: 'meals', icon: '🍲', title: 'Weekly Meal Planner', desc: 'Authentic Caribbean recipes' },
+            { id: 'fitness', icon: '🏃', title: 'Fitness Check', desc: 'Health & wellness tracking' },
+            { id: 'friday', icon: '🌃', title: 'Friday Night', desc: 'Local events & lifestyle' },
+            { id: 'reading', icon: '📚', title: 'Read me a book a month', desc: 'Literary curation node' },
+            { id: 'teach', icon: '🧠', title: 'Teach me something new', desc: 'Skill acquisition hub' },
+            { id: 'news', icon: '📰', title: 'What\'s the news today?', desc: 'Global & regional intel' },
+            { id: 'contacts', icon: '👥', title: 'Call the people who matter', desc: 'Connection manager' },
+            { id: 'replies', icon: '📩', title: 'Pending Replies', desc: 'Communication layer sync' },
+            { id: 'emails', icon: '📧', title: 'Read my emails', desc: 'Sovereign inbox sync' },
+            { id: 'assistant', icon: '🤖', title: 'Personal Assistant', desc: 'Task & schedule automation' },
+            { id: 'therapy', icon: '🧘', title: 'Therapy', desc: 'Mental wellness sanctuary' }
         ];
 
-        function openModal() { document.getElementById('connector-modal').style.display = 'flex'; }
-        function closeModal() { document.getElementById('connector-modal').style.display = 'none'; }
-
         function populateHub() {
+            const welcomeGrid = document.getElementById('welcome-grid');
+            welcomeGrid.innerHTML = hubTiles.map(tile => `
+                <div class="welcome-card" onclick="setCommand('${tile.title}')">
+                    <div class="text-2xl mb-2">${tile.icon}</div>
+                    <div class="font-bold text-base mb-1">${tile.title}</div>
+                    <p class="text-slate-500 text-xs">${tile.desc}</p>
+                </div>
+            `).join('');
+
+            const connectors = [
+                { id: 'whatsapp', name: 'WhatsApp', icon: '📱' },
+                { id: 'gmail', name: 'Gmail', icon: '✉️' },
+                { id: 'supabase', name: 'Supabase', icon: '⚡' },
+                { id: 'outlook', name: 'Outlook', icon: '📬' },
+                { id: 'slack', name: 'Slack', icon: '💬' },
+                { id: 'drive', name: 'Google Drive', icon: '📁' },
+                { id: 'stripe', name: 'Stripe', icon: '💳' },
+                { id: 'github', name: 'GitHub', icon: '🐙' }
+            ];
+
             const grid = document.getElementById('hub-grid');
-            grid.innerHTML = '';
-            connectors.forEach(c => {
-                const card = document.createElement('div');
-                card.className = 'connector-card';
-                card.innerHTML = `<div class="text-4xl mb-3">${c.icon}</div><div class="font-bold text-slate-800">${c.name}</div><button class="mt-4 w-full py-2 bg-slate-100 rounded-lg text-sm font-bold text-slate-500 hover:bg-blue-600 hover:text-white transition-colors" onclick="toggleConnector('${c.id}')">Connect</button>`;
-                grid.appendChild(card);
-            });
+            grid.innerHTML = connectors.map(conn => `
+                <div class="connector-card" onclick="toggleConnector('${conn.id}')">
+                    <div class="text-4xl mb-4">${conn.icon}</div>
+                    <div class="font-bold text-slate-900">${conn.name}</div>
+                    <div class="text-xs text-slate-400 mt-1 uppercase font-black">Disconnect</div>
+                </div>
+            `).join('');
+        }
+
+        function setCommand(text) {
+            document.getElementById('main-input').value = text;
+        }
+
+        function handleSend() {
+            const input = document.getElementById('main-input');
+            const text = input.value.trim();
+            if (!text) return;
+
+            const grid = document.getElementById('welcome-grid');
+            if (grid) grid.remove();
+
+            const history = document.getElementById('chat-history');
+            const bubble = document.createElement('div');
+            bubble.className = 'message-bubble self-end';
+            bubble.innerHTML = `<div class="text-lg text-slate-800">${text}</div>`;
+            history.appendChild(bubble);
+            
+            input.value = '';
+            history.scrollTop = history.scrollHeight;
         }
 
         function toggleConnector(id) {
@@ -326,28 +388,8 @@
             closeModal();
         }
 
-        function setCommand(text) {
-            document.getElementById('main-input').value = text;
-            document.getElementById('main-input').focus();
-        }
-
-        function handleSend() {
-            const input = document.getElementById('main-input');
-            const text = input.value.trim();
-            if (!text) return;
-            
-            const history = document.getElementById('chat-history');
-            const welcome = document.getElementById('welcome-grid');
-            if (welcome) welcome.remove();
-
-            const bubble = document.createElement('div');
-            bubble.className = 'message-bubble self-end';
-            bubble.innerHTML = `<div class="text-lg text-slate-800">${text}</div>`;
-            history.appendChild(bubble);
-            
-            input.value = '';
-            history.scrollTop = history.scrollHeight;
-        }
+        function openModal() { document.getElementById('connector-modal').style.display = 'flex'; }
+        function closeModal() { document.getElementById('connector-modal').style.display = 'none'; }
 
         function createNewChat() { location.reload(); }
         populateHub();
