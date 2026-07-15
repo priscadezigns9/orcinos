@@ -1,16 +1,20 @@
-# Orcinos AI Platform - Design DNA
+# ORCINOS DESIGN DNA - PHASE 1.1 (ORCA REFRESH)
 
-## Vision
-A unified AI Operating System that integrates all Prisca Dezigns SaaS products into a single, proactive "Architect's Portal." A hybrid of Zapia's proactive "living" feel and Claude's high-fidelity minimal "canvas."
+## 🎨 BRAND IDENTITY (THE ORCA STANDARD)
+Orcinos is moving away from the agency purple and adopting its true biological identity: **The Orca Whale.**
 
-## Design Principles
-- **Atmospheric Depth:** Deep Purple (#301934) backgrounds with Lilac (#C8A2C8) accents. Glassmorphism layers for spatial separation.
-- **The Intelligence HUD:** A central, elegant prompt that adapts to context.
-- **Skill Orchestration:** Proactive cards that surface "NeuroSense," "Legal," and "MUZE" capabilities based on user intent.
-- **High-Fidelity Typography:** Refined serifs for titles (Authority) and clean sans-serifs for data (Precision).
+- **Primary:** #FFFFFF (Pure White - The Light/The Surface)
+- **Secondary:** #000000 (Void Black - The Deep/Intelligence)
+- **Accent:** #1E3A8A (Orca Deep Blue - Precision/Flow)
+- **Surface:** #F8FAFC (Glass Frost)
 
-## Tech Stack (Next-Gen)
-- **Frontend:** Next.js + React 19
-- **Motion:** Framer Motion (Transitions) + GSAP ScrollTrigger
-- **AI Brain:** Orcinos Trinity (Sol, Terra, Luna)
-- **Database:** Supabase (Vector + Postgres)
+## 🐳 VISUAL LANGUAGE
+- **Architecture:** "The Apex Predator of Data." Sleek, powerful, and silent.
+- **Logo:** `tiny_logos/orcinos_icon.png` is the central node.
+- **Aesthetic:** High-contrast Monochrome with Deep Blue accents. 
+- **Philosophy:** Intelligence that surfaces from the deep to provide strategic clarity.
+
+## 🛠️ UI COMPONENTS
+- **Panels:** White glass with subtle blue shadows.
+- **Typography:** Bold, high-contrast black on white.
+- **Motion:** Fluid, aquatic transitions.
