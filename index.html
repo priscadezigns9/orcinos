@@ -1,544 +1,487 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ORCINOS | Your Caribbean AI Assistant</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        :root { 
-            --accent-purple: #301934; 
-            --accent-lilac: #C8A2C8;
-            --sidebar-bg: #f9fafb;
-            --orca-blue: #1e3a8a;
-        }
-        
-        * { box-sizing: border-box; font-family: 'Inter', sans-serif; }
-        body { margin: 0; background: #fff; display: flex; height: 100vh; overflow: hidden; color: #111827; }
-
-        /* SIDEBAR */
-        .sidebar {
-            width: 280px;
-            background: var(--sidebar-bg);
-            border-right: 1px solid #e5e7eb;
-            display: flex;
-            flex-direction: column;
-            padding: 20px 12px;
-            flex-shrink: 0;
-        }
-
-        .logo-container { padding: 0 0 24px; }
-        .brand-logo {
-            width: 100%;
-            height: 100px;
-            object-fit: contain;
-            background: white;
-            padding: 0;
-            border-radius: 0;
-        }
-
-        .nav-group { margin-bottom: 24px; }
-        .nav-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 10px 12px;
-            border-radius: 10px;
-            color: #4b5563;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-size: 14px;
-        }
-        .nav-item:hover { background: #f3f4f6; color: #111827; }
-        .nav-item.active { background: white; color: var(--accent-purple); box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
-
-        /* PROFILE SECTION */
-        .profile-section {
-            margin-top: auto;
-            border-top: 1px solid #e5e7eb;
-            padding: 16px 12px 8px;
-            position: relative;
-        }
-        .profile-trigger {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-        .profile-trigger:hover { background: #f3f4f6; }
-        .avatar {
-            width: 32px;
-            height: 32px;
-            background: var(--accent-purple);
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
-            font-size: 12px;
-        }
-
-        .profile-menu {
-            position: absolute;
-            bottom: 100%;
-            left: 12px;
-            right: 12px;
-            background: white;
-            border: 1px solid #e5e7eb;
-            border-radius: 16px;
-            box-shadow: 0 -10px 30px rgba(0,0,0,0.1);
-            padding: 8px;
-            display: none;
-            z-index: 50;
-            margin-bottom: 8px;
-        }
-        .profile-menu.show { display: block; }
-        .menu-item {
-            padding: 10px 12px;
-            font-size: 13px;
-            font-weight: 500;
-            border-radius: 8px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: #4b5563;
-        }
-        .menu-item:hover { background: #f9fafb; color: #111827; }
-
-        /* CHAT SPACE */
-        .chat-space { flex-grow: 1; display: flex; flex-direction: column; background: white; position: relative; }
-        .message-container {
-            flex-grow: 1;
-            overflow-y: auto;
-            padding: 40px;
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
-            max-width: 1000px;
-            margin: 0 auto;
-            width: 100%;
-        }
-
-        .swipe-container {
-            position: relative;
-            width: 100%;
-            height: 450px;
-            margin: 40px 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            perspective: 1000px;
-        }
-
-        .swipe-card {
-            position: absolute;
-            width: 320px;
-            height: 420px;
-            background: white;
-            border-radius: 32px;
-            border: 1px solid #e5e7eb;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.08);
-            padding: 40px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            transition: transform 0.5s ease, opacity 0.5s ease;
-            cursor: grab;
-            user-select: none;
-        }
-
-        .swipe-card:nth-last-child(1) { z-index: 3; transform: translateZ(0); }
-        .swipe-card:nth-last-child(2) { z-index: 2; transform: translateZ(-50px) translateY(10px) scale(0.95); opacity: 0.8; }
-        .swipe-card:nth-last-child(3) { z-index: 1; transform: translateZ(-100px) translateY(20px) scale(0.9); opacity: 0.5; }
-
-        .message-bubble { 
-            max-width: 80%; 
-            padding: 16px 20px; 
-            border-radius: 18px; 
-            line-height: 1.5; 
-            font-size: 15px;
-            position: relative;
-        }
-        .message-bubble.user { background: #f3f4f6; align-self: flex-end; border-bottom-right-radius: 4px; }
-        .message-bubble.bot { background: var(--accent-purple); color: white; align-self: flex-start; border-bottom-left-radius: 4px; }
-
-        .input-area { padding: 24px 40px 40px; max-width: 1000px; margin: 0 auto; width: 100%; }
-        .input-wrapper {
-            display: flex;
-            align-items: center;
-            background: #f3f4f6;
-            border-radius: 18px;
-            padding: 6px 16px;
-            border: 2px solid transparent;
-        }
-        .input-wrapper input { flex-grow: 1; background: transparent; border: none; outline: none; padding: 12px; font-size: 15px; }
-
-        .modal {
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.3);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 100;
-        }
-        .modal-body {
-            background: white;
-            width: 90%;
-            max-width: 800px;
-            border-radius: 24px;
-            padding: 32px;
-            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-
-        .help-drawer {
-            position: fixed;
-            top: 0;
-            right: -400px;
-            width: 400px;
-            height: 100vh;
-            background: white;
-            box-shadow: -10px 0 30px rgba(0,0,0,0.1);
-            transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            z-index: 100;
-            display: flex;
-            flex-direction: column;
-            padding: 24px;
-        }
-        .help-drawer.open { right: 0; }
-        .help-card {
-            background: #f9fafb;
-            border: 1px solid #e5e7eb;
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 16px;
-            cursor: pointer;
-        }
-
-        /* LOGIN OVERLAY */
-        #login-overlay {
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: white;
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: opacity 0.5s ease;
-        }
-        .login-card {
-            width: 100%;
-            max-width: 400px;
-            padding: 40px;
-            text-align: center;
-        }
-    </style>
+ <meta charset="UTF-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ <title>ORCINOS | Your Caribbean AI Assistant</title>
+ <style>
+ *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+ :root {
+ --bg: #0e0f1a;
+ --bg2: #12132a;
+ --accent: #7b5ea7;
+ --accent2: #a07fd4;
+ --text: #e8e8f0;
+ --muted: #8888aa;
+ --border: rgba(255,255,255,0.08);
+ --card-bg: rgba(255,255,255,0.04);
+ }
+ html { scroll-behavior: smooth; }
+ body {
+ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+ background: var(--bg);
+ color: var(--text);
+ min-height: 100vh;
+ display: flex;
+ flex-direction: column;
+ }
+ /* ── NAVBAR ── */
+ nav {
+ position: fixed;
+ top: 0; left: 0; right: 0;
+ z-index: 100;
+ display: flex;
+ align-items: center;
+ justify-content: space-between;
+ padding: 18px 48px;
+ background: rgba(14,15,26,0.85);
+ backdrop-filter: blur(12px);
+ border-bottom: 1px solid var(--border);
+ }
+ .nav-logo {
+ font-size: 1.3rem;
+ font-weight: 700;
+ letter-spacing: 0.08em;
+ color: var(--text);
+ text-decoration: none;
+ display: flex;
+ align-items: center;
+ gap: 10px;
+ }
+ .nav-logo .orb {
+ width: 28px; height: 28px;
+ border-radius: 50%;
+ background: linear-gradient(135deg, var(--accent), var(--accent2));
+ display: inline-block;
+ }
+ .nav-links {
+ display: flex;
+ gap: 32px;
+ list-style: none;
+ }
+ .nav-links a {
+ color: var(--muted);
+ text-decoration: none;
+ font-size: 0.9rem;
+ transition: color 0.2s;
+ }
+ .nav-links a:hover { color: var(--text); }
+ /* ── ANNOUNCEMENT BANNER ── */
+ .banner {
+ margin-top: 72px;
+ background: rgba(123, 94, 167, 0.12);
+ border-bottom: 1px solid rgba(123, 94, 167, 0.2);
+ padding: 12px 24px;
+ text-align: center;
+ font-size: 0.85rem;
+ color: var(--accent2);
+ cursor: pointer;
+ transition: background 0.2s;
+ }
+ .banner:hover { background: rgba(123, 94, 167, 0.2); }
+ .banner span { margin-right: 8px; }
+ /* ── HERO ── */
+ main {
+ flex: 1;
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ justify-content: center;
+ padding: 80px 24px 60px;
+ position: relative;
+ overflow: hidden;
+ }
+ main::before {
+ content: '';
+ position: absolute;
+ top: -200px; left: 50%;
+ transform: translateX(-50%);
+ width: 800px; height: 800px;
+ background: radial-gradient(circle, rgba(123, 94, 167, 0.15) 0%, transparent 70%);
+ pointer-events: none;
+ }
+ .hero {
+ display: grid;
+ grid-template-columns: 1fr 340px;
+ gap: 32px;
+ max-width: 1100px;
+ width: 100%;
+ align-items: center;
+ }
+ .hero-left {}
+ .wordmark {
+ font-size: clamp(3rem, 8vw, 6rem);
+ font-weight: 800;
+ letter-spacing: -0.02em;
+ line-height: 1;
+ background: linear-gradient(135deg, #c8a2c8, var(--accent2), #8b6dbf);
+ -webkit-background-clip: text;
+ -webkit-text-fill-color: transparent;
+ background-clip: text;
+ margin-bottom: 16px;
+ }
+ .tagline {
+ font-size: clamp(1.4rem, 3vw, 2rem);
+ font-weight: 400;
+ color: var(--text);
+ margin-bottom: 48px;
+ opacity: 0.9;
+ }
+ .cta-group {
+ display: flex;
+ gap: 16px;
+ flex-wrap: wrap;
+ }
+ .cta-btn {
+ display: flex;
+ flex-direction: column;
+ padding: 20px 28px;
+ border-radius: 14px;
+ text-decoration: none;
+ min-width: 200px;
+ transition: transform 0.2s, box-shadow 0.2s;
+ cursor: pointer;
+ }
+ .cta-btn:hover {
+ transform: translateY(-2px);
+ box-shadow: 0 12px 40px rgba(123, 94, 167, 0.3);
+ }
+ .cta-btn.primary {
+ background: rgba(255,255,255,0.06);
+ border: 1px solid rgba(255,255,255,0.12);
+ }
+ .cta-btn.secondary {
+ background: rgba(123, 94, 167, 0.15);
+ border: 1px solid rgba(123, 94, 167, 0.3);
+ }
+ .cta-title {
+ font-size: 1rem;
+ font-weight: 600;
+ color: var(--text);
+ margin-bottom: 6px;
+ }
+ .cta-btn.secondary .cta-title { color: var(--accent2); }
+ .cta-desc {
+ font-size: 0.8rem;
+ color: var(--muted);
+ line-height: 1.5;
+ }
+ /* ── CAREERS CARD ── */
+ .careers-card {
+ background: linear-gradient(135deg, rgba(123, 94, 167, 0.2), rgba(18, 19, 42, 0.8));
+ border: 1px solid rgba(123, 94, 167, 0.25);
+ border-radius: 18px;
+ padding: 40px 32px;
+ text-decoration: none;
+ display: flex;
+ flex-direction: column;
+ justify-content: space-between;
+ min-height: 240px;
+ transition: transform 0.2s, box-shadow 0.2s;
+ }
+ .careers-card:hover {
+ transform: translateY(-3px);
+ box-shadow: 0 20px 60px rgba(123, 94, 167, 0.2);
+ }
+ .careers-card .label {
+ font-size: 0.8rem;
+ color: var(--accent2);
+ letter-spacing: 0.1em;
+ text-transform: uppercase;
+ margin-bottom: 12px;
+ }
+ .careers-card h3 {
+ font-size: 1.5rem;
+ font-weight: 700;
+ color: var(--text);
+ line-height: 1.3;
+ margin-bottom: auto;
+ }
+ .careers-card .view-btn {
+ margin-top: 32px;
+ display: inline-block;
+ font-size: 0.9rem;
+ color: var(--accent2);
+ border: 1px solid rgba(123, 94, 167, 0.4);
+ padding: 10px 20px;
+ border-radius: 8px;
+ width: fit-content;
+ transition: background 0.2s;
+ }
+ .careers-card:hover .view-btn {
+ background: rgba(123, 94, 167, 0.2);
+ }
+ /* ── FOOTER ── */
+ footer {
+ border-top: 1px solid var(--border);
+ padding: 48px 48px 32px;
+ }
+ .footer-top {
+ display: grid;
+ grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+ gap: 40px;
+ margin-bottom: 40px;
+ }
+ .footer-brand .orb-lg {
+ width: 36px; height: 36px;
+ border-radius: 50%;
+ background: linear-gradient(135deg, var(--accent), var(--accent2));
+ display: inline-block;
+ margin-bottom: 16px;
+ }
+ .footer-wordmark {
+ font-size: 1.1rem;
+ font-weight: 700;
+ letter-spacing: 0.06em;
+ color: var(--text);
+ margin-bottom: 20px;
+ }
+ .social-icons {
+ display: flex;
+ gap: 14px;
+ flex-wrap: wrap;
+ }
+ .social-icons a {
+ width: 36px; height: 36px;
+ border-radius: 8px;
+ background: var(--card-bg);
+ border: 1px solid var(--border);
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ color: var(--muted);
+ text-decoration: none;
+ font-size: 0.85rem;
+ transition: color 0.2s, background 0.2s;
+ }
+ .social-icons a:hover {
+ color: var(--text);
+ background: rgba(123, 94, 167, 0.15);
+ }
+ .footer-col h4 {
+ font-size: 0.8rem;
+ font-weight: 600;
+ color: var(--text);
+ letter-spacing: 0.05em;
+ margin-bottom: 16px;
+ text-transform: uppercase;
+ }
+ .footer-col ul {
+ list-style: none;
+ display: flex;
+ flex-direction: column;
+ gap: 10px;
+ }
+ .footer-col ul a {
+ color: var(--muted);
+ text-decoration: none;
+ font-size: 0.85rem;
+ transition: color 0.2s;
+ }
+ .footer-col ul a:hover { color: var(--text); }
+ .footer-bottom {
+ border-top: 1px solid var(--border);
+ padding-top: 24px;
+ display: flex;
+ align-items: center;
+ justify-content: space-between;
+ flex-wrap: wrap;
+ gap: 12px;
+ }
+ .footer-bottom p {
+ font-size: 0.8rem;
+ color: var(--muted);
+ }
+ .footer-bottom a {
+ color: var(--muted);
+ text-decoration: none;
+ font-size: 0.8rem;
+ }
+ .footer-bottom a:hover { color: var(--text); }
+ /* ── COOKIE BANNER ── */
+ .cookie-banner {
+ position: fixed;
+ bottom: 24px;
+ left: 50%;
+ transform: translateX(-50%);
+ background: #1a1b2e;
+ border: 1px solid var(--border);
+ border-radius: 16px;
+ padding: 24px 28px;
+ max-width: 480px;
+ width: calc(100% - 48px);
+ box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+ z-index: 200;
+ }
+ .cookie-banner h4 {
+ font-size: 0.95rem;
+ font-weight: 600;
+ margin-bottom: 10px;
+ color: var(--text);
+ }
+ .cookie-banner p {
+ font-size: 0.8rem;
+ color: var(--muted);
+ margin-bottom: 20px;
+ line-height: 1.6;
+ }
+ .cookie-banner a { color: var(--accent2); }
+ .cookie-btns {
+ display: flex;
+ flex-direction: column;
+ gap: 10px;
+ }
+ .cookie-btns button {
+ padding: 12px;
+ border-radius: 10px;
+ font-size: 0.85rem;
+ font-weight: 500;
+ cursor: pointer;
+ border: none;
+ transition: opacity 0.2s;
+ }
+ .cookie-btns button:hover { opacity: 0.85; }
+ .btn-necessary {
+ background: var(--card-bg);
+ border: 1px solid var(--border) !important;
+ color: var(--text);
+ }
+ .btn-accept {
+ background: linear-gradient(135deg, var(--accent), var(--accent2));
+ color: #fff;
+ }
+ /* ── RESPONSIVE ── */
+ @media (max-width: 900px) {
+ .hero { grid-template-columns: 1fr; }
+ .careers-card { min-height: 180px; }
+ .footer-top { grid-template-columns: 1fr 1fr; }
+ nav { padding: 16px 24px; }
+ footer { padding: 40px 24px 24px; }
+ }
+ @media (max-width: 600px) {
+ .nav-links { display: none; }
+ .footer-top { grid-template-columns: 1fr; }
+ .cta-group { flex-direction: column; }
+ .cta-btn { min-width: unset; }
+ }
+ </style>
 </head>
 <body>
-    <!-- LOGIN PAGE -->
-    <div id="login-overlay">
-        <div class="login-card">
-            <img src="logo.jpg" alt="Orcinos" class="w-48 mx-auto mb-10">
-            <h1 class="text-3xl font-black mb-2 text-slate-900">Welcome Back</h1>
-            <p class="text-slate-500 mb-8">Access your sovereign AI ecosystem.</p>
-            
-            <div class="space-y-3">
-                <button onclick="handleLogin()" class="w-full py-4 border border-slate-200 rounded-2xl font-bold flex items-center justify-center gap-3 hover:bg-slate-50 transition-colors">
-                    <img src="https://cdn-icons-png.flaticon.com/512/2991/2991148.png" class="w-5 h-5">
-                    Continue with Google
-                </button>
-                <div class="py-4 flex items-center gap-4">
-                    <div class="h-[1px] bg-slate-100 flex-grow"></div>
-                    <span class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">OR</span>
-                    <div class="h-[1px] bg-slate-100 flex-grow"></div>
-                </div>
-                <input type="email" placeholder="Email Address" class="w-full p-4 bg-slate-50 rounded-2xl border-none outline-none text-sm">
-                <div class="relative">
-                    <input type="password" id="login-pass" placeholder="Password" class="w-full p-4 bg-slate-50 rounded-2xl border-none outline-none text-sm">
-                </div>
-                <button onclick="handleLogin()" class="w-full py-4 bg-blue-900 text-white rounded-2xl font-bold shadow-lg shadow-blue-200 hover:scale-[1.02] transition-transform">Continue with Email</button>
-                
-                <div class="pt-6">
-                    <button onclick="toggleModal('plans')" class="text-sm font-bold text-blue-900 hover:underline">Explore Orcinos Plans</button>
-                </div>
-                <div class="pt-2 text-xs text-slate-400">
-                    Don't have an account? <span class="text-blue-900 font-bold cursor-pointer">Join the waitlist</span>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- MAIN APP -->
-    <div class="sidebar">
-        <div class="logo-container">
-            <img src="logo.jpg" alt="Orcinos" class="brand-logo">
-        </div>
-
-        <div class="nav-group">
-            <div class="nav-item active" onclick="location.reload()">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
-                New Chat
-            </div>
-            <div class="nav-item" onclick="toggleModal('connectors')">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 4a2 2 0 114 0v1a2 2 0 01-4 0V4zM7 8a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H9a2 2 0 01-2-2V8z"/></svg>
-                Apps & MCPs
-            </div>
-            <div class="nav-item" onclick="handleSchedule('Plugins')">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/></svg>
-                Plugins
-            </div>
-            <div class="nav-item" onclick="handleSchedule('Scheduled')">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                Scheduled
-            </div>
-        </div>
-
-        <div class="profile-section">
-            <div class="profile-menu" id="profile-menu">
-                <div class="menu-item" onclick="toggleModal('personalization')">
-                    <svg class="menu-icon w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/></svg>
-                    Personalization
-                </div>
-                <div class="menu-item" onclick="toggleHelp()">
-                    <svg class="menu-icon w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                    Help & Support
-                </div>
-            </div>
-            <div class="profile-trigger" onclick="toggleProfile()">
-                <div class="avatar">P</div>
-                <div class="flex-grow">
-                    <div class="text-sm font-bold">Prisca</div>
-                    <div class="text-[10px] text-slate-400 uppercase font-black">Starfish Plan</div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="chat-space">
-        <div class="message-container" id="chat-history">
-            <div class="swipe-container" id="card-stack"></div>
-        </div>
-
-        <div class="input-area">
-            <div class="input-wrapper">
-                <div class="flex items-center gap-2 px-2">
-                    <button class="p-2 text-slate-400 hover:text-blue-900 transition-colors" title="Attach File" onclick="handleAttachment()">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/></svg>
-                    </button>
-                    <button id="voice-btn" class="p-2 text-slate-400 hover:text-blue-900 transition-colors" title="Voice Note" onclick="handleVoice()">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"/></svg>
-                    </button>
-                    <input type="file" id="file-input" class="hidden" onchange="handleFileSelected(event)">
-                </div>
-                <input type="text" id="main-input" placeholder="What's on your mind?" onkeydown="if(event.key==='Enter') handleSend()">
-                <button onclick="handleSend()" class="p-2 text-slate-400 hover:text-blue-900 transition-colors">
-                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modals -->
-    <div class="help-drawer" id="help-drawer">
-        <div class="flex justify-between items-center mb-8">
-            <h2 class="text-xl font-bold">Support</h2>
-            <button onclick="toggleHelp()">✕</button>
-        </div>
-        <div class="help-card" onclick="setCommand('Getting Started')">Getting Started Guide</div>
-        <div class="mt-auto p-4 bg-blue-50 rounded-xl">
-            <button onclick="window.open('https://wa.me/18683424101')" class="w-full py-3 bg-blue-900 text-white rounded-xl font-bold">Message Support</button>
-        </div>
-    </div>
-
-    <div class="modal" id="connectors-modal">
-        <div class="modal-body max-w-2xl">
-            <div class="flex justify-between items-center mb-6">
-                <h2 class="text-2xl font-black text-blue-900">Apps & MCPs</h2>
-                <button onclick="toggleModal('connectors')">✕</button>
-            </div>
-            <div class="grid grid-cols-2 gap-4">
-                <div class="p-6 border border-slate-100 rounded-2xl hover:border-blue-500 cursor-pointer flex flex-col items-center gap-4 transition-all" onclick="handleAppClick('WhatsApp')">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" class="w-10 h-10">
-                    <span class="font-bold text-blue-900">WhatsApp</span>
-                </div>
-                <div class="p-6 border border-slate-100 rounded-2xl hover:border-blue-500 cursor-pointer flex flex-col items-center gap-4 transition-all" onclick="handleAppClick('Google')">
-                    <img src="https://cdn-icons-png.flaticon.com/512/2991/2991148.png" class="w-10 h-10">
-                    <span class="font-bold text-blue-900">Google</span>
-                </div>
-                <div class="p-6 border border-slate-100 rounded-2xl hover:border-blue-500 cursor-pointer flex flex-col items-center gap-4 transition-all" onclick="handleAppClick('Supabase')">
-                    <img src="https://seeklogo.com/images/S/supabase-logo-DCC416CAB2-seeklogo.com.png" class="w-10 h-10">
-                    <span class="font-bold text-blue-900">Supabase</span>
-                </div>
-                <div class="p-6 border border-slate-100 rounded-2xl hover:border-blue-500 cursor-pointer flex flex-col items-center gap-4 transition-all" onclick="handleAppClick('Notion')">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/4/45/Notion_app_logo.png" class="w-10 h-10">
-                    <span class="font-bold text-blue-900">Notion</span>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal" id="personalization-modal">
-        <div class="modal-body">
-            <div class="flex justify-between items-center mb-6">
-                <h2 class="text-2xl font-black">Personalization</h2>
-                <button onclick="toggleModal('personalization')">✕</button>
-            </div>
-            <div class="space-y-4 mb-8 text-sm text-slate-600">
-                <p>Tailor your Orcinos experience to your workflow.</p>
-                <div class="p-4 bg-slate-50 rounded-2xl flex justify-between items-center">
-                    <span>Model Response Level</span>
-                    <span class="font-bold text-blue-900">Creative</span>
-                </div>
-                <div class="p-4 bg-slate-50 rounded-2xl flex justify-between items-center">
-                    <span>Regional Intelligence</span>
-                    <span class="font-bold text-blue-900">Active</span>
-                </div>
-            </div>
-            <button onclick="toggleModal('personalization')" class="w-full py-4 bg-blue-900 text-white rounded-xl font-bold">Save Preferences</button>
-        </div>
-    </div>
-
-    <div class="modal" id="plans-modal">
-        <div class="modal-body max-w-4xl">
-            <div class="flex justify-between items-center mb-10">
-                <h2 class="text-3xl font-black">Orcinos Ecosystem Plans</h2>
-                <button onclick="toggleModal('plans')">✕</button>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Free Tier -->
-                <div class="p-8 border border-slate-100 rounded-3xl hover:shadow-xl transition-shadow flex flex-col">
-                    <div class="text-4xl mb-4">⭐</div>
-                    <h3 class="text-xl font-bold mb-2">The Starfish</h3>
-                    <div class="text-sm text-slate-400 mb-6 uppercase tracking-widest font-black">Free Tier</div>
-                    <ul class="space-y-3 mb-8 text-sm text-slate-600 flex-grow">
-                        <li>• Basic Regional AI</li>
-                        <li>• 3 Swipe Cards / Day</li>
-                        <li>• Standard Speed</li>
-                        <li>• Community Support</li>
-                    </ul>
-                    <button class="w-full py-3 bg-slate-100 text-slate-900 rounded-xl font-bold">Current Plan</button>
-                </div>
-                <!-- Pro Tier -->
-                <div class="p-8 border-2 border-blue-900 rounded-3xl shadow-xl flex flex-col relative overflow-hidden">
-                    <div class="absolute top-0 right-0 bg-blue-900 text-white px-4 py-1 text-[10px] font-bold uppercase tracking-widest">Popular</div>
-                    <div class="text-4xl mb-4">🐬</div>
-                    <h3 class="text-xl font-bold mb-2">The Dolphin</h3>
-                    <div class="text-sm text-blue-900 mb-6 uppercase tracking-widest font-black">$20 / Month</div>
-                    <ul class="space-y-3 mb-8 text-sm text-slate-600 flex-grow">
-                        <li>• Enhanced Regional Context</li>
-                        <li>• Unlimited Swipe Cards</li>
-                        <li>• WhatsApp & Google Sync</li>
-                        <li>• Priority Response Speed</li>
-                    </ul>
-                    <button class="w-full py-3 bg-blue-900 text-white rounded-xl font-bold">Upgrade to Dolphin</button>
-                </div>
-                <!-- Enterprise Tier -->
-                <div class="p-8 border border-slate-100 rounded-3xl hover:shadow-xl transition-shadow flex flex-col">
-                    <div class="text-4xl mb-4">🐳</div>
-                    <h3 class="text-xl font-bold mb-2">The Orca</h3>
-                    <div class="text-sm text-slate-400 mb-6 uppercase tracking-widest font-black">Enterprise</div>
-                    <ul class="space-y-3 mb-8 text-sm text-slate-600 flex-grow">
-                        <li>• Full Network Sovereignty</li>
-                        <li>• Custom MCP Connectors</li>
-                        <li>• 24/7 Dedicated Support</li>
-                        <li>• Private Node Access</li>
-                    </ul>
-                    <button class="w-full py-3 bg-slate-900 text-white rounded-xl font-bold">Contact Sales</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        const tasks = [
-            { id: '1', icon: '🍲', title: 'Meal Planner', desc: 'Caribbean recipes' },
-            { id: '2', icon: '🛡️', title: 'Antivirus', desc: 'System security' },
-            { id: '3', icon: '⚖️', title: 'Legal Help', desc: 'Law intelligence' }
-        ];
-
-        function renderStack() {
-            const stack = document.getElementById('card-stack');
-            stack.innerHTML = tasks.map(t => `
-                <div class="swipe-card" onmousedown="startDrag(event)" onclick="setCommand('${t.title}')">
-                    <div class="text-8xl mb-8">${t.icon}</div>
-                    <div class="font-extrabold text-3xl mb-4 text-slate-900">${t.title}</div>
-                    <p class="text-slate-500 text-lg">${t.desc}</p>
-                </div>
-            `).join('');
-        }
-
-        let isDragging = false, startX = 0, currentCard = null;
-        function startDrag(e) { isDragging = true; startX = e.clientX; currentCard = e.currentTarget; document.addEventListener('mousemove', drag); document.addEventListener('mouseup', endDrag); }
-        function drag(e) { if (!isDragging || !currentCard) return; const diffX = e.clientX - startX; currentCard.style.transform = `translateX(${diffX}px) rotate(${diffX/20}deg)`; currentCard.style.opacity = 1 - Math.abs(diffX)/1000; }
-        function endDrag(e) { if (!isDragging || !currentCard) return; const diffX = e.clientX - startX; if (Math.abs(diffX) > 150) { currentCard.remove(); if (!document.querySelector('.swipe-card')) document.getElementById('card-stack').style.display = 'none'; } else { currentCard.style.transform = ''; currentCard.style.opacity = ''; } isDragging = false; document.removeEventListener('mousemove', drag); document.removeEventListener('mouseup', endDrag); }
-
-        function handleLogin() {
-            document.getElementById('login-overlay').style.opacity = '0';
-            setTimeout(() => {
-                document.getElementById('login-overlay').style.display = 'none';
-            }, 500);
-        }
-
-        function toggleProfile() { 
-            const menu = document.getElementById('profile-menu');
-            if (menu) menu.classList.toggle('show'); 
-        }
-
-        function toggleHelp() { 
-            const drawer = document.getElementById('help-drawer');
-            if (drawer) {
-                drawer.classList.toggle('open');
-                document.getElementById('profile-menu').classList.remove('show');
-            }
-        }
-
-        function toggleModal(id) { 
-            const modal = document.getElementById(id + '-modal');
-            if (modal) {
-                modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex'; 
-                document.getElementById('profile-menu').classList.remove('show');
-            }
-        }
-
-        function handleSchedule(f) { alert(f + ' hub coming soon!'); }
-        function handleAppClick(a) { alert('Connecting to ' + a + '...'); }
-        function handleAttachment() { document.getElementById('file-input').click(); }
-        function handleFileSelected(e) { alert('File: ' + e.target.files[0].name); }
-        let rec = false; function handleVoice() { rec = !rec; document.getElementById('voice-btn').classList.toggle('text-red-500', rec); if(!rec) alert('Voice captured'); }
-        
-        function handleSend() {
-            const input = document.getElementById('main-input');
-            const text = input.value.trim();
-            if (!text) return;
-            document.getElementById('card-stack').style.display = 'none';
-            const history = document.getElementById('chat-history');
-            const userMsg = document.createElement('div');
-            userMsg.className = 'message-bubble user';
-            userMsg.innerText = text;
-            history.appendChild(userMsg);
-            input.value = '';
-            setTimeout(() => {
-                const aiMsg = document.createElement('div');
-                aiMsg.className = 'message-bubble bot';
-                aiMsg.innerText = "Processing your request with Orcinos Intelligence...";
-                history.appendChild(aiMsg);
-                history.scrollTop = history.scrollHeight;
-            }, 800);
-        }
-        function setCommand(t) { document.getElementById('main-input').value = t; toggleHelp(); }
-
-        renderStack();
-    </script>
+ <!-- NAV -->
+ <nav>
+ <a href="#" class="nav-logo">
+ <span class="orb"></span>
+ ORCINOS
+ </a>
+ <ul class="nav-links">
+ <li><a href="#">API Docs</a></li>
+ <li><a href="#">Get App</a></li>
+ <li><a href="#">EN</a></li>
+ </ul>
+ </nav>
+ <!-- ANNOUNCEMENT BANNER -->
+ <div class="banner">
+ <span>🎉</span>
+ Orcinos Neural Connector v2 is live — WhatsApp, Outlook & Google Calendar integrations now available. Click for details.
+ </div>
+ <!-- HERO -->
+ <main>
+ <div class="hero">
+ <div class="hero-left">
+ <div class="wordmark">orcinos</div>
+ <div class="tagline">Intelligence for the Caribbean.</div>
+ <div class="cta-group">
+ <a href="#" class="cta-btn primary">
+ <span class="cta-title">Start Now</span>
+ <span class="cta-desc">Free access to Orcinos.<br>Experience your Caribbean AI.</span>
+ </a>
+ <a href="#" class="cta-btn secondary">
+ <span class="cta-title">Access API</span>
+ <span class="cta-desc">Build with Orcinos Neural Connectors.<br>Fast integration, smooth experience.</span>
+ </a>
+ </div>
+ </div>
+ <a href="mailto:priscillanarine@gmail.com" class="careers-card">
+ <div>
+ <div class="label">Join Orcinos</div>
+ <h3>Build the Future of Caribbean AI</h3>
+ </div>
+ <span class="view-btn">View Positions →</span>
+ </a>
+ </div>
+ </main>
+ <!-- FOOTER -->
+ <footer>
+ <div class="footer-top">
+ <div class="footer-brand">
+ <div class="orb-lg"></div>
+ <div class="footer-wordmark">ORCINOS</div>
+ <div class="social-icons">
+ <a href="mailto:priscillanarine@gmail.com" title="Email">✉</a>
+ <a href="https://github.com/priscadezigns9" title="GitHub">⌥</a>
+ <a href="#" title="WhatsApp">◎</a>
+ <a href="#" title="X / Twitter">𝕏</a>
+ </div>
+ </div>
+ <div class="footer-col">
+ <h4>Products</h4>
+ <ul>
+ <li><a href="#">Orcinos Chat</a></li>
+ <li><a href="#">Neural Connectors</a></li>
+ <li><a href="#">WhatsApp AI</a></li>
+ <li><a href="#">Outlook AI</a></li>
+ <li><a href="#">API Platform</a></li>
+ </ul>
+ </div>
+ <div class="footer-col">
+ <h4>Brands</h4>
+ <ul>
+ <li><a href="https://priscadezigns.org">Prisca Dezigns</a></li>
+ <li><a href="https://driveevolve.com">Evolve Mobility</a></li>
+ <li><a href="#">Dreaming Anime</a></li>
+ <li><a href="#">The Autodrome</a></li>
+ <li><a href="#">Calalloo</a></li>
+ </ul>
+ </div>
+ <div class="footer-col">
+ <h4>Legal & Safety</h4>
+ <ul>
+ <li><a href="#">Privacy Policy</a></li>
+ <li><a href="#">Terms of Use</a></li>
+ <li><a href="#">Report Vulnerabilities</a></li>
+ <li><a href="#">Transparency</a></li>
+ </ul>
+ </div>
+ <div class="footer-col">
+ <h4>Join Us</h4>
+ <ul>
+ <li><a href="mailto:priscillanarine@gmail.com">Open Positions</a></li>
+ <li><a href="https://priscadezigns.org">Partner with Us</a></li>
+ </ul>
+ </div>
+ </div>
+ <div class="footer-bottom">
+ <p>© 2026 Prisca Dezigns / Orcinos. All rights reserved.</p>
+ <a href="#">Privacy Policy</a>
+ </div>
+ </footer>
+ <!-- COOKIE BANNER -->
+ <div class="cookie-banner" id="cookieBanner">
+ <h4>Cookie Settings</h4>
+ <p>We use cookies to improve your experience and ensure platform security. View our <a href="#">cookie policy</a>.</p>
+ <div class="cookie-btns">
+ <button class="btn-necessary" onclick="dismissCookie()">Necessary cookies only</button>
+ <button class="btn-accept" onclick="dismissCookie()">Accept all cookies</button>
+ </div>
+ </div>
+ <script>
+ function dismissCookie() {
+ document.getElementById('cookieBanner').style.display = 'none';
+ localStorage.setItem('orcinos_cookie', 'accepted');
+ }
+ if (localStorage.getItem('orcinos_cookie')) {
+ document.getElementById('cookieBanner').style.display = 'none';
+ }
+ </script>
 </body>
 </html>
