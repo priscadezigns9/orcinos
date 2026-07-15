@@ -18,6 +18,7 @@
         .action-card { transition: all 0.2s; border: 1px solid #f1f5f9; }
         .action-card:hover { border-color: var(--orca-blue); background: #f0f9ff; transform: translateY(-2px); }
         .badge-caribbean { background: linear-gradient(90deg, #1e3a8a, #3b82f6); color: white; }
+        select { appearance: none; -webkit-appearance: none; }
     </style>
 </head>
 <body class="flex">
@@ -37,13 +38,15 @@
                 <a href="#" class="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-200 text-xs text-gray-500 transition">
                     <div class="w-2 h-2 rounded-full bg-gray-300"></div> Outlook / Exchange
                 </a>
+                <a href="#" class="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-200 text-xs text-gray-500 transition">
+                    <div class="w-2 h-2 rounded-full bg-gray-300"></div> Google Workspace
+                </a>
             </nav>
         </div>
 
         <div class="mt-auto pt-6 border-t border-gray-100">
             <div class="text-[10px] font-black text-gray-300 uppercase tracking-widest mb-5">Neural MCP Hub</div>
             <div class="flex gap-2 mb-8 flex-wrap">
-                <!-- SVG ICONS FOR MCP PLUGINS -->
                 <div title="Google Workspace" class="w-9 h-9 rounded-xl glass-icon flex items-center justify-center cursor-pointer hover:scale-105 transition">
                     <svg class="w-5 h-5 text-gray-500" viewBox="0 0 24 24" fill="currentColor"><path d="M12.48 10.92v3.28h7.84c-.24 1.84-.92 3.16-1.92 4.16-1.2 1.2-3.08 2.52-6.16 2.52-4.96 0-8.84-4-8.84-8.96s3.88-8.96 8.84-8.96c2.68 0 4.6 1.08 6.04 2.48l2.32-2.32C18.6 1.14 15.84 0 12.48 0 5.64 0 0 5.64 0 12.48s5.64 12.48 12.48 12.48c3.68 0 6.48-1.2 8.68-3.48 2.24-2.24 2.96-5.4 2.96-8.08 0-.68-.04-1.32-.12-1.92h-11.52z"/></svg>
                 </div>
@@ -69,7 +72,19 @@
                 <div class="text-[10px] font-black tracking-[0.4em] text-gray-300 uppercase">Marine Protocol</div>
                 <div class="px-2 py-0.5 rounded-full badge-caribbean text-[8px] font-black uppercase tracking-widest">Caribbean Context Active</div>
             </div>
-            <div class="flex items-center gap-3"><div class="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></div><span class="text-[9px] font-black text-blue-900 uppercase tracking-[0.2em]">ORCA-LAYER ENABLED</span></div>
+            <div class="flex items-center gap-4">
+                <div class="flex items-center gap-2 bg-gray-50 border border-gray-100 px-3 py-1.5 rounded-xl">
+                    <select id="brain-selector" class="bg-transparent text-[10px] font-black tracking-widest text-orcinos focus:outline-none cursor-pointer uppercase">
+                        <option value="orca">ORCA (Default)</option>
+                        <option value="claude">CLAUDE 3.5</option>
+                        <option value="gpt4">GPT-4o</option>
+                        <option value="gemini">GEMINI 1.5</option>
+                        <option value="deepseek">DEEPSEEK V3</option>
+                        <option value="grok">GROK-1</option>
+                    </select>
+                </div>
+                <div class="flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></div><span class="text-[9px] font-black text-blue-900 uppercase tracking-[0.2em]">NEURAL LINK ACTIVE</span></div>
+            </div>
         </header>
         <div class="flex-1 flex flex-col items-center justify-center p-12 overflow-y-auto">
             <div class="w-16 h-16 rounded-[2rem] bg-black flex items-center justify-center shadow-2xl mb-8">
@@ -103,16 +118,25 @@
         </div>
         <div class="p-10"><div class="max-w-3xl mx-auto relative">
                 <div class="chat-input rounded-[2rem] bg-white p-5 flex flex-col gap-4">
-                    <textarea placeholder="Message Orcinos..." class="w-full resize-none border-none focus:ring-0 text-gray-800 placeholder-gray-300 min-h-[60px] font-medium"></textarea>
+                    <textarea id="chat-input" placeholder="Message Orcinos..." class="w-full resize-none border-none focus:ring-0 text-gray-800 placeholder-gray-300 min-h-[60px] font-medium"></textarea>
                     <div class="flex justify-between items-center">
                         <div class="flex gap-3">
                             <button class="p-2.5 rounded-xl glass-icon text-gray-400 hover:text-blue-600 transition-colors"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"></path></svg></button>
                             <button class="p-2.5 rounded-xl glass-icon text-gray-400 hover:text-blue-600 transition-colors"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"></path></svg></button>
                         </div>
-                        <button class="btn-orca py-3 px-8 rounded-2xl font-black text-[11px] tracking-[0.2em] flex items-center gap-3 shadow-md">EXECUTE<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg></button>
+                        <button id="send-button" class="btn-orca py-3 px-8 rounded-2xl font-black text-[11px] tracking-[0.2em] flex items-center gap-3 shadow-md">EXECUTE<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg></button>
                     </div>
                 </div>
             </div></div>
     </main>
+    <script>
+        document.getElementById('send-button').addEventListener('click', () => {
+            const brain = document.getElementById('brain-selector').value;
+            const input = document.getElementById('chat-input').value;
+            if (!input) return;
+            console.log(`Sending to ${brain}: ${input}`);
+            // Logic for backend connector goes here
+        });
+    </script>
 </body>
 </html>
