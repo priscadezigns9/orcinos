@@ -3,104 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ORCINOS | Sovereign AI Platform</title>
+    <title>ORCINOS | The Apex Intelligence Platform</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <style>
         :root {
-            --deep-purple: #301934;
-            --lilac: #C8A2C8;
-            --glass: rgba(200, 162, 200, 0.05);
+            --orca-black: #050505;
+            --orca-white: #ffffff;
+            --orca-blue: #1e3a8a;
+            --glass-white: rgba(255, 255, 255, 0.9);
         }
         body {
-            background: var(--deep-purple);
-            color: white;
+            background: var(--orca-white);
+            color: var(--orca-black);
             font-family: 'Inter', sans-serif;
             overflow-x: hidden;
         }
+        .orca-gradient {
+            background: linear-gradient(135deg, var(--orca-black) 0%, var(--orca-blue) 100%);
+        }
         .playfair { font-family: 'Playfair Display', serif; }
         .glass-panel {
-            background: var(--glass);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(200, 162, 200, 0.1);
+            background: var(--glass-white);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            box-shadow: 0 10px 40px rgba(30, 58, 138, 0.1);
         }
-        .orb {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(80px);
-            z-index: -1;
-            opacity: 0.3;
+        .logo-container {
+            width: 64px;
+            height: 64px;
+            background: var(--orca-black);
+            padding: 12px;
+            border-radius: 16px;
         }
-        .orb-1 { width: 400px; height: 400px; background: var(--lilac); top: -100px; left: -100px; }
-        .orb-2 { width: 300px; height: 300px; background: #6b21a8; bottom: -50px; right: -50px; }
-        
         .ai-input:focus {
             outline: none;
-            box-shadow: 0 0 20px rgba(200, 162, 200, 0.2);
+            border-bottom: 2px solid var(--orca-blue);
         }
     </style>
 </head>
-<body class="min-h-screen flex flex-col items-center justify-center p-6">
-    <div class="orb orb-1"></div>
-    <div class="orb orb-2"></div>
-
-    <header class="fixed top-0 left-0 w-full p-8 flex justify-between items-center z-10">
-        <div class="text-2xl font-bold tracking-tighter playfair italic">ORCINOS</div>
-        <div class="flex gap-6 text-sm uppercase tracking-widest opacity-60">
-            <a href="#" class="hover:text-[var(--lilac)] transition">Intelligence</a>
-            <a href="#" class="hover:text-[var(--lilac)] transition">Vault</a>
-            <a href="#" class="hover:text-[var(--lilac)] transition">Systems</a>
+<body class="min-h-screen flex flex-col p-6 md:p-12">
+    
+    <header class="w-full flex justify-between items-center mb-12">
+        <div class="flex items-center gap-4">
+            <div class="logo-container">
+                <img src="../tiny_logos/orcinos_icon.png" alt="Orcinos Logo" class="w-full h-full object-contain brightness-0 invert">
+            </div>
+            <div class="text-3xl font-extrabold tracking-tighter playfair italic">ORCINOS</div>
+        </div>
+        <div class="hidden md:flex gap-8 text-xs font-bold uppercase tracking-widest opacity-40">
+            <a href="#" class="hover:text-[var(--orca-blue)] transition">Intelligence</a>
+            <a href="#" class="hover:text-[var(--orca-blue)] transition">The Deep</a>
+            <a href="#" class="hover:text-[var(--orca-blue)] transition">Sovereign</a>
         </div>
     </header>
 
-    <main class="w-full max-w-4xl text-center space-y-12">
-        <div class="space-y-4">
-            <h1 class="text-5xl md:text-7xl playfair italic">What shall we build today, <span class="text-[var(--lilac)]">Architect?</span></h1>
-            <p class="text-lg opacity-40 font-light tracking-wide uppercase">Sovereign Intelligence Engine v1.0</p>
+    <main class="w-full max-w-5xl mx-auto flex-grow flex flex-col justify-center gap-12">
+        <div class="space-y-2">
+            <h1 class="text-6xl md:text-8xl font-black playfair italic leading-tight">Surface the <span class="text-[var(--orca-blue)]">Intelligence.</span></h1>
+            <p class="text-sm opacity-60 font-bold tracking-[0.3em] uppercase">Orca-Class Strategic Engine v1.1</p>
         </div>
 
-        <!-- Central AI Interface (Zapia x Claude Hybrid) -->
-        <div class="glass-panel rounded-3xl p-2 md:p-4 shadow-2xl relative">
+        <div class="glass-panel rounded-3xl p-6 md:p-8 relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-32 h-32 orca-gradient opacity-5 -mr-16 -mt-16 rounded-full"></div>
             <textarea 
-                class="w-full bg-transparent p-6 text-xl ai-input resize-none h-32 md:h-48" 
-                placeholder="Initiate a strategic directive..."
+                class="w-full bg-transparent p-4 text-2xl md:text-3xl ai-input resize-none h-40 md:h-56 font-light" 
+                placeholder="Submit a directive from the deep..."
             ></textarea>
             
-            <div class="flex flex-wrap gap-3 p-4 border-t border-white/5 text-xs">
-                <button class="px-4 py-2 rounded-full border border-white/10 hover:bg-white/5 transition flex items-center gap-2">
-                    <span class="w-2 h-2 rounded-full bg-blue-400"></span> Luna Speed
+            <div class="flex flex-wrap gap-4 mt-6 pt-6 border-t border-black/5 text-[10px] font-bold uppercase tracking-widest">
+                <button class="flex items-center gap-2 hover:text-[var(--orca-blue)] transition">
+                    <span class="w-2 h-2 rounded-full bg-black"></span> Sol Directive
                 </button>
-                <button class="px-4 py-2 rounded-full border border-white/10 hover:bg-white/5 transition flex items-center gap-2">
-                    <span class="w-2 h-2 rounded-full bg-[#C8A2C8]"></span> Sol High-Fidelity
+                <button class="flex items-center gap-2 hover:text-[var(--orca-blue)] transition">
+                    <span class="w-2 h-2 rounded-full bg-[var(--orca-blue)]"></span> Luna Rapid
                 </button>
-                <button class="px-4 py-2 rounded-full border border-white/10 hover:bg-white/5 transition flex items-center gap-2">
-                    <span class="w-2 h-2 rounded-full bg-green-400"></span> System Audit
+                <button class="flex items-center gap-2 hover:text-[var(--orca-blue)] transition">
+                    <span class="w-2 h-2 rounded-full bg-slate-300"></span> System Breach Check
                 </button>
             </div>
         </div>
 
-        <!-- Proactive Intelligence HUD (The Zapia Element) -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full text-left">
-            <div class="glass-panel p-6 rounded-2xl group hover:border-[var(--lilac)] transition cursor-pointer">
-                <div class="text-[var(--lilac)] mb-4 opacity-50 group-hover:opacity-100 uppercase tracking-widest text-[10px]">NEUROSENSE</div>
-                <h3 class="text-xl mb-2 italic">System Health: Optimal</h3>
-                <p class="text-sm opacity-40">All nodes secure. 0 threats detected in last 24h.</p>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
+            <div class="p-4 border-l-4 border-black hover:border-[var(--orca-blue)] transition group">
+                <div class="text-[10px] font-black uppercase tracking-widest mb-4 opacity-30 group-hover:text-[var(--orca-blue)]">Sonar Feed</div>
+                <h3 class="text-lg font-bold italic mb-1">Regional Intelligence</h3>
+                <p class="text-xs opacity-50">Monitoring Caribbean trade signals for Sol alignment.</p>
             </div>
-            <div class="glass-panel p-6 rounded-2xl group hover:border-[var(--lilac)] transition cursor-pointer">
-                <div class="text-[var(--lilac)] mb-4 opacity-50 group-hover:opacity-100 uppercase tracking-widest text-[10px]">LEGAL INTELLIGENCE</div>
-                <h3 class="text-xl mb-2 italic">New Directive Required</h3>
-                <p class="text-sm opacity-40">Review regional tax update for Guyana operations.</p>
+            <div class="p-4 border-l-4 border-black hover:border-[var(--orca-blue)] transition group">
+                <div class="text-[10px] font-black uppercase tracking-widest mb-4 opacity-30 group-hover:text-[var(--orca-blue)]">The Vault</div>
+                <h3 class="text-lg font-bold italic mb-1">Asset Sovereignty</h3>
+                <p class="text-xs opacity-50">$PRN core reserves synced. Liquidity status: Stable.</p>
             </div>
-            <div class="glass-panel p-6 rounded-2xl group hover:border-[var(--lilac)] transition cursor-pointer">
-                <div class="text-[var(--lilac)] mb-4 opacity-50 group-hover:opacity-100 uppercase tracking-widest text-[10px]">PRISCION VAULT</div>
-                <h3 class="text-xl mb-2 italic">$PRN Liquidity</h3>
-                <p class="text-sm opacity-40">Current wallet status synced with main-net.</p>
+            <div class="p-4 border-l-4 border-black hover:border-[var(--orca-blue)] transition group">
+                <div class="text-[10px] font-black uppercase tracking-widest mb-4 opacity-30 group-hover:text-[var(--orca-blue)]">Alpha Node</div>
+                <h3 class="text-lg font-bold italic mb-1">Sierra Conversion</h3>
+                <p class="text-xs opacity-50">Lead conversion agents active. 14 new signals processed.</p>
             </div>
         </div>
     </main>
 
-    <footer class="fixed bottom-0 left-0 w-full p-8 flex justify-center opacity-20 text-[10px] tracking-[0.5em] uppercase">
-        Orcinos Powered by Prisca Dezigns &copy; 2026
+    <footer class="mt-12 flex justify-between items-center opacity-30 text-[9px] font-black tracking-widest uppercase">
+        <div>&copy; 2026 PRISCA DEZIGNS</div>
+        <div class="flex gap-4">
+            <span>Sovereign Platform</span>
+            <span>Orca-Tier Protocol</span>
+        </div>
     </footer>
 </body>
 </html>
