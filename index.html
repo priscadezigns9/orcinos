@@ -350,8 +350,16 @@
 
         <div class="input-area">
             <div class="input-wrapper">
+                <div class="flex items-center gap-2 px-2">
+                    <button class="p-2 text-slate-400 hover:text-blue-900 transition-colors" title="Attach File">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/></svg>
+                    </button>
+                    <button class="p-2 text-slate-400 hover:text-blue-900 transition-colors" title="Voice Note">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"/></svg>
+                    </button>
+                </div>
                 <input type="text" id="main-input" placeholder="What's on your mind?" onkeydown="if(event.key==='Enter') handleSend()">
-                <button onclick="handleSend()" class="p-2 text-slate-400 hover:text-purple-900 transition-colors">
+                <button onclick="handleSend()" class="p-2 text-slate-400 hover:text-blue-900 transition-colors">
                     <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
                 </button>
             </div>
@@ -430,16 +438,16 @@
             </div>
             <div class="space-y-4 text-sm text-slate-600 leading-relaxed">
                 <div class="p-4 bg-blue-50 rounded-xl border border-blue-100">
-                    <p class="font-bold text-blue-900 mb-1">Sovereign Data Storage</p>
-                    <p>Your messages and connections are stored in your own regional identity layer, never used for training global models.</p>
+                    <p class="font-bold text-blue-900 mb-1">Encrypted Privacy</p>
+                    <p>Your messages and connections are stored in your own secure identity layer, never used for training models without your consent.</p>
                 </div>
                 <div class="p-4 bg-blue-50 rounded-xl border border-blue-100">
-                    <p class="font-bold text-blue-900 mb-1">End-to-End Connector Security</p>
+                    <p class="font-bold text-blue-900 mb-1">Secure App Connections</p>
                     <p>External apps (WhatsApp, Gmail) connect via secure OAuth2 protocols. Orcinos never sees your passwords.</p>
                 </div>
                 <div class="p-4 bg-blue-50 rounded-xl border border-blue-100">
-                    <p class="font-bold text-blue-900 mb-1">Regional Intelligence</p>
-                    <p>Processing is optimized for Caribbean context while maintaining strict international privacy standards.</p>
+                    <p class="font-bold text-blue-900 mb-1">International Standards</p>
+                    <p>We maintain strict security protocols that protect every user, whether you're using Orcinos locally or globally.</p>
                 </div>
             </div>
         </div>
@@ -456,29 +464,27 @@
             <div class="space-y-6">
                 <div>
                     <label class="block text-xs font-black text-slate-400 uppercase mb-3">Accent Theme</label>
-                    <div class="flex gap-3">
-                        <div class="w-8 h-8 rounded-full bg-blue-900 cursor-pointer border-2 border-white ring-2 ring-blue-900" title="Orcinos Deep Blue"></div>
-                        <div class="w-8 h-8 rounded-full bg-slate-900 cursor-pointer border-2 border-white hover:ring-2 hover:ring-slate-900" title="Midnight"></div>
-                        <div class="w-8 h-8 rounded-full bg-indigo-600 cursor-pointer border-2 border-white hover:ring-2 hover:ring-indigo-600" title="Ocean"></div>
+                    <div class="flex gap-4">
+                        <div id="theme-blue" onclick="selectTheme('blue')" class="w-10 h-10 rounded-full bg-blue-900 cursor-pointer border-4 border-white ring-2 ring-blue-900 transition-all" title="Orcinos Deep Blue"></div>
+                        <div id="theme-black" onclick="selectTheme('black')" class="w-10 h-10 rounded-full bg-slate-900 cursor-pointer border-4 border-white hover:ring-2 hover:ring-slate-900 transition-all" title="Midnight Black"></div>
                     </div>
                 </div>
                 <div>
-                    <label class="block text-xs font-black text-slate-400 uppercase mb-3">Regional Focus</label>
-                    <select class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium outline-none">
-                        <option>Trinidad & Tobago (Default)</option>
-                        <option>Caribbean Basin</option>
-                        <option>Global (Neutral)</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="block text-xs font-black text-slate-400 uppercase mb-3">UI Density</label>
+                    <label class="block text-xs font-black text-slate-400 uppercase mb-3">Model Focus</label>
                     <div class="grid grid-cols-2 gap-3">
-                        <button class="py-3 px-4 bg-blue-50 border-2 border-blue-900 rounded-xl text-xs font-bold text-blue-900">Comfortable</button>
-                        <button class="py-3 px-4 bg-white border-2 border-slate-100 rounded-xl text-xs font-bold text-slate-400">Compact</button>
+                        <div id="focus-basic" onclick="selectFocus('basic')" class="p-4 border-2 border-blue-900 bg-blue-50 rounded-2xl cursor-pointer transition-all">
+                            <div class="font-bold text-blue-900 text-sm">General AI</div>
+                            <p class="text-[10px] text-blue-700">Balanced for daily tasks.</p>
+                        </div>
+                        <div id="focus-pro" onclick="selectFocus('pro')" class="p-4 border-2 border-slate-100 rounded-2xl cursor-pointer hover:border-blue-900 transition-all">
+                            <div class="font-bold text-slate-900 text-sm">Pro Engine</div>
+                            <p class="text-[10px] text-slate-400">High-fidelity reasoning.</p>
+                        </div>
                     </div>
                 </div>
             </div>
-            <button onclick="toggleModal('personalization')" class="w-full mt-8 py-4 bg-blue-900 text-white rounded-xl font-bold hover:shadow-lg transition-all">Save Preferences</button>
+            <button id="save-personalization-btn" onclick="savePersonalization()" class="w-full mt-8 py-4 bg-blue-900 text-white rounded-xl font-bold hover:shadow-lg transition-all">Save Preferences</button>
+
         </div>
     </div>
 
@@ -551,6 +557,55 @@
             document.removeEventListener('mouseup', endDrag);
         }
 
+        function selectTheme(color) {
+            const blue = document.getElementById('theme-blue');
+            const black = document.getElementById('theme-black');
+            if (color === 'blue') {
+                blue.classList.add('ring-2', 'ring-blue-900');
+                black.classList.remove('ring-2', 'ring-slate-900');
+            } else {
+                black.classList.add('ring-2', 'ring-slate-900');
+                blue.classList.remove('ring-2', 'ring-blue-900');
+            }
+        }
+
+        function selectFocus(type) {
+            const basic = document.getElementById('focus-basic');
+            const pro = document.getElementById('focus-pro');
+            if (type === 'basic') {
+                basic.classList.add('border-blue-900', 'bg-blue-50');
+                pro.classList.remove('border-blue-900', 'bg-blue-50');
+                pro.classList.add('border-slate-100');
+            } else {
+                pro.classList.add('border-blue-900', 'bg-blue-50');
+                basic.classList.remove('border-blue-900', 'bg-blue-50');
+                basic.classList.add('border-slate-100');
+            }
+        }
+
+        function savePersonalization() {
+            const btn = document.getElementById('save-personalization-btn');
+            btn.innerText = 'Saving...';
+            setTimeout(() => {
+                btn.innerText = 'Saved!';
+                setTimeout(() => {
+                    btn.innerText = 'Save Preferences';
+                    toggleModal('personalization');
+                }, 1000);
+            }, 800);
+        }
+
+        function toggleModal(id) {
+            const modal = document.getElementById(id + '-modal');
+            if (modal) {
+                // Ensure other modals are closed
+                document.querySelectorAll('.modal').forEach(m => {
+                    if (m.id !== id + '-modal') m.style.display = 'none';
+                });
+                modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
+            }
+        }
+
         function handleSend() {
             const input = document.getElementById('main-input');
             const text = input.value.trim();
@@ -569,18 +624,21 @@
             
             history.appendChild(userMsg);
             input.value = '';
+            
+            // Mock AI Response
+            setTimeout(() => {
+                const aiMsg = document.createElement('div');
+                aiMsg.className = 'message-bubble bot';
+                if (text.toLowerCase().includes('get started')) {
+                    aiMsg.innerText = "Welcome back to Orcinos! 🐳 You can connect your apps in the sidebar, or ask me any question. Try swiping the cards above for quick tasks!";
+                } else {
+                    aiMsg.innerText = "I've received your request and I'm processing it now. (Orcinos Intelligence Active)";
+                }
+                history.appendChild(aiMsg);
+                history.scrollTop = history.scrollHeight;
+            }, 800);
+
             history.scrollTop = history.scrollHeight;
-        }
-
-        function toggleProfile() {
-            document.getElementById('profile-menu').classList.toggle('show');
-        }
-
-        function toggleModal(id) {
-            const modal = document.getElementById(id + '-modal');
-            if (modal) {
-                modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
-            }
         }
 
         function openConnectors() {
