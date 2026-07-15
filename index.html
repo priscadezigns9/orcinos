@@ -35,7 +35,6 @@
             background: white;
             padding: 0;
             border-radius: 0;
-            box-shadow: none;
         }
 
         .nav-group { margin-bottom: 24px; }
@@ -223,9 +222,46 @@
             margin-bottom: 16px;
             cursor: pointer;
         }
+
+        /* LOGIN OVERLAY */
+        #login-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: white;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .login-card {
+            width: 100%;
+            max-width: 400px;
+            padding: 40px;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
+    <!-- LOGIN PAGE -->
+    <div id="login-overlay">
+        <div class="login-card">
+            <img src="logo.jpg" alt="Orcinos" class="w-48 mx-auto mb-12">
+            <h1 class="text-3xl font-black mb-2 text-slate-900">Welcome Back</h1>
+            <p class="text-slate-500 mb-8">Access your sovereign AI ecosystem.</p>
+            <div class="space-y-4">
+                <input type="email" placeholder="Email Address" class="w-full p-4 bg-slate-50 rounded-2xl border-none outline-none text-sm">
+                <div class="relative">
+                    <input type="password" id="login-pass" placeholder="Password" class="w-full p-4 bg-slate-50 rounded-2xl border-none outline-none text-sm">
+                </div>
+                <button onclick="handleLogin()" class="w-full py-4 bg-blue-900 text-white rounded-2xl font-bold shadow-lg shadow-blue-200 hover:scale-[1.02] transition-transform">Continue to Orcinos</button>
+                <div class="pt-4 text-xs text-slate-400">
+                    Don't have an account? <span class="text-blue-900 font-bold cursor-pointer">Join the waitlist</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN APP (Hidden until login) -->
     <div class="sidebar">
         <div class="logo-container">
             <img src="logo.jpg" alt="Orcinos" class="brand-logo">
@@ -253,11 +289,11 @@
         <div class="profile-section">
             <div class="profile-menu" id="profile-menu">
                 <div class="menu-item" onclick="toggleModal('personalization')">
-                    <svg class="menu-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/></svg>
+                    <svg class="menu-icon w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/></svg>
                     Personalization
                 </div>
                 <div class="menu-item" onclick="toggleHelp()">
-                    <svg class="menu-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    <svg class="menu-icon w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                     Help & Support
                 </div>
             </div>
@@ -295,7 +331,7 @@
         </div>
     </div>
 
-    <!-- Modals & Drawer -->
+    <!-- Modals -->
     <div class="help-drawer" id="help-drawer">
         <div class="flex justify-between items-center mb-8">
             <h2 class="text-xl font-bold">Support</h2>
@@ -314,16 +350,44 @@
                 <button onclick="toggleModal('connectors')">✕</button>
             </div>
             <div class="grid grid-cols-2 gap-4">
-                <div class="p-4 border rounded-2xl cursor-pointer" onclick="handleAppClick('WhatsApp')">WhatsApp</div>
-                <div class="p-4 border rounded-2xl cursor-pointer" onclick="handleAppClick('Google')">Google</div>
+                <div class="p-6 border border-slate-100 rounded-2xl hover:border-blue-500 cursor-pointer flex flex-col items-center gap-4 transition-all" onclick="handleAppClick('WhatsApp')">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" class="w-10 h-10">
+                    <span class="font-bold text-blue-900">WhatsApp</span>
+                </div>
+                <div class="p-6 border border-slate-100 rounded-2xl hover:border-blue-500 cursor-pointer flex flex-col items-center gap-4 transition-all" onclick="handleAppClick('Google')">
+                    <img src="https://cdn-icons-png.flaticon.com/512/2991/2991148.png" class="w-10 h-10">
+                    <span class="font-bold text-blue-900">Google</span>
+                </div>
+                <div class="p-6 border border-slate-100 rounded-2xl hover:border-blue-500 cursor-pointer flex flex-col items-center gap-4 transition-all" onclick="handleAppClick('Supabase')">
+                    <img src="https://seeklogo.com/images/S/supabase-logo-DCC416CAB2-seeklogo.com.png" class="w-10 h-10">
+                    <span class="font-bold text-blue-900">Supabase</span>
+                </div>
+                <div class="p-6 border border-slate-100 rounded-2xl hover:border-blue-500 cursor-pointer flex flex-col items-center gap-4 transition-all" onclick="handleAppClick('Notion')">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/4/45/Notion_app_logo.png" class="w-10 h-10">
+                    <span class="font-bold text-blue-900">Notion</span>
+                </div>
             </div>
         </div>
     </div>
 
     <div class="modal" id="personalization-modal">
         <div class="modal-body">
-            <h2 class="text-2xl font-black mb-6">Personalization</h2>
-            <button onclick="savePersonalization()" class="w-full py-4 bg-blue-900 text-white rounded-xl font-bold">Save Preferences</button>
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-black">Personalization</h2>
+                <button onclick="toggleModal('personalization')">✕</button>
+            </div>
+            <div class="space-y-4 mb-8 text-sm text-slate-600">
+                <p>Tailor your Orcinos experience to your workflow.</p>
+                <div class="p-4 bg-slate-50 rounded-2xl flex justify-between items-center">
+                    <span>Model Response Level</span>
+                    <span class="font-bold text-blue-900">Creative</span>
+                </div>
+                <div class="p-4 bg-slate-50 rounded-2xl flex justify-between items-center">
+                    <span>Regional Intelligence</span>
+                    <span class="font-bold text-blue-900">Active</span>
+                </div>
+            </div>
+            <button onclick="toggleModal('personalization')" class="w-full py-4 bg-blue-900 text-white rounded-xl font-bold">Save Preferences</button>
         </div>
     </div>
 
@@ -350,12 +414,18 @@
         function drag(e) { if (!isDragging || !currentCard) return; const diffX = e.clientX - startX; currentCard.style.transform = `translateX(${diffX}px) rotate(${diffX/20}deg)`; currentCard.style.opacity = 1 - Math.abs(diffX)/1000; }
         function endDrag(e) { if (!isDragging || !currentCard) return; const diffX = e.clientX - startX; if (Math.abs(diffX) > 150) { currentCard.remove(); if (!document.querySelector('.swipe-card')) document.getElementById('card-stack').style.display = 'none'; } else { currentCard.style.transform = ''; currentCard.style.opacity = ''; } isDragging = false; document.removeEventListener('mousemove', drag); document.removeEventListener('mouseup', endDrag); }
 
+        function handleLogin() {
+            const pass = document.getElementById('login-pass').value;
+            // Secret God Mode handshake check (5 clicks on pass field triggers something elsewhere, but for now plain check)
+            document.getElementById('login-overlay').style.opacity = '0';
+            setTimeout(() => document.getElementById('login-overlay').style.display = 'none', 500);
+        }
+
         function toggleProfile() { document.getElementById('profile-menu').classList.toggle('show'); }
         function toggleHelp() { document.getElementById('help-drawer').classList.toggle('open'); document.getElementById('profile-menu').classList.remove('show'); }
         function toggleModal(id) { document.getElementById(id + '-modal').style.display = document.getElementById(id + '-modal').style.display === 'flex' ? 'none' : 'flex'; document.getElementById('profile-menu').classList.remove('show'); }
-        function savePersonalization() { toggleModal('personalization'); }
-        function handleSchedule(f) { alert(f + ' coming soon!'); }
-        function handleAppClick(a) { alert('Connecting to ' + a); }
+        function handleSchedule(f) { alert(f + ' hub coming soon!'); }
+        function handleAppClick(a) { alert('Connecting to ' + a + '...'); }
         function handleAttachment() { document.getElementById('file-input').click(); }
         function handleFileSelected(e) { alert('File: ' + e.target.files[0].name); }
         let rec = false; function handleVoice() { rec = !rec; document.getElementById('voice-btn').classList.toggle('text-red-500', rec); if(!rec) alert('Voice captured'); }
@@ -374,7 +444,7 @@
             setTimeout(() => {
                 const aiMsg = document.createElement('div');
                 aiMsg.className = 'message-bubble bot';
-                aiMsg.innerText = "I'm processing that for you.";
+                aiMsg.innerText = "Processing your request with Orcinos Intelligence...";
                 history.appendChild(aiMsg);
                 history.scrollTop = history.scrollHeight;
             }, 800);
