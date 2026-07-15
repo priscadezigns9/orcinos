@@ -36,18 +36,22 @@
         }
 
         .orca-brand-icon {
-            width: 48px;
-            height: 48px;
+            width: 100%;
+            height: auto;
+            max-height: 80px;
             border-radius: 12px;
             overflow: hidden;
             background: white;
             box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .orca-brand-icon img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: contain;
         }
 
         .nav-item {
@@ -95,30 +99,40 @@
         }
 
         .card-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
             gap: 16px;
             width: 100%;
             margin-top: 24px;
+            padding-bottom: 12px;
+            scrollbar-width: none; /* Firefox */
+        }
+
+        .card-grid::-webkit-scrollbar {
+            display: none; /* Chrome/Safari */
         }
 
         .welcome-card {
+            flex: 0 0 280px;
+            scroll-snap-align: center;
             background: white;
             border: 1px solid #e5e7eb;
-            border-radius: 16px;
-            padding: 20px;
+            border-radius: 24px;
+            padding: 32px;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
             flex-direction: column;
-            align-items: flex-start;
-            text-align: left;
+            align-items: center;
+            text-align: center;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
         }
 
         .welcome-card:hover {
             border-color: var(--orca-blue);
-            box-shadow: 0 8px 24px rgba(37, 99, 235, 0.08);
-            transform: translateY(-2px);
+            box-shadow: 0 20px 40px -10px rgba(37, 99, 235, 0.15);
+            transform: scale(1.02);
         }
 
         .input-area {
@@ -324,9 +338,9 @@
             const welcomeGrid = document.getElementById('welcome-grid');
             welcomeGrid.innerHTML = hubTiles.map(tile => `
                 <div class="welcome-card" onclick="setCommand('${tile.title}')">
-                    <div class="text-2xl mb-2">${tile.icon}</div>
-                    <div class="font-bold text-base mb-1">${tile.title}</div>
-                    <p class="text-slate-500 text-xs">${tile.desc}</p>
+                    <div class="text-5xl mb-6">${tile.icon}</div>
+                    <div class="font-extrabold text-xl mb-2 text-slate-900">${tile.title}</div>
+                    <p class="text-slate-500 text-sm leading-relaxed">${tile.desc}</p>
                 </div>
             `).join('');
 
