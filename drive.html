@@ -568,13 +568,15 @@ updateClock();
 // ══════════════════════════════════════════════
 // SPEED — SMOOTHED GPS
 // ══════════════════════════════════════════════
-const SPEED_SMOOTH = 6; // rolling average window
+const SPEED_SMOOTH   = 8;  // rolling average window (wider = more stable)
+const SPEED_DEADZONE = 3;  // anything below 3 km/h = GPS noise, clamp to 0
 
 function pushSpeed(raw) {
   state.speedHistory.push(raw);
   if (state.speedHistory.length > SPEED_SMOOTH) state.speedHistory.shift();
   const avg = state.speedHistory.reduce((a,b)=>a+b,0) / state.speedHistory.length;
-  return Math.round(avg);
+  const clamped = avg < SPEED_DEADZONE ? 0 : avg;
+  return Math.round(clamped);
 }
 
 function renderSpeed(kmh) {
