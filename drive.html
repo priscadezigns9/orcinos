@@ -1000,6 +1000,15 @@ document.addEventListener('keydown', e => {
     if (e.code === 'KeyS') manualSave();
     if (e.code === 'KeyF') flipCamera();
 });
+
+// ── SERVICE WORKER REGISTRATION (offline support) ─────
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/drive-sw.js')
+            .then(reg => console.log('[Drive SW] registered:', reg.scope))
+            .catch(err => console.warn('[Drive SW] failed:', err));
+    });
+}
 </script>
 </body>
 </html>
