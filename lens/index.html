@@ -464,6 +464,253 @@
   }
 
   /* ── CONTACT ──────────────────────────────────────────────── */
+  /* ── PRICING ─────────────────────────────────────────────── */
+  #pricing {
+    padding: 7rem 4rem;
+    background: var(--bg);
+    border-top: 1px solid var(--border);
+  }
+
+  .pricing-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .pricing-card {
+    margin: 3.5rem auto 0;
+    max-width: 480px;
+    background: var(--bg2);
+    border: 1px solid var(--cyan-border);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 0 60px rgba(0,170,255,0.08), 0 24px 64px rgba(0,0,0,0.5);
+    position: relative;
+  }
+
+  .pricing-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+  }
+
+  .pricing-badge {
+    display: inline-block;
+    background: var(--cyan-dim);
+    border: 1px solid var(--cyan-border);
+    color: var(--cyan);
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.9rem;
+    border-radius: 100px;
+    margin-bottom: 1.2rem;
+  }
+
+  .pricing-head {
+    padding: 2.5rem 2.5rem 2rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .pricing-amount {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 0.3rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .pricing-currency {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--cyan);
+    line-height: 2.8;
+  }
+
+  .pricing-number {
+    font-family: var(--font-h);
+    font-size: 4rem;
+    font-weight: 400;
+    color: var(--white);
+    line-height: 1;
+  }
+
+  .pricing-period {
+    font-size: 0.85rem;
+    color: var(--muted);
+    line-height: 2.2;
+  }
+
+  .pricing-desc {
+    font-size: 0.9rem;
+    color: var(--muted);
+    line-height: 1.6;
+    margin-top: 0.75rem;
+  }
+
+  .pricing-features {
+    padding: 2rem 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .pricing-feature {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.85rem;
+    font-size: 0.88rem;
+    color: var(--white);
+    line-height: 1.5;
+  }
+
+  .pricing-feature svg {
+    flex-shrink: 0;
+    width: 16px; height: 16px;
+    stroke: var(--cyan);
+    margin-top: 2px;
+  }
+
+  .pricing-footer {
+    padding: 1.75rem 2.5rem;
+  }
+
+  .pricing-cta {
+    display: block;
+    width: 100%;
+    padding: 0.95rem;
+    background: var(--cyan);
+    color: var(--bg);
+    border: none;
+    border-radius: 10px;
+    font-family: var(--font-ui);
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.2s;
+  }
+
+  .pricing-cta:hover { opacity: 0.88; transform: translateY(-1px); }
+
+  .pricing-addons {
+    margin: 3.5rem auto 0;
+    max-width: 700px;
+  }
+
+  .pricing-addons h3 {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1.25rem;
+  }
+
+  .addon-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.85rem;
+    text-align: left;
+  }
+
+  .addon-item {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    transition: border-color 0.2s;
+  }
+
+  .addon-item:hover { border-color: var(--cyan-border); }
+
+  .addon-name {
+    font-size: 0.82rem;
+    color: var(--white);
+    font-weight: 500;
+    line-height: 1.4;
+  }
+
+  .addon-name span {
+    display: block;
+    font-size: 0.7rem;
+    color: var(--muted);
+    font-weight: 400;
+    margin-top: 0.2rem;
+  }
+
+  .addon-price {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--cyan);
+    white-space: nowrap;
+  }
+
+  .pricing-enterprise {
+    margin: 3rem auto 0;
+    max-width: 700px;
+    background: linear-gradient(135deg, rgba(124,58,237,0.08), rgba(0,170,255,0.06));
+    border: 1px solid rgba(124,58,237,0.2);
+    border-radius: 16px;
+    padding: 2rem 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    text-align: left;
+  }
+
+  .enterprise-text h3 {
+    font-family: var(--font-h);
+    font-size: 1.3rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .enterprise-text p {
+    font-size: 0.85rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .btn-enterprise {
+    flex-shrink: 0;
+    padding: 0.75rem 1.5rem;
+    background: transparent;
+    border: 1px solid rgba(124,58,237,0.5);
+    border-radius: 8px;
+    color: var(--white);
+    font-family: var(--font-ui);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: border-color 0.2s, background 0.2s;
+    white-space: nowrap;
+  }
+
+  .btn-enterprise:hover {
+    border-color: rgba(124,58,237,0.9);
+    background: rgba(124,58,237,0.1);
+  }
+
+  @media (max-width: 640px) {
+    #pricing { padding: 5rem 1.5rem; }
+    .addon-grid { grid-template-columns: 1fr; }
+    .pricing-enterprise { flex-direction: column; text-align: center; }
+  }
+
   #contact {
     padding: 7rem 4rem;
     background: var(--bg2);
@@ -658,6 +905,7 @@
     <li><a href="#features">Features</a></li>
     <li><a href="#audience">Solutions</a></li>
     <li><a href="#how">How It Works</a></li>
+    <li><a href="#pricing">Pricing</a></li>
     <li><a href="#contact" class="nav-cta">Request Access</a></li>
   </ul>
 </nav>
@@ -861,6 +1109,116 @@
     <h2>Don't Take Our Word For It.</h2>
     <p>Open the live detection engine and watch it work on any camera feed — right now, in your browser. No install. No signup.</p>
     <a href="/traffiq/" class="btn-primary" target="_blank">Launch Live Demo →</a>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing">
+  <div class="pricing-inner">
+    <p class="section-label fade-in">Pricing</p>
+    <h2 class="section-title fade-in">One Price. Everything Included.</h2>
+    <p class="section-sub fade-in">No tiers. No hidden fees. Full access to every Lens module from day one.</p>
+
+    <!-- Main card -->
+    <div class="pricing-card fade-in">
+      <div class="pricing-head">
+        <div class="pricing-badge">Standard Plan</div>
+        <div class="pricing-amount">
+          <span class="pricing-currency">TTD</span>
+          <span class="pricing-number">2,000</span>
+          <span class="pricing-period">/ month</span>
+        </div>
+        <p class="pricing-desc">One intersection. Full intelligence. Cancel anytime.</p>
+      </div>
+      <div class="pricing-features">
+        <div class="pricing-feature">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Quad-camera view — monitor up to 4 feeds simultaneously
+        </div>
+        <div class="pricing-feature">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          AI vehicle detection — real-time, frame-by-frame analysis
+        </div>
+        <div class="pricing-feature">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Red-light violation enforcement with automatic flagging
+        </div>
+        <div class="pricing-feature">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Plate recognition — reads and logs actual licence plate numbers
+        </div>
+        <div class="pricing-feature">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          PDF evidence reports — print-ready for government submission
+        </div>
+        <div class="pricing-feature">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Cloud violation log — all incidents stored securely in the cloud
+        </div>
+        <div class="pricing-feature">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Adaptive signal intelligence — density-based phase timing
+        </div>
+        <div class="pricing-feature">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Works with any existing IP camera or device camera — no hardware lock-in
+        </div>
+      </div>
+      <div class="pricing-footer">
+        <a href="#contact" class="pricing-cta">Request Access</a>
+      </div>
+    </div>
+
+    <!-- Add-ons -->
+    <div class="pricing-addons fade-in">
+      <h3>Optional Add-ons</h3>
+      <div class="addon-grid">
+        <div class="addon-item">
+          <div class="addon-name">
+            Additional Intersection
+            <span>Each intersection beyond the first</span>
+          </div>
+          <div class="addon-price">+TTD 1,500/mo</div>
+        </div>
+        <div class="addon-item">
+          <div class="addon-name">
+            White-Label
+            <span>Your logo, your domain, your brand</span>
+          </div>
+          <div class="addon-price">+TTD 1,000/mo</div>
+        </div>
+        <div class="addon-item">
+          <div class="addon-name">
+            API Access
+            <span>Connect Lens to your existing systems</span>
+          </div>
+          <div class="addon-price">+TTD 800/mo</div>
+        </div>
+        <div class="addon-item">
+          <div class="addon-name">
+            Dedicated Server Instance
+            <span>Private infrastructure, zero shared resources</span>
+          </div>
+          <div class="addon-price">+TTD 1,200/mo</div>
+        </div>
+        <div class="addon-item">
+          <div class="addon-name">
+            Onboarding & Setup
+            <span>One-time configuration and training session</span>
+          </div>
+          <div class="addon-price">TTD 2,500 once</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Enterprise banner -->
+    <div class="pricing-enterprise fade-in">
+      <div class="enterprise-text">
+        <h3>Government & Municipality</h3>
+        <p>Deploying across multiple intersections? We build a custom contract — fixed monthly rate, dedicated infrastructure, SLA, and full onboarding included.</p>
+      </div>
+      <a href="#contact" class="btn-enterprise">Get a Quote</a>
+    </div>
   </div>
 </section>
 
