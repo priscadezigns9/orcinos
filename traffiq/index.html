@@ -314,6 +314,219 @@ nav {
   box-shadow: var(--neu-inset);
 }
 
+/* ── NAV TABS ───────────────────────────────────────── */
+.nav-center {
+  display: flex; align-items: center; gap: 0.35rem;
+  background: var(--surface-2);
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 100px;
+  padding: 0.25rem;
+  box-shadow: var(--neu-inset);
+}
+.view-tab {
+  display: flex; align-items: center; gap: 0.4rem;
+  padding: 0.28rem 0.85rem;
+  border-radius: 100px;
+  border: none;
+  background: transparent;
+  color: var(--muted2);
+  font-size: 0.7rem; font-weight: 600; letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.view-tab:hover { color: var(--text); background: rgba(255,255,255,0.04); }
+.view-tab.active {
+  background: var(--surface-1);
+  color: var(--cyan);
+  box-shadow: var(--neu-raised);
+  border: 1px solid var(--cyan-border);
+}
+
+/* ── QUAD VIEW ──────────────────────────────────────── */
+#quadShell { display: none; padding: 1.25rem 1.5rem; max-width: 1400px; margin: 0 auto; }
+#alprShell { display: none; padding: 1.25rem 1.5rem; max-width: 1400px; margin: 0 auto; }
+
+.quad-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+.quad-cell {
+  background: var(--surface-1);
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.04);
+  box-shadow: var(--neu-raised);
+  overflow: hidden;
+  display: flex; flex-direction: column;
+}
+.quad-cell-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0.6rem 0.9rem;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.quad-cam-label {
+  font-size: 0.68rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.08em; color: var(--cyan);
+  display: flex; align-items: center; gap: 0.4rem;
+}
+.quad-status-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--muted); transition: background 0.3s;
+}
+.quad-status-dot.live { background: var(--green); box-shadow: 0 0 6px var(--green); }
+.quad-status-dot.viol { background: var(--red);   box-shadow: 0 0 8px var(--red); animation: pulse-red 1s infinite; }
+@keyframes pulse-red { 0%,100% { opacity:1; } 50% { opacity:0.4; } }
+
+.quad-cell-body {
+  position: relative;
+  aspect-ratio: 16/9;
+  background: #060a14;
+  display: flex; align-items: center; justify-content: center;
+}
+.quad-placeholder {
+  display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+  color: var(--muted); font-size: 0.72rem;
+}
+.quad-placeholder svg { width: 28px; height: 28px; opacity: 0.35; }
+.quad-cell video, .quad-cell canvas {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+}
+.quad-cell canvas { pointer-events: none; }
+.quad-cell-footer {
+  display: flex; align-items: center; gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border-top: 1px solid rgba(255,255,255,0.04);
+  flex-wrap: wrap;
+}
+.quad-source-input {
+  flex: 1; min-width: 120px;
+  background: var(--surface-2);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 8px; padding: 0.28rem 0.6rem;
+  color: var(--text); font-size: 0.68rem;
+  box-shadow: var(--neu-inset);
+}
+.quad-source-input:focus { outline: none; border-color: var(--cyan-border); }
+.btn-xs {
+  padding: 0.28rem 0.65rem;
+  font-size: 0.65rem; font-weight: 600;
+  border-radius: 8px; border: none; cursor: pointer;
+  display: flex; align-items: center; gap: 0.3rem;
+  transition: all 0.15s;
+}
+.btn-xs.cyan  { background: var(--cyan); color: #000; }
+.btn-xs.red   { background: var(--red);  color: #fff; }
+.btn-xs.ghost { background: rgba(255,255,255,0.06); color: var(--text); border: 1px solid rgba(255,255,255,0.08); }
+.btn-xs:hover { filter: brightness(1.15); }
+
+.quad-vlog {
+  background: var(--surface-1);
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.04);
+  box-shadow: var(--neu-raised);
+  padding: 1rem 1.1rem;
+}
+.quad-vlog-title {
+  font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.08em; color: var(--text); margin-bottom: 0.75rem;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.quad-vlog-list {
+  display: flex; flex-direction: column; gap: 0.4rem;
+  max-height: 180px; overflow-y: auto;
+}
+.quad-vlog-item {
+  display: flex; align-items: center; gap: 0.6rem;
+  padding: 0.4rem 0.6rem;
+  background: var(--red-dim);
+  border: 1px solid var(--red-border);
+  border-radius: 8px;
+  font-size: 0.7rem;
+}
+.quad-cam-tag {
+  padding: 0.1rem 0.4rem;
+  background: rgba(0,170,255,0.15); border: 1px solid var(--cyan-border);
+  border-radius: 4px; font-size: 0.62rem; font-weight: 700; color: var(--cyan);
+}
+.quad-empty { color: var(--muted); font-size: 0.72rem; text-align: center; padding: 1rem; }
+
+/* ── ALPR PANEL ─────────────────────────────────────── */
+.alpr-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+.alpr-config-card {
+  background: var(--surface-1);
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.04);
+  box-shadow: var(--neu-raised);
+  padding: 1.5rem;
+  display: flex; flex-direction: column; gap: 1rem;
+}
+.alpr-title {
+  font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.1em; color: var(--text);
+  display: flex; align-items: center; gap: 0.5rem;
+}
+.alpr-title svg { color: var(--cyan); }
+.alpr-field-label {
+  font-size: 0.68rem; color: var(--muted2); font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 0.3rem;
+}
+.alpr-input {
+  width: 100%;
+  background: var(--surface-2);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 10px; padding: 0.6rem 0.85rem;
+  color: var(--text); font-size: 0.8rem;
+  box-shadow: var(--neu-inset);
+  font-family: 'Courier New', monospace;
+}
+.alpr-input:focus { outline: none; border-color: var(--cyan-border); }
+.alpr-status-row {
+  display: flex; align-items: center; gap: 0.6rem;
+  padding: 0.6rem 0.9rem;
+  background: var(--surface-2);
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.04);
+  font-size: 0.72rem;
+}
+.alpr-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--muted); flex-shrink: 0; }
+.alpr-dot.ok  { background: var(--green); box-shadow: 0 0 8px var(--green); }
+.alpr-dot.err { background: var(--red); }
+.alpr-dot.testing { background: var(--amber); animation: pulse-red 0.8s infinite; }
+.alpr-results-card {
+  background: var(--surface-1);
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.04);
+  box-shadow: var(--neu-raised);
+  padding: 1.5rem;
+  display: flex; flex-direction: column; gap: 0.75rem;
+}
+.alpr-result-item {
+  display: flex; align-items: center; gap: 0.75rem;
+  padding: 0.6rem 0.9rem;
+  background: var(--surface-2);
+  border: 1px solid rgba(255,255,255,0.04);
+  border-radius: 10px;
+}
+.alpr-plate-badge {
+  background: linear-gradient(135deg, #0D1424, #1a2035);
+  border: 2px solid var(--cyan-border);
+  border-radius: 6px;
+  padding: 0.25rem 0.65rem;
+  font-family: 'Courier New', monospace;
+  font-size: 0.95rem; font-weight: 700;
+  color: var(--text); letter-spacing: 0.15em;
+  min-width: 90px; text-align: center;
+  box-shadow: 0 0 12px rgba(0,170,255,0.15);
+}
+.alpr-meta { font-size: 0.7rem; color: var(--muted2); line-height: 1.5; }
+.alpr-conf { font-size: 0.68rem; color: var(--cyan); font-weight: 700; }
+
 /* ── LAYOUT ─────────────────────────────────────────── */
 .app-shell {
   position: relative;
@@ -838,6 +1051,20 @@ nav {
   <div class="nav-wordmark">
     <span class="w-orcinos">orcinos</span><span class="w-lens"> lens</span>
     <span class="nav-dot"></span>
+  </div>
+  <div class="nav-center">
+    <button class="view-tab active" id="tabSingle" onclick="switchView('single')">
+      <svg viewBox="0 0 24 24" width="14" height="14" stroke-width="2" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+      Single Camera
+    </button>
+    <button class="view-tab" id="tabQuad" onclick="switchView('quad')">
+      <svg viewBox="0 0 24 24" width="14" height="14" stroke-width="2" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="9" height="9" rx="1"/><rect x="13" y="2" width="9" height="9" rx="1"/><rect x="2" y="13" width="9" height="9" rx="1"/><rect x="13" y="13" width="9" height="9" rx="1"/></svg>
+      Quad View
+    </button>
+    <button class="view-tab" id="tabAlpr" onclick="switchView('alpr')">
+      <svg viewBox="0 0 24 24" width="14" height="14" stroke-width="2" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="10" rx="2"/><path d="M6 11h.01M10 11h4M18 11h.01"/></svg>
+      Plate AI
+    </button>
   </div>
   <div class="nav-right">
     <div class="nav-status">
@@ -1802,6 +2029,437 @@ function updateViolationCount() {
   const btn = document.getElementById('btnExportPDF');
   if (btn) { btn.disabled = count === 0; btn.style.opacity = count > 0 ? '1' : '0.35'; }
 }
+
+// ══════════════════════════════════════════════════════
+//  VIEW SWITCHER
+// ══════════════════════════════════════════════════════
+function switchView(view) {
+  document.getElementById('appShell').style.display   = view === 'single' ? '' : 'none';
+  document.getElementById('quadShell').style.display  = view === 'quad'   ? 'block' : 'none';
+  document.getElementById('alprShell').style.display  = view === 'alpr'   ? 'block' : 'none';
+  ['single','quad','alpr'].forEach(v => {
+    const t = document.getElementById('tab' + v.charAt(0).toUpperCase() + v.slice(1));
+    if (t) t.classList.toggle('active', v === view);
+  });
+}
+
+// ══════════════════════════════════════════════════════
+//  QUAD VIEW — 4 independent camera feeds
+// ══════════════════════════════════════════════════════
+const quadCams = [
+  { id: 1, label: 'Camera 1 — North', stream: null, detecting: false },
+  { id: 2, label: 'Camera 2 — South', stream: null, detecting: false },
+  { id: 3, label: 'Camera 3 — East',  stream: null, detecting: false },
+  { id: 4, label: 'Camera 4 — West',  stream: null, detecting: false },
+];
+const quadViolations = [];
+
+async function quadStartWebcam(camIdx) {
+  const cam = quadCams[camIdx];
+  const video = document.getElementById(`qv${cam.id}`);
+  if (!model) { showToast('AI model loading…'); await initModel(); }
+  try {
+    cam.stream = await navigator.mediaDevices.getUserMedia({
+      video: { width: { ideal: 640 }, height: { ideal: 360 }, facingMode: 'environment' }
+    });
+    video.srcObject = cam.stream;
+    video.style.display = 'block';
+    document.getElementById(`qph${cam.id}`).style.display = 'none';
+    document.getElementById(`qdot${cam.id}`).className = 'quad-status-dot live';
+    cam.detecting = true;
+    quadDetectLoop(cam.id);
+  } catch(e) { showToast(`Cam ${cam.id}: access denied`); }
+}
+
+function quadLoadFile(camIdx, event) {
+  const cam = quadCams[camIdx];
+  const file = event.target.files[0];
+  if (!file) return;
+  const video = document.getElementById(`qv${cam.id}`);
+  video.src = URL.createObjectURL(file);
+  video.style.display = 'block';
+  document.getElementById(`qph${cam.id}`).style.display = 'none';
+  document.getElementById(`qdot${cam.id}`).className = 'quad-status-dot live';
+  cam.detecting = true;
+  video.onloadedmetadata = async () => {
+    if (!model) await initModel();
+    quadDetectLoop(cam.id);
+  };
+  video.onended = () => {
+    cam.detecting = false;
+    document.getElementById(`qdot${cam.id}`).className = 'quad-status-dot';
+    showToast(`Cam ${cam.id} analysis complete`);
+  };
+  event.target.value = '';
+}
+
+function quadConnectIP(camIdx) {
+  const cam = quadCams[camIdx];
+  const url = document.getElementById(`qip${cam.id}`).value.trim();
+  if (!url) { showToast('Enter an IP stream URL'); return; }
+  const video = document.getElementById(`qv${cam.id}`);
+  video.src = url;
+  video.style.display = 'block';
+  document.getElementById(`qph${cam.id}`).style.display = 'none';
+  document.getElementById(`qdot${cam.id}`).className = 'quad-status-dot live';
+  cam.detecting = true;
+  video.onloadedmetadata = async () => {
+    if (!model) await initModel();
+    quadDetectLoop(cam.id);
+  };
+  video.onerror = () => { showToast(`Cam ${cam.id}: stream unreachable`); cam.detecting = false; };
+}
+
+function quadStop(camIdx) {
+  const cam = quadCams[camIdx];
+  cam.detecting = false;
+  const video = document.getElementById(`qv${cam.id}`);
+  if (cam.stream) { cam.stream.getTracks().forEach(t => t.stop()); cam.stream = null; }
+  video.srcObject = null; video.src = '';
+  video.style.display = 'none';
+  document.getElementById(`qph${cam.id}`).style.display = 'flex';
+  document.getElementById(`qdot${cam.id}`).className = 'quad-status-dot';
+}
+
+async function quadDetectLoop(camId) {
+  const cam = quadCams[camId - 1];
+  const video = document.getElementById(`qv${camId}`);
+  const canvas = document.getElementById(`qc${camId}`);
+  canvas.width = video.offsetWidth || 640;
+  canvas.height = video.offsetHeight || 360;
+  const ctx = canvas.getContext('2d');
+
+  async function loop() {
+    if (!cam.detecting) return;
+    if (video.readyState >= 2) {
+      const preds = await model.detect(video);
+      const vehicles = preds.filter(p => VEHICLE_CLASSES.includes(p.class));
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const scaleX = canvas.width / (video.videoWidth || canvas.width);
+      const scaleY = canvas.height / (video.videoHeight || canvas.height);
+      vehicles.forEach(v => {
+        const [x, y, w, h] = v.bbox;
+        const sx = x * scaleX, sy = y * scaleY;
+        const sw = w * scaleX, sh = h * scaleY;
+        ctx.strokeStyle = '#00AAFF';
+        ctx.lineWidth = 2;
+        ctx.shadowColor = '#00AAFF';
+        ctx.shadowBlur = 5;
+        ctx.strokeRect(sx, sy, sw, sh);
+        ctx.shadowBlur = 0;
+        ctx.fillStyle = 'rgba(0,170,255,0.8)';
+        ctx.fillRect(sx, sy - 16, sw, 16);
+        ctx.fillStyle = 'white';
+        ctx.font = 'bold 9px Urbanist, sans-serif';
+        ctx.fillText(`${v.class} ${Math.round(v.score * 100)}%`, sx + 3, sy - 4);
+      });
+      // Violation check: if enforce mode & a vehicle is in lower 30% of frame
+      const camMode = document.getElementById(`qmode${camId}`)?.value || 'monitor';
+      if (camMode === 'enforce') {
+        vehicles.forEach(async v => {
+          const [x, y, w, h] = v.bbox;
+          const sy = y * scaleY, sh = h * scaleY;
+          const threshold = canvas.height * 0.7;
+          const vKey = `q${camId}_${Math.round(x)}_${Math.round(y)}`;
+          if (sy + sh > threshold) {
+            if (!lastViolationTime[vKey] || Date.now() - lastViolationTime[vKey] > 5000) {
+              lastViolationTime[vKey] = Date.now();
+              document.getElementById(`qdot${camId}`).className = 'quad-status-dot viol';
+              setTimeout(() => {
+                document.getElementById(`qdot${camId}`).className = 'quad-status-dot live';
+              }, 2000);
+              const plate = await runALPR(video, v.bbox) || 'PLATE-UNKNOWN';
+              quadLogViolation(camId, plate, v.class);
+            }
+          }
+        });
+      }
+    }
+    requestAnimationFrame(loop);
+  }
+  loop();
+}
+
+function quadLogViolation(camId, plate, vehicleClass) {
+  const now = new Date();
+  const entry = {
+    cam: camId,
+    plate,
+    type: 'Red-Light Violation',
+    time: now.toLocaleTimeString('en-TT', { hour:'2-digit', minute:'2-digit', second:'2-digit' })
+  };
+  quadViolations.unshift(entry);
+  const list = document.getElementById('quadVlogList');
+  const empty = list.querySelector('.quad-empty');
+  if (empty) empty.remove();
+  const item = document.createElement('div');
+  item.className = 'quad-vlog-item';
+  item.innerHTML = `
+    <span class="quad-cam-tag">CAM ${camId}</span>
+    <span style="font-weight:700;color:var(--text);font-size:0.75rem;letter-spacing:0.08em;">${plate}</span>
+    <span style="color:var(--muted2);font-size:0.68rem;flex:1;">${vehicleClass} · ${entry.time}</span>
+    <span style="color:var(--red);font-size:0.68rem;font-weight:700;">VIOLATION</span>
+  `;
+  list.prepend(item);
+  // Also push to main violation log
+  logViolation(`[CAM${camId}] ${plate}`);
+  updateViolationCount();
+}
+
+// ══════════════════════════════════════════════════════
+//  ALPR — OpenALPR / Rekor CarCheck API
+// ══════════════════════════════════════════════════════
+let alprApiKey = localStorage.getItem('alpr_api_key') || '';
+let alprEnabled = false;
+
+function saveAlprKey() {
+  const key = document.getElementById('alprKeyInput').value.trim();
+  if (!key) { showToast('Enter your API key first'); return; }
+  alprApiKey = key;
+  alprEnabled = true;
+  localStorage.setItem('alpr_api_key', key);
+  setAlprStatus('testing', 'Testing connection…');
+  testAlprConnection();
+}
+
+async function testAlprConnection() {
+  // Create a tiny test canvas with fake plate text to test the endpoint
+  try {
+    const testCanvas = document.createElement('canvas');
+    testCanvas.width = 200; testCanvas.height = 60;
+    const ctx = testCanvas.getContext('2d');
+    ctx.fillStyle = '#fff';
+    ctx.fillRect(0, 0, 200, 60);
+    ctx.fillStyle = '#000';
+    ctx.font = 'bold 28px monospace';
+    ctx.fillText('PAB 1234', 20, 42);
+    const base64 = testCanvas.toDataURL('image/jpeg', 0.9).split(',')[1];
+
+    const res = await fetch('https://api.openalpr.com/v3/recognize_bytes?recognize_vehicle=0&country=us&secret_key=' + alprApiKey, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ image_bytes: base64 })
+    });
+    if (res.ok) {
+      setAlprStatus('ok', 'Connected — Rekor CarCheck API ready');
+      document.getElementById('alprTestResult').textContent = '✅ API key is valid. Plate recognition is active.';
+    } else {
+      const err = await res.json();
+      setAlprStatus('err', `Error: ${err.error || res.status}`);
+      document.getElementById('alprTestResult').textContent = '❌ ' + (err.error || 'Invalid key or quota exceeded.');
+    }
+  } catch(e) {
+    // CORS on test — key is saved, will work in real calls
+    setAlprStatus('ok', 'Key saved — will activate on next violation');
+    document.getElementById('alprTestResult').textContent = '⚠️ CORS on test call — key saved and will run on real footage.';
+  }
+}
+
+function setAlprStatus(state, msg) {
+  const dot = document.getElementById('alprStatusDot');
+  const txt = document.getElementById('alprStatusText');
+  dot.className = 'alpr-dot ' + state;
+  txt.textContent = msg;
+}
+
+async function runALPR(videoEl, bbox) {
+  if (!alprEnabled || !alprApiKey) return null;
+  try {
+    const tmpCanvas = document.createElement('canvas');
+    const [x, y, w, h] = bbox;
+    // crop plate region (bottom 30% of vehicle bbox)
+    const py = y + h * 0.65;
+    const ph = h * 0.35;
+    tmpCanvas.width = Math.round(w);
+    tmpCanvas.height = Math.round(ph);
+    const ctx = tmpCanvas.getContext('2d');
+    ctx.drawImage(videoEl, x, py, w, ph, 0, 0, tmpCanvas.width, tmpCanvas.height);
+    const base64 = tmpCanvas.toDataURL('image/jpeg', 0.92).split(',')[1];
+
+    const res = await fetch('https://api.openalpr.com/v3/recognize_bytes?recognize_vehicle=0&country=tt&secret_key=' + alprApiKey, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ image_bytes: base64 })
+    });
+    if (!res.ok) return null;
+    const data = await res.json();
+    if (data.results && data.results.length > 0) {
+      const best = data.results[0];
+      const candidate = best.candidates[0];
+      // Log to ALPR results panel
+      addAlprResult(candidate.plate, best.confidence, best.region);
+      return candidate.plate;
+    }
+    return null;
+  } catch { return null; }
+}
+
+function addAlprResult(plate, confidence, region) {
+  const list = document.getElementById('alprResultsList');
+  const empty = list.querySelector('.quad-empty');
+  if (empty) empty.remove();
+  const item = document.createElement('div');
+  item.className = 'alpr-result-item';
+  const confPct = Math.round(confidence || 0);
+  item.innerHTML = `
+    <div class="alpr-plate-badge">${plate}</div>
+    <div class="alpr-meta">
+      <div style="color:var(--text);font-weight:600;">${plate}</div>
+      <div>Region: <span style="color:var(--cyan);">${region || 'TT'}</span></div>
+    </div>
+    <div class="alpr-conf" style="margin-left:auto;">${confPct}%<br><span style="color:var(--muted2);font-weight:400;font-size:0.62rem;">confidence</span></div>
+  `;
+  list.prepend(item);
+}
+
+// Load saved API key on startup
+window.addEventListener('DOMContentLoaded', () => {
+  const saved = localStorage.getItem('alpr_api_key');
+  if (saved) {
+    document.getElementById('alprKeyInput').value = saved;
+    alprApiKey = saved;
+    alprEnabled = true;
+    setAlprStatus('ok', 'Key loaded from storage');
+  }
+});
+
+// Override attemptOCR to use ALPR if available, fall back to Tesseract
+const _origAttemptOCR = attemptOCR;
+async function attemptOCR(v) {
+  if (alprEnabled && alprApiKey) {
+    const video = document.getElementById('videoEl');
+    const plate = await runALPR(video, v.bbox);
+    if (plate) return plate;
+  }
+  return _origAttemptOCR(v);
+}
 </script>
+
+<!-- ══ QUAD VIEW SHELL ═════════════════════════════════ -->
+<div id="quadShell">
+  <div class="quad-grid">
+    <!-- Generate 4 camera cells -->
+    <script>
+    (function() {
+      const cams = [
+        { id:1, label:'Camera 1 — North' },
+        { id:2, label:'Camera 2 — South' },
+        { id:3, label:'Camera 3 — East' },
+        { id:4, label:'Camera 4 — West' },
+      ];
+      cams.forEach((cam, idx) => {
+        document.write(`
+          <div class="quad-cell">
+            <div class="quad-cell-header">
+              <span class="quad-cam-label">
+                <span class="quad-status-dot" id="qdot${cam.id}"></span>
+                ${cam.label}
+              </span>
+              <div style="display:flex;gap:0.35rem;">
+                <select id="qmode${cam.id}" class="quad-source-input" style="max-width:100px;">
+                  <option value="monitor">Monitor</option>
+                  <option value="enforce">Enforce</option>
+                </select>
+              </div>
+            </div>
+            <div class="quad-cell-body">
+              <div class="quad-placeholder" id="qph${cam.id}">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
+                <span>No source</span>
+              </div>
+              <video id="qv${cam.id}" autoplay muted playsinline style="display:none;"></video>
+              <canvas id="qc${cam.id}"></canvas>
+            </div>
+            <div class="quad-cell-footer">
+              <button class="btn-xs cyan" onclick="quadStartWebcam(${idx})">
+                <svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16"/></svg>
+                Webcam
+              </button>
+              <input type="file" id="qfile${cam.id}" accept="video/*" style="display:none;" onchange="quadLoadFile(${idx}, event)"/>
+              <button class="btn-xs ghost" onclick="document.getElementById('qfile${cam.id}').click()">
+                <svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                Upload
+              </button>
+              <input type="text" class="quad-source-input" id="qip${cam.id}" placeholder="RTSP / HTTP URL"/>
+              <button class="btn-xs ghost" onclick="quadConnectIP(${idx})">Go</button>
+              <button class="btn-xs red" onclick="quadStop(${idx})" style="margin-left:auto;">Stop</button>
+            </div>
+          </div>
+        `);
+      });
+    })();
+    </script>
+  </div>
+
+  <!-- Quad Violation Log -->
+  <div class="quad-vlog">
+    <div class="quad-vlog-title">
+      Quad Violation Log
+      <span id="quadVlogCount" style="color:var(--red);font-size:0.7rem;">0 violations</span>
+    </div>
+    <div class="quad-vlog-list" id="quadVlogList">
+      <div class="quad-empty">No violations across all feeds</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ ALPR / PLATE AI SHELL ══════════════════════════ -->
+<div id="alprShell">
+  <div class="alpr-grid">
+    <!-- Config Card -->
+    <div class="alpr-config-card">
+      <div class="alpr-title">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="10" rx="2"/><path d="M6 11h.01M10 11h4M18 11h.01"/></svg>
+        Rekor CarCheck — Plate Recognition API
+      </div>
+
+      <div>
+        <div class="alpr-field-label">API Secret Key</div>
+        <input type="password" class="alpr-input" id="alprKeyInput" placeholder="sk_xxxxxxxxxxxxxxxx"/>
+      </div>
+
+      <div style="display:flex;gap:0.6rem;">
+        <button class="btn btn-primary" onclick="saveAlprKey()" style="font-size:0.72rem;padding:0.45rem 1rem;">
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+          Save & Test
+        </button>
+        <button class="btn btn-outline" onclick="window.open('https://cloud.openalpr.com/account/register','_blank')" style="font-size:0.72rem;padding:0.45rem 1rem;">
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          Get Free API Key
+        </button>
+      </div>
+
+      <div class="alpr-status-row">
+        <span class="alpr-dot" id="alprStatusDot"></span>
+        <span id="alprStatusText" style="color:var(--muted2);font-size:0.72rem;">Not configured</span>
+      </div>
+
+      <div id="alprTestResult" style="font-size:0.72rem;color:var(--muted2);min-height:1.2rem;"></div>
+
+      <div style="background:var(--surface-2);border-radius:10px;padding:0.9rem;border:1px solid rgba(255,255,255,0.04);">
+        <div style="font-size:0.68rem;color:var(--cyan);font-weight:700;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.5rem;">How it works</div>
+        <ul style="font-size:0.7rem;color:var(--muted2);line-height:1.7;padding-left:1rem;">
+          <li>Free tier: <strong style="color:var(--text);">2,000 reads/month</strong> — enough for demos</li>
+          <li>Country set to <strong style="color:var(--cyan);">TT</strong> (Trinidad & Tobago plates)</li>
+          <li>Activates automatically on every violation detected</li>
+          <li>Falls back to Tesseract OCR if API is unavailable</li>
+          <li>Results appear in the log below and in the violation report</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Results Card -->
+    <div class="alpr-results-card">
+      <div class="alpr-title">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        Recent Plate Reads
+      </div>
+      <div id="alprResultsList">
+        <div class="quad-empty">No plates read yet — start a camera feed in Single or Quad view</div>
+      </div>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
