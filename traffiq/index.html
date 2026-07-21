@@ -1315,6 +1315,262 @@ function showAlert(msg) {
 }
 
 window.addEventListener('resize', () => { if (detecting) resizeCanvases(); });
+
+// ══════════════════════════════════════════════════════════════════
+//  GUIDED TOUR
+//  Fires automatically after password gate is passed.
+//  Each step spotlights an element, shows a tooltip with title +
+//  description, and a Next / Skip button.
+// ══════════════════════════════════════════════════════════════════
+
+const TOUR_STEPS = [
+  {
+    target: 'cameraWrap',
+    title: '📷 Live Camera Feed',
+    desc: 'This is where the live video plays. Orcinos Lens reads every frame in real time, detecting and counting vehicles as they move.'
+  },
+  {
+    target: 'btnStart',
+    title: '▶ Start Camera',
+    desc: 'Click here to activate your webcam or connect an IP camera stream. The AI model loads in the background and is ready to detect immediately.'
+  },
+  {
+    target: 'modeMonitor',
+    title: '🔀 Mode Switcher',
+    desc: '<b>Monitor</b> — counts vehicles only. <b>Enforce</b> — tracks stop-line violations. <b>Draw Zone</b> — lets you draw a custom stop line on the video.'
+  },
+  {
+    target: 'signalOverlay',
+    title: '🚦 Signal Controller',
+    desc: 'A simulated traffic light cycles in real time. When the signal turns red, any vehicle that crosses the stop line is automatically flagged as a violation.',
+    forceShow: true
+  },
+  {
+    target: 'violationList',
+    title: '🚨 Violation Log',
+    desc: 'Every red-light violation appears here instantly — timestamped and tagged with the detected plate number (where readable). All data can be exported for reporting.'
+  },
+  {
+    target: 'statVehicles',
+    title: '📊 Live Statistics',
+    desc: 'Real-time counters track: total vehicles detected this session, violations flagged, signal cycles completed, and current congestion level (Low / Moderate / High).',
+    parentEl: true
+  },
+  {
+    target: 'heatmapGrid',
+    title: '🗺 Congestion Heatmap',
+    desc: 'A live heat map showing vehicle density over time. Green = clear. Yellow = moderate. Red = congested. Updates every 5 seconds automatically.',
+    parentEl: true
+  }
+];
+
+// ── Tour DOM ──────────────────────────────────────────────────────
+function buildTourDOM() {
+  // Backdrop
+  const backdrop = document.createElement('div');
+  backdrop.id = 'tourBackdrop';
+  backdrop.style.cssText = `
+    position: fixed; inset: 0; z-index: 500;
+    pointer-events: none;
+  `;
+
+  // Spotlight hole via SVG mask
+  const svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
+  svg.id = 'tourSVG';
+  svg.style.cssText = 'position:fixed;inset:0;width:100%;height:100%;z-index:500;pointer-events:none;';
+  svg.innerHTML = `
+    <defs>
+      <mask id="spotMask">
+        <rect width="100%" height="100%" fill="white"/>
+        <rect id="spotHole" rx="12" fill="black"/>
+      </mask>
+    </defs>
+    <rect width="100%" height="100%" fill="rgba(5,8,18,0.82)" mask="url(#spotMask)"/>
+    <rect id="spotBorder" rx="14" fill="none" stroke="rgba(0,170,255,0.5)" stroke-width="1.5"/>
+  `;
+
+  // Tooltip card
+  const card = document.createElement('div');
+  card.id = 'tourCard';
+  card.style.cssText = `
+    position: fixed;
+    z-index: 501;
+    max-width: 320px;
+    background: rgba(13,21,38,0.92);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(0,170,255,0.25);
+    border-radius: 14px;
+    padding: 1.25rem 1.4rem 1rem;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.06);
+    font-family: 'Urbanist', sans-serif;
+    color: #f1f5f9;
+    transition: top 0.35s cubic-bezier(.4,0,.2,1), left 0.35s cubic-bezier(.4,0,.2,1), opacity 0.25s;
+  `;
+  card.innerHTML = `
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;">
+      <span id="tourStep" style="font-size:0.65rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:rgba(0,170,255,0.7);">Step 1 of ${TOUR_STEPS.length}</span>
+      <button id="tourSkip" onclick="endTour()" style="background:none;border:none;color:#64748b;font-size:0.7rem;font-family:inherit;cursor:pointer;letter-spacing:0.05em;text-transform:uppercase;">Skip Tour</button>
+    </div>
+    <div id="tourTitle" style="font-size:0.95rem;font-weight:700;margin-bottom:0.4rem;"></div>
+    <div id="tourDesc" style="font-size:0.82rem;color:#94a3b8;line-height:1.55;margin-bottom:1rem;"></div>
+    <div style="display:flex;gap:0.6rem;align-items:center;">
+      <div id="tourDots" style="display:flex;gap:5px;flex:1;"></div>
+      <button id="tourNext" onclick="tourNext()" style="
+        font-family:inherit;font-size:0.75rem;font-weight:700;letter-spacing:0.08em;
+        text-transform:uppercase;padding:0.5rem 1.1rem;
+        background:linear-gradient(135deg,#7C3AED,#5b21b6);
+        border:none;border-radius:8px;color:white;cursor:pointer;
+        box-shadow:0 2px 12px rgba(124,58,237,0.35);
+        transition:opacity 0.2s,transform 0.15s;
+      ">Next →</button>
+    </div>
+  `;
+
+  document.body.appendChild(svg);
+  document.body.appendChild(card);
+}
+
+let tourIndex = 0;
+
+function startTour() {
+  if (localStorage.getItem('orcinos_tour_done')) return;
+  buildTourDOM();
+  showTourStep(0);
+}
+
+function showTourStep(idx) {
+  const step = TOUR_STEPS[idx];
+  if (!step) { endTour(); return; }
+
+  // Get target element
+  let el = document.getElementById(step.target);
+  if (!el) { tourNext(); return; }
+
+  // For stats — point to the parent card
+  if (step.parentEl) el = el.closest('.glass-panel') || el.parentElement;
+
+  // Force-show signal overlay for that step
+  if (step.forceShow) {
+    document.getElementById('signalOverlay').style.display = 'flex';
+  }
+
+  const rect = el.getBoundingClientRect();
+  const pad  = 10;
+
+  // Move spotlight
+  const hole   = document.getElementById('spotHole');
+  const border = document.getElementById('spotBorder');
+  const attrs  = {
+    x: rect.left - pad, y: rect.top - pad,
+    width: rect.width + pad * 2,
+    height: rect.height + pad * 2
+  };
+  Object.entries(attrs).forEach(([k,v]) => {
+    hole.setAttribute(k, v);
+    border.setAttribute(k, v);
+  });
+
+  // Position tooltip: prefer below, fallback above
+  const card   = document.getElementById('tourCard');
+  const vw     = window.innerWidth;
+  const vh     = window.innerHeight;
+  const margin = 16;
+  let top, left;
+
+  // Vertical
+  const spaceBelow = vh - rect.bottom;
+  const spaceAbove = rect.top;
+  if (spaceBelow > 180) {
+    top = rect.bottom + pad + margin;
+  } else if (spaceAbove > 180) {
+    top = rect.top - pad - margin - 200;
+  } else {
+    top = vh / 2 - 100;
+  }
+
+  // Horizontal: center on element, clamp to viewport
+  left = rect.left + rect.width / 2 - 160;
+  left = Math.max(margin, Math.min(left, vw - 340));
+
+  card.style.top  = top  + 'px';
+  card.style.left = left + 'px';
+  card.style.opacity = '0';
+  setTimeout(() => card.style.opacity = '1', 30);
+
+  // Content
+  document.getElementById('tourTitle').textContent = step.title;
+  document.getElementById('tourDesc').innerHTML    = step.desc;
+  document.getElementById('tourStep').textContent  = `Step ${idx + 1} of ${TOUR_STEPS.length}`;
+
+  const nextBtn = document.getElementById('tourNext');
+  nextBtn.textContent = idx === TOUR_STEPS.length - 1 ? 'Done ✓' : 'Next →';
+
+  // Dots
+  const dots = document.getElementById('tourDots');
+  dots.innerHTML = '';
+  TOUR_STEPS.forEach((_,i) => {
+    const d = document.createElement('div');
+    d.style.cssText = `
+      width:${i===idx?'18px':'7px'};height:7px;border-radius:4px;
+      background:${i===idx?'#00AAFF':'rgba(255,255,255,0.15)'};
+      transition:all 0.3s;
+    `;
+    dots.appendChild(d);
+  });
+
+  tourIndex = idx;
+}
+
+function tourNext() {
+  // Hide force-shown signal overlay if we were on that step
+  if (TOUR_STEPS[tourIndex]?.forceShow && !detecting) {
+    document.getElementById('signalOverlay').style.display = 'none';
+  }
+  if (tourIndex + 1 >= TOUR_STEPS.length) {
+    endTour();
+  } else {
+    showTourStep(tourIndex + 1);
+  }
+}
+
+function endTour() {
+  document.getElementById('tourSVG')?.remove();
+  document.getElementById('tourCard')?.remove();
+  // Hide force-shown signal overlay if camera not running
+  if (!detecting) {
+    document.getElementById('signalOverlay').style.display = 'none';
+  }
+  localStorage.setItem('orcinos_tour_done', '1');
+}
+
+// Kick off tour after gate is dismissed
+const _origCheckGate = checkGate;
+// Hook into the gate unlock flow — called after gate passes
+document.addEventListener('DOMContentLoaded', () => {
+  const gateBtn = document.getElementById('gateBtn');
+  if (gateBtn) {
+    gateBtn.addEventListener('click', () => {
+      setTimeout(() => {
+        if (document.getElementById('gate').style.display === 'none') {
+          startTour();
+        }
+      }, 600);
+    });
+  }
+  const gateInput = document.getElementById('gateInput');
+  if (gateInput) {
+    gateInput.addEventListener('keydown', e => {
+      if (e.key === 'Enter') {
+        setTimeout(() => {
+          if (document.getElementById('gate').style.display === 'none') {
+            startTour();
+          }
+        }, 600);
+      }
+    });
+  }
+});
 </script>
 </body>
 </html>
