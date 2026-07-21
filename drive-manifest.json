@@ -1,0 +1,22 @@
+{
+  "name": "Orcinos Drive",
+  "short_name": "Drive",
+  "description": "Phone dashcam — Caribbean built. Loop recording, impact detection, speed overlay.",
+  "start_url": "/drive.html",
+  "display": "fullscreen",
+  "orientation": "landscape",
+  "background_color": "#080d1f",
+  "theme_color": "#080d1f",
+  "icons": [
+    {
+      "src": "https://raw.githubusercontent.com/priscadezigns9/orcinos/main/logos/ORCINOS_DEFINITIVE_2026.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://raw.githubusercontent.com/priscadezigns9/orcinos/main/logos/ORCINOS_DEFINITIVE_2026.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
