@@ -904,15 +904,21 @@ nav {
         <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
         Stop
       </button>
+      <!-- Upload Video -->
+      <input type="file" id="videoFileInput" accept="video/*" style="display:none;" onchange="loadVideoFile(event)"/>
+      <button class="btn btn-outline" onclick="document.getElementById('videoFileInput').click()">
+        <svg viewBox="0 0 24 24" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        Upload Video
+      </button>
       <div class="ip-input-row">
-        <input type="text" class="ip-input" id="ipInput" placeholder="IP stream URL (optional)"/>
+        <input type="text" class="ip-input" id="ipInput" placeholder="IP stream URL"/>
         <button class="btn btn-outline" onclick="connectStream()">
-          <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          <svg viewBox="0 0 24 24" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M2 12a10 10 0 1 0 20 0 10 10 0 0 0-20 0"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/></svg>
           Connect
         </button>
       </div>
       <button class="btn btn-amber" onclick="clearViolations()" style="margin-left:auto;">
-        <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/></svg>
+        <svg viewBox="0 0 24 24" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6M10 11v6M14 11v6"/></svg>
         Clear Log
       </button>
     </div>
@@ -956,7 +962,13 @@ nav {
     <div class="glass-panel violation-card">
       <div class="panel-header">
         <span class="panel-title">Violation Log</span>
-        <span id="violationCount" style="font-size:0.72rem; color:var(--red); font-weight:700;">0 today</span>
+        <div style="display:flex;align-items:center;gap:0.6rem;">
+          <span id="violationCount" style="font-size:0.72rem; color:var(--red); font-weight:700;">0 today</span>
+          <button class="btn btn-outline" onclick="exportViolationsPDF()" id="btnExportPDF" title="Export PDF Report" style="padding:0.3rem 0.65rem;font-size:0.65rem;opacity:0.5;" disabled>
+            <svg viewBox="0 0 24 24" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            PDF
+          </button>
+        </div>
       </div>
       <div class="violation-list" id="violationList">
         <div class="empty-log">
@@ -1104,15 +1116,65 @@ async function startCamera() {
 
 async function connectStream() {
   const url = document.getElementById('ipInput').value.trim();
-  if (!url) return;
+  if (!url) { showToast('Enter an IP stream URL first'); return; }
   if (!model) await initModel();
+  stopCamera();
   const video = document.getElementById('videoEl');
+  // Try direct load (works for HTTP MJPEG streams on same network)
   video.src = url;
   video.style.display = 'block';
   document.getElementById('placeholder').style.display = 'none';
   document.getElementById('signalOverlay').style.display = 'flex';
-  setStatus('live', 'Live — IP Stream');
-  video.addEventListener('loadedmetadata', () => { resizeCanvases(); startDetection(); startSignalCycle(); });
+  document.getElementById('btnStop').disabled = false;
+  setStatus('amber', 'Connecting…');
+  video.onloadedmetadata = () => {
+    resizeCanvases();
+    startDetection();
+    startSignalCycle();
+    setStatus('live', 'Live — IP Stream');
+  };
+  video.onerror = () => {
+    setStatus('red', 'Stream failed — check URL or use Upload Video');
+    showToast('Cannot reach stream. For RTSP cameras, use Upload Video instead.');
+    video.style.display = 'none';
+    document.getElementById('placeholder').style.display = 'flex';
+  };
+}
+
+// ── LOAD VIDEO FILE (Option 3 — local .mp4 / .webm / .mov) ────
+async function loadVideoFile(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  if (!model) {
+    setStatus('amber', 'Loading AI model…');
+    await initModel();
+  }
+  stopCamera();
+  const url = URL.createObjectURL(file);
+  const video = document.getElementById('videoEl');
+  video.src = url;
+  video.loop = false;
+  video.style.display = 'block';
+  document.getElementById('placeholder').style.display = 'none';
+  document.getElementById('signalOverlay').style.display = 'flex';
+  document.getElementById('btnStop').disabled = false;
+  setStatus('amber', 'Loading video…');
+  video.onloadedmetadata = () => {
+    resizeCanvases();
+    video.play();
+    startDetection();
+    startSignalCycle();
+    setStatus('live', `Playback — ${file.name}`);
+    showToast(`Analysing: ${file.name}`);
+  };
+  video.onended = () => {
+    detecting = false;
+    clearInterval(phaseInterval);
+    setStatus('', `Done — ${violations.length} violation(s) found`);
+    showToast(`Analysis complete — ${violations.length} violation(s)`);
+  };
+  // Reset file input so same file can be reloaded
+  event.target.value = '';
 }
 
 function stopCamera() {
@@ -1236,6 +1298,7 @@ async function flagViolation(v, sx, sy, sw, sh, ctx) {
   logViolation(plateText || 'PLATE-UNKNOWN');
   document.getElementById('statViolations').textContent = violations.length;
   document.getElementById('violationCount').textContent = violations.length + ' today';
+  updateViolationCount();
   showAlert(`Red-Light Violation — ${plateText || 'Plate unreadable'}`);
 }
 
@@ -1616,6 +1679,129 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
+
+// ── PDF EXPORT ──────────────────────────────────────────────────
+function exportViolationsPDF() {
+  if (!violations.length) { showToast('No violations to export'); return; }
+
+  const now = new Date();
+  const dateStr = now.toLocaleDateString('en-TT', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
+  const timeStr = now.toLocaleTimeString('en-TT');
+  const sessionVeh = document.getElementById('statVehicles')?.textContent || vehicleCount;
+  const sessionCycles = document.getElementById('statCycles')?.textContent || cycleCount;
+
+  const rows = violations.map((v, i) => `
+    <tr style="border-bottom:1px solid #e2e8f0;">
+      <td style="padding:8px 12px;color:#64748b;font-size:12px;">${i + 1}</td>
+      <td style="padding:8px 12px;font-weight:700;letter-spacing:0.06em;">${v.plate || '—'}</td>
+      <td style="padding:8px 12px;">${v.type || 'Red-Light Running'}</td>
+      <td style="padding:8px 12px;color:#64748b;">${v.time || '—'}</td>
+      <td style="padding:8px 12px;">
+        <span style="background:#fef2f2;color:#dc2626;font-size:11px;font-weight:700;
+          padding:2px 8px;border-radius:100px;border:1px solid #fecaca;">
+          CONFIRMED
+        </span>
+      </td>
+    </tr>`).join('');
+
+  const html = `<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"/>
+<title>Orcinos Lens — Violation Report</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; color: #0f172a; background: #fff; padding: 40px; }
+  .header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:32px; padding-bottom:20px; border-bottom:2px solid #0ea5e9; }
+  .brand { font-size:22px; font-weight:800; letter-spacing:-0.02em; }
+  .brand .lens { color:#0ea5e9; }
+  .badge { background:#0ea5e9; color:white; font-size:10px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; padding:4px 10px; border-radius:100px; display:inline-block; margin-top:4px; }
+  .meta { text-align:right; font-size:12px; color:#64748b; line-height:1.7; }
+  .section-title { font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:#94a3b8; margin-bottom:12px; }
+  .stats-row { display:flex; gap:16px; margin-bottom:28px; }
+  .stat-box { flex:1; background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:14px 18px; }
+  .stat-box .val { font-size:26px; font-weight:800; color:#0f172a; line-height:1; }
+  .stat-box .lbl { font-size:11px; color:#64748b; margin-top:4px; text-transform:uppercase; letter-spacing:0.06em; }
+  .stat-box.red .val { color:#dc2626; }
+  table { width:100%; border-collapse:collapse; }
+  thead tr { background:#f1f5f9; }
+  thead th { padding:10px 12px; text-align:left; font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:#64748b; }
+  .footer { margin-top:32px; padding-top:16px; border-top:1px solid #e2e8f0; display:flex; justify-content:space-between; font-size:11px; color:#94a3b8; }
+  @media print {
+    body { padding: 20px; }
+    .no-print { display:none; }
+  }
+</style>
+</head>
+<body>
+<div class="header">
+  <div>
+    <div class="brand"><span>orcinos</span> <span class="lens">lens</span></div>
+    <div class="badge">Traffic Intelligence — T&T</div>
+  </div>
+  <div class="meta">
+    <strong>Violation Incident Report</strong><br/>
+    ${dateStr}<br/>
+    Generated: ${timeStr}<br/>
+    Session ID: OL-${Math.random().toString(36).substr(2,8).toUpperCase()}
+  </div>
+</div>
+
+<div class="section-title">Session Summary</div>
+<div class="stats-row">
+  <div class="stat-box red">
+    <div class="val">${violations.length}</div>
+    <div class="lbl">Violations Detected</div>
+  </div>
+  <div class="stat-box">
+    <div class="val">${sessionVeh}</div>
+    <div class="lbl">Vehicles Counted</div>
+  </div>
+  <div class="stat-box">
+    <div class="val">${sessionCycles}</div>
+    <div class="lbl">Signal Cycles</div>
+  </div>
+  <div class="stat-box">
+    <div class="val">${violations.length && sessionVeh ? ((violations.length/sessionVeh)*100).toFixed(1) : '0.0'}%</div>
+    <div class="lbl">Violation Rate</div>
+  </div>
+</div>
+
+<div class="section-title">Violation Log</div>
+<table>
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Plate / ID</th>
+      <th>Violation Type</th>
+      <th>Timestamp</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>${rows}</tbody>
+</table>
+
+<div class="footer">
+  <span>Orcinos Lens · orcinos.com · Caribbean Traffic Intelligence Platform</span>
+  <span>CONFIDENTIAL — For official use only</span>
+</div>
+</body>
+</html>`;
+
+  const win = window.open('', '_blank');
+  win.document.write(html);
+  win.document.close();
+  setTimeout(() => win.print(), 600);
+}
+
+// Enable PDF button when violations exist
+function updateViolationCount() {
+  const count = violations.length;
+  const el = document.getElementById('violationCount');
+  if (el) el.textContent = count + ' today';
+  const btn = document.getElementById('btnExportPDF');
+  if (btn) { btn.disabled = count === 0; btn.style.opacity = count > 0 ? '1' : '0.35'; }
+}
 </script>
 </body>
 </html>
