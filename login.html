@@ -610,7 +610,8 @@ async function handleSignIn(e) {
     localStorage.setItem('orcinos_token', data.access_token);
     localStorage.setItem('orcinos_user', JSON.stringify(data.user));
     showMsg('success', 'Signed in — redirecting to your dashboard…');
-    setTimeout(() => { window.location.href = '/'; }, 1200);
+    const nextUrl = new URLSearchParams(window.location.search).get('next') || '/';
+    setTimeout(() => { window.location.href = nextUrl; }, 1200);
   } catch(err) {
     showMsg('error', err.message || 'Something went wrong. Please try again.');
   } finally {
@@ -667,7 +668,7 @@ function handleGoogle(e) {
   const base = 'https://sazhdnqzaqpqcralmthh.supabase.co/auth/v1/authorize';
   const params = new URLSearchParams({
     provider: 'google',
-    redirect_to: window.location.origin + '/'
+    redirect_to: window.location.origin + (new URLSearchParams(window.location.search).get('next') || '/')
   });
   window.location.href = `${base}?${params}`;
 }
