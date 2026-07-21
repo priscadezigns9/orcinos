@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-fullscreen">
+    <meta name="theme-color" content="#080d1f">
+    <title>Orcinos Drive</title>
+    <link rel="manifest" href="/drive-manifest.json">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --navy:   #080d1f;
+            --blue:   #38bdf8;
+            --purple: #a855f7;
+            --red:    #ef4444;
+            --green:  #22c55e;
+            --amber:  #f59e0b;
+            --text:   #f1f5f9;
+            --muted:  #64748b;
+            --surface: rgba(14,21,48,0.85);
+        }
+
+        html, body {
+            width: 100%; height: 100%;
+            background: #000;
+            overflow: hidden;
+            font-family: 'Inter', -apple-system, sans-serif;
+        }
+
+        /* ── CAMERA FEED ── */
+        #video {
+            position: fixed;
+            inset: 0;
+            width: 100%; height: 100%;
+            object-fit: cover;
+            background: #000;
+        }
+
+        /* ── CANVAS OVERLAY (timestamp/speed burn-in) ── */
+        #overlay-canvas {
+            position: fixed;
+            inset: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        /* ── HUD ── */
+        #hud {
+            position: fixed;
+            inset: 0;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        /* Top bar */
+        .hud-top {
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, transparent 100%);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text);
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .brand-dot {
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            background: var(--blue);
+            box-shadow: 0 0 8px var(--blue);
+        }
+
+        .rec-badge {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(0,0,0,0.5);
+            border: 1px solid rgba(239,68,68,0.4);
+            border-radius: 20px;
+            padding: 4px 10px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--text);
+            letter-spacing: 0.06em;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .rec-badge.active { opacity: 1; }
+
+        .rec-dot {
+            width: 7px; height: 7px;
+            border-radius: 50%;
+            background: var(--red);
+            animation: pulse-red 1s infinite;
+        }
+
+        @keyframes pulse-red {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.2; }
+        }
+
+        .clip-counter {
+            font-size: 0.75rem;
+            color: var(--muted);
+            background: rgba(0,0,0,0.4);
+            padding: 4px 10px;
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+
+        /* Speed panel */
+        .speed-panel {
+            position: absolute;
+            top: 70px;
+            left: 20px;
+            text-align: center;
+        }
+
+        .speed-value {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: #fff;
+            line-height: 1;
+            text-shadow: 0 0 20px rgba(56,189,248,0.4);
+            font-variant-numeric: tabular-nums;
+        }
+
+        .speed-unit {
+            font-size: 0.7rem;
+            color: var(--muted);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            margin-top: 2px;
+        }
+
+        /* Impact alert */
+        #impact-alert {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(239,68,68,0.15);
+            border: 2px solid var(--red);
+            border-radius: 16px;
+            padding: 16px 28px;
+            text-align: center;
+            color: #fff;
+            font-weight: 600;
+            font-size: 1rem;
+            backdrop-filter: blur(8px);
+            display: none;
+            pointer-events: none;
+        }
+
+        #impact-alert.show { display: block; animation: flash-in 0.2s ease; }
+
+        @keyframes flash-in {
+            from { transform: translate(-50%, -50%) scale(0.8); opacity: 0; }
+            to   { transform: translate(-50%, -50%) scale(1);   opacity: 1; }
+        }
+
+        /* Bottom controls */
+        .hud-bottom {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            padding: 24px 28px 36px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: linear-gradient(to top, rgba(0,0,0,0.75) 0%, transparent 100%);
+            pointer-events: all;
+        }
+
+        .btn-icon {
+            width: 50px; height: 50px;
+            border-radius: 50%;
+            border: 1px solid rgba(255,255,255,0.15);
+            background: rgba(0,0,0,0.45);
+            backdrop-filter: blur(6px);
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .btn-icon:active { transform: scale(0.92); }
+        .btn-icon svg { width: 20px; height: 20px; }
+
+        /* Main record button */
+        .btn-record {
+            width: 72px; height: 72px;
+            border-radius: 50%;
+            border: 3px solid rgba(255,255,255,0.3);
+            background: transparent;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.25s;
+            -webkit-tap-highlight-color: transparent;
+            position: relative;
+        }
+
+        .btn-record::before {
+            content: '';
+            width: 52px; height: 52px;
+            border-radius: 50%;
+            background: var(--red);
+            transition: all 0.25s;
+            box-shadow: 0 0 20px rgba(239,68,68,0.5);
+        }
+
+        .btn-record.recording::before {
+            border-radius: 8px;
+            width: 28px; height: 28px;
+            background: var(--red);
+        }
+
+        .btn-record:active { transform: scale(0.94); }
+
+        /* Save clip button */
+        .btn-save {
+            border-color: rgba(56,189,248,0.3);
+        }
+
+        .btn-save:active { background: rgba(56,189,248,0.15); }
+
+        /* Camera flip */
+        .btn-flip:active { background: rgba(168,85,247,0.15); }
+
+        /* Status bar */
+        .status-bar {
+            position: absolute;
+            bottom: 110px;
+            left: 0; right: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            pointer-events: none;
+        }
+
+        .status-pill {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            background: rgba(0,0,0,0.45);
+            backdrop-filter: blur(6px);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 20px;
+            padding: 5px 12px;
+            font-size: 0.7rem;
+            color: var(--muted);
+            letter-spacing: 0.04em;
+        }
+
+        .status-pill .dot {
+            width: 5px; height: 5px;
+            border-radius: 50%;
+            background: var(--muted);
+        }
+
+        .status-pill.ok .dot { background: var(--green); }
+        .status-pill.warn .dot { background: var(--amber); }
+
+        /* Clips tray */
+        #clips-tray {
+            position: fixed;
+            bottom: 0; left: 0; right: 0;
+            background: var(--surface);
+            backdrop-filter: blur(16px);
+            border-top: 1px solid rgba(255,255,255,0.08);
+            border-radius: 20px 20px 0 0;
+            padding: 16px 20px 32px;
+            z-index: 50;
+            transform: translateY(100%);
+            transition: transform 0.35s cubic-bezier(0.32,0.72,0,1);
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+
+        #clips-tray.open { transform: translateY(0); }
+
+        .tray-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 14px;
+        }
+
+        .tray-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .tray-close {
+            background: none;
+            border: none;
+            color: var(--muted);
+            cursor: pointer;
+            font-size: 1.2rem;
+            padding: 4px;
+        }
+
+        .clip-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .clip-info { display: flex; align-items: center; gap: 10px; }
+
+        .clip-icon {
+            width: 36px; height: 36px;
+            border-radius: 8px;
+            background: rgba(56,189,248,0.1);
+            border: 1px solid rgba(56,189,248,0.2);
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        .clip-icon svg { width: 16px; height: 16px; stroke: var(--blue); }
+
+        .clip-icon.impact-clip { background: rgba(239,68,68,0.1); border-color: rgba(239,68,68,0.2); }
+        .clip-icon.impact-clip svg { stroke: var(--red); }
+
+        .clip-name { font-size: 0.78rem; color: var(--text); font-weight: 500; }
+        .clip-meta { font-size: 0.68rem; color: var(--muted); margin-top: 1px; }
+
+        .clip-dl {
+            background: none;
+            border: 1px solid rgba(56,189,248,0.25);
+            border-radius: 8px;
+            color: var(--blue);
+            font-size: 0.72rem;
+            padding: 5px 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .clip-dl:hover { background: rgba(56,189,248,0.1); }
+
+        .no-clips {
+            text-align: center;
+            color: var(--muted);
+            font-size: 0.8rem;
+            padding: 24px 0;
+        }
+
+        /* Start screen */
+        #start-screen {
+            position: fixed;
+            inset: 0;
+            background: var(--navy);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            padding: 32px;
+            text-align: center;
+        }
+
+        .start-logo {
+            width: 64px; height: 64px;
+            border-radius: 18px;
+            background: linear-gradient(135deg, #1e3a5f, #2d1b69);
+            border: 1px solid rgba(56,189,248,0.3);
+            display: flex; align-items: center; justify-content: center;
+            margin-bottom: 20px;
+            box-shadow: 0 0 40px rgba(56,189,248,0.15);
+        }
+
+        .start-logo svg { width: 32px; height: 32px; stroke: var(--blue); }
+
+        .start-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 6px;
+        }
+
+        .start-sub {
+            font-size: 0.85rem;
+            color: var(--muted);
+            margin-bottom: 36px;
+            line-height: 1.5;
+        }
+
+        .start-perms {
+            width: 100%;
+            max-width: 320px;
+            margin-bottom: 28px;
+        }
+
+        .perm-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            text-align: left;
+        }
+
+        .perm-icon {
+            width: 36px; height: 36px;
+            border-radius: 10px;
+            background: rgba(56,189,248,0.08);
+            border: 1px solid rgba(56,189,248,0.15);
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .perm-icon svg { width: 16px; height: 16px; stroke: var(--blue); }
+
+        .perm-text { font-size: 0.78rem; color: var(--text); }
+        .perm-desc { font-size: 0.68rem; color: var(--muted); margin-top: 1px; }
+
+        .btn-start {
+            width: 100%;
+            max-width: 320px;
+            padding: 16px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, #1d4ed8, #7c3aed);
+            border: none;
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            letter-spacing: 0.02em;
+            transition: opacity 0.2s;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .btn-start:active { opacity: 0.85; }
+
+        /* Toast */
+        #toast {
+            position: fixed;
+            top: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(14,21,48,0.92);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 10px 18px;
+            color: var(--text);
+            font-size: 0.8rem;
+            z-index: 200;
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+
+        #toast.show { opacity: 1; }
+    </style>
+</head>
+<body>
+
+<!-- Camera feed -->
+<video id="video" autoplay playsinline muted></video>
+
+<!-- Canvas for burn-in overlay -->
+<canvas id="overlay-canvas"></canvas>
+
+<!-- HUD -->
+<div id="hud">
+    <div class="hud-top">
+        <div class="brand">
+            <div class="brand-dot"></div>
+            Orcinos Drive
+        </div>
+
+        <div class="rec-badge" id="rec-badge">
+            <div class="rec-dot"></div>
+            REC
+        </div>
+
+        <div class="clip-counter" id="clip-counter">0 clips</div>
+    </div>
+
+    <!-- Speed -->
+    <div class="speed-panel">
+        <div class="speed-value" id="speed-value">0</div>
+        <div class="speed-unit">km/h</div>
+    </div>
+
+    <!-- Impact alert -->
+    <div id="impact-alert">
+        ⚠️ Impact Detected — Clip Saved
+    </div>
+
+    <!-- Status pills -->
+    <div class="status-bar">
+        <div class="status-pill" id="gps-pill">
+            <div class="dot"></div>
+            GPS
+        </div>
+        <div class="status-pill" id="motion-pill">
+            <div class="dot"></div>
+            Motion
+        </div>
+        <div class="status-pill" id="wake-pill">
+            <div class="dot"></div>
+            Screen Lock
+        </div>
+    </div>
+
+    <!-- Bottom controls -->
+    <div class="hud-bottom">
+        <!-- Clips tray button -->
+        <button class="btn-icon" onclick="toggleTray()" title="Saved clips">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 7h18M3 12h18M3 17h18"/>
+            </svg>
+        </button>
+
+        <!-- Record button -->
+        <button class="btn-record" id="btn-record" onclick="toggleRecord()" title="Start/Stop recording"></button>
+
+        <!-- Flip camera -->
+        <button class="btn-icon btn-flip" onclick="flipCamera()" title="Flip camera">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 4v6h6M23 20v-6h-6"/>
+                <path d="M20.49 9A9 9 0 005.64 5.64L1 10M23 14l-4.64 4.36A9 9 0 013.51 15"/>
+            </svg>
+        </button>
+    </div>
+</div>
+
+<!-- Impact alert overlay -->
+
+<!-- Clips Tray -->
+<div id="clips-tray">
+    <div class="tray-header">
+        <div class="tray-title">Saved Clips</div>
+        <button class="tray-close" onclick="toggleTray()">✕</button>
+    </div>
+    <div id="clips-list">
+        <div class="no-clips">No clips yet. Start recording to capture footage.</div>
+    </div>
+</div>
+
+<!-- Start Screen -->
+<div id="start-screen">
+    <div class="start-logo">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/>
+        </svg>
+    </div>
+    <div class="start-title">Orcinos Drive</div>
+    <div class="start-sub">Your phone. Your dashcam.<br>Caribbean-built, no hardware needed.</div>
+
+    <div class="start-perms">
+        <div class="perm-row">
+            <div class="perm-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M23 7l-7 5 7 5V7z"/>
+                    <rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
+                </svg>
+            </div>
+            <div>
+                <div class="perm-text">Camera</div>
+                <div class="perm-desc">Records your dashcam feed</div>
+            </div>
+        </div>
+        <div class="perm-row">
+            <div class="perm-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="M12 8v4l3 3"/>
+                </svg>
+            </div>
+            <div>
+                <div class="perm-text">Location</div>
+                <div class="perm-desc">Speed overlay on your footage</div>
+            </div>
+        </div>
+        <div class="perm-row">
+            <div class="perm-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 8h1a4 4 0 010 8h-1M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8zM6 1v3M10 1v3M14 1v3"/>
+                </svg>
+            </div>
+            <div>
+                <div class="perm-text">Motion Sensor</div>
+                <div class="perm-desc">Auto-saves clips on impact</div>
+            </div>
+        </div>
+    </div>
+
+    <button class="btn-start" onclick="initDrive()">Start Orcinos Drive</button>
+</div>
+
+<!-- Toast -->
+<div id="toast"></div>
+
+<script>
+// ── STATE ─────────────────────────────────────────────
+const state = {
+    stream: null,
+    facingMode: 'environment',  // rear camera default
+    mediaRecorder: null,
+    recording: false,
+    chunks: [],
+    clips: [],               // { blob, name, type, ts }
+    clipDuration: 3 * 60 * 1000, // 3-minute loop clips
+    clipTimer: null,
+    speed: 0,
+    wakeLock: null,
+    impactThreshold: 15,     // m/s² delta to trigger save
+    lastAccel: { x: 0, y: 0, z: 0 },
+    canvasCtx: null,
+    animFrame: null,
+    gpsWatcher: null,
+};
+
+const $ = id => document.getElementById(id);
+
+// ── INIT ──────────────────────────────────────────────
+async function initDrive() {
+    try {
+        await startCamera();
+        initGPS();
+        initMotion();
+        await requestWakeLock();
+        startCanvas();
+        $('start-screen').style.display = 'none';
+    } catch (err) {
+        showToast('❌ ' + (err.message || 'Permission denied'));
+    }
+}
+
+// ── CAMERA ────────────────────────────────────────────
+async function startCamera() {
+    if (state.stream) {
+        state.stream.getTracks().forEach(t => t.stop());
+    }
+
+    const constraints = {
+        video: {
+            facingMode: state.facingMode,
+            width:  { ideal: 1920 },
+            height: { ideal: 1080 },
+            frameRate: { ideal: 30 }
+        },
+        audio: true
+    };
+
+    state.stream = await navigator.mediaDevices.getUserMedia(constraints);
+    $('video').srcObject = state.stream;
+}
+
+async function flipCamera() {
+    const wasRecording = state.recording;
+    if (wasRecording) await stopRecording(false);
+
+    state.facingMode = state.facingMode === 'environment' ? 'user' : 'environment';
+    await startCamera();
+    showToast(state.facingMode === 'environment' ? '📷 Rear camera' : '🤳 Front camera');
+
+    if (wasRecording) startRecording();
+}
+
+// ── RECORDING ─────────────────────────────────────────
+function toggleRecord() {
+    state.recording ? stopRecording(true) : startRecording();
+}
+
+function startRecording() {
+    if (!state.stream) return;
+
+    const mimeType = getSupportedMime();
+    state.mediaRecorder = new MediaRecorder(state.stream, { mimeType, videoBitsPerSecond: 4_000_000 });
+    state.chunks = [];
+
+    state.mediaRecorder.ondataavailable = e => {
+        if (e.data && e.data.size > 0) state.chunks.push(e.data);
+    };
+
+    state.mediaRecorder.onstop = () => {
+        // Called when a loop segment finishes — don't auto-save unless triggered
+    };
+
+    state.mediaRecorder.start(1000); // collect data every second
+    state.recording = true;
+
+    $('btn-record').classList.add('recording');
+    $('rec-badge').classList.add('active');
+
+    // Loop: every clipDuration ms, roll to next segment
+    state.clipTimer = setInterval(() => rollClip(), state.clipDuration);
+
+    showToast('● Recording started');
+}
+
+async function stopRecording(saveClip = true) {
+    if (!state.mediaRecorder || state.mediaRecorder.state === 'inactive') return;
+    clearInterval(state.clipTimer);
+
+    await new Promise(resolve => {
+        state.mediaRecorder.onstop = resolve;
+        state.mediaRecorder.stop();
+    });
+
+    if (saveClip && state.chunks.length > 0) {
+        saveCurrentChunks('clip');
+    }
+
+    state.recording = false;
+    state.chunks = [];
+    $('btn-record').classList.remove('recording');
+    $('rec-badge').classList.remove('active');
+    showToast('■ Recording stopped');
+}
+
+function rollClip() {
+    // Save current segment, restart recorder
+    if (state.chunks.length > 0) {
+        saveCurrentChunks('clip');
+        state.chunks = [];
+    }
+    // Restart recorder on same stream
+    if (state.mediaRecorder && state.mediaRecorder.state === 'recording') {
+        state.mediaRecorder.stop();
+        setTimeout(() => {
+            state.mediaRecorder.start(1000);
+        }, 100);
+    }
+}
+
+function saveCurrentChunks(type, label = '') {
+    const mimeType = getSupportedMime();
+    const ext = mimeType.includes('mp4') ? 'mp4' : 'webm';
+    const ts = new Date();
+    const name = `drive_${type}_${formatTs(ts)}${label ? '_' + label : ''}.${ext}`;
+    const blob = new Blob(state.chunks, { type: mimeType });
+
+    state.clips.unshift({ blob, name, type, ts });
+
+    // Keep only last 10 clips in memory
+    if (state.clips.length > 10) {
+        state.clips.pop();
+    }
+
+    updateClipCounter();
+    renderClipsList();
+}
+
+function manualSave() {
+    if (!state.recording || state.chunks.length === 0) {
+        showToast('Nothing to save yet — start recording first');
+        return;
+    }
+    saveCurrentChunks('manual');
+    showToast('💾 Clip saved manually');
+}
+
+function getSupportedMime() {
+    const types = [
+        'video/mp4;codecs=avc1',
+        'video/webm;codecs=vp9,opus',
+        'video/webm;codecs=vp8,opus',
+        'video/webm',
+    ];
+    return types.find(t => MediaRecorder.isTypeSupported(t)) || 'video/webm';
+}
+
+// ── GPS / SPEED ────────────────────────────────────────
+function initGPS() {
+    if (!navigator.geolocation) return;
+
+    state.gpsWatcher = navigator.geolocation.watchPosition(pos => {
+        const kmh = pos.coords.speed != null
+            ? Math.round(pos.coords.speed * 3.6)
+            : 0;
+        state.speed = kmh;
+        $('speed-value').textContent = kmh;
+        $('gps-pill').className = 'status-pill ok';
+    }, () => {
+        $('gps-pill').className = 'status-pill warn';
+    }, { enableHighAccuracy: true, maximumAge: 1000 });
+}
+
+// ── MOTION / IMPACT ───────────────────────────────────
+function initMotion() {
+    if (!window.DeviceMotionEvent) return;
+
+    // iOS 13+ requires permission
+    if (typeof DeviceMotionEvent.requestPermission === 'function') {
+        DeviceMotionEvent.requestPermission()
+            .then(perm => {
+                if (perm === 'granted') listenMotion();
+            });
+    } else {
+        listenMotion();
+    }
+}
+
+function listenMotion() {
+    $('motion-pill').className = 'status-pill ok';
+
+    window.addEventListener('devicemotion', e => {
+        const a = e.accelerationIncludingGravity;
+        if (!a) return;
+
+        const dx = Math.abs((a.x || 0) - state.lastAccel.x);
+        const dy = Math.abs((a.y || 0) - state.lastAccel.y);
+        const dz = Math.abs((a.z || 0) - state.lastAccel.z);
+        const delta = Math.sqrt(dx*dx + dy*dy + dz*dz);
+
+        if (delta > state.impactThreshold && state.recording) {
+            triggerImpactSave();
+        }
+
+        state.lastAccel = { x: a.x || 0, y: a.y || 0, z: a.z || 0 };
+    });
+}
+
+let impactCooldown = false;
+function triggerImpactSave() {
+    if (impactCooldown) return;
+    impactCooldown = true;
+    setTimeout(() => impactCooldown = false, 5000);
+
+    if (state.chunks.length > 0) {
+        // Clone current chunks for impact clip
+        const impactChunks = [...state.chunks];
+        const mimeType = getSupportedMime();
+        const ext = mimeType.includes('mp4') ? 'mp4' : 'webm';
+        const ts = new Date();
+        const name = `drive_IMPACT_${formatTs(ts)}.${ext}`;
+        const blob = new Blob(impactChunks, { type: mimeType });
+        state.clips.unshift({ blob, name, type: 'impact', ts });
+        updateClipCounter();
+        renderClipsList();
+    }
+
+    // Flash impact UI
+    const alert = $('impact-alert');
+    alert.classList.add('show');
+    setTimeout(() => alert.classList.remove('show'), 3000);
+
+    showToast('⚠️ Impact detected — clip saved!');
+}
+
+// ── WAKE LOCK ─────────────────────────────────────────
+async function requestWakeLock() {
+    if (!('wakeLock' in navigator)) {
+        $('wake-pill').className = 'status-pill warn';
+        return;
+    }
+    try {
+        state.wakeLock = await navigator.wakeLock.request('screen');
+        $('wake-pill').className = 'status-pill ok';
+
+        // Re-acquire on visibility change
+        document.addEventListener('visibilitychange', async () => {
+            if (document.visibilityState === 'visible') {
+                state.wakeLock = await navigator.wakeLock.request('screen');
+            }
+        });
+    } catch {
+        $('wake-pill').className = 'status-pill warn';
+    }
+}
+
+// ── CANVAS OVERLAY (timestamp burn-in) ────────────────
+function startCanvas() {
+    const canvas = $('overlay-canvas');
+    const video  = $('video');
+    const ctx = canvas.getContext('2d');
+    state.canvasCtx = ctx;
+
+    function draw() {
+        canvas.width  = window.innerWidth;
+        canvas.height = window.innerHeight;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Timestamp bottom-right
+        const now = new Date();
+        const ts = now.toLocaleString('en-TT', {
+            year: 'numeric', month: '2-digit', day: '2-digit',
+            hour: '2-digit', minute: '2-digit', second: '2-digit',
+            hour12: false
+        });
+
+        ctx.font = 'bold 13px monospace';
+        ctx.fillStyle = 'rgba(0,0,0,0.55)';
+        ctx.fillRect(canvas.width - 230, canvas.height - 38, 220, 24);
+        ctx.fillStyle = '#fff';
+        ctx.fillText(ts, canvas.width - 224, canvas.height - 21);
+
+        // Speed burn-in (small, bottom-left corner)
+        ctx.font = 'bold 13px monospace';
+        ctx.fillStyle = 'rgba(0,0,0,0.55)';
+        ctx.fillRect(8, canvas.height - 38, 90, 24);
+        ctx.fillStyle = '#38bdf8';
+        ctx.fillText(`${state.speed} km/h`, 14, canvas.height - 21);
+
+        state.animFrame = requestAnimationFrame(draw);
+    }
+
+    draw();
+}
+
+// ── CLIPS TRAY ────────────────────────────────────────
+function toggleTray() {
+    $('clips-tray').classList.toggle('open');
+}
+
+function updateClipCounter() {
+    $('clip-counter').textContent = `${state.clips.length} clip${state.clips.length !== 1 ? 's' : ''}`;
+}
+
+function renderClipsList() {
+    const list = $('clips-list');
+    if (state.clips.length === 0) {
+        list.innerHTML = '<div class="no-clips">No clips yet. Start recording to capture footage.</div>';
+        return;
+    }
+
+    list.innerHTML = state.clips.map((clip, i) => `
+        <div class="clip-item">
+            <div class="clip-info">
+                <div class="clip-icon ${clip.type === 'impact' ? 'impact-clip' : ''}">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        ${clip.type === 'impact'
+                            ? '<path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>'
+                            : '<polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>'
+                        }
+                    </svg>
+                </div>
+                <div>
+                    <div class="clip-name">${clip.type === 'impact' ? '⚠️ ' : ''}${clip.name}</div>
+                    <div class="clip-meta">${formatSize(clip.blob.size)} · ${clip.ts.toLocaleTimeString('en-TT')}</div>
+                </div>
+            </div>
+            <button class="clip-dl" onclick="downloadClip(${i})">Save</button>
+        </div>
+    `).join('');
+}
+
+function downloadClip(index) {
+    const clip = state.clips[index];
+    if (!clip) return;
+    const url = URL.createObjectURL(clip.blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = clip.name;
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 5000);
+    showToast('📥 Downloading ' + clip.name);
+}
+
+// ── UTILS ─────────────────────────────────────────────
+function formatTs(d) {
+    return d.toISOString().replace(/[:.]/g, '-').slice(0, 19);
+}
+
+function formatSize(bytes) {
+    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(0) + ' KB';
+    return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+}
+
+function showToast(msg, duration = 2500) {
+    const t = $('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(t._timer);
+    t._timer = setTimeout(() => t.classList.remove('show'), duration);
+}
+
+// ── KEYBOARD SHORTCUTS (desktop testing) ──────────────
+document.addEventListener('keydown', e => {
+    if (e.code === 'Space') { e.preventDefault(); toggleRecord(); }
+    if (e.code === 'KeyS') manualSave();
+    if (e.code === 'KeyF') flipCamera();
+});
+</script>
+</body>
+</html>
