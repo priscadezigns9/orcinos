@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Orcinos — Sign In</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --blue-deep:   #1a3db5;
+  --blue-mid:    #2563eb;
+  --blue-light:  #38bdf8;
+  --purple:      #6b21e8;
+  --purple-mid:  #7c3aed;
+  --purple-soft: #a78bfa;
+  --bg:          #080d1f;
+  --bg2:         #0d1330;
+  --bg3:         #111827;
+  --text:        #e8eaf6;
+  --muted:       #7b8ab8;
+  --border:      rgba(56,189,248,0.12);
+  --grad-word:   linear-gradient(90deg, var(--blue-light), var(--purple));
+  --grad-btn:    linear-gradient(135deg, var(--blue-mid), var(--purple));
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+
+/* ── ANIMATED BACKGROUND ── */
+.bg-glow {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+.bg-glow::before {
+  content: '';
+  position: absolute;
+  top: -20%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 800px;
+  height: 800px;
+  background: radial-gradient(circle,
+    rgba(37,99,235,0.18) 0%,
+    rgba(107,33,232,0.08) 45%,
+    transparent 70%);
+  animation: pulse 8s ease-in-out infinite;
+}
+.bg-glow::after {
+  content: '';
+  position: absolute;
+  bottom: -20%;
+  right: -10%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle,
+    rgba(107,33,232,0.12) 0%,
+    transparent 65%);
+  animation: pulse 10s ease-in-out infinite reverse;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: translateX(-50%) scale(1); }
+  50%       { opacity: 0.7; transform: translateX(-50%) scale(1.08); }
+}
+
+/* Grid lines */
+.grid-lines {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(56,189,248,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(56,189,248,0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 48px;
+  background: rgba(8,13,31,0.88);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-logo {
+  text-decoration: none;
+  font-size: 1.4rem;
+  font-weight: 800;
+  background: var(--grad-word);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.nav-back {
+  font-size: 0.85rem;
+  color: var(--muted);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: color 0.2s;
+}
+.nav-back:hover { color: var(--blue-light); }
+
+/* ── CARD ── */
+.card-wrap {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 440px;
+  padding: 1.5rem;
+}
+
+.card {
+  background: rgba(13,19,48,0.85);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 2.5rem 2.25rem;
+  backdrop-filter: blur(20px);
+  box-shadow:
+    0 0 0 1px rgba(56,189,248,0.04),
+    0 32px 80px rgba(0,0,0,0.55),
+    0 0 60px rgba(37,99,235,0.07);
+}
+
+/* ── HEADER ── */
+.card-logo {
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+.card-logo .wordmark {
+  font-size: 2.2rem;
+  font-weight: 800;
+  background: var(--grad-word);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.card-subtitle {
+  text-align: center;
+  font-size: 0.88rem;
+  color: var(--muted);
+  margin-bottom: 2rem;
+  line-height: 1.5;
+}
+.card-subtitle strong {
+  color: var(--blue-light);
+  font-weight: 600;
+}
+
+/* ── TABS ── */
+.auth-tabs {
+  display: flex;
+  gap: 0;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 4px;
+  margin-bottom: 1.75rem;
+}
+.auth-tab {
+  flex: 1;
+  padding: 0.55rem 0;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  font-size: 0.85rem;
+  font-weight: 600;
+  border-radius: 7px;
+  cursor: pointer;
+  transition: all 0.2s;
+  letter-spacing: 0.02em;
+}
+.auth-tab.active {
+  background: rgba(37,99,235,0.2);
+  border: 1px solid rgba(56,189,248,0.25);
+  color: var(--blue-light);
+}
+
+/* ── FORM ── */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+}
+.form-group label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.form-group input {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(56,189,248,0.12);
+  border-radius: 10px;
+  padding: 0.78rem 1rem;
+  color: var(--text);
+  font-size: 0.93rem;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  width: 100%;
+}
+.form-group input:focus {
+  border-color: rgba(56,189,248,0.45);
+  box-shadow: 0 0 0 3px rgba(37,99,235,0.12);
+}
+.form-group input::placeholder { color: rgba(123,138,184,0.5); }
+
+.input-icon-wrap {
+  position: relative;
+}
+.input-icon-wrap input {
+  padding-right: 2.8rem;
+}
+.input-icon-wrap .toggle-pw {
+  position: absolute;
+  right: 0.85rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  transition: color 0.2s;
+}
+.input-icon-wrap .toggle-pw:hover { color: var(--blue-light); }
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+/* ── FORGOT ── */
+.forgot-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: -0.4rem;
+  margin-bottom: 1.25rem;
+}
+.forgot-link {
+  font-size: 0.78rem;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.forgot-link:hover { color: var(--blue-light); }
+
+/* ── SUBMIT ── */
+.btn-submit {
+  width: 100%;
+  padding: 0.9rem;
+  border: none;
+  border-radius: 10px;
+  background: var(--grad-btn);
+  color: #fff;
+  font-size: 0.93rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.15s, box-shadow 0.2s;
+  position: relative;
+  overflow: hidden;
+  margin-top: 0.5rem;
+}
+.btn-submit:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 32px rgba(37,99,235,0.35);
+}
+.btn-submit:active { transform: translateY(0); }
+.btn-submit .spinner {
+  display: none;
+  width: 16px; height: 16px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  margin: 0 auto;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.btn-submit.loading .btn-label { display: none; }
+.btn-submit.loading .spinner { display: block; }
+
+/* ── DIVIDER ── */
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 1.5rem 0;
+}
+.divider::before, .divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+.divider span {
+  font-size: 0.72rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+}
+
+/* ── SOCIAL AUTH ── */
+.social-btn {
+  width: 100%;
+  padding: 0.78rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: rgba(255,255,255,0.03);
+  color: var(--text);
+  font-size: 0.88rem;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  transition: background 0.2s, border-color 0.2s;
+  text-decoration: none;
+}
+.social-btn:hover {
+  background: rgba(255,255,255,0.07);
+  border-color: rgba(56,189,248,0.25);
+}
+
+/* ── REGION BADGE ── */
+.region-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-top: 1.5rem;
+  padding: 0.6rem 1rem;
+  background: rgba(37,99,235,0.07);
+  border: 1px solid rgba(56,189,248,0.1);
+  border-radius: 100px;
+  font-size: 0.72rem;
+  color: var(--muted);
+  letter-spacing: 0.04em;
+}
+.region-badge .dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--blue-light);
+  box-shadow: 0 0 6px var(--blue-light);
+  flex-shrink: 0;
+}
+.region-badge strong { color: var(--blue-light); }
+
+/* ── ERROR / SUCCESS MESSAGES ── */
+.form-msg {
+  font-size: 0.8rem;
+  padding: 0.65rem 0.9rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  display: none;
+}
+.form-msg.error {
+  background: rgba(239,68,68,0.1);
+  border: 1px solid rgba(239,68,68,0.25);
+  color: #f87171;
+}
+.form-msg.success {
+  background: rgba(34,197,94,0.1);
+  border: 1px solid rgba(34,197,94,0.25);
+  color: #4ade80;
+}
+
+/* ── TERMS NOTE ── */
+.terms-note {
+  text-align: center;
+  font-size: 0.72rem;
+  color: var(--muted);
+  margin-top: 1rem;
+  line-height: 1.5;
+}
+.terms-note a { color: var(--blue-light); text-decoration: none; }
+.terms-note a:hover { text-decoration: underline; }
+
+/* ── MOBILE ── */
+@media (max-width: 480px) {
+  nav { padding: 14px 20px; }
+  .card-wrap { padding: 1rem; }
+  .card { padding: 2rem 1.5rem; }
+  .form-row { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="bg-glow"></div>
+<div class="grid-lines"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="https://orcinos.com" class="nav-logo">orcinos</a>
+  <a href="https://orcinos.com" class="nav-back">
+    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+    Back to home
+  </a>
+</nav>
+
+<!-- CARD -->
+<div class="card-wrap">
+  <div class="card">
+
+    <div class="card-logo">
+      <div class="wordmark">orcinos</div>
+    </div>
+    <p class="card-subtitle">
+      The AI platform built for the <strong>Caribbean</strong>.<br>
+      Sign in to your command centre.
+    </p>
+
+    <!-- TABS -->
+    <div class="auth-tabs">
+      <button class="auth-tab active" id="tabSignIn" onclick="switchTab('signin')">Sign In</button>
+      <button class="auth-tab" id="tabSignUp" onclick="switchTab('signup')">Create Account</button>
+    </div>
+
+    <!-- ERROR / SUCCESS -->
+    <div class="form-msg error" id="formError"></div>
+    <div class="form-msg success" id="formSuccess"></div>
+
+    <!-- ── SIGN IN FORM ── -->
+    <form id="signinForm" onsubmit="handleSignIn(event)">
+      <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" id="siEmail" placeholder="you@example.com" required autocomplete="email"/>
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <div class="input-icon-wrap">
+          <input type="password" id="siPassword" placeholder="••••••••" required autocomplete="current-password"/>
+          <button type="button" class="toggle-pw" onclick="togglePw('siPassword', this)">
+            <svg id="eyeIcon1" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="forgot-row">
+        <a href="#" class="forgot-link" onclick="showForgot(event)">Forgot password?</a>
+      </div>
+      <button type="submit" class="btn-submit" id="btnSignIn">
+        <span class="btn-label">Sign In</span>
+        <div class="spinner"></div>
+      </button>
+    </form>
+
+    <!-- ── SIGN UP FORM ── -->
+    <form id="signupForm" style="display:none;" onsubmit="handleSignUp(event)">
+      <div class="form-row">
+        <div class="form-group">
+          <label>First Name</label>
+          <input type="text" id="suFirst" placeholder="First" required autocomplete="given-name"/>
+        </div>
+        <div class="form-group">
+          <label>Last Name</label>
+          <input type="text" id="suLast" placeholder="Last" required autocomplete="family-name"/>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" id="suEmail" placeholder="you@example.com" required autocomplete="email"/>
+      </div>
+      <div class="form-group">
+        <label>Country</label>
+        <input type="text" id="suCountry" placeholder="Trinidad & Tobago, Jamaica, Barbados…" list="caribbean-countries"/>
+        <datalist id="caribbean-countries">
+          <option value="Trinidad & Tobago"/>
+          <option value="Jamaica"/>
+          <option value="Barbados"/>
+          <option value="Guyana"/>
+          <option value="Saint Lucia"/>
+          <option value="Grenada"/>
+          <option value="Antigua & Barbuda"/>
+          <option value="Saint Vincent & the Grenadines"/>
+          <option value="Dominica"/>
+          <option value="Saint Kitts & Nevis"/>
+          <option value="Bahamas"/>
+          <option value="Belize"/>
+          <option value="Suriname"/>
+          <option value="Haiti"/>
+          <option value="Dominican Republic"/>
+          <option value="Cuba"/>
+          <option value="Puerto Rico"/>
+          <option value="Other Caribbean Territory"/>
+        </datalist>
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <div class="input-icon-wrap">
+          <input type="password" id="suPassword" placeholder="Min 8 characters" required autocomplete="new-password"/>
+          <button type="button" class="toggle-pw" onclick="togglePw('suPassword', this)">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
+      </div>
+      <button type="submit" class="btn-submit" id="btnSignUp">
+        <span class="btn-label">Create Account</span>
+        <div class="spinner"></div>
+      </button>
+      <p class="terms-note">
+        By creating an account you agree to our
+        <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.
+      </p>
+    </form>
+
+    <!-- DIVIDER + GOOGLE -->
+    <div class="divider"><span>or continue with</span></div>
+    <a href="#" class="social-btn" onclick="handleGoogle(event)">
+      <svg viewBox="0 0 24 24" width="18" height="18"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+      Continue with Google
+    </a>
+
+    <!-- REGION BADGE -->
+    <div class="region-badge">
+      <div class="dot"></div>
+      <span>Caribbean-first platform · Servers in <strong>your region</strong></span>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// ── TAB SWITCHER ──────────────────────────────────────
+function switchTab(tab) {
+  const isSignIn = tab === 'signin';
+  document.getElementById('signinForm').style.display = isSignIn ? '' : 'none';
+  document.getElementById('signupForm').style.display = isSignIn ? 'none' : '';
+  document.getElementById('tabSignIn').classList.toggle('active', isSignIn);
+  document.getElementById('tabSignUp').classList.toggle('active', !isSignIn);
+  clearMessages();
+}
+
+// ── CLEAR MESSAGES ────────────────────────────────────
+function clearMessages() {
+  ['formError','formSuccess'].forEach(id => {
+    const el = document.getElementById(id);
+    el.style.display = 'none';
+    el.textContent = '';
+  });
+}
+
+function showMsg(type, msg) {
+  clearMessages();
+  const el = document.getElementById(type === 'error' ? 'formError' : 'formSuccess');
+  el.textContent = msg;
+  el.style.display = 'block';
+}
+
+// ── PASSWORD TOGGLE ───────────────────────────────────
+function togglePw(inputId, btn) {
+  const input = document.getElementById(inputId);
+  const show = input.type === 'password';
+  input.type = show ? 'text' : 'password';
+  btn.innerHTML = show
+    ? `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg>`
+    : `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>`;
+}
+
+// ── SIGN IN ───────────────────────────────────────────
+async function handleSignIn(e) {
+  e.preventDefault();
+  const btn = document.getElementById('btnSignIn');
+  btn.classList.add('loading');
+  clearMessages();
+
+  const email    = document.getElementById('siEmail').value.trim();
+  const password = document.getElementById('siPassword').value;
+
+  try {
+    const res = await fetch('https://sazhdnqzaqpqcralmthh.supabase.co/auth/v1/token?grant_type=password', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IlpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNhemhkbnF6YXFwcWNyYWxtdGhoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxNzE5NjYsImV4cCI6MjA5Mzc0Nzk2Nn0.uTyw31uWTNOTV5-HzNpm46vpAJABAsHLMzW-sYOkRhc'
+      },
+      body: JSON.stringify({ email, password })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error_description || data.msg || 'Invalid credentials');
+    // Store session
+    localStorage.setItem('orcinos_token', data.access_token);
+    localStorage.setItem('orcinos_user', JSON.stringify(data.user));
+    showMsg('success', 'Signed in — redirecting to your dashboard…');
+    setTimeout(() => { window.location.href = '/'; }, 1200);
+  } catch(err) {
+    showMsg('error', err.message || 'Something went wrong. Please try again.');
+  } finally {
+    btn.classList.remove('loading');
+  }
+}
+
+// ── SIGN UP ───────────────────────────────────────────
+async function handleSignUp(e) {
+  e.preventDefault();
+  const btn = document.getElementById('btnSignUp');
+  btn.classList.add('loading');
+  clearMessages();
+
+  const email    = document.getElementById('suEmail').value.trim();
+  const password = document.getElementById('suPassword').value;
+  const first    = document.getElementById('suFirst').value.trim();
+  const last     = document.getElementById('suLast').value.trim();
+  const country  = document.getElementById('suCountry').value.trim();
+
+  if (password.length < 8) {
+    showMsg('error', 'Password must be at least 8 characters.');
+    btn.classList.remove('loading');
+    return;
+  }
+
+  try {
+    const res = await fetch('https://sazhdnqzaqpqcralmthh.supabase.co/auth/v1/signup', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IlpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNhemhkbnF6YXFwcWNyYWxtdGhoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxNzE5NjYsImV4cCI6MjA5Mzc0Nzk2Nn0.uTyw31uWTNOTV5-HzNpm46vpAJABAsHLMzW-sYOkRhc'
+      },
+      body: JSON.stringify({
+        email, password,
+        data: { first_name: first, last_name: last, country, region: 'Caribbean' }
+      })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error_description || data.msg || 'Registration failed');
+    showMsg('success', '✓ Account created! Check your email to confirm, then sign in.');
+    setTimeout(() => switchTab('signin'), 2500);
+  } catch(err) {
+    showMsg('error', err.message || 'Something went wrong. Please try again.');
+  } finally {
+    btn.classList.remove('loading');
+  }
+}
+
+// ── GOOGLE ────────────────────────────────────────────
+function handleGoogle(e) {
+  e.preventDefault();
+  // Supabase Google OAuth
+  const base = 'https://sazhdnqzaqpqcralmthh.supabase.co/auth/v1/authorize';
+  const params = new URLSearchParams({
+    provider: 'google',
+    redirect_to: window.location.origin + '/'
+  });
+  window.location.href = `${base}?${params}`;
+}
+
+// ── FORGOT PASSWORD ───────────────────────────────────
+function showForgot(e) {
+  e.preventDefault();
+  const email = document.getElementById('siEmail').value.trim();
+  if (!email) { showMsg('error', 'Enter your email address above first.'); return; }
+  clearMessages();
+  fetch('https://sazhdnqzaqpqcralmthh.supabase.co/auth/v1/recover', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IlpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNhemhkbnF6YXFwcWNyYWxtdGhoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxNzE5NjYsImV4cCI6MjA5Mzc0Nzk2Nn0.uTyw31uWTNOTV5-HzNpm46vpAJABAsHLMzW-sYOkRhc'
+    },
+    body: JSON.stringify({ email })
+  }).then(() => {
+    showMsg('success', `Password reset link sent to ${email}`);
+  }).catch(() => {
+    showMsg('error', 'Could not send reset link. Try again.');
+  });
+}
+</script>
+</body>
+</html>
