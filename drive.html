@@ -1,1014 +1,1200 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-fullscreen">
-    <meta name="theme-color" content="#080d1f">
-    <title>Orcinos Drive</title>
-    <link rel="manifest" href="/drive-manifest.json">
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-fullscreen">
+<meta name="theme-color" content="#050810">
+<title>Orcinos Drive</title>
+<link rel="manifest" href="/drive-manifest.json">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{width:100%;height:100%;overflow:hidden;background:#050810;font-family:'Inter',system-ui,sans-serif;color:#fff;touch-action:manipulation}
 
-        :root {
-            --navy:   #080d1f;
-            --blue:   #38bdf8;
-            --purple: #a855f7;
-            --red:    #ef4444;
-            --green:  #22c55e;
-            --amber:  #f59e0b;
-            --text:   #f1f5f9;
-            --muted:  #64748b;
-            --surface: rgba(14,21,48,0.85);
-        }
+/* ── VIEWS ── */
+#view-deck, #view-cam, #view-obd, #view-codes{
+  position:fixed;inset:0;display:none;flex-direction:column;
+}
+#view-deck{display:flex}
 
-        html, body {
-            width: 100%; height: 100%;
-            background: #000;
-            overflow: hidden;
-            font-family: 'Inter', -apple-system, sans-serif;
-        }
+/* ── NAV BAR ── */
+.nav{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:10px 20px;background:rgba(255,255,255,0.03);
+  border-bottom:1px solid rgba(255,255,255,0.06);
+  height:52px;flex-shrink:0;
+}
+.nav-brand{font-size:13px;font-weight:600;letter-spacing:0.12em;color:rgba(255,255,255,0.5);text-transform:uppercase}
+.nav-tabs{display:flex;gap:4px}
+.nav-tab{
+  padding:6px 14px;border-radius:8px;font-size:12px;font-weight:500;
+  letter-spacing:0.06em;border:none;cursor:pointer;
+  background:transparent;color:rgba(255,255,255,0.35);transition:all 0.2s;
+}
+.nav-tab.active{background:rgba(255,255,255,0.08);color:#fff}
+.nav-tab:hover:not(.active){color:rgba(255,255,255,0.6)}
+.nav-status{display:flex;align-items:center;gap:8px}
+.obd-dot{width:7px;height:7px;border-radius:50%;background:#333;transition:background 0.4s}
+.obd-dot.connected{background:#22c55e;box-shadow:0 0 8px #22c55e}
+.obd-dot.sim{background:#f59e0b}
+.obd-label{font-size:11px;color:rgba(255,255,255,0.3)}
 
-        /* ── CAMERA FEED ── */
-        #video {
-            position: fixed;
-            inset: 0;
-            width: 100%; height: 100%;
-            object-fit: cover;
-            background: #000;
-        }
+/* ══════════════════════════════
+   DECK VIEW
+══════════════════════════════ */
+#view-deck{background:#050810}
+.deck-body{flex:1;display:grid;grid-template-columns:1fr 2fr 1fr;gap:1px;background:rgba(255,255,255,0.05)}
 
-        /* ── CANVAS OVERLAY (timestamp/speed burn-in) ── */
-        #overlay-canvas {
-            position: fixed;
-            inset: 0;
-            width: 100%; height: 100%;
-            pointer-events: none;
-            z-index: 2;
-        }
+/* panels */
+.deck-panel{
+  background:#050810;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;padding:20px;gap:12px;
+}
+.deck-panel-left{align-items:flex-start;padding-left:28px}
+.deck-panel-right{align-items:flex-end;padding-right:28px}
 
-        /* ── HUD ── */
-        #hud {
-            position: fixed;
-            inset: 0;
-            z-index: 10;
-            pointer-events: none;
-        }
+/* clock */
+.clock-time{font-size:clamp(36px,8vw,64px);font-weight:200;letter-spacing:-0.02em;line-height:1}
+.clock-date{font-size:13px;color:rgba(255,255,255,0.3);font-weight:400;margin-top:4px}
 
-        /* Top bar */
-        .hud-top {
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            padding: 16px 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, transparent 100%);
-        }
+/* center speed */
+.speed-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px}
+.speed-num{
+  font-size:clamp(80px,18vw,160px);font-weight:100;letter-spacing:-0.04em;
+  line-height:1;color:#fff;font-variant-numeric:tabular-nums;
+}
+.speed-unit{font-size:13px;color:rgba(255,255,255,0.3);letter-spacing:0.2em;text-transform:uppercase;margin-top:-8px}
+.speed-src{font-size:11px;color:rgba(255,255,255,0.2);margin-top:6px}
 
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: var(--text);
-            font-size: 0.85rem;
-            font-weight: 600;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-        }
+/* right panel stats */
+.stat-item{display:flex;flex-direction:column;align-items:flex-end;gap:3px;width:100%}
+.stat-label{font-size:10px;color:rgba(255,255,255,0.25);letter-spacing:0.12em;text-transform:uppercase}
+.stat-value{font-size:22px;font-weight:300;font-variant-numeric:tabular-nums}
+.stat-divider{width:100%;height:1px;background:rgba(255,255,255,0.05);margin:4px 0}
 
-        .brand-dot {
-            width: 8px; height: 8px;
-            border-radius: 50%;
-            background: var(--blue);
-            box-shadow: 0 0 8px var(--blue);
-        }
+/* trip bar */
+.trip-bar{
+  height:44px;background:rgba(255,255,255,0.02);
+  border-top:1px solid rgba(255,255,255,0.05);
+  display:flex;align-items:center;justify-content:space-around;
+  flex-shrink:0;
+}
+.trip-item{display:flex;flex-direction:column;align-items:center;gap:2px}
+.trip-val{font-size:15px;font-weight:300;font-variant-numeric:tabular-nums}
+.trip-lbl{font-size:9px;color:rgba(255,255,255,0.25);letter-spacing:0.1em;text-transform:uppercase}
 
-        .rec-badge {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            background: rgba(0,0,0,0.5);
-            border: 1px solid rgba(239,68,68,0.4);
-            border-radius: 20px;
-            padding: 4px 10px;
-            font-size: 0.72rem;
-            font-weight: 600;
-            color: var(--text);
-            letter-spacing: 0.06em;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
+/* action bar */
+.deck-actions{
+  height:64px;background:rgba(255,255,255,0.02);
+  border-top:1px solid rgba(255,255,255,0.05);
+  display:flex;align-items:center;justify-content:space-around;
+  flex-shrink:0;padding:0 8px;
+}
+.act-btn{
+  display:flex;flex-direction:column;align-items:center;gap:4px;
+  padding:8px 20px;border-radius:10px;border:none;
+  background:transparent;cursor:pointer;color:rgba(255,255,255,0.5);
+  transition:all 0.2s;min-width:72px;
+}
+.act-btn:hover,.act-btn.active{background:rgba(255,255,255,0.06);color:#fff}
+.act-btn svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.act-btn span{font-size:10px;letter-spacing:0.08em;text-transform:uppercase}
+.act-btn.rec-active{color:#ef4444}
+.rec-pulse{display:none;width:8px;height:8px;border-radius:50%;background:#ef4444;position:absolute;top:8px;right:8px;animation:pulse 1.4s infinite}
+.act-btn.rec-active .rec-pulse{display:block}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(0.8)}}
 
-        .rec-badge.active { opacity: 1; }
+/* ══════════════════════════════
+   CAM VIEW
+══════════════════════════════ */
+#view-cam{background:#000}
+#cam-video{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
+.cam-overlay{position:absolute;inset:0;pointer-events:none}
 
-        .rec-dot {
-            width: 7px; height: 7px;
-            border-radius: 50%;
-            background: var(--red);
-            animation: pulse-red 1s infinite;
-        }
+/* cam HUD */
+.cam-hud-tl{position:absolute;top:16px;left:16px;display:flex;flex-direction:column;gap:6px}
+.cam-hud-tr{position:absolute;top:16px;right:16px;text-align:right}
+.cam-hud-bl{position:absolute;bottom:80px;left:16px}
+.cam-hud-br{position:absolute;bottom:80px;right:16px;text-align:right}
+.hud-speed{font-size:48px;font-weight:200;line-height:1;text-shadow:0 2px 8px rgba(0,0,0,0.8)}
+.hud-unit{font-size:11px;color:rgba(255,255,255,0.6);letter-spacing:0.2em;text-transform:uppercase}
+.hud-stamp{font-size:11px;color:rgba(255,255,255,0.7);font-variant-numeric:tabular-nums;text-shadow:0 1px 4px rgba(0,0,0,0.9);letter-spacing:0.04em}
+.hud-rec{display:flex;align-items:center;gap:6px;font-size:11px;color:rgba(255,255,255,0.4);letter-spacing:0.12em}
+.hud-rec-dot{width:8px;height:8px;border-radius:50%;background:#ef4444;animation:pulse 1.4s infinite;display:none}
+.hud-rec-dot.on{display:block}
 
-        @keyframes pulse-red {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.2; }
-        }
+/* cam bottom bar */
+.cam-bar{
+  position:absolute;bottom:0;left:0;right:0;height:70px;
+  background:linear-gradient(to top,rgba(0,0,0,0.85),transparent);
+  display:flex;align-items:center;justify-content:space-around;
+  pointer-events:all;padding:0 12px;
+}
+.cam-btn{
+  display:flex;flex-direction:column;align-items:center;gap:4px;
+  padding:8px 16px;border-radius:10px;border:none;
+  background:rgba(255,255,255,0.1);backdrop-filter:blur(8px);
+  cursor:pointer;color:rgba(255,255,255,0.8);transition:all 0.2s;
+}
+.cam-btn:hover{background:rgba(255,255,255,0.18);color:#fff}
+.cam-btn svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.cam-btn span{font-size:9px;letter-spacing:0.1em;text-transform:uppercase}
+.cam-rec-btn{background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.3);color:#ef4444;padding:10px 24px}
+.cam-rec-btn.recording{background:rgba(239,68,68,0.25);border-color:#ef4444}
 
-        .clip-counter {
-            font-size: 0.75rem;
-            color: var(--muted);
-            background: rgba(0,0,0,0.4);
-            padding: 4px 10px;
-            border-radius: 20px;
-            border: 1px solid rgba(255,255,255,0.08);
-        }
+/* clips tray */
+#clips-tray{
+  position:absolute;bottom:70px;left:0;right:0;
+  background:rgba(5,8,16,0.95);backdrop-filter:blur(16px);
+  border-top:1px solid rgba(255,255,255,0.08);
+  max-height:200px;overflow-y:auto;
+  transform:translateY(100%);transition:transform 0.3s ease;
+}
+#clips-tray.open{transform:translateY(0)}
+.clip-item{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:10px 16px;border-bottom:1px solid rgba(255,255,255,0.04);
+  font-size:12px;
+}
+.clip-name{color:rgba(255,255,255,0.7)}
+.clip-name.impact{color:#f59e0b}
+.clip-dl{padding:4px 12px;border-radius:6px;background:rgba(255,255,255,0.08);border:none;color:#fff;font-size:11px;cursor:pointer}
 
-        /* Speed panel */
-        .speed-panel {
-            position: absolute;
-            top: 70px;
-            left: 20px;
-            text-align: center;
-        }
+/* ══════════════════════════════
+   OBD VIEW
+══════════════════════════════ */
+#view-obd{background:#050810;padding:0}
+.obd-body{flex:1;overflow-y:auto;padding:16px;display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;align-content:start}
 
-        .speed-value {
-            font-size: 3.5rem;
-            font-weight: 700;
-            color: #fff;
-            line-height: 1;
-            text-shadow: 0 0 20px rgba(56,189,248,0.4);
-            font-variant-numeric: tabular-nums;
-        }
+.gauge-card{
+  background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);
+  border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:8px;
+  transition:border-color 0.3s;
+}
+.gauge-card.warn{border-color:rgba(245,158,11,0.5);background:rgba(245,158,11,0.04)}
+.gauge-card.alert{border-color:rgba(239,68,68,0.5);background:rgba(239,68,68,0.04)}
+.gauge-icon{width:28px;height:28px;stroke:rgba(255,255,255,0.3);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.gauge-card.warn .gauge-icon{stroke:#f59e0b}
+.gauge-card.alert .gauge-icon{stroke:#ef4444}
+.gauge-label{font-size:10px;color:rgba(255,255,255,0.3);letter-spacing:0.1em;text-transform:uppercase}
+.gauge-value{font-size:28px;font-weight:200;font-variant-numeric:tabular-nums;line-height:1}
+.gauge-unit{font-size:10px;color:rgba(255,255,255,0.25);margin-top:2px}
 
-        .speed-unit {
-            font-size: 0.7rem;
-            color: var(--muted);
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            margin-top: 2px;
-        }
+/* mini bar */
+.gauge-bar-wrap{height:3px;background:rgba(255,255,255,0.07);border-radius:2px;overflow:hidden;margin-top:4px}
+.gauge-bar{height:100%;border-radius:2px;background:#3b82f6;transition:width 0.5s ease,background 0.3s}
 
-        /* Impact alert */
-        #impact-alert {
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            background: rgba(239,68,68,0.15);
-            border: 2px solid var(--red);
-            border-radius: 16px;
-            padding: 16px 28px;
-            text-align: center;
-            color: #fff;
-            font-weight: 600;
-            font-size: 1rem;
-            backdrop-filter: blur(8px);
-            display: none;
-            pointer-events: none;
-        }
+/* obd connect area */
+.obd-footer{
+  padding:12px 16px;border-top:1px solid rgba(255,255,255,0.05);
+  display:flex;align-items:center;justify-content:space-between;flex-shrink:0;
+}
+.obd-connect-btn{
+  padding:8px 20px;border-radius:10px;border:1px solid rgba(255,255,255,0.12);
+  background:transparent;color:#fff;font-size:12px;cursor:pointer;
+  letter-spacing:0.08em;transition:all 0.2s;
+}
+.obd-connect-btn:hover{background:rgba(255,255,255,0.06)}
+.obd-mode-label{font-size:11px;color:rgba(255,255,255,0.25)}
+.sim-badge{
+  padding:3px 8px;border-radius:6px;background:rgba(245,158,11,0.12);
+  border:1px solid rgba(245,158,11,0.25);color:#f59e0b;font-size:10px;letter-spacing:0.08em;
+}
 
-        #impact-alert.show { display: block; animation: flash-in 0.2s ease; }
+/* ══════════════════════════════
+   CODES VIEW
+══════════════════════════════ */
+#view-codes{background:#050810;flex-direction:column}
+.codes-body{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:8px}
+.code-card{
+  background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);
+  border-radius:12px;padding:14px 16px;display:flex;align-items:flex-start;gap:12px;
+}
+.code-card.active-fault{border-color:rgba(239,68,68,0.3);background:rgba(239,68,68,0.04)}
+.code-badge{
+  padding:4px 10px;border-radius:7px;font-size:12px;font-weight:500;
+  background:rgba(239,68,68,0.15);color:#ef4444;white-space:nowrap;
+  letter-spacing:0.06em;flex-shrink:0;
+}
+.code-badge.pending{background:rgba(245,158,11,0.15);color:#f59e0b}
+.code-info{flex:1}
+.code-desc{font-size:13px;font-weight:400;margin-bottom:4px}
+.code-sub{font-size:11px;color:rgba(255,255,255,0.3)}
+.codes-empty{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:rgba(255,255,255,0.2);font-size:13px}
+.codes-footer{
+  padding:12px 16px;border-top:1px solid rgba(255,255,255,0.05);
+  display:flex;gap:8px;flex-shrink:0;
+}
+.codes-btn{
+  flex:1;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.1);
+  background:transparent;color:#fff;font-size:12px;cursor:pointer;
+  letter-spacing:0.06em;transition:all 0.2s;
+}
+.codes-btn:hover{background:rgba(255,255,255,0.06)}
+.codes-btn.danger{border-color:rgba(239,68,68,0.3);color:#ef4444}
+.codes-btn.danger:hover{background:rgba(239,68,68,0.08)}
 
-        @keyframes flash-in {
-            from { transform: translate(-50%, -50%) scale(0.8); opacity: 0; }
-            to   { transform: translate(-50%, -50%) scale(1);   opacity: 1; }
-        }
+/* ── TOAST ── */
+#toast{
+  position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(20px);
+  background:rgba(30,35,55,0.95);backdrop-filter:blur(12px);
+  border:1px solid rgba(255,255,255,0.1);border-radius:10px;
+  padding:8px 18px;font-size:12px;color:rgba(255,255,255,0.85);
+  opacity:0;transition:all 0.25s;pointer-events:none;white-space:nowrap;z-index:999;
+}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
-        /* Bottom controls */
-        .hud-bottom {
-            position: absolute;
-            bottom: 0; left: 0; right: 0;
-            padding: 24px 28px 36px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: linear-gradient(to top, rgba(0,0,0,0.75) 0%, transparent 100%);
-            pointer-events: all;
-        }
-
-        .btn-icon {
-            width: 50px; height: 50px;
-            border-radius: 50%;
-            border: 1px solid rgba(255,255,255,0.15);
-            background: rgba(0,0,0,0.45);
-            backdrop-filter: blur(6px);
-            color: var(--text);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.2s;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        .btn-icon:active { transform: scale(0.92); }
-        .btn-icon svg { width: 20px; height: 20px; }
-
-        /* Main record button */
-        .btn-record {
-            width: 72px; height: 72px;
-            border-radius: 50%;
-            border: 3px solid rgba(255,255,255,0.3);
-            background: transparent;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.25s;
-            -webkit-tap-highlight-color: transparent;
-            position: relative;
-        }
-
-        .btn-record::before {
-            content: '';
-            width: 52px; height: 52px;
-            border-radius: 50%;
-            background: var(--red);
-            transition: all 0.25s;
-            box-shadow: 0 0 20px rgba(239,68,68,0.5);
-        }
-
-        .btn-record.recording::before {
-            border-radius: 8px;
-            width: 28px; height: 28px;
-            background: var(--red);
-        }
-
-        .btn-record:active { transform: scale(0.94); }
-
-        /* Save clip button */
-        .btn-save {
-            border-color: rgba(56,189,248,0.3);
-        }
-
-        .btn-save:active { background: rgba(56,189,248,0.15); }
-
-        /* Camera flip */
-        .btn-flip:active { background: rgba(168,85,247,0.15); }
-
-        /* Status bar */
-        .status-bar {
-            position: absolute;
-            bottom: 110px;
-            left: 0; right: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 16px;
-            pointer-events: none;
-        }
-
-        .status-pill {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            background: rgba(0,0,0,0.45);
-            backdrop-filter: blur(6px);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 20px;
-            padding: 5px 12px;
-            font-size: 0.7rem;
-            color: var(--muted);
-            letter-spacing: 0.04em;
-        }
-
-        .status-pill .dot {
-            width: 5px; height: 5px;
-            border-radius: 50%;
-            background: var(--muted);
-        }
-
-        .status-pill.ok .dot { background: var(--green); }
-        .status-pill.warn .dot { background: var(--amber); }
-
-        /* Clips tray */
-        #clips-tray {
-            position: fixed;
-            bottom: 0; left: 0; right: 0;
-            background: var(--surface);
-            backdrop-filter: blur(16px);
-            border-top: 1px solid rgba(255,255,255,0.08);
-            border-radius: 20px 20px 0 0;
-            padding: 16px 20px 32px;
-            z-index: 50;
-            transform: translateY(100%);
-            transition: transform 0.35s cubic-bezier(0.32,0.72,0,1);
-            max-height: 60vh;
-            overflow-y: auto;
-        }
-
-        #clips-tray.open { transform: translateY(0); }
-
-        .tray-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 14px;
-        }
-
-        .tray-title {
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: var(--text);
-        }
-
-        .tray-close {
-            background: none;
-            border: none;
-            color: var(--muted);
-            cursor: pointer;
-            font-size: 1.2rem;
-            padding: 4px;
-        }
-
-        .clip-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.06);
-        }
-
-        .clip-info { display: flex; align-items: center; gap: 10px; }
-
-        .clip-icon {
-            width: 36px; height: 36px;
-            border-radius: 8px;
-            background: rgba(56,189,248,0.1);
-            border: 1px solid rgba(56,189,248,0.2);
-            display: flex; align-items: center; justify-content: center;
-        }
-
-        .clip-icon svg { width: 16px; height: 16px; stroke: var(--blue); }
-
-        .clip-icon.impact-clip { background: rgba(239,68,68,0.1); border-color: rgba(239,68,68,0.2); }
-        .clip-icon.impact-clip svg { stroke: var(--red); }
-
-        .clip-name { font-size: 0.78rem; color: var(--text); font-weight: 500; }
-        .clip-meta { font-size: 0.68rem; color: var(--muted); margin-top: 1px; }
-
-        .clip-dl {
-            background: none;
-            border: 1px solid rgba(56,189,248,0.25);
-            border-radius: 8px;
-            color: var(--blue);
-            font-size: 0.72rem;
-            padding: 5px 12px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .clip-dl:hover { background: rgba(56,189,248,0.1); }
-
-        .no-clips {
-            text-align: center;
-            color: var(--muted);
-            font-size: 0.8rem;
-            padding: 24px 0;
-        }
-
-        /* Start screen */
-        #start-screen {
-            position: fixed;
-            inset: 0;
-            background: var(--navy);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 100;
-            padding: 32px;
-            text-align: center;
-        }
-
-        .start-logo {
-            width: 64px; height: 64px;
-            border-radius: 18px;
-            background: linear-gradient(135deg, #1e3a5f, #2d1b69);
-            border: 1px solid rgba(56,189,248,0.3);
-            display: flex; align-items: center; justify-content: center;
-            margin-bottom: 20px;
-            box-shadow: 0 0 40px rgba(56,189,248,0.15);
-        }
-
-        .start-logo svg { width: 32px; height: 32px; stroke: var(--blue); }
-
-        .start-title {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--text);
-            margin-bottom: 6px;
-        }
-
-        .start-sub {
-            font-size: 0.85rem;
-            color: var(--muted);
-            margin-bottom: 36px;
-            line-height: 1.5;
-        }
-
-        .start-perms {
-            width: 100%;
-            max-width: 320px;
-            margin-bottom: 28px;
-        }
-
-        .perm-row {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.06);
-            text-align: left;
-        }
-
-        .perm-icon {
-            width: 36px; height: 36px;
-            border-radius: 10px;
-            background: rgba(56,189,248,0.08);
-            border: 1px solid rgba(56,189,248,0.15);
-            display: flex; align-items: center; justify-content: center;
-            flex-shrink: 0;
-        }
-
-        .perm-icon svg { width: 16px; height: 16px; stroke: var(--blue); }
-
-        .perm-text { font-size: 0.78rem; color: var(--text); }
-        .perm-desc { font-size: 0.68rem; color: var(--muted); margin-top: 1px; }
-
-        .btn-start {
-            width: 100%;
-            max-width: 320px;
-            padding: 16px;
-            border-radius: 14px;
-            background: linear-gradient(135deg, #1d4ed8, #7c3aed);
-            border: none;
-            color: #fff;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            letter-spacing: 0.02em;
-            transition: opacity 0.2s;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        .btn-start:active { opacity: 0.85; }
-
-        /* Toast */
-        #toast {
-            position: fixed;
-            top: 80px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(14,21,48,0.92);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 12px;
-            padding: 10px 18px;
-            color: var(--text);
-            font-size: 0.8rem;
-            z-index: 200;
-            white-space: nowrap;
-            opacity: 0;
-            transition: opacity 0.3s;
-            pointer-events: none;
-        }
-
-        #toast.show { opacity: 1; }
-    </style>
+/* scrollbar */
+::-webkit-scrollbar{width:3px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.1);border-radius:2px}
+</style>
 </head>
 <body>
 
-<!-- Camera feed -->
-<video id="video" autoplay playsinline muted></video>
+<!-- ── NAV ── -->
+<div class="nav">
+  <span class="nav-brand">Orcinos Drive</span>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="switchView('deck')">Deck</button>
+    <button class="nav-tab" onclick="switchView('cam')">Camera</button>
+    <button class="nav-tab" onclick="switchView('obd')">Diagnostics</button>
+    <button class="nav-tab" onclick="switchView('codes')">Codes</button>
+  </div>
+  <div class="nav-status">
+    <div class="obd-dot" id="obd-dot"></div>
+    <span class="obd-label" id="obd-label">No adapter</span>
+  </div>
+</div>
 
-<!-- Canvas for burn-in overlay -->
-<canvas id="overlay-canvas"></canvas>
+<!-- ══════════════════════════════
+     DECK VIEW
+══════════════════════════════ -->
+<div id="view-deck">
+  <div class="deck-body">
 
-<!-- HUD -->
-<div id="hud">
-    <div class="hud-top">
-        <div class="brand">
-            <div class="brand-dot"></div>
-            Orcinos Drive
-        </div>
-
-        <div class="rec-badge" id="rec-badge">
-            <div class="rec-dot"></div>
-            REC
-        </div>
-
-        <div class="clip-counter" id="clip-counter">0 clips</div>
+    <!-- LEFT: clock + GPS -->
+    <div class="deck-panel deck-panel-left">
+      <div>
+        <div class="clock-time" id="clock-time">--:--</div>
+        <div class="clock-date" id="clock-date">--</div>
+      </div>
+      <div style="margin-top:16px;display:flex;flex-direction:column;gap:4px">
+        <div class="stat-label">Latitude</div>
+        <div class="stat-value" id="deck-lat" style="font-size:16px">--</div>
+        <div style="height:8px"></div>
+        <div class="stat-label">Longitude</div>
+        <div class="stat-value" id="deck-lon" style="font-size:16px">--</div>
+      </div>
     </div>
+
+    <!-- CENTER: speed -->
+    <div class="deck-panel">
+      <div class="speed-wrap">
+        <div class="speed-num" id="deck-speed">0</div>
+        <div class="speed-unit">km/h</div>
+        <div class="speed-src" id="speed-src">GPS</div>
+      </div>
+    </div>
+
+    <!-- RIGHT: engine stats -->
+    <div class="deck-panel deck-panel-right">
+      <div class="stat-item">
+        <div class="stat-label">RPM</div>
+        <div class="stat-value" id="deck-rpm">--</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item">
+        <div class="stat-label">Coolant</div>
+        <div class="stat-value" id="deck-coolant">--</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item">
+        <div class="stat-label">Fuel</div>
+        <div class="stat-value" id="deck-fuel">--%</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item">
+        <div class="stat-label">Engine Load</div>
+        <div class="stat-value" id="deck-load">--%</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TRIP BAR -->
+  <div class="trip-bar">
+    <div class="trip-item"><div class="trip-val" id="trip-dist">0.0 km</div><div class="trip-lbl">Distance</div></div>
+    <div class="trip-item"><div class="trip-val" id="trip-time">00:00:00</div><div class="trip-lbl">Trip Time</div></div>
+    <div class="trip-item"><div class="trip-val" id="trip-avg">0 km/h</div><div class="trip-lbl">Avg Speed</div></div>
+    <div class="trip-item"><div class="trip-val" id="trip-max">0 km/h</div><div class="trip-lbl">Max Speed</div></div>
+  </div>
+
+  <!-- ACTION BAR -->
+  <div class="deck-actions">
+    <button class="act-btn" onclick="switchView('cam')" id="cam-act-btn">
+      <svg viewBox="0 0 24 24"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+      <span>Camera</span>
+    </button>
+    <button class="act-btn" onclick="toggleTripTimer()" id="trip-btn">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      <span id="trip-btn-lbl">Start Trip</span>
+    </button>
+    <button class="act-btn" onclick="openMaps()">
+      <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      <span>Maps</span>
+    </button>
+    <button class="act-btn" onclick="switchView('obd')">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      <span>Diagnostics</span>
+    </button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+     CAM VIEW
+══════════════════════════════ -->
+<div id="view-cam">
+  <video id="cam-video" autoplay muted playsinline></video>
+  <div class="cam-overlay">
+    <!-- TL: speed -->
+    <div class="cam-hud-tl">
+      <div class="hud-speed" id="cam-speed">0</div>
+      <div class="hud-unit">km/h</div>
+    </div>
+    <!-- TR: rec status -->
+    <div class="cam-hud-tr">
+      <div class="hud-rec">
+        <div class="hud-rec-dot" id="cam-rec-dot"></div>
+        <span id="cam-rec-label">STANDBY</span>
+      </div>
+      <div class="hud-stamp" id="cam-timestamp" style="margin-top:4px"></div>
+    </div>
+    <!-- BL: GPS coords -->
+    <div class="cam-hud-bl">
+      <div class="hud-stamp" id="cam-coords">No GPS</div>
+    </div>
+    <!-- BR: clip count -->
+    <div class="cam-hud-br">
+      <div class="hud-stamp" id="cam-clip-count">0 clips</div>
+    </div>
+
+    <!-- BOTTOM BAR -->
+    <div class="cam-bar">
+      <button class="cam-btn" onclick="toggleClipsTray()">
+        <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="15" rx="2"/><polyline points="16 2 12 7 8 2"/></svg>
+        <span id="clips-count-btn">Clips</span>
+      </button>
+      <button class="cam-btn cam-rec-btn" id="cam-rec-btn" onclick="toggleRecord()">
+        <svg viewBox="0 0 24 24" id="cam-rec-icon"><circle cx="12" cy="12" r="6"/></svg>
+        <span id="cam-rec-text">Record</span>
+      </button>
+      <button class="cam-btn" onclick="manualSave()">
+        <svg viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+        <span>Save</span>
+      </button>
+      <button class="cam-btn" onclick="flipCamera()">
+        <svg viewBox="0 0 24 24"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
+        <span>Flip</span>
+      </button>
+    </div>
+
+    <!-- CLIPS TRAY -->
+    <div id="clips-tray">
+      <div id="clips-list"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+     OBD VIEW
+══════════════════════════════ -->
+<div id="view-obd">
+  <div class="obd-body" id="obd-grid">
 
     <!-- Speed -->
-    <div class="speed-panel">
-        <div class="speed-value" id="speed-value">0</div>
-        <div class="speed-unit">km/h</div>
+    <div class="gauge-card" id="g-speed">
+      <svg class="gauge-icon" viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20A10 10 0 0012 2z"/><polyline points="12 6 12 12 16 14"/></svg>
+      <div class="gauge-label">Speed (OBD)</div>
+      <div class="gauge-value" id="g-speed-val">--</div>
+      <div class="gauge-unit">km/h</div>
+      <div class="gauge-bar-wrap"><div class="gauge-bar" id="g-speed-bar" style="width:0%"></div></div>
     </div>
 
-    <!-- Impact alert -->
-    <div id="impact-alert">
-        ⚠️ Impact Detected — Clip Saved
+    <!-- RPM -->
+    <div class="gauge-card" id="g-rpm">
+      <svg class="gauge-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+      <div class="gauge-label">Engine RPM</div>
+      <div class="gauge-value" id="g-rpm-val">--</div>
+      <div class="gauge-unit">rpm</div>
+      <div class="gauge-bar-wrap"><div class="gauge-bar" id="g-rpm-bar" style="width:0%"></div></div>
     </div>
 
-    <!-- Status pills -->
-    <div class="status-bar">
-        <div class="status-pill" id="gps-pill">
-            <div class="dot"></div>
-            GPS
-        </div>
-        <div class="status-pill" id="motion-pill">
-            <div class="dot"></div>
-            Motion
-        </div>
-        <div class="status-pill" id="wake-pill">
-            <div class="dot"></div>
-            Screen Lock
-        </div>
+    <!-- Coolant Temp -->
+    <div class="gauge-card" id="g-coolant">
+      <svg class="gauge-icon" viewBox="0 0 24 24"><path d="M14 14.76V3.5a2.5 2.5 0 00-5 0v11.26a4.5 4.5 0 105 0z"/></svg>
+      <div class="gauge-label">Coolant Temp</div>
+      <div class="gauge-value" id="g-coolant-val">--</div>
+      <div class="gauge-unit">°C</div>
+      <div class="gauge-bar-wrap"><div class="gauge-bar" id="g-coolant-bar" style="width:0%;background:#3b82f6"></div></div>
     </div>
 
-    <!-- Bottom controls -->
-    <div class="hud-bottom">
-        <!-- Clips tray button -->
-        <button class="btn-icon" onclick="toggleTray()" title="Saved clips">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M3 7h18M3 12h18M3 17h18"/>
-            </svg>
-        </button>
-
-        <!-- Record button -->
-        <button class="btn-record" id="btn-record" onclick="toggleRecord()" title="Start/Stop recording"></button>
-
-        <!-- Flip camera -->
-        <button class="btn-icon btn-flip" onclick="flipCamera()" title="Flip camera">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M1 4v6h6M23 20v-6h-6"/>
-                <path d="M20.49 9A9 9 0 005.64 5.64L1 10M23 14l-4.64 4.36A9 9 0 013.51 15"/>
-            </svg>
-        </button>
+    <!-- Fuel Level -->
+    <div class="gauge-card" id="g-fuel">
+      <svg class="gauge-icon" viewBox="0 0 24 24"><path d="M3 22h12V2H3v20zM7 7h4M7 11h4M7 15h4"/><path d="M17 12h2a2 2 0 012 2v3a1 1 0 001 1 1 1 0 001-1V9l-3-3"/></svg>
+      <div class="gauge-label">Fuel Level</div>
+      <div class="gauge-value" id="g-fuel-val">--</div>
+      <div class="gauge-unit">%</div>
+      <div class="gauge-bar-wrap"><div class="gauge-bar" id="g-fuel-bar" style="width:0%;background:#22c55e"></div></div>
     </div>
+
+    <!-- Engine Load -->
+    <div class="gauge-card" id="g-load">
+      <svg class="gauge-icon" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      <div class="gauge-label">Engine Load</div>
+      <div class="gauge-value" id="g-load-val">--</div>
+      <div class="gauge-unit">%</div>
+      <div class="gauge-bar-wrap"><div class="gauge-bar" id="g-load-bar" style="width:0%"></div></div>
+    </div>
+
+    <!-- Throttle -->
+    <div class="gauge-card" id="g-throttle">
+      <svg class="gauge-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+      <div class="gauge-label">Throttle</div>
+      <div class="gauge-value" id="g-throttle-val">--</div>
+      <div class="gauge-unit">%</div>
+      <div class="gauge-bar-wrap"><div class="gauge-bar" id="g-throttle-bar" style="width:0%"></div></div>
+    </div>
+
+    <!-- Intake Air Temp -->
+    <div class="gauge-card" id="g-iat">
+      <svg class="gauge-icon" viewBox="0 0 24 24"><path d="M17.7 7.7a2.5 2.5 0 111.8 4.3H2"/><path d="M9.6 4.6A2 2 0 1111 8H2"/><path d="M12.6 19.4A2 2 0 1014 16H2"/></svg>
+      <div class="gauge-label">Intake Air</div>
+      <div class="gauge-value" id="g-iat-val">--</div>
+      <div class="gauge-unit">°C</div>
+      <div class="gauge-bar-wrap"><div class="gauge-bar" id="g-iat-bar" style="width:0%;background:#8b5cf6"></div></div>
+    </div>
+
+    <!-- MAF -->
+    <div class="gauge-card" id="g-maf">
+      <svg class="gauge-icon" viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 00-2 2v3m18 0V5a2 2 0 00-2-2h-3M3 16v3a2 2 0 002 2h3m8 0h3a2 2 0 002-2v-3"/></svg>
+      <div class="gauge-label">Air Flow</div>
+      <div class="gauge-value" id="g-maf-val">--</div>
+      <div class="gauge-unit">g/s</div>
+      <div class="gauge-bar-wrap"><div class="gauge-bar" id="g-maf-bar" style="width:0%;background:#06b6d4"></div></div>
+    </div>
+
+    <!-- Battery / Run time -->
+    <div class="gauge-card" id="g-runtime">
+      <svg class="gauge-icon" viewBox="0 0 24 24"><rect x="2" y="7" width="16" height="10" rx="2"/><path d="M22 11v2"/></svg>
+      <div class="gauge-label">Run Time</div>
+      <div class="gauge-value" id="g-runtime-val">--</div>
+      <div class="gauge-unit">min since start</div>
+      <div class="gauge-bar-wrap"><div class="gauge-bar" id="g-runtime-bar" style="width:0%;background:#f59e0b"></div></div>
+    </div>
+
+  </div>
+
+  <div class="obd-footer">
+    <div style="display:flex;align-items:center;gap:8px">
+      <span class="obd-mode-label" id="obd-mode-label">Simulation Mode</span>
+      <span class="sim-badge" id="obd-sim-badge">SIM</span>
+    </div>
+    <button class="obd-connect-btn" id="obd-connect-btn" onclick="connectOBD()">Connect Adapter</button>
+  </div>
 </div>
 
-<!-- Impact alert overlay -->
-
-<!-- Clips Tray -->
-<div id="clips-tray">
-    <div class="tray-header">
-        <div class="tray-title">Saved Clips</div>
-        <button class="tray-close" onclick="toggleTray()">✕</button>
+<!-- ══════════════════════════════
+     CODES VIEW
+══════════════════════════════ -->
+<div id="view-codes">
+  <div class="codes-body" id="codes-body">
+    <div class="codes-empty" id="codes-empty">
+      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+      <div>No fault codes detected</div>
+      <div style="font-size:11px;color:rgba(255,255,255,0.15)">Connect adapter to scan</div>
     </div>
-    <div id="clips-list">
-        <div class="no-clips">No clips yet. Start recording to capture footage.</div>
-    </div>
+  </div>
+  <div class="codes-footer">
+    <button class="codes-btn" onclick="scanCodes()">Scan Now</button>
+    <button class="codes-btn danger" onclick="clearCodes()">Clear Codes</button>
+  </div>
 </div>
 
-<!-- Start Screen -->
-<div id="start-screen">
-    <div class="start-logo">
-        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="3"/>
-            <path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/>
-        </svg>
-    </div>
-    <div class="start-title">Orcinos Drive</div>
-    <div class="start-sub">Your phone. Your dashcam.<br>Caribbean-built, no hardware needed.</div>
-
-    <div class="start-perms">
-        <div class="perm-row">
-            <div class="perm-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M23 7l-7 5 7 5V7z"/>
-                    <rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
-                </svg>
-            </div>
-            <div>
-                <div class="perm-text">Camera</div>
-                <div class="perm-desc">Records your dashcam feed</div>
-            </div>
-        </div>
-        <div class="perm-row">
-            <div class="perm-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="10"/>
-                    <path d="M12 8v4l3 3"/>
-                </svg>
-            </div>
-            <div>
-                <div class="perm-text">Location</div>
-                <div class="perm-desc">Speed overlay on your footage</div>
-            </div>
-        </div>
-        <div class="perm-row">
-            <div class="perm-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M18 8h1a4 4 0 010 8h-1M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8zM6 1v3M10 1v3M14 1v3"/>
-                </svg>
-            </div>
-            <div>
-                <div class="perm-text">Motion Sensor</div>
-                <div class="perm-desc">Auto-saves clips on impact</div>
-            </div>
-        </div>
-    </div>
-
-    <button class="btn-start" onclick="initDrive()">Start Orcinos Drive</button>
-</div>
-
-<!-- Toast -->
+<!-- TOAST -->
 <div id="toast"></div>
 
 <script>
-// ── STATE ─────────────────────────────────────────────
+// ══════════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════════
 const state = {
-    stream: null,
-    facingMode: 'environment',  // rear camera default
-    mediaRecorder: null,
-    recording: false,
-    chunks: [],
-    clips: [],               // { blob, name, type, ts }
-    clipDuration: 3 * 60 * 1000, // 3-minute loop clips
-    clipTimer: null,
-    speed: 0,
-    wakeLock: null,
-    impactThreshold: 15,     // m/s² delta to trigger save
-    lastAccel: { x: 0, y: 0, z: 0 },
-    canvasCtx: null,
-    animFrame: null,
-    gpsWatcher: null,
+  view: 'deck',
+  // GPS
+  gpsSpeed: 0, gpsLat: null, gpsLon: null,
+  // OBD
+  obdConnected: false, simMode: true, obdDevice: null, obdChar: null,
+  // OBD data
+  obd: {
+    speed: null, rpm: null, coolant: null, fuel: null,
+    load: null, throttle: null, iat: null, maf: null, runtime: null
+  },
+  // Camera
+  stream: null, mediaRecorder: null, recording: false,
+  facingMode: 'environment', clips: [], clipsTrayOpen: false,
+  recordChunks: [],
+  // Trip
+  tripActive: false, tripStart: null, tripDist: 0,
+  tripMaxSpeed: 0, tripSpeeds: [], lastPos: null,
+  // Wake lock
+  wakeLock: null,
+  // Sim interval
+  simInterval: null,
+  // OBD poll
+  obdPoll: null,
+  // DTC codes
+  dtcCodes: []
 };
 
-const $ = id => document.getElementById(id);
+// OBD2 PIDs (Mode 01)
+const PID = {
+  ENGINE_RPM:    '010C',
+  VEHICLE_SPEED: '010D',
+  COOLANT_TEMP:  '0105',
+  FUEL_LEVEL:    '012F',
+  ENGINE_LOAD:   '0104',
+  THROTTLE:      '0111',
+  IAT:           '010F',
+  MAF:           '0110',
+  RUNTIME:       '011F'
+};
 
-// ── INIT ──────────────────────────────────────────────
-async function initDrive() {
-    try {
-        await startCamera();
-        initGPS();
-        initMotion();
-        await requestWakeLock();
-        startCanvas();
-        $('start-screen').style.display = 'none';
-    } catch (err) {
-        showToast('❌ ' + (err.message || 'Permission denied'));
-    }
+// ══════════════════════════════════════════════
+// VIEW SWITCHING
+// ══════════════════════════════════════════════
+function switchView(v) {
+  state.view = v;
+  ['deck','cam','obd','codes'].forEach(id => {
+    document.getElementById('view-' + id).style.display = (id === v) ? 'flex' : 'none';
+  });
+  document.querySelectorAll('.nav-tab').forEach((t, i) => {
+    t.classList.toggle('active', ['deck','cam','obd','codes'][i] === v);
+  });
+  if (v === 'cam' && !state.stream) startCamera();
 }
 
-// ── CAMERA ────────────────────────────────────────────
+// ══════════════════════════════════════════════
+// CLOCK
+// ══════════════════════════════════════════════
+function updateClock() {
+  const now = new Date();
+  const h = String(now.getHours()).padStart(2,'0');
+  const m = String(now.getMinutes()).padStart(2,'0');
+  document.getElementById('clock-time').textContent = `${h}:${m}`;
+  const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  document.getElementById('clock-date').textContent =
+    `${days[now.getDay()]}, ${months[now.getMonth()]} ${now.getDate()}`;
+  // cam timestamp
+  const s = String(now.getSeconds()).padStart(2,'0');
+  document.getElementById('cam-timestamp').textContent =
+    `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')} ${h}:${m}:${s}`;
+}
+setInterval(updateClock, 1000);
+updateClock();
+
+// ══════════════════════════════════════════════
+// GPS
+// ══════════════════════════════════════════════
+let gpsWatcher = null;
+function startGPS() {
+  if (!navigator.geolocation) return;
+  gpsWatcher = navigator.geolocation.watchPosition(pos => {
+    const spd = pos.coords.speed ? Math.round(pos.coords.speed * 3.6) : 0;
+    state.gpsSpeed = Math.max(0, spd);
+    state.gpsLat = pos.coords.latitude.toFixed(5);
+    state.gpsLon = pos.coords.longitude.toFixed(5);
+
+    // Update deck
+    document.getElementById('deck-speed').textContent =
+      state.obdConnected ? (state.obd.speed ?? '--') : state.gpsSpeed;
+    document.getElementById('speed-src').textContent =
+      state.obdConnected ? 'OBD' : 'GPS';
+    document.getElementById('deck-lat').textContent = state.gpsLat;
+    document.getElementById('deck-lon').textContent = state.gpsLon;
+    document.getElementById('cam-speed').textContent = state.gpsSpeed;
+    document.getElementById('cam-coords').textContent =
+      `${state.gpsLat}, ${state.gpsLon}`;
+
+    // Trip calc
+    if (state.tripActive) {
+      if (state.lastPos) {
+        const d = haversine(
+          state.lastPos.lat, state.lastPos.lon,
+          pos.coords.latitude, pos.coords.longitude
+        );
+        state.tripDist += d;
+      }
+      state.lastPos = {lat: pos.coords.latitude, lon: pos.coords.longitude};
+      if (state.gpsSpeed > 0) state.tripSpeeds.push(state.gpsSpeed);
+      if (state.gpsSpeed > state.tripMaxSpeed) state.tripMaxSpeed = state.gpsSpeed;
+    }
+  }, () => {}, {enableHighAccuracy: true, maximumAge: 500});
+}
+
+function haversine(lat1, lon1, lat2, lon2) {
+  const R = 6371;
+  const dLat = (lat2-lat1)*Math.PI/180;
+  const dLon = (lon2-lon1)*Math.PI/180;
+  const a = Math.sin(dLat/2)**2 + Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLon/2)**2;
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+}
+
+function openMaps() {
+  if (!state.gpsLat) { toast('No GPS fix yet'); return; }
+  window.open(`https://maps.google.com/?q=${state.gpsLat},${state.gpsLon}`, '_blank');
+}
+
+// ══════════════════════════════════════════════
+// TRIP TIMER
+// ══════════════════════════════════════════════
+let tripInterval = null;
+function toggleTripTimer() {
+  state.tripActive = !state.tripActive;
+  if (state.tripActive) {
+    state.tripStart = Date.now();
+    state.tripDist = 0; state.tripMaxSpeed = 0;
+    state.tripSpeeds = []; state.lastPos = null;
+    document.getElementById('trip-btn-lbl').textContent = 'End Trip';
+    tripInterval = setInterval(updateTrip, 1000);
+    toast('Trip started');
+  } else {
+    clearInterval(tripInterval);
+    document.getElementById('trip-btn-lbl').textContent = 'Start Trip';
+    toast('Trip saved');
+  }
+}
+
+function updateTrip() {
+  if (!state.tripStart) return;
+  const elapsed = Date.now() - state.tripStart;
+  const h = Math.floor(elapsed/3600000);
+  const m = Math.floor((elapsed%3600000)/60000);
+  const s = Math.floor((elapsed%60000)/1000);
+  document.getElementById('trip-time').textContent =
+    `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+  document.getElementById('trip-dist').textContent =
+    state.tripDist.toFixed(1) + ' km';
+  document.getElementById('trip-max').textContent =
+    state.tripMaxSpeed + ' km/h';
+  const avg = state.tripSpeeds.length
+    ? Math.round(state.tripSpeeds.reduce((a,b)=>a+b,0)/state.tripSpeeds.length)
+    : 0;
+  document.getElementById('trip-avg').textContent = avg + ' km/h';
+}
+
+// ══════════════════════════════════════════════
+// CAMERA
+// ══════════════════════════════════════════════
 async function startCamera() {
-    if (state.stream) {
-        state.stream.getTracks().forEach(t => t.stop());
-    }
-
-    const constraints = {
-        video: {
-            facingMode: state.facingMode,
-            width:  { ideal: 1920 },
-            height: { ideal: 1080 },
-            frameRate: { ideal: 30 }
-        },
-        audio: true
-    };
-
-    state.stream = await navigator.mediaDevices.getUserMedia(constraints);
-    $('video').srcObject = state.stream;
-}
-
-async function flipCamera() {
-    const wasRecording = state.recording;
-    if (wasRecording) await stopRecording(false);
-
-    state.facingMode = state.facingMode === 'environment' ? 'user' : 'environment';
-    await startCamera();
-    showToast(state.facingMode === 'environment' ? '📷 Rear camera' : '🤳 Front camera');
-
-    if (wasRecording) startRecording();
-}
-
-// ── RECORDING ─────────────────────────────────────────
-function toggleRecord() {
-    state.recording ? stopRecording(true) : startRecording();
-}
-
-function startRecording() {
-    if (!state.stream) return;
-
-    const mimeType = getSupportedMime();
-    state.mediaRecorder = new MediaRecorder(state.stream, { mimeType, videoBitsPerSecond: 4_000_000 });
-    state.chunks = [];
-
-    state.mediaRecorder.ondataavailable = e => {
-        if (e.data && e.data.size > 0) state.chunks.push(e.data);
-    };
-
-    state.mediaRecorder.onstop = () => {
-        // Called when a loop segment finishes — don't auto-save unless triggered
-    };
-
-    state.mediaRecorder.start(1000); // collect data every second
-    state.recording = true;
-
-    $('btn-record').classList.add('recording');
-    $('rec-badge').classList.add('active');
-
-    // Loop: every clipDuration ms, roll to next segment
-    state.clipTimer = setInterval(() => rollClip(), state.clipDuration);
-
-    showToast('● Recording started');
-}
-
-async function stopRecording(saveClip = true) {
-    if (!state.mediaRecorder || state.mediaRecorder.state === 'inactive') return;
-    clearInterval(state.clipTimer);
-
-    await new Promise(resolve => {
-        state.mediaRecorder.onstop = resolve;
-        state.mediaRecorder.stop();
+  try {
+    if (state.stream) state.stream.getTracks().forEach(t => t.stop());
+    state.stream = await navigator.mediaDevices.getUserMedia({
+      video: {facingMode: state.facingMode, width:{ideal:1920}, height:{ideal:1080}},
+      audio: false
     });
+    document.getElementById('cam-video').srcObject = state.stream;
+  } catch(e) {
+    toast('Camera access denied');
+  }
+}
 
-    if (saveClip && state.chunks.length > 0) {
-        saveCurrentChunks('clip');
-    }
+function flipCamera() {
+  state.facingMode = state.facingMode === 'environment' ? 'user' : 'environment';
+  if (state.recording) toggleRecord();
+  startCamera();
+}
 
+function toggleRecord() {
+  if (!state.stream) { toast('No camera'); return; }
+  if (!state.recording) {
+    state.recordChunks = [];
+    state.mediaRecorder = new MediaRecorder(state.stream, {mimeType: getSupportedMime()});
+    state.mediaRecorder.ondataavailable = e => {
+      if (e.data.size > 0) state.recordChunks.push(e.data);
+    };
+    state.mediaRecorder.onstop = () => saveClip('clip');
+    state.mediaRecorder.start(1000);
+    state.recording = true;
+    document.getElementById('cam-rec-btn').classList.add('recording');
+    document.getElementById('cam-rec-text').textContent = 'Stop';
+    document.getElementById('cam-rec-dot').classList.add('on');
+    document.getElementById('cam-rec-label').textContent = 'REC';
+    toast('Recording started');
+    // Auto-rotate every 3 min
+    state._rotateTimer = setInterval(() => {
+      state.mediaRecorder.stop();
+      setTimeout(() => {
+        if (state.recording) {
+          state.recordChunks = [];
+          state.mediaRecorder.start(1000);
+        }
+      }, 300);
+    }, 180000);
+  } else {
+    clearInterval(state._rotateTimer);
+    state.mediaRecorder.stop();
     state.recording = false;
-    state.chunks = [];
-    $('btn-record').classList.remove('recording');
-    $('rec-badge').classList.remove('active');
-    showToast('■ Recording stopped');
-}
-
-function rollClip() {
-    // Save current segment, restart recorder
-    if (state.chunks.length > 0) {
-        saveCurrentChunks('clip');
-        state.chunks = [];
-    }
-    // Restart recorder on same stream
-    if (state.mediaRecorder && state.mediaRecorder.state === 'recording') {
-        state.mediaRecorder.stop();
-        setTimeout(() => {
-            state.mediaRecorder.start(1000);
-        }, 100);
-    }
-}
-
-function saveCurrentChunks(type, label = '') {
-    const mimeType = getSupportedMime();
-    const ext = mimeType.includes('mp4') ? 'mp4' : 'webm';
-    const ts = new Date();
-    const name = `drive_${type}_${formatTs(ts)}${label ? '_' + label : ''}.${ext}`;
-    const blob = new Blob(state.chunks, { type: mimeType });
-
-    state.clips.unshift({ blob, name, type, ts });
-
-    // Keep only last 10 clips in memory
-    if (state.clips.length > 10) {
-        state.clips.pop();
-    }
-
-    updateClipCounter();
-    renderClipsList();
+    document.getElementById('cam-rec-btn').classList.remove('recording');
+    document.getElementById('cam-rec-text').textContent = 'Record';
+    document.getElementById('cam-rec-dot').classList.remove('on');
+    document.getElementById('cam-rec-label').textContent = 'STANDBY';
+    toast('Recording saved');
+  }
 }
 
 function manualSave() {
-    if (!state.recording || state.chunks.length === 0) {
-        showToast('Nothing to save yet — start recording first');
-        return;
-    }
-    saveCurrentChunks('manual');
-    showToast('💾 Clip saved manually');
+  if (!state.recording) { toast('Start recording first'); return; }
+  state.mediaRecorder.requestData();
+  setTimeout(() => {
+    const blob = new Blob([...state.recordChunks], {type: getSupportedMime()});
+    addClip('manual_' + Date.now(), blob, false);
+    toast('Clip saved manually');
+  }, 200);
 }
 
 function getSupportedMime() {
-    const types = [
-        'video/mp4;codecs=avc1',
-        'video/webm;codecs=vp9,opus',
-        'video/webm;codecs=vp8,opus',
-        'video/webm',
-    ];
-    return types.find(t => MediaRecorder.isTypeSupported(t)) || 'video/webm';
+  const types = ['video/mp4','video/webm;codecs=vp9','video/webm;codecs=vp8','video/webm'];
+  return types.find(t => MediaRecorder.isTypeSupported(t)) || 'video/webm';
 }
 
-// ── GPS / SPEED ────────────────────────────────────────
-function initGPS() {
-    if (!navigator.geolocation) return;
-
-    state.gpsWatcher = navigator.geolocation.watchPosition(pos => {
-        const kmh = pos.coords.speed != null
-            ? Math.round(pos.coords.speed * 3.6)
-            : 0;
-        state.speed = kmh;
-        $('speed-value').textContent = kmh;
-        $('gps-pill').className = 'status-pill ok';
-    }, () => {
-        $('gps-pill').className = 'status-pill warn';
-    }, { enableHighAccuracy: true, maximumAge: 1000 });
+function saveClip(prefix, isImpact = false) {
+  const mime = getSupportedMime();
+  const blob = new Blob([...state.recordChunks], {type: mime});
+  if (blob.size < 1000) return;
+  const name = `${isImpact ? 'IMPACT_' : prefix + '_'}${Date.now()}`;
+  addClip(name, blob, isImpact);
 }
 
-// ── MOTION / IMPACT ───────────────────────────────────
-function initMotion() {
-    if (!window.DeviceMotionEvent) return;
-
-    // iOS 13+ requires permission
-    if (typeof DeviceMotionEvent.requestPermission === 'function') {
-        DeviceMotionEvent.requestPermission()
-            .then(perm => {
-                if (perm === 'granted') listenMotion();
-            });
-    } else {
-        listenMotion();
-    }
+function addClip(name, blob, isImpact) {
+  state.clips.push({name, blob, isImpact});
+  if (state.clips.length > 10) state.clips.shift();
+  renderClips();
 }
 
-function listenMotion() {
-    $('motion-pill').className = 'status-pill ok';
-
-    window.addEventListener('devicemotion', e => {
-        const a = e.accelerationIncludingGravity;
-        if (!a) return;
-
-        const dx = Math.abs((a.x || 0) - state.lastAccel.x);
-        const dy = Math.abs((a.y || 0) - state.lastAccel.y);
-        const dz = Math.abs((a.z || 0) - state.lastAccel.z);
-        const delta = Math.sqrt(dx*dx + dy*dy + dz*dz);
-
-        if (delta > state.impactThreshold && state.recording) {
-            triggerImpactSave();
-        }
-
-        state.lastAccel = { x: a.x || 0, y: a.y || 0, z: a.z || 0 };
-    });
+function renderClips() {
+  const list = document.getElementById('clips-list');
+  const count = state.clips.length;
+  document.getElementById('clips-count-btn').textContent = `Clips (${count})`;
+  document.getElementById('cam-clip-count').textContent = `${count} clip${count !== 1 ? 's' : ''}`;
+  list.innerHTML = state.clips.slice().reverse().map((c,i) => `
+    <div class="clip-item">
+      <span class="clip-name ${c.isImpact ? 'impact' : ''}">${c.isImpact ? '⚠ ' : ''}${c.name}</span>
+      <button class="clip-dl" onclick="downloadClip(${state.clips.length-1-i})">Save</button>
+    </div>
+  `).join('');
 }
 
-let impactCooldown = false;
-function triggerImpactSave() {
-    if (impactCooldown) return;
-    impactCooldown = true;
-    setTimeout(() => impactCooldown = false, 5000);
-
-    if (state.chunks.length > 0) {
-        // Clone current chunks for impact clip
-        const impactChunks = [...state.chunks];
-        const mimeType = getSupportedMime();
-        const ext = mimeType.includes('mp4') ? 'mp4' : 'webm';
-        const ts = new Date();
-        const name = `drive_IMPACT_${formatTs(ts)}.${ext}`;
-        const blob = new Blob(impactChunks, { type: mimeType });
-        state.clips.unshift({ blob, name, type: 'impact', ts });
-        updateClipCounter();
-        renderClipsList();
-    }
-
-    // Flash impact UI
-    const alert = $('impact-alert');
-    alert.classList.add('show');
-    setTimeout(() => alert.classList.remove('show'), 3000);
-
-    showToast('⚠️ Impact detected — clip saved!');
+function downloadClip(i) {
+  const c = state.clips[i];
+  const ext = getSupportedMime().includes('mp4') ? 'mp4' : 'webm';
+  const url = URL.createObjectURL(c.blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = `${c.name}.${ext}`; a.click();
+  URL.revokeObjectURL(url);
 }
 
-// ── WAKE LOCK ─────────────────────────────────────────
-async function requestWakeLock() {
-    if (!('wakeLock' in navigator)) {
-        $('wake-pill').className = 'status-pill warn';
-        return;
-    }
-    try {
-        state.wakeLock = await navigator.wakeLock.request('screen');
-        $('wake-pill').className = 'status-pill ok';
-
-        // Re-acquire on visibility change
-        document.addEventListener('visibilitychange', async () => {
-            if (document.visibilityState === 'visible') {
-                state.wakeLock = await navigator.wakeLock.request('screen');
-            }
-        });
-    } catch {
-        $('wake-pill').className = 'status-pill warn';
-    }
+function toggleClipsTray() {
+  state.clipsTrayOpen = !state.clipsTrayOpen;
+  document.getElementById('clips-tray').classList.toggle('open', state.clipsTrayOpen);
 }
 
-// ── CANVAS OVERLAY (timestamp burn-in) ────────────────
-function startCanvas() {
-    const canvas = $('overlay-canvas');
-    const video  = $('video');
-    const ctx = canvas.getContext('2d');
-    state.canvasCtx = ctx;
-
-    function draw() {
-        canvas.width  = window.innerWidth;
-        canvas.height = window.innerHeight;
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        // Timestamp bottom-right
-        const now = new Date();
-        const ts = now.toLocaleString('en-TT', {
-            year: 'numeric', month: '2-digit', day: '2-digit',
-            hour: '2-digit', minute: '2-digit', second: '2-digit',
-            hour12: false
-        });
-
-        ctx.font = 'bold 13px monospace';
-        ctx.fillStyle = 'rgba(0,0,0,0.55)';
-        ctx.fillRect(canvas.width - 230, canvas.height - 38, 220, 24);
-        ctx.fillStyle = '#fff';
-        ctx.fillText(ts, canvas.width - 224, canvas.height - 21);
-
-        // Speed burn-in (small, bottom-left corner)
-        ctx.font = 'bold 13px monospace';
-        ctx.fillStyle = 'rgba(0,0,0,0.55)';
-        ctx.fillRect(8, canvas.height - 38, 90, 24);
-        ctx.fillStyle = '#38bdf8';
-        ctx.fillText(`${state.speed} km/h`, 14, canvas.height - 21);
-
-        state.animFrame = requestAnimationFrame(draw);
-    }
-
-    draw();
-}
-
-// ── CLIPS TRAY ────────────────────────────────────────
-function toggleTray() {
-    $('clips-tray').classList.toggle('open');
-}
-
-function updateClipCounter() {
-    $('clip-counter').textContent = `${state.clips.length} clip${state.clips.length !== 1 ? 's' : ''}`;
-}
-
-function renderClipsList() {
-    const list = $('clips-list');
-    if (state.clips.length === 0) {
-        list.innerHTML = '<div class="no-clips">No clips yet. Start recording to capture footage.</div>';
-        return;
-    }
-
-    list.innerHTML = state.clips.map((clip, i) => `
-        <div class="clip-item">
-            <div class="clip-info">
-                <div class="clip-icon ${clip.type === 'impact' ? 'impact-clip' : ''}">
-                    <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                        ${clip.type === 'impact'
-                            ? '<path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>'
-                            : '<polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>'
-                        }
-                    </svg>
-                </div>
-                <div>
-                    <div class="clip-name">${clip.type === 'impact' ? '⚠️ ' : ''}${clip.name}</div>
-                    <div class="clip-meta">${formatSize(clip.blob.size)} · ${clip.ts.toLocaleTimeString('en-TT')}</div>
-                </div>
-            </div>
-            <button class="clip-dl" onclick="downloadClip(${i})">Save</button>
-        </div>
-    `).join('');
-}
-
-function downloadClip(index) {
-    const clip = state.clips[index];
-    if (!clip) return;
-    const url = URL.createObjectURL(clip.blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = clip.name;
-    a.click();
-    setTimeout(() => URL.revokeObjectURL(url), 5000);
-    showToast('📥 Downloading ' + clip.name);
-}
-
-// ── UTILS ─────────────────────────────────────────────
-function formatTs(d) {
-    return d.toISOString().replace(/[:.]/g, '-').slice(0, 19);
-}
-
-function formatSize(bytes) {
-    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(0) + ' KB';
-    return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
-}
-
-function showToast(msg, duration = 2500) {
-    const t = $('toast');
-    t.textContent = msg;
-    t.classList.add('show');
-    clearTimeout(t._timer);
-    t._timer = setTimeout(() => t.classList.remove('show'), duration);
-}
-
-// ── KEYBOARD SHORTCUTS (desktop testing) ──────────────
-document.addEventListener('keydown', e => {
-    if (e.code === 'Space') { e.preventDefault(); toggleRecord(); }
-    if (e.code === 'KeyS') manualSave();
-    if (e.code === 'KeyF') flipCamera();
+// ── Impact detection ─────────────────────────
+let lastImpact = 0;
+window.addEventListener('devicemotion', e => {
+  if (!state.recording) return;
+  const ax = e.acceleration;
+  if (!ax) return;
+  const g = Math.sqrt((ax.x||0)**2 + (ax.y||0)**2 + (ax.z||0)**2);
+  if (g > 15 && Date.now() - lastImpact > 5000) {
+    lastImpact = Date.now();
+    state.mediaRecorder.requestData();
+    setTimeout(() => saveClip('impact', true), 200);
+    toast('⚠ Impact detected — clip saved');
+  }
 });
 
-// ── SERVICE WORKER REGISTRATION (offline support) ─────
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/drive-sw.js')
-            .then(reg => console.log('[Drive SW] registered:', reg.scope))
-            .catch(err => console.warn('[Drive SW] failed:', err));
+// ══════════════════════════════════════════════
+// OBD2 — WEB BLUETOOTH
+// ══════════════════════════════════════════════
+const OBD_SERVICE = '0000fff0-0000-1000-8000-00805f9b34fb';
+const OBD_CHAR_RX = '0000fff1-0000-1000-8000-00805f9b34fb';
+const OBD_CHAR_TX = '0000fff2-0000-1000-8000-00805f9b34fb';
+
+async function connectOBD() {
+  if (!navigator.bluetooth) {
+    toast('Web Bluetooth not supported on this browser');
+    return;
+  }
+  try {
+    toast('Scanning for ELM327 adapter…');
+    const device = await navigator.bluetooth.requestDevice({
+      filters: [{name: 'OBDII'}, {name: 'ELM327'}, {name: 'OBD2'}, {namePrefix: 'V-Link'}],
+      optionalServices: [OBD_SERVICE, '0000ffe0-0000-1000-8000-00805f9b34fb']
     });
+    state.obdDevice = device;
+    const server = await device.gatt.connect();
+    toast('Connected — initialising…');
+
+    // Try common ELM327 BLE service UUIDs
+    let service;
+    try { service = await server.getPrimaryService(OBD_SERVICE); }
+    catch { service = await server.getPrimaryService('0000ffe0-0000-1000-8000-00805f9b34fb'); }
+
+    let rxChar, txChar;
+    const chars = await service.getCharacteristics();
+    for (const c of chars) {
+      const p = c.properties;
+      if (p.notify || p.indicate) rxChar = c;
+      if (p.write || p.writeWithoutResponse) txChar = c;
+    }
+
+    state.obdChar = txChar;
+    await rxChar.startNotifications();
+    rxChar.addEventListener('characteristicvaluechanged', onOBDData);
+
+    // Init ELM327
+    await sendOBD(txChar, 'ATZ\r');
+    await delay(1000);
+    await sendOBD(txChar, 'ATE0\r'); // echo off
+    await delay(300);
+    await sendOBD(txChar, 'ATL0\r'); // linefeeds off
+    await delay(300);
+    await sendOBD(txChar, 'ATH0\r'); // headers off
+    await delay(300);
+    await sendOBD(txChar, 'ATSP0\r'); // auto protocol
+    await delay(500);
+
+    setOBDConnected(true);
+    stopSim();
+    startOBDPolling(txChar);
+
+    device.addEventListener('gattserverdisconnected', () => {
+      setOBDConnected(false);
+      toast('Adapter disconnected — switching to simulation');
+      startSim();
+    });
+  } catch(e) {
+    toast('Could not connect — check adapter is powered on');
+    console.error(e);
+  }
 }
+
+let obdBuffer = '';
+function onOBDData(e) {
+  const bytes = new Uint8Array(e.target.value.buffer);
+  obdBuffer += String.fromCharCode(...bytes);
+  if (obdBuffer.includes('>')) {
+    parseOBDResponse(obdBuffer.trim());
+    obdBuffer = '';
+  }
+}
+
+function parseOBDResponse(raw) {
+  const lines = raw.split('\n').map(l => l.trim()).filter(l => l && l !== '>');
+  for (const line of lines) {
+    const hex = line.replace(/\s/g,'');
+    if (hex.startsWith('41')) {
+      const pid = hex.substring(2,4).toUpperCase();
+      const a = parseInt(hex.substring(4,6),16);
+      const b = parseInt(hex.substring(6,8),16) || 0;
+      switch(pid) {
+        case '0C': updateOBD('rpm', ((a*256)+b)/4); break;
+        case '0D': updateOBD('speed', a); break;
+        case '05': updateOBD('coolant', a - 40); break;
+        case '2F': updateOBD('fuel', Math.round(a * 100/255)); break;
+        case '04': updateOBD('load', Math.round(a * 100/255)); break;
+        case '11': updateOBD('throttle', Math.round(a * 100/255)); break;
+        case '0F': updateOBD('iat', a - 40); break;
+        case '10': updateOBD('maf', ((a*256)+b)/100); break;
+        case '1F': updateOBD('runtime', Math.round(((a*256)+b)/60)); break;
+      }
+    }
+  }
+}
+
+async function startOBDPolling(txChar) {
+  const pids = [
+    {cmd:'010C\r', key:'rpm'},
+    {cmd:'010D\r', key:'speed'},
+    {cmd:'0105\r', key:'coolant'},
+    {cmd:'012F\r', key:'fuel'},
+    {cmd:'0104\r', key:'load'},
+    {cmd:'0111\r', key:'throttle'},
+    {cmd:'010F\r', key:'iat'},
+    {cmd:'0110\r', key:'maf'},
+    {cmd:'011F\r', key:'runtime'}
+  ];
+  let i = 0;
+  state.obdPoll = setInterval(async () => {
+    if (!state.obdConnected) return;
+    await sendOBD(txChar, pids[i % pids.length].cmd);
+    i++;
+  }, 300);
+}
+
+async function sendOBD(char, cmd) {
+  if (!char) return;
+  const enc = new TextEncoder().encode(cmd);
+  try { await char.writeValue(enc); } catch(e) {}
+}
+
+async function scanCodes() {
+  if (!state.obdConnected) {
+    // Show sample codes in sim
+    state.dtcCodes = [
+      {code:'P0171', desc:'System Too Lean (Bank 1)', type:'active'},
+      {code:'P0420', desc:'Catalyst System Efficiency Below Threshold', type:'pending'}
+    ];
+    renderCodes();
+    toast('Sim: showing sample codes');
+    return;
+  }
+  toast('Scanning for fault codes…');
+  await sendOBD(state.obdChar, '03\r');
+}
+
+function clearCodes() {
+  if (!state.obdConnected && !state.dtcCodes.length) { toast('No codes to clear'); return; }
+  state.dtcCodes = [];
+  renderCodes();
+  toast('Codes cleared');
+  if (state.obdConnected) sendOBD(state.obdChar, '04\r');
+}
+
+function renderCodes() {
+  const body = document.getElementById('codes-body');
+  const empty = document.getElementById('codes-empty');
+  if (!state.dtcCodes.length) {
+    empty.style.display = 'flex'; return;
+  }
+  empty.style.display = 'none';
+  body.innerHTML = state.dtcCodes.map(c => `
+    <div class="code-card ${c.type === 'active' ? 'active-fault' : ''}">
+      <span class="code-badge ${c.type === 'pending' ? 'pending' : ''}">${c.code}</span>
+      <div class="code-info">
+        <div class="code-desc">${c.desc}</div>
+        <div class="code-sub">${c.type === 'active' ? 'Active fault' : 'Pending'} — Toyota Corolla NZE121</div>
+      </div>
+    </div>
+  `).join('') + `<div id="codes-empty" style="display:none"></div>`;
+}
+
+// ══════════════════════════════════════════════
+// OBD DATA UPDATE
+// ══════════════════════════════════════════════
+function updateOBD(key, value) {
+  state.obd[key] = value;
+  renderOBD();
+  // Also update deck if OBD connected
+  if (key === 'speed') {
+    document.getElementById('deck-speed').textContent = value;
+    document.getElementById('cam-speed').textContent = value;
+  }
+  if (key === 'rpm') document.getElementById('deck-rpm').textContent = Math.round(value).toLocaleString();
+  if (key === 'coolant') {
+    document.getElementById('deck-coolant').textContent = value + '°C';
+  }
+  if (key === 'fuel') document.getElementById('deck-fuel').textContent = value + '%';
+  if (key === 'load') document.getElementById('deck-load').textContent = value + '%';
+}
+
+function renderOBD() {
+  const o = state.obd;
+
+  // Speed
+  if (o.speed !== null) {
+    document.getElementById('g-speed-val').textContent = o.speed;
+    document.getElementById('g-speed-bar').style.width = Math.min(o.speed/200*100,100)+'%';
+  }
+  // RPM
+  if (o.rpm !== null) {
+    document.getElementById('g-rpm-val').textContent = Math.round(o.rpm).toLocaleString();
+    document.getElementById('g-rpm-bar').style.width = Math.min(o.rpm/7000*100,100)+'%';
+    const rpmCard = document.getElementById('g-rpm');
+    rpmCard.classList.toggle('warn', o.rpm > 5500);
+    rpmCard.classList.toggle('alert', o.rpm > 6500);
+  }
+  // Coolant
+  if (o.coolant !== null) {
+    document.getElementById('g-coolant-val').textContent = o.coolant;
+    document.getElementById('g-coolant-bar').style.width = Math.min((o.coolant+40)/160*100,100)+'%';
+    const bar = document.getElementById('g-coolant-bar');
+    const card = document.getElementById('g-coolant');
+    bar.style.background = o.coolant > 100 ? '#ef4444' : o.coolant > 90 ? '#f59e0b' : '#3b82f6';
+    card.classList.toggle('warn', o.coolant > 90 && o.coolant <= 100);
+    card.classList.toggle('alert', o.coolant > 100);
+  }
+  // Fuel
+  if (o.fuel !== null) {
+    document.getElementById('g-fuel-val').textContent = o.fuel;
+    document.getElementById('g-fuel-bar').style.width = o.fuel+'%';
+    const bar = document.getElementById('g-fuel-bar');
+    const card = document.getElementById('g-fuel');
+    bar.style.background = o.fuel < 15 ? '#ef4444' : o.fuel < 25 ? '#f59e0b' : '#22c55e';
+    card.classList.toggle('warn', o.fuel < 25 && o.fuel >= 15);
+    card.classList.toggle('alert', o.fuel < 15);
+  }
+  // Load
+  if (o.load !== null) {
+    document.getElementById('g-load-val').textContent = o.load;
+    document.getElementById('g-load-bar').style.width = o.load+'%';
+    document.getElementById('g-load-bar').style.background = o.load > 85 ? '#ef4444' : o.load > 70 ? '#f59e0b' : '#3b82f6';
+  }
+  // Throttle
+  if (o.throttle !== null) {
+    document.getElementById('g-throttle-val').textContent = o.throttle;
+    document.getElementById('g-throttle-bar').style.width = o.throttle+'%';
+  }
+  // IAT
+  if (o.iat !== null) {
+    document.getElementById('g-iat-val').textContent = o.iat;
+    document.getElementById('g-iat-bar').style.width = Math.min((o.iat+20)/80*100,100)+'%';
+  }
+  // MAF
+  if (o.maf !== null) {
+    document.getElementById('g-maf-val').textContent = o.maf.toFixed(1);
+    document.getElementById('g-maf-bar').style.width = Math.min(o.maf/30*100,100)+'%';
+  }
+  // Runtime
+  if (o.runtime !== null) {
+    document.getElementById('g-runtime-val').textContent = o.runtime;
+    document.getElementById('g-runtime-bar').style.width = Math.min(o.runtime/120*100,100)+'%';
+  }
+}
+
+// ══════════════════════════════════════════════
+// SIMULATION MODE (NZE121 realistic values)
+// ══════════════════════════════════════════════
+function startSim() {
+  if (state.simInterval) return;
+  let t = 0;
+  state.simInterval = setInterval(() => {
+    t += 0.05;
+    const spd = Math.max(0, Math.round(40 + Math.sin(t*0.3)*30 + Math.random()*5));
+    const rpm = Math.round(800 + (spd/120)*4200 + Math.random()*200 - 100);
+    const coolant = Math.round(85 + Math.sin(t*0.1)*8 + Math.random()*3);
+    const fuel = Math.max(0, Math.round(68 - t*0.02));
+    const load = Math.round(30 + (spd/120)*45 + Math.random()*10);
+    const throttle = Math.round(load * 0.8 + Math.random()*10);
+    const iat = Math.round(32 + Math.random()*4);
+    const maf = parseFloat((2 + (rpm/7000)*28 + Math.random()).toFixed(1));
+    const runtime = Math.round(t/1.2);
+
+    updateOBD('speed', spd);
+    updateOBD('rpm', rpm);
+    updateOBD('coolant', coolant);
+    updateOBD('fuel', fuel);
+    updateOBD('load', load);
+    updateOBD('throttle', throttle);
+    updateOBD('iat', iat);
+    updateOBD('maf', maf);
+    updateOBD('runtime', runtime);
+
+    // fake GPS speed too when no GPS
+    if (!state.gpsLat) {
+      document.getElementById('deck-speed').textContent = spd;
+      document.getElementById('cam-speed').textContent = spd;
+    }
+  }, 800);
+}
+
+function stopSim() {
+  clearInterval(state.simInterval);
+  state.simInterval = null;
+}
+
+function setOBDConnected(v) {
+  state.obdConnected = v;
+  state.simMode = !v;
+  const dot = document.getElementById('obd-dot');
+  const label = document.getElementById('obd-label');
+  const badge = document.getElementById('obd-sim-badge');
+  const modeLabel = document.getElementById('obd-mode-label');
+  const btn = document.getElementById('obd-connect-btn');
+  if (v) {
+    dot.className = 'obd-dot connected';
+    label.textContent = 'OBD Live';
+    badge.style.display = 'none';
+    modeLabel.textContent = 'Live Data';
+    btn.textContent = 'Disconnect';
+    document.getElementById('speed-src').textContent = 'OBD';
+  } else {
+    dot.className = 'obd-dot sim';
+    label.textContent = 'Simulation';
+    badge.style.display = '';
+    modeLabel.textContent = 'Simulation Mode';
+    btn.textContent = 'Connect Adapter';
+    document.getElementById('speed-src').textContent = 'GPS';
+  }
+}
+
+// ══════════════════════════════════════════════
+// WAKE LOCK
+// ══════════════════════════════════════════════
+async function requestWakeLock() {
+  if (!('wakeLock' in navigator)) return;
+  try { state.wakeLock = await navigator.wakeLock.request('screen'); }
+  catch(e) {}
+}
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible') requestWakeLock();
+});
+
+// ══════════════════════════════════════════════
+// TOAST
+// ══════════════════════════════════════════════
+function toast(msg, duration=2500) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t._t);
+  t._t = setTimeout(() => t.classList.remove('show'), duration);
+}
+
+// ══════════════════════════════════════════════
+// HELPERS
+// ══════════════════════════════════════════════
+function delay(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+// ══════════════════════════════════════════════
+// KEYBOARD (desktop testing)
+// ══════════════════════════════════════════════
+document.addEventListener('keydown', e => {
+  if (e.code === 'Space') { e.preventDefault(); if (state.view==='cam') toggleRecord(); }
+  if (e.code === 'KeyF') flipCamera();
+  if (e.code === 'Digit1') switchView('deck');
+  if (e.code === 'Digit2') switchView('cam');
+  if (e.code === 'Digit3') switchView('obd');
+  if (e.code === 'Digit4') switchView('codes');
+});
+
+// ══════════════════════════════════════════════
+// SERVICE WORKER
+// ══════════════════════════════════════════════
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/drive-sw.js').catch(() => {});
+}
+
+// ══════════════════════════════════════════════
+// BOOT
+// ══════════════════════════════════════════════
+requestWakeLock();
+startGPS();
+startSim(); // Always start in sim — real OBD overrides when connected
+setOBDConnected(false);
+renderCodes();
 </script>
 </body>
 </html>
