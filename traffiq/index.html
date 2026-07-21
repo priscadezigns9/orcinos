@@ -1,0 +1,1207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>TraffIQ — Smart Traffic Intelligence</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Urbanist:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.17.0/dist/tf.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd@2.2.3/dist/coco-ssd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5.0.4/dist/tesseract.min.js"></script>
+<style>
+  :root {
+    --bg: #0a0c14;
+    --surface: #111420;
+    --card: #161926;
+    --border: rgba(255,255,255,0.07);
+    --accent: #7c3aed;
+    --accent2: #c084fc;
+    --green: #22c55e;
+    --red: #ef4444;
+    --amber: #f59e0b;
+    --text: #f1f5f9;
+    --muted: #64748b;
+    --font-body: 'Urbanist', sans-serif;
+    --font-h: 'DM Serif Display', serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 2rem;
+    border-bottom: 1px solid var(--border);
+    background: rgba(10,12,20,0.95);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(12px);
+  }
+
+  .nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .nav-logo {
+    width: 36px; height: 36px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .nav-logo svg { width: 20px; height: 20px; stroke: white; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+  .nav-title { font-family: var(--font-h); font-size: 1.4rem; }
+  .nav-title span { color: var(--accent2); }
+
+  .nav-badge {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    background: rgba(124,58,237,0.15);
+    border: 1px solid rgba(124,58,237,0.3);
+    padding: 0.25rem 0.75rem;
+    border-radius: 100px;
+  }
+
+  /* ── LAYOUT ── */
+  .app-grid {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    grid-template-rows: auto auto;
+    gap: 1.5rem;
+    padding: 1.5rem 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  /* ── CAMERA PANEL ── */
+  .camera-panel {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .panel-title {
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .status-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--muted);
+    display: inline-block;
+    margin-right: 0.5rem;
+  }
+
+  .status-dot.live { background: var(--green); animation: pulse 1.5s infinite; }
+  .status-dot.red { background: var(--red); }
+  .status-dot.amber { background: var(--amber); }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  .camera-wrap {
+    position: relative;
+    width: 100%;
+    background: #000;
+    aspect-ratio: 16/9;
+  }
+
+  #videoEl {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  #overlayCanvas {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+  }
+
+  #drawCanvas {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    cursor: crosshair;
+  }
+
+  .camera-placeholder {
+    width: 100%; height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+
+  .camera-placeholder svg { width: 48px; height: 48px; stroke: var(--muted); fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+
+  /* signal overlay */
+  .signal-overlay {
+    position: absolute;
+    top: 1rem; right: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    background: rgba(0,0,0,0.7);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 0.75rem;
+    backdrop-filter: blur(8px);
+  }
+
+  .signal-light {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.1);
+    transition: all 0.3s;
+  }
+
+  .signal-light.active-red { background: var(--red); box-shadow: 0 0 16px var(--red); }
+  .signal-light.active-amber { background: var(--amber); box-shadow: 0 0 16px var(--amber); }
+  .signal-light.active-green { background: var(--green); box-shadow: 0 0 16px var(--green); }
+  .signal-light:not([class*="active"]) { background: rgba(255,255,255,0.05); }
+
+  /* camera controls */
+  .camera-controls {
+    display: flex;
+    gap: 0.75rem;
+    padding: 1rem 1.25rem;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .btn {
+    font-family: var(--font-body);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 0.55rem 1.1rem;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .btn svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+  .btn-primary { background: var(--accent); color: white; }
+  .btn-primary:hover { background: #6d28d9; }
+  .btn-danger { background: var(--red); color: white; }
+  .btn-danger:hover { background: #dc2626; }
+  .btn-outline { background: transparent; color: var(--text); border: 1px solid var(--border); }
+  .btn-outline:hover { border-color: var(--accent2); color: var(--accent2); }
+  .btn-amber { background: var(--amber); color: #000; }
+  .btn-amber:hover { background: #d97706; }
+  .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  .mode-label {
+    font-size: 0.75rem;
+    color: var(--muted);
+    margin-left: auto;
+  }
+
+  /* ── STATS ROW ── */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    grid-column: 1 / -1;
+  }
+
+  .stat-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+  }
+
+  .stat-card.vehicles::before { background: var(--accent); }
+  .stat-card.violations::before { background: var(--red); }
+  .stat-card.signal::before { background: var(--green); }
+  .stat-card.congestion::before { background: var(--amber); }
+
+  .stat-icon {
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .stat-icon svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .stat-icon.purple { background: rgba(124,58,237,0.15); color: var(--accent2); }
+  .stat-icon.red { background: rgba(239,68,68,0.15); color: var(--red); }
+  .stat-icon.green { background: rgba(34,197,94,0.15); color: var(--green); }
+  .stat-icon.amber { background: rgba(245,158,11,0.15); color: var(--amber); }
+
+  .stat-label { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+  .stat-value { font-size: 2rem; font-weight: 700; line-height: 1; }
+  .stat-sub { font-size: 0.75rem; color: var(--muted); }
+
+  /* ── SIDE PANEL ── */
+  .side-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  /* ── SIGNAL CONTROLLER ── */
+  .signal-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  .signal-body {
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .signal-lanes {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .lane-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .lane-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.78rem;
+  }
+
+  .lane-name { font-weight: 600; }
+  .lane-count { color: var(--accent2); font-weight: 700; }
+
+  .lane-bar-bg {
+    height: 6px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 100px;
+    overflow: hidden;
+  }
+
+  .lane-bar {
+    height: 100%;
+    border-radius: 100px;
+    transition: width 0.8s ease;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+  }
+
+  .signal-timer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1rem;
+    background: rgba(255,255,255,0.03);
+    border-radius: 10px;
+    border: 1px solid var(--border);
+  }
+
+  .timer-label { font-size: 0.75rem; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; }
+  .timer-value { font-size: 1.5rem; font-weight: 700; color: var(--green); font-variant-numeric: tabular-nums; }
+  .timer-value.red-phase { color: var(--red); }
+  .timer-value.amber-phase { color: var(--amber); }
+
+  /* ── VIOLATION LOG ── */
+  .violation-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    flex: 1;
+  }
+
+  .violation-list {
+    max-height: 320px;
+    overflow-y: auto;
+    padding: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .violation-list::-webkit-scrollbar { width: 4px; }
+  .violation-list::-webkit-scrollbar-track { background: transparent; }
+  .violation-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  .violation-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    background: rgba(239,68,68,0.05);
+    border: 1px solid rgba(239,68,68,0.15);
+    border-radius: 10px;
+    animation: slideIn 0.3s ease;
+  }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .violation-icon {
+    width: 28px; height: 28px;
+    background: rgba(239,68,68,0.15);
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .violation-icon svg { width: 14px; height: 14px; stroke: var(--red); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+  .violation-details { flex: 1; }
+  .violation-plate { font-size: 0.85rem; font-weight: 700; letter-spacing: 0.05em; }
+  .violation-meta { font-size: 0.72rem; color: var(--muted); margin-top: 0.15rem; }
+
+  .empty-log {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    color: var(--muted);
+    font-size: 0.85rem;
+    gap: 0.5rem;
+    text-align: center;
+  }
+
+  .empty-log svg { width: 32px; height: 32px; stroke: var(--muted); fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; opacity: 0.4; }
+
+  /* ── CONGESTION PANEL ── */
+  .congestion-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    grid-column: 1;
+  }
+
+  .congestion-body {
+    padding: 1.25rem;
+  }
+
+  .heatmap-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 4px;
+    margin-top: 0.75rem;
+  }
+
+  .heat-cell {
+    aspect-ratio: 1;
+    border-radius: 4px;
+    background: rgba(255,255,255,0.03);
+    transition: all 0.8s ease;
+  }
+
+  .heat-cell.low { background: rgba(34,197,94,0.3); }
+  .heat-cell.med { background: rgba(245,158,11,0.5); }
+  .heat-cell.high { background: rgba(239,68,68,0.7); }
+  .heat-cell.critical { background: var(--red); box-shadow: 0 0 8px rgba(239,68,68,0.4); }
+
+  /* ── MODE TOGGLE ── */
+  .mode-pill {
+    display: inline-flex;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .mode-pill button {
+    padding: 0.4rem 0.9rem;
+    border: none;
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    font-family: var(--font-body);
+    font-size: inherit;
+    font-weight: inherit;
+    letter-spacing: inherit;
+    text-transform: inherit;
+    transition: all 0.2s;
+  }
+
+  .mode-pill button.active {
+    background: var(--accent);
+    color: white;
+  }
+
+  /* ── ALERT TOAST ── */
+  #alertToast {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    background: var(--red);
+    color: white;
+    padding: 1rem 1.5rem;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    display: none;
+    align-items: center;
+    gap: 0.75rem;
+    z-index: 999;
+    animation: slideIn 0.3s ease;
+    box-shadow: 0 8px 32px rgba(239,68,68,0.4);
+  }
+
+  #alertToast svg { width: 20px; height: 20px; stroke: white; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .app-grid { grid-template-columns: 1fr; }
+    .stats-row { grid-template-columns: repeat(2,1fr); }
+    .side-panel { grid-row: 2; }
+  }
+
+  /* ── IP INPUT ── */
+  .ip-input-row {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    flex: 1;
+  }
+
+  .ip-input {
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+    padding: 0.5rem 0.75rem;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    flex: 1;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .ip-input:focus { border-color: var(--accent); }
+  .ip-input::placeholder { color: var(--muted); }
+
+  /* ── INSTRUCTIONS ── */
+  .instructions {
+    padding: 0.75rem 1.25rem;
+    background: rgba(124,58,237,0.08);
+    border-top: 1px solid rgba(124,58,237,0.15);
+    font-size: 0.75rem;
+    color: var(--muted);
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .instructions span { display: flex; align-items: center; gap: 0.4rem; }
+  .instructions b { color: var(--accent2); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">
+    <div class="nav-logo">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.93 4.93l2.12 2.12M16.95 16.95l2.12 2.12M4.93 19.07l2.12-2.12M16.95 7.05l2.12-2.12"/></svg>
+    </div>
+    <span class="nav-title">Traff<span>IQ</span></span>
+  </div>
+  <div class="nav-badge">Smart Traffic Intelligence · T&T</div>
+</nav>
+
+<!-- ALERT TOAST -->
+<div id="alertToast">
+  <svg viewBox="0 0 24 24"><polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+  <span id="alertMsg">Violation Detected</span>
+</div>
+
+<!-- MAIN GRID -->
+<div class="app-grid">
+
+  <!-- CAMERA -->
+  <div class="camera-panel">
+    <div class="panel-header">
+      <span class="panel-title"><span class="status-dot" id="statusDot"></span><span id="statusText">Offline</span></span>
+      <div class="mode-pill">
+        <button class="active" onclick="setMode('monitor')" id="modeMonitor">Monitor</button>
+        <button onclick="setMode('enforce')" id="modeEnforce">Enforce</button>
+        <button onclick="setMode('draw')" id="modeDraw">Draw Zone</button>
+      </div>
+    </div>
+
+    <div class="camera-wrap" id="cameraWrap">
+      <div class="camera-placeholder" id="placeholder">
+        <svg viewBox="0 0 24 24"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+        <span>Camera not started</span>
+        <span style="font-size:0.72rem;">Click Start Camera or enter an IP stream URL</span>
+      </div>
+      <video id="videoEl" autoplay muted playsinline style="display:none;"></video>
+      <canvas id="overlayCanvas"></canvas>
+      <canvas id="drawCanvas" style="display:none;"></canvas>
+
+      <!-- Traffic Signal Overlay -->
+      <div class="signal-overlay" id="signalOverlay" style="display:none;">
+        <div class="signal-light" id="sigRed"></div>
+        <div class="signal-light" id="sigAmber"></div>
+        <div class="signal-light" id="sigGreen"></div>
+      </div>
+    </div>
+
+    <div class="instructions" id="instructionBar">
+      <span><b>Monitor:</b> Real-time detection</span>
+      <span><b>Enforce:</b> Red-light violations</span>
+      <span><b>Draw Zone:</b> Define stop line</span>
+    </div>
+
+    <div class="camera-controls">
+      <button class="btn btn-primary" onclick="startCamera()" id="btnStart">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+        Start Camera
+      </button>
+      <button class="btn btn-danger" onclick="stopCamera()" id="btnStop" disabled>
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+        Stop
+      </button>
+      <div class="ip-input-row">
+        <input type="text" class="ip-input" id="ipInput" placeholder="IP stream URL (optional)"/>
+        <button class="btn btn-outline" onclick="connectStream()">
+          <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          Connect
+        </button>
+      </div>
+      <button class="btn btn-amber" onclick="clearViolations()" style="margin-left:auto;">
+        <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/></svg>
+        Clear Log
+      </button>
+    </div>
+  </div>
+
+  <!-- SIDE PANEL -->
+  <div class="side-panel">
+
+    <!-- Signal Controller -->
+    <div class="signal-card">
+      <div class="panel-header">
+        <span class="panel-title">Adaptive Signal Control</span>
+        <span id="signalPhaseLabel" style="font-size:0.75rem; color:var(--green); font-weight:600;">GREEN</span>
+      </div>
+      <div class="signal-body">
+        <div class="signal-lanes">
+          <div class="lane-row">
+            <div class="lane-header">
+              <span class="lane-name">North — South</span>
+              <span class="lane-count" id="laneNS">0 vehicles</span>
+            </div>
+            <div class="lane-bar-bg"><div class="lane-bar" id="barNS" style="width:0%"></div></div>
+          </div>
+          <div class="lane-row">
+            <div class="lane-header">
+              <span class="lane-name">East — West</span>
+              <span class="lane-count" id="laneEW">0 vehicles</span>
+            </div>
+            <div class="lane-bar-bg"><div class="lane-bar" id="barEW" style="width:0%"></div></div>
+          </div>
+        </div>
+        <div class="signal-timer">
+          <span class="timer-label">Phase Timer</span>
+          <span class="timer-value" id="phaseTimer">00:30</span>
+        </div>
+        <div style="font-size:0.72rem; color:var(--muted); line-height:1.5;">
+          Signal timing adjusts automatically based on lane density. Higher traffic volume extends green phase up to 60s.
+        </div>
+      </div>
+    </div>
+
+    <!-- Violation Log -->
+    <div class="violation-card">
+      <div class="panel-header">
+        <span class="panel-title">Violation Log</span>
+        <span id="violationCount" style="font-size:0.78rem; color:var(--red); font-weight:700;">0 today</span>
+      </div>
+      <div class="violation-list" id="violationList">
+        <div class="empty-log">
+          <svg viewBox="0 0 24 24"><path d="M14.5 10c-.83 0-1.5-.67-1.5-1.5v-5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5v5c0 .83-.67 1.5-1.5 1.5z"/><path d="M20.5 10H19V8.5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/><path d="M9.5 14c.83 0 1.5.67 1.5 1.5v5c0 .83-.67 1.5-1.5 1.5S8 21.33 8 20.5v-5c0-.83.67-1.5 1.5-1.5z"/><path d="M3.5 14H5v1.5c0 .83-.67 1.5-1.5 1.5S2 16.33 2 15.5 2.67 14 3.5 14z"/><path d="M14 14.5c0-.83.67-1.5 1.5-1.5h5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5h-5c-.83 0-1.5-.67-1.5-1.5z"/><path d="M15.5 19H14v1.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5-.67-1.5-1.5-1.5z"/><path d="M10 9.5C10 8.67 9.33 8 8.5 8h-5C2.67 8 2 8.67 2 9.5S2.67 11 3.5 11h5c.83 0 1.5-.67 1.5-1.5z"/><path d="M8.5 5H10V3.5C10 2.67 9.33 2 8.5 2S7 2.67 7 3.5 7.67 5 8.5 5z"/></svg>
+          No violations detected
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- STATS ROW -->
+  <div class="stats-row">
+    <div class="stat-card vehicles">
+      <div class="stat-icon purple">
+        <svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+      </div>
+      <div class="stat-label">Vehicles Detected</div>
+      <div class="stat-value" id="statVehicles">0</div>
+      <div class="stat-sub">This session</div>
+    </div>
+    <div class="stat-card violations">
+      <div class="stat-icon red">
+        <svg viewBox="0 0 24 24"><polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      </div>
+      <div class="stat-label">Red-Light Violations</div>
+      <div class="stat-value" id="statViolations">0</div>
+      <div class="stat-sub">Today</div>
+    </div>
+    <div class="stat-card signal">
+      <div class="stat-icon green">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      </div>
+      <div class="stat-label">Signal Cycles</div>
+      <div class="stat-value" id="statCycles">0</div>
+      <div class="stat-sub">Adaptive adjustments</div>
+    </div>
+    <div class="stat-card congestion">
+      <div class="stat-icon amber">
+        <svg viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+      </div>
+      <div class="stat-label">Congestion Level</div>
+      <div class="stat-value" id="statCongestion">LOW</div>
+      <div class="stat-sub" id="statCongestionSub">All clear</div>
+    </div>
+  </div>
+
+  <!-- CONGESTION HEATMAP -->
+  <div class="congestion-card">
+    <div class="panel-header">
+      <span class="panel-title">Intersection Heatmap</span>
+      <span style="font-size:0.72rem; color:var(--muted);">Updates every 5s</span>
+    </div>
+    <div class="congestion-body">
+      <div class="heatmap-grid" id="heatmapGrid"></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ── STATE ──────────────────────────────────────────────────────────────────
+let model = null;
+let stream = null;
+let detecting = false;
+let currentMode = 'monitor';
+let stopLine = null; // {y: number} pixels from top of canvas
+let drawingLine = false;
+let violations = [];
+let vehicleCount = 0;
+let cycleCount = 0;
+let trackedVehicles = {};
+let signalPhase = 'green'; // green | amber | red
+let phaseTime = 30;
+let phaseInterval = null;
+let densityNS = 0, densityEW = 0;
+let heatCells = [];
+let sessionVehicles = 0;
+
+// ── INIT ───────────────────────────────────────────────────────────────────
+async function initModel() {
+  setStatus('amber', 'Loading AI model…');
+  try {
+    model = await cocoSsd.load();
+    setStatus('live', 'Model ready — camera offline');
+  } catch(e) {
+    setStatus('red', 'Model failed to load');
+  }
+}
+
+function setStatus(type, text) {
+  const dot = document.getElementById('statusDot');
+  const label = document.getElementById('statusText');
+  dot.className = 'status-dot ' + type;
+  label.textContent = text;
+}
+
+// ── CAMERA ────────────────────────────────────────────────────────────────
+async function startCamera() {
+  if (!model) await initModel();
+  try {
+    stream = await navigator.mediaDevices.getUserMedia({
+      video: { width: { ideal: 1280 }, height: { ideal: 720 }, facingMode: 'environment' }
+    });
+    const video = document.getElementById('videoEl');
+    video.srcObject = stream;
+    video.style.display = 'block';
+    document.getElementById('placeholder').style.display = 'none';
+    document.getElementById('signalOverlay').style.display = 'flex';
+    document.getElementById('btnStart').disabled = true;
+    document.getElementById('btnStop').disabled = false;
+    setStatus('live', 'Live — Webcam');
+    video.addEventListener('loadedmetadata', () => {
+      resizeCanvases();
+      startDetection();
+      startSignalCycle();
+    });
+  } catch(e) {
+    setStatus('red', 'Camera access denied');
+    alert('Please allow camera access to use TraffIQ.');
+  }
+}
+
+async function connectStream() {
+  const url = document.getElementById('ipInput').value.trim();
+  if (!url) return;
+  if (!model) await initModel();
+  const video = document.getElementById('videoEl');
+  video.src = url;
+  video.style.display = 'block';
+  document.getElementById('placeholder').style.display = 'none';
+  document.getElementById('signalOverlay').style.display = 'flex';
+  setStatus('live', 'Live — IP Stream');
+  video.addEventListener('loadedmetadata', () => {
+    resizeCanvases();
+    startDetection();
+    startSignalCycle();
+  });
+}
+
+function stopCamera() {
+  detecting = false;
+  if (stream) { stream.getTracks().forEach(t => t.stop()); stream = null; }
+  const video = document.getElementById('videoEl');
+  video.srcObject = null;
+  video.style.display = 'none';
+  document.getElementById('placeholder').style.display = 'flex';
+  document.getElementById('signalOverlay').style.display = 'none';
+  clearInterval(phaseInterval);
+  document.getElementById('btnStart').disabled = false;
+  document.getElementById('btnStop').disabled = true;
+  setStatus('', 'Offline');
+  clearCanvas();
+}
+
+function resizeCanvases() {
+  const wrap = document.getElementById('cameraWrap');
+  const oc = document.getElementById('overlayCanvas');
+  const dc = document.getElementById('drawCanvas');
+  oc.width = wrap.offsetWidth;
+  oc.height = wrap.offsetHeight;
+  dc.width = wrap.offsetWidth;
+  dc.height = wrap.offsetHeight;
+}
+
+// ── DETECTION ─────────────────────────────────────────────────────────────
+const VEHICLE_CLASSES = ['car','truck','bus','motorcycle','bicycle'];
+
+async function startDetection() {
+  detecting = true;
+  const video = document.getElementById('videoEl');
+  const canvas = document.getElementById('overlayCanvas');
+  const ctx = canvas.getContext('2d');
+
+  async function detect() {
+    if (!detecting) return;
+    if (video.readyState >= 2) {
+      const preds = await model.detect(video);
+      const vehicles = preds.filter(p => VEHICLE_CLASSES.includes(p.class));
+
+      // Scale from video coords to canvas coords
+      const scaleX = canvas.width / video.videoWidth;
+      const scaleY = canvas.height / video.videoHeight;
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      drawStopLine(ctx);
+
+      // Split screen into NS (left half) and EW (right half)
+      densityNS = 0; densityEW = 0;
+
+      vehicles.forEach((v, i) => {
+        const [x, y, w, h] = v.bbox;
+        const sx = x * scaleX;
+        const sy = y * scaleY;
+        const sw = w * scaleX;
+        const sh = h * scaleY;
+        const cx = sx + sw / 2;
+
+        // Lane assignment
+        if (cx < canvas.width / 2) densityNS++;
+        else densityEW++;
+
+        // Track and count unique vehicles
+        trackVehicle(i, cx, sy + sh/2);
+
+        // Red light violation check
+        if (currentMode === 'enforce' && stopLine && signalPhase === 'red') {
+          if (sy + sh > stopLine) {
+            flagViolation(v, sx, sy, sw, sh, ctx, scaleX, scaleY);
+          }
+        }
+
+        // Draw bounding box
+        const isViolator = currentMode === 'enforce' && stopLine && signalPhase === 'red' && sy + sh > stopLine;
+        ctx.strokeStyle = isViolator ? '#ef4444' : '#7c3aed';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(sx, sy, sw, sh);
+
+        // Label
+        ctx.fillStyle = isViolator ? '#ef4444' : '#7c3aed';
+        ctx.fillRect(sx, sy - 20, sw, 20);
+        ctx.fillStyle = 'white';
+        ctx.font = '11px Urbanist, sans-serif';
+        ctx.fillText(`${v.class} ${Math.round(v.score * 100)}%`, sx + 4, sy - 5);
+      });
+
+      updateLaneDensity(densityNS, densityEW);
+      updateStats(vehicles.length);
+      updateHeatmap(vehicles.length);
+    }
+    requestAnimationFrame(detect);
+  }
+  detect();
+}
+
+// Simple vehicle tracking by position proximity
+function trackVehicle(id, cx, cy) {
+  const key = `${Math.round(cx/50)}_${Math.round(cy/50)}`;
+  if (!trackedVehicles[key]) {
+    trackedVehicles[key] = true;
+    sessionVehicles++;
+    document.getElementById('statVehicles').textContent = sessionVehicles;
+  }
+  // Clear old tracks every 5s
+  setTimeout(() => delete trackedVehicles[key], 5000);
+}
+
+function drawStopLine(ctx) {
+  if (!stopLine) return;
+  ctx.strokeStyle = signalPhase === 'red' ? '#ef4444' : '#22c55e';
+  ctx.lineWidth = 3;
+  ctx.setLineDash([12, 6]);
+  ctx.beginPath();
+  ctx.moveTo(0, stopLine);
+  ctx.lineTo(document.getElementById('overlayCanvas').width, stopLine);
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  ctx.fillStyle = signalPhase === 'red' ? '#ef4444' : '#22c55e';
+  ctx.font = 'bold 12px Urbanist, sans-serif';
+  ctx.fillText('STOP LINE', 8, stopLine - 6);
+}
+
+function clearCanvas() {
+  const ctx = document.getElementById('overlayCanvas').getContext('2d');
+  ctx.clearRect(0, 0, document.getElementById('overlayCanvas').width, document.getElementById('overlayCanvas').height);
+}
+
+// ── VIOLATION ─────────────────────────────────────────────────────────────
+let lastViolationTime = {};
+
+async function flagViolation(v, sx, sy, sw, sh, ctx, scaleX, scaleY) {
+  const now = Date.now();
+  const vKey = `${Math.round(sx)}_${Math.round(sy)}`;
+  if (lastViolationTime[vKey] && now - lastViolationTime[vKey] < 5000) return;
+  lastViolationTime[vKey] = now;
+
+  // Flash red border
+  ctx.strokeStyle = '#ef4444';
+  ctx.lineWidth = 4;
+  ctx.strokeRect(sx - 2, sy - 2, sw + 4, sh + 4);
+
+  // Attempt OCR on cropped plate region (bottom third of box)
+  const plateText = await attemptOCR(v, sx, sy, sw, sh);
+  logViolation(plateText || 'PLATE-UNKNOWN');
+
+  document.getElementById('statViolations').textContent = violations.length;
+  document.getElementById('violationCount').textContent = violations.length + ' today';
+  showAlert(`🚨 Red-Light Violation — ${plateText || 'Plate unreadable'}`);
+}
+
+async function attemptOCR(v, sx, sy, sw, sh) {
+  try {
+    // Crop a small canvas for the plate area
+    const tmpCanvas = document.createElement('canvas');
+    const video = document.getElementById('videoEl');
+    tmpCanvas.width = v.bbox[2];
+    tmpCanvas.height = v.bbox[3] * 0.3;
+    const tmpCtx = tmpCanvas.getContext('2d');
+    tmpCtx.drawImage(video,
+      v.bbox[0], v.bbox[1] + v.bbox[3] * 0.7, v.bbox[2], v.bbox[3] * 0.3,
+      0, 0, tmpCanvas.width, tmpCanvas.height
+    );
+    const result = await Tesseract.recognize(tmpCanvas, 'eng', {
+      logger: () => {}
+    });
+    const text = result.data.text.trim().replace(/[^A-Z0-9]/gi, '').toUpperCase();
+    return text.length > 2 ? text : null;
+  } catch { return null; }
+}
+
+function logViolation(plate) {
+  const now = new Date();
+  const entry = {
+    plate,
+    time: now.toLocaleTimeString('en-TT', { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
+    type: 'Red-Light Violation'
+  };
+  violations.unshift(entry);
+
+  const list = document.getElementById('violationList');
+  // Remove empty state
+  const empty = list.querySelector('.empty-log');
+  if (empty) empty.remove();
+
+  const item = document.createElement('div');
+  item.className = 'violation-item';
+  item.innerHTML = `
+    <div class="violation-icon">
+      <svg viewBox="0 0 24 24"><polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+    </div>
+    <div class="violation-details">
+      <div class="violation-plate">${entry.plate}</div>
+      <div class="violation-meta">${entry.type} · ${entry.time}</div>
+    </div>
+  `;
+  list.prepend(item);
+}
+
+function clearViolations() {
+  violations = [];
+  document.getElementById('violationList').innerHTML = `
+    <div class="empty-log">
+      <svg viewBox="0 0 24 24"><path d="M14.5 10c-.83 0-1.5-.67-1.5-1.5v-5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5v5c0 .83-.67 1.5-1.5 1.5z"/></svg>
+      No violations detected
+    </div>`;
+  document.getElementById('statViolations').textContent = '0';
+  document.getElementById('violationCount').textContent = '0 today';
+}
+
+// ── SIGNAL CONTROLLER ─────────────────────────────────────────────────────
+function startSignalCycle() {
+  setSignalPhase('green', 30);
+}
+
+function setSignalPhase(phase, duration) {
+  signalPhase = phase;
+  phaseTime = duration;
+
+  const sigRed = document.getElementById('sigRed');
+  const sigAmber = document.getElementById('sigAmber');
+  const sigGreen = document.getElementById('sigGreen');
+  const label = document.getElementById('signalPhaseLabel');
+  const timer = document.getElementById('phaseTimer');
+
+  sigRed.className = 'signal-light' + (phase === 'red' ? ' active-red' : '');
+  sigAmber.className = 'signal-light' + (phase === 'amber' ? ' active-amber' : '');
+  sigGreen.className = 'signal-light' + (phase === 'green' ? ' active-green' : '');
+
+  const colors = { green: 'var(--green)', amber: 'var(--amber)', red: 'var(--red)' };
+  label.style.color = colors[phase];
+  label.textContent = phase.toUpperCase();
+  timer.className = 'timer-value' + (phase === 'red' ? ' red-phase' : phase === 'amber' ? ' amber-phase' : '');
+
+  clearInterval(phaseInterval);
+  let t = duration;
+  phaseInterval = setInterval(() => {
+    t--;
+    const m = String(Math.floor(t/60)).padStart(2,'0');
+    const s = String(t % 60).padStart(2,'0');
+    timer.textContent = `${m}:${s}`;
+    if (t <= 0) {
+      clearInterval(phaseInterval);
+      advanceSignal();
+    }
+  }, 1000);
+}
+
+function advanceSignal() {
+  cycleCount++;
+  document.getElementById('statCycles').textContent = cycleCount;
+
+  if (signalPhase === 'green') {
+    setSignalPhase('amber', 5);
+  } else if (signalPhase === 'amber') {
+    setSignalPhase('red', 30);
+  } else {
+    // Adaptive: give more time to busier lane
+    const total = densityNS + densityEW;
+    let greenTime = 30;
+    if (total > 8) greenTime = 60;
+    else if (total > 4) greenTime = 45;
+    setSignalPhase('green', greenTime);
+  }
+}
+
+// ── LANE DENSITY ──────────────────────────────────────────────────────────
+function updateLaneDensity(ns, ew) {
+  const max = Math.max(ns + ew, 1);
+  document.getElementById('laneNS').textContent = ns + ' vehicle' + (ns !== 1 ? 's' : '');
+  document.getElementById('laneEW').textContent = ew + ' vehicle' + (ew !== 1 ? 's' : '');
+  document.getElementById('barNS').style.width = Math.min((ns / max) * 100, 100) + '%';
+  document.getElementById('barEW').style.width = Math.min((ew / max) * 100, 100) + '%';
+}
+
+// ── STATS ─────────────────────────────────────────────────────────────────
+function updateStats(count) {
+  const congestion = document.getElementById('statCongestion');
+  const sub = document.getElementById('statCongestionSub');
+  if (count === 0) {
+    congestion.textContent = 'CLEAR';
+    congestion.style.color = 'var(--green)';
+    sub.textContent = 'No vehicles detected';
+  } else if (count < 3) {
+    congestion.textContent = 'LOW';
+    congestion.style.color = 'var(--green)';
+    sub.textContent = 'Traffic flowing freely';
+  } else if (count < 6) {
+    congestion.textContent = 'MOD';
+    congestion.style.color = 'var(--amber)';
+    sub.textContent = 'Moderate congestion';
+  } else if (count < 10) {
+    congestion.textContent = 'HIGH';
+    congestion.style.color = 'var(--red)';
+    sub.textContent = 'Heavy traffic detected';
+  } else {
+    congestion.textContent = 'CRIT';
+    congestion.style.color = 'var(--red)';
+    sub.textContent = 'Critical congestion';
+  }
+}
+
+// ── HEATMAP ───────────────────────────────────────────────────────────────
+function initHeatmap() {
+  const grid = document.getElementById('heatmapGrid');
+  grid.innerHTML = '';
+  heatCells = [];
+  for (let i = 0; i < 36; i++) {
+    const cell = document.createElement('div');
+    cell.className = 'heat-cell';
+    grid.appendChild(cell);
+    heatCells.push(cell);
+  }
+}
+
+function updateHeatmap(count) {
+  // Randomise a bit around the "hot" center cells to simulate real intersection data
+  heatCells.forEach((cell, i) => {
+    const row = Math.floor(i / 6);
+    const col = i % 6;
+    const center = (row >= 2 && row <= 3) || (col >= 2 && col <= 3);
+    const r = Math.random();
+    if (count === 0) {
+      cell.className = 'heat-cell';
+    } else if (count < 3) {
+      cell.className = 'heat-cell' + (center && r > 0.5 ? ' low' : '');
+    } else if (count < 6) {
+      cell.className = 'heat-cell' + (center ? (r > 0.4 ? ' med' : ' low') : (r > 0.8 ? ' low' : ''));
+    } else if (count < 10) {
+      cell.className = 'heat-cell' + (center ? (r > 0.3 ? ' high' : ' med') : (r > 0.5 ? ' med' : ' low'));
+    } else {
+      cell.className = 'heat-cell' + (center ? ' critical' : (r > 0.4 ? ' high' : ' med'));
+    }
+  });
+}
+
+// ── DRAW MODE ─────────────────────────────────────────────────────────────
+function setMode(mode) {
+  currentMode = mode;
+  ['monitor','enforce','draw'].forEach(m => {
+    document.getElementById('mode' + m.charAt(0).toUpperCase() + m.slice(1)).classList.toggle('active', m === mode);
+  });
+
+  const dc = document.getElementById('drawCanvas');
+  if (mode === 'draw') {
+    dc.style.display = 'block';
+    dc.addEventListener('click', handleDrawClick);
+  } else {
+    dc.style.display = 'none';
+    dc.removeEventListener('click', handleDrawClick);
+  }
+}
+
+function handleDrawClick(e) {
+  const rect = e.currentTarget.getBoundingClientRect();
+  stopLine = e.clientY - rect.top;
+  setMode('enforce'); // auto switch to enforce after drawing
+  showAlert('Stop line set. Switching to Enforce mode.');
+}
+
+// ── ALERT ─────────────────────────────────────────────────────────────────
+let alertTimeout;
+function showAlert(msg) {
+  const toast = document.getElementById('alertToast');
+  document.getElementById('alertMsg').textContent = msg;
+  toast.style.display = 'flex';
+  clearTimeout(alertTimeout);
+  alertTimeout = setTimeout(() => { toast.style.display = 'none'; }, 4000);
+}
+
+// ── BOOT ──────────────────────────────────────────────────────────────────
+window.addEventListener('load', () => {
+  initHeatmap();
+  setInterval(() => {
+    if (detecting) updateHeatmap(densityNS + densityEW);
+  }, 5000);
+  initModel(); // preload model in background
+});
+
+window.addEventListener('resize', () => {
+  if (detecting) resizeCanvases();
+});
+</script>
+</body>
+</html>
