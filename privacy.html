@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Policy — Orcinos</title>
+  <style>
+    :root {
+      --blue-deep: #1a3db5;
+      --blue-mid: #2563eb;
+      --blue-light: #38bdf8;
+      --purple: #6b21e8;
+      --purple-mid: #7c3aed;
+      --purple-soft: #a78bfa;
+      --bg: #080d1f;
+      --bg2: #0d1330;
+      --text: #e8eaf6;
+      --muted: #7b8ab8;
+      --border: rgba(56, 189, 248, 0.1);
+      --card-bg: rgba(255, 255, 255, 0.04);
+      --grad-word: linear-gradient(90deg, var(--blue-light), var(--purple));
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.75;
+      font-size: 1rem;
+    }
+
+    /* NAV */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.2rem 2rem;
+      background: rgba(8, 13, 31, 0.88);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-logo img {
+      height: 32px;
+      display: block;
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 2rem;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--muted);
+      font-size: 0.9rem;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    /* HERO BAND */
+    .page-header {
+      padding: 5rem 2rem 3rem;
+      text-align: center;
+      background: radial-gradient(circle, rgba(37, 99, 235, 0.14) 0%, rgba(107, 33, 232, 0.06) 50%, transparent 70%);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .page-header .label {
+      display: inline-block;
+      background: rgba(37, 99, 235, 0.1);
+      border: 1px solid rgba(56, 189, 248, 0.2);
+      color: var(--blue-light);
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.9rem;
+      border-radius: 999px;
+      margin-bottom: 1.2rem;
+    }
+
+    .page-header h1 {
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 700;
+      background: var(--grad-word);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.75rem;
+    }
+
+    .page-header .subtitle {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    /* CONTENT */
+    .content-wrap {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 4rem 2rem 6rem;
+    }
+
+    .effective {
+      color: var(--muted);
+      font-size: 0.88rem;
+      margin-bottom: 3rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* Product chips */
+    .product-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 3rem;
+    }
+
+    .product-tag {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0.3rem 1rem;
+      font-size: 0.82rem;
+      color: var(--purple-soft);
+    }
+
+    /* Sections */
+    .section {
+      margin-bottom: 3rem;
+    }
+
+    .section h2 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .section h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--blue-light);
+      margin: 1.5rem 0 0.5rem;
+    }
+
+    .section p {
+      color: #c5cae9;
+      margin-bottom: 0.75rem;
+    }
+
+    .section ul {
+      margin: 0.5rem 0 1rem 1.2rem;
+      color: #c5cae9;
+    }
+
+    .section ul li {
+      margin-bottom: 0.4rem;
+    }
+
+    /* Highlight card */
+    .note-card {
+      background: rgba(37, 99, 235, 0.07);
+      border: 1px solid rgba(56, 189, 248, 0.15);
+      border-radius: 10px;
+      padding: 1.2rem 1.4rem;
+      color: #c5cae9;
+      font-size: 0.93rem;
+      margin: 1.5rem 0;
+    }
+
+    .note-card strong {
+      color: var(--blue-light);
+    }
+
+    /* Contact box */
+    .contact-box {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem 1.8rem;
+      margin-top: 1rem;
+    }
+
+    .contact-box p { margin-bottom: 0.4rem; }
+
+    .contact-box a {
+      color: var(--blue-light);
+      text-decoration: none;
+    }
+
+    .contact-box a:hover { text-decoration: underline; }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    footer a {
+      color: var(--muted);
+      text-decoration: none;
+      margin: 0 0.75rem;
+      transition: color 0.2s;
+    }
+
+    footer a:hover { color: var(--text); }
+
+    .footer-links { margin-bottom: 0.75rem; }
+
+    @media (max-width: 600px) {
+      nav { padding: 1rem; }
+      .content-wrap { padding: 2.5rem 1.2rem 4rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="/" class="nav-logo">
+      <img src="https://raw.githubusercontent.com/priscadezigns9/orcinos/main/logos/ORCINOS_DEFINITIVE_2026.png" alt="Orcinos" />
+    </a>
+    <ul class="nav-links">
+      <li><a href="/login.html">Sign In</a></li>
+    </ul>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <div class="label">Legal</div>
+    <h1>Privacy Policy</h1>
+    <p class="subtitle">How Orcinos collects, uses, and protects your information.</p>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="content-wrap">
+
+    <p class="effective">Effective Date: July 21, 2026 &nbsp;·&nbsp; Applies to all Orcinos products</p>
+
+    <div class="product-tags">
+      <span class="product-tag">Orcinos Chat</span>
+      <span class="product-tag">Oplix — Traffic Intelligence</span>
+      <span class="product-tag">Motiq — Drive AI</span>
+    </div>
+
+    <!-- 1 -->
+    <div class="section">
+      <h2>1. Who We Are</h2>
+      <p>Orcinos is a sovereign AI platform developed and operated by <strong>Prisca Dezigns</strong>, based in Trinidad and Tobago. Our products — Orcinos Chat, Oplix, and Motiq — are designed to deliver Caribbean-contextual artificial intelligence for individuals, businesses, and infrastructure operators.</p>
+      <p>When this policy says "Orcinos," "we," "us," or "our," it refers to Prisca Dezigns and all products operating under the Orcinos platform.</p>
+    </div>
+
+    <!-- 2 -->
+    <div class="section">
+      <h2>2. What Information We Collect</h2>
+
+      <h3>Account Information</h3>
+      <p>When you create an Orcinos account, we collect your name, email address, and chosen password. You may optionally provide a profile photo.</p>
+
+      <h3>Usage Data</h3>
+      <p>We collect information about how you interact with the platform — pages visited, features used, session duration, and device type. This helps us improve the experience.</p>
+
+      <h3>Oplix — Traffic Intelligence</h3>
+      <p>If you use Oplix, we may collect:</p>
+      <ul>
+        <li>Camera stream metadata (resolution, location tag if provided)</li>
+        <li>Detected event data — vehicle counts, speed estimates, violation flags</li>
+        <li>Still frames captured at the moment of a flagged event</li>
+        <li>Business name and deployment location</li>
+      </ul>
+      <div class="note-card">
+        <strong>Note:</strong> Oplix does not store continuous video. Only flagged event frames are retained. Live stream data is processed in real time and not archived unless you explicitly enable clip storage.
+      </div>
+
+      <h3>Motiq — Drive AI</h3>
+      <p>If you use Motiq, we may collect:</p>
+      <ul>
+        <li>Dashcam video clips — only when you choose to upload them</li>
+        <li>GPS/location data associated with a clip, if available</li>
+        <li>Vehicle details you provide (make, model, year)</li>
+        <li>Device information (browser type, operating system)</li>
+        <li>Detection events flagged by the AI model during a session</li>
+      </ul>
+      <div class="note-card">
+        <strong>Note:</strong> Motiq processes video locally on your device. Clips are only uploaded to our servers when you explicitly tap the upload or sync option. We do not record passively in the background.
+      </div>
+    </div>
+
+    <!-- 3 -->
+    <div class="section">
+      <h2>3. How We Use Your Information</h2>
+      <ul>
+        <li>To create and manage your account</li>
+        <li>To deliver the features of Orcinos Chat, Oplix, and Motiq</li>
+        <li>To improve AI model accuracy using anonymized, consented data</li>
+        <li>To send you important account notifications (no marketing without consent)</li>
+        <li>To detect and prevent fraud, abuse, or security threats</li>
+        <li>To comply with applicable laws in Trinidad and Tobago</li>
+      </ul>
+    </div>
+
+    <!-- 4 -->
+    <div class="section">
+      <h2>4. Data Storage & Security</h2>
+      <p>Your account data is stored securely in our Supabase-managed database. Video clips and flagged frames uploaded via Motiq or Oplix are stored in encrypted cloud storage.</p>
+      <p>We use industry-standard encryption in transit (HTTPS/TLS) and at rest. Access to your data is restricted to authorized Orcinos infrastructure only.</p>
+      <p>We do not sell your data. We do not share your data with third-party advertisers.</p>
+    </div>
+
+    <!-- 5 -->
+    <div class="section">
+      <h2>5. Data Retention</h2>
+      <ul>
+        <li><strong>Account data:</strong> Retained for as long as your account is active. Deleted within 30 days of account closure upon request.</li>
+        <li><strong>Motiq clips:</strong> Retained until you delete them from your dashboard, or for a maximum of 90 days from upload date.</li>
+        <li><strong>Oplix event frames:</strong> Retained for 60 days by default. Enterprise clients may configure custom retention windows.</li>
+        <li><strong>Usage/session logs:</strong> Retained for up to 12 months for platform improvement purposes, then anonymized.</li>
+      </ul>
+    </div>
+
+    <!-- 6 -->
+    <div class="section">
+      <h2>6. Your Rights</h2>
+      <p>You have the right to:</p>
+      <ul>
+        <li>Access the personal data we hold about you</li>
+        <li>Correct inaccurate data</li>
+        <li>Request deletion of your account and associated data</li>
+        <li>Withdraw consent for optional data uses at any time</li>
+        <li>Export your data in a portable format upon request</li>
+      </ul>
+      <p>To exercise any of these rights, contact us at the address below.</p>
+    </div>
+
+    <!-- 7 -->
+    <div class="section">
+      <h2>7. Cookies</h2>
+      <p>Orcinos uses strictly necessary cookies to maintain your session and keep you logged in. We do not use tracking or advertising cookies. You may dismiss the cookie banner at any time — only necessary cookies will be active.</p>
+    </div>
+
+    <!-- 8 -->
+    <div class="section">
+      <h2>8. Children's Privacy</h2>
+      <p>Orcinos products are not directed at children under the age of 13. We do not knowingly collect personal information from minors. If you believe a minor has registered, contact us immediately and we will remove the account.</p>
+    </div>
+
+    <!-- 9 -->
+    <div class="section">
+      <h2>9. Changes to This Policy</h2>
+      <p>We may update this Privacy Policy as the platform evolves. When we make material changes, we will update the effective date at the top of this page and notify registered users by email where applicable. Continued use of Orcinos after changes constitutes acceptance of the updated policy.</p>
+    </div>
+
+    <!-- 10 -->
+    <div class="section">
+      <h2>10. Contact & Vulnerability Reports</h2>
+      <p>For privacy questions, data requests, or to report a security vulnerability:</p>
+      <div class="contact-box">
+        <p><strong>Prisca Dezigns / Orcinos</strong></p>
+        <p>Trinidad and Tobago</p>
+        <p>Email: <a href="mailto:hello@priscadezigns.org">hello@priscadezigns.org</a></p>
+        <p>Subject line: <em>Privacy Request</em> or <em>Vulnerability Report</em></p>
+      </div>
+    </div>
+
+  </div><!-- /content-wrap -->
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-links">
+      <a href="/">Home</a>
+      <a href="/privacy.html">Privacy Policy</a>
+      <a href="/terms.html">Terms of Use</a>
+    </div>
+    <p>© 2026 Prisca Dezigns / Orcinos. All rights reserved.</p>
+  </footer>
+
+</body>
+</html>
