@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-fullscreen">
+    <meta name="theme-color" content="#06091a">
+    <title>Orcinos Deck</title>
+    <link rel="manifest" href="/deck-manifest.json">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        :root {
+            --bg:        #06091a;
+            --surface:   #0e1330;
+            --border:    rgba(255,255,255,0.07);
+            --accent:    #6c63ff;
+            --accent2:   #a78bfa;
+            --green:     #22d3a5;
+            --red:       #ff4d6d;
+            --amber:     #fbbf24;
+            --text:      #f0f4ff;
+            --muted:     rgba(240,244,255,0.45);
+            --card-r:    20px;
+        }
+
+        html, body {
+            width: 100%; height: 100%;
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Urbanist', -apple-system, sans-serif;
+            overflow: hidden;
+            user-select: none;
+        }
+
+        /* ── LAYOUT ── */
+        .deck {
+            display: grid;
+            grid-template-columns: 1fr 220px;
+            grid-template-rows: auto 1fr auto;
+            height: 100dvh;
+            gap: 0;
+        }
+
+        /* ── TOP BAR ── */
+        .topbar {
+            grid-column: 1 / -1;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 20px;
+            background: rgba(6,9,26,0.95);
+            border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(10px);
+        }
+
+        .topbar-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-mark {
+            width: 32px; height: 32px;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 14px; font-weight: 700; color: #fff;
+        }
+
+        .brand-name {
+            font-size: 15px;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            color: var(--text);
+        }
+
+        .brand-name span {
+            color: var(--accent2);
+            font-weight: 300;
+        }
+
+        /* CLOCK */
+        .clock-block {
+            text-align: center;
+        }
+
+        .clock-time {
+            font-size: 28px;
+            font-weight: 200;
+            letter-spacing: 0.05em;
+            line-height: 1;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .clock-date {
+            font-size: 11px;
+            color: var(--muted);
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            margin-top: 2px;
+        }
+
+        /* SPEED (top-right) */
+        .speed-block {
+            text-align: right;
+        }
+
+        .speed-val {
+            font-size: 34px;
+            font-weight: 200;
+            line-height: 1;
+            font-variant-numeric: tabular-nums;
+            color: var(--green);
+        }
+
+        .speed-unit {
+            font-size: 11px;
+            color: var(--muted);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        /* ── MAIN AREA ── */
+        .main {
+            display: grid;
+            grid-template-rows: 1fr 1fr;
+            gap: 12px;
+            padding: 12px;
+            overflow: hidden;
+        }
+
+        /* ── ROW 1: Big action cards ── */
+        .action-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        .action-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--card-r);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: background 0.15s, border-color 0.15s, transform 0.1s;
+            padding: 16px 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .action-card:active {
+            transform: scale(0.96);
+        }
+
+        .action-card.active {
+            border-color: var(--accent);
+            background: rgba(108,99,255,0.12);
+        }
+
+        .action-card.active-green {
+            border-color: var(--green);
+            background: rgba(34,211,165,0.1);
+        }
+
+        .action-card svg {
+            width: 32px; height: 32px;
+            stroke: var(--muted);
+            transition: stroke 0.15s;
+        }
+
+        .action-card.active svg { stroke: var(--accent2); }
+        .action-card.active-green svg { stroke: var(--green); }
+
+        .action-label {
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--muted);
+            text-align: center;
+        }
+
+        .action-card.active .action-label { color: var(--accent2); }
+        .action-card.active-green .action-label { color: var(--green); }
+
+        /* REC badge on dashcam card */
+        .rec-badge {
+            position: absolute;
+            top: 10px; right: 10px;
+            background: var(--red);
+            color: #fff;
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            padding: 2px 6px;
+            border-radius: 20px;
+            display: none;
+        }
+
+        .rec-badge.show {
+            display: block;
+            animation: pulse-badge 1.2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-badge {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        /* ── ROW 2: Info cards ── */
+        .info-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .info-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--card-r);
+            padding: 16px 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .info-label {
+            font-size: 10px;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+
+        .info-value {
+            font-size: 26px;
+            font-weight: 200;
+            font-variant-numeric: tabular-nums;
+            margin-top: 6px;
+        }
+
+        .info-sub {
+            font-size: 11px;
+            color: var(--muted);
+            margin-top: 4px;
+        }
+
+        /* trip time color */
+        .trip-active { color: var(--green); }
+
+        /* ── SIDEBAR ── */
+        .sidebar {
+            grid-row: 2;
+            background: var(--surface);
+            border-left: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            padding: 12px 10px;
+            gap: 8px;
+            overflow-y: auto;
+        }
+
+        .sidebar-title {
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--muted);
+            padding: 0 4px 6px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 4px;
+        }
+
+        .quick-btn {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 14px 10px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            transition: background 0.15s, border-color 0.15s;
+            text-decoration: none;
+        }
+
+        .quick-btn:active { background: rgba(255,255,255,0.08); }
+
+        .quick-btn svg {
+            width: 22px; height: 22px;
+            stroke: var(--muted);
+        }
+
+        .quick-btn span {
+            font-size: 10px;
+            font-weight: 500;
+            letter-spacing: 0.07em;
+            text-transform: uppercase;
+            color: var(--muted);
+            text-align: center;
+        }
+
+        .quick-btn.danger svg { stroke: var(--red); }
+        .quick-btn.danger span { color: var(--red); }
+
+        /* ── BOTTOM BAR ── */
+        .bottombar {
+            grid-column: 1 / -1;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 20px;
+            background: rgba(6,9,26,0.97);
+            border-top: 1px solid var(--border);
+            gap: 12px;
+        }
+
+        /* GPS status */
+        .gps-status {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            color: var(--muted);
+        }
+
+        .gps-dot {
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            background: var(--muted);
+            transition: background 0.3s;
+        }
+
+        .gps-dot.lock { background: var(--green); }
+        .gps-dot.searching { animation: pulse-dot 1s ease-in-out infinite; }
+
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.2; }
+        }
+
+        /* trip distance */
+        .trip-stat {
+            font-size: 12px;
+            color: var(--muted);
+            font-variant-numeric: tabular-nums;
+        }
+
+        .trip-stat strong {
+            color: var(--text);
+            font-weight: 500;
+        }
+
+        /* heading */
+        .heading-stat {
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        .heading-stat strong {
+            color: var(--accent2);
+            font-weight: 500;
+        }
+
+        /* max speed */
+        .maxspeed-stat {
+            font-size: 12px;
+            color: var(--muted);
+            font-variant-numeric: tabular-nums;
+        }
+
+        .maxspeed-stat strong {
+            color: var(--amber);
+            font-weight: 500;
+        }
+
+        /* ── DASHCAM OVERLAY ── */
+        #camOverlay {
+            position: fixed;
+            inset: 0;
+            background: #000;
+            z-index: 100;
+            display: none;
+            flex-direction: column;
+        }
+
+        #camOverlay.open { display: flex; }
+
+        #camOverlay video {
+            width: 100%; height: 100%;
+            object-fit: cover;
+        }
+
+        .cam-close {
+            position: absolute;
+            top: 16px; right: 16px;
+            background: rgba(0,0,0,0.6);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 50%;
+            width: 44px; height: 44px;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer;
+            z-index: 110;
+        }
+
+        .cam-close svg {
+            width: 20px; height: 20px;
+            stroke: #fff;
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+        }
+
+        .cam-rec-btn {
+            position: absolute;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 64px; height: 64px;
+            border-radius: 50%;
+            border: 3px solid #fff;
+            background: var(--red);
+            cursor: pointer;
+            z-index: 110;
+            transition: transform 0.1s;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        .cam-rec-btn:active { transform: translateX(-50%) scale(0.9); }
+
+        .cam-rec-inner {
+            width: 24px; height: 24px;
+            border-radius: 4px;
+            background: #fff;
+            transition: border-radius 0.2s, width 0.2s, height 0.2s;
+        }
+
+        .cam-rec-btn.recording .cam-rec-inner {
+            border-radius: 2px;
+            width: 20px; height: 20px;
+        }
+
+        .cam-speed-overlay {
+            position: absolute;
+            top: 16px; left: 16px;
+            background: rgba(0,0,0,0.55);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 8px 14px;
+            font-size: 22px;
+            font-weight: 200;
+            font-variant-numeric: tabular-nums;
+            color: var(--green);
+            z-index: 110;
+        }
+
+        .cam-speed-overlay small {
+            font-size: 11px;
+            color: var(--muted);
+            display: block;
+            text-align: center;
+        }
+
+        /* ── RESPONSIVE: if very narrow screen ── */
+        @media (max-width: 600px) {
+            .deck {
+                grid-template-columns: 1fr;
+            }
+            .sidebar { display: none; }
+            .action-row { grid-template-columns: repeat(2, 1fr); }
+            .info-row { grid-template-columns: repeat(2, 1fr); }
+        }
+    </style>
+</head>
+<body>
+<div class="deck">
+
+    <!-- TOP BAR -->
+    <header class="topbar">
+        <div class="topbar-left">
+            <div class="logo-mark">O</div>
+            <div class="brand-name">ORCINOS <span>DECK</span></div>
+        </div>
+
+        <div class="clock-block">
+            <div class="clock-time" id="clockTime">--:--</div>
+            <div class="clock-date" id="clockDate">Loading…</div>
+        </div>
+
+        <div class="speed-block">
+            <div class="speed-val" id="speedVal">0</div>
+            <div class="speed-unit">km/h</div>
+        </div>
+    </header>
+
+    <!-- MAIN -->
+    <main class="main">
+
+        <!-- ROW 1: Action cards -->
+        <div class="action-row">
+
+            <!-- Dashcam -->
+            <div class="action-card" id="cardCam" onclick="openCam()">
+                <div class="rec-badge" id="recBadge">REC</div>
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M15 10l4.553-2.276A1 1 0 0121 8.723v6.554a1 1 0 01-1.447.894L15 14M4 8h11a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1V9a1 1 0 011-1z"/>
+                </svg>
+                <div class="action-label">Dashcam</div>
+            </div>
+
+            <!-- Trip -->
+            <div class="action-card" id="cardTrip" onclick="toggleTrip()">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"/>
+                    <polyline points="12 6 12 12 16 14"/>
+                </svg>
+                <div class="action-label">Trip Timer</div>
+            </div>
+
+            <!-- Navigate -->
+            <div class="action-card" id="cardNav" onclick="openMaps()">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="3 11 22 2 13 21 11 13 3 11"/>
+                </svg>
+                <div class="action-label">Navigate</div>
+            </div>
+
+            <!-- Hazard -->
+            <div class="action-card" id="cardHazard" onclick="toggleHazard()">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
+                    <line x1="12" y1="9" x2="12" y2="13"/>
+                    <line x1="12" y1="17" x2="12.01" y2="17"/>
+                </svg>
+                <div class="action-label">Hazard</div>
+            </div>
+        </div>
+
+        <!-- ROW 2: Info cards -->
+        <div class="info-row">
+
+            <div class="info-card">
+                <div class="info-label">Trip Distance</div>
+                <div class="info-value" id="tripDist">0.0</div>
+                <div class="info-sub">kilometres</div>
+            </div>
+
+            <div class="info-card">
+                <div class="info-label">Trip Time</div>
+                <div class="info-value trip-active" id="tripTime">00:00</div>
+                <div class="info-sub" id="tripStatus">Not started</div>
+            </div>
+
+            <div class="info-card">
+                <div class="info-label">Max Speed</div>
+                <div class="info-value" id="maxSpeed">0</div>
+                <div class="info-sub">km/h this trip</div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="sidebar-title">Quick</div>
+
+        <a href="/drive.html" class="quick-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="3"/>
+                <path d="M20.188 10.934a8.985 8.985 0 010 2.132M17.657 6.343a9 9 0 010 11.314M6.343 6.343a9 9 0 000 11.314M3.812 10.934a8.985 8.985 0 000 2.132"/>
+            </svg>
+            <span>Drive App</span>
+        </a>
+
+        <div class="quick-btn" onclick="lockScreen()">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                <path d="M7 11V7a5 5 0 0110 0v4"/>
+            </svg>
+            <span>Lock</span>
+        </div>
+
+        <div class="quick-btn danger" onclick="emergencyStop()">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/>
+            </svg>
+            <span>End Trip</span>
+        </div>
+    </aside>
+
+    <!-- BOTTOM BAR -->
+    <footer class="bottombar">
+        <div class="gps-status">
+            <div class="gps-dot searching" id="gpsDot"></div>
+            <span id="gpsLabel">Acquiring GPS…</span>
+        </div>
+
+        <div class="trip-stat">
+            Avg <strong id="avgSpeed">0</strong> km/h
+        </div>
+
+        <div class="heading-stat">
+            Heading <strong id="headingVal">—</strong>
+        </div>
+
+        <div class="maxspeed-stat">
+            Top <strong id="topSpeedBottom">0</strong> km/h
+        </div>
+
+        <div class="trip-stat">
+            <span id="coordsDisplay">—</span>
+        </div>
+    </footer>
+</div>
+
+<!-- DASHCAM OVERLAY -->
+<div id="camOverlay">
+    <video id="camVideo" autoplay muted playsinline></video>
+
+    <div class="cam-speed-overlay">
+        <span id="camSpeed">0</span>
+        <small>km/h</small>
+    </div>
+
+    <div class="cam-close" onclick="closeCam()">
+        <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </div>
+
+    <div class="cam-rec-btn" id="camRecBtn" onclick="toggleCamRec()">
+        <div class="cam-rec-inner"></div>
+    </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════
+//  ORCINOS DECK — Logic
+// ═══════════════════════════════════════════
+
+// ── CLOCK ─────────────────────────────────
+function updateClock() {
+    const now = new Date();
+    const h = String(now.getHours()).padStart(2, '0');
+    const m = String(now.getMinutes()).padStart(2, '0');
+    const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    document.getElementById('clockTime').textContent = `${h}:${m}`;
+    document.getElementById('clockDate').textContent =
+        `${days[now.getDay()]}, ${months[now.getMonth()]} ${now.getDate()}`;
+}
+updateClock();
+setInterval(updateClock, 1000);
+
+// ── GPS & SPEED ───────────────────────────
+let currentSpeed = 0;
+let maxSpeed = 0;
+let totalDist = 0;
+let lastPos = null;
+let speedReadings = [];
+let headingDeg = null;
+
+function headingLabel(deg) {
+    const dirs = ['N','NE','E','SE','S','SW','W','NW','N'];
+    return dirs[Math.round(deg / 45) % 8];
+}
+
+function toRad(d) { return d * Math.PI / 180; }
+
+function haversine(a, b) {
+    const R = 6371;
+    const dLat = toRad(b.lat - a.lat);
+    const dLon = toRad(b.lon - a.lon);
+    const x = Math.sin(dLat/2)**2 +
+               Math.cos(toRad(a.lat)) * Math.cos(toRad(b.lat)) * Math.sin(dLon/2)**2;
+    return R * 2 * Math.atan2(Math.sqrt(x), Math.sqrt(1-x));
+}
+
+navigator.geolocation.watchPosition(pos => {
+    const spd = pos.coords.speed != null ? pos.coords.speed * 3.6 : 0; // m/s → km/h
+    currentSpeed = Math.round(spd);
+
+    // heading
+    if (pos.coords.heading != null && !isNaN(pos.coords.heading)) {
+        headingDeg = pos.coords.heading;
+        document.getElementById('headingVal').textContent =
+            `${Math.round(headingDeg)}° ${headingLabel(headingDeg)}`;
+    }
+
+    // max speed
+    if (currentSpeed > maxSpeed) {
+        maxSpeed = currentSpeed;
+        document.getElementById('maxSpeed').textContent = maxSpeed;
+        document.getElementById('topSpeedBottom').textContent = maxSpeed;
+    }
+
+    // distance
+    const cur = { lat: pos.coords.latitude, lon: pos.coords.longitude };
+    if (lastPos && currentSpeed > 2) {
+        totalDist += haversine(lastPos, cur);
+        document.getElementById('tripDist').textContent = totalDist.toFixed(1);
+    }
+    lastPos = cur;
+
+    // coords display
+    document.getElementById('coordsDisplay').textContent =
+        `${pos.coords.latitude.toFixed(4)}, ${pos.coords.longitude.toFixed(4)}`;
+
+    // avg speed (rolling 30)
+    speedReadings.push(currentSpeed);
+    if (speedReadings.length > 30) speedReadings.shift();
+    const avg = Math.round(speedReadings.reduce((a,b)=>a+b,0)/speedReadings.length);
+    document.getElementById('avgSpeed').textContent = avg;
+
+    // update all speed displays
+    document.getElementById('speedVal').textContent = currentSpeed;
+    document.getElementById('camSpeed').textContent = currentSpeed;
+
+    // GPS lock indicator
+    document.getElementById('gpsDot').className = 'gps-dot lock';
+    document.getElementById('gpsLabel').textContent = 'GPS Lock';
+
+}, err => {
+    document.getElementById('gpsLabel').textContent = 'No GPS signal';
+    document.getElementById('gpsDot').className = 'gps-dot';
+}, {
+    enableHighAccuracy: true,
+    maximumAge: 1000,
+    timeout: 10000
+});
+
+// ── TRIP TIMER ────────────────────────────
+let tripActive = false;
+let tripSeconds = 0;
+let tripInterval = null;
+
+function toggleTrip() {
+    const card = document.getElementById('cardTrip');
+    if (!tripActive) {
+        tripActive = true;
+        card.classList.add('active-green');
+        document.getElementById('tripStatus').textContent = 'Running';
+        tripInterval = setInterval(() => {
+            tripSeconds++;
+            const m = String(Math.floor(tripSeconds / 60)).padStart(2, '0');
+            const s = String(tripSeconds % 60).padStart(2, '0');
+            document.getElementById('tripTime').textContent = `${m}:${s}`;
+        }, 1000);
+    } else {
+        tripActive = false;
+        card.classList.remove('active-green');
+        clearInterval(tripInterval);
+        document.getElementById('tripStatus').textContent = 'Paused';
+    }
+}
+
+// ── HAZARD ────────────────────────────────
+let hazardOn = false;
+let hazardInterval = null;
+
+function toggleHazard() {
+    const card = document.getElementById('cardHazard');
+    hazardOn = !hazardOn;
+    if (hazardOn) {
+        card.classList.add('active');
+        // Flash the card border
+        hazardInterval = setInterval(() => {
+            card.style.borderColor = card.style.borderColor === 'var(--amber)' ? 'transparent' : 'var(--amber)';
+        }, 500);
+    } else {
+        card.classList.remove('active');
+        clearInterval(hazardInterval);
+        card.style.borderColor = '';
+    }
+}
+
+// ── NAVIGATE ──────────────────────────────
+function openMaps() {
+    if (lastPos) {
+        window.open(
+            `https://www.google.com/maps?q=${lastPos.lat},${lastPos.lon}&layer=traffic`,
+            '_blank'
+        );
+    } else {
+        window.open('https://www.google.com/maps', '_blank');
+    }
+}
+
+// ── LOCK SCREEN ───────────────────────────
+function lockScreen() {
+    document.documentElement.requestFullscreen?.();
+}
+
+// ── END TRIP ──────────────────────────────
+function emergencyStop() {
+    if (!confirm('End trip and reset all stats?')) return;
+    tripActive = false;
+    clearInterval(tripInterval);
+    tripSeconds = 0;
+    totalDist = 0;
+    maxSpeed = 0;
+    speedReadings = [];
+    lastPos = null;
+    document.getElementById('tripTime').textContent = '00:00';
+    document.getElementById('tripDist').textContent = '0.0';
+    document.getElementById('maxSpeed').textContent = '0';
+    document.getElementById('topSpeedBottom').textContent = '0';
+    document.getElementById('avgSpeed').textContent = '0';
+    document.getElementById('tripStatus').textContent = 'Not started';
+    document.getElementById('cardTrip').classList.remove('active-green');
+}
+
+// ── DASHCAM OVERLAY ───────────────────────
+let camStream = null;
+let camRecorder = null;
+let camRecording = false;
+let camChunks = [];
+
+async function openCam() {
+    const overlay = document.getElementById('camOverlay');
+    overlay.classList.add('open');
+    try {
+        camStream = await navigator.mediaDevices.getUserMedia({
+            video: { facingMode: { ideal: 'environment' }, width: { ideal: 1920 } },
+            audio: false
+        });
+        document.getElementById('camVideo').srcObject = camStream;
+    } catch(e) {
+        alert('Camera permission denied.');
+        closeCam();
+    }
+}
+
+function closeCam() {
+    if (camRecording) toggleCamRec();
+    if (camStream) { camStream.getTracks().forEach(t => t.stop()); camStream = null; }
+    document.getElementById('camOverlay').classList.remove('open');
+    document.getElementById('camVideo').srcObject = null;
+}
+
+function toggleCamRec() {
+    const btn = document.getElementById('camRecBtn');
+    const badge = document.getElementById('recBadge');
+    const card = document.getElementById('cardCam');
+
+    if (!camRecording) {
+        camChunks = [];
+        camRecorder = new MediaRecorder(camStream, { mimeType: 'video/webm;codecs=vp9' });
+        camRecorder.ondataavailable = e => { if (e.data.size > 0) camChunks.push(e.data); };
+        camRecorder.onstop = () => {
+            const blob = new Blob(camChunks, { type: 'video/webm' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `orcinos_drive_${Date.now()}.webm`;
+            a.click();
+        };
+        camRecorder.start();
+        camRecording = true;
+        btn.classList.add('recording');
+        badge.classList.add('show');
+        card.classList.add('active-green');
+    } else {
+        camRecorder.stop();
+        camRecording = false;
+        btn.classList.remove('recording');
+        badge.classList.remove('show');
+        card.classList.remove('active-green');
+    }
+}
+
+// ── WAKE LOCK ─────────────────────────────
+let wakeLock = null;
+async function requestWakeLock() {
+    try {
+        wakeLock = await navigator.wakeLock.request('screen');
+    } catch(e) { /* not available, ignore */ }
+}
+requestWakeLock();
+document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') requestWakeLock();
+});
+
+// ── SERVICE WORKER ────────────────────────
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/drive-sw.js')
+        .catch(() => {});
+}
+</script>
+</body>
+</html>
