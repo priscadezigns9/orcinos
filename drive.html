@@ -14,574 +14,513 @@
 html,body{width:100%;height:100%;overflow:hidden;background:#050810;font-family:'Inter',system-ui,sans-serif;color:#fff;touch-action:manipulation}
 
 /* ── VIEWS ── */
-#view-deck, #view-cam, #view-obd, #view-codes{
-  position:fixed;inset:0;display:none;flex-direction:column;
-}
+#view-deck,#view-cam,#view-obd,#view-codes{position:fixed;inset:0;display:none;flex-direction:column}
 #view-deck{display:flex}
 
-/* ── NAV BAR ── */
-.nav{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:10px 20px;background:rgba(255,255,255,0.03);
-  border-bottom:1px solid rgba(255,255,255,0.06);
-  height:52px;flex-shrink:0;
-}
-.nav-brand{font-size:13px;font-weight:600;letter-spacing:0.12em;color:rgba(255,255,255,0.5);text-transform:uppercase}
-.nav-tabs{display:flex;gap:4px}
-.nav-tab{
-  padding:6px 14px;border-radius:8px;font-size:12px;font-weight:500;
-  letter-spacing:0.06em;border:none;cursor:pointer;
-  background:transparent;color:rgba(255,255,255,0.35);transition:all 0.2s;
-}
-.nav-tab.active{background:rgba(255,255,255,0.08);color:#fff}
-.nav-tab:hover:not(.active){color:rgba(255,255,255,0.6)}
-.nav-status{display:flex;align-items:center;gap:8px}
-.obd-dot{width:7px;height:7px;border-radius:50%;background:#333;transition:background 0.4s}
+/* ── NAV ── */
+.nav{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:rgba(255,255,255,0.03);border-bottom:1px solid rgba(255,255,255,0.06);height:52px;flex-shrink:0}
+.nav-brand{font-size:13px;font-weight:600;letter-spacing:.12em;color:rgba(255,255,255,.4);text-transform:uppercase}
+.nav-tabs{display:flex;gap:3px}
+.nav-tab{padding:6px 12px;border-radius:8px;font-size:11px;font-weight:500;letter-spacing:.06em;border:none;cursor:pointer;background:transparent;color:rgba(255,255,255,.35);transition:all .2s;text-transform:uppercase}
+.nav-tab.active{background:rgba(255,255,255,.08);color:#fff}
+.nav-status{display:flex;align-items:center;gap:6px}
+.obd-dot{width:7px;height:7px;border-radius:50%;background:#333;transition:background .4s}
 .obd-dot.connected{background:#22c55e;box-shadow:0 0 8px #22c55e}
 .obd-dot.sim{background:#f59e0b}
-.obd-label{font-size:11px;color:rgba(255,255,255,0.3)}
+.obd-label{font-size:10px;color:rgba(255,255,255,.3)}
 
-/* ══════════════════════════════
-   DECK VIEW
-══════════════════════════════ */
+/* ══ DECK ══ */
 #view-deck{background:#050810}
-.deck-body{flex:1;display:grid;grid-template-columns:1fr 2fr 1fr;gap:1px;background:rgba(255,255,255,0.05)}
+.deck-body{flex:1;display:grid;grid-template-columns:1fr 2fr 1fr;gap:1px;background:rgba(255,255,255,.05)}
+.deck-panel{background:#050810;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;gap:14px}
+.deck-panel-left{align-items:flex-start;padding-left:24px}
+.deck-panel-right{align-items:flex-end;padding-right:24px}
 
-/* panels */
-.deck-panel{
-  background:#050810;display:flex;flex-direction:column;
-  align-items:center;justify-content:center;padding:20px;gap:12px;
+/* alert banner */
+.alert-banner{
+  position:absolute;top:56px;left:50%;transform:translateX(-50%);
+  background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.4);
+  color:#fff;padding:8px 20px;border-radius:10px;font-size:13px;font-weight:500;
+  letter-spacing:.04em;white-space:nowrap;opacity:0;transition:opacity .3s;
+  pointer-events:none;z-index:100;backdrop-filter:blur(12px);
 }
-.deck-panel-left{align-items:flex-start;padding-left:28px}
-.deck-panel-right{align-items:flex-end;padding-right:28px}
+.alert-banner.show{opacity:1}
+.alert-banner.green{background:rgba(34,197,94,.15);border-color:rgba(34,197,94,.4)}
+.alert-banner.amber{background:rgba(245,158,11,.15);border-color:rgba(245,158,11,.4)}
+
+/* traffic light indicator */
+.tl-indicator{
+  display:flex;flex-direction:column;gap:4px;align-items:center;
+  position:absolute;top:60px;right:16px;opacity:0;transition:opacity .3s;
+}
+.tl-indicator.show{opacity:1}
+.tl-light{width:14px;height:14px;border-radius:50%;background:#1a1a1a;transition:background .3s}
+.tl-light.red-on{background:#ef4444;box-shadow:0 0 12px #ef4444}
+.tl-light.green-on{background:#22c55e;box-shadow:0 0 12px #22c55e}
+.tl-timer{font-size:10px;color:rgba(255,255,255,.5);font-variant-numeric:tabular-nums}
 
 /* clock */
-.clock-time{font-size:clamp(36px,8vw,64px);font-weight:200;letter-spacing:-0.02em;line-height:1}
-.clock-date{font-size:13px;color:rgba(255,255,255,0.3);font-weight:400;margin-top:4px}
+.clock-time{font-size:clamp(32px,7vw,58px);font-weight:200;letter-spacing:-.02em;line-height:1}
+.clock-date{font-size:12px;color:rgba(255,255,255,.3);margin-top:4px}
 
-/* center speed */
+/* speed */
 .speed-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px}
-.speed-num{
-  font-size:clamp(80px,18vw,160px);font-weight:100;letter-spacing:-0.04em;
-  line-height:1;color:#fff;font-variant-numeric:tabular-nums;
-}
-.speed-unit{font-size:13px;color:rgba(255,255,255,0.3);letter-spacing:0.2em;text-transform:uppercase;margin-top:-8px}
-.speed-src{font-size:11px;color:rgba(255,255,255,0.2);margin-top:6px}
+.speed-num{font-size:clamp(72px,16vw,148px);font-weight:100;letter-spacing:-.04em;line-height:1;color:#fff;font-variant-numeric:tabular-nums;transition:color .4s}
+.speed-num.warning{color:#f59e0b}
+.speed-num.danger{color:#ef4444}
+.speed-unit{font-size:12px;color:rgba(255,255,255,.3);letter-spacing:.2em;text-transform:uppercase;margin-top:-6px}
+.speed-src{font-size:10px;color:rgba(255,255,255,.2);margin-top:6px}
 
-/* right panel stats */
+/* stats */
 .stat-item{display:flex;flex-direction:column;align-items:flex-end;gap:3px;width:100%}
-.stat-label{font-size:10px;color:rgba(255,255,255,0.25);letter-spacing:0.12em;text-transform:uppercase}
-.stat-value{font-size:22px;font-weight:300;font-variant-numeric:tabular-nums}
-.stat-divider{width:100%;height:1px;background:rgba(255,255,255,0.05);margin:4px 0}
+.stat-label{font-size:10px;color:rgba(255,255,255,.25);letter-spacing:.12em;text-transform:uppercase}
+.stat-value{font-size:20px;font-weight:300;font-variant-numeric:tabular-nums}
+.stat-divider{width:100%;height:1px;background:rgba(255,255,255,.05);margin:2px 0}
 
 /* trip bar */
-.trip-bar{
-  height:44px;background:rgba(255,255,255,0.02);
-  border-top:1px solid rgba(255,255,255,0.05);
-  display:flex;align-items:center;justify-content:space-around;
-  flex-shrink:0;
-}
+.trip-bar{height:44px;background:rgba(255,255,255,.02);border-top:1px solid rgba(255,255,255,.05);display:flex;align-items:center;justify-content:space-around;flex-shrink:0}
 .trip-item{display:flex;flex-direction:column;align-items:center;gap:2px}
-.trip-val{font-size:15px;font-weight:300;font-variant-numeric:tabular-nums}
-.trip-lbl{font-size:9px;color:rgba(255,255,255,0.25);letter-spacing:0.1em;text-transform:uppercase}
+.trip-val{font-size:14px;font-weight:300;font-variant-numeric:tabular-nums}
+.trip-lbl{font-size:9px;color:rgba(255,255,255,.25);letter-spacing:.1em;text-transform:uppercase}
 
 /* action bar */
-.deck-actions{
-  height:64px;background:rgba(255,255,255,0.02);
-  border-top:1px solid rgba(255,255,255,0.05);
-  display:flex;align-items:center;justify-content:space-around;
-  flex-shrink:0;padding:0 8px;
-}
-.act-btn{
-  display:flex;flex-direction:column;align-items:center;gap:4px;
-  padding:8px 20px;border-radius:10px;border:none;
-  background:transparent;cursor:pointer;color:rgba(255,255,255,0.5);
-  transition:all 0.2s;min-width:72px;
-}
-.act-btn:hover,.act-btn.active{background:rgba(255,255,255,0.06);color:#fff}
-.act-btn svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
-.act-btn span{font-size:10px;letter-spacing:0.08em;text-transform:uppercase}
-.act-btn.rec-active{color:#ef4444}
-.rec-pulse{display:none;width:8px;height:8px;border-radius:50%;background:#ef4444;position:absolute;top:8px;right:8px;animation:pulse 1.4s infinite}
-.act-btn.rec-active .rec-pulse{display:block}
-@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(0.8)}}
+.deck-actions{height:64px;background:rgba(255,255,255,.02);border-top:1px solid rgba(255,255,255,.05);display:flex;align-items:center;justify-content:space-around;flex-shrink:0;padding:0 8px}
+.act-btn{display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 16px;border-radius:10px;border:none;background:transparent;cursor:pointer;color:rgba(255,255,255,.5);transition:all .2s;min-width:64px}
+.act-btn:active{background:rgba(255,255,255,.06);transform:scale(.95)}
+.act-btn svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.act-btn span{font-size:10px;letter-spacing:.06em;text-transform:uppercase}
+.act-btn.recording{color:#ef4444}
+.act-btn.trip-active{color:#22c55e}
 
-/* ══════════════════════════════
-   CAM VIEW
-══════════════════════════════ */
-#view-cam{background:#000}
-#cam-video{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
+/* ══ CAMERA ══ */
+#view-cam{background:#000;position:relative}
+#cam-video{width:100%;height:100%;object-fit:cover}
 .cam-overlay{position:absolute;inset:0;pointer-events:none}
+.cam-top{position:absolute;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:flex-start;padding:56px 16px 16px}
+.cam-bottom{position:absolute;bottom:0;left:0;right:0;display:flex;justify-content:space-between;align-items:flex-end;padding:16px 16px 80px}
+.cam-badge{background:rgba(0,0,0,.55);backdrop-filter:blur(8px);padding:4px 10px;border-radius:6px;font-size:12px;font-variant-numeric:tabular-nums}
+.cam-speed{font-size:28px;font-weight:200;background:rgba(0,0,0,.55);backdrop-filter:blur(8px);padding:8px 14px;border-radius:8px}
+.cam-rec-dot{width:8px;height:8px;border-radius:50%;background:#ef4444;display:inline-block;margin-right:5px;animation:blink 1s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
 
-/* cam HUD */
-.cam-hud-tl{position:absolute;top:16px;left:16px;display:flex;flex-direction:column;gap:6px}
-.cam-hud-tr{position:absolute;top:16px;right:16px;text-align:right}
-.cam-hud-bl{position:absolute;bottom:80px;left:16px}
-.cam-hud-br{position:absolute;bottom:80px;right:16px;text-align:right}
-.hud-speed{font-size:48px;font-weight:200;line-height:1;text-shadow:0 2px 8px rgba(0,0,0,0.8)}
-.hud-unit{font-size:11px;color:rgba(255,255,255,0.6);letter-spacing:0.2em;text-transform:uppercase}
-.hud-stamp{font-size:11px;color:rgba(255,255,255,0.7);font-variant-numeric:tabular-nums;text-shadow:0 1px 4px rgba(0,0,0,0.9);letter-spacing:0.04em}
-.hud-rec{display:flex;align-items:center;gap:6px;font-size:11px;color:rgba(255,255,255,0.4);letter-spacing:0.12em}
-.hud-rec-dot{width:8px;height:8px;border-radius:50%;background:#ef4444;animation:pulse 1.4s infinite;display:none}
-.hud-rec-dot.on{display:block}
-
-/* cam bottom bar */
-.cam-bar{
-  position:absolute;bottom:0;left:0;right:0;height:70px;
-  background:linear-gradient(to top,rgba(0,0,0,0.85),transparent);
-  display:flex;align-items:center;justify-content:space-around;
-  pointer-events:all;padding:0 12px;
-}
-.cam-btn{
-  display:flex;flex-direction:column;align-items:center;gap:4px;
-  padding:8px 16px;border-radius:10px;border:none;
-  background:rgba(255,255,255,0.1);backdrop-filter:blur(8px);
-  cursor:pointer;color:rgba(255,255,255,0.8);transition:all 0.2s;
-}
-.cam-btn:hover{background:rgba(255,255,255,0.18);color:#fff}
-.cam-btn svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
-.cam-btn span{font-size:9px;letter-spacing:0.1em;text-transform:uppercase}
-.cam-rec-btn{background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.3);color:#ef4444;padding:10px 24px}
-.cam-rec-btn.recording{background:rgba(239,68,68,0.25);border-color:#ef4444}
+/* cam controls */
+.cam-controls{position:absolute;bottom:0;left:0;right:0;height:80px;background:rgba(0,0,0,.6);backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:space-around;padding:0 16px}
+.cam-btn{display:flex;flex-direction:column;align-items:center;gap:4px;background:transparent;border:none;color:#fff;cursor:pointer;padding:8px 12px;border-radius:10px;transition:all .2s;min-width:56px}
+.cam-btn:active{background:rgba(255,255,255,.1);transform:scale(.95)}
+.cam-btn svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.cam-btn span{font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.6)}
+.cam-btn.record-btn{background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.4);color:#ef4444}
+.cam-btn.record-btn.recording{background:rgba(239,68,68,.25)}
+.cam-btn.record-btn.paused{background:rgba(245,158,11,.15);border-color:rgba(245,158,11,.4);color:#f59e0b}
 
 /* clips tray */
-#clips-tray{
-  position:absolute;bottom:70px;left:0;right:0;
-  background:rgba(5,8,16,0.95);backdrop-filter:blur(16px);
-  border-top:1px solid rgba(255,255,255,0.08);
-  max-height:200px;overflow-y:auto;
-  transform:translateY(100%);transition:transform 0.3s ease;
-}
-#clips-tray.open{transform:translateY(0)}
-.clip-item{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:10px 16px;border-bottom:1px solid rgba(255,255,255,0.04);
-  font-size:12px;
-}
-.clip-name{color:rgba(255,255,255,0.7)}
-.clip-name.impact{color:#f59e0b}
-.clip-dl{padding:4px 12px;border-radius:6px;background:rgba(255,255,255,0.08);border:none;color:#fff;font-size:11px;cursor:pointer}
+.clips-tray{position:absolute;top:52px;left:0;right:0;height:72px;background:rgba(0,0,0,.7);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.08);display:none;align-items:center;gap:8px;padding:0 12px;overflow-x:auto}
+.clips-tray.open{display:flex}
+.clip-thumb{width:56px;height:56px;border-radius:6px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;flex-shrink:0;cursor:pointer;font-size:9px;color:rgba(255,255,255,.5);text-align:center;padding:4px}
+.clip-thumb svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.5}
+.clip-thumb.impact{border-color:rgba(239,68,68,.4);color:#ef4444}
+.clip-thumb.plate{border-color:rgba(139,92,246,.4);color:#a78bfa}
 
-/* ══════════════════════════════
-   OBD VIEW
-══════════════════════════════ */
-#view-obd{background:#050810;padding:0}
-.obd-body{flex:1;overflow-y:auto;padding:16px;display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;align-content:start}
+/* detection overlays on camera */
+.detection-box{position:absolute;border:2px solid #22c55e;border-radius:4px;pointer-events:none;transition:all .15s}
+.detection-label{position:absolute;top:-22px;left:0;background:#22c55e;color:#000;font-size:10px;font-weight:600;padding:2px 6px;border-radius:3px;white-space:nowrap}
+.detection-box.red-light{border-color:#ef4444}
+.detection-box.red-light .detection-label{background:#ef4444;color:#fff}
+.detection-box.plate{border-color:#a78bfa}
+.detection-box.plate .detection-label{background:#a78bfa;color:#fff}
+.detection-box.vehicle{border-color:#f59e0b}
+.detection-box.vehicle .detection-label{background:#f59e0b;color:#000}
 
-.gauge-card{
-  background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);
-  border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:8px;
-  transition:border-color 0.3s;
-}
-.gauge-card.warn{border-color:rgba(245,158,11,0.5);background:rgba(245,158,11,0.04)}
-.gauge-card.alert{border-color:rgba(239,68,68,0.5);background:rgba(239,68,68,0.04)}
-.gauge-icon{width:28px;height:28px;stroke:rgba(255,255,255,0.3);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
-.gauge-card.warn .gauge-icon{stroke:#f59e0b}
-.gauge-card.alert .gauge-icon{stroke:#ef4444}
-.gauge-label{font-size:10px;color:rgba(255,255,255,0.3);letter-spacing:0.1em;text-transform:uppercase}
-.gauge-value{font-size:28px;font-weight:200;font-variant-numeric:tabular-nums;line-height:1}
-.gauge-unit{font-size:10px;color:rgba(255,255,255,0.25);margin-top:2px}
+/* ══ DIAGNOSTICS ══ */
+#view-obd{background:#050810;overflow-y:auto}
+.obd-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(255,255,255,.05);flex:1}
+.obd-card{background:#050810;padding:16px;display:flex;flex-direction:column;gap:8px}
+.obd-card-label{font-size:9px;color:rgba(255,255,255,.3);letter-spacing:.14em;text-transform:uppercase}
+.obd-card-value{font-size:clamp(22px,5vw,32px);font-weight:200;font-variant-numeric:tabular-nums;line-height:1}
+.obd-card-unit{font-size:10px;color:rgba(255,255,255,.25)}
+.obd-bar-track{height:3px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden}
+.obd-bar-fill{height:100%;border-radius:2px;background:#7c3aed;transition:width .4s,background .4s}
+.obd-bar-fill.warn{background:#f59e0b}
+.obd-bar-fill.danger{background:#ef4444}
+.obd-connect-row{padding:16px;display:flex;gap:10px;align-items:center;flex-shrink:0}
+.connect-btn{flex:1;padding:14px;background:rgba(124,58,237,.15);border:1px solid rgba(124,58,237,.4);color:#a78bfa;border-radius:12px;font-size:13px;font-weight:500;cursor:pointer;letter-spacing:.04em;transition:all .2s}
+.connect-btn:active{background:rgba(124,58,237,.25)}
+.sim-badge{padding:6px 14px;background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.3);color:#f59e0b;border-radius:8px;font-size:11px;font-weight:600;letter-spacing:.08em}
 
-/* mini bar */
-.gauge-bar-wrap{height:3px;background:rgba(255,255,255,0.07);border-radius:2px;overflow:hidden;margin-top:4px}
-.gauge-bar{height:100%;border-radius:2px;background:#3b82f6;transition:width 0.5s ease,background 0.3s}
+/* ══ CODES ══ */
+#view-codes{background:#050810;overflow-y:auto}
+.codes-header{padding:20px 16px 12px;flex-shrink:0}
+.codes-title{font-size:18px;font-weight:300}
+.codes-subtitle{font-size:12px;color:rgba(255,255,255,.3);margin-top:4px}
+.codes-scan-btn{margin:0 16px 16px;width:calc(100% - 32px);padding:14px;background:rgba(124,58,237,.15);border:1px solid rgba(124,58,237,.4);color:#a78bfa;border-radius:12px;font-size:13px;font-weight:500;cursor:pointer;letter-spacing:.04em;transition:all .2s}
+.codes-scan-btn:active{background:rgba(124,58,237,.25)}
+.code-item{margin:0 16px 10px;padding:14px 16px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:12px}
+.code-id{font-size:13px;font-weight:600;color:#f59e0b;letter-spacing:.06em}
+.code-desc{font-size:13px;color:rgba(255,255,255,.7);margin-top:4px}
+.code-severity{font-size:10px;color:rgba(255,255,255,.3);margin-top:6px;text-transform:uppercase;letter-spacing:.1em}
+.clear-codes-btn{margin:16px;width:calc(100% - 32px);padding:12px;background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);color:#f87171;border-radius:12px;font-size:13px;cursor:pointer;transition:all .2s}
 
-/* obd connect area */
-.obd-footer{
-  padding:12px 16px;border-top:1px solid rgba(255,255,255,0.05);
-  display:flex;align-items:center;justify-content:space-between;flex-shrink:0;
-}
-.obd-connect-btn{
-  padding:8px 20px;border-radius:10px;border:1px solid rgba(255,255,255,0.12);
-  background:transparent;color:#fff;font-size:12px;cursor:pointer;
-  letter-spacing:0.08em;transition:all 0.2s;
-}
-.obd-connect-btn:hover{background:rgba(255,255,255,0.06)}
-.obd-mode-label{font-size:11px;color:rgba(255,255,255,0.25)}
-.sim-badge{
-  padding:3px 8px;border-radius:6px;background:rgba(245,158,11,0.12);
-  border:1px solid rgba(245,158,11,0.25);color:#f59e0b;font-size:10px;letter-spacing:0.08em;
-}
+/* ══ TRAFFIC LIGHT LEARNING PANEL ══ */
+.tl-learn-panel{margin:0 16px 12px;padding:14px 16px;background:rgba(34,197,94,.04);border:1px solid rgba(34,197,94,.12);border-radius:12px}
+.tl-learn-title{font-size:11px;color:rgba(255,255,255,.4);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px}
+.tl-intersection-item{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.05)}
+.tl-intersection-item:last-child{border-bottom:none}
+.tl-int-coords{font-size:11px;color:rgba(255,255,255,.5);font-variant-numeric:tabular-nums}
+.tl-int-data{font-size:12px;color:#22c55e;font-weight:500}
 
-/* ══════════════════════════════
-   CODES VIEW
-══════════════════════════════ */
-#view-codes{background:#050810;flex-direction:column}
-.codes-body{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:8px}
-.code-card{
-  background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);
-  border-radius:12px;padding:14px 16px;display:flex;align-items:flex-start;gap:12px;
-}
-.code-card.active-fault{border-color:rgba(239,68,68,0.3);background:rgba(239,68,68,0.04)}
-.code-badge{
-  padding:4px 10px;border-radius:7px;font-size:12px;font-weight:500;
-  background:rgba(239,68,68,0.15);color:#ef4444;white-space:nowrap;
-  letter-spacing:0.06em;flex-shrink:0;
-}
-.code-badge.pending{background:rgba(245,158,11,0.15);color:#f59e0b}
-.code-info{flex:1}
-.code-desc{font-size:13px;font-weight:400;margin-bottom:4px}
-.code-sub{font-size:11px;color:rgba(255,255,255,0.3)}
-.codes-empty{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:rgba(255,255,255,0.2);font-size:13px}
-.codes-footer{
-  padding:12px 16px;border-top:1px solid rgba(255,255,255,0.05);
-  display:flex;gap:8px;flex-shrink:0;
-}
-.codes-btn{
-  flex:1;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.1);
-  background:transparent;color:#fff;font-size:12px;cursor:pointer;
-  letter-spacing:0.06em;transition:all 0.2s;
-}
-.codes-btn:hover{background:rgba(255,255,255,0.06)}
-.codes-btn.danger{border-color:rgba(239,68,68,0.3);color:#ef4444}
-.codes-btn.danger:hover{background:rgba(239,68,68,0.08)}
+/* ══ TOAST ══ */
+.toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:rgba(20,20,30,.9);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.1);color:#fff;padding:10px 20px;border-radius:10px;font-size:13px;white-space:nowrap;opacity:0;transition:opacity .3s;pointer-events:none;z-index:999}
+.toast.show{opacity:1}
 
-/* ── TOAST ── */
-#toast{
-  position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(20px);
-  background:rgba(30,35,55,0.95);backdrop-filter:blur(12px);
-  border:1px solid rgba(255,255,255,0.1);border-radius:10px;
-  padding:8px 18px;font-size:12px;color:rgba(255,255,255,0.85);
-  opacity:0;transition:all 0.25s;pointer-events:none;white-space:nowrap;z-index:999;
-}
-#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-
-/* scrollbar */
+/* ══ MISC ══ */
 ::-webkit-scrollbar{width:3px}
 ::-webkit-scrollbar-track{background:transparent}
-::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.1);border-radius:2px}
+::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:2px}
 </style>
 </head>
 <body>
 
-<!-- ── NAV ── -->
-<div class="nav">
-  <span class="nav-brand">Orcinos Drive</span>
-  <div class="nav-tabs">
-    <button class="nav-tab active" onclick="switchView('deck')">Deck</button>
-    <button class="nav-tab" onclick="switchView('cam')">Camera</button>
-    <button class="nav-tab" onclick="switchView('obd')">Diagnostics</button>
-    <button class="nav-tab" onclick="switchView('codes')">Codes</button>
-  </div>
-  <div class="nav-status">
-    <div class="obd-dot" id="obd-dot"></div>
-    <span class="obd-label" id="obd-label">No adapter</span>
-  </div>
+<!-- ═══ ALERT BANNER ═══ -->
+<div class="alert-banner" id="alertBanner"></div>
+
+<!-- ═══ TRAFFIC LIGHT INDICATOR (deck overlay) ═══ -->
+<div class="tl-indicator" id="tlIndicator">
+  <div class="tl-light" id="tlRed"></div>
+  <div class="tl-light" id="tlGreen"></div>
+  <div class="tl-timer" id="tlTimer">--</div>
 </div>
 
-<!-- ══════════════════════════════
+<!-- ═══════════════════════════════════════
      DECK VIEW
-══════════════════════════════ -->
+════════════════════════════════════════ -->
 <div id="view-deck">
-  <div class="deck-body">
+  <div class="nav">
+    <span class="nav-brand">Orcinos Drive</span>
+    <div class="nav-tabs">
+      <button class="nav-tab active" onclick="switchView('deck')">Deck</button>
+      <button class="nav-tab" onclick="switchView('cam')">Camera</button>
+      <button class="nav-tab" onclick="switchView('obd')">Diag</button>
+      <button class="nav-tab" onclick="switchView('codes')">Codes</button>
+    </div>
+    <div class="nav-status">
+      <div class="obd-dot sim" id="obdDot1"></div>
+      <span class="obd-label" id="obdLabel1">SIM</span>
+    </div>
+  </div>
 
+  <div class="deck-body">
     <!-- LEFT: clock + GPS -->
     <div class="deck-panel deck-panel-left">
       <div>
-        <div class="clock-time" id="clock-time">--:--</div>
-        <div class="clock-date" id="clock-date">--</div>
+        <div class="clock-time" id="clockTime">--:--</div>
+        <div class="clock-date" id="clockDate">---</div>
       </div>
-      <div style="margin-top:16px;display:flex;flex-direction:column;gap:4px">
-        <div class="stat-label">Latitude</div>
-        <div class="stat-value" id="deck-lat" style="font-size:16px">--</div>
-        <div style="height:8px"></div>
-        <div class="stat-label">Longitude</div>
-        <div class="stat-value" id="deck-lon" style="font-size:16px">--</div>
+      <div style="margin-top:20px">
+        <div class="stat-label">GPS</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.4);font-variant-numeric:tabular-nums;margin-top:4px" id="gpsCoords">Acquiring...</div>
       </div>
     </div>
 
     <!-- CENTER: speed -->
     <div class="deck-panel">
       <div class="speed-wrap">
-        <div class="speed-num" id="deck-speed">0</div>
+        <div class="speed-num" id="deckSpeed">0</div>
         <div class="speed-unit">km/h</div>
-        <div class="speed-src" id="speed-src">GPS</div>
+        <div class="speed-src" id="speedSrc">GPS</div>
       </div>
     </div>
 
-    <!-- RIGHT: engine stats -->
+    <!-- RIGHT: OBD stats -->
     <div class="deck-panel deck-panel-right">
       <div class="stat-item">
         <div class="stat-label">RPM</div>
-        <div class="stat-value" id="deck-rpm">--</div>
+        <div class="stat-value" id="statRpm">--</div>
       </div>
       <div class="stat-divider"></div>
       <div class="stat-item">
         <div class="stat-label">Coolant</div>
-        <div class="stat-value" id="deck-coolant">--</div>
+        <div class="stat-value" id="statCoolant">--</div>
       </div>
       <div class="stat-divider"></div>
       <div class="stat-item">
         <div class="stat-label">Fuel</div>
-        <div class="stat-value" id="deck-fuel">--%</div>
+        <div class="stat-value" id="statFuel">--%</div>
       </div>
       <div class="stat-divider"></div>
       <div class="stat-item">
-        <div class="stat-label">Engine Load</div>
-        <div class="stat-value" id="deck-load">--%</div>
+        <div class="stat-label">Load</div>
+        <div class="stat-value" id="statLoad">--%</div>
       </div>
     </div>
   </div>
 
   <!-- TRIP BAR -->
   <div class="trip-bar">
-    <div class="trip-item"><div class="trip-val" id="trip-dist">0.0 km</div><div class="trip-lbl">Distance</div></div>
-    <div class="trip-item"><div class="trip-val" id="trip-time">00:00:00</div><div class="trip-lbl">Trip Time</div></div>
-    <div class="trip-item"><div class="trip-val" id="trip-avg">0 km/h</div><div class="trip-lbl">Avg Speed</div></div>
-    <div class="trip-item"><div class="trip-val" id="trip-max">0 km/h</div><div class="trip-lbl">Max Speed</div></div>
+    <div class="trip-item"><div class="trip-val" id="tripDist">0.0</div><div class="trip-lbl">km</div></div>
+    <div class="trip-item"><div class="trip-val" id="tripTime">00:00</div><div class="trip-lbl">time</div></div>
+    <div class="trip-item"><div class="trip-val" id="tripAvg">0</div><div class="trip-lbl">avg km/h</div></div>
+    <div class="trip-item"><div class="trip-val" id="tripMax">0</div><div class="trip-lbl">max km/h</div></div>
   </div>
 
   <!-- ACTION BAR -->
   <div class="deck-actions">
-    <button class="act-btn" onclick="switchView('cam')" id="cam-act-btn">
+    <button class="act-btn" id="deckCamBtn" onclick="switchView('cam')">
       <svg viewBox="0 0 24 24"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
       <span>Camera</span>
     </button>
-    <button class="act-btn" onclick="toggleTripTimer()" id="trip-btn">
-      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-      <span id="trip-btn-lbl">Start Trip</span>
+    <button class="act-btn" id="tripBtn" onclick="toggleTrip()">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
+      <span id="tripBtnLabel">Start Trip</span>
     </button>
     <button class="act-btn" onclick="openMaps()">
-      <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
       <span>Maps</span>
     </button>
     <button class="act-btn" onclick="switchView('obd')">
-      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-      <span>Diagnostics</span>
+      <svg viewBox="0 0 24 24"><polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/></svg>
+      <span>Diag</span>
     </button>
   </div>
 </div>
 
-<!-- ══════════════════════════════
-     CAM VIEW
-══════════════════════════════ -->
+<!-- ═══════════════════════════════════════
+     CAMERA VIEW
+════════════════════════════════════════ -->
 <div id="view-cam">
-  <video id="cam-video" autoplay muted playsinline></video>
-  <div class="cam-overlay">
-    <!-- TL: speed -->
-    <div class="cam-hud-tl">
-      <div class="hud-speed" id="cam-speed">0</div>
-      <div class="hud-unit">km/h</div>
+  <div class="nav">
+    <span class="nav-brand">Orcinos Drive</span>
+    <div class="nav-tabs">
+      <button class="nav-tab" onclick="switchView('deck')">Deck</button>
+      <button class="nav-tab active" onclick="switchView('cam')">Camera</button>
+      <button class="nav-tab" onclick="switchView('obd')">Diag</button>
+      <button class="nav-tab" onclick="switchView('codes')">Codes</button>
     </div>
-    <!-- TR: rec status -->
-    <div class="cam-hud-tr">
-      <div class="hud-rec">
-        <div class="hud-rec-dot" id="cam-rec-dot"></div>
-        <span id="cam-rec-label">STANDBY</span>
-      </div>
-      <div class="hud-stamp" id="cam-timestamp" style="margin-top:4px"></div>
+    <div class="nav-status">
+      <div class="obd-dot sim" id="obdDot2"></div>
+      <span class="obd-label" id="obdLabel2">SIM</span>
     </div>
-    <!-- BL: GPS coords -->
-    <div class="cam-hud-bl">
-      <div class="hud-stamp" id="cam-coords">No GPS</div>
-    </div>
-    <!-- BR: clip count -->
-    <div class="cam-hud-br">
-      <div class="hud-stamp" id="cam-clip-count">0 clips</div>
+  </div>
+
+  <!-- Clips tray -->
+  <div class="clips-tray" id="clipsTray"></div>
+
+  <!-- Video -->
+  <div style="position:relative;flex:1;overflow:hidden">
+    <video id="camVideo" autoplay muted playsinline style="width:100%;height:100%;object-fit:cover"></video>
+
+    <!-- Detection canvas overlay -->
+    <canvas id="detectionCanvas" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none"></canvas>
+
+    <!-- Speed overlay -->
+    <div style="position:absolute;top:12px;left:12px">
+      <div class="cam-speed" id="camSpeed">0 <span style="font-size:14px;opacity:.5">km/h</span></div>
     </div>
 
-    <!-- BOTTOM BAR -->
-    <div class="cam-bar">
-      <button class="cam-btn" onclick="toggleClipsTray()">
-        <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="15" rx="2"/><polyline points="16 2 12 7 8 2"/></svg>
-        <span id="clips-count-btn">Clips</span>
-      </button>
-      <button class="cam-btn cam-rec-btn" id="cam-rec-btn" onclick="toggleRecord()">
-        <svg viewBox="0 0 24 24" id="cam-rec-icon"><circle cx="12" cy="12" r="6"/></svg>
-        <span id="cam-rec-text">Record</span>
-      </button>
-      <button class="cam-btn" onclick="manualSave()">
-        <svg viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
-        <span>Save</span>
-      </button>
-      <button class="cam-btn" onclick="flipCamera()">
-        <svg viewBox="0 0 24 24"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
-        <span>Flip</span>
-      </button>
+    <!-- Timestamp -->
+    <div style="position:absolute;top:12px;right:12px">
+      <div class="cam-badge" id="camTimestamp">--:--:--</div>
     </div>
 
-    <!-- CLIPS TRAY -->
-    <div id="clips-tray">
-      <div id="clips-list"></div>
+    <!-- Rec indicator -->
+    <div style="position:absolute;top:50px;left:12px;display:none" id="recIndicator">
+      <div class="cam-badge"><span class="cam-rec-dot"></span><span id="recDuration">00:00</span> · <span id="clipCount">0</span> clips</div>
     </div>
+
+    <!-- GPS coords -->
+    <div style="position:absolute;bottom:90px;left:12px">
+      <div class="cam-badge" id="camGps">GPS: acquiring</div>
+    </div>
+
+    <!-- Plate capture result -->
+    <div style="position:absolute;bottom:90px;right:12px;display:none" id="plateResult">
+      <div class="cam-badge" style="color:#a78bfa" id="plateText"></div>
+    </div>
+  </div>
+
+  <!-- Controls -->
+  <div class="cam-controls">
+    <button class="cam-btn" onclick="toggleClipsTray()">
+      <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="2"/><path d="M7 2v20M17 2v20M2 12h20"/></svg>
+      <span>Clips</span>
+    </button>
+    <button class="cam-btn" id="pauseBtn" onclick="pauseRecording()" style="display:none">
+      <svg viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+      <span id="pauseLabel">Pause</span>
+    </button>
+    <button class="cam-btn record-btn" id="recordBtn" onclick="toggleRecording()">
+      <svg viewBox="0 0 24 24" id="recordIcon"><circle cx="12" cy="12" r="8" fill="currentColor"/></svg>
+      <span id="recordLabel">Record</span>
+    </button>
+    <button class="cam-btn" onclick="saveCurrentClip()">
+      <svg viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+      <span>Save</span>
+    </button>
+    <button class="cam-btn" onclick="flipCamera()">
+      <svg viewBox="0 0 24 24"><path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>
+      <span>Flip</span>
+    </button>
   </div>
 </div>
 
-<!-- ══════════════════════════════
-     OBD VIEW
-══════════════════════════════ -->
+<!-- ═══════════════════════════════════════
+     DIAGNOSTICS VIEW
+════════════════════════════════════════ -->
 <div id="view-obd">
-  <div class="obd-body" id="obd-grid">
-
-    <!-- Speed -->
-    <div class="gauge-card" id="g-speed">
-      <svg class="gauge-icon" viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20A10 10 0 0012 2z"/><polyline points="12 6 12 12 16 14"/></svg>
-      <div class="gauge-label">Speed (OBD)</div>
-      <div class="gauge-value" id="g-speed-val">--</div>
-      <div class="gauge-unit">km/h</div>
-      <div class="gauge-bar-wrap"><div class="gauge-bar" id="g-speed-bar" style="width:0%"></div></div>
+  <div class="nav">
+    <span class="nav-brand">Orcinos Drive</span>
+    <div class="nav-tabs">
+      <button class="nav-tab" onclick="switchView('deck')">Deck</button>
+      <button class="nav-tab" onclick="switchView('cam')">Camera</button>
+      <button class="nav-tab active" onclick="switchView('obd')">Diag</button>
+      <button class="nav-tab" onclick="switchView('codes')">Codes</button>
     </div>
-
-    <!-- RPM -->
-    <div class="gauge-card" id="g-rpm">
-      <svg class="gauge-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
-      <div class="gauge-label">Engine RPM</div>
-      <div class="gauge-value" id="g-rpm-val">--</div>
-      <div class="gauge-unit">rpm</div>
-      <div class="gauge-bar-wrap"><div class="gauge-bar" id="g-rpm-bar" style="width:0%"></div></div>
+    <div class="nav-status">
+      <div class="obd-dot sim" id="obdDot3"></div>
+      <span class="obd-label" id="obdLabel3">SIM</span>
     </div>
-
-    <!-- Coolant Temp -->
-    <div class="gauge-card" id="g-coolant">
-      <svg class="gauge-icon" viewBox="0 0 24 24"><path d="M14 14.76V3.5a2.5 2.5 0 00-5 0v11.26a4.5 4.5 0 105 0z"/></svg>
-      <div class="gauge-label">Coolant Temp</div>
-      <div class="gauge-value" id="g-coolant-val">--</div>
-      <div class="gauge-unit">°C</div>
-      <div class="gauge-bar-wrap"><div class="gauge-bar" id="g-coolant-bar" style="width:0%;background:#3b82f6"></div></div>
-    </div>
-
-    <!-- Fuel Level -->
-    <div class="gauge-card" id="g-fuel">
-      <svg class="gauge-icon" viewBox="0 0 24 24"><path d="M3 22h12V2H3v20zM7 7h4M7 11h4M7 15h4"/><path d="M17 12h2a2 2 0 012 2v3a1 1 0 001 1 1 1 0 001-1V9l-3-3"/></svg>
-      <div class="gauge-label">Fuel Level</div>
-      <div class="gauge-value" id="g-fuel-val">--</div>
-      <div class="gauge-unit">%</div>
-      <div class="gauge-bar-wrap"><div class="gauge-bar" id="g-fuel-bar" style="width:0%;background:#22c55e"></div></div>
-    </div>
-
-    <!-- Engine Load -->
-    <div class="gauge-card" id="g-load">
-      <svg class="gauge-icon" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-      <div class="gauge-label">Engine Load</div>
-      <div class="gauge-value" id="g-load-val">--</div>
-      <div class="gauge-unit">%</div>
-      <div class="gauge-bar-wrap"><div class="gauge-bar" id="g-load-bar" style="width:0%"></div></div>
-    </div>
-
-    <!-- Throttle -->
-    <div class="gauge-card" id="g-throttle">
-      <svg class="gauge-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
-      <div class="gauge-label">Throttle</div>
-      <div class="gauge-value" id="g-throttle-val">--</div>
-      <div class="gauge-unit">%</div>
-      <div class="gauge-bar-wrap"><div class="gauge-bar" id="g-throttle-bar" style="width:0%"></div></div>
-    </div>
-
-    <!-- Intake Air Temp -->
-    <div class="gauge-card" id="g-iat">
-      <svg class="gauge-icon" viewBox="0 0 24 24"><path d="M17.7 7.7a2.5 2.5 0 111.8 4.3H2"/><path d="M9.6 4.6A2 2 0 1111 8H2"/><path d="M12.6 19.4A2 2 0 1014 16H2"/></svg>
-      <div class="gauge-label">Intake Air</div>
-      <div class="gauge-value" id="g-iat-val">--</div>
-      <div class="gauge-unit">°C</div>
-      <div class="gauge-bar-wrap"><div class="gauge-bar" id="g-iat-bar" style="width:0%;background:#8b5cf6"></div></div>
-    </div>
-
-    <!-- MAF -->
-    <div class="gauge-card" id="g-maf">
-      <svg class="gauge-icon" viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 00-2 2v3m18 0V5a2 2 0 00-2-2h-3M3 16v3a2 2 0 002 2h3m8 0h3a2 2 0 002-2v-3"/></svg>
-      <div class="gauge-label">Air Flow</div>
-      <div class="gauge-value" id="g-maf-val">--</div>
-      <div class="gauge-unit">g/s</div>
-      <div class="gauge-bar-wrap"><div class="gauge-bar" id="g-maf-bar" style="width:0%;background:#06b6d4"></div></div>
-    </div>
-
-    <!-- Battery / Run time -->
-    <div class="gauge-card" id="g-runtime">
-      <svg class="gauge-icon" viewBox="0 0 24 24"><rect x="2" y="7" width="16" height="10" rx="2"/><path d="M22 11v2"/></svg>
-      <div class="gauge-label">Run Time</div>
-      <div class="gauge-value" id="g-runtime-val">--</div>
-      <div class="gauge-unit">min since start</div>
-      <div class="gauge-bar-wrap"><div class="gauge-bar" id="g-runtime-bar" style="width:0%;background:#f59e0b"></div></div>
-    </div>
-
   </div>
 
-  <div class="obd-footer">
-    <div style="display:flex;align-items:center;gap:8px">
-      <span class="obd-mode-label" id="obd-mode-label">Simulation Mode</span>
-      <span class="sim-badge" id="obd-sim-badge">SIM</span>
-    </div>
-    <button class="obd-connect-btn" id="obd-connect-btn" onclick="connectOBD()">Connect Adapter</button>
+  <div class="obd-connect-row">
+    <button class="connect-btn" onclick="connectOBD()" id="connectBtn">Connect BLE Adapter</button>
+    <div class="sim-badge" id="simBadge">SIM</div>
+  </div>
+
+  <div class="obd-grid" id="obdGrid">
+    <!-- cards injected by JS -->
   </div>
 </div>
 
-<!-- ══════════════════════════════
+<!-- ═══════════════════════════════════════
      CODES VIEW
-══════════════════════════════ -->
+════════════════════════════════════════ -->
 <div id="view-codes">
-  <div class="codes-body" id="codes-body">
-    <div class="codes-empty" id="codes-empty">
-      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-      <div>No fault codes detected</div>
-      <div style="font-size:11px;color:rgba(255,255,255,0.15)">Connect adapter to scan</div>
+  <div class="nav">
+    <span class="nav-brand">Orcinos Drive</span>
+    <div class="nav-tabs">
+      <button class="nav-tab" onclick="switchView('deck')">Deck</button>
+      <button class="nav-tab" onclick="switchView('cam')">Camera</button>
+      <button class="nav-tab" onclick="switchView('obd')">Diag</button>
+      <button class="nav-tab active" onclick="switchView('codes')">Codes</button>
+    </div>
+    <div class="nav-status">
+      <div class="obd-dot sim" id="obdDot4"></div>
+      <span class="obd-label" id="obdLabel4">SIM</span>
     </div>
   </div>
-  <div class="codes-footer">
-    <button class="codes-btn" onclick="scanCodes()">Scan Now</button>
-    <button class="codes-btn danger" onclick="clearCodes()">Clear Codes</button>
+
+  <div class="codes-header">
+    <div class="codes-title">Fault Codes</div>
+    <div class="codes-subtitle" id="codesSubtitle">Scan to read engine codes</div>
+  </div>
+  <button class="codes-scan-btn" onclick="scanCodes()">Scan Now</button>
+  <div id="codesList"></div>
+  <button class="clear-codes-btn" onclick="clearCodes()" style="display:none" id="clearBtn">Clear All Codes</button>
+
+  <!-- Traffic Light Learning Panel -->
+  <div class="tl-learn-panel">
+    <div class="tl-learn-title">🚦 Traffic Light Memory — <span id="tlLearnCount">0</span> intersections learned</div>
+    <div id="tlLearnList"><div style="font-size:12px;color:rgba(255,255,255,.3);padding:4px 0">No data yet. Drive past traffic lights to start building your map.</div></div>
   </div>
 </div>
 
 <!-- TOAST -->
-<div id="toast"></div>
+<div class="toast" id="toast"></div>
 
 <script>
+'use strict';
+
 // ══════════════════════════════════════════════
 // STATE
 // ══════════════════════════════════════════════
 const state = {
-  view: 'deck',
-  // GPS
-  gpsSpeed: 0, gpsLat: null, gpsLon: null,
-  // OBD
-  obdConnected: false, simMode: true, obdDevice: null, obdChar: null,
-  // OBD data
-  obd: {
-    speed: null, rpm: null, coolant: null, fuel: null,
-    load: null, throttle: null, iat: null, maf: null, runtime: null
-  },
-  // Camera
-  stream: null, mediaRecorder: null, recording: false,
-  facingMode: 'environment', clips: [], clipsTrayOpen: false,
-  recordChunks: [],
-  // Trip
-  tripActive: false, tripStart: null, tripDist: 0,
-  tripMaxSpeed: 0, tripSpeeds: [], lastPos: null,
-  // Wake lock
+  currentView: 'deck',
+  obdConnected: false,
+  simMode: true,
+  obd: { speed:0, rpm:850, coolant:88, fuel:72, load:12, throttle:8, intake:28, maf:4.2, runtime:0 },
+  gps: { speed:0, lat:null, lng:null, accuracy:null },
+  speedHistory: [],        // rolling buffer for smoothing
+  trip: { active:false, dist:0, startTime:null, maxSpeed:0, speedSum:0, speedCount:0, lastLat:null, lastLng:null },
+  rec: { active:false, paused:false, mediaRecorder:null, chunks:[], startTime:null, duration:0, clipCount:0, segTimer:null },
+  cam: { stream:null, facing:'environment' },
   wakeLock: null,
-  // Sim interval
-  simInterval: null,
-  // OBD poll
-  obdPoll: null,
-  // DTC codes
-  dtcCodes: []
+  accel: { lastImpact:0 },
+  detection: { active:false, lastAlert:{} },
+  tl: {  // traffic light learning
+    current: null,      // {lat, lng, redAt, greenAt}
+    db: [],             // [{lat, lng, avgRed, samples}]
+    lastState: null,    // 'red' | 'green' | null
+    lastStateTime: 0,
+    prediction: null
+  }
 };
 
-// OBD2 PIDs (Mode 01)
-const PID = {
-  ENGINE_RPM:    '010C',
-  VEHICLE_SPEED: '010D',
-  COOLANT_TEMP:  '0105',
-  FUEL_LEVEL:    '012F',
-  ENGINE_LOAD:   '0104',
-  THROTTLE:      '0111',
-  IAT:           '010F',
-  MAF:           '0110',
-  RUNTIME:       '011F'
-};
+// OBD card definitions
+const OBD_CARDS = [
+  {id:'speed',  label:'Speed',      unit:'km/h', pid:0x0D, max:220, warn:120, danger:160},
+  {id:'rpm',    label:'RPM',        unit:'rpm',  pid:0x0C, max:8000,warn:6000,danger:7000},
+  {id:'coolant',label:'Coolant',    unit:'°C',   pid:0x05, max:130, warn:95,  danger:110},
+  {id:'fuel',   label:'Fuel',       unit:'%',    pid:0x2F, max:100, warn:20,  danger:10},
+  {id:'load',   label:'Engine Load',unit:'%',    pid:0x04, max:100, warn:85,  danger:95},
+  {id:'throttle',label:'Throttle',  unit:'%',    pid:0x11, max:100, warn:90,  danger:98},
+  {id:'intake', label:'Intake Air', unit:'°C',   pid:0x0F, max:80,  warn:50,  danger:65},
+  {id:'maf',    label:'Air Flow',   unit:'g/s',  pid:0x10, max:60,  warn:45,  danger:55},
+  {id:'runtime',label:'Run Time',   unit:'min',  pid:0x1F, max:999, warn:600, danger:800}
+];
+
+// ══════════════════════════════════════════════
+// SPEECH
+// ══════════════════════════════════════════════
+function speak(text, priority=false) {
+  if (!window.speechSynthesis) return;
+  if (priority) window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.rate = 1.05; u.pitch = 1; u.volume = 1;
+  window.speechSynthesis.speak(u);
+}
+
+// ══════════════════════════════════════════════
+// ALERT SYSTEM
+// ══════════════════════════════════════════════
+let alertTimer = null;
+function showAlert(msg, type='red', duration=3000) {
+  const el = document.getElementById('alertBanner');
+  el.textContent = msg;
+  el.className = 'alert-banner show ' + type;
+  clearTimeout(alertTimer);
+  alertTimer = setTimeout(() => el.className='alert-banner', duration);
+}
+
+function throttleAlert(key, fn, ms=8000) {
+  const now = Date.now();
+  if (!state.detection.lastAlert[key] || now - state.detection.lastAlert[key] > ms) {
+    state.detection.lastAlert[key] = now;
+    fn();
+  }
+}
+
+// ══════════════════════════════════════════════
+// TOAST
+// ══════════════════════════════════════════════
+let toastTimer;
+function toast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show'), 2800);
+}
 
 // ══════════════════════════════════════════════
 // VIEW SWITCHING
 // ══════════════════════════════════════════════
 function switchView(v) {
-  state.view = v;
-  ['deck','cam','obd','codes'].forEach(id => {
-    document.getElementById('view-' + id).style.display = (id === v) ? 'flex' : 'none';
+  ['deck','cam','obd','codes'].forEach(n => {
+    document.getElementById('view-'+n).style.display = 'none';
   });
-  document.querySelectorAll('.nav-tab').forEach((t, i) => {
-    t.classList.toggle('active', ['deck','cam','obd','codes'][i] === v);
-  });
-  if (v === 'cam' && !state.stream) startCamera();
+  document.getElementById('view-'+v).style.display = 'flex';
+  state.currentView = v;
+  if (v === 'cam') startCamera();
+  if (v === 'codes') renderTLLearning();
 }
 
 // ══════════════════════════════════════════════
@@ -591,553 +530,754 @@ function updateClock() {
   const now = new Date();
   const h = String(now.getHours()).padStart(2,'0');
   const m = String(now.getMinutes()).padStart(2,'0');
-  document.getElementById('clock-time').textContent = `${h}:${m}`;
-  const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  document.getElementById('clock-date').textContent =
-    `${days[now.getDay()]}, ${months[now.getMonth()]} ${now.getDate()}`;
-  // cam timestamp
-  const s = String(now.getSeconds()).padStart(2,'0');
-  document.getElementById('cam-timestamp').textContent =
-    `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')} ${h}:${m}:${s}`;
+  const days=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  const months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  document.getElementById('clockTime').textContent = h+':'+m;
+  document.getElementById('clockDate').textContent = days[now.getDay()]+', '+months[now.getMonth()]+' '+now.getDate();
+  document.getElementById('camTimestamp').textContent = h+':'+m+':'+String(now.getSeconds()).padStart(2,'0');
 }
 setInterval(updateClock, 1000);
 updateClock();
 
 // ══════════════════════════════════════════════
+// SPEED — SMOOTHED GPS
+// ══════════════════════════════════════════════
+const SPEED_SMOOTH = 6; // rolling average window
+
+function pushSpeed(raw) {
+  state.speedHistory.push(raw);
+  if (state.speedHistory.length > SPEED_SMOOTH) state.speedHistory.shift();
+  const avg = state.speedHistory.reduce((a,b)=>a+b,0) / state.speedHistory.length;
+  return Math.round(avg);
+}
+
+function renderSpeed(kmh) {
+  const el = document.getElementById('deckSpeed');
+  el.textContent = kmh;
+  el.className = 'speed-num' + (kmh > 130 ? ' danger' : kmh > 100 ? ' warning' : '');
+  document.getElementById('camSpeed').innerHTML = kmh + ' <span style="font-size:14px;opacity:.5">km/h</span>';
+}
+
+// ══════════════════════════════════════════════
 // GPS
 // ══════════════════════════════════════════════
-let gpsWatcher = null;
 function startGPS() {
-  if (!navigator.geolocation) return;
-  gpsWatcher = navigator.geolocation.watchPosition(pos => {
-    const spd = pos.coords.speed ? Math.round(pos.coords.speed * 3.6) : 0;
-    state.gpsSpeed = Math.max(0, spd);
-    state.gpsLat = pos.coords.latitude.toFixed(5);
-    state.gpsLon = pos.coords.longitude.toFixed(5);
-
-    // Update deck
-    document.getElementById('deck-speed').textContent =
-      state.obdConnected ? (state.obd.speed ?? '--') : state.gpsSpeed;
-    document.getElementById('speed-src').textContent =
-      state.obdConnected ? 'OBD' : 'GPS';
-    document.getElementById('deck-lat').textContent = state.gpsLat;
-    document.getElementById('deck-lon').textContent = state.gpsLon;
-    document.getElementById('cam-speed').textContent = state.gpsSpeed;
-    document.getElementById('cam-coords').textContent =
-      `${state.gpsLat}, ${state.gpsLon}`;
-
-    // Trip calc
-    if (state.tripActive) {
-      if (state.lastPos) {
-        const d = haversine(
-          state.lastPos.lat, state.lastPos.lon,
-          pos.coords.latitude, pos.coords.longitude
-        );
-        state.tripDist += d;
-      }
-      state.lastPos = {lat: pos.coords.latitude, lon: pos.coords.longitude};
-      if (state.gpsSpeed > 0) state.tripSpeeds.push(state.gpsSpeed);
-      if (state.gpsSpeed > state.tripMaxSpeed) state.tripMaxSpeed = state.gpsSpeed;
-    }
-  }, () => {}, {enableHighAccuracy: true, maximumAge: 500});
+  if (!navigator.geolocation) { document.getElementById('speedSrc').textContent = 'NO GPS'; return; }
+  navigator.geolocation.watchPosition(pos => {
+    const rawKmh = (pos.coords.speed || 0) * 3.6;
+    const smoothed = pushSpeed(rawKmh);
+    state.gps = { speed: smoothed, lat: pos.coords.latitude, lng: pos.coords.longitude, accuracy: pos.coords.accuracy };
+    if (state.simMode) return; // sim overrides display in sim mode
+    renderSpeed(smoothed);
+    updateTripGPS(pos);
+    const lat = pos.coords.latitude.toFixed(5);
+    const lng = pos.coords.longitude.toFixed(5);
+    document.getElementById('gpsCoords').textContent = lat+', '+lng;
+    document.getElementById('camGps').textContent = 'GPS: '+lat+', '+lng;
+    detectReverse(smoothed);
+  }, null, { enableHighAccuracy:true, maximumAge:0 });
 }
 
-function haversine(lat1, lon1, lat2, lon2) {
-  const R = 6371;
-  const dLat = (lat2-lat1)*Math.PI/180;
-  const dLon = (lon2-lon1)*Math.PI/180;
-  const a = Math.sin(dLat/2)**2 + Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLon/2)**2;
-  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-}
-
-function openMaps() {
-  if (!state.gpsLat) { toast('No GPS fix yet'); return; }
-  window.open(`https://maps.google.com/?q=${state.gpsLat},${state.gpsLon}`, '_blank');
+function detectReverse(speed) {
+  // Accelerometer-based reverse detection handled in accel section
+  // GPS: very slow speed triggers reverse check
 }
 
 // ══════════════════════════════════════════════
-// TRIP TIMER
+// TRIP
 // ══════════════════════════════════════════════
-let tripInterval = null;
-function toggleTripTimer() {
-  state.tripActive = !state.tripActive;
-  if (state.tripActive) {
-    state.tripStart = Date.now();
-    state.tripDist = 0; state.tripMaxSpeed = 0;
-    state.tripSpeeds = []; state.lastPos = null;
-    document.getElementById('trip-btn-lbl').textContent = 'End Trip';
-    tripInterval = setInterval(updateTrip, 1000);
+function toggleTrip() {
+  if (!state.trip.active) {
+    state.trip = { active:true, dist:0, startTime:Date.now(), maxSpeed:0, speedSum:0, speedCount:0, lastLat:state.gps.lat, lastLng:state.gps.lng };
+    document.getElementById('tripBtnLabel').textContent = 'End Trip';
+    document.getElementById('tripBtn').classList.add('trip-active');
+    speak('Trip started');
     toast('Trip started');
   } else {
-    clearInterval(tripInterval);
-    document.getElementById('trip-btn-lbl').textContent = 'Start Trip';
+    state.trip.active = false;
+    document.getElementById('tripBtnLabel').textContent = 'Start Trip';
+    document.getElementById('tripBtn').classList.remove('trip-active');
+    saveTripLog();
+    speak('Trip ended. Distance ' + state.trip.dist.toFixed(1) + ' kilometres');
     toast('Trip saved');
   }
 }
 
-function updateTrip() {
-  if (!state.tripStart) return;
-  const elapsed = Date.now() - state.tripStart;
-  const h = Math.floor(elapsed/3600000);
-  const m = Math.floor((elapsed%3600000)/60000);
-  const s = Math.floor((elapsed%60000)/1000);
-  document.getElementById('trip-time').textContent =
-    `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
-  document.getElementById('trip-dist').textContent =
-    state.tripDist.toFixed(1) + ' km';
-  document.getElementById('trip-max').textContent =
-    state.tripMaxSpeed + ' km/h';
-  const avg = state.tripSpeeds.length
-    ? Math.round(state.tripSpeeds.reduce((a,b)=>a+b,0)/state.tripSpeeds.length)
-    : 0;
-  document.getElementById('trip-avg').textContent = avg + ' km/h';
+function updateTripGPS(pos) {
+  if (!state.trip.active) return;
+  // Update distance
+  if (state.trip.lastLat && state.trip.lastLng) {
+    state.trip.dist += haversine(state.trip.lastLat, state.trip.lastLng, pos.coords.latitude, pos.coords.longitude);
+  }
+  state.trip.lastLat = pos.coords.latitude;
+  state.trip.lastLng = pos.coords.longitude;
+
+  const spd = state.gps.speed;
+  state.trip.maxSpeed = Math.max(state.trip.maxSpeed, spd);
+  state.trip.speedSum += spd; state.trip.speedCount++;
+
+  document.getElementById('tripDist').textContent = state.trip.dist.toFixed(1);
+  const elapsed = Math.floor((Date.now()-state.trip.startTime)/1000);
+  document.getElementById('tripTime').textContent = fmt(Math.floor(elapsed/60))+':'+fmt(elapsed%60);
+  document.getElementById('tripAvg').textContent = state.trip.speedCount ? Math.round(state.trip.speedSum/state.trip.speedCount) : 0;
+  document.getElementById('tripMax').textContent = state.trip.maxSpeed;
+}
+
+function haversine(lat1,lon1,lat2,lon2) {
+  const R=6371, dLat=(lat2-lat1)*Math.PI/180, dLon=(lon2-lon1)*Math.PI/180;
+  const a=Math.sin(dLat/2)**2+Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLon/2)**2;
+  return R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
+}
+
+function fmt(n) { return String(n).padStart(2,'0'); }
+
+function saveTripLog() {
+  const log = {
+    date: new Date().toISOString(),
+    distKm: state.trip.dist.toFixed(2),
+    durationSec: Math.floor((Date.now()-state.trip.startTime)/1000),
+    maxSpeedKmh: state.trip.maxSpeed,
+    avgSpeedKmh: state.trip.speedCount ? Math.round(state.trip.speedSum/state.trip.speedCount) : 0
+  };
+  const trips = JSON.parse(localStorage.getItem('orcinos_trips')||'[]');
+  trips.push(log);
+  localStorage.setItem('orcinos_trips', JSON.stringify(trips));
 }
 
 // ══════════════════════════════════════════════
 // CAMERA
 // ══════════════════════════════════════════════
 async function startCamera() {
+  if (state.cam.stream) return;
   try {
-    if (state.stream) state.stream.getTracks().forEach(t => t.stop());
-    state.stream = await navigator.mediaDevices.getUserMedia({
-      video: {facingMode: state.facingMode, width:{ideal:1920}, height:{ideal:1080}},
+    const stream = await navigator.mediaDevices.getUserMedia({
+      video: { facingMode: state.cam.facing, width:{ideal:1920}, height:{ideal:1080} },
       audio: false
     });
-    document.getElementById('cam-video').srcObject = state.stream;
+    state.cam.stream = stream;
+    document.getElementById('camVideo').srcObject = stream;
+    await requestWakeLock();
+    startDetectionLoop();
   } catch(e) {
     toast('Camera access denied');
   }
 }
 
-function flipCamera() {
-  state.facingMode = state.facingMode === 'environment' ? 'user' : 'environment';
-  if (state.recording) toggleRecord();
-  startCamera();
+async function flipCamera() {
+  state.cam.facing = state.cam.facing === 'environment' ? 'user' : 'environment';
+  if (state.cam.stream) {
+    state.cam.stream.getTracks().forEach(t => t.stop());
+    state.cam.stream = null;
+  }
+  await startCamera();
 }
 
-function toggleRecord() {
-  if (!state.stream) { toast('No camera'); return; }
-  if (!state.recording) {
-    state.recordChunks = [];
-    state.mediaRecorder = new MediaRecorder(state.stream, {mimeType: getSupportedMime()});
-    state.mediaRecorder.ondataavailable = e => {
-      if (e.data.size > 0) state.recordChunks.push(e.data);
-    };
-    state.mediaRecorder.onstop = () => saveClip('clip');
-    state.mediaRecorder.start(1000);
-    state.recording = true;
-    document.getElementById('cam-rec-btn').classList.add('recording');
-    document.getElementById('cam-rec-text').textContent = 'Stop';
-    document.getElementById('cam-rec-dot').classList.add('on');
-    document.getElementById('cam-rec-label').textContent = 'REC';
-    toast('Recording started');
-    // Auto-rotate every 3 min
-    state._rotateTimer = setInterval(() => {
-      state.mediaRecorder.stop();
-      setTimeout(() => {
-        if (state.recording) {
-          state.recordChunks = [];
-          state.mediaRecorder.start(1000);
-        }
-      }, 300);
-    }, 180000);
-  } else {
-    clearInterval(state._rotateTimer);
-    state.mediaRecorder.stop();
-    state.recording = false;
-    document.getElementById('cam-rec-btn').classList.remove('recording');
-    document.getElementById('cam-rec-text').textContent = 'Record';
-    document.getElementById('cam-rec-dot').classList.remove('on');
-    document.getElementById('cam-rec-label').textContent = 'STANDBY';
-    toast('Recording saved');
+// Auto-flip on reverse (accelerometer)
+function handleReverse(isReversing) {
+  const shouldBeUser = isReversing;
+  const isUser = state.cam.facing === 'user';
+  if (shouldBeUser !== isUser) {
+    state.cam.facing = isReversing ? 'user' : 'environment';
+    if (state.currentView === 'cam' && state.cam.stream) {
+      state.cam.stream.getTracks().forEach(t=>t.stop());
+      state.cam.stream = null;
+      startCamera();
+    }
+    if (isReversing) { speak('Reversing detected'); showAlert('⚠ Reversing — camera flipped', 'amber', 5000); }
+    else { speak('Moving forward'); }
   }
 }
 
-function manualSave() {
-  if (!state.recording) { toast('Start recording first'); return; }
-  state.mediaRecorder.requestData();
-  setTimeout(() => {
-    const blob = new Blob([...state.recordChunks], {type: getSupportedMime()});
-    addClip('manual_' + Date.now(), blob, false);
-    toast('Clip saved manually');
-  }, 200);
+// ══════════════════════════════════════════════
+// RECORDING
+// ══════════════════════════════════════════════
+const CLIP_DURATION_MS = 3 * 60 * 1000; // 3-min segments
+
+function toggleRecording() {
+  if (!state.rec.active) startRecording();
+  else stopRecording();
 }
 
-function getSupportedMime() {
-  const types = ['video/mp4','video/webm;codecs=vp9','video/webm;codecs=vp8','video/webm'];
-  return types.find(t => MediaRecorder.isTypeSupported(t)) || 'video/webm';
+function startRecording() {
+  if (!state.cam.stream) { toast('Start camera first'); switchView('cam'); return; }
+  const mimeType = MediaRecorder.isTypeSupported('video/webm;codecs=vp9') ? 'video/webm;codecs=vp9' : 'video/webm';
+  const mr = new MediaRecorder(state.cam.stream, { mimeType, videoBitsPerSecond:2500000 });
+  mr.ondataavailable = e => { if(e.data.size>0) state.rec.chunks.push(e.data); };
+  mr.onstop = () => commitClip();
+  mr.start(1000);
+  state.rec = { ...state.rec, active:true, paused:false, mediaRecorder:mr, chunks:[], startTime:Date.now() };
+  document.getElementById('recIndicator').style.display='block';
+  document.getElementById('recordBtn').classList.add('recording');
+  document.getElementById('recordLabel').textContent='Stop';
+  document.getElementById('pauseBtn').style.display='flex';
+  // 3-min auto-segment
+  state.rec.segTimer = setInterval(() => { if(state.rec.active && !state.rec.paused) rotateClip(); }, CLIP_DURATION_MS);
+  updateRecDuration();
 }
 
-function saveClip(prefix, isImpact = false) {
-  const mime = getSupportedMime();
-  const blob = new Blob([...state.recordChunks], {type: mime});
-  if (blob.size < 1000) return;
-  const name = `${isImpact ? 'IMPACT_' : prefix + '_'}${Date.now()}`;
-  addClip(name, blob, isImpact);
+function stopRecording() {
+  clearInterval(state.rec.segTimer);
+  if (state.rec.mediaRecorder && state.rec.mediaRecorder.state !== 'inactive') state.rec.mediaRecorder.stop();
+  state.rec.active = false; state.rec.paused = false;
+  document.getElementById('recIndicator').style.display='none';
+  document.getElementById('recordBtn').classList.remove('recording','paused');
+  document.getElementById('recordLabel').textContent='Record';
+  document.getElementById('pauseBtn').style.display='none';
 }
 
-function addClip(name, blob, isImpact) {
-  state.clips.push({name, blob, isImpact});
-  if (state.clips.length > 10) state.clips.shift();
-  renderClips();
+function pauseRecording() {
+  if (!state.rec.active) return;
+  if (!state.rec.paused) {
+    state.rec.mediaRecorder.pause();
+    state.rec.paused = true;
+    document.getElementById('recordBtn').classList.add('paused');
+    document.getElementById('pauseLabel').textContent='Resume';
+    toast('Recording paused');
+  } else {
+    state.rec.mediaRecorder.resume();
+    state.rec.paused = false;
+    document.getElementById('recordBtn').classList.remove('paused');
+    document.getElementById('pauseLabel').textContent='Pause';
+    toast('Recording resumed');
+  }
 }
 
-function renderClips() {
-  const list = document.getElementById('clips-list');
-  const count = state.clips.length;
-  document.getElementById('clips-count-btn').textContent = `Clips (${count})`;
-  document.getElementById('cam-clip-count').textContent = `${count} clip${count !== 1 ? 's' : ''}`;
-  list.innerHTML = state.clips.slice().reverse().map((c,i) => `
-    <div class="clip-item">
-      <span class="clip-name ${c.isImpact ? 'impact' : ''}">${c.isImpact ? '⚠ ' : ''}${c.name}</span>
-      <button class="clip-dl" onclick="downloadClip(${state.clips.length-1-i})">Save</button>
-    </div>
-  `).join('');
+function rotateClip(tag='') {
+  if (state.rec.mediaRecorder && state.rec.mediaRecorder.state !== 'inactive') {
+    state.rec.mediaRecorder.stop();
+    setTimeout(() => {
+      const mr = new MediaRecorder(state.cam.stream, { mimeType: state.rec.mediaRecorder.mimeType, videoBitsPerSecond:2500000 });
+      mr.ondataavailable = e => { if(e.data.size>0) state.rec.chunks.push(e.data); };
+      mr.onstop = () => commitClip(tag);
+      mr.start(1000);
+      state.rec.mediaRecorder = mr; state.rec.chunks = [];
+    }, 200);
+  }
 }
 
-function downloadClip(i) {
-  const c = state.clips[i];
-  const ext = getSupportedMime().includes('mp4') ? 'mp4' : 'webm';
-  const url = URL.createObjectURL(c.blob);
-  const a = document.createElement('a');
-  a.href = url; a.download = `${c.name}.${ext}`; a.click();
-  URL.revokeObjectURL(url);
+function saveCurrentClip(tag='MANUAL') {
+  if (!state.rec.active) { toast('Not recording'); return; }
+  rotateClip(tag);
+  toast('Clip saved');
+  speak('Clip saved');
+}
+
+function commitClip(tag='') {
+  if (!state.rec.chunks.length) return;
+  const blob = new Blob(state.rec.chunks, { type:'video/webm' });
+  const ts = new Date().toISOString().replace(/[:.]/g,'-').slice(0,19);
+  const name = tag ? `${ts}_${tag}.webm` : `${ts}.webm`;
+  state.rec.clipCount++;
+  document.getElementById('clipCount').textContent = state.rec.clipCount;
+  addClipThumb(blob, name, tag);
+  // Auto-download tagged clips
+  if (tag && tag !== '') {
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = name; a.click();
+  }
+  state.rec.chunks = [];
+}
+
+function addClipThumb(blob, name, tag) {
+  const tray = document.getElementById('clipsTray');
+  const div = document.createElement('div');
+  div.className = 'clip-thumb' + (tag.includes('IMPACT')||tag.includes('RED_LIGHT')||tag.includes('LANE') ? ' impact' : tag.includes('PLATE') ? ' plate' : '');
+  div.innerHTML = `<svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg><span>${tag||'Clip'}</span>`;
+  div.onclick = () => { const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=name; a.click(); };
+  tray.appendChild(div);
 }
 
 function toggleClipsTray() {
-  state.clipsTrayOpen = !state.clipsTrayOpen;
-  document.getElementById('clips-tray').classList.toggle('open', state.clipsTrayOpen);
+  document.getElementById('clipsTray').classList.toggle('open');
 }
 
-// ── Impact detection ─────────────────────────
-let lastImpact = 0;
+function updateRecDuration() {
+  if (!state.rec.active) return;
+  const s = Math.floor((Date.now()-state.rec.startTime)/1000);
+  document.getElementById('recDuration').textContent = fmt(Math.floor(s/60))+':'+fmt(s%60);
+  setTimeout(updateRecDuration, 1000);
+}
+
+// ══════════════════════════════════════════════
+// ACCELEROMETER — IMPACT + REVERSE + POTHOLE
+// ══════════════════════════════════════════════
+let accelBaseline = null;
+let accelHistory = [];
+const ACCEL_SAMPLES = 10;
+
 window.addEventListener('devicemotion', e => {
-  if (!state.recording) return;
-  const ax = e.acceleration;
-  if (!ax) return;
-  const g = Math.sqrt((ax.x||0)**2 + (ax.y||0)**2 + (ax.z||0)**2);
-  if (g > 15 && Date.now() - lastImpact > 5000) {
-    lastImpact = Date.now();
-    state.mediaRecorder.requestData();
-    setTimeout(() => saveClip('impact', true), 200);
-    toast('⚠ Impact detected — clip saved');
+  const acc = e.accelerationIncludingGravity;
+  if (!acc) return;
+  const mag = Math.sqrt(acc.x**2 + acc.y**2 + acc.z**2);
+
+  accelHistory.push({ x:acc.x, y:acc.y, z:acc.z, mag });
+  if (accelHistory.length > ACCEL_SAMPLES) accelHistory.shift();
+
+  // Baseline (phone's normal gravity+orientation)
+  if (!accelBaseline && accelHistory.length === ACCEL_SAMPLES) {
+    accelBaseline = { x: avg(accelHistory,'x'), y: avg(accelHistory,'y'), z: avg(accelHistory,'z') };
+  }
+  if (!accelBaseline) return;
+
+  const dx = Math.abs(acc.x - accelBaseline.x);
+  const dy = Math.abs(acc.y - accelBaseline.y);
+  const dz = Math.abs(acc.z - accelBaseline.z);
+  const spike = Math.sqrt(dx**2 + dy**2 + dz**2);
+
+  const now = Date.now();
+
+  // IMPACT (high spike, 5s cooldown)
+  if (spike > 12 && now - state.accel.lastImpact > 5000) {
+    state.accel.lastImpact = now;
+    showAlert('⚠ Impact detected — clip saved', 'red');
+    speak('Impact detected. Clip saved.', true);
+    saveCurrentClip('IMPACT');
+  }
+
+  // POTHOLE (medium spike, 4s cooldown)
+  if (spike > 6 && spike <= 12 && now - (state.accel.lastPothole||0) > 4000) {
+    state.accel.lastPothole = now;
+    throttleAlert('pothole', () => {
+      showAlert('⚠ Pothole detected', 'amber', 2000);
+      speak('Pothole ahead');
+    }, 4000);
+  }
+
+  // REVERSE detection via Y-axis shift (phone portrait, moving backward)
+  if (accelBaseline) {
+    const yDiff = acc.y - accelBaseline.y;
+    const isReversing = yDiff > 3 && state.gps.speed < 10;
+    handleReverse(isReversing);
   }
 });
 
-// ══════════════════════════════════════════════
-// OBD2 — WEB BLUETOOTH
-// ══════════════════════════════════════════════
-const OBD_SERVICE = '0000fff0-0000-1000-8000-00805f9b34fb';
-const OBD_CHAR_RX = '0000fff1-0000-1000-8000-00805f9b34fb';
-const OBD_CHAR_TX = '0000fff2-0000-1000-8000-00805f9b34fb';
+function avg(arr, key) { return arr.reduce((s,o)=>s+o[key],0)/arr.length; }
 
-async function connectOBD() {
-  if (!navigator.bluetooth) {
-    toast('Web Bluetooth not supported on this browser');
-    return;
-  }
+// ══════════════════════════════════════════════
+// AI VISION DETECTION (TensorFlow.js COCO-SSD)
+// ══════════════════════════════════════════════
+let detModel = null;
+let detRunning = false;
+let detCanvas, detCtx;
+
+async function loadDetectionModel() {
   try {
-    toast('Scanning for ELM327 adapter…');
-    const device = await navigator.bluetooth.requestDevice({
-      filters: [{name: 'OBDII'}, {name: 'ELM327'}, {name: 'OBD2'}, {namePrefix: 'V-Link'}],
-      optionalServices: [OBD_SERVICE, '0000ffe0-0000-1000-8000-00805f9b34fb']
-    });
-    state.obdDevice = device;
-    const server = await device.gatt.connect();
-    toast('Connected — initialising…');
-
-    // Try common ELM327 BLE service UUIDs
-    let service;
-    try { service = await server.getPrimaryService(OBD_SERVICE); }
-    catch { service = await server.getPrimaryService('0000ffe0-0000-1000-8000-00805f9b34fb'); }
-
-    let rxChar, txChar;
-    const chars = await service.getCharacteristics();
-    for (const c of chars) {
-      const p = c.properties;
-      if (p.notify || p.indicate) rxChar = c;
-      if (p.write || p.writeWithoutResponse) txChar = c;
-    }
-
-    state.obdChar = txChar;
-    await rxChar.startNotifications();
-    rxChar.addEventListener('characteristicvaluechanged', onOBDData);
-
-    // Init ELM327
-    await sendOBD(txChar, 'ATZ\r');
-    await delay(1000);
-    await sendOBD(txChar, 'ATE0\r'); // echo off
-    await delay(300);
-    await sendOBD(txChar, 'ATL0\r'); // linefeeds off
-    await delay(300);
-    await sendOBD(txChar, 'ATH0\r'); // headers off
-    await delay(300);
-    await sendOBD(txChar, 'ATSP0\r'); // auto protocol
-    await delay(500);
-
-    setOBDConnected(true);
-    stopSim();
-    startOBDPolling(txChar);
-
-    device.addEventListener('gattserverdisconnected', () => {
-      setOBDConnected(false);
-      toast('Adapter disconnected — switching to simulation');
-      startSim();
-    });
+    await loadScript('https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.10.0/dist/tf.min.js');
+    await loadScript('https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd@2.2.2/dist/coco-ssd.min.js');
+    detModel = await cocoSsd.load({ base: 'lite_mobilenet_v2' });
+    toast('AI vision ready');
   } catch(e) {
-    toast('Could not connect — check adapter is powered on');
-    console.error(e);
+    console.warn('TF model failed — vision disabled:', e);
   }
 }
 
-let obdBuffer = '';
-function onOBDData(e) {
-  const bytes = new Uint8Array(e.target.value.buffer);
-  obdBuffer += String.fromCharCode(...bytes);
-  if (obdBuffer.includes('>')) {
-    parseOBDResponse(obdBuffer.trim());
-    obdBuffer = '';
-  }
+function loadScript(src) {
+  return new Promise((res,rej) => {
+    if (document.querySelector(`script[src="${src}"]`)) { res(); return; }
+    const s = document.createElement('script'); s.src=src; s.onload=res; s.onerror=rej;
+    document.head.appendChild(s);
+  });
 }
 
-function parseOBDResponse(raw) {
-  const lines = raw.split('\n').map(l => l.trim()).filter(l => l && l !== '>');
-  for (const line of lines) {
-    const hex = line.replace(/\s/g,'');
-    if (hex.startsWith('41')) {
-      const pid = hex.substring(2,4).toUpperCase();
-      const a = parseInt(hex.substring(4,6),16);
-      const b = parseInt(hex.substring(6,8),16) || 0;
-      switch(pid) {
-        case '0C': updateOBD('rpm', ((a*256)+b)/4); break;
-        case '0D': updateOBD('speed', a); break;
-        case '05': updateOBD('coolant', a - 40); break;
-        case '2F': updateOBD('fuel', Math.round(a * 100/255)); break;
-        case '04': updateOBD('load', Math.round(a * 100/255)); break;
-        case '11': updateOBD('throttle', Math.round(a * 100/255)); break;
-        case '0F': updateOBD('iat', a - 40); break;
-        case '10': updateOBD('maf', ((a*256)+b)/100); break;
-        case '1F': updateOBD('runtime', Math.round(((a*256)+b)/60)); break;
+function startDetectionLoop() {
+  if (detRunning) return;
+  detCanvas = document.getElementById('detectionCanvas');
+  detCtx = detCanvas.getContext('2d');
+  detRunning = true;
+  requestAnimationFrame(runDetection);
+  loadDetectionModel();
+}
+
+async function runDetection() {
+  if (!detRunning || state.currentView !== 'cam') {
+    requestAnimationFrame(runDetection); return;
+  }
+  const video = document.getElementById('camVideo');
+  if (video.readyState < 2 || !detModel) {
+    requestAnimationFrame(runDetection); return;
+  }
+  // Sync canvas size
+  if (detCanvas.width !== video.videoWidth) {
+    detCanvas.width = video.videoWidth; detCanvas.height = video.videoHeight;
+  }
+  detCtx.clearRect(0,0,detCanvas.width,detCanvas.height);
+
+  try {
+    const preds = await detModel.detect(video);
+    processDetections(preds, detCanvas, detCtx);
+  } catch(e) {}
+
+  // Traffic light color analysis
+  analyzeTrafficLight(video, detCtx);
+
+  // Lane departure (simplified line detection)
+  analyzeLanes(video, detCtx);
+
+  setTimeout(() => requestAnimationFrame(runDetection), 200); // ~5fps for battery
+}
+
+function processDetections(preds, canvas, ctx) {
+  const scaleX = canvas.clientWidth / canvas.width;
+  const scaleY = canvas.clientHeight / canvas.height;
+
+  preds.forEach(p => {
+    const [x,y,w,h] = p.bbox;
+    const conf = p.score;
+    if (conf < 0.45) return;
+
+    let cls = '';
+    if (['car','truck','bus','motorcycle'].includes(p.class)) cls = 'vehicle';
+    else if (p.class === 'traffic light') cls = 'traffic-light-obj';
+    else return;
+
+    // Draw box
+    ctx.save();
+    ctx.strokeStyle = cls==='vehicle' ? '#f59e0b' : '#22c55e';
+    ctx.lineWidth = 2;
+    ctx.strokeRect(x,y,w,h);
+    ctx.fillStyle = ctx.strokeStyle;
+    ctx.font = '12px Inter, system-ui, sans-serif';
+    ctx.fillRect(x, y-18, ctx.measureText(p.class).width+12, 18);
+    ctx.fillStyle = '#000';
+    ctx.fillText(p.class, x+6, y-4);
+    ctx.restore();
+
+    // Tailgating: large vehicle box near bottom of frame
+    if (cls === 'vehicle') {
+      const relH = h / canvas.height;
+      const relY = (y+h) / canvas.height;
+      if (relH > 0.35 && relY > 0.7) {
+        throttleAlert('tailgate', () => {
+          showAlert('⚠ Too close to vehicle ahead', 'red');
+          speak('Warning. Too close to the vehicle ahead.', true);
+        }, 6000);
       }
     }
+  });
+}
+
+// ── Traffic Light Color Extraction ──
+function analyzeTrafficLight(video, ctx) {
+  const tempCanvas = document.createElement('canvas');
+  tempCanvas.width = 80; tempCanvas.height = 60;
+  const tc = tempCanvas.getContext('2d');
+  // Sample top-center area where lights typically appear
+  tc.drawImage(video, video.videoWidth*0.3, 0, video.videoWidth*0.4, video.videoHeight*0.4, 0, 0, 80, 60);
+  const data = tc.getImageData(0, 0, 80, 60).data;
+
+  let redPx=0, greenPx=0, total=0;
+  for (let i=0; i<data.length; i+=4) {
+    const r=data[i], g=data[i+1], b=data[i+2];
+    const bright = r>160 || g>160;
+    if (!bright) continue;
+    total++;
+    if (r>180 && g<100 && b<100) redPx++;
+    if (g>180 && r<120 && b<100) greenPx++;
+  }
+  if (total < 20) return;
+  const redRatio = redPx/total;
+  const greenRatio = greenPx/total;
+
+  if (redRatio > 0.08) handleTrafficLight('red');
+  else if (greenRatio > 0.08) handleTrafficLight('green');
+}
+
+function handleTrafficLight(color) {
+  const now = Date.now();
+  const el_r = document.getElementById('tlRed');
+  const el_g = document.getElementById('tlGreen');
+  document.getElementById('tlIndicator').classList.add('show');
+
+  if (color === 'red') {
+    el_r.classList.add('red-on'); el_g.classList.remove('green-on');
+    if (state.tl.lastState !== 'red') {
+      state.tl.lastState = 'red'; state.tl.lastStateTime = now;
+      throttleAlert('red_light', () => {
+        showAlert('🔴 Red light ahead', 'red');
+        speak('Red light ahead. Prepare to stop.', true);
+        logRedLightStart();
+        if (state.rec.active) saveCurrentClip('RED_LIGHT');
+      }, 10000);
+    }
+    // Show timer estimate
+    const elapsed = Math.floor((now - state.tl.lastStateTime)/1000);
+    const pred = predictGreen();
+    if (pred) {
+      const remaining = Math.max(0, pred - elapsed);
+      document.getElementById('tlTimer').textContent = remaining+'s';
+      if (remaining <= 5 && remaining > 0) {
+        throttleAlert('green_soon', () => speak('Green light in '+remaining+' seconds. Prepare.'), 5000);
+      }
+    } else {
+      document.getElementById('tlTimer').textContent = elapsed+'s';
+    }
+  } else if (color === 'green') {
+    el_g.classList.add('green-on'); el_r.classList.remove('red-on');
+    if (state.tl.lastState !== 'green') {
+      const wasRed = state.tl.lastState === 'red';
+      const redDuration = wasRed ? (now - state.tl.lastStateTime) : null;
+      state.tl.lastState = 'green'; state.tl.lastStateTime = now;
+      throttleAlert('green_light', () => {
+        showAlert('🟢 Green light', 'green');
+        speak('Green light. You may proceed.', true);
+        if (redDuration) logRedLightEnd(redDuration);
+      }, 10000);
+    }
+    document.getElementById('tlTimer').textContent = '--';
   }
 }
 
-async function startOBDPolling(txChar) {
-  const pids = [
-    {cmd:'010C\r', key:'rpm'},
-    {cmd:'010D\r', key:'speed'},
-    {cmd:'0105\r', key:'coolant'},
-    {cmd:'012F\r', key:'fuel'},
-    {cmd:'0104\r', key:'load'},
-    {cmd:'0111\r', key:'throttle'},
-    {cmd:'010F\r', key:'iat'},
-    {cmd:'0110\r', key:'maf'},
-    {cmd:'011F\r', key:'runtime'}
-  ];
-  let i = 0;
-  state.obdPoll = setInterval(async () => {
-    if (!state.obdConnected) return;
-    await sendOBD(txChar, pids[i % pids.length].cmd);
-    i++;
-  }, 300);
+// ── Traffic Light Learning (IndexedDB) ──
+function logRedLightStart() {
+  if (!state.gps.lat) return;
+  state.tl.current = { lat:state.gps.lat, lng:state.gps.lng, redAt:Date.now() };
 }
 
-async function sendOBD(char, cmd) {
-  if (!char) return;
-  const enc = new TextEncoder().encode(cmd);
-  try { await char.writeValue(enc); } catch(e) {}
+function logRedLightEnd(durationMs) {
+  if (!state.tl.current) return;
+  const durationSec = Math.round(durationMs/1000);
+  const lat = state.tl.current.lat;
+  const lng = state.tl.current.lng;
+
+  // Find or create intersection in db
+  const THRESHOLD = 0.0003; // ~30m
+  let found = state.tl.db.find(i => Math.abs(i.lat-lat)<THRESHOLD && Math.abs(i.lng-lng)<THRESHOLD);
+  if (found) {
+    found.avgRed = Math.round((found.avgRed * found.samples + durationSec) / (found.samples+1));
+    found.samples++;
+  } else {
+    state.tl.db.push({ lat, lng, avgRed:durationSec, samples:1 });
+  }
+  saveTLDB();
+  renderTLLearning();
+  state.tl.current = null;
+  toast('🚦 Intersection learned: '+durationSec+'s red phase');
 }
 
-async function scanCodes() {
-  if (!state.obdConnected) {
-    // Show sample codes in sim
-    state.dtcCodes = [
-      {code:'P0171', desc:'System Too Lean (Bank 1)', type:'active'},
-      {code:'P0420', desc:'Catalyst System Efficiency Below Threshold', type:'pending'}
-    ];
-    renderCodes();
-    toast('Sim: showing sample codes');
+function predictGreen() {
+  if (!state.gps.lat || !state.tl.db.length) return null;
+  const THRESHOLD = 0.0003;
+  const found = state.tl.db.find(i => Math.abs(i.lat-state.gps.lat)<THRESHOLD && Math.abs(i.lng-state.gps.lng)<THRESHOLD);
+  if (found && found.samples >= 3) return found.avgRed;
+  return null;
+}
+
+function saveTLDB() {
+  localStorage.setItem('orcinos_tl_db', JSON.stringify(state.tl.db));
+}
+
+function loadTLDB() {
+  const raw = localStorage.getItem('orcinos_tl_db');
+  if (raw) state.tl.db = JSON.parse(raw);
+}
+
+function renderTLLearning() {
+  const count = state.tl.db.length;
+  document.getElementById('tlLearnCount').textContent = count;
+  const el = document.getElementById('tlLearnList');
+  if (!count) {
+    el.innerHTML='<div style="font-size:12px;color:rgba(255,255,255,.3);padding:4px 0">No data yet. Drive past traffic lights to start building your map.</div>';
     return;
   }
-  toast('Scanning for fault codes…');
-  await sendOBD(state.obdChar, '03\r');
+  el.innerHTML = state.tl.db.slice(-5).reverse().map(i =>
+    `<div class="tl-intersection-item">
+      <span class="tl-int-coords">${i.lat.toFixed(4)}, ${i.lng.toFixed(4)}</span>
+      <span class="tl-int-data">~${i.avgRed}s red · ${i.samples} visit${i.samples>1?'s':''}</span>
+    </div>`
+  ).join('');
+}
+
+// ── Lane Departure ──
+let laneWarnCooldown = 0;
+function analyzeLanes(video, ctx) {
+  const now = Date.now();
+  if (now - laneWarnCooldown < 6000) return;
+  // Sample horizontal strips for lane markers
+  const tempC = document.createElement('canvas');
+  tempC.width=80; tempC.height=40;
+  const tc = tempC.getContext('2d');
+  tc.drawImage(video, 0, video.videoHeight*0.55, video.videoWidth, video.videoHeight*0.3, 0,0,80,40);
+  const data = tc.getImageData(0,0,80,40).data;
+  let leftBright=0, rightBright=0;
+  for(let y=0;y<40;y++){
+    for(let x=0;x<80;x++){
+      const i=(y*80+x)*4;
+      const bright=(data[i]+data[i+1]+data[i+2])>600;
+      if(bright){ if(x<15) leftBright++; if(x>65) rightBright++; }
+    }
+  }
+  if(leftBright>40){
+    laneWarnCooldown=now;
+    showAlert('⚠ Lane departure — LEFT', 'amber');
+    speak('Lane departure. Moving left.', true);
+    if(state.rec.active) saveCurrentClip('LANE_LEFT');
+  } else if(rightBright>40){
+    laneWarnCooldown=now;
+    showAlert('⚠ Lane departure — RIGHT', 'amber');
+    speak('Lane departure. Moving right.', true);
+    if(state.rec.active) saveCurrentClip('LANE_RIGHT');
+  }
+}
+
+// ══════════════════════════════════════════════
+// OBD DIAGNOSTICS
+// ══════════════════════════════════════════════
+function buildOBDGrid() {
+  const grid = document.getElementById('obdGrid');
+  grid.innerHTML = OBD_CARDS.map(c =>
+    `<div class="obd-card">
+      <div class="obd-card-label">${c.label}</div>
+      <div>
+        <span class="obd-card-value" id="obd_${c.id}">--</span>
+        <span class="obd-card-unit"> ${c.unit}</span>
+      </div>
+      <div class="obd-bar-track"><div class="obd-bar-fill" id="obd_bar_${c.id}" style="width:0%"></div></div>
+    </div>`
+  ).join('');
+}
+
+function updateOBDCard(id, value) {
+  const card = OBD_CARDS.find(c=>c.id===id);
+  if (!card) return;
+  document.getElementById('obd_'+id).textContent = typeof value==='number' ? (Number.isInteger(value)?value:value.toFixed(1)) : value;
+  const pct = Math.min(100, (value/card.max)*100);
+  const bar = document.getElementById('obd_bar_'+id);
+  bar.style.width = pct+'%';
+  bar.className = 'obd-bar-fill' + (value>=card.danger?' danger':value>=card.warn?' warn':'');
+}
+
+function setOBDConnected(connected) {
+  state.obdConnected = connected; state.simMode = !connected;
+  const dots = ['obdDot1','obdDot2','obdDot3','obdDot4'];
+  const labels = ['obdLabel1','obdLabel2','obdLabel3','obdLabel4'];
+  dots.forEach(id=>{
+    const el=document.getElementById(id);
+    el.className='obd-dot'+(connected?' connected':' sim');
+  });
+  labels.forEach(id=>{ document.getElementById(id).textContent=connected?'OBD':'SIM'; });
+  document.getElementById('simBadge').style.display = connected?'none':'flex';
+  document.getElementById('connectBtn').textContent = connected?'Disconnect':'Connect BLE Adapter';
+}
+
+async function connectOBD() {
+  if (state.obdConnected) { setOBDConnected(false); return; }
+  if (!navigator.bluetooth) { toast('Bluetooth not available in this browser'); return; }
+  try {
+    const device = await navigator.bluetooth.requestDevice({
+      filters:[{services:['0000fff0-0000-1000-8000-00805f9b34fb']}],
+      optionalServices:['0000fff0-0000-1000-8000-00805f9b34fb']
+    });
+    toast('Connecting to '+device.name+'...');
+    const server = await device.gatt.connect();
+    setOBDConnected(true);
+    speak('OBD adapter connected');
+    toast('Connected: '+device.name);
+    startOBDPolling(server);
+  } catch(e) {
+    toast('Connection failed or cancelled');
+  }
+}
+
+function startOBDPolling(server) {
+  // Real OBD2 polling via BLE would go here
+  // For now falls through to sim
+}
+
+// ══════════════════════════════════════════════
+// SIMULATION (NZE121 realistic values)
+// ══════════════════════════════════════════════
+let simTick = 0;
+function startSim() {
+  setInterval(() => {
+    simTick++;
+    const t = simTick;
+    // Realistic driving pattern
+    const cycle = t % 120;
+    let simSpeed;
+    if (cycle < 10) simSpeed = 0;                        // stopped at light
+    else if (cycle < 30) simSpeed = (cycle-10)*3;         // accelerating
+    else if (cycle < 80) simSpeed = 60 + Math.sin(t*0.1)*8; // cruising
+    else if (cycle < 100) simSpeed = 60-((cycle-80)*3);  // braking
+    else simSpeed = 0;
+
+    simSpeed = Math.max(0, simSpeed);
+    const smoothSim = pushSpeed(simSpeed);
+
+    state.obd.speed = smoothSim;
+    state.obd.rpm = simSpeed < 5 ? 750+Math.random()*100 : 1200 + simSpeed*18 + Math.random()*200;
+    state.obd.coolant = 85 + Math.sin(t*0.02)*5;
+    state.obd.fuel = Math.max(20, 72 - t*0.01);
+    state.obd.load = simSpeed < 5 ? 8 : 15 + simSpeed*0.4;
+    state.obd.throttle = simSpeed < 5 ? 0 : 8 + simSpeed*0.3;
+    state.obd.intake = 28 + Math.random()*3;
+    state.obd.maf = 4 + simSpeed*0.06;
+    state.obd.runtime = Math.floor(t/60);
+
+    if (state.simMode) {
+      renderSpeed(smoothSim);
+      // Deck stats
+      document.getElementById('statRpm').textContent = Math.round(state.obd.rpm);
+      document.getElementById('statCoolant').textContent = Math.round(state.obd.coolant)+'°';
+      document.getElementById('statFuel').textContent = Math.round(state.obd.fuel)+'%';
+      document.getElementById('statLoad').textContent = Math.round(state.obd.load)+'%';
+    }
+
+    // OBD cards (always update if on diag view)
+    OBD_CARDS.forEach(c => updateOBDCard(c.id, state.obd[c.id]||0));
+
+  }, 1000);
+}
+
+// ══════════════════════════════════════════════
+// FAULT CODES
+// ══════════════════════════════════════════════
+const SAMPLE_CODES = [
+  {id:'P0420',desc:'Catalyst System Efficiency Below Threshold — Bank 1',sev:'Moderate'},
+  {id:'P0171',desc:'System Too Lean — Bank 1',sev:'Low'},
+];
+
+let activeCodes = [];
+
+function scanCodes() {
+  if (state.obdConnected) {
+    toast('Scanning ECU...');
+    // Real scan would happen here
+    return;
+  }
+  // Sim: show sample codes
+  activeCodes = [...SAMPLE_CODES];
+  renderCodes();
+  document.getElementById('codesSubtitle').textContent = activeCodes.length+' code'+( activeCodes.length!==1?'s':'')+' found';
+  document.getElementById('clearBtn').style.display = activeCodes.length ? 'block' : 'none';
+  if (activeCodes.length) speak(activeCodes.length+' fault codes found');
 }
 
 function clearCodes() {
-  if (!state.obdConnected && !state.dtcCodes.length) { toast('No codes to clear'); return; }
-  state.dtcCodes = [];
+  activeCodes = [];
   renderCodes();
+  document.getElementById('codesSubtitle').textContent = 'No fault codes';
+  document.getElementById('clearBtn').style.display='none';
   toast('Codes cleared');
-  if (state.obdConnected) sendOBD(state.obdChar, '04\r');
 }
 
 function renderCodes() {
-  const body = document.getElementById('codes-body');
-  const empty = document.getElementById('codes-empty');
-  if (!state.dtcCodes.length) {
-    empty.style.display = 'flex'; return;
-  }
-  empty.style.display = 'none';
-  body.innerHTML = state.dtcCodes.map(c => `
-    <div class="code-card ${c.type === 'active' ? 'active-fault' : ''}">
-      <span class="code-badge ${c.type === 'pending' ? 'pending' : ''}">${c.code}</span>
-      <div class="code-info">
-        <div class="code-desc">${c.desc}</div>
-        <div class="code-sub">${c.type === 'active' ? 'Active fault' : 'Pending'} — Toyota Corolla NZE121</div>
-      </div>
-    </div>
-  `).join('') + `<div id="codes-empty" style="display:none"></div>`;
+  document.getElementById('codesList').innerHTML = activeCodes.map(c=>
+    `<div class="code-item">
+      <div class="code-id">${c.id}</div>
+      <div class="code-desc">${c.desc}</div>
+      <div class="code-severity">Severity: ${c.sev}</div>
+    </div>`
+  ).join('');
 }
 
 // ══════════════════════════════════════════════
-// OBD DATA UPDATE
+// MAPS
 // ══════════════════════════════════════════════
-function updateOBD(key, value) {
-  state.obd[key] = value;
-  renderOBD();
-  // Also update deck if OBD connected
-  if (key === 'speed') {
-    document.getElementById('deck-speed').textContent = value;
-    document.getElementById('cam-speed').textContent = value;
-  }
-  if (key === 'rpm') document.getElementById('deck-rpm').textContent = Math.round(value).toLocaleString();
-  if (key === 'coolant') {
-    document.getElementById('deck-coolant').textContent = value + '°C';
-  }
-  if (key === 'fuel') document.getElementById('deck-fuel').textContent = value + '%';
-  if (key === 'load') document.getElementById('deck-load').textContent = value + '%';
-}
-
-function renderOBD() {
-  const o = state.obd;
-
-  // Speed
-  if (o.speed !== null) {
-    document.getElementById('g-speed-val').textContent = o.speed;
-    document.getElementById('g-speed-bar').style.width = Math.min(o.speed/200*100,100)+'%';
-  }
-  // RPM
-  if (o.rpm !== null) {
-    document.getElementById('g-rpm-val').textContent = Math.round(o.rpm).toLocaleString();
-    document.getElementById('g-rpm-bar').style.width = Math.min(o.rpm/7000*100,100)+'%';
-    const rpmCard = document.getElementById('g-rpm');
-    rpmCard.classList.toggle('warn', o.rpm > 5500);
-    rpmCard.classList.toggle('alert', o.rpm > 6500);
-  }
-  // Coolant
-  if (o.coolant !== null) {
-    document.getElementById('g-coolant-val').textContent = o.coolant;
-    document.getElementById('g-coolant-bar').style.width = Math.min((o.coolant+40)/160*100,100)+'%';
-    const bar = document.getElementById('g-coolant-bar');
-    const card = document.getElementById('g-coolant');
-    bar.style.background = o.coolant > 100 ? '#ef4444' : o.coolant > 90 ? '#f59e0b' : '#3b82f6';
-    card.classList.toggle('warn', o.coolant > 90 && o.coolant <= 100);
-    card.classList.toggle('alert', o.coolant > 100);
-  }
-  // Fuel
-  if (o.fuel !== null) {
-    document.getElementById('g-fuel-val').textContent = o.fuel;
-    document.getElementById('g-fuel-bar').style.width = o.fuel+'%';
-    const bar = document.getElementById('g-fuel-bar');
-    const card = document.getElementById('g-fuel');
-    bar.style.background = o.fuel < 15 ? '#ef4444' : o.fuel < 25 ? '#f59e0b' : '#22c55e';
-    card.classList.toggle('warn', o.fuel < 25 && o.fuel >= 15);
-    card.classList.toggle('alert', o.fuel < 15);
-  }
-  // Load
-  if (o.load !== null) {
-    document.getElementById('g-load-val').textContent = o.load;
-    document.getElementById('g-load-bar').style.width = o.load+'%';
-    document.getElementById('g-load-bar').style.background = o.load > 85 ? '#ef4444' : o.load > 70 ? '#f59e0b' : '#3b82f6';
-  }
-  // Throttle
-  if (o.throttle !== null) {
-    document.getElementById('g-throttle-val').textContent = o.throttle;
-    document.getElementById('g-throttle-bar').style.width = o.throttle+'%';
-  }
-  // IAT
-  if (o.iat !== null) {
-    document.getElementById('g-iat-val').textContent = o.iat;
-    document.getElementById('g-iat-bar').style.width = Math.min((o.iat+20)/80*100,100)+'%';
-  }
-  // MAF
-  if (o.maf !== null) {
-    document.getElementById('g-maf-val').textContent = o.maf.toFixed(1);
-    document.getElementById('g-maf-bar').style.width = Math.min(o.maf/30*100,100)+'%';
-  }
-  // Runtime
-  if (o.runtime !== null) {
-    document.getElementById('g-runtime-val').textContent = o.runtime;
-    document.getElementById('g-runtime-bar').style.width = Math.min(o.runtime/120*100,100)+'%';
-  }
-}
-
-// ══════════════════════════════════════════════
-// SIMULATION MODE (NZE121 realistic values)
-// ══════════════════════════════════════════════
-function startSim() {
-  if (state.simInterval) return;
-  let t = 0;
-  state.simInterval = setInterval(() => {
-    t += 0.05;
-    const spd = Math.max(0, Math.round(40 + Math.sin(t*0.3)*30 + Math.random()*5));
-    const rpm = Math.round(800 + (spd/120)*4200 + Math.random()*200 - 100);
-    const coolant = Math.round(85 + Math.sin(t*0.1)*8 + Math.random()*3);
-    const fuel = Math.max(0, Math.round(68 - t*0.02));
-    const load = Math.round(30 + (spd/120)*45 + Math.random()*10);
-    const throttle = Math.round(load * 0.8 + Math.random()*10);
-    const iat = Math.round(32 + Math.random()*4);
-    const maf = parseFloat((2 + (rpm/7000)*28 + Math.random()).toFixed(1));
-    const runtime = Math.round(t/1.2);
-
-    updateOBD('speed', spd);
-    updateOBD('rpm', rpm);
-    updateOBD('coolant', coolant);
-    updateOBD('fuel', fuel);
-    updateOBD('load', load);
-    updateOBD('throttle', throttle);
-    updateOBD('iat', iat);
-    updateOBD('maf', maf);
-    updateOBD('runtime', runtime);
-
-    // fake GPS speed too when no GPS
-    if (!state.gpsLat) {
-      document.getElementById('deck-speed').textContent = spd;
-      document.getElementById('cam-speed').textContent = spd;
-    }
-  }, 800);
-}
-
-function stopSim() {
-  clearInterval(state.simInterval);
-  state.simInterval = null;
-}
-
-function setOBDConnected(v) {
-  state.obdConnected = v;
-  state.simMode = !v;
-  const dot = document.getElementById('obd-dot');
-  const label = document.getElementById('obd-label');
-  const badge = document.getElementById('obd-sim-badge');
-  const modeLabel = document.getElementById('obd-mode-label');
-  const btn = document.getElementById('obd-connect-btn');
-  if (v) {
-    dot.className = 'obd-dot connected';
-    label.textContent = 'OBD Live';
-    badge.style.display = 'none';
-    modeLabel.textContent = 'Live Data';
-    btn.textContent = 'Disconnect';
-    document.getElementById('speed-src').textContent = 'OBD';
-  } else {
-    dot.className = 'obd-dot sim';
-    label.textContent = 'Simulation';
-    badge.style.display = '';
-    modeLabel.textContent = 'Simulation Mode';
-    btn.textContent = 'Connect Adapter';
-    document.getElementById('speed-src').textContent = 'GPS';
-  }
+function openMaps() {
+  const { lat, lng } = state.gps;
+  if (lat && lng) window.open(`https://maps.google.com/?q=${lat},${lng}`,'_blank');
+  else window.open('https://maps.google.com','_blank');
 }
 
 // ══════════════════════════════════════════════
@@ -1145,56 +1285,27 @@ function setOBDConnected(v) {
 // ══════════════════════════════════════════════
 async function requestWakeLock() {
   if (!('wakeLock' in navigator)) return;
-  try { state.wakeLock = await navigator.wakeLock.request('screen'); }
-  catch(e) {}
+  try { state.wakeLock = await navigator.wakeLock.request('screen'); } catch(e) {}
 }
 document.addEventListener('visibilitychange', () => {
-  if (document.visibilityState === 'visible') requestWakeLock();
+  if (document.visibilityState==='visible') requestWakeLock();
 });
-
-// ══════════════════════════════════════════════
-// TOAST
-// ══════════════════════════════════════════════
-function toast(msg, duration=2500) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  clearTimeout(t._t);
-  t._t = setTimeout(() => t.classList.remove('show'), duration);
-}
-
-// ══════════════════════════════════════════════
-// HELPERS
-// ══════════════════════════════════════════════
-function delay(ms) { return new Promise(r => setTimeout(r, ms)); }
-
-// ══════════════════════════════════════════════
-// KEYBOARD (desktop testing)
-// ══════════════════════════════════════════════
-document.addEventListener('keydown', e => {
-  if (e.code === 'Space') { e.preventDefault(); if (state.view==='cam') toggleRecord(); }
-  if (e.code === 'KeyF') flipCamera();
-  if (e.code === 'Digit1') switchView('deck');
-  if (e.code === 'Digit2') switchView('cam');
-  if (e.code === 'Digit3') switchView('obd');
-  if (e.code === 'Digit4') switchView('codes');
-});
-
-// ══════════════════════════════════════════════
-// SERVICE WORKER
-// ══════════════════════════════════════════════
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/drive-sw.js').catch(() => {});
-}
 
 // ══════════════════════════════════════════════
 // BOOT
 // ══════════════════════════════════════════════
+buildOBDGrid();
+loadTLDB();
+renderTLLearning();
+renderCodes();
 requestWakeLock();
 startGPS();
-startSim(); // Always start in sim — real OBD overrides when connected
+startSim();
 setOBDConnected(false);
-renderCodes();
+
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/drive-sw.js').catch(()=>{});
+}
 </script>
 </body>
 </html>
