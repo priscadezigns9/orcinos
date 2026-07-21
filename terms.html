@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Terms of Use — Orcinos</title>
+  <style>
+    :root {
+      --blue-deep: #1a3db5;
+      --blue-mid: #2563eb;
+      --blue-light: #38bdf8;
+      --purple: #6b21e8;
+      --purple-mid: #7c3aed;
+      --purple-soft: #a78bfa;
+      --bg: #080d1f;
+      --bg2: #0d1330;
+      --text: #e8eaf6;
+      --muted: #7b8ab8;
+      --border: rgba(56, 189, 248, 0.1);
+      --card-bg: rgba(255, 255, 255, 0.04);
+      --grad-word: linear-gradient(90deg, var(--blue-light), var(--purple));
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.75;
+      font-size: 1rem;
+    }
+
+    /* NAV */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.2rem 2rem;
+      background: rgba(8, 13, 31, 0.88);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-logo img {
+      height: 32px;
+      display: block;
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 2rem;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--muted);
+      font-size: 0.9rem;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    /* HERO BAND */
+    .page-header {
+      padding: 5rem 2rem 3rem;
+      text-align: center;
+      background: radial-gradient(circle, rgba(107, 33, 232, 0.14) 0%, rgba(37, 99, 235, 0.06) 50%, transparent 70%);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .page-header .label {
+      display: inline-block;
+      background: rgba(107, 33, 232, 0.1);
+      border: 1px solid rgba(167, 139, 250, 0.2);
+      color: var(--purple-soft);
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.9rem;
+      border-radius: 999px;
+      margin-bottom: 1.2rem;
+    }
+
+    .page-header h1 {
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 700;
+      background: var(--grad-word);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.75rem;
+    }
+
+    .page-header .subtitle {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    /* CONTENT */
+    .content-wrap {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 4rem 2rem 6rem;
+    }
+
+    .effective {
+      color: var(--muted);
+      font-size: 0.88rem;
+      margin-bottom: 3rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .product-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 3rem;
+    }
+
+    .product-tag {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0.3rem 1rem;
+      font-size: 0.82rem;
+      color: var(--purple-soft);
+    }
+
+    .section {
+      margin-bottom: 3rem;
+    }
+
+    .section h2 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .section h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--blue-light);
+      margin: 1.5rem 0 0.5rem;
+    }
+
+    .section p {
+      color: #c5cae9;
+      margin-bottom: 0.75rem;
+    }
+
+    .section ul {
+      margin: 0.5rem 0 1rem 1.2rem;
+      color: #c5cae9;
+    }
+
+    .section ul li {
+      margin-bottom: 0.4rem;
+    }
+
+    .note-card {
+      background: rgba(107, 33, 232, 0.07);
+      border: 1px solid rgba(167, 139, 250, 0.15);
+      border-radius: 10px;
+      padding: 1.2rem 1.4rem;
+      color: #c5cae9;
+      font-size: 0.93rem;
+      margin: 1.5rem 0;
+    }
+
+    .note-card strong {
+      color: var(--purple-soft);
+    }
+
+    .warn-card {
+      background: rgba(220, 38, 38, 0.06);
+      border: 1px solid rgba(220, 38, 38, 0.2);
+      border-radius: 10px;
+      padding: 1.2rem 1.4rem;
+      color: #c5cae9;
+      font-size: 0.93rem;
+      margin: 1.5rem 0;
+    }
+
+    .warn-card strong {
+      color: #f87171;
+    }
+
+    .contact-box {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem 1.8rem;
+      margin-top: 1rem;
+    }
+
+    .contact-box p { margin-bottom: 0.4rem; }
+
+    .contact-box a {
+      color: var(--blue-light);
+      text-decoration: none;
+    }
+
+    .contact-box a:hover { text-decoration: underline; }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    footer a {
+      color: var(--muted);
+      text-decoration: none;
+      margin: 0 0.75rem;
+      transition: color 0.2s;
+    }
+
+    footer a:hover { color: var(--text); }
+    .footer-links { margin-bottom: 0.75rem; }
+
+    @media (max-width: 600px) {
+      nav { padding: 1rem; }
+      .content-wrap { padding: 2.5rem 1.2rem 4rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="/" class="nav-logo">
+      <img src="https://raw.githubusercontent.com/priscadezigns9/orcinos/main/logos/ORCINOS_DEFINITIVE_2026.png" alt="Orcinos" />
+    </a>
+    <ul class="nav-links">
+      <li><a href="/login.html">Sign In</a></li>
+    </ul>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <div class="label">Legal</div>
+    <h1>Terms of Use</h1>
+    <p class="subtitle">The rules and responsibilities that govern your use of Orcinos.</p>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="content-wrap">
+
+    <p class="effective">Effective Date: July 21, 2026 &nbsp;·&nbsp; Applies to all Orcinos products</p>
+
+    <div class="product-tags">
+      <span class="product-tag">Orcinos Chat</span>
+      <span class="product-tag">Oplix — Traffic Intelligence</span>
+      <span class="product-tag">Motiq — Drive AI</span>
+    </div>
+
+    <!-- 1 -->
+    <div class="section">
+      <h2>1. Acceptance of Terms</h2>
+      <p>By accessing or using any Orcinos product — including Orcinos Chat, Oplix, and Motiq — you agree to be bound by these Terms of Use. If you do not agree, do not use the platform.</p>
+      <p>These terms form a legally binding agreement between you and Prisca Dezigns, the operator of the Orcinos platform, based in Trinidad and Tobago.</p>
+    </div>
+
+    <!-- 2 -->
+    <div class="section">
+      <h2>2. Eligibility</h2>
+      <p>You must be at least 18 years of age to create an account and use Orcinos products. By registering, you confirm that you meet this requirement. Accounts created on behalf of a business must be authorized by that business.</p>
+    </div>
+
+    <!-- 3 -->
+    <div class="section">
+      <h2>3. Your Account</h2>
+      <p>You are responsible for maintaining the confidentiality of your login credentials. You agree to notify us immediately at <a href="mailto:hello@priscadezigns.org" style="color:var(--blue-light)">hello@priscadezigns.org</a> if you suspect unauthorized access to your account.</p>
+      <p>We reserve the right to suspend or terminate accounts that violate these terms, engage in fraudulent activity, or cause harm to the platform or other users.</p>
+    </div>
+
+    <!-- 4 -->
+    <div class="section">
+      <h2>4. Permitted Use</h2>
+      <p>Orcinos products are licensed to you for lawful, personal, or business use in accordance with these terms. You may:</p>
+      <ul>
+        <li>Use Orcinos Chat for AI-assisted productivity and information tasks</li>
+        <li>Use Oplix to monitor traffic and infrastructure on property you own or are authorized to surveil</li>
+        <li>Use Motiq to record and analyze footage from your own vehicle</li>
+      </ul>
+    </div>
+
+    <!-- 5 -->
+    <div class="section">
+      <h2>5. Prohibited Use</h2>
+      <p>You may not use any Orcinos product to:</p>
+      <ul>
+        <li>Surveil, track, or record individuals without their knowledge or consent where required by law</li>
+        <li>Collect, store, or transmit personally identifiable information of third parties without authorization</li>
+        <li>Violate any applicable law in Trinidad and Tobago or your jurisdiction</li>
+        <li>Reverse-engineer, decompile, or attempt to extract source code from any Orcinos product</li>
+        <li>Overload, disrupt, or attempt to gain unauthorized access to our infrastructure</li>
+        <li>Use AI outputs to harass, defame, or harm individuals or organizations</li>
+        <li>Resell, sublicense, or redistribute Orcinos access without express written permission</li>
+      </ul>
+      <div class="warn-card">
+        <strong>Important:</strong> Oplix and Motiq involve camera-based AI. You are solely responsible for ensuring your deployments comply with all applicable privacy, surveillance, and data protection laws. Orcinos provides the technology — the legal responsibility for how you deploy it rests with you.
+      </div>
+    </div>
+
+    <!-- 6 -->
+    <div class="section">
+      <h2>6. AI-Generated Content</h2>
+      <p>Orcinos products use artificial intelligence models. Outputs — whether from Chat, Oplix detections, or Motiq analysis — are generated by automated systems and may contain errors.</p>
+      <ul>
+        <li>Do not rely solely on AI outputs for legal, medical, financial, or safety-critical decisions</li>
+        <li>AI detections from Oplix and Motiq are informational — they do not constitute official enforcement records</li>
+        <li>You are responsible for verifying any AI-generated output before acting on it</li>
+      </ul>
+      <div class="note-card">
+        <strong>AI Training Loop:</strong> To improve detection accuracy for Caribbean road conditions, anonymized and aggregated data from Oplix and Motiq sessions may be used to refine our AI models. No personally identifiable information is used in this process. You may opt out by contacting us.
+      </div>
+    </div>
+
+    <!-- 7 -->
+    <div class="section">
+      <h2>7. Dashcam & Camera Data (Motiq and Oplix)</h2>
+
+      <h3>Motiq</h3>
+      <p>Video processed through Motiq is handled locally on your device. When you choose to upload a clip, it is transmitted to our secure servers for AI analysis and storage. You retain ownership of your footage. You grant Orcinos a limited, non-exclusive license to process and analyze that footage solely for the purpose of delivering the Motiq service to you.</p>
+
+      <h3>Oplix</h3>
+      <p>Oplix connects to IP camera streams you provide access to. You confirm that you are authorized to access and analyze those streams. Event frames captured by Oplix remain your property. Orcinos processes them only to deliver detection results and improve accuracy with your consent.</p>
+    </div>
+
+    <!-- 8 -->
+    <div class="section">
+      <h2>8. Intellectual Property</h2>
+      <p>All Orcinos branding, software, UI design, and underlying AI infrastructure are the intellectual property of Prisca Dezigns. Nothing in these terms transfers ownership of that IP to you.</p>
+      <p>Content you create or upload — your footage, your configurations, your data — remains yours. You grant us only the permissions necessary to operate the service as described.</p>
+    </div>
+
+    <!-- 9 -->
+    <div class="section">
+      <h2>9. Service Availability</h2>
+      <p>We aim for high availability but do not guarantee uninterrupted access. We may perform maintenance, release updates, or temporarily suspend features. We are not liable for losses resulting from service downtime.</p>
+      <p>We reserve the right to modify, discontinue, or introduce pricing for any Orcinos product with reasonable notice.</p>
+    </div>
+
+    <!-- 10 -->
+    <div class="section">
+      <h2>10. Limitation of Liability</h2>
+      <p>To the fullest extent permitted by law, Prisca Dezigns and the Orcinos platform are not liable for:</p>
+      <ul>
+        <li>Indirect, incidental, or consequential damages arising from your use of the platform</li>
+        <li>Decisions made based on AI-generated outputs</li>
+        <li>Data loss, unauthorized access, or security breaches outside our reasonable control</li>
+        <li>Third-party actions or services connected to your Orcinos deployment</li>
+      </ul>
+      <p>Our total liability for any claim arising from these terms shall not exceed the amount you paid to Orcinos in the 30 days preceding the claim.</p>
+    </div>
+
+    <!-- 11 -->
+    <div class="section">
+      <h2>11. Governing Law</h2>
+      <p>These Terms of Use are governed by the laws of the Republic of Trinidad and Tobago. Any disputes shall be resolved in the courts of Trinidad and Tobago, unless otherwise agreed in writing.</p>
+    </div>
+
+    <!-- 12 -->
+    <div class="section">
+      <h2>12. Changes to These Terms</h2>
+      <p>We may update these Terms of Use as the platform evolves. We will notify registered users of material changes by email and update the effective date above. Continued use of Orcinos after changes take effect constitutes acceptance of the revised terms.</p>
+    </div>
+
+    <!-- 13 -->
+    <div class="section">
+      <h2>13. Contact</h2>
+      <p>Questions about these terms or requests to opt out of AI training data use:</p>
+      <div class="contact-box">
+        <p><strong>Prisca Dezigns / Orcinos</strong></p>
+        <p>Trinidad and Tobago</p>
+        <p>Email: <a href="mailto:hello@priscadezigns.org">hello@priscadezigns.org</a></p>
+        <p>Subject line: <em>Terms Inquiry</em> or <em>AI Training Opt-Out</em></p>
+      </div>
+    </div>
+
+  </div><!-- /content-wrap -->
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-links">
+      <a href="/">Home</a>
+      <a href="/privacy.html">Privacy Policy</a>
+      <a href="/terms.html">Terms of Use</a>
+    </div>
+    <p>© 2026 Prisca Dezigns / Orcinos. All rights reserved.</p>
+  </footer>
+
+</body>
+</html>
