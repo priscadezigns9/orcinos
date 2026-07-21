@@ -5,8 +5,8 @@
   "start_url": "/drive.html",
   "display": "fullscreen",
   "orientation": "landscape",
-  "background_color": "#080d1f",
-  "theme_color": "#080d1f",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
   "icons": [
     {
       "src": "https://raw.githubusercontent.com/priscadezigns9/orcinos/main/logos/ORCINOS_DEFINITIVE_2026.png",
