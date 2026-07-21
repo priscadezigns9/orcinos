@@ -1,0 +1,22 @@
+{
+  "name": "Orcinos Deck",
+  "short_name": "Deck",
+  "description": "Car head unit dashboard — speed, trip timer, dashcam, navigation.",
+  "start_url": "/deck.html",
+  "display": "fullscreen",
+  "orientation": "landscape",
+  "background_color": "#06091a",
+  "theme_color": "#06091a",
+  "icons": [
+    {
+      "src": "https://raw.githubusercontent.com/priscadezigns9/orcinos/main/logos/ORCINOS_DEFINITIVE_2026.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://raw.githubusercontent.com/priscadezigns9/orcinos/main/logos/ORCINOS_DEFINITIVE_2026.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
