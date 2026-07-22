@@ -284,6 +284,75 @@ nav {
   margin-top: 24px;
 }
 
+/* ── CAMERA OPTIONS ── */
+.camera-section { background: var(--bg); }
+.camera-intro { max-width: 640px; margin-bottom: 60px; }
+.camera-options { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px,1fr)); gap: 24px; margin-bottom: 56px; }
+.camera-card {
+  border-radius: 18px; padding: 36px 32px;
+  border: 1px solid var(--border);
+  position: relative; overflow: hidden;
+  transition: transform 0.3s, border-color 0.3s;
+}
+.camera-card:hover { transform: translateY(-4px); border-color: rgba(56,189,248,0.35); }
+.camera-card.best {
+  border-color: rgba(56,189,248,0.35);
+  background: linear-gradient(135deg, rgba(37,99,235,0.08), rgba(107,33,232,0.06));
+}
+.camera-card.good { background: var(--card-bg); }
+.camera-card.smart { background: var(--card-bg); }
+.cam-badge {
+  display: inline-block; border-radius: 999px;
+  padding: 4px 14px; font-size: 0.68rem; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 20px;
+}
+.badge-best { background: rgba(16,185,129,0.15); color: #10b981; border: 1px solid rgba(16,185,129,0.25); }
+.badge-good { background: rgba(37,99,235,0.15); color: var(--blue-light); border: 1px solid rgba(37,99,235,0.25); }
+.badge-smart { background: rgba(245,158,11,0.12); color: #f59e0b; border: 1px solid rgba(245,158,11,0.2); }
+.cam-icon {
+  width: 52px; height: 52px; border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.5rem; margin-bottom: 20px;
+}
+.cam-icon.blue   { background: rgba(37,99,235,0.2); }
+.cam-icon.green  { background: rgba(16,185,129,0.15); }
+.cam-icon.amber  { background: rgba(245,158,11,0.12); }
+.camera-card h3 { font-size: 1.1rem; font-weight: 800; margin-bottom: 10px; }
+.camera-card .cam-sub { font-size: 0.82rem; color: var(--muted); margin-bottom: 20px; line-height: 1.65; }
+.cam-specs { list-style: none; }
+.cam-specs li {
+  display: flex; align-items: flex-start; gap: 10px;
+  font-size: 0.82rem; color: var(--muted); padding: 6px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.cam-specs li:last-child { border-bottom: none; }
+.cam-specs .dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--blue-light); flex-shrink: 0; margin-top: 5px;
+}
+.cam-price {
+  margin-top: 20px; padding: 12px 16px;
+  background: rgba(255,255,255,0.04);
+  border-radius: 10px; border: 1px solid var(--border);
+  font-size: 0.82rem;
+}
+.cam-price strong {
+  display: block; font-size: 1rem; font-weight: 800;
+  background: var(--grad-word); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  margin-bottom: 2px;
+}
+.cam-price span { color: var(--muted); font-size: 0.76rem; }
+.camera-note {
+  background: rgba(56,189,248,0.06);
+  border: 1px solid rgba(56,189,248,0.15);
+  border-radius: 14px; padding: 28px 32px;
+  display: flex; gap: 20px; align-items: flex-start;
+  max-width: 860px;
+}
+.note-icon { font-size: 1.6rem; flex-shrink: 0; margin-top: 2px; }
+.camera-note h4 { font-size: 1rem; font-weight: 700; margin-bottom: 8px; }
+.camera-note p { font-size: 0.86rem; color: var(--muted); line-height: 1.7; }
+
 /* ── FEATURES ── */
 .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px,1fr)); gap: 20px; }
 .feature-card {
@@ -383,6 +452,7 @@ footer a:hover { color: var(--text); }
   <ul class="nav-links">
     <li><a href="#how-it-works">How It Works</a></li>
     <li><a href="#architecture">Architecture</a></li>
+    <li><a href="#setup">Setup</a></li>
     <li><a href="#features">Features</a></li>
     <li><a href="#pricing">Pricing</a></li>
   </ul>
@@ -521,6 +591,85 @@ footer a:hover { color: var(--text); }
         <div class="arch-note">
           🔒 <strong>Privacy-first:</strong> Face photos are processed locally into mathematical encodings. Raw images are never stored permanently. Encodings alone cannot reconstruct a face.
         </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CAMERA SETUP ── -->
+<section class="section camera-section" id="setup">
+  <div class="section-inner">
+    <div class="section-label">Camera Setup</div>
+    <h2 class="section-title">Whatever cameras you have.<br>Or none at all.</h2>
+    <div class="camera-intro">
+      <p style="color:var(--muted);font-size:0.98rem;line-height:1.8;">The first question every principal asks is: <em>"Do we need to buy cameras?"</em> The answer depends on what you already have. Presab is designed to work with all three scenarios — no expensive overhaul required.</p>
+    </div>
+
+    <div class="camera-options">
+
+      <!-- Option 1 -->
+      <div class="camera-card best">
+        <div class="cam-badge badge-best">Best Value</div>
+        <div class="cam-icon green">🎥</div>
+        <h3>You Already Have IP Cameras</h3>
+        <p class="cam-sub">If your school already has CCTV or network cameras installed, Presab connects directly to the existing camera feed. No new hardware. No rewiring. We plug into what you have.</p>
+        <ul class="cam-specs">
+          <li><span class="dot"></span>Works with most IP/CCTV camera brands (Hikvision, Dahua, generic)</li>
+          <li><span class="dot"></span>No new cameras needed — saves the school money</li>
+          <li><span class="dot"></span>Camera stays doing its security job AND marks attendance</li>
+          <li><span class="dot"></span>Only a small edge device (mini PC) needs to be added</li>
+        </ul>
+        <div class="cam-price">
+          <strong>~$120–$200 USD additional hardware</strong>
+          <span>Mini PC / Raspberry Pi only — cameras already in place</span>
+        </div>
+      </div>
+
+      <!-- Option 2 -->
+      <div class="camera-card good">
+        <div class="cam-badge badge-good">Most Common</div>
+        <div class="cam-icon blue">📷</div>
+        <h3>No Cameras — Simple USB Setup</h3>
+        <p class="cam-sub">For schools starting fresh, we install a small USB webcam above each classroom door frame or school gate. The camera faces inward so every student who enters walks past it. Mounted once. Forgotten forever.</p>
+        <ul class="cam-specs">
+          <li><span class="dot"></span>USB webcam mounted above door or gate</li>
+          <li><span class="dot"></span>Connects to a Raspberry Pi or mini PC in the room</li>
+          <li><span class="dot"></span>One device per entry point — one camera per room</li>
+          <li><span class="dot"></span>No internet required at point of recognition</li>
+          <li><span class="dot"></span>Hardware sourced locally in Trinidad</li>
+        </ul>
+        <div class="cam-price">
+          <strong>~$80–$120 USD per room</strong>
+          <span>Raspberry Pi 4 (~$60) + USB webcam (~$30) · one-time per classroom</span>
+        </div>
+      </div>
+
+      <!-- Option 3 -->
+      <div class="camera-card smart">
+        <div class="cam-badge badge-smart">Budget Option</div>
+        <div class="cam-icon amber">📱</div>
+        <h3>Use an Old Phone or Tablet</h3>
+        <p class="cam-sub">Schools with tight budgets can repurpose an old Android phone or tablet as the camera. Mounted at the door, it streams the feed to the Presab engine running on a laptop or mini PC nearby. No new hardware at all.</p>
+        <ul class="cam-specs">
+          <li><span class="dot"></span>Any Android phone with a working camera qualifies</li>
+          <li><span class="dot"></span>Streams via local Wi-Fi to the Presab engine</li>
+          <li><span class="dot"></span>Works with a spare school laptop or desktop</li>
+          <li><span class="dot"></span>Best for pilot programs before full deployment</li>
+        </ul>
+        <div class="cam-price">
+          <strong>$0 additional hardware</strong>
+          <span>If the school has a spare device — the camera cost is zero</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Reassurance note -->
+    <div class="camera-note">
+      <div class="note-icon">🔧</div>
+      <div>
+        <h4>We handle the full installation.</h4>
+        <p>Whether you have cameras or not, our team assesses the school, recommends the right setup, and handles the full installation. The principal doesn't touch a single wire. From assessment to live dashboard, we target under one week for a standard 10-room school.</p>
       </div>
     </div>
   </div>
