@@ -62,18 +62,10 @@
     flex-direction: column;
   }
   .gate-logo {
-    display: flex; align-items: center; gap: 14px;
+    text-align: center;
     margin-bottom: 48px;
   }
-  .gate-logomark {
-    width: 52px; height: 52px;
-    background: linear-gradient(135deg, var(--orc-bg2), #0d2a42);
-    border: 1px solid var(--orc-border);
-    border-radius: 14px;
-    display: flex; align-items: center; justify-content: center;
-    box-shadow: 0 0 24px rgba(0,212,255,0.2);
-  }
-  .gate-logomark svg { width: 26px; height: 26px; stroke: var(--orc-cyan); }
+
   .gate-title {
     font-family: var(--font-h);
     font-size: 28px; color: #fff;
@@ -502,16 +494,8 @@
 <!-- ─── PASSWORD GATE ─────────────────────────────────────── -->
 <div id="gate">
   <div class="gate-logo">
-    <div class="gate-logomark">
-      <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
-        <path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-      </svg>
-    </div>
-    <div>
-      <div class="gate-title">Presab</div>
-      <div class="gate-sub">Smart Attendance · Orcinos Sense</div>
-    </div>
+    <div class="gate-title">Presab</div>
+    <div class="gate-sub">Smart Attendance · Orcinos Sense</div>
   </div>
   <div class="gate-card">
     <h2>Demo Access</h2>
