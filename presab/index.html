@@ -479,6 +479,15 @@
     background: #10b981; border-radius: 50%;
     animation: pulse 1.5s infinite;
   }
+
+  .gallery-item {
+    position: relative; aspect-ratio: 1;
+    border-radius: 12px; overflow: hidden;
+    background: var(--lilac-soft); border: 1px solid var(--border);
+    transition: transform 0.2s;
+  }
+  .gallery-item:hover { transform: scale(1.02); }
+  .gallery-item img { width: 100%; height: 100%; object-fit: cover; }
 </style>
 </head>
 <body>
@@ -642,6 +651,23 @@
       </div>
     </div>
 
+    <!-- Gallery Section -->
+    <div class="card" style="margin-top: 18px; grid-column: 1 / -1;">
+      <div class="card-header">
+        <span class="card-title">School Photo Gallery</span>
+        <button class="btn btn-enroll" onclick="document.getElementById('gallery-upload').click()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          Upload Photo
+        </button>
+        <input type="file" id="gallery-upload" style="display:none" accept="image/*" onchange="uploadToGallery(this)">
+      </div>
+      <div id="gallery-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap:16px; padding:20px;">
+        <div id="gallery-empty" style="grid-column: 1/-1; text-align:center; padding:40px; color:var(--muted); font-size:13px;">
+          No photos in the gallery yet.
+        </div>
+      </div>
+    </div>
+
   </div>
 
 </main>
@@ -730,6 +756,7 @@ function initApp() {
   document.getElementById('today-date').textContent =
     now.toLocaleDateString('en-TT', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
   updateStats();
+  loadGallery();
   // Try to connect to the Python engine (non-blocking)
   setTimeout(connectSocket, 800);
   // Poll engine status every 10s to update badge
@@ -742,6 +769,77 @@ function initApp() {
       }
     } catch { /* engine offline */ }
   }, 10000);
+}
+
+const SB_URL = "https://sazhdnqzaqpqcralmthh.supabase.co";
+const SB_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNhemhkbnF6YXFwcWNyYWxtdGhoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxNzE5NjYsImV4cCI6MjA5Mzc0Nzk2Nn0.uTyw31uWTNOTV5-HzNpm46vpAJABAsHLMzW-sYOkRhc";
+const SCHOOL_ID = "4dabf036-08a7-448f-945a-81830c2016cb";
+
+async function uploadToGallery(input) {
+  if (!input.files || !input.files[0]) return;
+  const file = input.files[0];
+  const fileName = `${Date.now()}_${file.name}`;
+  const filePath = `${SCHOOL_ID}/${fileName}`;
+  
+  showToast("Uploading to school storage...", "⏳");
+  
+  try {
+    const uploadRes = await fetch(`${SB_URL}/storage/v1/object/school-assets/${filePath}`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${SB_KEY}`,
+        'apikey': SB_KEY,
+        'Content-Type': file.type
+      },
+      body: file
+    });
+    
+    if (!uploadRes.ok) throw new Error("Upload failed");
+    
+    const imgUrl = `${SB_URL}/storage/v1/object/public/school-assets/${filePath}`;
+    
+    await fetch(`${SB_URL}/rest/v1/school_images`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${SB_KEY}`,
+        'apikey': SB_KEY,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        school_id: SCHOOL_ID,
+        image_url: imgUrl,
+        caption: file.name
+      })
+    });
+    
+    showToast("Photo added to gallery!", "✅");
+    loadGallery();
+  } catch (err) {
+    console.error(err);
+    showToast("Error uploading photo", "❌");
+  }
+}
+
+async function loadGallery() {
+  const grid = document.getElementById('gallery-grid');
+  try {
+    const res = await fetch(`${SB_URL}/rest/v1/school_images?school_id=eq.${SCHOOL_ID}&select=*&order=created_at.desc`, {
+      headers: { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}` }
+    });
+    const images = await res.json();
+    
+    if (images.length > 0) {
+      grid.innerHTML = images.map(img => `
+        <div class="gallery-item">
+          <img src="${img.image_url}" alt="${img.caption}">
+        </div>
+      `).join('');
+    } else {
+      grid.innerHTML = `<div id="gallery-empty" style="grid-column: 1/-1; text-align:center; padding:40px; color:var(--muted); font-size:13px;">No photos in the gallery yet.</div>`;
+    }
+  } catch (err) {
+    console.error(err);
+  }
 }
 
 // If already authed on load
