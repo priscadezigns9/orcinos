@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Presab — Admin Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Cormorant:ital,wght@0,300;0,400;1,300;1,400&family=Urbanist:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --purple:     #7c3aed;
+  --purple-d:   #5b21b6;
+  --lilac:      #c084fc;
+  --lilac-soft: #f5f0ff;
+  --lilac-mid:  #ede9fe;
+  --ink:        #1a0a2e;
+  --muted:      #6b7280;
+  --white:      #ffffff;
+  --green:      #10b981;
+  --green-soft: #d1fae5;
+  --red:        #ef4444;
+  --red-soft:   rgba(239,68,68,0.08);
+  --shadow:     0 2px 20px rgba(124,58,237,0.07);
+  --radius:     14px;
+  --font-h:     'DM Serif Display', serif;
+  --font-sub:   'Cormorant', serif;
+  --font-body:  'Urbanist', sans-serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font-body); background: #fafafa; color: var(--ink); min-height: 100vh; }
+
+/* ── NAV ── */
+nav {
+  background: var(--white);
+  border-bottom: 1px solid rgba(124,58,237,0.1);
+  padding: 0 40px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky; top: 0; z-index: 100;
+  box-shadow: 0 1px 12px rgba(124,58,237,0.06);
+}
+.nav-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+.nav-brand-icon {
+  width: 32px; height: 32px;
+  background: linear-gradient(135deg, var(--purple), var(--lilac));
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+}
+.nav-brand-icon svg { width: 16px; height: 16px; stroke: white; fill: none; }
+.nav-brand-name { font-family: var(--font-h); font-size: 18px; color: var(--ink); }
+.nav-brand-name span { color: var(--purple); }
+.nav-badge {
+  font-family: var(--font-body);
+  font-size: 10px; font-weight: 500;
+  background: var(--lilac-mid);
+  color: var(--purple);
+  border-radius: 6px;
+  padding: 3px 8px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.nav-right { display: flex; align-items: center; gap: 12px; }
+.nav-link {
+  font-size: 13px; color: var(--muted);
+  text-decoration: none; font-weight: 500;
+  padding: 6px 12px; border-radius: 8px;
+  transition: background 0.15s;
+}
+.nav-link:hover { background: var(--lilac-soft); color: var(--purple); }
+
+/* ── LAYOUT ── */
+.page { max-width: 1100px; margin: 0 auto; padding: 40px 24px 80px; }
+.page-title { font-family: var(--font-h); font-size: 28px; color: var(--ink); margin-bottom: 6px; }
+.page-sub { font-size: 14px; color: var(--muted); font-weight: 300; margin-bottom: 36px; }
+
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+@media (max-width: 800px) { .grid-2 { grid-template-columns: 1fr; } }
+
+/* ── CARDS ── */
+.card {
+  background: var(--white);
+  border: 1px solid rgba(124,58,237,0.09);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+.card-head {
+  padding: 20px 24px 0;
+  border-bottom: 1px solid rgba(124,58,237,0.07);
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+}
+.card-title { font-size: 15px; font-weight: 600; color: var(--ink); margin-bottom: 2px; }
+.card-desc  { font-size: 12px; color: var(--muted); font-weight: 300; }
+.card-body  { padding: 0 24px 24px; }
+
+/* ── FORM ── */
+.form-group { margin-bottom: 18px; }
+.form-label { font-size: 11px; font-weight: 500; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; display: block; margin-bottom: 7px; }
+.form-input, .form-select {
+  width: 100%; padding: 11px 14px;
+  border: 1px solid rgba(124,58,237,0.18);
+  border-radius: 10px;
+  font-family: var(--font-body);
+  font-size: 14px; color: var(--ink);
+  background: var(--white);
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.form-input:focus, .form-select:focus {
+  border-color: var(--purple);
+  box-shadow: 0 0 0 3px rgba(124,58,237,0.1);
+}
+
+/* ── PHOTO DROP ZONE ── */
+.drop-zone {
+  border: 2px dashed rgba(124,58,237,0.25);
+  border-radius: 12px;
+  padding: 32px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: var(--lilac-soft);
+  position: relative;
+}
+.drop-zone:hover, .drop-zone.drag-over {
+  border-color: var(--purple);
+  background: var(--lilac-mid);
+}
+.drop-zone input[type=file] {
+  position: absolute; inset: 0; opacity: 0; cursor: pointer;
+}
+.drop-icon { margin: 0 auto 12px; width: 40px; height: 40px; }
+.drop-icon svg { width: 40px; height: 40px; stroke: var(--purple); fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.drop-title { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 4px; }
+.drop-hint  { font-size: 12px; color: var(--muted); font-weight: 300; }
+.drop-count { font-size: 13px; color: var(--purple); font-weight: 600; margin-top: 8px; display: none; }
+
+/* ── PREVIEW STRIP ── */
+.preview-strip {
+  display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px;
+}
+.preview-thumb {
+  width: 60px; height: 60px;
+  border-radius: 8px;
+  object-fit: cover;
+  border: 2px solid rgba(124,58,237,0.2);
+}
+
+/* ── BUTTONS ── */
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 11px 22px;
+  border-radius: 10px;
+  font-family: var(--font-body);
+  font-size: 13px; font-weight: 500;
+  border: none; cursor: pointer;
+  transition: all 0.15s;
+}
+.btn-primary { background: var(--purple); color: white; width: 100%; justify-content: center; }
+.btn-primary:hover { background: var(--purple-d); }
+.btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+.btn-danger { background: var(--red-soft); color: var(--red); padding: 6px 12px; font-size: 12px; border-radius: 8px; }
+.btn-danger:hover { background: rgba(239,68,68,0.15); }
+.btn-sm-ghost { background: var(--lilac-soft); color: var(--purple); padding: 6px 12px; font-size: 12px; border-radius: 8px; }
+.btn-sm-ghost:hover { background: var(--lilac-mid); }
+
+/* ── ENROLLED TABLE ── */
+.enrolled-table { width: 100%; border-collapse: collapse; }
+.enrolled-table th {
+  font-size: 11px; font-weight: 500; color: var(--muted);
+  text-transform: uppercase; letter-spacing: 0.06em;
+  text-align: left; padding: 8px 12px;
+  border-bottom: 1px solid rgba(124,58,237,0.08);
+}
+.enrolled-table td { padding: 12px 12px; font-size: 13px; border-bottom: 1px solid rgba(124,58,237,0.05); vertical-align: middle; }
+.enrolled-table tr:last-child td { border-bottom: none; }
+.enrolled-table tr:hover td { background: var(--lilac-soft); }
+.role-badge {
+  display: inline-block;
+  padding: 3px 9px; border-radius: 20px;
+  font-size: 11px; font-weight: 500;
+  text-transform: uppercase; letter-spacing: 0.04em;
+}
+.role-badge.student { background: var(--lilac-mid); color: var(--purple); }
+.role-badge.staff   { background: var(--green-soft); color: #065f46; }
+.role-badge.visitor { background: #fef3c7; color: #92400e; }
+.empty-state { text-align: center; padding: 40px 20px; color: var(--muted); font-size: 14px; }
+.empty-state svg { width: 36px; height: 36px; stroke: var(--lilac); fill: none; stroke-width: 1.5; margin-bottom: 10px; }
+
+/* ── CODES SECTION ── */
+.codes-list { display: flex; flex-direction: column; gap: 10px; }
+.code-item {
+  display: flex; align-items: center; justify-content: space-between;
+  background: var(--lilac-soft);
+  border: 1px solid rgba(124,58,237,0.1);
+  border-radius: 10px;
+  padding: 12px 16px;
+}
+.code-text { font-family: 'Courier New', monospace; font-size: 15px; font-weight: 700; color: var(--purple); letter-spacing: 0.1em; }
+.code-meta { font-size: 11px; color: var(--muted); margin-top: 2px; }
+.code-inactive { opacity: 0.4; }
+.code-inactive .code-text { text-decoration: line-through; }
+
+/* ── NEW CODE FORM ── */
+.inline-form { display: flex; gap: 10px; align-items: flex-end; margin-top: 20px; border-top: 1px solid rgba(124,58,237,0.08); padding-top: 20px; }
+.inline-form .form-group { flex: 1; margin-bottom: 0; }
+.inline-form .btn { padding: 11px 16px; white-space: nowrap; }
+
+/* ── FEEDBACK ── */
+.alert {
+  padding: 12px 16px; border-radius: 10px;
+  font-size: 13px; font-weight: 500;
+  margin-bottom: 18px; display: none;
+}
+.alert.success { background: var(--green-soft); color: #065f46; }
+.alert.error   { background: var(--red-soft); color: var(--red); }
+
+/* ── SPINNER ── */
+.spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.4); border-top-color: white; border-radius: 50%; animation: spin 0.7s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="/admin" class="nav-brand">
+    <div class="nav-brand-icon">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+    </div>
+    <span class="nav-brand-name">Pres<span>ab</span></span>
+    <span class="nav-badge">Admin</span>
+  </a>
+  <div class="nav-right">
+    <a href="/" class="nav-link">← Dashboard</a>
+  </div>
+</nav>
+
+<!-- PAGE -->
+<div class="page">
+  <h1 class="page-title">Admin Portal</h1>
+  <p class="page-sub">Enroll students &amp; staff, manage access codes, and review the enrolled database.</p>
+
+  <div class="grid-2">
+
+    <!-- ── LEFT COLUMN ── -->
+    <div style="display:flex;flex-direction:column;gap:28px;">
+
+      <!-- ENROLL CARD -->
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title">Enroll New Person</div>
+          <div class="card-desc">Upload 1–5 clear photos. More photos = better recognition accuracy.</div>
+        </div>
+        <div class="card-body">
+          <div id="enroll-alert" class="alert"></div>
+
+          <div class="form-group">
+            <label class="form-label">Full Name</label>
+            <input type="text" id="f-name" class="form-input" placeholder="e.g. Aaliyah James">
+          </div>
+          <div class="form-group">
+            <label class="form-label">ID Number</label>
+            <input type="text" id="f-id" class="form-input" placeholder="e.g. STU001">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Role</label>
+            <select id="f-role" class="form-select">
+              <option value="student">Student</option>
+              <option value="staff">Staff</option>
+              <option value="visitor">Visitor</option>
+            </select>
+          </div>
+
+          <!-- Drop zone -->
+          <div class="form-group">
+            <label class="form-label">Photos (1–5 recommended)</label>
+            <div class="drop-zone" id="drop-zone">
+              <input type="file" id="f-photos" accept="image/*" multiple>
+              <div class="drop-icon">
+                <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+              </div>
+              <div class="drop-title">Drop photos here or click to browse</div>
+              <div class="drop-hint">JPG, PNG, HEIC — face clearly visible, good lighting</div>
+              <div class="drop-count" id="drop-count"></div>
+            </div>
+            <div class="preview-strip" id="preview-strip"></div>
+          </div>
+
+          <button class="btn btn-primary" id="enroll-btn" onclick="submitEnroll()">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7-7 7 7"/></svg>
+            Enroll Person
+          </button>
+        </div>
+      </div>
+
+      <!-- ACCESS CODES CARD -->
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title">Access Codes</div>
+          <div class="card-desc">Control who can enter the demo dashboard.</div>
+        </div>
+        <div class="card-body">
+          <div class="codes-list" id="codes-list">
+            <div style="color:var(--muted);font-size:13px;">Loading…</div>
+          </div>
+
+          <div class="inline-form">
+            <div class="form-group">
+              <label class="form-label">New Code</label>
+              <input type="text" id="new-code" class="form-input" placeholder="e.g. SCHOOL2026" style="text-transform:uppercase;">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Label</label>
+              <input type="text" id="new-label" class="form-input" placeholder="e.g. Bishop Anstey Demo">
+            </div>
+            <button class="btn btn-sm-ghost" onclick="createCode()">+ Add</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ── RIGHT COLUMN ── -->
+    <div>
+      <!-- ENROLLED TABLE -->
+      <div class="card" style="height:100%;">
+        <div class="card-head" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+          <div>
+            <div class="card-title">Enrolled Persons <span id="enrolled-count" style="color:var(--purple);"></span></div>
+            <div class="card-desc">All registered faces in the recognition database.</div>
+          </div>
+          <button class="btn btn-sm-ghost" onclick="loadEnrolled()">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
+            Refresh
+          </button>
+        </div>
+        <div class="card-body" style="padding-top:0;overflow-x:auto;">
+          <table class="enrolled-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>ID</th>
+                <th>Role</th>
+                <th>Enrolled</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="enrolled-tbody">
+              <tr><td colspan="5"><div class="empty-state">Loading…</div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// ─── ADMIN KEY ───────────────────────────────────────────────────────────────
+// Grab admin_key from URL so all API calls are authenticated
+const params   = new URLSearchParams(window.location.search);
+const adminKey = params.get('admin_key') || '';
+
+function apiHeaders() {
+  return { 'Content-Type': 'application/json', 'X-Admin-Key': adminKey };
+}
+
+// ─── PHOTO PREVIEW ───────────────────────────────────────────────────────────
+const photoInput   = document.getElementById('f-photos');
+const dropZone     = document.getElementById('drop-zone');
+const previewStrip = document.getElementById('preview-strip');
+const dropCount    = document.getElementById('drop-count');
+
+photoInput.addEventListener('change', () => renderPreviews(photoInput.files));
+
+dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
+dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
+dropZone.addEventListener('drop', e => {
+  e.preventDefault();
+  dropZone.classList.remove('drag-over');
+  const dt = new DataTransfer();
+  [...e.dataTransfer.files].forEach(f => dt.items.add(f));
+  photoInput.files = dt.files;
+  renderPreviews(photoInput.files);
+});
+
+function renderPreviews(files) {
+  previewStrip.innerHTML = '';
+  const n = files.length;
+  dropCount.style.display = n ? 'block' : 'none';
+  dropCount.textContent   = `${n} photo${n !== 1 ? 's' : ''} selected`;
+  [...files].slice(0, 5).forEach(file => {
+    const img = document.createElement('img');
+    img.className = 'preview-thumb';
+    img.src = URL.createObjectURL(file);
+    previewStrip.appendChild(img);
+  });
+}
+
+// ─── ENROLL ──────────────────────────────────────────────────────────────────
+async function submitEnroll() {
+  const name    = document.getElementById('f-name').value.trim();
+  const id      = document.getElementById('f-id').value.trim().toUpperCase();
+  const role    = document.getElementById('f-role').value;
+  const files   = photoInput.files;
+  const alert_  = document.getElementById('enroll-alert');
+  const btn     = document.getElementById('enroll-btn');
+
+  if (!name || !id) { showAlert(alert_, 'Name and ID are required.', 'error'); return; }
+  if (!files.length) { showAlert(alert_, 'Please upload at least one photo.', 'error'); return; }
+
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> Enrolling…';
+
+  const fd = new FormData();
+  fd.append('name', name);
+  fd.append('person_id', id);
+  fd.append('role', role);
+  [...files].forEach(f => fd.append('photos', f));
+
+  try {
+    const res  = await fetch('/api/enroll', { method: 'POST', headers: { 'X-Admin-Key': adminKey }, body: fd });
+    const data = await res.json();
+    if (res.ok) {
+      showAlert(alert_, `✓ ${data.name} enrolled using ${data.photos_used} photo(s). Total enrolled: ${data.total_enrolled}.`, 'success');
+      document.getElementById('f-name').value = '';
+      document.getElementById('f-id').value   = '';
+      photoInput.value = '';
+      previewStrip.innerHTML = '';
+      dropCount.style.display = 'none';
+      loadEnrolled();
+    } else {
+      showAlert(alert_, data.error || 'Enrollment failed.', 'error');
+    }
+  } catch (e) {
+    showAlert(alert_, 'Network error. Is the Presab server running?', 'error');
+  }
+
+  btn.disabled = false;
+  btn.innerHTML = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7-7 7 7"/></svg> Enroll Person';
+}
+
+// ─── ENROLLED LIST ────────────────────────────────────────────────────────────
+async function loadEnrolled() {
+  const tbody = document.getElementById('enrolled-tbody');
+  const count = document.getElementById('enrolled-count');
+  try {
+    const res  = await fetch('/api/enrolled');
+    const data = await res.json();
+    count.textContent = `(${data.length})`;
+    if (!data.length) {
+      tbody.innerHTML = `<tr><td colspan="5"><div class="empty-state">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+        <div>No one enrolled yet.</div>
+      </div></td></tr>`;
+      return;
+    }
+    tbody.innerHTML = data.map(p => `
+      <tr>
+        <td style="font-weight:500;">${p.name}</td>
+        <td style="font-family:monospace;color:var(--purple);">${p.id}</td>
+        <td><span class="role-badge ${p.role}">${p.role}</span></td>
+        <td style="color:var(--muted);font-size:12px;">${formatDate(p.enrolled_at)}</td>
+        <td>
+          <button class="btn btn-danger" onclick="removeEnrolled('${p.id}','${p.name}')">Remove</button>
+        </td>
+      </tr>
+    `).join('');
+  } catch (e) {
+    tbody.innerHTML = '<tr><td colspan="5" style="color:var(--red);font-size:13px;padding:16px;">Could not load. Server offline?</td></tr>';
+  }
+}
+
+async function removeEnrolled(id, name) {
+  if (!confirm(`Remove ${name} (${id}) from the database?`)) return;
+  const res = await fetch(`/api/enrolled/${id}`, { method: 'DELETE', headers: apiHeaders() });
+  if (res.ok) loadEnrolled();
+}
+
+// ─── ACCESS CODES ────────────────────────────────────────────────────────────
+async function loadCodes() {
+  const list = document.getElementById('codes-list');
+  try {
+    const res  = await fetch('/api/codes', { headers: apiHeaders() });
+    const data = await res.json();
+    const entries = Object.entries(data);
+    if (!entries.length) { list.innerHTML = '<div style="color:var(--muted);font-size:13px;">No codes yet.</div>'; return; }
+    list.innerHTML = entries.map(([code, info]) => `
+      <div class="code-item ${info.active ? '' : 'code-inactive'}">
+        <div>
+          <div class="code-text">${code}</div>
+          <div class="code-meta">${info.label} · ${info.role} · ${formatDate(info.created_at)}</div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <span style="font-size:11px;color:${info.active ? 'var(--green)':'var(--red)'};">
+            ${info.active ? '● Active' : '○ Revoked'}
+          </span>
+          ${info.active ? `<button class="btn btn-danger" onclick="revokeCode('${code}')">Revoke</button>` : ''}
+        </div>
+      </div>
+    `).join('');
+  } catch (e) {
+    list.innerHTML = '<div style="color:var(--muted);font-size:13px;">Server offline.</div>';
+  }
+}
+
+async function createCode() {
+  const code  = document.getElementById('new-code').value.trim().toUpperCase();
+  const label = document.getElementById('new-label').value.trim() || 'Demo';
+  if (!code) return;
+  const res = await fetch('/api/codes', {
+    method: 'POST', headers: apiHeaders(),
+    body: JSON.stringify({ code, label, role: 'demo' })
+  });
+  if (res.ok) {
+    document.getElementById('new-code').value  = '';
+    document.getElementById('new-label').value = '';
+    loadCodes();
+  } else {
+    const d = await res.json();
+    alert(d.error || 'Failed to create code.');
+  }
+}
+
+async function revokeCode(code) {
+  if (!confirm(`Revoke code ${code}?`)) return;
+  const res = await fetch(`/api/codes/${code}`, { method: 'DELETE', headers: apiHeaders() });
+  if (res.ok) loadCodes();
+}
+
+// ─── HELPERS ─────────────────────────────────────────────────────────────────
+function showAlert(el, msg, type) {
+  el.textContent   = msg;
+  el.className     = `alert ${type}`;
+  el.style.display = 'block';
+  setTimeout(() => { el.style.display = 'none'; }, 6000);
+}
+
+function formatDate(iso) {
+  if (!iso) return '—';
+  try { return new Date(iso).toLocaleDateString('en-TT', { day:'numeric', month:'short', year:'numeric' }); }
+  catch { return iso.slice(0, 10); }
+}
+
+// ─── INIT ─────────────────────────────────────────────────────────────────────
+loadEnrolled();
+loadCodes();
+</script>
+</body>
+</html>
