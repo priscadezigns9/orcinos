@@ -434,43 +434,9 @@ nav {
 
     <!-- ── SIGN UP FORM ── -->
     <form id="signupForm" style="display:none;" onsubmit="handleSignUp(event)">
-      <div class="form-row">
-        <div class="form-group">
-          <label>First Name</label>
-          <input type="text" id="suFirst" placeholder="First" required autocomplete="given-name"/>
-        </div>
-        <div class="form-group">
-          <label>Last Name</label>
-          <input type="text" id="suLast" placeholder="Last" required autocomplete="family-name"/>
-        </div>
-      </div>
       <div class="form-group">
         <label>Email Address</label>
         <input type="email" id="suEmail" placeholder="you@example.com" required autocomplete="email"/>
-      </div>
-      <div class="form-group">
-        <label>Country</label>
-        <input type="text" id="suCountry" placeholder="Trinidad & Tobago, Jamaica, Barbados…" list="caribbean-countries"/>
-        <datalist id="caribbean-countries">
-          <option value="Trinidad & Tobago"/>
-          <option value="Jamaica"/>
-          <option value="Barbados"/>
-          <option value="Guyana"/>
-          <option value="Saint Lucia"/>
-          <option value="Grenada"/>
-          <option value="Antigua & Barbuda"/>
-          <option value="Saint Vincent & the Grenadines"/>
-          <option value="Dominica"/>
-          <option value="Saint Kitts & Nevis"/>
-          <option value="Bahamas"/>
-          <option value="Belize"/>
-          <option value="Suriname"/>
-          <option value="Haiti"/>
-          <option value="Dominican Republic"/>
-          <option value="Cuba"/>
-          <option value="Puerto Rico"/>
-          <option value="Other Caribbean Territory"/>
-        </datalist>
       </div>
       <div class="form-group">
         <label>Password</label>
@@ -580,9 +546,6 @@ async function handleSignUp(e) {
 
   const email    = document.getElementById('suEmail').value.trim();
   const password = document.getElementById('suPassword').value;
-  const first    = document.getElementById('suFirst').value.trim();
-  const last     = document.getElementById('suLast').value.trim();
-  const country  = document.getElementById('suCountry').value.trim();
 
   if (password.length < 8) {
     showMsg('error', 'Password must be at least 8 characters.');
@@ -599,7 +562,7 @@ async function handleSignUp(e) {
       },
       body: JSON.stringify({
         email, password,
-        data: { first_name: first, last_name: last, country, region: 'Caribbean' }
+        data: { region: 'Caribbean' }
       })
     });
     const data = await res.json();
