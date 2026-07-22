@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Presab — Smart Attendance</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Cormorant:ital,wght@0,300;0,400;1,300;1,400&family=Urbanist:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --purple:      #7c3aed;
+    --purple-dark: #5b21b6;
+    --purple-mid:  #9333ea;
+    --lilac:       #c084fc;
+    --lilac-soft:  #f5f0ff;
+    --lilac-mid:   #ede9fe;
+    --ink:         #1a0a2e;
+    --muted:       #6b7280;
+    --body-bg:     #f8f6ff;
+    --white:       #ffffff;
+    --green:       #10b981;
+    --green-soft:  #d1fae5;
+    --red:         #ef4444;
+    --amber:       #f59e0b;
+    --amber-soft:  #fef3c7;
+    --font-h:      'DM Serif Display', serif;
+    --font-sub:    'Cormorant', serif;
+    --font-body:   'Urbanist', sans-serif;
+    --radius:      16px;
+    --shadow:      0 2px 20px rgba(124,58,237,0.08);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--body-bg);
+    color: var(--ink);
+    min-height: 100vh;
+  }
+
+  /* ─── HEADER ─────────────────────────────────────────── */
+  header {
+    background: linear-gradient(135deg, #1a0a2e 0%, #3b0764 100%);
+    padding: 0 36px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.3);
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .logo-mark {
+    width: 40px; height: 40px;
+    background: linear-gradient(135deg, var(--purple), var(--lilac));
+    border-radius: 11px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .logo-mark svg { width: 20px; height: 20px; }
+  .logo-name {
+    font-family: var(--font-h);
+    font-size: 22px;
+    color: #fff;
+    letter-spacing: 0.5px;
+  }
+  .logo-tag {
+    font-size: 10px;
+    color: var(--lilac);
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-top: 1px;
+  }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .engine-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,255,255,0.07);
+    padding: 6px 14px;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+  #status-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--red);
+    transition: background 0.4s;
+    flex-shrink: 0;
+  }
+  #status-dot.live {
+    background: var(--green);
+    animation: pulse-dot 1.5s infinite;
+  }
+  @keyframes pulse-dot {
+    0%,100% { opacity: 1; box-shadow: 0 0 0 0 rgba(16,185,129,0.4); }
+    50%      { opacity: 0.7; box-shadow: 0 0 0 5px rgba(16,185,129,0); }
+  }
+  #status-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.8);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .btn {
+    padding: 9px 22px;
+    border: none;
+    border-radius: 9px;
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    transition: all 0.2s;
+  }
+  .btn:hover { transform: translateY(-1px); opacity: 0.9; }
+  .btn:active { transform: translateY(0); }
+  .btn-start  { background: var(--green); color: #fff; box-shadow: 0 4px 12px rgba(16,185,129,0.3); }
+  .btn-stop   { background: rgba(239,68,68,0.15); color: #f87171; border: 1px solid rgba(239,68,68,0.3); }
+  .btn-export {
+    background: rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.9);
+    border: 1px solid rgba(255,255,255,0.2);
+    display: flex; align-items: center; gap: 6px;
+  }
+  .btn-enroll {
+    background: linear-gradient(135deg, var(--purple), var(--purple-mid));
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(124,58,237,0.3);
+    display: flex; align-items: center; gap: 6px;
+  }
+
+  /* ─── MAIN LAYOUT ─────────────────────────────────────── */
+  main { padding: 32px 36px 48px; max-width: 1280px; margin: 0 auto; }
+
+  .page-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 28px;
+  }
+  .page-title { font-family: var(--font-h); font-size: 30px; color: var(--ink); }
+  .page-date  { font-family: var(--font-sub); font-size: 16px; color: var(--muted); font-style: italic; }
+
+  /* ─── STAT CARDS ──────────────────────────────────────── */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+    margin-bottom: 28px;
+  }
+  @media (max-width: 900px) { .stats-grid { grid-template-columns: repeat(2,1fr); } }
+
+  .stat-card {
+    background: var(--white);
+    border: 1px solid rgba(124,58,237,0.1);
+    border-radius: var(--radius);
+    padding: 22px 20px 18px;
+    box-shadow: var(--shadow);
+    position: relative;
+    overflow: hidden;
+  }
+  .stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--purple), var(--lilac));
+  }
+  .stat-card.green::before { background: linear-gradient(90deg, #059669, var(--green)); }
+  .stat-card.amber::before { background: linear-gradient(90deg, #d97706, var(--amber)); }
+  .stat-card.red::before   { background: linear-gradient(90deg, #dc2626, var(--red)); }
+
+  .stat-icon {
+    width: 36px; height: 36px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 14px;
+  }
+  .stat-icon.purple { background: var(--lilac-mid); }
+  .stat-icon.green  { background: var(--green-soft); }
+  .stat-icon.amber  { background: var(--amber-soft); }
+  .stat-icon.red    { background: rgba(239,68,68,0.1); }
+  .stat-icon svg    { width: 18px; height: 18px; }
+
+  .stat-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  .stat-value {
+    font-family: var(--font-h);
+    font-size: 38px;
+    line-height: 1;
+    color: var(--ink);
+  }
+  .stat-sub {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 6px;
+  }
+  .stat-trend {
+    position: absolute;
+    top: 18px; right: 18px;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--green);
+  }
+
+  /* ─── CONTENT GRID ────────────────────────────────────── */
+  .content-grid {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 20px;
+  }
+  @media (max-width: 1000px) { .content-grid { grid-template-columns: 1fr; } }
+
+  /* ─── PANEL ───────────────────────────────────────────── */
+  .panel {
+    background: var(--white);
+    border: 1px solid rgba(124,58,237,0.1);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+  .panel-header {
+    padding: 16px 22px;
+    border-bottom: 1px solid rgba(124,58,237,0.07);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .panel-title {
+    font-family: var(--font-h);
+    font-size: 17px;
+    color: var(--ink);
+  }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+  .badge-purple { background: var(--lilac-mid); color: var(--purple); }
+  .badge-green  { background: var(--green-soft); color: #059669; }
+
+  /* ─── TABLE ───────────────────────────────────────────── */
+  .table-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  thead tr { background: var(--lilac-soft); }
+  th {
+    padding: 11px 18px;
+    text-align: left;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--purple);
+    white-space: nowrap;
+  }
+  td {
+    padding: 13px 18px;
+    border-bottom: 1px solid rgba(124,58,237,0.05);
+    color: var(--ink);
+    vertical-align: middle;
+  }
+  tr:last-child td { border-bottom: none; }
+  tbody tr { transition: background 0.15s; }
+  tbody tr:hover td { background: rgba(124,58,237,0.025); }
+  tbody tr.new-row td { animation: rowFlash 1.2s ease; }
+  @keyframes rowFlash {
+    0%   { background: rgba(124,58,237,0.12); }
+    100% { background: transparent; }
+  }
+
+  .name-cell { display: flex; align-items: center; gap: 10px; }
+  .avatar-sm {
+    width: 30px; height: 30px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, var(--purple), var(--lilac));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    color: #fff;
+    flex-shrink: 0;
+    font-family: var(--font-h);
+  }
+  .name-strong { font-weight: 600; font-size: 13px; }
+
+  .role-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .role-student { background: rgba(124,58,237,0.1); color: var(--purple); }
+  .role-staff   { background: var(--green-soft); color: #059669; }
+  .role-visitor { background: var(--amber-soft); color: #d97706; }
+
+  .time-cell { font-family: monospace; font-size: 12px; color: var(--muted); }
+  .confidence {
+    display: inline-block;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+    margin-right: 6px;
+  }
+
+  /* ─── LIVE FEED ───────────────────────────────────────── */
+  .live-feed-panel {
+    display: flex;
+    flex-direction: column;
+    max-height: 580px;
+  }
+  .live-header {
+    padding: 16px 22px;
+    border-bottom: 1px solid rgba(124,58,237,0.07);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+  }
+  .live-pulse {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--green);
+    animation: pulse-dot 1.5s infinite;
+    flex-shrink: 0;
+  }
+  .live-title { font-family: var(--font-h); font-size: 17px; }
+  .live-count {
+    margin-left: auto;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--muted);
+  }
+
+  .feed-scroll {
+    flex: 1;
+    overflow-y: auto;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .feed-scroll::-webkit-scrollbar { width: 4px; }
+  .feed-scroll::-webkit-scrollbar-thumb { background: var(--lilac-mid); border-radius: 4px; }
+
+  .feed-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 13px;
+    background: var(--lilac-soft);
+    border-radius: 12px;
+    animation: slideIn 0.35s cubic-bezier(0.34,1.56,0.64,1);
+    border: 1px solid rgba(124,58,237,0.07);
+  }
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateX(16px) scale(0.97); }
+    to   { opacity: 1; transform: translateX(0) scale(1); }
+  }
+  .feed-avatar {
+    width: 38px; height: 38px;
+    border-radius: 11px;
+    background: linear-gradient(135deg, var(--purple), var(--lilac));
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-h);
+    font-size: 14px;
+    color: #fff;
+    flex-shrink: 0;
+  }
+  .feed-name  { font-weight: 600; font-size: 13px; line-height: 1.2; }
+  .feed-meta  { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+  .feed-empty {
+    text-align: center;
+    padding: 48px 20px;
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.6;
+  }
+  .feed-empty svg { width: 40px; height: 40px; margin: 0 auto 12px; display: block; opacity: 0.3; }
+
+  /* ─── ENROLL MODAL ────────────────────────────────────── */
+  .modal-backdrop {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(10,5,20,0.65);
+    backdrop-filter: blur(4px);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-backdrop.open { display: flex; }
+  .modal {
+    background: var(--white);
+    border-radius: 20px;
+    padding: 32px;
+    width: 420px;
+    max-width: 95vw;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.3);
+    animation: modalIn 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  }
+  @keyframes modalIn {
+    from { opacity: 0; transform: scale(0.9) translateY(20px); }
+    to   { opacity: 1; transform: scale(1) translateY(0); }
+  }
+  .modal-title {
+    font-family: var(--font-h);
+    font-size: 22px;
+    margin-bottom: 6px;
+  }
+  .modal-sub {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 24px;
+  }
+  .form-group { margin-bottom: 16px; }
+  .form-label {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  .form-input, .form-select {
+    width: 100%;
+    padding: 11px 14px;
+    border: 1.5px solid rgba(124,58,237,0.2);
+    border-radius: 10px;
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: var(--ink);
+    background: #fff;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .form-input:focus, .form-select:focus { border-color: var(--purple); }
+  .modal-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 24px;
+  }
+  .btn-cancel {
+    flex: 1;
+    padding: 11px;
+    border: 1.5px solid rgba(124,58,237,0.2);
+    border-radius: 10px;
+    background: transparent;
+    color: var(--muted);
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-cancel:hover { border-color: var(--purple); color: var(--purple); }
+  .btn-save {
+    flex: 2;
+    padding: 11px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--purple), var(--purple-mid));
+    color: #fff;
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 12px rgba(124,58,237,0.3);
+  }
+  .btn-save:hover { opacity: 0.9; transform: translateY(-1px); }
+
+  /* ─── CAMERA MODAL ────────────────────────────────────── */
+  .camera-box {
+    background: #0a0514;
+    border-radius: 12px;
+    height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .camera-scan {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--green);
+    box-shadow: 0 0 12px var(--green);
+    animation: scan 2s linear infinite;
+  }
+  @keyframes scan {
+    0%   { top: 0%; }
+    100% { top: 100%; }
+  }
+  .camera-frame {
+    width: 100px; height: 100px;
+    border: 2px solid rgba(124,58,237,0.5);
+    border-radius: 8px;
+    position: relative;
+  }
+  .camera-frame::before, .camera-frame::after {
+    content: '';
+    position: absolute;
+    width: 18px; height: 18px;
+    border-color: var(--purple);
+    border-style: solid;
+  }
+  .camera-frame::before { top: -2px; left: -2px; border-width: 3px 0 0 3px; border-radius: 4px 0 0 0; }
+  .camera-frame::after  { bottom: -2px; right: -2px; border-width: 0 3px 3px 0; border-radius: 0 0 4px 0; }
+
+  .sample-dots {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 12px;
+  }
+  .dot-sample {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: rgba(124,58,237,0.2);
+    transition: background 0.3s;
+  }
+  .dot-sample.captured { background: var(--purple); }
+  .capture-status {
+    text-align: center;
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  /* ─── TOAST ───────────────────────────────────────────── */
+  #toast {
+    position: fixed;
+    bottom: 28px; right: 28px;
+    background: var(--ink);
+    color: #fff;
+    padding: 14px 20px;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+    z-index: 999;
+    transform: translateY(80px);
+    opacity: 0;
+    transition: all 0.35s cubic-bezier(0.34,1.56,0.64,1);
+  }
+  #toast.show { transform: translateY(0); opacity: 1; }
+  #toast .toast-icon { font-size: 16px; }
+
+  /* ─── FOOTER BAR ──────────────────────────────────────── */
+  .footer-bar {
+    background: linear-gradient(135deg, #1a0a2e, #3b0764);
+    padding: 10px 36px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    z-index: 50;
+  }
+  .footer-text { font-size: 11px; color: rgba(255,255,255,0.4); letter-spacing: 1px; }
+  .footer-brand { font-size: 11px; color: var(--lilac); font-weight: 600; letter-spacing: 1px; }
+</style>
+</head>
+<body>
+
+<!-- ─── HEADER ──────────────────────────────────────────── -->
+<header>
+  <div class="logo">
+    <div class="logo-mark">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="8" r="4"/>
+        <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+      </svg>
+    </div>
+    <div>
+      <div class="logo-name">Presab</div>
+      <div class="logo-tag">Smart Attendance · Orcinos Sense</div>
+    </div>
+  </div>
+
+  <div class="header-right">
+    <div class="engine-status">
+      <div id="status-dot"></div>
+      <span id="status-label">OFFLINE</span>
+    </div>
+    <button class="btn btn-enroll" onclick="openEnroll()">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
+      Enroll Person
+    </button>
+    <button class="btn btn-start" id="btn-start" onclick="startCamera()">Start Camera</button>
+    <button class="btn btn-stop"  id="btn-stop"  onclick="stopCamera()">Stop</button>
+    <button class="btn btn-export" onclick="exportCSV()">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Export CSV
+    </button>
+  </div>
+</header>
+
+<!-- ─── MAIN ─────────────────────────────────────────────── -->
+<main>
+  <div class="page-header">
+    <div>
+      <div class="page-title">Today's Attendance</div>
+    </div>
+    <div class="page-date" id="today-date"></div>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-icon purple">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      </div>
+      <div class="stat-label">Total Present</div>
+      <div class="stat-value" id="stat-total">0</div>
+      <div class="stat-sub">marked today</div>
+      <div class="stat-trend" id="stat-trend">↑ 0%</div>
+    </div>
+    <div class="stat-card green">
+      <div class="stat-icon green">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+      </div>
+      <div class="stat-label">Students</div>
+      <div class="stat-value" id="stat-students">0</div>
+      <div class="stat-sub">present</div>
+    </div>
+    <div class="stat-card amber">
+      <div class="stat-icon amber">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+      </div>
+      <div class="stat-label">Staff</div>
+      <div class="stat-value" id="stat-staff">0</div>
+      <div class="stat-sub">present</div>
+    </div>
+    <div class="stat-card red">
+      <div class="stat-icon red">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      </div>
+      <div class="stat-label">Absent</div>
+      <div class="stat-value" id="stat-absent">0</div>
+      <div class="stat-sub">of <span id="stat-enrolled">0</span> enrolled</div>
+    </div>
+  </div>
+
+  <!-- Content Grid -->
+  <div class="content-grid">
+
+    <!-- Attendance Table -->
+    <div class="panel">
+      <div class="panel-header">
+        <div class="panel-title">Attendance Log</div>
+        <span class="badge badge-purple" id="table-count">0 records</span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Role</th>
+              <th>Time In</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="attendance-tbody">
+            <tr id="empty-row">
+              <td colspan="5" style="text-align:center; padding:50px 20px; color:var(--muted); font-size:13px;">
+                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" style="margin:0 auto 10px;display:block;opacity:0.3;"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+                Start camera to begin marking attendance
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Live Feed -->
+    <div class="panel live-feed-panel">
+      <div class="live-header">
+        <div class="live-pulse"></div>
+        <div class="live-title">Live Feed</div>
+        <span class="live-count" id="feed-count">0 check-ins</span>
+      </div>
+      <div class="feed-scroll" id="live-feed">
+        <div class="feed-empty">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+          Camera not started.<br>Press <strong>Start Camera</strong> to begin.
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<!-- ─── ENROLL MODAL ─────────────────────────────────────── -->
+<div class="modal-backdrop" id="enroll-modal">
+  <div class="modal">
+    <div class="modal-title">Enroll New Person</div>
+    <div class="modal-sub">Capture 5 face samples to register into the database.</div>
+
+    <div class="camera-box" id="camera-box">
+      <div class="camera-scan" id="cam-scan" style="display:none"></div>
+      <div class="camera-frame"></div>
+    </div>
+
+    <div class="sample-dots">
+      <div class="dot-sample" id="dot-1"></div>
+      <div class="dot-sample" id="dot-2"></div>
+      <div class="dot-sample" id="dot-3"></div>
+      <div class="dot-sample" id="dot-4"></div>
+      <div class="dot-sample" id="dot-5"></div>
+    </div>
+    <div class="capture-status" id="capture-status">Fill in the details below and click Enroll.</div>
+
+    <div class="form-group" style="margin-top:16px">
+      <label class="form-label">Full Name</label>
+      <input class="form-input" id="enroll-name" type="text" placeholder="e.g. Priscilla Narine">
+    </div>
+    <div class="form-group">
+      <label class="form-label">ID Number</label>
+      <input class="form-input" id="enroll-id" type="text" placeholder="e.g. STU001">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Role</label>
+      <select class="form-select" id="enroll-role">
+        <option value="student">Student</option>
+        <option value="staff">Staff</option>
+        <option value="visitor">Visitor</option>
+      </select>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeEnroll()">Cancel</button>
+      <button class="btn-save" onclick="enrollPerson()">
+        <span id="enroll-btn-text">Enroll & Capture</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ─── TOAST ─────────────────────────────────────────────── -->
+<div id="toast">
+  <span class="toast-icon" id="toast-icon">✓</span>
+  <span id="toast-msg">Done</span>
+</div>
+
+<!-- ─── FOOTER ─────────────────────────────────────────────── -->
+<div class="footer-bar">
+  <span class="footer-text">PRESAB v1.0 · ORCINOS SENSE</span>
+  <span class="footer-brand">Powered by Prisca Dezigns</span>
+</div>
+
+<script>
+// ─── STATE ──────────────────────────────────────────────────
+const MOCK_ENROLLED = [
+  { id: 'STU001', name: 'Aaliyah James',    role: 'student' },
+  { id: 'STU002', name: 'Marcus Williams',  role: 'student' },
+  { id: 'STU003', name: 'Kezia Mohammed',   role: 'student' },
+  { id: 'STU004', name: 'Devon Charles',    role: 'student' },
+  { id: 'STU005', name: 'Nadia Singh',      role: 'student' },
+  { id: 'STU006', name: 'Tristan Baptiste', role: 'student' },
+  { id: 'STF001', name: 'Ms. L. Clarke',    role: 'staff'   },
+  { id: 'STF002', name: 'Mr. R. Phillip',   role: 'staff'   },
+];
+
+let enrolled    = [...MOCK_ENROLLED];
+let attendance  = [];
+let running     = false;
+let simInterval = null;
+let feedEmpty   = true;
+let sampleCount = 0;
+let enrolling   = false;
+
+// ─── DATE ───────────────────────────────────────────────────
+const now = new Date();
+document.getElementById('today-date').textContent =
+  now.toLocaleDateString('en-TT', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
+
+// ─── CAMERA CONTROLS ────────────────────────────────────────
+function startCamera() {
+  if (running) return;
+  running = true;
+  setStatus(true);
+  showToast('✓', 'Camera started — recognition active');
+
+  // Simulate check-ins every 4–8 seconds
+  simInterval = setInterval(() => {
+    if (!running) return;
+    const remaining = enrolled.filter(p => !attendance.find(a => a.id === p.id));
+    if (!remaining.length) { stopCamera(); return; }
+    const person = remaining[Math.floor(Math.random() * remaining.length)];
+    markAttendance(person);
+  }, Math.random() * 4000 + 3500);
+
+  // First check-in quickly
+  setTimeout(() => {
+    const first = enrolled.find(p => !attendance.find(a => a.id === p.id));
+    if (first) markAttendance(first);
+  }, 1200);
+}
+
+function stopCamera() {
+  running = false;
+  clearInterval(simInterval);
+  setStatus(false);
+  showToast('■', 'Camera stopped');
+}
+
+function setStatus(live) {
+  document.getElementById('status-dot').className   = live ? 'live' : '';
+  document.getElementById('status-label').textContent = live ? 'LIVE' : 'OFFLINE';
+}
+
+// ─── MARK ATTENDANCE ────────────────────────────────────────
+function markAttendance(person) {
+  const t = new Date();
+  const time = t.toTimeString().slice(0,5);
+  const record = { ...person, time, timestamp: t };
+  attendance.push(record);
+
+  addTableRow(record, true);
+  addFeedItem(record);
+  updateStats();
+  showToast('✓', `${person.name} marked present`);
+}
+
+// ─── TABLE ──────────────────────────────────────────────────
+function addTableRow(rec, animate) {
+  const tbody = document.getElementById('attendance-tbody');
+  const empty = document.getElementById('empty-row');
+  if (empty) empty.remove();
+
+  const initials = rec.name.split(' ').map(n=>n[0]).join('').slice(0,2).toUpperCase();
+  const tr = document.createElement('tr');
+  if (animate) tr.className = 'new-row';
+  tr.innerHTML = `
+    <td style="font-family:monospace;font-size:12px;color:var(--muted)">${rec.id}</td>
+    <td>
+      <div class="name-cell">
+        <div class="avatar-sm">${initials}</div>
+        <span class="name-strong">${rec.name}</span>
+      </div>
+    </td>
+    <td><span class="role-badge role-${rec.role}">${rec.role}</span></td>
+    <td class="time-cell">${rec.time}</td>
+    <td><span class="confidence"></span><span style="font-size:12px;color:var(--green);font-weight:600">Confirmed</span></td>
+  `;
+  tbody.insertBefore(tr, tbody.firstChild);
+
+  const count = tbody.querySelectorAll('tr').length;
+  document.getElementById('table-count').textContent = count + ' record' + (count !== 1 ? 's' : '');
+}
+
+// ─── FEED ───────────────────────────────────────────────────
+function addFeedItem(rec) {
+  const feed = document.getElementById('live-feed');
+  if (feedEmpty) { feed.innerHTML = ''; feedEmpty = false; }
+
+  const initials = rec.name.split(' ').map(n=>n[0]).join('').slice(0,2).toUpperCase();
+  const div = document.createElement('div');
+  div.className = 'feed-item';
+  div.innerHTML = `
+    <div class="feed-avatar">${initials}</div>
+    <div>
+      <div class="feed-name">${rec.name}</div>
+      <div class="feed-meta">${rec.role} · ${rec.time}</div>
+    </div>
+  `;
+  feed.insertBefore(div, feed.firstChild);
+  while (feed.children.length > 25) feed.removeChild(feed.lastChild);
+
+  const cnt = attendance.length;
+  document.getElementById('feed-count').textContent = cnt + ' check-in' + (cnt !== 1 ? 's' : '');
+}
+
+// ─── STATS ──────────────────────────────────────────────────
+function updateStats() {
+  const total    = attendance.length;
+  const students = attendance.filter(r => r.role === 'student').length;
+  const staff    = attendance.filter(r => r.role === 'staff').length;
+  const absent   = enrolled.length - total;
+
+  animateCount('stat-total',    total);
+  animateCount('stat-students', students);
+  animateCount('stat-staff',    staff);
+  animateCount('stat-absent',   Math.max(0, absent));
+  document.getElementById('stat-enrolled').textContent = enrolled.length;
+
+  const pct = enrolled.length ? Math.round((total / enrolled.length) * 100) : 0;
+  document.getElementById('stat-trend').textContent = `↑ ${pct}%`;
+}
+
+function animateCount(id, target) {
+  const el = document.getElementById(id);
+  const current = parseInt(el.textContent) || 0;
+  if (current === target) return;
+  const step = target > current ? 1 : -1;
+  let v = current;
+  const t = setInterval(() => {
+    v += step;
+    el.textContent = v;
+    if (v === target) clearInterval(t);
+  }, 40);
+}
+
+// ─── ENROLL MODAL ───────────────────────────────────────────
+function openEnroll() {
+  document.getElementById('enroll-modal').classList.add('open');
+  sampleCount = 0;
+  resetDots();
+  document.getElementById('capture-status').textContent = 'Fill in the details below and click Enroll.';
+  document.getElementById('enroll-btn-text').textContent = 'Enroll & Capture';
+  document.getElementById('cam-scan').style.display = 'none';
+}
+
+function closeEnroll() {
+  document.getElementById('enroll-modal').classList.remove('open');
+  document.getElementById('enroll-name').value = '';
+  document.getElementById('enroll-id').value   = '';
+  document.getElementById('enroll-role').value = 'student';
+  sampleCount = 0;
+  enrolling   = false;
+  resetDots();
+}
+
+function resetDots() {
+  for (let i = 1; i <= 5; i++)
+    document.getElementById(`dot-${i}`).className = 'dot-sample';
+}
+
+function enrollPerson() {
+  if (enrolling) return;
+  const name = document.getElementById('enroll-name').value.trim();
+  const id   = document.getElementById('enroll-id').value.trim().toUpperCase();
+  const role = document.getElementById('enroll-role').value;
+
+  if (!name || !id) { showToast('!', 'Please fill in Name and ID'); return; }
+  if (enrolled.find(p => p.id === id)) { showToast('!', `ID ${id} already enrolled`); return; }
+
+  enrolling = true;
+  document.getElementById('cam-scan').style.display = 'block';
+  document.getElementById('enroll-btn-text').textContent = 'Capturing...';
+
+  // Simulate 5 captures
+  let i = 0;
+  const capture = setInterval(() => {
+    i++;
+    document.getElementById(`dot-${i}`).classList.add('captured');
+    document.getElementById('capture-status').textContent = `Capturing sample ${i} of 5...`;
+
+    if (i === 5) {
+      clearInterval(capture);
+      setTimeout(() => {
+        enrolled.push({ id, name, role });
+        updateStats();
+        closeEnroll();
+        showToast('✓', `${name} enrolled successfully`);
+      }, 500);
+    }
+  }, 500);
+}
+
+// ─── EXPORT CSV ─────────────────────────────────────────────
+function exportCSV() {
+  if (!attendance.length) { showToast('!', 'No records to export yet'); return; }
+
+  const header = 'ID,Name,Role,Time In\n';
+  const rows = attendance.map(r => `${r.id},${r.name},${r.role},${r.time}`).join('\n');
+  const blob = new Blob([header + rows], { type: 'text/csv' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  const dateStr = now.toISOString().slice(0,10);
+  a.href     = url;
+  a.download = `presab_attendance_${dateStr}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('↓', 'CSV downloaded');
+}
+
+// ─── TOAST ──────────────────────────────────────────────────
+let toastTimer;
+function showToast(icon, msg) {
+  const t = document.getElementById('toast');
+  document.getElementById('toast-icon').textContent = icon;
+  document.getElementById('toast-msg').textContent  = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// ─── INIT ───────────────────────────────────────────────────
+updateStats();
+</script>
+
+</body>
+</html>
