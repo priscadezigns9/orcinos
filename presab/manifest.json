@@ -1,0 +1,35 @@
+{
+  "name": "Presab — Smart Attendance",
+  "short_name": "Presab",
+  "description": "AI-powered attendance tracking for Caribbean schools",
+  "start_url": "/presab/",
+  "scope": "/presab/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0d0621",
+  "theme_color": "#7c3aed",
+  "categories": ["education", "productivity"],
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Teacher View",
+      "short_name": "Camera",
+      "description": "Open teacher camera capture mode",
+      "url": "/presab/teacher.html",
+      "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}
