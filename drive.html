@@ -83,14 +83,18 @@ html,body{width:100%;height:100%;overflow:hidden;background:#050810;font-family:
 .trip-val{font-size:14px;font-weight:300;font-variant-numeric:tabular-nums}
 .trip-lbl{font-size:9px;color:rgba(255,255,255,.25);letter-spacing:.1em;text-transform:uppercase}
 
-/* action bar */
-.deck-actions{height:64px;background:rgba(255,255,255,.02);border-top:1px solid rgba(255,255,255,.05);display:flex;align-items:center;justify-content:space-around;flex-shrink:0;padding:0 8px}
-.act-btn{display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 16px;border-radius:10px;border:none;background:transparent;cursor:pointer;color:rgba(255,255,255,.5);transition:all .2s;min-width:64px}
-.act-btn:active{background:rgba(255,255,255,.06);transform:scale(.95)}
-.act-btn svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
-.act-btn span{font-size:10px;letter-spacing:.06em;text-transform:uppercase}
-.act-btn.recording{color:#ef4444}
+/* action bar — Standardized for Driver Focus */
+.deck-actions{height:80px;background:rgba(255,255,255,.02);border-top:1px solid rgba(255,255,255,.05);display:flex;align-items:center;justify-content:space-around;flex-shrink:0;padding:0 12px}
+.act-btn{display:flex;flex-direction:column;align-items:center;gap:6px;padding:10px 14px;border-radius:12px;border:none;background:rgba(255,255,255,.03);cursor:pointer;color:rgba(255,255,255,.5);transition:all .2s;min-width:70px}
+.act-btn:active{background:rgba(255,255,255,.08);transform:scale(.95)}
+.act-btn.btn-primary{background:var(--grad-btn);color:#fff;box-shadow:0 4px 15px rgba(37,99,235,0.3)}
+.act-btn svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.act-btn span{font-size:10px;letter-spacing:.06em;text-transform:uppercase;font-weight:600}
+.act-btn.recording{color:#ef4444;border:1px solid rgba(239,68,68,0.2)}
 .act-btn.trip-active{color:#22c55e}
+.rec-dot-deck{width:12px;height:12px;border-radius:50%;background:#ef4444;margin-bottom:2px}
+.act-btn.recording .rec-dot-deck{animation:recPulse 1s ease-out infinite}
+@keyframes recPulse{0%{transform:scale(1);opacity:1}50%{transform:scale(1.2);opacity:.5}100%{transform:scale(1);opacity:1}}
 
 /* ══ CAMERA ══ */
 #view-cam{background:#000;position:relative}
@@ -460,11 +464,15 @@ html,body{width:100%;height:100%;overflow:hidden;background:#050810;font-family:
     <div class="trip-item"><div class="trip-val" id="tripMax">0</div><div class="trip-lbl">max km/h</div></div>
   </div>
 
-  <!-- ACTION BAR -->
+  <!-- ACTION BAR — Standardized for Driver Focus -->
   <div class="deck-actions">
-    <button class="act-btn" id="deckCamBtn" onclick="switchView('cam')">
+    <button class="act-btn btn-primary" id="deckDriveBtn" onclick="switchView('cam')">
       <svg viewBox="0 0 24 24"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
-      <span>Camera</span>
+      <span>Drive</span>
+    </button>
+    <button class="act-btn" id="recordBtnDeck" onclick="toggleRecording()">
+      <div class="rec-dot-inner" id="recDotDeck"></div>
+      <span id="recordLabelDeck">Record</span>
     </button>
     <button class="act-btn" id="tripBtn" onclick="toggleTrip()">
       <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
@@ -473,10 +481,6 @@ html,body{width:100%;height:100%;overflow:hidden;background:#050810;font-family:
     <button class="act-btn" onclick="openMaps()">
       <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
       <span>Maps</span>
-    </button>
-    <button class="act-btn" onclick="switchView('obd')">
-      <svg viewBox="0 0 24 24"><polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/></svg>
-      <span>Diag</span>
     </button>
   </div>
 </div>
@@ -960,6 +964,8 @@ function startRecording() {
   document.getElementById('recIndicator').style.display='block';
   document.getElementById('recordBtn').classList.add('recording');
   document.getElementById('recordLabel').textContent='Stop';
+  const btnDeck = document.getElementById('recordBtnDeck');
+  if (btnDeck) btnDeck.classList.add('recording');
   document.getElementById('pauseBtn').style.display='flex';
   // 3-min auto-segment
   state.rec.segTimer = setInterval(() => { if(state.rec.active && !state.rec.paused) rotateClip(); }, CLIP_DURATION_MS);
@@ -973,6 +979,10 @@ function stopRecording() {
   document.getElementById('recIndicator').style.display='none';
   document.getElementById('recordBtn').classList.remove('recording','paused');
   document.getElementById('recordLabel').textContent='Record';
+  const btnDeck = document.getElementById('recordBtnDeck');
+  const labelDeck = document.getElementById('recordLabelDeck');
+  if (btnDeck) btnDeck.classList.remove('recording');
+  if (labelDeck) labelDeck.textContent = 'Record';
   document.getElementById('pauseBtn').style.display='none';
 }
 
@@ -1046,7 +1056,10 @@ function toggleClipsTray() {
 function updateRecDuration() {
   if (!state.rec.active) return;
   const s = Math.floor((Date.now()-state.rec.startTime)/1000);
-  document.getElementById('recDuration').textContent = fmt(Math.floor(s/60))+':'+fmt(s%60);
+  const dur = fmt(Math.floor(s/60))+':'+fmt(s%60);
+  document.getElementById('recDuration').textContent = dur;
+  const labelDeck = document.getElementById('recordLabelDeck');
+  if (labelDeck) labelDeck.textContent = 'REC ' + dur;
   setTimeout(updateRecDuration, 1000);
 }
 
