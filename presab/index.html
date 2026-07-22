@@ -789,7 +789,7 @@ async function uploadToGallery(input) {
       headers: {
         'Authorization': `Bearer ${SB_KEY}`,
         'apikey': SB_KEY,
-        'Content-Type': file.type
+        'Content-Type': file.type, 'x-upsert': 'true'
       },
       body: file
     });
