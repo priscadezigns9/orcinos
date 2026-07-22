@@ -22,7 +22,7 @@ Serves:
 Run: python app.py
 """
 
-import os, csv, threading, pickle, json, base64, io, time
+import os, csv, threading, pickle, json, base64, io, time, socket as _socket
 from datetime import date, datetime
 from functools import wraps
 
@@ -494,6 +494,35 @@ def validate_code():
     if valid_code(code):
         return jsonify({'valid': True})
     return jsonify({'valid': False}), 401
+
+
+# ═════════════════════════════════════════════════════════════════════════════
+# SERVER INFO  (LAN IP + Teacher QR target)
+# ═════════════════════════════════════════════════════════════════════════════
+
+def get_lan_ip():
+    """Return the machine's LAN IP — works on Windows, Mac, and Linux."""
+    try:
+        s = _socket.socket(_socket.AF_INET, _socket.SOCK_DGRAM)
+        s.connect(('8.8.8.8', 80))
+        ip = s.getsockname()[0]
+        s.close()
+        return ip
+    except Exception:
+        return '127.0.0.1'
+
+@app.route('/api/server-info')
+def server_info():
+    ip = get_lan_ip()
+    port = 5050
+    teacher_url = f'http://{ip}:{port}/presab/teacher.html'
+    dashboard_url = f'http://{ip}:{port}/'
+    return jsonify({
+        'ip': ip,
+        'port': port,
+        'teacher_url': teacher_url,
+        'dashboard_url': dashboard_url
+    })
 
 
 # ═════════════════════════════════════════════════════════════════════════════
