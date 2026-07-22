@@ -468,46 +468,6 @@
   }
   footer a { color: var(--purple); text-decoration: none; }
 
-  /* ── Teacher Connect Bar ─────────────────────────────────── */
-  .teacher-connect-bar {
-    margin: 0 36px 28px;
-    background: var(--white);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 18px 24px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 20px;
-    box-shadow: var(--shadow);
-  }
-  .tc-left {
-    display: flex; align-items: center; gap: 14px;
-    color: var(--purple);
-  }
-  .tc-title {
-    font-family: var(--font-body); font-weight: 600;
-    font-size: 13px; color: var(--ink); letter-spacing: .02em;
-    text-transform: uppercase;
-  }
-  .tc-sub {
-    font-family: var(--font-body); font-size: 12px;
-    color: var(--muted); margin-top: 3px; word-break: break-all;
-  }
-  .tc-right {
-    display: flex; align-items: center; gap: 12px; flex-shrink: 0;
-  }
-  #qr-canvas-wrap {
-    background: #fff; border: 1px solid var(--border);
-    border-radius: 10px; padding: 6px;
-  }
-  .tc-hint {
-    font-family: var(--font-body); font-size: 11px;
-    color: var(--muted); text-align: center; line-height: 1.5;
-  }
-  @media (max-width: 600px) {
-    .teacher-connect-bar { margin: 0 16px 20px; flex-direction: column; align-items: flex-start; }
-  }
 </style>
 <!-- Socket.IO (loaded from Flask backend when engine is running) -->
 <script>
@@ -714,23 +674,6 @@
       </div>
     </div>
 
-  </div>
-
-  <!-- Teacher Connect Panel -->
-  <div class="teacher-connect-bar" id="teacher-bar">
-    <div class="tc-left">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
-      <div>
-        <div class="tc-title">Teacher Mobile View</div>
-        <div class="tc-sub" id="tc-url">Detecting server address…</div>
-      </div>
-    </div>
-    <div class="tc-right">
-      <div id="qr-canvas-wrap">
-        <canvas id="qr-canvas" width="96" height="96"></canvas>
-      </div>
-      <div class="tc-hint">Scan to open<br>on phone</div>
-    </div>
   </div>
 
 </main>
@@ -1116,71 +1059,9 @@ function installApp() {
   });
 }
 
-// ─── QR CODE: TEACHER CONNECT ─────────────────────────────────
-// Lightweight pure-JS QR generator (no library needed — draws
-// on canvas using the QR data matrix from the server-info API).
-
-async function loadTeacherQR() {
-  const urlEl = document.getElementById('tc-url');
-  const canvas = document.getElementById('qr-canvas');
-
-  try {
-    const base = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
-      ? 'http://localhost:5050' : '';
-    const res = await fetch(base + '/api/server-info');
-    if (!res.ok) throw new Error('no server');
-    const data = await res.json();
-
-    const teacherURL = data.teacher_url;
-    urlEl.textContent = teacherURL;
-
-    // Load qrcode.js from CDN, draw to canvas
-    if (!window.QRCode) {
-      await new Promise((resolve, reject) => {
-        const s = document.createElement('script');
-        s.src = 'https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js';
-        s.onload = resolve; s.onerror = reject;
-        document.head.appendChild(s);
-      });
-    }
-
-    // QRCode lib needs a div — use a temp container
-    const tmp = document.createElement('div');
-    document.body.appendChild(tmp);
-    new QRCode(tmp, {
-      text: teacherURL,
-      width: 96, height: 96,
-      colorDark: '#1a0a2e',
-      colorLight: '#ffffff',
-      correctLevel: QRCode.CorrectLevel.M
-    });
-
-    // Transfer generated img to our canvas
-    const img = tmp.querySelector('img');
-    img.onload = () => {
-      const ctx = canvas.getContext('2d');
-      ctx.drawImage(img, 0, 0, 96, 96);
-      tmp.remove();
-    };
-
-  } catch {
-    urlEl.textContent = 'Engine offline — start the server to generate QR';
-    // Draw placeholder pattern on canvas
-    const ctx = canvas.getContext('2d');
-    ctx.fillStyle = '#f5f0ff';
-    ctx.fillRect(0, 0, 96, 96);
-    ctx.fillStyle = '#c084fc';
-    ctx.font = '9px Urbanist,sans-serif';
-    ctx.textAlign = 'center';
-    ctx.fillText('Start engine', 48, 44);
-    ctx.fillText('to generate', 48, 56);
-  }
-}
-
 // Run after login (dashboard visible)
 document.addEventListener('DOMContentLoaded', () => {
-  // Delay slightly — login check runs first
-  setTimeout(loadTeacherQR, 1500);
+  // login check runs on DOMContentLoaded
 });
 </script>
 <!-- PWA Install Banner -->
