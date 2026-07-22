@@ -177,13 +177,60 @@ html,body{width:100%;height:100%;overflow:hidden;background:#050810;font-family:
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:2px}
 
-/* ══ MOTIQ GATE ══════════════════════════════════════════════════ */
+/* ══ MOTIQ GATE — Orcinos brand system ══════════════════════════ */
 #motiq-gate {
+  --blue-deep:   #1a3db5;
+  --blue-mid:    #2563eb;
+  --blue-light:  #38bdf8;
+  --purple:      #6b21e8;
+  --purple-mid:  #7c3aed;
+  --purple-soft: #a78bfa;
+  --bg:          #080d1f;
+  --bg2:         #0d1330;
+  --text:        #e8eaf6;
+  --muted:       #7b8ab8;
+  --border:      rgba(56,189,248,0.12);
+  --grad-word:   linear-gradient(90deg, var(--blue-light), var(--purple-soft));
+  --grad-btn:    linear-gradient(135deg, var(--blue-mid), var(--purple));
+
   position: fixed; inset: 0; z-index: 9999;
-  background: #050810;
+  background: var(--bg);
   display: flex; align-items: center; justify-content: center;
   flex-direction: column;
+  overflow: hidden;
 }
+
+/* Animated background orbs — same as Orcinos login */
+.gate-orb {
+  position: absolute; border-radius: 50%;
+  pointer-events: none; will-change: transform;
+}
+.gate-orb-1 {
+  width: 420px; height: 420px;
+  top: -120px; right: -80px;
+  background: radial-gradient(circle, rgba(37,99,235,0.18) 0%, rgba(107,33,232,0.08) 45%, transparent 70%);
+  animation: orbDrift1 12s ease-in-out infinite alternate;
+}
+.gate-orb-2 {
+  width: 340px; height: 340px;
+  bottom: -100px; left: -60px;
+  background: radial-gradient(circle, rgba(107,33,232,0.12) 0%, transparent 65%);
+  animation: orbDrift2 14s ease-in-out infinite alternate;
+}
+@keyframes orbDrift1 { from { transform: translate(0,0) scale(1); } to { transform: translate(-30px, 30px) scale(1.08); } }
+@keyframes orbDrift2 { from { transform: translate(0,0) scale(1); } to { transform: translate(20px,-25px) scale(1.05); } }
+
+/* Grid overlay — same as Orcinos login */
+.gate-grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(56,189,248,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(56,189,248,0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+}
+
+/* Pulse rings */
 .gate-pulse {
   position: absolute; inset: 0;
   display: flex; align-items: center; justify-content: center;
@@ -194,68 +241,80 @@ html,body{width:100%;height:100%;overflow:hidden;background:#050810;font-family:
   content: '';
   position: absolute;
   border-radius: 50%;
-  border: 1px solid rgba(124,58,237,0.25);
-  animation: gPulse 3s ease-out infinite;
+  border: 1px solid rgba(56,189,248,0.1);
+  animation: gPulse 4s ease-out infinite;
 }
-.gate-pulse::before { width: 320px; height: 320px; animation-delay: 0s; }
-.gate-pulse::after  { width: 520px; height: 520px; animation-delay: 1s; }
+.gate-pulse::before { width: 300px; height: 300px; animation-delay: 0s; }
+.gate-pulse::after  { width: 500px; height: 500px; animation-delay: 1.5s; }
 @keyframes gPulse {
-  0%   { transform: scale(0.7); opacity: 0.6; }
-  100% { transform: scale(1.3); opacity: 0; }
+  0%   { transform: scale(0.75); opacity: 0.5; }
+  100% { transform: scale(1.25); opacity: 0; }
 }
+
+/* Card — matches Orcinos login card */
 .gate-card {
   position: relative; z-index: 1;
-  background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(124,58,237,0.3);
+  background: rgba(13,19,48,0.85);
+  border: 1px solid var(--border);
   border-radius: 20px;
   padding: 40px 36px;
   width: 340px;
   max-width: 90vw;
   text-align: center;
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(16px);
+  box-shadow:
+    0 0 0 1px rgba(56,189,248,0.04),
+    0 32px 80px rgba(0,0,0,0.55),
+    0 0 60px rgba(37,99,235,0.07);
 }
 .gate-wordmark {
   font-size: 1.9rem; font-weight: 700;
   letter-spacing: 0.04em;
   margin-bottom: 6px;
+  background: var(--grad-word);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
-.gate-wordmark .w-orcinos { color: #e8eaf6; }
-.gate-wordmark .w-motiq   { color: #a78bfa; }
 .gate-badge {
   display: inline-block;
   font-size: 0.7rem; letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: #a78bfa;
-  background: rgba(124,58,237,0.15);
-  border: 1px solid rgba(124,58,237,0.3);
+  color: var(--blue-light);
+  background: rgba(37,99,235,0.1);
+  border: 1px solid rgba(56,189,248,0.2);
   border-radius: 20px;
   padding: 3px 12px;
   margin-bottom: 20px;
 }
 .gate-label {
-  font-size: 0.85rem; color: rgba(232,234,246,0.55);
+  font-size: 0.85rem; color: var(--muted);
   line-height: 1.6; margin-bottom: 24px;
 }
 .gate-input {
   width: 100%; padding: 12px 16px;
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(124,58,237,0.3);
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(56,189,248,0.12);
   border-radius: 10px;
-  color: #e8eaf6; font-size: 1rem;
+  color: var(--text); font-size: 1rem;
   letter-spacing: 0.1em; text-align: center;
-  outline: none; transition: border 0.2s;
+  outline: none; transition: border-color 0.2s, box-shadow 0.2s;
   box-sizing: border-box;
   margin-bottom: 14px;
 }
-.gate-input:focus { border-color: rgba(124,58,237,0.7); }
-.gate-input::placeholder { color: rgba(232,234,246,0.25); }
+.gate-input:focus {
+  border-color: rgba(56,189,248,0.45);
+  box-shadow: 0 0 0 3px rgba(37,99,235,0.12);
+}
+.gate-input::placeholder { color: rgba(123,138,184,0.5); }
 .gate-btn {
   width: 100%; padding: 13px;
-  background: linear-gradient(135deg, #7c3aed, #6b21e8);
+  background: var(--grad-btn);
   border: none; border-radius: 10px;
   color: #fff; font-size: 0.95rem; font-weight: 600;
   cursor: pointer; letter-spacing: 0.04em;
   transition: opacity 0.2s, transform 0.15s;
+  box-shadow: 0 8px 32px rgba(37,99,235,0.35);
 }
 .gate-btn:hover { opacity: 0.88; transform: translateY(-1px); }
 .gate-error {
@@ -274,6 +333,9 @@ html,body{width:100%;height:100%;overflow:hidden;background:#050810;font-family:
 
 <!-- ══ MOTIQ GATE ══════════════════════════════════════════════════ -->
 <div id="motiq-gate">
+  <div class="gate-orb gate-orb-1"></div>
+  <div class="gate-orb gate-orb-2"></div>
+  <div class="gate-grid"></div>
   <div class="gate-pulse"></div>
   <div class="gate-card">
     <div class="gate-wordmark">
