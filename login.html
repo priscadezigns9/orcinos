@@ -434,9 +434,43 @@ nav {
 
     <!-- ── SIGN UP FORM ── -->
     <form id="signupForm" style="display:none;" onsubmit="handleSignUp(event)">
+      <div class="form-row">
+        <div class="form-group">
+          <label>First Name</label>
+          <input type="text" id="suFirst" placeholder="First" required autocomplete="given-name"/>
+        </div>
+        <div class="form-group">
+          <label>Last Name</label>
+          <input type="text" id="suLast" placeholder="Last" required autocomplete="family-name"/>
+        </div>
+      </div>
       <div class="form-group">
         <label>Email Address</label>
         <input type="email" id="suEmail" placeholder="you@example.com" required autocomplete="email"/>
+      </div>
+      <div class="form-group">
+        <label>Country</label>
+        <input type="text" id="suCountry" placeholder="Trinidad & Tobago, Jamaica, Barbados…" list="caribbean-countries"/>
+        <datalist id="caribbean-countries">
+          <option value="Trinidad & Tobago"/>
+          <option value="Jamaica"/>
+          <option value="Barbados"/>
+          <option value="Guyana"/>
+          <option value="Saint Lucia"/>
+          <option value="Grenada"/>
+          <option value="Antigua & Barbuda"/>
+          <option value="Saint Vincent & the Grenadines"/>
+          <option value="Dominica"/>
+          <option value="Saint Kitts & Nevis"/>
+          <option value="Bahamas"/>
+          <option value="Belize"/>
+          <option value="Suriname"/>
+          <option value="Haiti"/>
+          <option value="Dominican Republic"/>
+          <option value="Cuba"/>
+          <option value="Puerto Rico"/>
+          <option value="Other Caribbean Territory"/>
+        </datalist>
       </div>
       <div class="form-group">
         <label>Password</label>
@@ -518,7 +552,7 @@ async function handleSignIn(e) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IlpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNhemhkbnF6YXFwcWNyYWxtdGhoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxNzE5NjYsImV4cCI6MjA5Mzc0Nzk2Nn0.uTyw31uWTNOTV5-HzNpm46vpAJABAsHLMzW-sYOkRhc'
+        'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNhemhkbnF6YXFwcWNyYWxtdGhoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxNzE5NjYsImV4cCI6MjA5Mzc0Nzk2Nn0.uTyw31uWTNOTV5-HzNpm46vpAJABAsHLMzW-sYOkRhc'
       },
       body: JSON.stringify({ email, password })
     });
@@ -546,6 +580,9 @@ async function handleSignUp(e) {
 
   const email    = document.getElementById('suEmail').value.trim();
   const password = document.getElementById('suPassword').value;
+  const first    = document.getElementById('suFirst').value.trim();
+  const last     = document.getElementById('suLast').value.trim();
+  const country  = document.getElementById('suCountry').value.trim();
 
   if (password.length < 8) {
     showMsg('error', 'Password must be at least 8 characters.');
@@ -558,17 +595,17 @@ async function handleSignUp(e) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IlpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNhemhkbnF6YXFwcWNyYWxtdGhoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxNzE5NjYsImV4cCI6MjA5Mzc0Nzk2Nn0.uTyw31uWTNOTV5-HzNpm46vpAJABAsHLMzW-sYOkRhc'
+        'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNhemhkbnF6YXFwcWNyYWxtdGhoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxNzE5NjYsImV4cCI6MjA5Mzc0Nzk2Nn0.uTyw31uWTNOTV5-HzNpm46vpAJABAsHLMzW-sYOkRhc'
       },
       body: JSON.stringify({
         email, password,
-        data: { region: 'Caribbean' }
+        data: { first_name: first, last_name: last, country, region: 'Caribbean' }
       })
     });
     const data = await res.json();
     if (!res.ok) throw new Error(data.error_description || data.msg || 'Registration failed');
-    showMsg('success', '✓ Account created! Check your email to confirm, then sign in.');
-    setTimeout(() => switchTab('signin'), 2500);
+    showMsg('success', '✓ Account created! Signing you in...');
+    localStorage.setItem('orcinos_token', data.access_token); localStorage.setItem('orcinos_user', JSON.stringify(data.user)); setTimeout(() => { window.location.href = "/presab/"; }, 1500);
   } catch(err) {
     showMsg('error', err.message || 'Something went wrong. Please try again.');
   } finally {
@@ -586,7 +623,7 @@ function showForgot(e) {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IlpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNhemhkbnF6YXFwcWNyYWxtdGhoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxNzE5NjYsImV4cCI6MjA5Mzc0Nzk2Nn0.uTyw31uWTNOTV5-HzNpm46vpAJABAsHLMzW-sYOkRhc'
+      'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNhemhkbnF6YXFwcWNyYWxtdGhoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxNzE5NjYsImV4cCI6MjA5Mzc0Nzk2Nn0.uTyw31uWTNOTV5-HzNpm46vpAJABAsHLMzW-sYOkRhc'
     },
     body: JSON.stringify({ email })
   }).then(() => {
@@ -598,4 +635,3 @@ function showForgot(e) {
 </script>
 </body>
 </html>
-
