@@ -475,21 +475,22 @@ html,body{width:100%;height:100%;overflow:hidden;background:#050810;font-family:
 
   <!-- Controls -->
   <div class="cam-controls">
-    <button class="cam-btn" onclick="toggleClipsTray()">
-      <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="2"/><path d="M7 2v20M17 2v20M2 12h20"/></svg>
-      <span>Clips</span>
+    <!-- Record is first and largest — primary action -->
+    <button class="cam-btn record-btn" id="recordBtn" onclick="toggleRecording()" style="min-width:72px;padding:10px 18px;">
+      <svg viewBox="0 0 24 24" id="recordIcon"><circle cx="12" cy="12" r="8" fill="currentColor"/></svg>
+      <span id="recordLabel">⏺ Record</span>
     </button>
     <button class="cam-btn" id="pauseBtn" onclick="pauseRecording()" style="display:none">
       <svg viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
       <span id="pauseLabel">Pause</span>
     </button>
-    <button class="cam-btn record-btn" id="recordBtn" onclick="toggleRecording()">
-      <svg viewBox="0 0 24 24" id="recordIcon"><circle cx="12" cy="12" r="8" fill="currentColor"/></svg>
-      <span id="recordLabel">Record</span>
-    </button>
     <button class="cam-btn" onclick="saveCurrentClip()">
       <svg viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
-      <span>Save</span>
+      <span>Tag Clip</span>
+    </button>
+    <button class="cam-btn" onclick="toggleClipsTray()">
+      <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="2"/><path d="M7 2v20M17 2v20M2 12h20"/></svg>
+      <span>Clips</span>
     </button>
     <button class="cam-btn" onclick="flipCamera()">
       <svg viewBox="0 0 24 24"><path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>
@@ -1034,6 +1035,9 @@ function loadScript(src) {
   });
 }
 
+const detFrameCounts = {}; // debounce: track consecutive frames per class
+const DET_FRAME_MIN = 3;   // must appear in 3 consecutive frames before alerting
+
 function startDetectionLoop() {
   if (detRunning) return;
   detCanvas = document.getElementById('detectionCanvas');
@@ -1059,7 +1063,9 @@ async function runDetection() {
 
   try {
     const preds = await detModel.detect(video);
-    processDetections(preds, detCanvas, detCtx);
+    // Filter to high-confidence predictions only (0.65+)
+    const filtered = preds.filter(p => p.score >= 0.65);
+    processDetections(filtered, detCanvas, detCtx);
   } catch(e) {}
 
   // Traffic light color analysis
@@ -1075,15 +1081,26 @@ function processDetections(preds, canvas, ctx) {
   const scaleX = canvas.clientWidth / canvas.width;
   const scaleY = canvas.clientHeight / canvas.height;
 
+  // Track which classes appeared this frame for debounce
+  const seenThisFrame = {};
+
   preds.forEach(p => {
     const [x,y,w,h] = p.bbox;
     const conf = p.score;
-    if (conf < 0.45) return;
+    if (conf < 0.65) return;
 
     let cls = '';
     if (['car','truck','bus','motorcycle'].includes(p.class)) cls = 'vehicle';
     else if (p.class === 'traffic light') cls = 'traffic-light-obj';
     else return;
+
+    seenThisFrame[p.class] = true;
+
+    // Increment debounce counter
+    detFrameCounts[p.class] = (detFrameCounts[p.class] || 0) + 1;
+
+    // Only draw box if confirmed across enough frames
+    if (detFrameCounts[p.class] < DET_FRAME_MIN) return;
 
     // Draw box
     ctx.save();
@@ -1108,6 +1125,11 @@ function processDetections(preds, canvas, ctx) {
         }, 6000);
       }
     }
+  });
+
+  // Reset counters for classes that disappeared this frame
+  Object.keys(detFrameCounts).forEach(cls => {
+    if (!seenThisFrame[cls]) detFrameCounts[cls] = 0;
   });
 }
 
