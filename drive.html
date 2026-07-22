@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-fullscreen">
 <meta name="theme-color" content="#ffffff" id="themeColorMeta">
-<title>Motiq</title>
+<title>Orcinos Drive</title>
 <link rel="manifest" href="/drive-manifest.json">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -83,18 +83,14 @@ html,body{width:100%;height:100%;overflow:hidden;background:#050810;font-family:
 .trip-val{font-size:14px;font-weight:300;font-variant-numeric:tabular-nums}
 .trip-lbl{font-size:9px;color:rgba(255,255,255,.25);letter-spacing:.1em;text-transform:uppercase}
 
-/* action bar — Standardized for Driver Focus */
-.deck-actions{height:80px;background:rgba(255,255,255,.02);border-top:1px solid rgba(255,255,255,.05);display:flex;align-items:center;justify-content:space-around;flex-shrink:0;padding:0 12px}
-.act-btn{display:flex;flex-direction:column;align-items:center;gap:6px;padding:10px 14px;border-radius:12px;border:none;background:rgba(255,255,255,.03);cursor:pointer;color:rgba(255,255,255,.5);transition:all .2s;min-width:70px}
-.act-btn:active{background:rgba(255,255,255,.08);transform:scale(.95)}
-.act-btn.btn-primary{background:var(--grad-btn);color:#fff;box-shadow:0 4px 15px rgba(37,99,235,0.3)}
-.act-btn svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
-.act-btn span{font-size:10px;letter-spacing:.06em;text-transform:uppercase;font-weight:600}
-.act-btn.recording{color:#ef4444;border:1px solid rgba(239,68,68,0.2)}
+/* action bar */
+.deck-actions{height:64px;background:rgba(255,255,255,.02);border-top:1px solid rgba(255,255,255,.05);display:flex;align-items:center;justify-content:space-around;flex-shrink:0;padding:0 8px}
+.act-btn{display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 16px;border-radius:10px;border:none;background:transparent;cursor:pointer;color:rgba(255,255,255,.5);transition:all .2s;min-width:64px}
+.act-btn:active{background:rgba(255,255,255,.06);transform:scale(.95)}
+.act-btn svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.act-btn span{font-size:10px;letter-spacing:.06em;text-transform:uppercase}
+.act-btn.recording{color:#ef4444}
 .act-btn.trip-active{color:#22c55e}
-.rec-dot-deck{width:12px;height:12px;border-radius:50%;background:#ef4444;margin-bottom:2px}
-.act-btn.recording .rec-dot-deck{animation:recPulse 1s ease-out infinite}
-@keyframes recPulse{0%{transform:scale(1);opacity:1}50%{transform:scale(1.2);opacity:.5}100%{transform:scale(1);opacity:1}}
 
 /* ══ CAMERA ══ */
 #view-cam{background:#000;position:relative}
@@ -180,181 +176,9 @@ html,body{width:100%;height:100%;overflow:hidden;background:#050810;font-family:
 ::-webkit-scrollbar{width:3px}
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:2px}
-
-/* ══ MOTIQ GATE — Orcinos brand system ══════════════════════════ */
-#motiq-gate {
-  --blue-deep:   #1a3db5;
-  --blue-mid:    #2563eb;
-  --blue-light:  #38bdf8;
-  --purple:      #6b21e8;
-  --purple-mid:  #7c3aed;
-  --purple-soft: #a78bfa;
-  --bg:          #080d1f;
-  --bg2:         #0d1330;
-  --text:        #e8eaf6;
-  --muted:       #7b8ab8;
-  --border:      rgba(56,189,248,0.12);
-  --grad-word:   linear-gradient(90deg, var(--blue-light), var(--purple-soft));
-  --grad-btn:    linear-gradient(135deg, var(--blue-mid), var(--purple));
-
-  position: fixed; inset: 0; z-index: 9999;
-  background: var(--bg);
-  display: flex; align-items: center; justify-content: center;
-  flex-direction: column;
-  overflow: hidden;
-}
-
-/* Animated background orbs — same as Orcinos login */
-.gate-orb {
-  position: absolute; border-radius: 50%;
-  pointer-events: none; will-change: transform;
-}
-.gate-orb-1 {
-  width: 420px; height: 420px;
-  top: -120px; right: -80px;
-  background: radial-gradient(circle, rgba(37,99,235,0.18) 0%, rgba(107,33,232,0.08) 45%, transparent 70%);
-  animation: orbDrift1 12s ease-in-out infinite alternate;
-}
-.gate-orb-2 {
-  width: 340px; height: 340px;
-  bottom: -100px; left: -60px;
-  background: radial-gradient(circle, rgba(107,33,232,0.12) 0%, transparent 65%);
-  animation: orbDrift2 14s ease-in-out infinite alternate;
-}
-@keyframes orbDrift1 { from { transform: translate(0,0) scale(1); } to { transform: translate(-30px, 30px) scale(1.08); } }
-@keyframes orbDrift2 { from { transform: translate(0,0) scale(1); } to { transform: translate(20px,-25px) scale(1.05); } }
-
-/* Grid overlay — same as Orcinos login */
-.gate-grid {
-  position: absolute; inset: 0;
-  background-image:
-    linear-gradient(rgba(56,189,248,0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(56,189,248,0.03) 1px, transparent 1px);
-  background-size: 60px 60px;
-  pointer-events: none;
-}
-
-/* Pulse rings */
-.gate-pulse {
-  position: absolute; inset: 0;
-  display: flex; align-items: center; justify-content: center;
-  pointer-events: none;
-}
-.gate-pulse::before,
-.gate-pulse::after {
-  content: '';
-  position: absolute;
-  border-radius: 50%;
-  border: 1px solid rgba(56,189,248,0.1);
-  animation: gPulse 4s ease-out infinite;
-}
-.gate-pulse::before { width: 300px; height: 300px; animation-delay: 0s; }
-.gate-pulse::after  { width: 500px; height: 500px; animation-delay: 1.5s; }
-@keyframes gPulse {
-  0%   { transform: scale(0.75); opacity: 0.5; }
-  100% { transform: scale(1.25); opacity: 0; }
-}
-
-/* Card — matches Orcinos login card */
-.gate-card {
-  position: relative; z-index: 1;
-  background: rgba(13,19,48,0.85);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 40px 36px;
-  width: 340px;
-  max-width: 90vw;
-  text-align: center;
-  backdrop-filter: blur(16px);
-  box-shadow:
-    0 0 0 1px rgba(56,189,248,0.04),
-    0 32px 80px rgba(0,0,0,0.55),
-    0 0 60px rgba(37,99,235,0.07);
-}
-.gate-wordmark {
-  font-size: 1.9rem; font-weight: 700;
-  letter-spacing: 0.04em;
-  margin-bottom: 6px;
-  background: var(--grad-word);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-.gate-badge {
-  display: inline-block;
-  font-size: 0.7rem; letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--blue-light);
-  background: rgba(37,99,235,0.1);
-  border: 1px solid rgba(56,189,248,0.2);
-  border-radius: 20px;
-  padding: 3px 12px;
-  margin-bottom: 20px;
-}
-.gate-label {
-  font-size: 0.85rem; color: var(--muted);
-  line-height: 1.6; margin-bottom: 24px;
-}
-.gate-input {
-  width: 100%; padding: 12px 16px;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(56,189,248,0.12);
-  border-radius: 10px;
-  color: var(--text); font-size: 1rem;
-  letter-spacing: 0.1em; text-align: center;
-  outline: none; transition: border-color 0.2s, box-shadow 0.2s;
-  box-sizing: border-box;
-  margin-bottom: 14px;
-}
-.gate-input:focus {
-  border-color: rgba(56,189,248,0.45);
-  box-shadow: 0 0 0 3px rgba(37,99,235,0.12);
-}
-.gate-input::placeholder { color: rgba(123,138,184,0.5); }
-.gate-btn {
-  width: 100%; padding: 13px;
-  background: var(--grad-btn);
-  border: none; border-radius: 10px;
-  color: #fff; font-size: 0.95rem; font-weight: 600;
-  cursor: pointer; letter-spacing: 0.04em;
-  transition: opacity 0.2s, transform 0.15s;
-  box-shadow: 0 8px 32px rgba(37,99,235,0.35);
-}
-.gate-btn:hover { opacity: 0.88; transform: translateY(-1px); }
-.gate-error {
-  color: #f87171; font-size: 0.8rem;
-  min-height: 20px; margin-top: 10px;
-}
-.gate-footer {
-  margin-top: 24px;
-  font-size: 0.72rem; color: rgba(232,234,246,0.2);
-  letter-spacing: 0.06em;
-}
-
 </style>
 </head>
 <body>
-
-<!-- ══ MOTIQ GATE ══════════════════════════════════════════════════ -->
-<div id="motiq-gate">
-  <div class="gate-orb gate-orb-1"></div>
-  <div class="gate-orb gate-orb-2"></div>
-  <div class="gate-grid"></div>
-  <div class="gate-pulse"></div>
-  <div class="gate-card">
-    <div class="gate-wordmark">
-      <span class="w-orcinos">orcinos</span><span class="w-motiq"> motiq</span>
-    </div>
-    <div class="gate-badge">Restricted Access</div>
-    <p class="gate-label">This system is reserved for authorized drivers.<br/>Enter your access code to continue.</p>
-    <input class="gate-input" id="motiqGateInput" type="password" placeholder="Access Code" autocomplete="off"
-      onkeydown="if(event.key==='Enter') checkMotiqGate()" />
-    <button class="gate-btn" onclick="checkMotiqGate()">Authenticate &rarr;</button>
-    <div class="gate-error" id="motiqGateError"></div>
-    <div class="gate-footer">Motiq · Smart Dashcam AI · T&T</div>
-  </div>
-</div>
-
 
 <!-- ═══ SPLASH SCREEN ═══ -->
 <div id="splash" style="
@@ -397,7 +221,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#050810;font-family:
 ════════════════════════════════════════ -->
 <div id="view-deck">
   <div class="nav">
-    <span class="nav-brand">Motiq</span>
+    <span class="nav-brand">Orcinos Drive</span>
     <div class="nav-tabs">
       <button class="nav-tab active" onclick="switchView('deck')">Deck</button>
       <button class="nav-tab" onclick="switchView('cam')">Camera</button>
@@ -464,15 +288,11 @@ html,body{width:100%;height:100%;overflow:hidden;background:#050810;font-family:
     <div class="trip-item"><div class="trip-val" id="tripMax">0</div><div class="trip-lbl">max km/h</div></div>
   </div>
 
-  <!-- ACTION BAR — Standardized for Driver Focus -->
+  <!-- ACTION BAR -->
   <div class="deck-actions">
-    <button class="act-btn btn-primary" id="deckDriveBtn" onclick="switchView('cam')">
+    <button class="act-btn" id="deckCamBtn" onclick="switchView('cam')">
       <svg viewBox="0 0 24 24"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
-      <span>Drive</span>
-    </button>
-    <button class="act-btn" id="recordBtnDeck" onclick="toggleRecording()">
-      <div class="rec-dot-inner" id="recDotDeck"></div>
-      <span id="recordLabelDeck">Record</span>
+      <span>Camera</span>
     </button>
     <button class="act-btn" id="tripBtn" onclick="toggleTrip()">
       <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
@@ -482,6 +302,10 @@ html,body{width:100%;height:100%;overflow:hidden;background:#050810;font-family:
       <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
       <span>Maps</span>
     </button>
+    <button class="act-btn" onclick="switchView('obd')">
+      <svg viewBox="0 0 24 24"><polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/></svg>
+      <span>Diag</span>
+    </button>
   </div>
 </div>
 
@@ -490,7 +314,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#050810;font-family:
 ════════════════════════════════════════ -->
 <div id="view-cam">
   <div class="nav">
-    <span class="nav-brand">Motiq</span>
+    <span class="nav-brand">Orcinos Drive</span>
     <div class="nav-tabs">
       <button class="nav-tab" onclick="switchView('deck')">Deck</button>
       <button class="nav-tab active" onclick="switchView('cam')">Camera</button>
@@ -541,22 +365,21 @@ html,body{width:100%;height:100%;overflow:hidden;background:#050810;font-family:
 
   <!-- Controls -->
   <div class="cam-controls">
-    <!-- Record is first and largest — primary action -->
-    <button class="cam-btn record-btn" id="recordBtn" onclick="toggleRecording()" style="min-width:72px;padding:10px 18px;">
-      <svg viewBox="0 0 24 24" id="recordIcon"><circle cx="12" cy="12" r="8" fill="currentColor"/></svg>
-      <span id="recordLabel">⏺ Record</span>
+    <button class="cam-btn" onclick="toggleClipsTray()">
+      <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="2"/><path d="M7 2v20M17 2v20M2 12h20"/></svg>
+      <span>Clips</span>
     </button>
     <button class="cam-btn" id="pauseBtn" onclick="pauseRecording()" style="display:none">
       <svg viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
       <span id="pauseLabel">Pause</span>
     </button>
+    <button class="cam-btn record-btn" id="recordBtn" onclick="toggleRecording()">
+      <svg viewBox="0 0 24 24" id="recordIcon"><circle cx="12" cy="12" r="8" fill="currentColor"/></svg>
+      <span id="recordLabel">Record</span>
+    </button>
     <button class="cam-btn" onclick="saveCurrentClip()">
       <svg viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
-      <span>Tag Clip</span>
-    </button>
-    <button class="cam-btn" onclick="toggleClipsTray()">
-      <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="2"/><path d="M7 2v20M17 2v20M2 12h20"/></svg>
-      <span>Clips</span>
+      <span>Save</span>
     </button>
     <button class="cam-btn" onclick="flipCamera()">
       <svg viewBox="0 0 24 24"><path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>
@@ -570,7 +393,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#050810;font-family:
 ════════════════════════════════════════ -->
 <div id="view-obd">
   <div class="nav">
-    <span class="nav-brand">Motiq</span>
+    <span class="nav-brand">Orcinos Drive</span>
     <div class="nav-tabs">
       <button class="nav-tab" onclick="switchView('deck')">Deck</button>
       <button class="nav-tab" onclick="switchView('cam')">Camera</button>
@@ -598,7 +421,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#050810;font-family:
 ════════════════════════════════════════ -->
 <div id="view-codes">
   <div class="nav">
-    <span class="nav-brand">Motiq</span>
+    <span class="nav-brand">Orcinos Drive</span>
     <div class="nav-tabs">
       <button class="nav-tab" onclick="switchView('deck')">Deck</button>
       <button class="nav-tab" onclick="switchView('cam')">Camera</button>
@@ -632,31 +455,16 @@ html,body{width:100%;height:100%;overflow:hidden;background:#050810;font-family:
 <script>
 'use strict';
 
-// ══ MOTIQ GATE ════════════════════════════════════════════════════
-const MOTIQ_ACCESS_CODE = 'MOTIQ2026';
-function checkMotiqGate() {
-  const val = document.getElementById('motiqGateInput').value.trim().toUpperCase();
-  const err = document.getElementById('motiqGateError');
-  if (val === MOTIQ_ACCESS_CODE) {
-    document.getElementById('motiq-gate').style.display = 'none';
-  } else {
-    err.textContent = 'Invalid access code. Try again.';
-    document.getElementById('motiqGateInput').value = '';
-    setTimeout(() => { err.textContent = ''; }, 3000);
-  }
-}
-
-
-
-// ══════════════════════════════════════════════
-// STATE
-// ══════════════════════════════════════════════
-const state = {
-  currentView: 'deck',
-  obdConnected: false,
-  simMode: true,
-  obd: { speed:0, rpm:850, coolant:88, fuel:72, load:12, throttle:8, intake:28, maf:4.2, runtime:0 },
-  gps: { speed:0, lat:null, lng:null, accuracy:null },
+  // ══════════════════════════════════════════════
+  // STATE
+  // ══════════════════════════════════════════════
+  const state = {
+    currentView: 'deck',
+    obdConnected: false,
+    simMode: true,
+    storage: { type: 'LOCAL_SOVEREIGN', sync: false }, // Explicit privacy-first flag
+    obd: { speed:0, rpm:850, coolant:88, fuel:72, load:12, throttle:8, intake:28, maf:4.2, runtime:0 },
+    gps: { speed:0, lat:null, lng:null, accuracy:null },
   speedHistory: [],        // rolling buffer for smoothing
   trip: { active:false, dist:0, startTime:null, maxSpeed:0, speedSum:0, speedCount:0, lastLat:null, lastLng:null },
   rec: { active:false, paused:false, mediaRecorder:null, chunks:[], startTime:null, duration:0, clipCount:0, segTimer:null },
@@ -795,47 +603,13 @@ function startGPS() {
     const lng = pos.coords.longitude.toFixed(5);
     document.getElementById('gpsCoords').textContent = lat+', '+lng;
     document.getElementById('camGps').textContent = 'GPS: '+lat+', '+lng;
-    detectReverse(smoothed, pos.coords.latitude, pos.coords.longitude);
+    detectReverse(smoothed);
   }, null, { enableHighAccuracy:true, maximumAge:0 });
 }
 
-// Reverse detection: GPS heading-based only.
-// We track two consecutive GPS positions and check if bearing flipped >150° while speed is very low.
-let _revLastLat = null, _revLastLng = null, _revLastBearing = null;
-let _revConsecutive = 0; // require 3 consecutive reverse-heading GPS ticks before alerting
-
-function detectReverse(speed, lat, lng) {
-  if (speed < 1 || lat === null || lng === null) {
-    // Stopped — reset
-    _revLastLat = lat; _revLastLng = lng; _revLastBearing = null; _revConsecutive = 0;
-    handleReverse(false);
-    return;
-  }
-  if (_revLastLat === null) {
-    _revLastLat = lat; _revLastLng = lng;
-    return;
-  }
-  const dlat = lat - _revLastLat;
-  const dlng = lng - _revLastLng;
-  const dist = Math.sqrt(dlat*dlat + dlng*dlng);
-  if (dist < 0.00003) return; // haven't moved enough for a reliable bearing
-
-  const bearing = Math.atan2(dlng, dlat) * 180 / Math.PI;
-
-  if (_revLastBearing !== null) {
-    let diff = Math.abs(bearing - _revLastBearing);
-    if (diff > 180) diff = 360 - diff;
-    // Bearing flip > 150° at low speed = reversing
-    if (diff > 150 && speed < 15) {
-      _revConsecutive++;
-      if (_revConsecutive >= 2) handleReverse(true);
-    } else {
-      _revConsecutive = 0;
-      handleReverse(false);
-    }
-  }
-
-  _revLastLat = lat; _revLastLng = lng; _revLastBearing = bearing;
+function detectReverse(speed) {
+  // Accelerometer-based reverse detection handled in accel section
+  // GPS: very slow speed triggers reverse check
 }
 
 // ══════════════════════════════════════════════
@@ -944,8 +718,27 @@ function handleReverse(isReversing) {
 }
 
 // ══════════════════════════════════════════════
-// RECORDING
+// RECORDING (Local Sovereign Storage Only)
 // ══════════════════════════════════════════════
+function saveCurrentClip() {
+  if (!state.rec.chunks.length) return toast('No footage to save');
+  
+  const blob = new Blob(state.rec.chunks, { type: 'video/webm' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const h = String(new Date().getHours()).padStart(2,'0');
+  const m = String(new Date().getMinutes()).padStart(2,'0');
+  
+  a.href = url;
+  a.download = `Motiq_Clip_${h}${m}_${state.gps.lat ? 'Loc' : 'NoGPS'}.webm`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  
+  toast('Clip saved to local device storage');
+  state.rec.chunks = []; // Clear buffer after local save
+}
 const CLIP_DURATION_MS = 3 * 60 * 1000; // 3-min segments
 
 function toggleRecording() {
@@ -964,8 +757,6 @@ function startRecording() {
   document.getElementById('recIndicator').style.display='block';
   document.getElementById('recordBtn').classList.add('recording');
   document.getElementById('recordLabel').textContent='Stop';
-  const btnDeck = document.getElementById('recordBtnDeck');
-  if (btnDeck) btnDeck.classList.add('recording');
   document.getElementById('pauseBtn').style.display='flex';
   // 3-min auto-segment
   state.rec.segTimer = setInterval(() => { if(state.rec.active && !state.rec.paused) rotateClip(); }, CLIP_DURATION_MS);
@@ -979,10 +770,6 @@ function stopRecording() {
   document.getElementById('recIndicator').style.display='none';
   document.getElementById('recordBtn').classList.remove('recording','paused');
   document.getElementById('recordLabel').textContent='Record';
-  const btnDeck = document.getElementById('recordBtnDeck');
-  const labelDeck = document.getElementById('recordLabelDeck');
-  if (btnDeck) btnDeck.classList.remove('recording');
-  if (labelDeck) labelDeck.textContent = 'Record';
   document.getElementById('pauseBtn').style.display='none';
 }
 
@@ -1056,10 +843,7 @@ function toggleClipsTray() {
 function updateRecDuration() {
   if (!state.rec.active) return;
   const s = Math.floor((Date.now()-state.rec.startTime)/1000);
-  const dur = fmt(Math.floor(s/60))+':'+fmt(s%60);
-  document.getElementById('recDuration').textContent = dur;
-  const labelDeck = document.getElementById('recordLabelDeck');
-  if (labelDeck) labelDeck.textContent = 'REC ' + dur;
+  document.getElementById('recDuration').textContent = fmt(Math.floor(s/60))+':'+fmt(s%60);
   setTimeout(updateRecDuration, 1000);
 }
 
@@ -1108,9 +892,12 @@ window.addEventListener('devicemotion', e => {
     }, 4000);
   }
 
-  // REVERSE detection — GPS-only, not accelerometer
-  // Accelerometer Y-axis is unreliable: fires on any phone movement/bump
-  // handleReverse() is now called exclusively from detectReverse() in the GPS loop
+  // REVERSE detection via Y-axis shift (phone portrait, moving backward)
+  if (accelBaseline) {
+    const yDiff = acc.y - accelBaseline.y;
+    const isReversing = yDiff > 3 && state.gps.speed < 10;
+    handleReverse(isReversing);
+  }
 });
 
 function avg(arr, key) { return arr.reduce((s,o)=>s+o[key],0)/arr.length; }
@@ -1141,9 +928,6 @@ function loadScript(src) {
   });
 }
 
-const detFrameCounts = {}; // debounce: track consecutive frames per class
-const DET_FRAME_MIN = 3;   // must appear in 3 consecutive frames before alerting
-
 function startDetectionLoop() {
   if (detRunning) return;
   detCanvas = document.getElementById('detectionCanvas');
@@ -1169,9 +953,7 @@ async function runDetection() {
 
   try {
     const preds = await detModel.detect(video);
-    // Filter to high-confidence predictions only (0.65+)
-    const filtered = preds.filter(p => p.score >= 0.65);
-    processDetections(filtered, detCanvas, detCtx);
+    processDetections(preds, detCanvas, detCtx);
   } catch(e) {}
 
   // Traffic light color analysis
@@ -1187,54 +969,33 @@ function processDetections(preds, canvas, ctx) {
   const scaleX = canvas.clientWidth / canvas.width;
   const scaleY = canvas.clientHeight / canvas.height;
 
-  // Track which classes appeared this frame for debounce
-  const seenThisFrame = {};
-
   preds.forEach(p => {
     const [x,y,w,h] = p.bbox;
     const conf = p.score;
-    if (conf < 0.65) return;
-
-    // STRICT whitelist — ONLY road objects. Everything else (bottle, cup, clock, etc.) is rejected.
-    const ROAD_CLASSES = ['car','truck','bus','motorcycle','bicycle','traffic light','stop sign','person'];
-    if (!ROAD_CLASSES.includes(p.class)) return;
+    if (conf < 0.45) return;
 
     let cls = '';
-    if (['car','truck','bus','motorcycle','bicycle'].includes(p.class)) cls = 'vehicle';
+    if (['car','truck','bus','motorcycle'].includes(p.class)) cls = 'vehicle';
     else if (p.class === 'traffic light') cls = 'traffic-light-obj';
-    else if (p.class === 'person') cls = 'person';
     else return;
 
-    seenThisFrame[p.class] = true;
+    // Draw box
+    ctx.save();
+    ctx.strokeStyle = cls==='vehicle' ? '#f59e0b' : '#22c55e';
+    ctx.lineWidth = 2;
+    ctx.strokeRect(x,y,w,h);
+    ctx.fillStyle = ctx.strokeStyle;
+    ctx.font = '12px Inter, system-ui, sans-serif';
+    ctx.fillRect(x, y-18, ctx.measureText(p.class).width+12, 18);
+    ctx.fillStyle = '#000';
+    ctx.fillText(p.class, x+6, y-4);
+    ctx.restore();
 
-    // Increment debounce counter
-    detFrameCounts[p.class] = (detFrameCounts[p.class] || 0) + 1;
-
-    // Only draw box if confirmed across enough frames
-    if (detFrameCounts[p.class] < DET_FRAME_MIN) return;
-
-    // Draw box ONLY if vehicle is close enough to matter (fills >20% of frame height AND bottom half of frame)
-    // Distant vehicles (small boxes, top of frame) are silently ignored — no visual noise
-    const relH = h / canvas.height;
-    const relY = (y + h) / canvas.height;
-    const isClose = relH > 0.20 && relY > 0.5;
-
-    if (isClose) {
-      ctx.save();
-      ctx.strokeStyle = cls==='vehicle' ? '#f59e0b' : cls==='person' ? '#60a5fa' : '#22c55e';
-      ctx.lineWidth = 2;
-      ctx.strokeRect(x,y,w,h);
-      ctx.fillStyle = ctx.strokeStyle;
-      ctx.font = '12px Inter, system-ui, sans-serif';
-      ctx.fillRect(x, y-18, ctx.measureText(p.class).width+12, 18);
-      ctx.fillStyle = '#000';
-      ctx.fillText(p.class, x+6, y-4);
-      ctx.restore();
-    }
-
-    // Tailgating alert: vehicle must fill >55% of frame height AND be in the bottom 30% — genuinely close
+    // Tailgating: large vehicle box near bottom of frame
     if (cls === 'vehicle') {
-      if (relH > 0.55 && relY > 0.70) {
+      const relH = h / canvas.height;
+      const relY = (y+h) / canvas.height;
+      if (relH > 0.35 && relY > 0.7) {
         throttleAlert('tailgate', () => {
           showAlert('⚠ Too close to vehicle ahead', 'red');
           speak('Warning. Too close to the vehicle ahead.', true);
@@ -1242,61 +1003,32 @@ function processDetections(preds, canvas, ctx) {
       }
     }
   });
-
-  // Reset counters for classes that disappeared this frame
-  Object.keys(detFrameCounts).forEach(cls => {
-    if (!seenThisFrame[cls]) detFrameCounts[cls] = 0;
-  });
 }
 
 // ── Traffic Light Color Extraction ──
-// Samples top 55% of the full frame width (not just centre) to catch lights at any horizontal position.
-// Only runs when moving ≥ 5 km/h to avoid false fires while parked.
-// Uses a 2-frame confirmation before firing an alert.
-let _tlRedFrames = 0, _tlGreenFrames = 0;
-const TL_FRAME_CONFIRM = 2;
-
 function analyzeTrafficLight(video, ctx) {
-  if (state.gps.speed < 5) { _tlRedFrames = 0; _tlGreenFrames = 0; return; }
-
   const tempCanvas = document.createElement('canvas');
-  tempCanvas.width = 120; tempCanvas.height = 80;
+  tempCanvas.width = 80; tempCanvas.height = 60;
   const tc = tempCanvas.getContext('2d');
-  // Sample full width, top 55% of frame — catches lights anywhere across the windscreen view
-  tc.drawImage(video, 0, 0, video.videoWidth, video.videoHeight * 0.55, 0, 0, 120, 80);
-  const data = tc.getImageData(0, 0, 120, 80).data;
+  // Sample top-center area where lights typically appear
+  tc.drawImage(video, video.videoWidth*0.3, 0, video.videoWidth*0.4, video.videoHeight*0.4, 0, 0, 80, 60);
+  const data = tc.getImageData(0, 0, 80, 60).data;
 
-  let redPx=0, greenPx=0, yellowPx=0, total=0;
+  let redPx=0, greenPx=0, total=0;
   for (let i=0; i<data.length; i+=4) {
     const r=data[i], g=data[i+1], b=data[i+2];
-    const lum = (r*0.299 + g*0.587 + b*0.114);
-    if (lum < 140) continue; // skip dark pixels — only bright light sources matter
+    const bright = r>160 || g>160;
+    if (!bright) continue;
     total++;
-    // Red: high red, low green, low blue
-    if (r > 170 && g < 90 && b < 90) redPx++;
-    // Green: high green, low red, low blue
-    if (g > 160 && r < 100 && b < 100) greenPx++;
-    // Amber/yellow: high red+green, low blue (don't misclassify as red)
-    if (r > 170 && g > 130 && b < 80) yellowPx++;
+    if (r>180 && g<100 && b<100) redPx++;
+    if (g>180 && r<120 && b<100) greenPx++;
   }
-  if (total < 15) { _tlRedFrames = 0; _tlGreenFrames = 0; return; }
+  if (total < 20) return;
+  const redRatio = redPx/total;
+  const greenRatio = greenPx/total;
 
-  // Subtract amber from red count to avoid amber → red misclassification
-  const realRed = Math.max(0, redPx - yellowPx);
-  const redRatio = realRed / total;
-  const greenRatio = greenPx / total;
-
-  if (redRatio > 0.06) {
-    _tlGreenFrames = 0;
-    _tlRedFrames++;
-    if (_tlRedFrames >= TL_FRAME_CONFIRM) handleTrafficLight('red');
-  } else if (greenRatio > 0.05) {
-    _tlRedFrames = 0;
-    _tlGreenFrames++;
-    if (_tlGreenFrames >= TL_FRAME_CONFIRM) handleTrafficLight('green');
-  } else {
-    _tlRedFrames = 0; _tlGreenFrames = 0;
-  }
+  if (redRatio > 0.08) handleTrafficLight('red');
+  else if (greenRatio > 0.08) handleTrafficLight('green');
 }
 
 function handleTrafficLight(color) {
@@ -1405,13 +1137,11 @@ function renderTLLearning() {
 }
 
 // ── Lane Departure ──
-// Only runs when GPS speed ≥ 30 km/h — prevents false fires from phone wobble while slow/parked
 let laneWarnCooldown = 0;
 function analyzeLanes(video, ctx) {
   const now = Date.now();
   if (now - laneWarnCooldown < 6000) return;
-  if (state.gps.speed < 30) return; // must be actually driving at road speed
-
+  // Sample horizontal strips for lane markers
   const tempC = document.createElement('canvas');
   tempC.width=80; tempC.height=40;
   const tc = tempC.getContext('2d');
@@ -1425,13 +1155,12 @@ function analyzeLanes(video, ctx) {
       if(bright){ if(x<15) leftBright++; if(x>65) rightBright++; }
     }
   }
-  // Raised threshold from 40 → 70 to avoid false triggers from dashboard reflections
-  if(leftBright>70){
+  if(leftBright>40){
     laneWarnCooldown=now;
     showAlert('⚠ Lane departure — LEFT', 'amber');
     speak('Lane departure. Moving left.', true);
     if(state.rec.active) saveCurrentClip('LANE_LEFT');
-  } else if(rightBright>70){
+  } else if(rightBright>40){
     laneWarnCooldown=now;
     showAlert('⚠ Lane departure — RIGHT', 'amber');
     speak('Lane departure. Moving right.', true);
