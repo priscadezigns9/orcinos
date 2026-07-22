@@ -729,13 +729,47 @@ function startGPS() {
     const lng = pos.coords.longitude.toFixed(5);
     document.getElementById('gpsCoords').textContent = lat+', '+lng;
     document.getElementById('camGps').textContent = 'GPS: '+lat+', '+lng;
-    detectReverse(smoothed);
+    detectReverse(smoothed, pos.coords.latitude, pos.coords.longitude);
   }, null, { enableHighAccuracy:true, maximumAge:0 });
 }
 
-function detectReverse(speed) {
-  // Accelerometer-based reverse detection handled in accel section
-  // GPS: very slow speed triggers reverse check
+// Reverse detection: GPS heading-based only.
+// We track two consecutive GPS positions and check if bearing flipped >150° while speed is very low.
+let _revLastLat = null, _revLastLng = null, _revLastBearing = null;
+let _revConsecutive = 0; // require 3 consecutive reverse-heading GPS ticks before alerting
+
+function detectReverse(speed, lat, lng) {
+  if (speed < 1 || lat === null || lng === null) {
+    // Stopped — reset
+    _revLastLat = lat; _revLastLng = lng; _revLastBearing = null; _revConsecutive = 0;
+    handleReverse(false);
+    return;
+  }
+  if (_revLastLat === null) {
+    _revLastLat = lat; _revLastLng = lng;
+    return;
+  }
+  const dlat = lat - _revLastLat;
+  const dlng = lng - _revLastLng;
+  const dist = Math.sqrt(dlat*dlat + dlng*dlng);
+  if (dist < 0.00003) return; // haven't moved enough for a reliable bearing
+
+  const bearing = Math.atan2(dlng, dlat) * 180 / Math.PI;
+
+  if (_revLastBearing !== null) {
+    let diff = Math.abs(bearing - _revLastBearing);
+    if (diff > 180) diff = 360 - diff;
+    // Bearing flip > 150° at low speed = reversing
+    if (diff > 150 && speed < 15) {
+      _revConsecutive++;
+      if (_revConsecutive >= 2) handleReverse(true);
+    } else {
+      _revConsecutive = 0;
+      handleReverse(false);
+    }
+  }
+
+  _revLastLat = lat; _revLastLng = lng; _revLastBearing = bearing;
 }
 
 // ══════════════════════════════════════════════
@@ -999,12 +1033,9 @@ window.addEventListener('devicemotion', e => {
     }, 4000);
   }
 
-  // REVERSE detection via Y-axis shift (phone portrait, moving backward)
-  if (accelBaseline) {
-    const yDiff = acc.y - accelBaseline.y;
-    const isReversing = yDiff > 3 && state.gps.speed < 10;
-    handleReverse(isReversing);
-  }
+  // REVERSE detection — GPS-only, not accelerometer
+  // Accelerometer Y-axis is unreliable: fires on any phone movement/bump
+  // handleReverse() is now called exclusively from detectReverse() in the GPS loop
 });
 
 function avg(arr, key) { return arr.reduce((s,o)=>s+o[key],0)/arr.length; }
@@ -1089,9 +1120,14 @@ function processDetections(preds, canvas, ctx) {
     const conf = p.score;
     if (conf < 0.65) return;
 
+    // STRICT whitelist — ONLY road objects. Everything else (bottle, cup, clock, etc.) is rejected.
+    const ROAD_CLASSES = ['car','truck','bus','motorcycle','bicycle','traffic light','stop sign','person'];
+    if (!ROAD_CLASSES.includes(p.class)) return;
+
     let cls = '';
-    if (['car','truck','bus','motorcycle'].includes(p.class)) cls = 'vehicle';
+    if (['car','truck','bus','motorcycle','bicycle'].includes(p.class)) cls = 'vehicle';
     else if (p.class === 'traffic light') cls = 'traffic-light-obj';
+    else if (p.class === 'person') cls = 'person';
     else return;
 
     seenThisFrame[p.class] = true;
@@ -1134,29 +1170,53 @@ function processDetections(preds, canvas, ctx) {
 }
 
 // ── Traffic Light Color Extraction ──
-function analyzeTrafficLight(video, ctx) {
-  const tempCanvas = document.createElement('canvas');
-  tempCanvas.width = 80; tempCanvas.height = 60;
-  const tc = tempCanvas.getContext('2d');
-  // Sample top-center area where lights typically appear
-  tc.drawImage(video, video.videoWidth*0.3, 0, video.videoWidth*0.4, video.videoHeight*0.4, 0, 0, 80, 60);
-  const data = tc.getImageData(0, 0, 80, 60).data;
+// Samples top 55% of the full frame width (not just centre) to catch lights at any horizontal position.
+// Only runs when moving ≥ 5 km/h to avoid false fires while parked.
+// Uses a 2-frame confirmation before firing an alert.
+let _tlRedFrames = 0, _tlGreenFrames = 0;
+const TL_FRAME_CONFIRM = 2;
 
-  let redPx=0, greenPx=0, total=0;
+function analyzeTrafficLight(video, ctx) {
+  if (state.gps.speed < 5) { _tlRedFrames = 0; _tlGreenFrames = 0; return; }
+
+  const tempCanvas = document.createElement('canvas');
+  tempCanvas.width = 120; tempCanvas.height = 80;
+  const tc = tempCanvas.getContext('2d');
+  // Sample full width, top 55% of frame — catches lights anywhere across the windscreen view
+  tc.drawImage(video, 0, 0, video.videoWidth, video.videoHeight * 0.55, 0, 0, 120, 80);
+  const data = tc.getImageData(0, 0, 120, 80).data;
+
+  let redPx=0, greenPx=0, yellowPx=0, total=0;
   for (let i=0; i<data.length; i+=4) {
     const r=data[i], g=data[i+1], b=data[i+2];
-    const bright = r>160 || g>160;
-    if (!bright) continue;
+    const lum = (r*0.299 + g*0.587 + b*0.114);
+    if (lum < 140) continue; // skip dark pixels — only bright light sources matter
     total++;
-    if (r>180 && g<100 && b<100) redPx++;
-    if (g>180 && r<120 && b<100) greenPx++;
+    // Red: high red, low green, low blue
+    if (r > 170 && g < 90 && b < 90) redPx++;
+    // Green: high green, low red, low blue
+    if (g > 160 && r < 100 && b < 100) greenPx++;
+    // Amber/yellow: high red+green, low blue (don't misclassify as red)
+    if (r > 170 && g > 130 && b < 80) yellowPx++;
   }
-  if (total < 20) return;
-  const redRatio = redPx/total;
-  const greenRatio = greenPx/total;
+  if (total < 15) { _tlRedFrames = 0; _tlGreenFrames = 0; return; }
 
-  if (redRatio > 0.08) handleTrafficLight('red');
-  else if (greenRatio > 0.08) handleTrafficLight('green');
+  // Subtract amber from red count to avoid amber → red misclassification
+  const realRed = Math.max(0, redPx - yellowPx);
+  const redRatio = realRed / total;
+  const greenRatio = greenPx / total;
+
+  if (redRatio > 0.06) {
+    _tlGreenFrames = 0;
+    _tlRedFrames++;
+    if (_tlRedFrames >= TL_FRAME_CONFIRM) handleTrafficLight('red');
+  } else if (greenRatio > 0.05) {
+    _tlRedFrames = 0;
+    _tlGreenFrames++;
+    if (_tlGreenFrames >= TL_FRAME_CONFIRM) handleTrafficLight('green');
+  } else {
+    _tlRedFrames = 0; _tlGreenFrames = 0;
+  }
 }
 
 function handleTrafficLight(color) {
@@ -1265,11 +1325,13 @@ function renderTLLearning() {
 }
 
 // ── Lane Departure ──
+// Only runs when GPS speed ≥ 30 km/h — prevents false fires from phone wobble while slow/parked
 let laneWarnCooldown = 0;
 function analyzeLanes(video, ctx) {
   const now = Date.now();
   if (now - laneWarnCooldown < 6000) return;
-  // Sample horizontal strips for lane markers
+  if (state.gps.speed < 30) return; // must be actually driving at road speed
+
   const tempC = document.createElement('canvas');
   tempC.width=80; tempC.height=40;
   const tc = tempC.getContext('2d');
@@ -1283,12 +1345,13 @@ function analyzeLanes(video, ctx) {
       if(bright){ if(x<15) leftBright++; if(x>65) rightBright++; }
     }
   }
-  if(leftBright>40){
+  // Raised threshold from 40 → 70 to avoid false triggers from dashboard reflections
+  if(leftBright>70){
     laneWarnCooldown=now;
     showAlert('⚠ Lane departure — LEFT', 'amber');
     speak('Lane departure. Moving left.', true);
     if(state.rec.active) saveCurrentClip('LANE_LEFT');
-  } else if(rightBright>40){
+  } else if(rightBright>70){
     laneWarnCooldown=now;
     showAlert('⚠ Lane departure — RIGHT', 'amber');
     speak('Lane departure. Moving right.', true);
