@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Orcinos Lens — Traffic Intelligence</title>
+<title>Oplix — Traffic Intelligence</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Urbanist:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.17.0/dist/tf.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd@2.2.3/dist/coco-ssd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5.0.4/dist/tesseract.min.js"></script>
 <style>
 /* ══════════════════════════════════════════════════════
-   ORCINOS LENS — Design System
+   OPLIX — Design System
    Colors: Deep Navy bg, Cyan accent, Purple secondary
    Style: Glassmorphism command center
 ══════════════════════════════════════════════════════ */
@@ -1042,7 +1042,7 @@ nav {
       Authenticate &rarr;
     </button>
     <div class="gate-error" id="gateError"></div>
-    <div class="gate-footer">Orcinos Lens · Traffic Intelligence Platform · T&amp;T</div>
+    <div class="gate-footer">Oplix · Traffic Intelligence Platform · T&amp;T</div>
   </div>
 </div>
 
@@ -1337,7 +1337,7 @@ async function startCamera() {
     video.addEventListener('loadedmetadata', () => { resizeCanvases(); startDetection(); startSignalCycle(); });
   } catch(e) {
     setStatus('red', 'Camera access denied');
-    showAlert('Please allow camera access to use Orcinos Lens.');
+    showAlert('Please allow camera access to use Oplix.');
   }
 }
 
@@ -1693,7 +1693,7 @@ const TOUR_STEPS = [
   {
     target: 'cameraWrap',
     title: '📷 Live Camera Feed',
-    desc: 'This is where the live video plays. Orcinos Lens reads every frame in real time, detecting and counting vehicles as they move.'
+    desc: 'This is where the live video plays. Oplix reads every frame in real time, detecting and counting vehicles as they move.'
   },
   {
     target: 'btnStart',
@@ -1935,7 +1935,7 @@ function exportViolationsPDF() {
 <html>
 <head>
 <meta charset="UTF-8"/>
-<title>Orcinos Lens — Violation Report</title>
+<title>Oplix — Violation Report</title>
 <style>
   * { margin:0; padding:0; box-sizing:border-box; }
   body { font-family: 'Segoe UI', Arial, sans-serif; color: #0f172a; background: #fff; padding: 40px; }
@@ -2009,7 +2009,7 @@ function exportViolationsPDF() {
 </table>
 
 <div class="footer">
-  <span>Orcinos Lens · orcinos.com · Caribbean Traffic Intelligence Platform</span>
+  <span>Oplix · orcinos.com · Caribbean Traffic Intelligence Platform</span>
   <span>CONFIDENTIAL — For official use only</span>
 </div>
 </body>
