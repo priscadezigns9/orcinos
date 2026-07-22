@@ -489,11 +489,12 @@ html,body{width:100%;height:100%;overflow:hidden;background:#050810;font-family:
   const state = {
     currentView: 'deck',
     obdConnected: false,
-    simMode: true,
+    simMode: false, // Default to LIVE mode
     storage: { type: 'LOCAL_SOVEREIGN', sync: false },
     settings: { voice: true, hazards: true, trafficLights: true, animals: true, tailgating: true },
     obd: { speed:0, rpm:850, coolant:88, fuel:72, load:12, throttle:8, intake:28, maf:4.2, runtime:0 },
-    gps: { speed:0, lat:null, lng:null, accuracy:null },
+    gps: { speed:0, lat:null, lng:null, accuracy:null, heading:null },
+    lastHeading: null,
   speedHistory: [],        // rolling buffer for smoothing
   trip: { active:false, dist:0, startTime:null, maxSpeed:0, speedSum:0, speedCount:0, lastLat:null, lastLng:null },
   rec: { active:false, paused:false, mediaRecorder:null, chunks:[], startTime:null, duration:0, clipCount:0, segTimer:null },
@@ -624,7 +625,7 @@ function startGPS() {
   navigator.geolocation.watchPosition(pos => {
     const rawKmh = (pos.coords.speed || 0) * 3.6;
     const smoothed = pushSpeed(rawKmh);
-    state.gps = { speed: smoothed, lat: pos.coords.latitude, lng: pos.coords.longitude, accuracy: pos.coords.accuracy };
+    state.gps = { speed: smoothed, lat: pos.coords.latitude, lng: pos.coords.longitude, accuracy: pos.coords.accuracy, heading: pos.coords.heading };
     if (state.simMode) return; // sim overrides display in sim mode
     renderSpeed(smoothed);
     updateTripGPS(pos);
@@ -632,6 +633,19 @@ function startGPS() {
     const lng = pos.coords.longitude.toFixed(5);
     document.getElementById('gpsCoords').textContent = lat+', '+lng;
     document.getElementById('camGps').textContent = 'GPS: '+lat+', '+lng;
+    
+    // REVERSE DETECTION LOGIC
+    if (pos.coords.heading !== null && state.lastHeading !== null) {
+      const diff = Math.abs(pos.coords.heading - state.lastHeading);
+      if (smoothed > 5 && (diff > 160 && diff < 200)) {
+        // Reverse detected: moving opposite to orientation
+        if (state.currentView === 'cam' && state.cam.facing !== 'user') {
+          toggleCamera(); // Flip to rear view
+        }
+      }
+    }
+    state.lastHeading = pos.coords.heading;
+
     detectReverse(smoothed);
   }, null, { enableHighAccuracy:true, maximumAge:0 });
 }
