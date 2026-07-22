@@ -10,7 +10,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
-<title>Presab — Smart Attendance Dashboard</title>
+<title>Presab V3.0 — Smart Attendance Dashboard</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Cormorant:ital,wght@0,300;0,400;1,300;1,400&family=Urbanist:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -40,13 +40,12 @@
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
   /* ─── GATE OVERLAY ─────────────────────────────────────── */
-  /* ── Orcinos gate colour tokens ────────────────────────────── */
   :root {
-    --orc-bg0:    #050c17;   /* deepest navy */
-    --orc-bg1:    #0b1828;   /* dark slate */
-    --orc-bg2:    #0f2035;   /* mid navy */
-    --orc-cyan:   #00d4ff;   /* primary accent */
-    --orc-teal:   #00a8cc;   /* secondary accent */
+    --orc-bg0:    #050c17;
+    --orc-bg1:    #0b1828;
+    --orc-bg2:    #0f2035;
+    --orc-cyan:   #00d4ff;
+    --orc-teal:   #00a8cc;
     --orc-cyan-dim: rgba(0,212,255,0.15);
     --orc-border: rgba(0,212,255,0.18);
     --orc-glow:   0 0 40px rgba(0,212,255,0.12);
@@ -61,768 +60,203 @@
     display: flex; align-items: center; justify-content: center;
     flex-direction: column;
   }
-  .gate-logo {
-    text-align: center;
-    margin-bottom: 48px;
-  }
-
-  .gate-title {
-    font-family: var(--font-h);
-    font-size: 28px; color: #fff;
-    letter-spacing: 0.5px;
-  }
-  .gate-sub {
-    font-size: 10px; color: var(--orc-cyan);
-    font-weight: 500; letter-spacing: 2.5px;
-    text-transform: uppercase; margin-top: 2px;
-    opacity: 0.8;
-  }
-  .gate-card {
-    background: rgba(11,24,40,0.85);
-    border: 1px solid var(--orc-border);
-    border-radius: 20px;
-    padding: 48px 52px;
-    width: 100%; max-width: 440px;
-    text-align: center;
-    backdrop-filter: blur(16px);
-    box-shadow: var(--orc-glow);
-  }
-  .gate-card h2 {
-    font-family: var(--font-h);
-    font-size: 22px; color: #fff;
-    margin-bottom: 8px;
-  }
-  .gate-card p {
-    font-size: 13px; color: rgba(255,255,255,0.45);
-    margin-bottom: 28px; line-height: 1.6;
-    font-family: var(--font-body);
-  }
-  .gate-input {
-    width: 100%;
-    background: rgba(0,212,255,0.05);
-    border: 1px solid var(--orc-border);
-    border-radius: 10px;
-    padding: 14px 18px;
-    font-size: 15px; font-weight: 600;
-    color: #fff; font-family: var(--font-body);
-    letter-spacing: 4px;
-    text-align: center;
-    outline: none;
-    transition: border-color 0.2s, box-shadow 0.2s;
-    margin-bottom: 16px;
-  }
+  .gate-logo { text-align: center; margin-bottom: 48px; }
+  .gate-title { font-family: var(--font-h); font-size: 28px; color: #fff; letter-spacing: 0.5px; }
+  .gate-sub { font-size: 10px; color: var(--orc-cyan); font-weight: 500; letter-spacing: 2.5px; text-transform: uppercase; margin-top: 2px; opacity: 0.8; }
+  .gate-card { background: rgba(11,24,40,0.85); border: 1px solid var(--orc-border); border-radius: 20px; padding: 48px 52px; width: 100%; max-width: 440px; text-align: center; backdrop-filter: blur(16px); box-shadow: var(--orc-glow); }
+  .gate-card h2 { font-family: var(--font-h); font-size: 22px; color: #fff; margin-bottom: 8px; }
+  .gate-card p { font-size: 13px; color: rgba(255,255,255,0.45); margin-bottom: 28px; line-height: 1.6; font-family: var(--font-body); }
+  .gate-input { width: 100%; background: rgba(0,212,255,0.05); border: 1px solid var(--orc-border); border-radius: 10px; padding: 14px 18px; font-size: 15px; font-weight: 600; color: #fff; font-family: var(--font-body); letter-spacing: 4px; text-align: center; outline: none; transition: border-color 0.2s, box-shadow 0.2s; margin-bottom: 16px; }
   .gate-input::placeholder { letter-spacing: 1px; font-weight: 300; color: rgba(255,255,255,0.25); }
-  .gate-input:focus {
-    border-color: var(--orc-cyan);
-    box-shadow: 0 0 0 3px rgba(0,212,255,0.12);
-  }
-  .gate-btn {
-    width: 100%;
-    background: linear-gradient(135deg, var(--orc-teal), var(--orc-cyan));
-    color: var(--orc-bg0); border: none;
-    border-radius: 10px; padding: 14px;
-    font-size: 13px; font-weight: 700;
-    font-family: var(--font-body);
-    letter-spacing: 1px; text-transform: uppercase;
-    cursor: pointer; transition: opacity 0.2s, box-shadow 0.2s;
-    box-shadow: 0 4px 20px rgba(0,212,255,0.25);
-  }
+  .gate-input:focus { border-color: var(--orc-cyan); box-shadow: 0 0 0 3px rgba(0,212,255,0.12); }
+  .gate-btn { width: 100%; background: linear-gradient(135deg, var(--orc-teal), var(--orc-cyan)); color: var(--orc-bg0); border: none; border-radius: 10px; padding: 14px; font-size: 13px; font-weight: 700; font-family: var(--font-body); letter-spacing: 1px; text-transform: uppercase; cursor: pointer; transition: opacity 0.2s, box-shadow 0.2s; box-shadow: 0 4px 20px rgba(0,212,255,0.25); }
   .gate-btn:hover { opacity: 0.88; box-shadow: 0 4px 28px rgba(0,212,255,0.4); }
-  .gate-error {
-    margin-top: 14px;
-    font-size: 12px; color: #f87171;
-    font-family: var(--font-body);
-    opacity: 0; transition: opacity 0.3s;
-  }
+  .gate-error { margin-top: 14px; font-size: 12px; color: #f87171; font-family: var(--font-body); opacity: 0; transition: opacity 0.3s; }
   .gate-error.show { opacity: 1; }
-  .gate-note {
-    margin-top: 24px;
-    font-size: 11px; color: rgba(255,255,255,0.25);
-    font-family: var(--font-body);
-  }
+  .gate-note { margin-top: 24px; font-size: 11px; color: rgba(255,255,255,0.25); font-family: var(--font-body); }
   .gate-note a { color: var(--orc-cyan); text-decoration: none; opacity: 0.8; }
 
-  /* ─── MAIN APP (hidden until auth) ──────────────────────── */
   #app { display: none; }
+  body { font-family: var(--font-body); background: var(--body-bg); color: var(--ink); min-height: 100vh; }
 
-  body {
-    font-family: var(--font-body);
-    background: var(--body-bg);
-    color: var(--ink);
-    min-height: 100vh;
-  }
-
-  /* ─── HEADER ─────────────────────────────────────────────── */
-  header {
-    background: var(--white);
-    padding: 0 36px;
-    height: 68px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    border-bottom: 1px solid var(--border);
-    box-shadow: 0 1px 12px rgba(124,58,237,0.07);
-  }
-
+  header { background: var(--white); padding: 0 36px; height: 68px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; border-bottom: 1px solid var(--border); box-shadow: 0 1px 12px rgba(124,58,237,0.07); }
   .logo { display: flex; flex-direction: column; text-decoration: none; }
   .logo-name { font-family: var(--font-h); font-size: 20px; color: var(--ink); }
-  .logo-tag {
-    font-size: 9px; color: var(--purple);
-    font-weight: 600; letter-spacing: 2px;
-    text-transform: uppercase; margin-top: 1px;
-    font-family: var(--font-body);
-  }
-
+  .logo-tag { font-size: 9px; color: var(--purple); font-weight: 600; letter-spacing: 2px; text-transform: uppercase; margin-top: 1px; font-family: var(--font-body); }
   .header-right { display: flex; align-items: center; gap: 12px; }
+  .engine-status { display: flex; align-items: center; gap: 7px; background: var(--body-bg); padding: 6px 14px; border-radius: 999px; border: 1px solid var(--border); }
+  #status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--red); transition: background 0.4s; flex-shrink: 0; }
+  #status-dot.live { background: var(--green); animation: pulse-dot 1.5s infinite; }
+  @keyframes pulse-dot { 0%,100% { opacity: 1; box-shadow: 0 0 0 0 rgba(16,185,129,0.4); } 50% { opacity: 0.8; box-shadow: 0 0 0 5px rgba(16,185,129,0); } }
+  #status-label { font-size: 10px; font-weight: 700; color: var(--muted); letter-spacing: 1.2px; text-transform: uppercase; }
 
-  .engine-status {
-    display: flex; align-items: center; gap: 7px;
-    background: var(--body-bg);
-    padding: 6px 14px; border-radius: 999px;
-    border: 1px solid var(--border);
-  }
-  #status-dot {
-    width: 8px; height: 8px; border-radius: 50%;
-    background: var(--red); transition: background 0.4s; flex-shrink: 0;
-  }
-  #status-dot.live {
-    background: var(--green);
-    animation: pulse-dot 1.5s infinite;
-  }
-  @keyframes pulse-dot {
-    0%,100% { opacity: 1; box-shadow: 0 0 0 0 rgba(16,185,129,0.4); }
-    50%      { opacity: 0.8; box-shadow: 0 0 0 5px rgba(16,185,129,0); }
-  }
-  #status-label {
-    font-size: 10px; font-weight: 700;
-    color: var(--muted); letter-spacing: 1.2px; text-transform: uppercase;
-  }
-
-  .btn {
-    padding: 9px 20px; border: none; border-radius: 9px;
-    font-family: var(--font-body); font-size: 11px; font-weight: 700;
-    cursor: pointer; letter-spacing: 0.8px; text-transform: uppercase;
-    transition: all 0.2s; display: inline-flex; align-items: center; gap: 6px;
-  }
+  .btn { padding: 9px 20px; border: none; border-radius: 9px; font-family: var(--font-body); font-size: 11px; font-weight: 700; cursor: pointer; letter-spacing: 0.8px; text-transform: uppercase; transition: all 0.2s; display: inline-flex; align-items: center; gap: 6px; }
   .btn:hover { transform: translateY(-1px); }
-  .btn:active { transform: translateY(0); }
-  .btn-start  { background: var(--green); color: #fff; box-shadow: 0 4px 12px rgba(16,185,129,0.25); }
-  .btn-stop   { background: rgba(239,68,68,0.08); color: var(--red); border: 1px solid rgba(239,68,68,0.2); }
-  .btn-export {
-    background: var(--body-bg); color: var(--ink);
-    border: 1px solid var(--border);
-  }
-  .btn-enroll {
-    background: linear-gradient(135deg, var(--purple), var(--purple-mid));
-    color: #fff; box-shadow: 0 4px 12px rgba(124,58,237,0.25);
-  }
-  .btn-logout {
-    background: none; color: var(--muted);
-    border: 1px solid var(--border); font-size: 10px;
-  }
+  .btn-start { background: var(--green); color: #fff; box-shadow: 0 4px 12px rgba(16,185,129,0.25); }
+  .btn-stop { background: rgba(239,68,68,0.08); color: var(--red); border: 1px solid rgba(239,68,68,0.2); }
+  .btn-enroll { background: linear-gradient(135deg, var(--purple), var(--purple-mid)); color: #fff; box-shadow: 0 4px 12px rgba(124,58,237,0.25); }
+  .btn-logout { background: none; color: var(--muted); border: 1px solid var(--border); font-size: 10px; }
 
-  /* ─── MAIN LAYOUT ─────────────────────────────────────── */
   main { padding: 32px 36px 48px; max-width: 1280px; margin: 0 auto; }
-
-  .page-header {
-    display: flex; align-items: flex-end; justify-content: space-between;
-    margin-bottom: 28px;
-  }
+  .page-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 28px; }
   .page-title { font-family: var(--font-h); font-size: 28px; color: var(--ink); }
-  .page-date  { font-family: var(--font-sub); font-size: 15px; color: var(--muted); font-style: italic; }
+  .page-date { font-family: var(--font-sub); font-size: 15px; color: var(--muted); font-style: italic; }
 
-  /* ─── STAT CARDS ──────────────────────────────────────── */
-  .stats-grid {
-    display: grid; grid-template-columns: repeat(4, 1fr);
-    gap: 18px; margin-bottom: 28px;
-  }
+  .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-bottom: 28px; }
   @media (max-width: 900px) { .stats-grid { grid-template-columns: repeat(2,1fr); } }
+  .stat-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px 20px 18px; box-shadow: var(--shadow); position: relative; overflow: hidden; }
+  .stat-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--purple), var(--lilac)); }
+  .stat-num { font-family: var(--font-h); font-size: 36px; color: var(--ink); line-height: 1; }
 
-  .stat-card {
-    background: var(--white); border: 1px solid var(--border);
-    border-radius: var(--radius); padding: 22px 20px 18px;
-    box-shadow: var(--shadow); position: relative; overflow: hidden;
-  }
-  .stat-card::before {
-    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-    background: linear-gradient(90deg, var(--purple), var(--lilac));
-  }
-  .stat-card.green::before { background: linear-gradient(90deg, #059669, var(--green)); }
-  .stat-card.amber::before { background: linear-gradient(90deg, #d97706, var(--amber)); }
-  .stat-card.red::before   { background: linear-gradient(90deg, #dc2626, var(--red)); }
-
-  .stat-icon {
-    width: 36px; height: 36px; border-radius: 10px;
-    display: flex; align-items: center; justify-content: center; margin-bottom: 14px;
-  }
-  .stat-icon.purple { background: var(--lilac-mid); }
-  .stat-icon.green  { background: var(--green-soft); }
-  .stat-icon.amber  { background: var(--amber-soft); }
-  .stat-icon.red    { background: rgba(239,68,68,0.1); }
-
-  .stat-label { font-size: 10px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
-  .stat-num   { font-family: var(--font-h); font-size: 36px; color: var(--ink); line-height: 1; }
-  .stat-sub   { font-size: 12px; color: var(--muted); margin-top: 6px; }
-  .stat-pct   { font-size: 11px; font-weight: 700; color: var(--green); }
-
-  /* ─── BOTTOM GRID ─────────────────────────────────────── */
   .bottom-grid { display: grid; grid-template-columns: 1fr 380px; gap: 18px; }
   @media (max-width: 1024px) { .bottom-grid { grid-template-columns: 1fr; } }
 
-  /* ─── ATTENDANCE TABLE ────────────────────────────────── */
-  .card {
-    background: var(--white); border: 1px solid var(--border);
-    border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden;
-  }
-  .card-header {
-    padding: 18px 24px; border-bottom: 1px solid var(--border);
-    display: flex; align-items: center; justify-content: space-between;
-  }
+  .card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
+  .card-header { padding: 18px 24px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
   .card-title { font-size: 15px; font-weight: 700; color: var(--ink); }
-  .rec-badge {
-    background: var(--lilac-soft); color: var(--purple);
-    border-radius: 999px; padding: 3px 12px;
-    font-size: 11px; font-weight: 700;
-  }
 
-  table { width: 100%; border-collapse: collapse; }
-  thead th {
-    padding: 10px 20px; font-size: 10px; font-weight: 700;
-    letter-spacing: 1px; text-transform: uppercase;
-    color: var(--muted); text-align: left;
-    background: #fafafa; border-bottom: 1px solid var(--border);
-  }
-  tbody tr { transition: background 0.15s; }
-  tbody tr:hover { background: var(--lilac-soft); }
-  tbody td { padding: 12px 20px; font-size: 13px; color: var(--ink); border-bottom: 1px solid rgba(124,58,237,0.05); }
-
-  .role-pill {
-    display: inline-block; border-radius: 999px;
-    padding: 2px 10px; font-size: 10px; font-weight: 700;
-    text-transform: uppercase; letter-spacing: 0.5px;
-  }
-  .role-student { background: var(--lilac-mid); color: var(--purple-dark); }
-  .role-staff   { background: var(--amber-soft); color: #92400e; }
-
-  .status-present {
-    display: inline-flex; align-items: center; gap: 5px;
-    font-size: 11px; font-weight: 700; color: var(--green);
-  }
-  .status-present::before {
-    content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--green);
-  }
-
-  .empty-state {
-    padding: 56px 24px; text-align: center;
-  }
-  .empty-icon {
-    width: 56px; height: 56px; border-radius: 14px;
-    background: var(--lilac-soft); display: flex; align-items: center;
-    justify-content: center; margin: 0 auto 16px;
-  }
-  .empty-title { font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 6px; }
-  .empty-sub   { font-size: 12px; color: var(--muted); }
-
-  @keyframes rowIn {
-    from { opacity:0; transform: translateY(-8px); }
-    to   { opacity:1; transform: translateY(0); }
-  }
-  .row-new { animation: rowIn 0.35s ease; }
-
-  /* ─── LIVE FEED ───────────────────────────────────────── */
-  .feed-header { display: flex; align-items: center; gap: 8px; }
-  .feed-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--muted); flex-shrink: 0; }
-  .feed-dot.live { background: var(--green); animation: pulse-dot 1.5s infinite; }
-
-  .camera-box {
-    margin: 16px 20px;
-    border-radius: 12px;
-    overflow: hidden;
-    background: #0d0621;
-    aspect-ratio: 4/3;
-    position: relative;
-    border: 1px solid var(--border);
-  }
-  #camera-video {
-    width: 100%; height: 100%; object-fit: cover;
-    display: none;
-  }
-  #camera-canvas {
-    position: absolute; inset: 0;
-    width: 100%; height: 100%;
-    display: none;
-  }
-  .camera-placeholder {
-    position: absolute; inset: 0;
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center; gap: 12px;
-  }
-  .cam-icon-wrap {
-    width: 56px; height: 56px;
-    background: rgba(255,255,255,0.06);
-    border-radius: 14px;
-    display: flex; align-items: center; justify-content: center;
-  }
-  .camera-placeholder p {
-    font-size: 12px; color: rgba(255,255,255,0.35);
-    text-align: center; line-height: 1.5; font-family: var(--font-body);
-  }
-  .camera-placeholder strong { color: rgba(255,255,255,0.6); }
-
-  .check-counter {
-    padding: 8px 20px;
-    font-size: 11px; color: var(--muted);
-    border-bottom: 1px solid var(--border);
-  }
-  .check-counter span { font-weight: 700; color: var(--purple); }
-
-  .feed-list { max-height: 240px; overflow-y: auto; }
-  .feed-item {
-    display: flex; align-items: center; gap: 12px;
-    padding: 11px 20px; border-bottom: 1px solid rgba(124,58,237,0.05);
-    animation: rowIn 0.35s ease;
-  }
-  .feed-avatar {
-    width: 32px; height: 32px; border-radius: 50%;
-    background: linear-gradient(135deg, var(--purple), var(--lilac));
-    display: flex; align-items: center; justify-content: center;
-    font-size: 12px; font-weight: 700; color: #fff; flex-shrink: 0;
-  }
-  .feed-name { font-size: 13px; font-weight: 600; color: var(--ink); }
-  .feed-meta { font-size: 11px; color: var(--muted); margin-top: 1px; }
-  .feed-time { margin-left: auto; font-size: 11px; color: var(--muted); white-space: nowrap; }
-
-  .feed-empty {
-    padding: 36px 20px; text-align: center;
-    font-size: 12px; color: var(--muted); line-height: 1.7;
-  }
-
-  /* ─── ENROLL MODAL ────────────────────────────────────── */
-  .modal-bg {
-    display: none; position: fixed; inset: 0;
-    background: rgba(10,5,30,0.6); z-index: 500;
-    align-items: center; justify-content: center;
-    backdrop-filter: blur(4px);
-  }
-  .modal-bg.open { display: flex; }
-  .modal {
-    background: var(--white); border-radius: 20px;
-    padding: 40px; width: 100%; max-width: 420px;
-    box-shadow: 0 24px 80px rgba(0,0,0,0.2);
-  }
-  .modal h3 { font-family: var(--font-h); font-size: 20px; margin-bottom: 6px; }
-  .modal p  { font-size: 13px; color: var(--muted); margin-bottom: 24px; line-height: 1.6; }
-
-  .field { margin-bottom: 16px; }
-  .field label { display: block; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
-  .field input, .field select {
-    width: 100%; padding: 11px 14px;
-    border: 1px solid var(--border); border-radius: 9px;
-    font-family: var(--font-body); font-size: 14px; color: var(--ink);
-    background: var(--body-bg); outline: none; transition: border-color 0.2s;
-  }
-  .field input:focus, .field select:focus { border-color: var(--purple); }
-
-  .modal-btns { display: flex; gap: 10px; margin-top: 24px; }
-  .modal-btns .btn { flex: 1; justify-content: center; padding: 12px; }
-  .btn-cancel { background: var(--body-bg); color: var(--muted); border: 1px solid var(--border); }
-
-  /* ─── TOAST ───────────────────────────────────────────── */
-  #toast {
-    position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(20px);
-    background: var(--ink); color: #fff;
-    padding: 11px 22px; border-radius: 999px;
-    font-size: 13px; font-weight: 600; font-family: var(--font-body);
-    opacity: 0; transition: all 0.3s; white-space: nowrap; z-index: 9000;
-    display: flex; align-items: center; gap: 8px;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.25);
-  }
-  #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-  .toast-icon { font-size: 15px; }
-
-  /* ─── FOOTER ──────────────────────────────────────────── */
-  footer {
-    border-top: 1px solid var(--border);
-    padding: 16px 36px;
-    display: flex; align-items: center; justify-content: space-between;
-    font-size: 11px; color: var(--muted); font-family: var(--font-body);
-  }
-  footer a { color: var(--purple); text-decoration: none; }
-
-</style>
-<!-- Socket.IO (loaded from Flask backend when engine is running) -->
-<script>
-  (function() {
-    const s = document.createElement('script');
-    const base = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
-      ? 'http://localhost:5050' : '';
-    s.src = base + '/socket.io/socket.io.js';
-    s.onerror = () => console.log('[Presab] Socket.IO unavailable — engine not running');
-    document.head.appendChild(s);
-  })();
-</script>
-<style>
-  #engine-badge {
-    display: none;
-    align-items: center; gap: 6px;
-    background: #d1fae5; color: #065f46;
-    border: 1px solid #6ee7b7;
-    font-family: var(--font-body); font-size: 11px; font-weight: 600;
-    letter-spacing: 0.06em; text-transform: uppercase;
-    padding: 4px 10px; border-radius: 20px;
-  }
-  #engine-badge::before {
-    content: ''; width: 7px; height: 7px;
-    background: #10b981; border-radius: 50%;
-    animation: pulse 1.5s infinite;
-  }
-
+  .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 12px; padding: 20px; }
   .gallery-item {
     position: relative; aspect-ratio: 1;
     border-radius: 12px; overflow: hidden;
     background: var(--lilac-soft); border: 1px solid var(--border);
     transition: transform 0.2s;
   }
-  .gallery-item:hover { transform: scale(1.02); }
-  .btn-edit { position: absolute; top: 8px; left: 8px; background: rgba(56, 189, 248, 0.85); color: white; border: none; border-radius: 50%; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; cursor: pointer; opacity: 0; transition: opacity 0.2s; font-size: 12px; padding: 0; }
-  .gallery-item:hover .btn-edit { opacity: 1; }
-  .btn-delete { position: absolute; top: 8px; right: 8px; background: rgba(255, 50, 50, 0.85); color: white; border: none; border-radius: 50%; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; cursor: pointer; opacity: 0; transition: opacity 0.2s; font-size: 14px; line-height: 1; padding: 0; }
-  .gallery-item:hover .btn-edit { opacity: 1; }
-  .btn-delete { opacity: 1; }
   .gallery-item img { width: 100%; height: 100%; object-fit: cover; }
+  .gallery-item:hover { transform: scale(1.02); }
+
+  /* Gallery Buttons */
+  .btn-edit { position: absolute; top: 8px; left: 8px; background: rgba(56, 189, 248, 0.9); color: white; border: none; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; cursor: pointer; opacity: 0; transition: opacity 0.2s; font-size: 14px; }
+  .btn-delete { position: absolute; top: 8px; right: 8px; background: rgba(239, 68, 68, 0.9); color: white; border: none; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; cursor: pointer; opacity: 0; transition: opacity 0.2s; font-size: 16px; }
+  .gallery-item:hover .btn-edit, .gallery-item:hover .btn-delete { opacity: 1; }
+
+  #toast { position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--ink); color: #fff; padding: 11px 22px; border-radius: 999px; font-size: 13px; font-weight: 600; font-family: var(--font-body); opacity: 0; transition: all 0.3s; white-space: nowrap; z-index: 9000; display: flex; align-items: center; gap: 8px; box-shadow: 0 8px 32px rgba(0,0,0,0.25); }
+  #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 </style>
 </head>
 <body>
 
-<!-- ─── PASSWORD GATE ─────────────────────────────────────── -->
+<!-- GATE -->
 <div id="gate">
   <div class="gate-logo">
-    <div class="gate-title">Presab</div>
-    <div class="gate-sub">Smart Attendance · Orcinos</div>
+    <div class="gate-title">Presab V3.0</div>
+    <div class="gate-sub">Powered by Orcinos Sense</div>
   </div>
   <div class="gate-card">
-    <h2>Demo Access</h2>
-    <p>This dashboard is restricted to authorised previews.<br>Enter your access code below to continue.</p>
-    <input class="gate-input" id="gate-input" type="password" placeholder="Enter access code" maxlength="20" autocomplete="off">
+    <h2>Access Portal</h2>
+    <p>Enter your 10-character school access code to launch the biometric dashboard.</p>
+    <input type="password" id="gate-input" class="gate-input" placeholder="••••••••••" maxlength="10">
     <button class="gate-btn" onclick="checkGate()">Unlock Dashboard</button>
-    <div class="gate-error" id="gate-error">Incorrect code. Please check your access details.</div>
-    <div class="gate-note">No code? <a href="mailto:hello@priscadezigns.org?subject=Presab Demo Access Request">Request access →</a></div>
+    <div id="gate-error" class="gate-error">Invalid access code. Please try again.</div>
+    <div class="gate-note">Need help? <a href="#">Contact Support</a></div>
   </div>
 </div>
 
-<!-- ─── MAIN APP ───────────────────────────────────────────── -->
 <div id="app">
-
-<header>
-  <a class="logo" href="https://orcinos.com">
-    <div class="logo-name">Presab</div>
-    <div class="logo-tag">Smart Attendance · Orcinos</div>
-  </a>
-
-  <div class="header-right">
-    <div class="engine-status">
-      <div id="status-dot"></div>
-      <span id="status-label">OFFLINE</span>
-    </div>
-    <button class="btn btn-enroll" onclick="openEnroll()">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-      Enroll Person
-    </button>
-    <button class="btn btn-start" id="btn-start" onclick="startCamera()">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-      Start Camera
-    </button>
-    <button class="btn btn-stop" id="btn-stop" onclick="stopCamera()" style="display:none">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
-      Stop
-    </button>
-    <button class="btn btn-export" onclick="exportCSV()">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-      Export CSV
-    </button>
-    <span id="engine-badge">Engine Live</span>
-    <button class="btn btn-logout" onclick="logout()">Log Out</button>
-  </div>
-</header>
-
-<main>
-  <div class="page-header">
-    <div>
-      <div class="page-title">Today's Attendance</div>
-    </div>
-    <div class="page-date" id="today-date"></div>
-  </div>
-
-  <!-- Stats -->
-  <div class="stats-grid">
-    <div class="stat-card">
-      <div class="stat-icon purple">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+  <header>
+    <a href="#" class="logo">
+      <span class="logo-name">Presab V3.0</span>
+      <span class="logo-tag">School Management</span>
+    </a>
+    <div class="header-right">
+      <div class="engine-status">
+        <div id="status-dot"></div>
+        <span id="status-label">OFFLINE</span>
       </div>
-      <div class="stat-label">Total Present</div>
-      <div class="stat-num" id="stat-total">0</div>
-      <div class="stat-sub"><span class="stat-pct" id="stat-pct">0%</span> attendance rate</div>
+      <button class="btn btn-logout" onclick="logout()">Logout</button>
     </div>
-    <div class="stat-card green">
-      <div class="stat-icon green">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
-      </div>
-      <div class="stat-label">Students</div>
-      <div class="stat-num" id="stat-students">0</div>
-      <div class="stat-sub">present today</div>
-    </div>
-    <div class="stat-card amber">
-      <div class="stat-icon amber">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
-      </div>
-      <div class="stat-label">Staff</div>
-      <div class="stat-num" id="stat-staff">0</div>
-      <div class="stat-sub">present today</div>
-    </div>
-    <div class="stat-card red">
-      <div class="stat-icon red">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-      </div>
-      <div class="stat-label">Absent</div>
-      <div class="stat-num" id="stat-absent">0</div>
-      <div class="stat-sub">of <span id="stat-enrolled">0</span> enrolled</div>
-    </div>
-  </div>
+  </header>
 
-  <!-- Bottom grid -->
-  <div class="bottom-grid">
-
-    <!-- Attendance Log -->
-    <div class="card">
-      <div class="card-header">
-        <span class="card-title">Attendance Log</span>
-        <span class="rec-badge" id="rec-count">0 records</span>
+  <main>
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Attendance Overview</h1>
+        <div class="page-date" id="today-date"></div>
       </div>
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th><th>Name</th><th>Role</th><th>Time In</th><th>Status</th>
-          </tr>
-        </thead>
-        <tbody id="attendance-tbody">
-          <tr id="empty-row">
-            <td colspan="5">
-              <div class="empty-state">
-                <div class="empty-icon">
-                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
-                </div>
-                <div class="empty-title">No attendance recorded yet</div>
-                <div class="empty-sub">Connect the Presab engine and start the camera<br>to begin marking attendance automatically.</div>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <div style="display:flex; gap:10px;">
+        <button class="btn btn-export" onclick="exportCSV()">Export Data</button>
+        <button class="btn btn-enroll" onclick="openEnroll()">Enroll Person</button>
+      </div>
     </div>
 
-    <!-- Live Feed -->
-    <div class="card">
-      <div class="card-header">
-        <div class="feed-header">
-          <div class="feed-dot" id="feed-dot"></div>
-          <span class="card-title">Live Camera Feed</span>
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-label">Total Present</div>
+        <div class="stat-num" id="stat-total">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Students</div>
+        <div class="stat-num" id="stat-students">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Staff</div>
+        <div class="stat-num" id="stat-staff">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Attendance %</div>
+        <div class="stat-num" id="stat-pct">0%</div>
+      </div>
+    </div>
+
+    <div class="bottom-grid">
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Live Attendance Records</span>
+          <span class="rec-badge" id="rec-count">0 records</span>
         </div>
-        <span style="font-size:11px;color:var(--muted)"><span id="check-count">0</span> check-ins</span>
+        <table>
+          <thead>
+            <tr><th>ID</th><th>Name</th><th>Role</th><th>Time In</th><th>Status</th></tr>
+          </thead>
+          <tbody id="attendance-tbody">
+            <tr id="empty-row"><td colspan="5" class="empty-state">No records yet. Start the camera to begin.</td></tr>
+          </tbody>
+        </table>
       </div>
 
-      <!-- Real camera view -->
-      <div class="camera-box">
-        <!-- MJPEG stream from Python engine (src set dynamically) -->
-        <img id="camera-video" alt="Live camera feed" style="display:none;width:100%;height:100%;object-fit:cover;border-radius:12px;">
-        <!-- Fallback canvas for raw browser webcam -->
-        <canvas id="camera-canvas"></canvas>
-        <div class="camera-placeholder" id="cam-placeholder">
-          <div class="cam-icon-wrap">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
-            </svg>
-          </div>
-          <p>Camera not started.<br>Press <strong>Start Camera</strong> to begin.<br><span style="font-size:10px;color:rgba(255,255,255,0.2)">Requires Presab engine running locally</span></p>
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Photo Gallery</span>
+          <label class="btn btn-export" style="font-size:10px; padding:4px 10px; cursor:pointer;">
+            Upload <input type="file" hidden onchange="uploadToGallery(this)" accept="image/*">
+          </label>
         </div>
-      </div>
-
-      <div class="feed-list" id="feed-list">
-        <div class="feed-empty" id="feed-empty">
-          Face recognition events will appear here<br>once the engine is connected.
+        <div id="gallery-grid" class="gallery-grid">
+          <!-- Images load here -->
         </div>
       </div>
     </div>
-
-    <!-- Gallery Section -->
-    <div class="card" style="margin-top: 18px; grid-column: 1 / -1;">
-      <div class="card-header">
-        <span class="card-title">School Photo Gallery</span>
-        <button class="btn btn-enroll" onclick="document.getElementById('gallery-upload').click()">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-          Upload Photo
-        </button>
-        <input type="file" id="gallery-upload" style="display:none" accept="image/*" onchange="uploadToGallery(this)">
-      </div>
-      <div id="gallery-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap:16px; padding:20px;">
-        <div id="gallery-empty" style="grid-column: 1/-1; text-align:center; padding:40px; color:var(--muted); font-size:13px;">
-          No photos in the gallery yet.
-        </div>
-      </div>
-    </div>
-
-  </div>
-
-</main>
-
-<footer>
-  <span>PRESAB v1.0 · ORCINOS</span>
-  <span>Powered by <a href="https://priscadezigns.org">Prisca Dezigns</a></span>
-</footer>
-
-</div><!-- /#app -->
-
-<!-- Enroll Modal -->
-<div class="modal-bg" id="enroll-modal">
-  <div class="modal">
-    <h3>Enroll New Person</h3>
-    <p>Enter the details below. The camera will capture a face sample for recognition.</p>
-    <div class="field">
-      <label>Full Name</label>
-      <input type="text" id="enroll-name" placeholder="e.g. Aaliyah James">
-    </div>
-    <div class="field">
-      <label>ID / Roll Number</label>
-      <input type="text" id="enroll-id" placeholder="e.g. STU007">
-    </div>
-    <div class="field">
-      <label>Role</label>
-      <select id="enroll-role">
-        <option value="student">Student</option>
-        <option value="staff">Staff</option>
-      </select>
-    </div>
-    <div class="modal-btns">
-      <button class="btn btn-cancel" onclick="closeEnroll()">Cancel</button>
-      <button class="btn btn-enroll" onclick="submitEnroll()">Enroll Person</button>
-    </div>
-  </div>
+  </main>
 </div>
 
 <div id="toast"><span class="toast-icon" id="toast-icon"></span><span id="toast-msg"></span></div>
 
 <script>
-// ─── ACCESS GATE ─────────────────────────────────────────────
 const ACCESS_CODE = 'PRESAB2026';
-
-function checkGate() {
-  const val = document.getElementById('gate-input').value.trim().toUpperCase();
-  if (val === ACCESS_CODE) {
-    sessionStorage.setItem('presab_auth', '1');
-    document.getElementById('gate').style.display = 'none';
-    document.getElementById('app').style.display = 'block';
-    initApp();
-  } else {
-    const err = document.getElementById('gate-error');
-    err.classList.add('show');
-    document.getElementById('gate-input').value = '';
-    setTimeout(() => err.classList.remove('show'), 3000);
-  }
-}
-
-document.getElementById('gate-input').addEventListener('keydown', e => {
-  if (e.key === 'Enter') checkGate();
-});
-
-// Check if already authenticated this session
-if (sessionStorage.getItem('presab_auth') === '1') {
-  document.getElementById('gate').style.display = 'none';
-  document.getElementById('app').style.display = 'block';
-}
-
-function logout() {
-  sessionStorage.removeItem('presab_auth');
-  location.reload();
-}
-
-// ─── STATE ───────────────────────────────────────────────────
-let enrolled   = [];
-let attendance = [];
-let running    = false;
-let stream     = null;
-let enrolling  = false;
-let toastTimer = null;
-
-// ─── INIT ─────────────────────────────────────────────────────
-function initApp() {
-  const now = new Date();
-  document.getElementById('today-date').textContent =
-    now.toLocaleDateString('en-TT', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
-  updateStats();
-  loadGallery();
-  // Try to connect to the Python engine (non-blocking)
-  setTimeout(connectSocket, 800);
-  // Poll engine status every 10s to update badge
-  setInterval(async () => {
-    try {
-      const r = await fetch(`${BACKEND}/api/engine/status`, { signal: AbortSignal.timeout(2000) });
-      if (r.ok) {
-        const d = await r.json();
-        document.getElementById('engine-badge').style.display = d.running ? 'inline-flex' : 'none';
-      }
-    } catch { /* engine offline */ }
-  }, 10000);
-}
-
 const SB_URL = "https://sazhdnqzaqpqcralmthh.supabase.co";
 const SB_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNhemhkbnF6YXFwcWNyYWxtdGhoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxNzE5NjYsImV4cCI6MjA5Mzc0Nzk2Nn0.uTyw31uWTNOTV5-HzNpm46vpAJABAsHLMzW-sYOkRhc";
 const SCHOOL_ID = "4dabf036-08a7-448f-945a-81830c2016cb";
 
-async function uploadToGallery(input) {
-  if (!input.files || !input.files[0]) return;
-  const file = input.files[0];
-  const fileName = `${Date.now()}_${file.name}`;
-  const filePath = `${SCHOOL_ID}/${fileName}`;
-  
-  showToast("Uploading to school storage...", "⏳");
-  
-  try {
-    const uploadRes = await fetch(`${SB_URL}/storage/v1/object/school-assets/${filePath}`, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${SB_KEY}`,
-        'apikey': SB_KEY,
-        'Content-Type': file.type, 'x-upsert': 'true'
-      },
-      body: file
-    });
-    
-    if (!uploadRes.ok) throw new Error("Upload failed");
-    
-    const imgUrl = `${SB_URL}/storage/v1/object/public/school-assets/${filePath}`;
-    
-    await fetch(`${SB_URL}/rest/v1/school_images`, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${SB_KEY}`,
-        'apikey': SB_KEY,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        school_id: SCHOOL_ID,
-        image_url: imgUrl,
-        caption: file.name
-      })
-    });
-    
-    showToast("Photo added to gallery!", "✅");
-    loadGallery();
-  } catch (err) {
-    console.error(err);
-    showToast("Error uploading photo", "❌");
+function checkGate() {
+  if (document.getElementById('gate-input').value.trim().toUpperCase() === ACCESS_CODE) {
+    sessionStorage.setItem('presab_auth', '1');
+    location.reload();
+  } else {
+    document.getElementById('gate-error').classList.add('show');
   }
+}
+
+if (sessionStorage.getItem('presab_auth') === '1') {
+  document.getElementById('gate').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  initApp();
+}
+
+function logout() { sessionStorage.removeItem('presab_auth'); location.reload(); }
+
+function initApp() {
+  document.getElementById('today-date').textContent = new Date().toLocaleDateString('en-TT', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
+  loadGallery();
 }
 
 async function loadGallery() {
@@ -832,350 +266,68 @@ async function loadGallery() {
       headers: { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}` }
     });
     const images = await res.json();
-    
-    if (images.length > 0) {
-      grid.innerHTML = images.map(img => `
-        <div class="gallery-item">
-          <img src="${img.image_url}" alt="${img.caption}">
-        </div>
-      `).join('');
-    } else {
-      grid.innerHTML = `<div id="gallery-empty" style="grid-column: 1/-1; text-align:center; padding:40px; color:var(--muted); font-size:13px;">No photos in the gallery yet.</div>`;
+    if (!images.length) {
+      grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:#999;font-size:12px;">No photos.</div>';
+      return;
     }
-  } catch (err) {
-    console.error(err);
+    grid.innerHTML = images.map(img => `
+      <div class="gallery-item">
+        <button class="btn-edit" onclick="renameImage('${img.id}', '${img.caption}')">✎</button>
+        <button class="btn-delete" onclick="deleteImage('${img.id}', '${img.image_url}')">✕</button>
+        <img src="${img.image_url}" alt="${img.caption}">
+      </div>
+    `).join('');
+  } catch (err) { console.error(err); }
+}
 
-async function deletePhoto(id, url) {
-  if (!confirm("Are you sure you want to delete this photo?")) return;
-  
-  showToast("Deleting photo...", "⏳");
-  
+async function uploadToGallery(input) {
+  if (!input.files || !input.files[0]) return;
+  const file = input.files[0];
+  const path = `${SCHOOL_ID}/${Date.now()}_${file.name}`;
+  showToast("⏳", "Uploading...");
   try {
-    // 1. Delete from DB
-    await fetch(`${SB_URL}/rest/v1/school_images?id=eq.${id}`, {
-      method: 'DELETE',
-      headers: { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}` }
+    const up = await fetch(`${SB_URL}/storage/v1/object/school-assets/${path}`, {
+      method: 'POST', headers: { 'Authorization': `Bearer ${SB_KEY}`, 'apikey': SB_KEY }, body: file
     });
+    if (!up.ok) throw new Error("Fail");
+    const url = `${SB_URL}/storage/v1/object/public/school-assets/${path}`;
+    await fetch(`${SB_URL}/rest/v1/school_images`, {
+      method: 'POST', headers: { 'Authorization': `Bearer ${SB_KEY}`, 'apikey': SB_KEY, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ school_id: SCHOOL_ID, image_url: url, caption: file.name })
+    });
+    showToast("✅", "Added!"); loadGallery();
+  } catch (e) { showToast("❌", "Error"); }
+}
 
-    // 2. Extract path for storage deletion
+async function renameImage(id, old) {
+  const n = prompt("New name for this photo:", old);
+  if (!n || n === old) return;
+  try {
+    await fetch(`${SB_URL}/rest/v1/school_images?id=eq.${id}`, {
+      method: 'PATCH', headers: { 'Authorization': `Bearer ${SB_KEY}`, 'apikey': SB_KEY, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ caption: n })
+    });
+    showToast("✎", "Renamed"); loadGallery();
+  } catch (e) { showToast("❌", "Error"); }
+}
+
+async function deleteImage(id, url) {
+  if (!confirm("Delete this photo permanently?")) return;
+  try {
+    await fetch(`${SB_URL}/rest/v1/school_images?id=eq.${id}`, { method: 'DELETE', headers: { 'Authorization': `Bearer ${SB_KEY}`, 'apikey': SB_KEY } });
     const path = url.split('/school-assets/')[1];
-    if (path) {
-      await fetch(`${SB_URL}/storage/v1/object/school-assets/${path}`, {
-        method: 'DELETE',
-        headers: { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}` }
-      });
-    }
-
-    showToast("Photo deleted!", "✅");
-    loadGallery();
-  } catch (err) {
-    console.error(err);
-    showToast("Delete failed", "❌");
-  }
-}
-  }
+    if (path) await fetch(`${SB_URL}/storage/v1/object/school-assets/${path}`, { method: 'DELETE', headers: { 'Authorization': `Bearer ${SB_KEY}`, 'apikey': SB_KEY } });
+    showToast("🗑", "Deleted"); loadGallery();
+  } catch (e) { showToast("❌", "Error"); }
 }
 
-// If already authed on load
-if (sessionStorage.getItem('presab_auth') === '1') initApp();
-
-// ─── BACKEND URL ─────────────────────────────────────────────
-// When running locally, the Flask server runs on port 5050.
-// Update this if deployed to a different host/port.
-const BACKEND = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-  ? 'http://localhost:5050'
-  : '';   // Same origin when served by Flask itself
-
-// ─── SOCKET.IO CONNECTION ─────────────────────────────────────
-let socket = null;
-let backendConnected = false;
-
-function connectSocket() {
-  if (typeof io === 'undefined') return;  // socket.io not loaded
-  socket = io(BACKEND, { transports: ['websocket', 'polling'], reconnectionAttempts: 5 });
-
-  socket.on('connect', () => {
-    backendConnected = true;
-    showToast('✓', 'Presab engine connected');
-    document.getElementById('engine-badge').style.display = 'inline-flex';
-    socket.emit('request_stats');
-  });
-
-  socket.on('disconnect', () => {
-    backendConnected = false;
-    document.getElementById('engine-badge').style.display = 'none';
-  });
-
-  socket.on('attendance_event', (data) => {
-    markAttendance(data);
-  });
-
-  socket.on('stats_update', (data) => {
-    document.getElementById('stat-total').textContent    = data.total_present;
-    document.getElementById('stat-students').textContent = data.students_present;
-    document.getElementById('stat-staff').textContent    = data.staff_present;
-    document.getElementById('stat-absent').textContent   = data.absent;
-    document.getElementById('stat-enrolled').textContent = data.enrolled;
-    const pct = data.enrolled ? Math.round((data.total_present / data.enrolled) * 100) : 0;
-    document.getElementById('stat-pct').textContent = pct + '%';
-  });
-}
-
-// ─── CAMERA CONTROLS ─────────────────────────────────────────
-async function startCamera() {
-  if (running) return;
-
-  if (backendConnected) {
-    // ── BACKEND MODE: send start command, show MJPEG stream ──
-    try {
-      await fetch(`${BACKEND}/api/engine/start`, { method: 'POST' });
-      const img = document.getElementById('camera-video');
-      img.src = `${BACKEND}/video_feed?t=${Date.now()}`;
-      img.style.display = 'block';
-      document.getElementById('cam-placeholder').style.display = 'none';
-      document.getElementById('camera-canvas').style.display = 'none';
-      running = true;
-      setStatus(true);
-      document.getElementById('btn-start').style.display = 'none';
-      document.getElementById('btn-stop').style.display  = 'inline-flex';
-      showToast('▶', 'Engine started — recognition active');
-    } catch(e) {
-      showToast('✕', 'Could not start engine. Check server.');
-    }
-  } else {
-    // ── FALLBACK: browser webcam (visual only, no face recognition) ──
-    try {
-      const video = document.getElementById('camera-video');
-      // Switch to a <video> element temporarily if it's an <img>
-      stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
-      // Use the canvas to display raw stream
-      const canvas = document.getElementById('camera-canvas');
-      canvas.style.display = 'block';
-      const ctx = canvas.getContext('2d');
-      const tempVideo = document.createElement('video');
-      tempVideo.srcObject = stream;
-      tempVideo.play();
-      tempVideo.onloadedmetadata = () => {
-        canvas.width  = tempVideo.videoWidth;
-        canvas.height = tempVideo.videoHeight;
-        function draw() {
-          if (!running) return;
-          ctx.drawImage(tempVideo, 0, 0);
-          requestAnimationFrame(draw);
-        }
-        draw();
-      };
-      document.getElementById('cam-placeholder').style.display = 'none';
-      running = true;
-      setStatus(true);
-      document.getElementById('btn-start').style.display = 'none';
-      document.getElementById('btn-stop').style.display  = 'inline-flex';
-      showToast('▶', 'Browser camera active');
-      showToast('ℹ', 'Run the Python engine locally for face recognition', 5000);
-    } catch(e) {
-      showToast('✕', e.name === 'NotAllowedError' ? 'Camera permission denied' : 'No camera found');
-    }
-  }
-}
-
-async function stopCamera() {
-  if (backendConnected) {
-    await fetch(`${BACKEND}/api/engine/stop`, { method: 'POST' });
-  }
-  if (stream) { stream.getTracks().forEach(t => t.stop()); stream = null; }
-  const img = document.getElementById('camera-video');
-  img.src = '';
-  img.style.display = 'none';
-  document.getElementById('cam-placeholder').style.display = 'flex';
-  document.getElementById('camera-canvas').style.display = 'none';
-  running = false;
-  setStatus(false);
-  document.getElementById('btn-start').style.display = 'inline-flex';
-  document.getElementById('btn-stop').style.display  = 'none';
-  showToast('■', 'Camera stopped');
-}
-
-function setStatus(live) {
-  document.getElementById('status-dot').className    = live ? 'live' : '';
-  document.getElementById('status-label').textContent = live ? 'LIVE' : 'OFFLINE';
-  document.getElementById('feed-dot').className      = 'feed-dot' + (live ? ' live' : '');
-}
-
-// ─── ATTENDANCE (called by Python engine via fetch/websocket) ──
-function markAttendance(person) {
-  if (attendance.find(a => a.id === person.id)) return; // no duplicates
-  const t    = new Date();
-  const time = t.toTimeString().slice(0,5);
-  const rec  = { ...person, time, timestamp: t };
-  attendance.push(rec);
-  addTableRow(rec, true);
-  addFeedItem(rec);
-  updateStats();
-  showToast('✓', `${person.name} marked present`);
-}
-
-// ─── TABLE ────────────────────────────────────────────────────
-function addTableRow(rec, animate) {
-  const tbody = document.getElementById('attendance-tbody');
-  const empty = document.getElementById('empty-row');
-  if (empty) empty.remove();
-
-  const tr = document.createElement('tr');
-  if (animate) tr.className = 'row-new';
-  tr.innerHTML = `
-    <td style="font-size:11px;color:var(--muted);font-weight:600">${rec.id}</td>
-    <td style="font-weight:600">${rec.name}</td>
-    <td><span class="role-pill role-${rec.role}">${rec.role}</span></td>
-    <td>${rec.time}</td>
-    <td><span class="status-present">Present</span></td>
-  `;
-  tbody.insertBefore(tr, tbody.firstChild);
-  document.getElementById('rec-count').textContent = attendance.length + ' record' + (attendance.length !== 1 ? 's' : '');
-}
-
-// ─── FEED ITEM ────────────────────────────────────────────────
-function addFeedItem(rec) {
-  const list  = document.getElementById('feed-list');
-  const empty = document.getElementById('feed-empty');
-  if (empty) empty.remove();
-
-  const initials = rec.name.split(' ').map(w => w[0]).join('').slice(0,2).toUpperCase();
-  const item = document.createElement('div');
-  item.className = 'feed-item';
-  item.innerHTML = `
-    <div class="feed-avatar">${initials}</div>
-    <div>
-      <div class="feed-name">${rec.name}</div>
-      <div class="feed-meta">${rec.role} · Detected by camera</div>
-    </div>
-    <div class="feed-time">${rec.time}</div>
-  `;
-  list.insertBefore(item, list.firstChild);
-  document.getElementById('check-count').textContent = attendance.length;
-}
-
-// ─── STATS ────────────────────────────────────────────────────
-function updateStats() {
-  const total    = attendance.length;
-  const students = attendance.filter(a => a.role === 'student').length;
-  const staff    = attendance.filter(a => a.role === 'staff').length;
-  const enrTotal = enrolled.length;
-  const absent   = Math.max(0, enrTotal - total);
-  const pct      = enrTotal ? Math.round((total / enrTotal) * 100) : 0;
-
-  document.getElementById('stat-total').textContent    = total;
-  document.getElementById('stat-students').textContent = students;
-  document.getElementById('stat-staff').textContent    = staff;
-  document.getElementById('stat-absent').textContent   = absent;
-  document.getElementById('stat-enrolled').textContent = enrTotal;
-  document.getElementById('stat-pct').textContent      = pct + '%';
-}
-
-// ─── ENROLL ───────────────────────────────────────────────────
-function openEnroll()  { document.getElementById('enroll-modal').classList.add('open'); }
-function closeEnroll() { document.getElementById('enroll-modal').classList.remove('open'); }
-
-function submitEnroll() {
-  const name = document.getElementById('enroll-name').value.trim();
-  const id   = document.getElementById('enroll-id').value.trim().toUpperCase();
-  const role = document.getElementById('enroll-role').value;
-  if (!name || !id) { showToast('!', 'Name and ID are required'); return; }
-  if (enrolled.find(p => p.id === id)) { showToast('!', `ID ${id} already enrolled`); return; }
-  enrolled.push({ id, name, role });
-  updateStats();
-  showToast('✓', `${name} enrolled — ${id}`);
-  document.getElementById('enroll-name').value = '';
-  document.getElementById('enroll-id').value   = '';
-  closeEnroll();
-}
-
-// ─── EXPORT CSV ───────────────────────────────────────────────
-function exportCSV() {
-  if (backendConnected) {
-    // Pull server-side CSV (full real log)
-    window.open(`${BACKEND}/api/export`, '_blank');
-    showToast('✓', 'Downloading CSV from engine');
-    return;
-  }
-  // Fallback: export in-memory attendance (demo mode)
-  if (!attendance.length) { showToast('!', 'No attendance records to export'); return; }
-  const rows = [['ID','Name','Role','Time In','Date','Status']];
-  const d = new Date().toLocaleDateString('en-TT');
-  attendance.forEach(r => rows.push([r.id, r.name, r.role, r.time, d, 'Present']));
-  const csv  = rows.map(r => r.join(',')).join('\n');
-  const blob = new Blob([csv], { type: 'text/csv' });
-  const url  = URL.createObjectURL(blob);
-  const a    = document.createElement('a');
-  a.href = url; a.download = `presab_${d.replace(/\//g,'-')}.csv`;
-  a.click(); URL.revokeObjectURL(url);
-  showToast('✓', 'CSV exported');
-}
-
-// ─── TOAST ────────────────────────────────────────────────────
-function showToast(icon, msg, dur = 3000) {
-  clearTimeout(toastTimer);
+function showToast(icon, msg) {
   const t = document.getElementById('toast');
   document.getElementById('toast-icon').textContent = icon;
-  document.getElementById('toast-msg').textContent  = msg;
+  document.getElementById('toast-msg').textContent = msg;
   t.classList.add('show');
-  toastTimer = setTimeout(() => t.classList.remove('show'), dur);
+  setTimeout(() => t.classList.remove('show'), 3000);
 }
-
-// ─── CLOSE MODAL ON BG CLICK ──────────────────────────────────
-document.getElementById('enroll-modal').addEventListener('click', function(e) {
-  if (e.target === this) closeEnroll();
-});
-
-// ─── ENGINE BRIDGE (called by Python backend) ──────────────────
-// The Presab Python engine can POST to a local endpoint and call:
-//   window.presabEngine.mark({ id, name, role })
-window.presabEngine = {
-  mark: (person) => markAttendance(person),
-  enroll: (person) => { enrolled.push(person); updateStats(); }
-};
-
-// ─── SERVICE WORKER (PWA) ─────────────────────────────────────
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/presab/sw.js', { scope: '/presab/' })
-      .then(r => console.log('[Presab] SW registered:', r.scope))
-      .catch(e => console.log('[Presab] SW failed:', e));
-  });
-}
-
-// ─── INSTALL PROMPT ───────────────────────────────────────────
-let installPrompt = null;
-window.addEventListener('beforeinstallprompt', e => {
-  e.preventDefault();
-  installPrompt = e;
-  document.getElementById('install-banner')?.classList.add('show');
-});
-function installApp() {
-  if (!installPrompt) return;
-  installPrompt.prompt();
-  installPrompt.userChoice.then(() => {
-    installPrompt = null;
-    document.getElementById('install-banner')?.classList.remove('show');
-  });
-}
-
-// Run after login (dashboard visible)
-document.addEventListener('DOMContentLoaded', () => {
-  // login check runs on DOMContentLoaded
-});
 </script>
-<!-- PWA Install Banner -->
-<div id="install-banner" style="
-  display:none; position:fixed; bottom:24px; left:50%; transform:translateX(-50%);
-  background:#7c3aed; color:#fff; border-radius:14px; padding:14px 22px;
-  font-family:'Urbanist',sans-serif; font-size:14px; font-weight:500;
-  box-shadow:0 8px 32px rgba(124,58,237,0.35); z-index:9998;
-  align-items:center; gap:14px; white-space:nowrap;
-">
-  <span>📲 Add Presab to your home screen</span>
-  <button onclick="installApp()" style="background:#fff;color:#7c3aed;border:none;border-radius:8px;padding:6px 14px;font-weight:700;cursor:pointer;font-family:inherit;">Install</button>
-  <button onclick="this.closest('#install-banner').classList.remove('show')" style="background:transparent;border:none;color:rgba(255,255,255,0.7);font-size:18px;cursor:pointer;line-height:1;">✕</button>
-</div>
-<style>#install-banner.show { display:flex; }</style>
 </body>
 </html>
