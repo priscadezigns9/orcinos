@@ -40,9 +40,23 @@
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
   /* ─── GATE OVERLAY ─────────────────────────────────────── */
+  /* ── Orcinos gate colour tokens ────────────────────────────── */
+  :root {
+    --orc-bg0:    #050c17;   /* deepest navy */
+    --orc-bg1:    #0b1828;   /* dark slate */
+    --orc-bg2:    #0f2035;   /* mid navy */
+    --orc-cyan:   #00d4ff;   /* primary accent */
+    --orc-teal:   #00a8cc;   /* secondary accent */
+    --orc-cyan-dim: rgba(0,212,255,0.15);
+    --orc-border: rgba(0,212,255,0.18);
+    --orc-glow:   0 0 40px rgba(0,212,255,0.12);
+  }
+
   #gate {
     position: fixed; inset: 0;
-    background: linear-gradient(135deg, #0d0621 0%, #1e0a4a 60%, #0d0621 100%);
+    background:
+      radial-gradient(ellipse 70% 50% at 50% 0%, rgba(0,212,255,0.08) 0%, transparent 60%),
+      linear-gradient(160deg, var(--orc-bg0) 0%, var(--orc-bg1) 50%, var(--orc-bg0) 100%);
     z-index: 9999;
     display: flex; align-items: center; justify-content: center;
     flex-direction: column;
@@ -53,29 +67,33 @@
   }
   .gate-logomark {
     width: 52px; height: 52px;
-    background: linear-gradient(135deg, var(--purple), var(--lilac));
+    background: linear-gradient(135deg, var(--orc-bg2), #0d2a42);
+    border: 1px solid var(--orc-border);
     border-radius: 14px;
     display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 0 24px rgba(0,212,255,0.2);
   }
-  .gate-logomark svg { width: 26px; height: 26px; }
+  .gate-logomark svg { width: 26px; height: 26px; stroke: var(--orc-cyan); }
   .gate-title {
     font-family: var(--font-h);
     font-size: 28px; color: #fff;
     letter-spacing: 0.5px;
   }
   .gate-sub {
-    font-size: 10px; color: var(--lilac);
+    font-size: 10px; color: var(--orc-cyan);
     font-weight: 500; letter-spacing: 2.5px;
     text-transform: uppercase; margin-top: 2px;
+    opacity: 0.8;
   }
   .gate-card {
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.1);
+    background: rgba(11,24,40,0.85);
+    border: 1px solid var(--orc-border);
     border-radius: 20px;
     padding: 48px 52px;
     width: 100%; max-width: 440px;
     text-align: center;
-    backdrop-filter: blur(12px);
+    backdrop-filter: blur(16px);
+    box-shadow: var(--orc-glow);
   }
   .gate-card h2 {
     font-family: var(--font-h);
@@ -83,14 +101,14 @@
     margin-bottom: 8px;
   }
   .gate-card p {
-    font-size: 13px; color: rgba(255,255,255,0.5);
+    font-size: 13px; color: rgba(255,255,255,0.45);
     margin-bottom: 28px; line-height: 1.6;
     font-family: var(--font-body);
   }
   .gate-input {
     width: 100%;
-    background: rgba(255,255,255,0.07);
-    border: 1px solid rgba(255,255,255,0.15);
+    background: rgba(0,212,255,0.05);
+    border: 1px solid var(--orc-border);
     border-radius: 10px;
     padding: 14px 18px;
     font-size: 15px; font-weight: 600;
@@ -98,22 +116,26 @@
     letter-spacing: 4px;
     text-align: center;
     outline: none;
-    transition: border-color 0.2s;
+    transition: border-color 0.2s, box-shadow 0.2s;
     margin-bottom: 16px;
   }
-  .gate-input::placeholder { letter-spacing: 1px; font-weight: 300; color: rgba(255,255,255,0.3); }
-  .gate-input:focus { border-color: var(--purple); }
+  .gate-input::placeholder { letter-spacing: 1px; font-weight: 300; color: rgba(255,255,255,0.25); }
+  .gate-input:focus {
+    border-color: var(--orc-cyan);
+    box-shadow: 0 0 0 3px rgba(0,212,255,0.12);
+  }
   .gate-btn {
     width: 100%;
-    background: linear-gradient(135deg, var(--purple), var(--purple-mid));
-    color: #fff; border: none;
+    background: linear-gradient(135deg, var(--orc-teal), var(--orc-cyan));
+    color: var(--orc-bg0); border: none;
     border-radius: 10px; padding: 14px;
     font-size: 13px; font-weight: 700;
     font-family: var(--font-body);
     letter-spacing: 1px; text-transform: uppercase;
-    cursor: pointer; transition: opacity 0.2s;
+    cursor: pointer; transition: opacity 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 20px rgba(0,212,255,0.25);
   }
-  .gate-btn:hover { opacity: 0.88; }
+  .gate-btn:hover { opacity: 0.88; box-shadow: 0 4px 28px rgba(0,212,255,0.4); }
   .gate-error {
     margin-top: 14px;
     font-size: 12px; color: #f87171;
@@ -123,10 +145,10 @@
   .gate-error.show { opacity: 1; }
   .gate-note {
     margin-top: 24px;
-    font-size: 11px; color: rgba(255,255,255,0.3);
+    font-size: 11px; color: rgba(255,255,255,0.25);
     font-family: var(--font-body);
   }
-  .gate-note a { color: var(--lilac); text-decoration: none; }
+  .gate-note a { color: var(--orc-cyan); text-decoration: none; opacity: 0.8; }
 
   /* ─── MAIN APP (hidden until auth) ──────────────────────── */
   #app { display: none; }
