@@ -487,6 +487,8 @@
     transition: transform 0.2s;
   }
   .gallery-item:hover { transform: scale(1.02); }
+  .btn-delete { position: absolute; top: 8px; right: 8px; background: rgba(255, 50, 50, 0.85); color: white; border: none; border-radius: 50%; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; cursor: pointer; opacity: 0; transition: opacity 0.2s; font-size: 14px; line-height: 1; padding: 0; }
+  .gallery-item:hover .btn-delete { opacity: 1; }
   .gallery-item img { width: 100%; height: 100%; object-fit: cover; }
 </style>
 </head>
@@ -839,6 +841,35 @@ async function loadGallery() {
     }
   } catch (err) {
     console.error(err);
+
+async function deletePhoto(id, url) {
+  if (!confirm("Are you sure you want to delete this photo?")) return;
+  
+  showToast("Deleting photo...", "⏳");
+  
+  try {
+    // 1. Delete from DB
+    await fetch(`${SB_URL}/rest/v1/school_images?id=eq.${id}`, {
+      method: 'DELETE',
+      headers: { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}` }
+    });
+
+    // 2. Extract path for storage deletion
+    const path = url.split('/school-assets/')[1];
+    if (path) {
+      await fetch(`${SB_URL}/storage/v1/object/school-assets/${path}`, {
+        method: 'DELETE',
+        headers: { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}` }
+      });
+    }
+
+    showToast("Photo deleted!", "✅");
+    loadGallery();
+  } catch (err) {
+    console.error(err);
+    showToast("Delete failed", "❌");
+  }
+}
   }
 }
 
