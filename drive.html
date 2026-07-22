@@ -176,9 +176,119 @@ html,body{width:100%;height:100%;overflow:hidden;background:#050810;font-family:
 ::-webkit-scrollbar{width:3px}
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:2px}
+
+/* ══ MOTIQ GATE ══════════════════════════════════════════════════ */
+#motiq-gate {
+  position: fixed; inset: 0; z-index: 9999;
+  background: #050810;
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column;
+}
+.gate-pulse {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  pointer-events: none;
+}
+.gate-pulse::before,
+.gate-pulse::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(124,58,237,0.25);
+  animation: gPulse 3s ease-out infinite;
+}
+.gate-pulse::before { width: 320px; height: 320px; animation-delay: 0s; }
+.gate-pulse::after  { width: 520px; height: 520px; animation-delay: 1s; }
+@keyframes gPulse {
+  0%   { transform: scale(0.7); opacity: 0.6; }
+  100% { transform: scale(1.3); opacity: 0; }
+}
+.gate-card {
+  position: relative; z-index: 1;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(124,58,237,0.3);
+  border-radius: 20px;
+  padding: 40px 36px;
+  width: 340px;
+  max-width: 90vw;
+  text-align: center;
+  backdrop-filter: blur(12px);
+}
+.gate-wordmark {
+  font-size: 1.9rem; font-weight: 700;
+  letter-spacing: 0.04em;
+  margin-bottom: 6px;
+}
+.gate-wordmark .w-orcinos { color: #e8eaf6; }
+.gate-wordmark .w-motiq   { color: #a78bfa; }
+.gate-badge {
+  display: inline-block;
+  font-size: 0.7rem; letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #a78bfa;
+  background: rgba(124,58,237,0.15);
+  border: 1px solid rgba(124,58,237,0.3);
+  border-radius: 20px;
+  padding: 3px 12px;
+  margin-bottom: 20px;
+}
+.gate-label {
+  font-size: 0.85rem; color: rgba(232,234,246,0.55);
+  line-height: 1.6; margin-bottom: 24px;
+}
+.gate-input {
+  width: 100%; padding: 12px 16px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(124,58,237,0.3);
+  border-radius: 10px;
+  color: #e8eaf6; font-size: 1rem;
+  letter-spacing: 0.1em; text-align: center;
+  outline: none; transition: border 0.2s;
+  box-sizing: border-box;
+  margin-bottom: 14px;
+}
+.gate-input:focus { border-color: rgba(124,58,237,0.7); }
+.gate-input::placeholder { color: rgba(232,234,246,0.25); }
+.gate-btn {
+  width: 100%; padding: 13px;
+  background: linear-gradient(135deg, #7c3aed, #6b21e8);
+  border: none; border-radius: 10px;
+  color: #fff; font-size: 0.95rem; font-weight: 600;
+  cursor: pointer; letter-spacing: 0.04em;
+  transition: opacity 0.2s, transform 0.15s;
+}
+.gate-btn:hover { opacity: 0.88; transform: translateY(-1px); }
+.gate-error {
+  color: #f87171; font-size: 0.8rem;
+  min-height: 20px; margin-top: 10px;
+}
+.gate-footer {
+  margin-top: 24px;
+  font-size: 0.72rem; color: rgba(232,234,246,0.2);
+  letter-spacing: 0.06em;
+}
+
 </style>
 </head>
 <body>
+
+<!-- ══ MOTIQ GATE ══════════════════════════════════════════════════ -->
+<div id="motiq-gate">
+  <div class="gate-pulse"></div>
+  <div class="gate-card">
+    <div class="gate-wordmark">
+      <span class="w-orcinos">orcinos</span><span class="w-motiq"> motiq</span>
+    </div>
+    <div class="gate-badge">Restricted Access</div>
+    <p class="gate-label">This system is reserved for authorized drivers.<br/>Enter your access code to continue.</p>
+    <input class="gate-input" id="motiqGateInput" type="password" placeholder="Access Code" autocomplete="off"
+      onkeydown="if(event.key==='Enter') checkMotiqGate()" />
+    <button class="gate-btn" onclick="checkMotiqGate()">Authenticate &rarr;</button>
+    <div class="gate-error" id="motiqGateError"></div>
+    <div class="gate-footer">Motiq · Smart Dashcam AI · T&T</div>
+  </div>
+</div>
+
 
 <!-- ═══ SPLASH SCREEN ═══ -->
 <div id="splash" style="
@@ -454,6 +564,22 @@ html,body{width:100%;height:100%;overflow:hidden;background:#050810;font-family:
 
 <script>
 'use strict';
+
+// ══ MOTIQ GATE ════════════════════════════════════════════════════
+const MOTIQ_ACCESS_CODE = 'MOTIQ2026';
+function checkMotiqGate() {
+  const val = document.getElementById('motiqGateInput').value.trim().toUpperCase();
+  const err = document.getElementById('motiqGateError');
+  if (val === MOTIQ_ACCESS_CODE) {
+    document.getElementById('motiq-gate').style.display = 'none';
+  } else {
+    err.textContent = 'Invalid access code. Try again.';
+    document.getElementById('motiqGateInput').value = '';
+    setTimeout(() => { err.textContent = ''; }, 3000);
+  }
+}
+
+
 
 // ══════════════════════════════════════════════
 // STATE
