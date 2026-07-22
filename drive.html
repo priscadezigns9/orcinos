@@ -302,6 +302,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#050810;font-family:
       <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
       <span>Maps</span>
     </button>
+    <button class="act-btn" onclick="toggleSettings()"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg><span>Settings</span></button>
     <button class="act-btn" onclick="switchView('obd')">
       <svg viewBox="0 0 24 24"><polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/></svg>
       <span>Diag</span>
@@ -449,6 +450,33 @@ html,body{width:100%;height:100%;overflow:hidden;background:#050810;font-family:
   </div>
 </div>
 
+
+<!-- ═══ SETTINGS MODAL ═══ -->
+<div id="view-settings" style="display:none; position:fixed; inset:0; background:#050810; z-index:1000; flex-direction:column; padding:20px;">
+  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+    <h2 style="font-weight:300;">Settings</h2>
+    <button onclick="toggleSettings()" style="background:none; border:none; color:#fff; font-size:24px;">&times;</button>
+  </div>
+  <div style="display:flex; flex-direction:column; gap:20px;">
+    <label style="display:flex; justify-content:space-between; align-items:center;">
+      <span>Voice Alerts</span>
+      <input type="checkbox" id="set-voice" checked onchange="updateSetting('voice', this.checked)">
+    </label>
+    <label style="display:flex; justify-content:space-between; align-items:center;">
+      <span>Detect Animals</span>
+      <input type="checkbox" id="set-animals" checked onchange="updateSetting('animals', this.checked)">
+    </label>
+    <label style="display:flex; justify-content:space-between; align-items:center;">
+      <span>Tailgating Alerts</span>
+      <input type="checkbox" id="set-tailgate" checked onchange="updateSetting('tailgating', this.checked)">
+    </label>
+    <label style="display:flex; justify-content:space-between; align-items:center;">
+      <span>Traffic Light Alerts</span>
+      <input type="checkbox" id="set-tl" checked onchange="updateSetting('trafficLights', this.checked)">
+    </label>
+  </div>
+</div>
+
 <!-- TOAST -->
 <div class="toast" id="toast"></div>
 
@@ -462,7 +490,8 @@ html,body{width:100%;height:100%;overflow:hidden;background:#050810;font-family:
     currentView: 'deck',
     obdConnected: false,
     simMode: true,
-    storage: { type: 'LOCAL_SOVEREIGN', sync: false }, // Explicit privacy-first flag
+    storage: { type: 'LOCAL_SOVEREIGN', sync: false },
+    settings: { voice: true, hazards: true, trafficLights: true, animals: true, tailgating: true },
     obd: { speed:0, rpm:850, coolant:88, fuel:72, load:12, throttle:8, intake:28, maf:4.2, runtime:0 },
     gps: { speed:0, lat:null, lng:null, accuracy:null },
   speedHistory: [],        // rolling buffer for smoothing
@@ -498,7 +527,7 @@ const OBD_CARDS = [
 // SPEECH
 // ══════════════════════════════════════════════
 function speak(text, priority=false) {
-  if (!window.speechSynthesis) return;
+  if (!window.speechSynthesis || !state.settings.voice) return;
   if (priority) window.speechSynthesis.cancel();
   const u = new SpeechSynthesisUtterance(text);
   u.rate = 1.05; u.pitch = 1; u.volume = 1;
@@ -878,7 +907,7 @@ window.addEventListener('devicemotion', e => {
   // IMPACT (high spike, 5s cooldown)
   if (spike > 12 && now - state.accel.lastImpact > 5000) {
     state.accel.lastImpact = now;
-    showAlert('⚠ Impact detected — clip saved', 'red');
+    showAlert('⚠ Impact detected — clip saved automatically', 'red');
     speak('Impact detected. Clip saved.', true);
     saveCurrentClip('IMPACT');
   }
@@ -976,12 +1005,13 @@ function processDetections(preds, canvas, ctx) {
 
     let cls = '';
     if (['car','truck','bus','motorcycle'].includes(p.class)) cls = 'vehicle';
+    else if (['dog','cat','bird','horse','sheep','cow','elephant','bear','zebra','giraffe'].includes(p.class) && state.settings.animals) cls = 'animal';
     else if (p.class === 'traffic light') cls = 'traffic-light-obj';
     else return;
 
     // Draw box
     ctx.save();
-    ctx.strokeStyle = cls==='vehicle' ? '#f59e0b' : '#22c55e';
+    ctx.strokeStyle = cls==='vehicle' ? '#f59e0b' : cls==='animal' ? '#ef4444' : '#22c55e';
     ctx.lineWidth = 2;
     ctx.strokeRect(x,y,w,h);
     ctx.fillStyle = ctx.strokeStyle;
@@ -992,10 +1022,17 @@ function processDetections(preds, canvas, ctx) {
     ctx.restore();
 
     // Tailgating: large vehicle box near bottom of frame
+    if (cls === 'animal') {
+      throttleAlert('animal', () => {
+        showAlert('⚠ Animal on road!', 'red');
+        speak('Warning. Animal detected on the road.', true);
+      }, 5000);
+    }
     if (cls === 'vehicle') {
       const relH = h / canvas.height;
       const relY = (y+h) / canvas.height;
-      if (relH > 0.35 && relY > 0.7) {
+      const relX = (x + w/2) / canvas.width;
+      if (relH > 0.35 && relY > 0.7 && relX > 0.3 && relX < 0.7) {
         throttleAlert('tailgate', () => {
           showAlert('⚠ Too close to vehicle ahead', 'red');
           speak('Warning. Too close to the vehicle ahead.', true);
@@ -1043,7 +1080,7 @@ function handleTrafficLight(color) {
       state.tl.lastState = 'red'; state.tl.lastStateTime = now;
       throttleAlert('red_light', () => {
         showAlert('🔴 Red light ahead', 'red');
-        speak('Red light ahead. Prepare to stop.', true);
+        speak('Intersection ahead. Red light. Stop.', true);
         logRedLightStart();
         if (state.rec.active) saveCurrentClip('RED_LIGHT');
       }, 10000);
@@ -1338,6 +1375,20 @@ async function requestWakeLock() {
 document.addEventListener('visibilitychange', () => {
   if (document.visibilityState==='visible') requestWakeLock();
 });
+
+
+function toggleSettings() {
+  const el = document.getElementById('view-settings');
+  el.style.display = el.style.display === 'none' ? 'flex' : 'none';
+}
+function updateSetting(key, val) {
+  state.settings[key] = val;
+  localStorage.setItem('orcinos_settings', JSON.stringify(state.settings));
+  toast('Setting updated');
+}
+// Load settings
+const savedSettings = localStorage.getItem('orcinos_settings');
+if(savedSettings) state.settings = JSON.parse(savedSettings);
 
 // ══════════════════════════════════════════════
 // BOOT
