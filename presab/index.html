@@ -34,136 +34,136 @@
     --font-sub:    'Cormorant', serif;
     --font-body:   'Urbanist', sans-serif;
     --radius:      16px;
-    --shadow:      0 2px 20px rgba(124,58,237,0.07);
+    --shadow:      0 2px 20px rgba(124,58,237,0.06);
   }
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  body { font-family: var(--font-body); background: var(--body-bg); color: var(--ink); line-height: 1.5; overflow-x: hidden; }
 
-  /* ─── GATE OVERLAY ─────────────────────────────────────── */
-  :root {
-    --orc-bg0:    #050c17;
-    --orc-bg1:    #0b1828;
-    --orc-bg2:    #0f2035;
-    --orc-cyan:   #00d4ff;
-    --orc-teal:   #00a8cc;
-    --orc-cyan-dim: rgba(0,212,255,0.15);
-    --orc-border: rgba(0,212,255,0.18);
-    --orc-glow:   0 0 40px rgba(0,212,255,0.12);
+  /* ─── HEADER ───────────────────────────────────────────── */
+  header {
+    background: var(--white); padding: 12px 20px; border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    position: sticky; top: 0; z-index: 100; backdrop-filter: blur(8px);
   }
+  .logo { text-decoration: none; display: flex; flex-direction: column; }
+  .logo-name { font-family: var(--font-h); font-size: 20px; color: var(--purple); line-height: 1; }
+  .logo-tag { font-size: 10px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-top: 2px; }
 
-  #gate {
-    position: fixed; inset: 0;
-    background:
-      radial-gradient(ellipse 70% 50% at 50% 0%, rgba(0,212,255,0.08) 0%, transparent 60%),
-      linear-gradient(160deg, var(--orc-bg0) 0%, var(--orc-bg1) 50%, var(--orc-bg0) 100%);
-    z-index: 9999;
-    display: flex; align-items: center; justify-content: center;
-    flex-direction: column;
+  .header-right { display: flex; align-items: center; gap: 16px; }
+  .engine-status { display: flex; align-items: center; gap: 6px; background: var(--lilac-soft); padding: 4px 10px; border-radius: 99px; }
+  #status-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--muted); }
+  #status-dot.live { background: var(--green); animation: pulse 2s infinite; }
+  @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
+  #status-label { font-size: 10px; font-weight: 800; color: var(--purple-dark); letter-spacing: 0.5px; }
+
+  /* ─── MAIN ─────────────────────────────────────────────── */
+  main { padding: 24px 20px 80px; max-width: 1200px; margin: 0 auto; }
+  .page-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 24px; gap: 16px; }
+  .page-title { font-family: var(--font-h); font-size: 28px; color: var(--ink); line-height: 1.1; }
+  .page-date { font-size: 13px; color: var(--muted); font-weight: 500; margin-top: 4px; }
+
+  .btn {
+    border: none; border-radius: 10px; padding: 10px 18px;
+    font-size: 12px; font-weight: 700; cursor: pointer;
+    transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px;
   }
-  .gate-logo { text-align: center; margin-bottom: 48px; }
-  .gate-title { font-family: var(--font-h); font-size: 28px; color: #fff; letter-spacing: 0.5px; }
-  .gate-sub { font-size: 10px; color: var(--orc-cyan); font-weight: 500; letter-spacing: 2.5px; text-transform: uppercase; margin-top: 2px; opacity: 0.8; }
-  .gate-card { background: rgba(11,24,40,0.85); border: 1px solid var(--orc-border); border-radius: 20px; padding: 48px 52px; width: 100%; max-width: 440px; text-align: center; backdrop-filter: blur(16px); box-shadow: var(--orc-glow); }
-  .gate-card h2 { font-family: var(--font-h); font-size: 22px; color: #fff; margin-bottom: 8px; }
-  .gate-card p { font-size: 13px; color: rgba(255,255,255,0.45); margin-bottom: 28px; line-height: 1.6; font-family: var(--font-body); }
-  .gate-input { width: 100%; background: rgba(0,212,255,0.05); border: 1px solid var(--orc-border); border-radius: 10px; padding: 14px 18px; font-size: 15px; font-weight: 600; color: #fff; font-family: var(--font-body); letter-spacing: 4px; text-align: center; outline: none; transition: border-color 0.2s, box-shadow 0.2s; margin-bottom: 16px; }
-  .gate-input::placeholder { letter-spacing: 1px; font-weight: 300; color: rgba(255,255,255,0.25); }
-  .gate-input:focus { border-color: var(--orc-cyan); box-shadow: 0 0 0 3px rgba(0,212,255,0.12); }
-  .gate-btn { width: 100%; background: linear-gradient(135deg, var(--orc-teal), var(--orc-cyan)); color: var(--orc-bg0); border: none; border-radius: 10px; padding: 14px; font-size: 13px; font-weight: 700; font-family: var(--font-body); letter-spacing: 1px; text-transform: uppercase; cursor: pointer; transition: opacity 0.2s, box-shadow 0.2s; box-shadow: 0 4px 20px rgba(0,212,255,0.25); }
-  .gate-btn:hover { opacity: 0.88; box-shadow: 0 4px 28px rgba(0,212,255,0.4); }
-  .gate-error { margin-top: 14px; font-size: 12px; color: #f87171; font-family: var(--font-body); opacity: 0; transition: opacity 0.3s; }
-  .gate-error.show { opacity: 1; }
-  .gate-note { margin-top: 24px; font-size: 11px; color: rgba(255,255,255,0.25); font-family: var(--font-body); }
-  .gate-note a { color: var(--orc-cyan); text-decoration: none; opacity: 0.8; }
+  .btn-export { background: var(--lilac-soft); color: var(--purple); }
+  .btn-enroll { background: var(--purple); color: var(--white); box-shadow: 0 4px 12px rgba(124,58,237,0.2); }
+  .btn-logout { background: transparent; color: var(--red); padding: 4px; font-size: 11px; }
 
-  #app { display: none; }
-  body { font-family: var(--font-body); background: var(--body-bg); color: var(--ink); min-height: 100vh; }
+  /* ─── STATS ────────────────────────────────────────────── */
+  .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 16px; margin-bottom: 24px; }
+  .stat-card { background: var(--white); padding: 16px; border-radius: var(--radius); border: 1px solid var(--border); }
+  .stat-label { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+  .stat-num { font-family: var(--font-h); font-size: 24px; color: var(--purple-dark); }
 
-  header { background: var(--white); padding: 0 36px; height: 68px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; border-bottom: 1px solid var(--border); box-shadow: 0 1px 12px rgba(124,58,237,0.07); }
-  .logo { display: flex; flex-direction: column; text-decoration: none; }
-  .logo-name { font-family: var(--font-h); font-size: 20px; color: var(--ink); }
-  .logo-tag { font-size: 9px; color: var(--purple); font-weight: 600; letter-spacing: 2px; text-transform: uppercase; margin-top: 1px; font-family: var(--font-body); }
-  .header-right { display: flex; align-items: center; gap: 12px; }
-  .engine-status { display: flex; align-items: center; gap: 7px; background: var(--body-bg); padding: 6px 14px; border-radius: 999px; border: 1px solid var(--border); }
-  #status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--red); transition: background 0.4s; flex-shrink: 0; }
-  #status-dot.live { background: var(--green); animation: pulse-dot 1.5s infinite; }
-  @keyframes pulse-dot { 0%,100% { opacity: 1; box-shadow: 0 0 0 0 rgba(16,185,129,0.4); } 50% { opacity: 0.8; box-shadow: 0 0 0 5px rgba(16,185,129,0); } }
-  #status-label { font-size: 10px; font-weight: 700; color: var(--muted); letter-spacing: 1.2px; text-transform: uppercase; }
+  /* ─── CARDS ────────────────────────────────────────────── */
+  .card { background: var(--white); border-radius: var(--radius); border: 1px solid var(--border); overflow: hidden; margin-bottom: 24px; box-shadow: var(--shadow); }
+  .card-header { padding: 16px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+  .card-title { font-family: var(--font-h); font-size: 18px; color: var(--ink); }
+  .rec-badge { font-size: 10px; font-weight: 800; background: var(--lilac-soft); color: var(--purple); padding: 2px 8px; border-radius: 6px; }
 
-  .btn { padding: 9px 20px; border: none; border-radius: 9px; font-family: var(--font-body); font-size: 11px; font-weight: 700; cursor: pointer; letter-spacing: 0.8px; text-transform: uppercase; transition: all 0.2s; display: inline-flex; align-items: center; gap: 6px; }
-  .btn:hover { transform: translateY(-1px); }
-  .btn-start { background: var(--green); color: #fff; box-shadow: 0 4px 12px rgba(16,185,129,0.25); }
-  .btn-stop { background: rgba(239,68,68,0.08); color: var(--red); border: 1px solid rgba(239,68,68,0.2); }
-  .btn-enroll { background: linear-gradient(135deg, var(--purple), var(--purple-mid)); color: #fff; box-shadow: 0 4px 12px rgba(124,58,237,0.25); }
-  .btn-logout { background: none; color: var(--muted); border: 1px solid var(--border); font-size: 10px; }
+  /* ─── LIVE FEED ───────────────────────────────────────── */
+  .feed-header { display: flex; align-items: center; gap: 8px; }
+  .feed-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--muted); flex-shrink: 0; }
+  .feed-dot.live { background: var(--green); animation: pulse-dot 1.5s infinite; }
+  @keyframes pulse-dot { 0% { box-shadow: 0 0 0 0 rgba(16,185,129,0.4); } 70% { box-shadow: 0 0 0 6px rgba(16,185,129,0); } 100% { box-shadow: 0 0 0 0 rgba(16,185,129,0); } }
 
-  main { padding: 32px 36px 48px; max-width: 1280px; margin: 0 auto; }
-  .page-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 28px; }
-  .page-title { font-family: var(--font-h); font-size: 28px; color: var(--ink); }
-  .page-date { font-family: var(--font-sub); font-size: 15px; color: var(--muted); font-style: italic; }
+  .camera-box {
+    margin: 16px 20px; border-radius: 12px; overflow: hidden;
+    background: #0d0621; aspect-ratio: 4/3; position: relative; border: 1px solid var(--border);
+  }
+  #camera-video, #camera-canvas { width: 100%; height: 100%; object-fit: cover; display: none; }
+  #camera-canvas { position: absolute; inset: 0; }
+  .camera-placeholder {
+    position: absolute; inset: 0; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 12px;
+  }
+  .cam-icon-wrap {
+    width: 56px; height: 56px; background: rgba(255,255,255,0.06);
+    border-radius: 14px; display: flex; align-items: center; justify-content: center;
+  }
+  .camera-placeholder p {
+    font-size: 12px; color: rgba(255,255,255,0.35); text-align: center; line-height: 1.5; font-family: var(--font-body);
+  }
+  .camera-placeholder strong { color: rgba(255,255,255,0.6); }
 
-  .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-bottom: 28px; }
-  @media (max-width: 900px) { .stats-grid { grid-template-columns: repeat(2,1fr); } }
-  .stat-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px 20px 18px; box-shadow: var(--shadow); position: relative; overflow: hidden; }
-  .stat-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--purple), var(--lilac)); }
-  .stat-num { font-family: var(--font-h); font-size: 36px; color: var(--ink); line-height: 1; }
+  /* ─── TABLE ────────────────────────────────────────────── */
+  .bottom-grid { display: grid; grid-template-columns: 1fr; gap: 24px; }
+  @media(min-width: 900px) { .bottom-grid { grid-template-columns: 1.4fr 1fr; } }
 
-  .bottom-grid { display: grid; grid-template-columns: 1fr 380px; gap: 18px; }
-  @media (max-width: 1024px) { .bottom-grid { grid-template-columns: 1fr; } }
+  table { width: 100%; border-collapse: collapse; text-align: left; }
+  th { padding: 12px 20px; font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--muted); border-bottom: 1px solid var(--border); }
+  td { padding: 12px 20px; font-size: 13px; border-bottom: 1px solid var(--border); }
+  .empty-state { text-align: center; padding: 40px; color: var(--muted); font-size: 12px; }
 
-  .card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
-  .card-header { padding: 18px 24px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
-  .card-title { font-size: 15px; font-weight: 700; color: var(--ink); }
-
+  /* ─── GALLERY ──────────────────────────────────────────── */
   .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 16px; padding: 20px; }
   .gallery-item {
-    position: relative;
-    border-radius: 12px; overflow: hidden;
+    position: relative; border-radius: 12px; overflow: hidden;
     background: var(--lilac-soft); border: 1px solid var(--border);
-    transition: transform 0.2s;
-    display: flex; flex-direction: column;
+    transition: transform 0.2s; display: flex; flex-direction: column;
   }
   .gallery-img-wrap { position: relative; aspect-ratio: 1; overflow: hidden; }
   .gallery-item img { width: 100%; height: 100%; object-fit: cover; }
-  .gallery-item:hover { transform: translateY(-4px); box-shadow: 0 4px 12px rgba(124,58,237,0.12); }
-
-  /* Gallery Caption / Edit Logic */
   .gallery-info { padding: 10px; background: white; border-top: 1px solid var(--border); }
   .gallery-caption {
     font-size: 13px; font-weight: 600; color: var(--ink);
-    border: none; background: transparent; width: 100%;
-    padding: 4px; border-radius: 4px; transition: background 0.2s;
+    border: none; background: transparent; width: 100%; padding: 4px; border-radius: 4px;
     font-family: var(--font-body);
   }
   .gallery-caption:focus { background: var(--lilac-soft); outline: 2px solid var(--purple); }
-  
-  /* Gallery Buttons */
-  .btn-delete { position: absolute; top: 8px; right: 8px; background: rgba(239, 68, 68, 0.9); color: white; border: none; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; cursor: pointer; opacity: 0; transition: opacity 0.2s; font-size: 16px; z-index: 2; }
+  .btn-delete { position: absolute; top: 8px; right: 8px; background: rgba(239, 68, 68, 0.9); color: white; border: none; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; cursor: pointer; opacity: 0; transition: opacity 0.2s; z-index: 2; }
   .gallery-item:hover .btn-delete { opacity: 1; }
 
-  #toast { position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--ink); color: #fff; padding: 11px 22px; border-radius: 999px; font-size: 13px; font-weight: 600; font-family: var(--font-body); opacity: 0; transition: all 0.3s; white-space: nowrap; z-index: 9000; display: flex; align-items: center; gap: 8px; box-shadow: 0 8px 32px rgba(0,0,0,0.25); }
-  #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  /* ─── GATE ─────────────────────────────────────────────── */
+  #gate { position: fixed; inset: 0; background: var(--body-bg); z-index: 999; display: flex; align-items: center; justify-content: center; padding: 20px; }
+  .gate-card { background: var(--white); width: 100%; max-width: 400px; padding: 40px; border-radius: 24px; box-shadow: 0 10px 40px rgba(0,0,0,0.05); text-align: center; }
+  .gate-title { font-family: var(--font-h); font-size: 32px; color: var(--purple); margin-bottom: 10px; }
+  .gate-sub { font-size: 14px; color: var(--muted); margin-bottom: 30px; }
+  .gate-input { width: 100%; padding: 14px; border-radius: 12px; border: 2px solid var(--border); font-size: 16px; text-align: center; margin-bottom: 20px; outline: none; }
+  .gate-input:focus { border-color: var(--purple); }
+  .gate-error { color: var(--red); font-size: 12px; font-weight: 700; margin-bottom: 20px; display: none; }
+  .gate-error.show { display: block; }
+  
+  #toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px); background: #1f2937; color: white; padding: 12px 24px; border-radius: 99px; display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 600; transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 10000; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+  #toast.show { transform: translateX(-50%) translateY(0); }
 </style>
 </head>
 <body>
 
-<!-- GATE -->
 <div id="gate">
-  <div class="gate-logo">
-    <div class="gate-title">Presab V3.0</div>
-    <div class="gate-sub">Powered by Orcinos Sense</div>
-  </div>
   <div class="gate-card">
-    <h2>Access Portal</h2>
-    <p>Enter your 10-character school access code to launch the biometric dashboard.</p>
-    <input type="password" id="gate-input" class="gate-input" placeholder="••••••••••" maxlength="10">
-    <button class="gate-btn" onclick="checkGate()">Unlock Dashboard</button>
-    <div id="gate-error" class="gate-error">Invalid access code. Please try again.</div>
-    <div class="gate-note">Need help? <a href="#">Contact Support</a></div>
+    <div class="gate-title">Presab V3.0</div>
+    <p class="gate-sub">Enter Access Code to Manage</p>
+    <div id="gate-error" class="gate-error">Invalid Access Code</div>
+    <input type="password" id="gate-input" class="gate-input" placeholder="••••••••" onkeypress="if(event.key==='Enter') checkGate()">
+    <button class="btn btn-enroll" style="width:100%; justify-content:center; padding:14px;" onclick="checkGate()">Access Dashboard</button>
   </div>
 </div>
 
-<div id="app">
+<div id="app" style="display:none;">
   <header>
     <a href="#" class="logo">
       <span class="logo-name">Presab V3.0</span>
@@ -185,43 +185,44 @@
         <div class="page-date" id="today-date"></div>
       </div>
       <div style="display:flex; gap:10px;">
+        <button class="btn btn-export" id="btn-start" onclick="startCamera()">Start Camera</button>
+        <button class="btn btn-stop" id="btn-stop" style="display:none; background:var(--red);" onclick="stopCamera()">Stop Camera</button>
         <button class="btn btn-export" onclick="exportCSV()">Export Data</button>
         <button class="btn btn-enroll" onclick="openEnroll()">Enroll Person</button>
       </div>
     </div>
 
     <div class="stats-grid">
-      <div class="stat-card">
-        <div class="stat-label">Total Present</div>
-        <div class="stat-num" id="stat-total">0</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">Students</div>
-        <div class="stat-num" id="stat-students">0</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">Staff</div>
-        <div class="stat-num" id="stat-staff">0</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">Attendance %</div>
-        <div class="stat-num" id="stat-pct">0%</div>
-      </div>
+      <div class="stat-card"><div class="stat-label">Total Present</div><div class="stat-num" id="stat-total">0</div></div>
+      <div class="stat-card"><div class="stat-label">Students</div><div class="stat-num" id="stat-students">0</div></div>
+      <div class="stat-card"><div class="stat-label">Staff</div><div class="stat-num" id="stat-staff">0</div></div>
+      <div class="stat-card"><div class="stat-label">Attendance %</div><div class="stat-num" id="stat-pct">0%</div></div>
     </div>
 
     <div class="bottom-grid">
       <div class="card">
         <div class="card-header">
-          <span class="card-title">Live Attendance Records</span>
+          <div class="feed-header">
+            <div class="feed-dot" id="feed-dot"></div>
+            <span class="card-title">Live Camera & Records</span>
+          </div>
           <span class="rec-badge" id="rec-count">0 records</span>
         </div>
+
+        <div class="camera-box">
+          <img id="camera-video" alt="Live camera feed">
+          <canvas id="camera-canvas"></canvas>
+          <div class="camera-placeholder" id="cam-placeholder">
+            <div class="cam-icon-wrap">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+            </div>
+            <p>Camera not started.<br>Press <strong>Start Camera</strong> to begin.</p>
+          </div>
+        </div>
+
         <table>
-          <thead>
-            <tr><th>ID</th><th>Name</th><th>Role</th><th>Time In</th><th>Status</th></tr>
-          </thead>
-          <tbody id="attendance-tbody">
-            <tr id="empty-row"><td colspan="5" class="empty-state">No records yet. Start the camera to begin.</td></tr>
-          </tbody>
+          <thead><tr><th>ID</th><th>Name</th><th>Role</th><th>Time In</th><th>Status</th></tr></thead>
+          <tbody id="attendance-tbody"><tr id="empty-row"><td colspan="5" class="empty-state">No records yet.</td></tr></tbody>
         </table>
       </div>
 
@@ -232,9 +233,7 @@
             Upload <input type="file" hidden onchange="uploadToGallery(this)" accept="image/*">
           </label>
         </div>
-        <div id="gallery-grid" class="gallery-grid">
-          <!-- Images load here -->
-        </div>
+        <div id="gallery-grid" class="gallery-grid"></div>
       </div>
     </div>
   </main>
@@ -247,6 +246,11 @@ const ACCESS_CODE = 'PRESAB2026';
 const SB_URL = "https://sazhdnqzaqpqcralmthh.supabase.co";
 const SB_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNhemhkbnF6YXFwcWNyYWxtdGhoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxNzE5NjYsImV4cCI6MjA5Mzc0Nzk2Nn0.uTyw31uWTNOTV5-HzNpm46vpAJABAsHLMzW-sYOkRhc";
 const SCHOOL_ID = "4dabf036-08a7-448f-945a-81830c2016cb";
+const BACKEND = "http://localhost:8000";
+
+let running = false;
+let stream = null;
+let backendConnected = false;
 
 function checkGate() {
   if (document.getElementById('gate-input').value.trim().toUpperCase() === ACCESS_CODE) {
@@ -268,6 +272,66 @@ function logout() { sessionStorage.removeItem('presab_auth'); location.reload();
 function initApp() {
   document.getElementById('today-date').textContent = new Date().toLocaleDateString('en-TT', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
   loadGallery();
+  checkBackend();
+}
+
+async function checkBackend() {
+  try {
+    const r = await fetch(`${BACKEND}/api/health`);
+    backendConnected = r.ok;
+  } catch(e) { backendConnected = false; }
+}
+
+async function startCamera() {
+  if (running) return;
+  if (backendConnected) {
+    try {
+      await fetch(`${BACKEND}/api/engine/start`, { method: 'POST' });
+      const img = document.getElementById('camera-video');
+      img.src = `${BACKEND}/video_feed?t=${Date.now()}`;
+      img.style.display = 'block';
+      document.getElementById('cam-placeholder').style.display = 'none';
+      running = true; setStatus(true);
+      document.getElementById('btn-start').style.display = 'none';
+      document.getElementById('btn-stop').style.display = 'inline-flex';
+    } catch(e) { showToast('✕', 'Backend error'); }
+  } else {
+    try {
+      stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      const canvas = document.getElementById('camera-canvas');
+      canvas.style.display = 'block';
+      const ctx = canvas.getContext('2d');
+      const v = document.createElement('video');
+      v.srcObject = stream; v.play();
+      v.onloadedmetadata = () => {
+        canvas.width = v.videoWidth; canvas.height = v.videoHeight;
+        function draw() { if (running) { ctx.drawImage(v, 0, 0); requestAnimationFrame(draw); } }
+        draw();
+      };
+      document.getElementById('cam-placeholder').style.display = 'none';
+      running = true; setStatus(true);
+      document.getElementById('btn-start').style.display = 'none';
+      document.getElementById('btn-stop').style.display = 'inline-flex';
+    } catch(e) { showToast('✕', 'Access denied'); }
+  }
+}
+
+function stopCamera() {
+  running = false;
+  if (stream) { stream.getTracks().forEach(t => t.stop()); stream = null; }
+  document.getElementById('camera-video').src = '';
+  document.getElementById('camera-video').style.display = 'none';
+  document.getElementById('camera-canvas').style.display = 'none';
+  document.getElementById('cam-placeholder').style.display = 'flex';
+  setStatus(false);
+  document.getElementById('btn-start').style.display = 'inline-flex';
+  document.getElementById('btn-stop').style.display = 'none';
+}
+
+function setStatus(live) {
+  document.getElementById('status-dot').className = live ? 'live' : '';
+  document.getElementById('status-label').textContent = live ? 'LIVE' : 'OFFLINE';
+  document.getElementById('feed-dot').className = 'feed-dot' + (live ? ' live' : '');
 }
 
 async function loadGallery() {
@@ -277,21 +341,15 @@ async function loadGallery() {
       headers: { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}` }
     });
     const images = await res.json();
-    if (!images.length) {
-      grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:#999;font-size:12px;">No photos.</div>';
-      return;
-    }
+    if (!images.length) { grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:#999;">No photos.</div>'; return; }
     grid.innerHTML = images.map(img => `
       <div class="gallery-item">
         <button class="btn-delete" onclick="deleteImage('${img.id}', '${img.image_url}')">✕</button>
-        <div class="gallery-img-wrap">
-          <img src="${img.image_url}" alt="${img.caption}">
-        </div>
+        <div class="gallery-img-wrap"><img src="${img.image_url}" alt="${img.caption}"></div>
         <div class="gallery-info">
           <input type="text" class="gallery-caption" value="${img.caption}" 
             onchange="updateImageCaption('${img.id}', this.value)" 
-            onkeypress="if(event.key==='Enter') this.blur()"
-            placeholder="No name">
+            onkeypress="if(event.key==='Enter') this.blur()">
         </div>
       </div>
     `).join('');
@@ -307,7 +365,6 @@ async function uploadToGallery(input) {
     const up = await fetch(`${SB_URL}/storage/v1/object/school-assets/${path}`, {
       method: 'POST', headers: { 'Authorization': `Bearer ${SB_KEY}`, 'apikey': SB_KEY }, body: file
     });
-    if (!up.ok) throw new Error("Fail");
     const url = `${SB_URL}/storage/v1/object/public/school-assets/${path}`;
     await fetch(`${SB_URL}/rest/v1/school_images`, {
       method: 'POST', headers: { 'Authorization': `Bearer ${SB_KEY}`, 'apikey': SB_KEY, 'Content-Type': 'application/json' },
@@ -320,22 +377,13 @@ async function uploadToGallery(input) {
 async function updateImageCaption(id, newName) {
   if (!newName) return;
   try {
-    const res = await fetch(`${SB_URL}/rest/v1/school_images?id=eq.${id}`, {
+    await fetch(`${SB_URL}/rest/v1/school_images?id=eq.${id}`, {
       method: 'PATCH',
-      headers: { 
-        'Authorization': `Bearer ${SB_KEY}`, 
-        'apikey': SB_KEY, 
-        'Content-Type': 'application/json',
-        'Prefer': 'return=minimal'
-      },
+      headers: { 'Authorization': `Bearer ${SB_KEY}`, 'apikey': SB_KEY, 'Content-Type': 'application/json' },
       body: JSON.stringify({ caption: newName })
     });
-    if (!res.ok) throw new Error("Update failed");
     showToast("✎", "Name updated");
-  } catch (e) { 
-    showToast("❌", "Save error");
-    loadGallery();
-  }
+  } catch (e) { showToast("❌", "Save error"); loadGallery(); }
 }
 
 async function deleteImage(id, url) {
