@@ -12,6 +12,8 @@
 <link rel="apple-touch-icon" href="icons/icon-192.png">
 <title>Presab V3.0 — Smart Attendance Dashboard</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Cormorant:ital,wght@0,300;0,400;1,300;1,400&family=Urbanist:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<!-- Socket.io -->
+<script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
 <style>
   :root {
     --purple:      #7c3aed;
@@ -109,6 +111,22 @@
   }
   .camera-placeholder strong { color: rgba(255,255,255,0.6); }
 
+  .feed-list { max-height: 240px; overflow-y: auto; background: var(--lilac-soft); border-bottom: 1px solid var(--border); }
+  .feed-item {
+    display: flex; align-items: center; gap: 12px; padding: 11px 20px;
+    border-bottom: 1px solid rgba(124,58,237,0.05); animation: rowIn 0.35s ease; background: #fff;
+  }
+  .feed-avatar {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--purple), var(--lilac));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700; color: #fff; flex-shrink: 0;
+  }
+  .feed-name { font-size: 13px; font-weight: 600; color: var(--ink); }
+  .feed-meta { font-size: 11px; color: var(--muted); margin-top: 1px; }
+  .feed-time { margin-left: auto; font-size: 11px; color: var(--muted); white-space: nowrap; }
+  .feed-empty { padding: 40px 20px; text-align: center; font-size: 11px; color: var(--muted); line-height: 1.6; }
+
   /* ─── TABLE ────────────────────────────────────────────── */
   .bottom-grid { display: grid; grid-template-columns: 1fr; gap: 24px; }
   @media(min-width: 900px) { .bottom-grid { grid-template-columns: 1.4fr 1fr; } }
@@ -116,6 +134,11 @@
   table { width: 100%; border-collapse: collapse; text-align: left; }
   th { padding: 12px 20px; font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--muted); border-bottom: 1px solid var(--border); }
   td { padding: 12px 20px; font-size: 13px; border-bottom: 1px solid var(--border); }
+  .role-pill { display: inline-block; border-radius: 999px; padding: 2px 10px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+  .role-student { background: var(--lilac-mid); color: var(--purple-dark); }
+  .role-staff { background: var(--amber-soft); color: #92400e; }
+  .status-present { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 700; color: var(--green); }
+  .status-present::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--green); }
   .empty-state { text-align: center; padding: 40px; color: var(--muted); font-size: 12px; }
 
   /* ─── GALLERY ──────────────────────────────────────────── */
@@ -138,26 +161,15 @@
   .gallery-item:hover .btn-delete { opacity: 1; }
 
   /* ─── MODALS ────────────────────────────────────────────── */
-  .modal-bg {
-    position: fixed; inset: 0; background: rgba(13, 6, 33, 0.6);
-    backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center;
-    z-index: 2000; padding: 20px;
-  }
+  .modal-bg { position: fixed; inset: 0; background: rgba(13, 6, 33, 0.6); backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center; z-index: 2000; padding: 20px; }
   .modal-bg.open { display: flex; }
-  .modal {
-    background: var(--white); width: 100%; max-width: 440px;
-    border-radius: 24px; padding: 32px; box-shadow: 0 20px 60px rgba(0,0,0,0.15);
-    animation: modalIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  }
+  .modal { background: var(--white); width: 100%; max-width: 440px; border-radius: 24px; padding: 32px; box-shadow: 0 20px 60px rgba(0,0,0,0.15); animation: modalIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
   @keyframes modalIn { from { opacity: 0; transform: scale(0.9) translateY(20px); } }
   .modal h3 { font-family: var(--font-h); font-size: 24px; color: var(--ink); margin-bottom: 8px; }
   .modal p { font-size: 13px; color: var(--muted); margin-bottom: 24px; }
   .field { margin-bottom: 18px; }
   .field label { display: block; font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
-  .field input, .field select {
-    width: 100%; padding: 12px; border-radius: 10px; border: 2px solid var(--border);
-    font-family: var(--font-body); font-size: 14px; outline: none; transition: border 0.2s;
-  }
+  .field input, .field select { width: 100%; padding: 12px; border-radius: 10px; border: 2px solid var(--border); font-family: var(--font-body); font-size: 14px; outline: none; transition: border 0.2s; }
   .field input:focus { border-color: var(--purple); }
   .modal-btns { display: flex; gap: 12px; margin-top: 32px; }
   .modal-btns button { flex: 1; justify-content: center; }
@@ -175,6 +187,9 @@
   
   #toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px); background: #1f2937; color: white; padding: 12px 24px; border-radius: 99px; display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 600; transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 10000; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
   #toast.show { transform: translateX(-50%) translateY(0); }
+
+  @keyframes rowIn { from { opacity:0; transform: translateY(-8px); } to { opacity:1; transform: translateY(0); } }
+  .row-new { animation: rowIn 0.35s ease; }
 </style>
 </head>
 <body>
@@ -230,7 +245,7 @@
         <div class="card-header">
           <div class="feed-header">
             <div class="feed-dot" id="feed-dot"></div>
-            <span class="card-title">Live Camera & Records</span>
+            <span class="card-title">Live Camera & Detection</span>
           </div>
           <span class="rec-badge" id="rec-count">0 records</span>
         </div>
@@ -244,6 +259,10 @@
             </div>
             <p>Camera not started.<br>Press <strong>Start Camera</strong> to begin.</p>
           </div>
+        </div>
+
+        <div class="feed-list" id="feed-list">
+          <div class="feed-empty" id="feed-empty">Face recognition events will appear here</div>
         </div>
 
         <table>
@@ -265,7 +284,6 @@
   </main>
 </div>
 
-<!-- Enroll Modal Restored -->
 <div class="modal-bg" id="enroll-modal">
   <div class="modal">
     <h3>Enroll New Person</h3>
@@ -305,6 +323,7 @@ let running = false;
 let stream = null;
 let backendConnected = false;
 let attendance = [];
+let socket = null;
 
 function checkGate() {
   if (document.getElementById('gate-input').value.trim().toUpperCase() === ACCESS_CODE) {
@@ -326,14 +345,15 @@ function logout() { sessionStorage.removeItem('presab_auth'); location.reload();
 function initApp() {
   document.getElementById('today-date').textContent = new Date().toLocaleDateString('en-TT', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
   loadGallery();
-  checkBackend();
+  connectSocket();
 }
 
-async function checkBackend() {
-  try {
-    const r = await fetch(`${BACKEND}/api/health`);
-    backendConnected = r.ok;
-  } catch(e) { backendConnected = false; }
+function connectSocket() {
+  if (typeof io === 'undefined') return;
+  socket = io(BACKEND, { transports: ['websocket', 'polling'] });
+  socket.on('connect', () => { backendConnected = true; setStatus(running); });
+  socket.on('disconnect', () => { backendConnected = false; setStatus(false); });
+  socket.on('attendance_event', (data) => { markAttendance(data); });
 }
 
 async function startCamera() {
@@ -388,61 +408,85 @@ function setStatus(live) {
   document.getElementById('feed-dot').className = 'feed-dot' + (live ? ' live' : '');
 }
 
-// ─── ENROLLMENT LOGIC ───────────────────────────────────────
+function markAttendance(person) {
+  if (attendance.find(a => a.id === person.id)) return;
+  const t = new Date();
+  const time = t.toTimeString().slice(0,5);
+  const rec = { ...person, time };
+  attendance.push(rec);
+  addTableRow(rec, true);
+  addFeedItem(rec);
+  updateStats();
+  showToast('✓', `${person.name} recognized`);
+}
+
+function addTableRow(rec, animate) {
+  const tbody = document.getElementById('attendance-tbody');
+  const empty = document.getElementById('empty-row');
+  if (empty) empty.remove();
+  const tr = document.createElement('tr');
+  if (animate) tr.className = 'row-new';
+  tr.innerHTML = `<td>${rec.id}</td><td>${rec.name}</td><td><span class="role-pill role-${rec.role}">${rec.role}</span></td><td>${rec.time}</td><td><span class="status-present">Present</span></td>`;
+  tbody.insertBefore(tr, tbody.firstChild);
+  document.getElementById('rec-count').textContent = attendance.length + ' record' + (attendance.length !== 1 ? 's' : '');
+}
+
+function addFeedItem(rec) {
+  const list = document.getElementById('feed-list');
+  const empty = document.getElementById('feed-empty');
+  if (empty) empty.remove();
+  const initials = rec.name.split(' ').map(w => w[0]).join('').slice(0,2).toUpperCase();
+  const item = document.createElement('div');
+  item.className = 'feed-item';
+  item.innerHTML = `<div class="feed-avatar">${initials}</div><div><div class="feed-name">${rec.name}</div><div class="feed-meta">${rec.role} · Detected</div></div><div class="feed-time">${rec.time}</div>`;
+  list.insertBefore(item, list.firstChild);
+}
+
+function updateStats() {
+  const total = attendance.length;
+  const students = attendance.filter(a => a.role === 'student').length;
+  const staff = attendance.filter(a => a.role === 'staff').length;
+  document.getElementById('stat-total').textContent = total;
+  document.getElementById('stat-students').textContent = students;
+  document.getElementById('stat-staff').textContent = staff;
+  document.getElementById('stat-pct').textContent = '100%';
+}
+
 function openEnroll()  { document.getElementById('enroll-modal').classList.add('open'); }
 function closeEnroll() { document.getElementById('enroll-modal').classList.remove('open'); }
 
 async function submitEnroll() {
   const name = document.getElementById('enroll-name').value.trim();
-  const id   = document.getElementById('enroll-id').value.trim().toUpperCase();
+  const id = document.getElementById('enroll-id').value.trim().toUpperCase();
   const role = document.getElementById('enroll-role').value;
-  if (!name || !id) { showToast('!', 'Name and ID required'); return; }
-  
-  showToast('⏳', 'Saving...');
+  if (!name || !id) { showToast('!', 'Fields required'); return; }
+  showToast('⏳', 'Enrolling...');
   try {
-    // 1. Save to Supabase (Metadata)
-    const res = await fetch(`${SB_URL}/rest/v1/enrolled_people`, {
-      method: 'POST',
-      headers: { 'Authorization': `Bearer ${SB_KEY}`, 'apikey': SB_KEY, 'Content-Type': 'application/json' },
+    await fetch(`${SB_URL}/rest/v1/enrolled_people`, {
+      method: 'POST', headers: { 'Authorization': `Bearer ${SB_KEY}`, 'apikey': SB_KEY, 'Content-Type': 'application/json' },
       body: JSON.stringify({ school_id: SCHOOL_ID, person_id: id, name, role })
     });
-    
-    // 2. Notify local engine (Facial Analysis)
     if (backendConnected) {
-      fetch(`${BACKEND}/api/enroll`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id, name, role })
-      }).catch(e => console.log("Local engine enrollment failed"));
+      fetch(`${BACKEND}/api/enroll`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id, name, role }) });
     }
-
-    showToast('✓', `${name} Enrolled!`);
-    document.getElementById('enroll-name').value = '';
-    document.getElementById('enroll-id').value = '';
-    closeEnroll();
-  } catch (e) { showToast('✕', 'Enrollment failed'); }
+    showToast('✓', 'Enrolled'); closeEnroll();
+  } catch (e) { showToast('✕', 'Error'); }
 }
 
 async function loadGallery() {
   const grid = document.getElementById('gallery-grid');
   try {
-    const res = await fetch(`${SB_URL}/rest/v1/school_images?school_id=eq.${SCHOOL_ID}&select=*&order=created_at.desc`, {
-      headers: { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}` }
-    });
+    const res = await fetch(`${SB_URL}/rest/v1/school_images?school_id=eq.${SCHOOL_ID}&select=*&order=created_at.desc`, { headers: { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}` } });
     const images = await res.json();
     if (!images.length) { grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:#999;">No photos.</div>'; return; }
     grid.innerHTML = images.map(img => `
       <div class="gallery-item">
         <button class="btn-delete" onclick="deleteImage('${img.id}', '${img.image_url}')">✕</button>
-        <div class="gallery-img-wrap"><img src="${img.image_url}" alt="${img.caption}"></div>
-        <div class="gallery-info">
-          <input type="text" class="gallery-caption" value="${img.caption}" 
-            onchange="updateImageCaption('${img.id}', this.value)" 
-            onkeypress="if(event.key==='Enter') this.blur()">
-        </div>
+        <div class="gallery-img-wrap"><img src="${img.image_url}"></div>
+        <div class="gallery-info"><input type="text" class="gallery-caption" value="${img.caption}" onchange="updateImageCaption('${img.id}', this.value)"></div>
       </div>
     `).join('');
-  } catch (err) { console.error(err); }
+  } catch (err) {}
 }
 
 async function uploadToGallery(input) {
@@ -451,14 +495,9 @@ async function uploadToGallery(input) {
   const path = `${SCHOOL_ID}/${Date.now()}_${file.name}`;
   showToast("⏳", "Uploading...");
   try {
-    await fetch(`${SB_URL}/storage/v1/object/school-assets/${path}`, {
-      method: 'POST', headers: { 'Authorization': `Bearer ${SB_KEY}`, 'apikey': SB_KEY }, body: file
-    });
+    await fetch(`${SB_URL}/storage/v1/object/school-assets/${path}`, { method: 'POST', headers: { 'Authorization': `Bearer ${SB_KEY}`, 'apikey': SB_KEY }, body: file });
     const url = `${SB_URL}/storage/v1/object/public/school-assets/${path}`;
-    await fetch(`${SB_URL}/rest/v1/school_images`, {
-      method: 'POST', headers: { 'Authorization': `Bearer ${SB_KEY}`, 'apikey': SB_KEY, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ school_id: SCHOOL_ID, image_url: url, caption: file.name })
-    });
+    await fetch(`${SB_URL}/rest/v1/school_images`, { method: 'POST', headers: { 'Authorization': `Bearer ${SB_KEY}`, 'apikey': SB_KEY, 'Content-Type': 'application/json' }, body: JSON.stringify({ school_id: SCHOOL_ID, image_url: url, caption: file.name }) });
     showToast("✅", "Added!"); loadGallery();
   } catch (e) { showToast("❌", "Error"); }
 }
@@ -466,17 +505,13 @@ async function uploadToGallery(input) {
 async function updateImageCaption(id, newName) {
   if (!newName) return;
   try {
-    await fetch(`${SB_URL}/rest/v1/school_images?id=eq.${id}`, {
-      method: 'PATCH',
-      headers: { 'Authorization': `Bearer ${SB_KEY}`, 'apikey': SB_KEY, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ caption: newName })
-    });
+    await fetch(`${SB_URL}/rest/v1/school_images?id=eq.${id}`, { method: 'PATCH', headers: { 'Authorization': `Bearer ${SB_KEY}`, 'apikey': SB_KEY, 'Content-Type': 'application/json' }, body: JSON.stringify({ caption: newName }) });
     showToast("✎", "Name updated");
-  } catch (e) { showToast("❌", "Save error"); loadGallery(); }
+  } catch (e) { showToast("❌", "Save error"); }
 }
 
 async function deleteImage(id, url) {
-  if (!confirm("Delete this photo permanently?")) return;
+  if (!confirm("Delete photo?")) return;
   try {
     await fetch(`${SB_URL}/rest/v1/school_images?id=eq.${id}`, { method: 'DELETE', headers: { 'Authorization': `Bearer ${SB_KEY}`, 'apikey': SB_KEY } });
     const path = url.split('/school-assets/')[1];
@@ -485,21 +520,9 @@ async function deleteImage(id, url) {
   } catch (e) { showToast("❌", "Error"); }
 }
 
-function exportCSV() { showToast('ℹ', 'Exporting local log...'); }
-
-function showToast(icon, msg) {
-  const t = document.getElementById('toast');
-  document.getElementById('toast-icon').textContent = icon;
-  document.getElementById('toast-msg').textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 3000);
-}
-
-// Close modal on background click
-window.onclick = function(event) {
-  const modal = document.getElementById('enroll-modal');
-  if (event.target == modal) closeEnroll();
-}
+function exportCSV() { showToast('ℹ', 'Exporting...'); }
+function showToast(icon, msg) { const t = document.getElementById('toast'); document.getElementById('toast-icon').textContent = icon; document.getElementById('toast-msg').textContent = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 3000); }
+window.onclick = function(e) { if (e.target == document.getElementById('enroll-modal')) closeEnroll(); }
 </script>
 </body>
 </html>
