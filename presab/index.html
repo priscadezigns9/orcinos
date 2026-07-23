@@ -115,20 +115,31 @@
   .card-header { padding: 18px 24px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
   .card-title { font-size: 15px; font-weight: 700; color: var(--ink); }
 
-  .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 12px; padding: 20px; }
+  .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 16px; padding: 20px; }
   .gallery-item {
-    position: relative; aspect-ratio: 1;
+    position: relative;
     border-radius: 12px; overflow: hidden;
     background: var(--lilac-soft); border: 1px solid var(--border);
     transition: transform 0.2s;
+    display: flex; flex-direction: column;
   }
+  .gallery-img-wrap { position: relative; aspect-ratio: 1; overflow: hidden; }
   .gallery-item img { width: 100%; height: 100%; object-fit: cover; }
-  .gallery-item:hover { transform: scale(1.02); }
+  .gallery-item:hover { transform: translateY(-4px); box-shadow: 0 4px 12px rgba(124,58,237,0.12); }
 
+  /* Gallery Caption / Edit Logic */
+  .gallery-info { padding: 10px; background: white; border-top: 1px solid var(--border); }
+  .gallery-caption {
+    font-size: 13px; font-weight: 600; color: var(--ink);
+    border: none; background: transparent; width: 100%;
+    padding: 4px; border-radius: 4px; transition: background 0.2s;
+    font-family: var(--font-body);
+  }
+  .gallery-caption:focus { background: var(--lilac-soft); outline: 2px solid var(--purple); }
+  
   /* Gallery Buttons */
-  .btn-edit { position: absolute; top: 8px; left: 8px; background: rgba(56, 189, 248, 0.9); color: white; border: none; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; cursor: pointer; opacity: 0; transition: opacity 0.2s; font-size: 14px; }
-  .btn-delete { position: absolute; top: 8px; right: 8px; background: rgba(239, 68, 68, 0.9); color: white; border: none; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; cursor: pointer; opacity: 0; transition: opacity 0.2s; font-size: 16px; }
-  .gallery-item:hover .btn-edit, .gallery-item:hover .btn-delete { opacity: 1; }
+  .btn-delete { position: absolute; top: 8px; right: 8px; background: rgba(239, 68, 68, 0.9); color: white; border: none; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; cursor: pointer; opacity: 0; transition: opacity 0.2s; font-size: 16px; z-index: 2; }
+  .gallery-item:hover .btn-delete { opacity: 1; }
 
   #toast { position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--ink); color: #fff; padding: 11px 22px; border-radius: 999px; font-size: 13px; font-weight: 600; font-family: var(--font-body); opacity: 0; transition: all 0.3s; white-space: nowrap; z-index: 9000; display: flex; align-items: center; gap: 8px; box-shadow: 0 8px 32px rgba(0,0,0,0.25); }
   #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
@@ -272,9 +283,16 @@ async function loadGallery() {
     }
     grid.innerHTML = images.map(img => `
       <div class="gallery-item">
-        <button class="btn-edit" onclick="renameImage('${img.id}', '${img.caption}')">✎</button>
         <button class="btn-delete" onclick="deleteImage('${img.id}', '${img.image_url}')">✕</button>
-        <img src="${img.image_url}" alt="${img.caption}">
+        <div class="gallery-img-wrap">
+          <img src="${img.image_url}" alt="${img.caption}">
+        </div>
+        <div class="gallery-info">
+          <input type="text" class="gallery-caption" value="${img.caption}" 
+            onchange="updateImageCaption('${img.id}', this.value)" 
+            onkeypress="if(event.key==='Enter') this.blur()"
+            placeholder="No name">
+        </div>
       </div>
     `).join('');
   } catch (err) { console.error(err); }
@@ -299,16 +317,25 @@ async function uploadToGallery(input) {
   } catch (e) { showToast("❌", "Error"); }
 }
 
-async function renameImage(id, old) {
-  const n = prompt("New name for this photo:", old);
-  if (!n || n === old) return;
+async function updateImageCaption(id, newName) {
+  if (!newName) return;
   try {
-    await fetch(`${SB_URL}/rest/v1/school_images?id=eq.${id}`, {
-      method: 'PATCH', headers: { 'Authorization': `Bearer ${SB_KEY}`, 'apikey': SB_KEY, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ caption: n })
+    const res = await fetch(`${SB_URL}/rest/v1/school_images?id=eq.${id}`, {
+      method: 'PATCH',
+      headers: { 
+        'Authorization': `Bearer ${SB_KEY}`, 
+        'apikey': SB_KEY, 
+        'Content-Type': 'application/json',
+        'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify({ caption: newName })
     });
-    showToast("✎", "Renamed"); loadGallery();
-  } catch (e) { showToast("❌", "Error"); }
+    if (!res.ok) throw new Error("Update failed");
+    showToast("✎", "Name updated");
+  } catch (e) { 
+    showToast("❌", "Save error");
+    loadGallery();
+  }
 }
 
 async function deleteImage(id, url) {
