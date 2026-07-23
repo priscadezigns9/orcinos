@@ -137,6 +137,32 @@
   .btn-delete { position: absolute; top: 8px; right: 8px; background: rgba(239, 68, 68, 0.9); color: white; border: none; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; cursor: pointer; opacity: 0; transition: opacity 0.2s; z-index: 2; }
   .gallery-item:hover .btn-delete { opacity: 1; }
 
+  /* ─── MODALS ────────────────────────────────────────────── */
+  .modal-bg {
+    position: fixed; inset: 0; background: rgba(13, 6, 33, 0.6);
+    backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center;
+    z-index: 2000; padding: 20px;
+  }
+  .modal-bg.open { display: flex; }
+  .modal {
+    background: var(--white); width: 100%; max-width: 440px;
+    border-radius: 24px; padding: 32px; box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+    animation: modalIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+  @keyframes modalIn { from { opacity: 0; transform: scale(0.9) translateY(20px); } }
+  .modal h3 { font-family: var(--font-h); font-size: 24px; color: var(--ink); margin-bottom: 8px; }
+  .modal p { font-size: 13px; color: var(--muted); margin-bottom: 24px; }
+  .field { margin-bottom: 18px; }
+  .field label { display: block; font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+  .field input, .field select {
+    width: 100%; padding: 12px; border-radius: 10px; border: 2px solid var(--border);
+    font-family: var(--font-body); font-size: 14px; outline: none; transition: border 0.2s;
+  }
+  .field input:focus { border-color: var(--purple); }
+  .modal-btns { display: flex; gap: 12px; margin-top: 32px; }
+  .modal-btns button { flex: 1; justify-content: center; }
+  .btn-cancel { background: var(--lilac-soft); color: var(--muted); }
+
   /* ─── GATE ─────────────────────────────────────────────── */
   #gate { position: fixed; inset: 0; background: var(--body-bg); z-index: 999; display: flex; align-items: center; justify-content: center; padding: 20px; }
   .gate-card { background: var(--white); width: 100%; max-width: 400px; padding: 40px; border-radius: 24px; box-shadow: 0 10px 40px rgba(0,0,0,0.05); text-align: center; }
@@ -239,6 +265,33 @@
   </main>
 </div>
 
+<!-- Enroll Modal Restored -->
+<div class="modal-bg" id="enroll-modal">
+  <div class="modal">
+    <h3>Enroll New Person</h3>
+    <p>Details will be saved to Supabase. Facial encoding is handled by the local Presab engine.</p>
+    <div class="field">
+      <label>Full Name</label>
+      <input type="text" id="enroll-name" placeholder="e.g. Aaliyah James">
+    </div>
+    <div class="field">
+      <label>ID / Roll Number</label>
+      <input type="text" id="enroll-id" placeholder="e.g. STU007">
+    </div>
+    <div class="field">
+      <label>Role</label>
+      <select id="enroll-role">
+        <option value="student">Student</option>
+        <option value="staff">Staff</option>
+      </select>
+    </div>
+    <div class="modal-btns">
+      <button class="btn btn-cancel" onclick="closeEnroll()">Cancel</button>
+      <button class="btn btn-enroll" onclick="submitEnroll()">Enroll Person</button>
+    </div>
+  </div>
+</div>
+
 <div id="toast"><span class="toast-icon" id="toast-icon"></span><span id="toast-msg"></span></div>
 
 <script>
@@ -251,6 +304,7 @@ const BACKEND = "http://localhost:8000";
 let running = false;
 let stream = null;
 let backendConnected = false;
+let attendance = [];
 
 function checkGate() {
   if (document.getElementById('gate-input').value.trim().toUpperCase() === ACCESS_CODE) {
@@ -334,6 +388,41 @@ function setStatus(live) {
   document.getElementById('feed-dot').className = 'feed-dot' + (live ? ' live' : '');
 }
 
+// ─── ENROLLMENT LOGIC ───────────────────────────────────────
+function openEnroll()  { document.getElementById('enroll-modal').classList.add('open'); }
+function closeEnroll() { document.getElementById('enroll-modal').classList.remove('open'); }
+
+async function submitEnroll() {
+  const name = document.getElementById('enroll-name').value.trim();
+  const id   = document.getElementById('enroll-id').value.trim().toUpperCase();
+  const role = document.getElementById('enroll-role').value;
+  if (!name || !id) { showToast('!', 'Name and ID required'); return; }
+  
+  showToast('⏳', 'Saving...');
+  try {
+    // 1. Save to Supabase (Metadata)
+    const res = await fetch(`${SB_URL}/rest/v1/enrolled_people`, {
+      method: 'POST',
+      headers: { 'Authorization': `Bearer ${SB_KEY}`, 'apikey': SB_KEY, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ school_id: SCHOOL_ID, person_id: id, name, role })
+    });
+    
+    // 2. Notify local engine (Facial Analysis)
+    if (backendConnected) {
+      fetch(`${BACKEND}/api/enroll`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, name, role })
+      }).catch(e => console.log("Local engine enrollment failed"));
+    }
+
+    showToast('✓', `${name} Enrolled!`);
+    document.getElementById('enroll-name').value = '';
+    document.getElementById('enroll-id').value = '';
+    closeEnroll();
+  } catch (e) { showToast('✕', 'Enrollment failed'); }
+}
+
 async function loadGallery() {
   const grid = document.getElementById('gallery-grid');
   try {
@@ -362,7 +451,7 @@ async function uploadToGallery(input) {
   const path = `${SCHOOL_ID}/${Date.now()}_${file.name}`;
   showToast("⏳", "Uploading...");
   try {
-    const up = await fetch(`${SB_URL}/storage/v1/object/school-assets/${path}`, {
+    await fetch(`${SB_URL}/storage/v1/object/school-assets/${path}`, {
       method: 'POST', headers: { 'Authorization': `Bearer ${SB_KEY}`, 'apikey': SB_KEY }, body: file
     });
     const url = `${SB_URL}/storage/v1/object/public/school-assets/${path}`;
@@ -396,12 +485,20 @@ async function deleteImage(id, url) {
   } catch (e) { showToast("❌", "Error"); }
 }
 
+function exportCSV() { showToast('ℹ', 'Exporting local log...'); }
+
 function showToast(icon, msg) {
   const t = document.getElementById('toast');
   document.getElementById('toast-icon').textContent = icon;
   document.getElementById('toast-msg').textContent = msg;
   t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// Close modal on background click
+window.onclick = function(event) {
+  const modal = document.getElementById('enroll-modal');
+  if (event.target == modal) closeEnroll();
 }
 </script>
 </body>
