@@ -102,6 +102,28 @@
 <body class="flex h-screen overflow-hidden">
   <div class="ambient-glow"></div>
 
+  <!-- VIEW: LOGIN (SECURE GATEWAY) -->
+  <div id="view-login" class="fixed inset-0 bg-velloq-navy z-[100] flex items-center justify-center p-6">
+      <div class="glass-card w-full max-w-md p-10 space-y-8">
+          <div class="text-center">
+              <h1 class="text-3xl font-black tracking-tighter text-velloq-blue">VELLOQ</h1>
+              <p id="login-tenant-label" class="text-[10px] uppercase tracking-[0.3em] text-white/30 mt-2">Secure Command Portal</p>
+          </div>
+          <div class="space-y-4">
+              <div class="space-y-2">
+                  <label class="text-[10px] uppercase tracking-widest text-white/40">Authorized Email</label>
+                  <input id="login-email" type="email" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-4 focus:outline-none focus:border-velloq-blue transition-all" placeholder="name@company.com">
+              </div>
+              <div class="space-y-2">
+                  <label class="text-[10px] uppercase tracking-widest text-white/40">Secure Access Token</label>
+                  <input id="login-pass" type="password" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-4 focus:outline-none focus:border-velloq-blue transition-all" placeholder="••••••••">
+              </div>
+              <button onclick="performSecureLogin()" class="w-full py-4 rounded-xl bg-velloq-blue font-bold text-xs uppercase tracking-widest shadow-[0_0_20px_rgba(37,99,235,0.2)] hover:scale-[1.02] active:scale-[0.98] transition-all">Authenticate Access</button>
+          </div>
+          <p class="text-center text-[9px] text-white/20 uppercase tracking-widest">Encrypted Velloq Handshake v4.1</p>
+      </div>
+  </div>
+
   <!-- SURGICAL SIDEBAR -->
   <aside class="w-64 border-r border-white/5 flex flex-col z-20 hidden lg:flex bg-velloq-navy/50 backdrop-blur-xl">
     <div class="p-8">
@@ -112,9 +134,17 @@
     </div>
 
     <nav class="flex-1 px-4 space-y-2 mt-4">
-      <div class="sidebar-item-active flex items-center space-x-3 px-4 py-3 rounded-lg cursor-pointer">
+      <div onclick="switchView('fleet')" id="nav-fleet" class="sidebar-item-active flex items-center space-x-3 px-4 py-3 rounded-lg cursor-pointer">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A2 2 0 013 15.382V6m0 0l5.447 2.724m0 0l5.447-2.724m0 0L21 8M9 20l6-3m0 0l5.447 2.724a2 2 0 001.553-1.276V5.382a2 2 0 00-1.053-1.789L15 2m0 5V2m0 5l6 3"/></svg>
         <span class="text-sm font-medium">Fleet Overview</span>
+      </div>
+      <div onclick="switchView('worksites')" id="nav-worksites" class="flex items-center space-x-3 px-4 py-3 rounded-lg cursor-pointer text-white/40 hover:text-white transition-colors">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+        <span class="text-sm font-medium">Worksite Management</span>
+      </div>
+      <div onclick="switchView('personnel')" id="nav-personnel" class="flex items-center space-x-3 px-4 py-3 rounded-lg cursor-pointer text-white/40 hover:text-white transition-colors">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+        <span class="text-sm font-medium">Personnel Management</span>
       </div>
       <div class="flex items-center space-x-3 px-4 py-3 rounded-lg cursor-pointer text-white/40 hover:text-white transition-colors">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
@@ -158,7 +188,7 @@
     </header>
 
     <!-- CONTENT GRID -->
-    <div class="flex-1 overflow-y-auto p-8 space-y-8 pb-24">
+    <div id="view-fleet" class="flex-1 overflow-y-auto p-8 space-y-8 pb-24">
       
       <!-- ACE ANALYTICS -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -251,6 +281,227 @@
         </div>
       </div>
     </div>
+
+    <!-- WORKSITE MANAGEMENT VIEW -->
+    <div id="view-worksites" class="flex-1 overflow-y-auto p-8 space-y-8 pb-24 hidden">
+      <div class="flex justify-between items-end">
+        <div>
+          <h2 class="text-3xl font-h1">Worksite Registry</h2>
+          <p class="text-white/40 text-sm">Define and manage geofenced contract locations</p>
+        </div>
+        <button onclick="toggleWorksiteModal()" class="px-6 py-3 bg-velloq-blue rounded-xl font-bold text-sm shadow-[0_0_20px_rgba(37,99,235,0.3)] hover:scale-105 transition-all">
+          + ADD NEW WORKSITE
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div class="lg:col-span-2 glass-card p-8">
+          <table class="w-full text-left">
+            <thead>
+              <tr class="text-[10px] font-bold uppercase tracking-widest text-white/30 border-b border-white/5">
+                <th class="pb-4">Location Name</th>
+                <th class="pb-4">Coordinates</th>
+                <th class="pb-4">Radius</th>
+                <th class="pb-4 text-right">Status</th>
+              </tr>
+            </thead>
+            <tbody id="worksite-list" class="text-sm">
+              <!-- WORKSITES INJECTED HERE -->
+            </tbody>
+          </table>
+        </div>
+
+        <div class="glass-card p-6 bg-white/5 border-velloq-blue/20">
+          <h4 class="text-xs font-bold uppercase tracking-widest text-velloq-blue mb-4">Geofence Intelligence</h4>
+          <p class="text-sm text-white/60 leading-relaxed">
+            Worksites define the "Digital Tether." When an asset enters this zone, Velloq automatically initiates high-fidelity tracking. If an asset leaves while "On-Duty," an alert is instantly relayed to the Monitor Wall.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ADD WORKSITE MODAL -->
+    <div id="worksite-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-6 z-50">
+        <div class="glass-card w-full max-w-md p-8 bg-velloq-navy">
+            <h3 class="text-xl font-h1 mb-6">Register New Worksite</h3>
+            
+            <div class="space-y-4">
+              <div>
+                <label class="text-[10px] font-bold uppercase text-white/40 mb-1 block">Site Name</label>
+                <input id="site-name" type="text" placeholder="e.g. Anand Supermarket" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-velloq-blue transition-all">
+              </div>
+
+              <div class="grid grid-cols-2 gap-4">
+                <div>
+                  <label class="text-[10px] font-bold uppercase text-white/40 mb-1 block">Latitude</label>
+                  <input id="site-lat" type="text" placeholder="10.1234" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-velloq-blue transition-all">
+                </div>
+                <div>
+                  <label class="text-[10px] font-bold uppercase text-white/40 mb-1 block">Longitude</label>
+                  <input id="site-lng" type="text" placeholder="-61.5678" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-velloq-blue transition-all">
+                </div>
+              </div>
+
+              <button onclick="captureCurrentLocation()" class="w-full py-3 rounded-xl bg-white/5 border border-white/10 text-xs font-bold hover:bg-velloq-blue/20 transition-all flex items-center justify-center space-x-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                <span>CAPTURE CURRENT LOCATION (OPTION 2)</span>
+              </button>
+
+              <div>
+                <label class="text-[10px] font-bold uppercase text-white/40 mb-1 block">Radius (Meters)</label>
+                <input id="site-radius" type="number" value="150" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-velloq-blue transition-all">
+              </div>
+
+              <div class="flex space-x-3 pt-4">
+                  <button onclick="toggleWorksiteModal()" class="flex-1 py-3 rounded-xl bg-white/5 font-bold text-xs uppercase tracking-widest">Cancel</button>
+                  <button onclick="saveWorksite()" class="flex-1 py-3 rounded-xl bg-velloq-blue font-bold text-xs uppercase tracking-widest shadow-[0_0_20px_rgba(37,99,235,0.3)]">Save Site</button>
+              </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- VIEW: PERSONNEL MANAGEMENT -->
+    <div id="view-personnel" class="hidden flex-1 overflow-y-auto p-8 space-y-8 pb-24">
+        <div class="flex items-center justify-between">
+            <h2 class="text-3xl font-h1">Personnel Management</h2>
+            <button id="admin-only-add-personnel" onclick="togglePersonnelModal()" class="px-6 py-3 rounded-xl bg-velloq-blue font-bold text-xs uppercase tracking-widest hover:scale-105 transition-all hidden">Register New Employee</button>
+        </div>
+
+        <div class="glass-card overflow-hidden">
+            <table class="w-full text-left">
+                <thead class="bg-white/5 text-[10px] uppercase tracking-[0.2em] text-white/40">
+                    <tr>
+                        <th class="px-6 py-4">Employee Name</th>
+                        <th class="px-6 py-4">Email / ID</th>
+                        <th class="px-6 py-4">Access Level</th>
+                        <th class="px-6 py-4">Status</th>
+                        <th class="px-6 py-4 text-right">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="personnel-list">
+                    <!-- Personnel injected here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- MODAL: REGISTER PERSONNEL -->
+    <div id="personnel-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-6 z-[60]">
+        <div class="glass-card w-full max-w-4xl p-8 space-y-6 max-h-[90vh] overflow-y-auto">
+            <div class="flex items-center justify-between">
+                <h3 class="text-2xl font-h1">Register New Personnel</h3>
+                <div class="flex space-x-2">
+                    <button onclick="switchModalTab('personal')" id="tab-btn-personal" class="px-4 py-2 rounded-lg bg-velloq-blue text-[10px] font-bold uppercase tracking-widest">Personal</button>
+                    <button onclick="switchModalTab('legal')" id="tab-btn-legal" class="px-4 py-2 rounded-lg bg-white/5 text-[10px] font-bold uppercase tracking-widest text-white/40">Government</button>
+                    <button onclick="switchModalTab('professional')" id="tab-btn-professional" class="px-4 py-2 rounded-lg bg-white/5 text-[10px] font-bold uppercase tracking-widest text-white/40">Professional</button>
+                </div>
+            </div>
+
+            <div id="modal-tab-personal" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label class="text-[10px] uppercase tracking-widest text-white/40 block mb-2">Full Name</label>
+                    <input id="p-name" type="text" placeholder="John Doe" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-velloq-blue transition-all">
+                </div>
+                <div>
+                    <label class="text-[10px] uppercase tracking-widest text-white/40 block mb-2">Email Address</label>
+                    <input id="p-email" type="email" placeholder="john@company.com" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-velloq-blue transition-all">
+                </div>
+                <div>
+                    <label class="text-[10px] uppercase tracking-widest text-white/40 block mb-2">Phone Number</label>
+                    <input id="p-phone" type="text" placeholder="+1 (868) ..." class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-velloq-blue transition-all">
+                </div>
+                <div>
+                    <label class="text-[10px] uppercase tracking-widest text-white/40 block mb-2">Residential Address</label>
+                    <input id="p-address" type="text" placeholder="Full Home Address" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-velloq-blue transition-all">
+                </div>
+                <div class="col-span-2">
+                    <label class="text-[10px] uppercase tracking-widest text-white/40 block mb-2">Home Coordinates (Privacy Logic Center)</label>
+                    <div class="flex space-x-2">
+                        <input id="p-home-coords" type="text" placeholder="Lat, Lng (e.g. 10.1, -61.2)" class="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-velloq-blue transition-all">
+                        <button onclick="captureHomeCoords()" class="px-4 py-2 rounded-xl bg-white/5 text-[10px] font-bold">DETECT CURRENT</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="modal-tab-legal" class="hidden grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label class="text-[10px] uppercase tracking-widest text-white/40 block mb-2">BIR Number</label>
+                    <input id="p-bir" type="text" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-velloq-blue transition-all">
+                </div>
+                <div>
+                    <label class="text-[10px] uppercase tracking-widest text-white/40 block mb-2">NIS Number</label>
+                    <input id="p-nis" type="text" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-velloq-blue transition-all">
+                </div>
+                <div>
+                    <label class="text-[10px] uppercase tracking-widest text-white/40 block mb-2">National ID / Passport</label>
+                    <input id="p-id" type="text" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-velloq-blue transition-all">
+                </div>
+                <div>
+                    <label class="text-[10px] uppercase tracking-widest text-white/40 block mb-2">Driver's License Number</label>
+                    <input id="p-license" type="text" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-velloq-blue transition-all">
+                </div>
+            </div>
+
+            <div id="modal-tab-professional" class="hidden grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label class="text-[10px] uppercase tracking-widest text-white/40 block mb-2">Rank / Position</label>
+                    <input id="p-rank" type="text" placeholder="e.g. Senior Officer" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-velloq-blue transition-all">
+                </div>
+                <div>
+                    <label class="text-[10px] uppercase tracking-widest text-white/40 block mb-2">Pay Rate</label>
+                    <input id="p-pay" type="text" placeholder="e.g. $45/hr" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-velloq-blue transition-all">
+                </div>
+                <div>
+                    <label class="text-[10px] uppercase tracking-widest text-white/40 block mb-2">Date Hired</label>
+                    <input id="p-hired" type="date" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-velloq-blue transition-all">
+                </div>
+                <div>
+                    <label class="text-[10px] uppercase tracking-widest text-white/40 block mb-2">Dashboard Access</label>
+                    <select id="p-access" class="w-full bg-velloq-navy border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-velloq-blue transition-all text-white">
+                        <option value="LINK">Velloq Link (Employee)</option>
+                        <option value="MONITOR">Monitor Wall (Dispatcher)</option>
+                        <option value="ADMIN">Command Center (Admin)</option>
+                    </select>
+                </div>
+                <!-- Granular Permissions Checklist (Only for Admin/Monitor) -->
+                <div id="granular-permissions" class="col-span-2 glass-card bg-white/5 p-4 border-velloq-blue/10 space-y-3">
+                    <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-velloq-sky mb-2">Delegated Authority Checklist</p>
+                    <div class="grid grid-cols-2 gap-3">
+                        <label class="flex items-center space-x-3 text-xs text-white/60 cursor-pointer">
+                            <input type="checkbox" id="perm-personnel" class="w-4 h-4 rounded border-white/10 bg-white/5 text-velloq-blue focus:ring-velloq-blue">
+                            <span>Manage Personnel (Hire/Fire)</span>
+                        </label>
+                        <label class="flex items-center space-x-3 text-xs text-white/60 cursor-pointer">
+                            <input type="checkbox" id="perm-fleet" class="w-4 h-4 rounded border-white/10 bg-white/5 text-velloq-blue focus:ring-velloq-blue">
+                            <span>Manage Fleet (Edit Vehicles)</span>
+                        </label>
+                        <label class="flex items-center space-x-3 text-xs text-white/60 cursor-pointer">
+                            <input type="checkbox" id="perm-maps" class="w-4 h-4 rounded border-white/10 bg-white/5 text-velloq-blue focus:ring-velloq-blue" checked>
+                            <span>View Live Maps</span>
+                        </label>
+                        <label class="flex items-center space-x-3 text-xs text-white/60 cursor-pointer">
+                            <input type="checkbox" id="perm-financials" class="w-4 h-4 rounded border-white/10 bg-white/5 text-velloq-blue focus:ring-velloq-blue">
+                            <span>View Financials / Contracts</span>
+                        </label>
+                        <label class="flex items-center space-x-3 text-xs text-white/60 cursor-pointer">
+                            <input type="checkbox" id="perm-privacy" class="w-4 h-4 rounded border-white/10 bg-white/5 text-velloq-blue focus:ring-velloq-blue">
+                            <span>Adjust Privacy Zones (Master Only)</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="col-span-2 grid grid-cols-2 gap-4 border-t border-white/5 pt-4">
+                    <div class="col-span-2"><p class="text-[10px] font-bold uppercase tracking-widest text-velloq-sky">Emergency Contact</p></div>
+                    <input id="p-emergency-name" type="text" placeholder="Contact Name" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-velloq-blue transition-all">
+                    <input id="p-emergency-phone" type="text" placeholder="Contact Phone" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-velloq-blue transition-all">
+                </div>
+            </div>
+
+            <div class="flex space-x-4 pt-4">
+                <button onclick="togglePersonnelModal()" class="flex-1 py-3 rounded-xl bg-white/5 font-bold text-xs uppercase tracking-widest">Cancel</button>
+                <button onclick="savePersonnel()" class="flex-1 py-3 rounded-xl bg-velloq-blue font-bold text-xs uppercase tracking-widest shadow-[0_0_20px_rgba(37,99,235,0.3)]">Create Account</button>
+            </div>
+        </div>
+    </div>
   </main>
 
   <script>
@@ -260,16 +511,245 @@
       db: { schema: 'orcinos' }
     });
 
+    // Multi-Tenant Logic: Extract Client from URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const clientSlug = urlParams.get('client') || 'internal';
+    let currentUser = null;
+
+    async function performSecureLogin() {
+        const email = document.getElementById('login-email').value;
+        const pass = document.getElementById('login-pass').value;
+        
+        if (!email || !pass) return alert('Credentials Required');
+
+        // SECURITY HANDSHAKE: Validate Email, Password, and Tenant
+        const { data, error } = await _supabase
+            .from('v_personnel')
+            .select('*')
+            .eq('email', email)
+            .eq('temporary_password', pass)
+            .eq('tenant_slug', clientSlug)
+            .single();
+
+        if (error || !data) {
+            alert('Access Denied: Invalid Credentials or Unauthorized for this Command Center.');
+            return;
+        }
+
+        // ROLE CHECK: Ensure they have Admin or Monitor access to enter the Dashboard
+        if (data.dashboard_access !== 'ADMIN' && data.dashboard_access !== 'MONITOR') {
+            alert('Access Denied: You do not have Dashboard clearance.');
+            return;
+        }
+
+        currentUser = data;
+        
+        // ADMIN-ONLY UI ENFORCEMENT
+        if (currentUser.dashboard_access === 'ADMIN') {
+            document.querySelectorAll('.admin-ui').forEach(el => el.classList.remove('hidden'));
+            const addPersBtn = document.getElementById('admin-only-add-personnel');
+            if (addPersBtn) addPersBtn.classList.remove('hidden');
+        }
+
+        document.getElementById('view-login').classList.add('hidden');
+        initFleetSync();
+        console.log(`[Velloq] Secure Handshake Success: ${currentUser.full_name} authenticated for ${clientSlug}`);
+    }
+
+    // UI remains standard VELLOQ for all clients
+    document.addEventListener('DOMContentLoaded', () => {
+        // Branding remains fixed as VELLOQ
+    });
+
     async function initFleetSync() {
       document.getElementById('sierra-status').innerText = 'Syncing...';
-      const { data: assets } = await _supabase.from('v_assets').select('*');
+      const { data: assets } = await _supabase.from('v_assets').select('*').eq('tenant_slug', clientSlug);
       if (assets) {
         document.getElementById('active-count').innerText = assets.length + ' ONLINE';
         renderAssets(assets);
         document.getElementById('sierra-status').innerText = 'Live Feed Active';
         document.getElementById('sierra-status').classList.replace('text-velloq-blue', 'text-green-400');
       }
+      
+      // Load Worksites
+      loadWorksites();
+
       _supabase.channel('fleet-telemetry').on('postgres_changes', { event: 'INSERT', schema: 'orcinos', table: 'v_telemetry' }, p => updateUI(p.new)).subscribe();
+    }
+
+    function switchView(view) {
+      document.getElementById('view-fleet').classList.add('hidden');
+      document.getElementById('view-worksites').classList.add('hidden');
+      document.getElementById('view-personnel').classList.add('hidden');
+      document.getElementById('nav-fleet').classList.remove('sidebar-item-active');
+      document.getElementById('nav-worksites').classList.remove('sidebar-item-active');
+      document.getElementById('nav-personnel').classList.remove('sidebar-item-active');
+      document.getElementById('nav-fleet').classList.add('text-white/40');
+      document.getElementById('nav-worksites').classList.add('text-white/40');
+      document.getElementById('nav-personnel').classList.add('text-white/40');
+
+      document.getElementById('view-' + view).classList.remove('hidden');
+      document.getElementById('nav-' + view).classList.add('sidebar-item-active');
+      document.getElementById('nav-' + view).classList.remove('text-white/40');
+      
+      if (view === 'personnel') loadPersonnel();
+    }
+
+    async function loadPersonnel() {
+      const { data: people } = await _supabase.from('v_personnel').select('*').eq('tenant_slug', clientSlug);
+      if (people) {
+        document.getElementById('personnel-list').innerHTML = people.map(p => `
+          <tr class="border-b border-white/5 hover:bg-white/5 transition-colors">
+            <td class="py-4 font-bold text-white">${p.full_name || 'Unnamed Employee'}</td>
+            <td class="py-4 font-mono text-white/40">${p.email}</td>
+            <td class="py-4">
+              <span class="px-2 py-1 rounded-full bg-blue-500/10 text-velloq-blue text-[10px] font-bold">${p.dashboard_access}</span>
+            </td>
+            <td class="py-4">
+              <span class="flex items-center space-x-2">
+                <span class="w-2 h-2 rounded-full ${p.is_on_duty ? 'bg-green-500' : 'bg-white/20'}"></span>
+                <span class="text-xs ${p.is_on_duty ? 'text-green-400' : 'text-white/40'}">${p.is_on_duty ? 'ON-DUTY' : 'OFF-LINE'}</span>
+              </span>
+            </td>
+            <td class="py-4 text-right">
+              <button onclick="deletePersonnel('${p.id}')" class="p-2 hover:bg-red-500/10 rounded-lg text-red-400/40 hover:text-red-400 transition-all">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+              </button>
+            </td>
+          </tr>
+        `).join('');
+      }
+    }
+
+    function switchModalTab(tab) {
+      ['personal', 'legal', 'professional'].forEach(t => {
+        document.getElementById('modal-tab-' + t).classList.add('hidden');
+        document.getElementById('tab-btn-' + t).classList.replace('bg-velloq-blue', 'bg-white/5');
+        document.getElementById('tab-btn-' + t).classList.replace('text-white', 'text-white/40');
+      });
+      document.getElementById('modal-tab-' + tab).classList.remove('hidden');
+      document.getElementById('tab-btn-' + tab).classList.replace('bg-white/5', 'bg-velloq-blue');
+      document.getElementById('tab-btn-' + tab).classList.replace('text-white/40', 'text-white');
+    }
+
+    function captureHomeCoords() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((pos) => {
+          document.getElementById('p-home-coords').value = pos.coords.latitude.toFixed(6) + ', ' + pos.coords.longitude.toFixed(6);
+        });
+      }
+    }
+
+    async function savePersonnel() {
+      const payload = {
+        tenant_slug: clientSlug,
+        full_name: document.getElementById('p-name').value,
+        email: document.getElementById('p-email').value,
+        phone_number: document.getElementById('p-phone').value,
+        address: document.getElementById('p-address').value,
+        home_coords: document.getElementById('p-home-coords').value,
+        bir_number: document.getElementById('p-bir').value,
+        nis_number: document.getElementById('p-nis').value,
+        id_number: document.getElementById('p-id').value,
+        drivers_license_number: document.getElementById('p-license').value,
+        rank: document.getElementById('p-rank').value,
+        payrate: document.getElementById('p-pay').value,
+        date_hired: document.getElementById('p-hired').value,
+        emergency_contact_name: document.getElementById('p-emergency-name').value,
+        emergency_contact_phone: document.getElementById('p-emergency-phone').value,
+        dashboard_access: document.getElementById('p-access').value,
+        temporary_password: Math.random().toString(36).slice(-8)
+      };
+
+      if (!payload.full_name || !payload.email) return alert('Please fill in Name and Email');
+
+      const { error } = await _supabase.from('v_personnel').insert([payload]);
+
+      if (error) {
+        alert('Error: ' + error.message);
+      } else {
+        _supabase.from('v_notifications').insert([{
+          type: 'PERSONNEL_REGISTERED',
+          message: `[Velloq Intelligence] Account Created for ${payload.full_name}. Level: ${payload.dashboard_access}. HR File initialized.`,
+          recipient_group: 'ADMINS'
+        }]);
+
+        togglePersonnelModal();
+        loadPersonnel();
+        alert(`Account Created.\n\nTemp Password: ${payload.temporary_password}\n\nLink to Velloq: https://priscadezigns.org/velloq/app/link.html`);
+      }
+    }
+
+    async function deletePersonnel(id) {
+        if (!confirm('Are you sure? This will revoke all dashboard access for this employee.')) return;
+        const { error } = await _supabase.from('v_personnel').delete().eq('id', id);
+        if (error) alert(error.message);
+        else loadPersonnel();
+    }
+
+    async function loadWorksites() {
+      const { data: sites } = await _supabase.from('v_worksites').select('*').eq('tenant_slug', clientSlug);
+      if (sites) {
+        document.getElementById('worksite-list').innerHTML = sites.map(s => `
+          <tr class="border-b border-white/5 hover:bg-white/5 transition-colors">
+            <td class="py-4 font-bold text-white">${s.site_name}</td>
+            <td class="py-4 font-mono text-white/40">${s.latitude}, ${s.longitude}</td>
+            <td class="py-4">${s.radius}m</td>
+            <td class="py-4 text-right">
+              <span class="px-2 py-1 rounded-full bg-green-500/10 text-green-400 text-[10px] font-bold">MONITORED</span>
+            </td>
+          </tr>
+        `).join('');
+      }
+    }
+
+    function toggleWorksiteModal() {
+      document.getElementById('worksite-modal').classList.toggle('hidden');
+    }
+
+    function captureCurrentLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((pos) => {
+          document.getElementById('site-lat').value = pos.coords.latitude.toFixed(6);
+          document.getElementById('site-lng').value = pos.coords.longitude.toFixed(6);
+        }, (err) => {
+          alert('Location access denied. Please enter coordinates manually.');
+        });
+      } else {
+        alert('Geolocation is not supported by this browser.');
+      }
+    }
+
+    async function saveWorksite() {
+      const site_name = document.getElementById('site-name').value;
+      const latitude = document.getElementById('site-lat').value;
+      const longitude = document.getElementById('site-lng').value;
+      const radius = document.getElementById('site-radius').value;
+
+      if (!site_name || !latitude || !longitude) return alert('Please fill in all fields');
+
+      const { error } = await _supabase.from('v_worksites').insert([
+        { tenant_slug: clientSlug, site_name, latitude, longitude, radius: parseInt(radius) }
+      ]);
+
+      if (error) {
+        alert('Error saving site: ' + error.message);
+      } else {
+        // WhatsApp Relay for Business Managers
+        console.log('Worksite Saved. Dispatching Sierra Notification...');
+        _supabase.from('v_notifications').insert([{
+          type: 'WORKSITE_REGISTERED',
+          message: `[Velloq Intelligence] New Worksite Registered: ${site_name}. Geofencing (Radius: ${radius}m) is now ACTIVE for this node.`,
+          recipient_group: 'MANAGERS'
+        }]);
+
+        toggleWorksiteModal();
+        loadWorksites();
+        // Clear form
+        document.getElementById('site-name').value = '';
+        document.getElementById('site-lat').value = '';
+        document.getElementById('site-lng').value = '';
+      }
     }
 
     function renderAssets(assets) {
