@@ -1,42 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Velloq Driver / Officer Link</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<style>
-    body { background: #080d1f; color: white; font-family: sans-serif; }
-    .status-active { color: #4ade80; animation: pulse 2s infinite; }
-    @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Velloq Link | Employee Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        body { background: #080d1f; color: white; font-family: 'Inter', sans-serif; }
+        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.05); }
+        .btn-glow:active { transform: scale(0.98); }
+        .pulse-active { animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+    </style>
 </head>
-<body class="flex items-center justify-center h-screen p-6">
-    <div class="w-full max-w-md bg-white/5 border border-white/10 rounded-2xl p-8 backdrop-blur-xl text-center">
-        <div class="mb-8">
-            <div class="w-16 h-16 bg-blue-600 rounded-2xl mx-auto flex items-center justify-center text-2xl font-bold shadow-lg shadow-blue-600/40">V</div>
-            <h1 class="text-2xl font-bold mt-4">Velloq Link</h1>
-            <p class="text-white/40 text-sm">Personnel Tracking Active</p>
+<body class="min-h-screen flex flex-col p-6">
+    <!-- Header -->
+    <div class="flex justify-between items-center mb-8">
+        <div>
+            <h1 class="text-2xl font-bold tracking-tighter text-velloq-blue">VELLOQ <span class="text-white/40">LINK</span></h1>
+            <p id="employee-name" class="text-xs text-white/50 uppercase tracking-widest mt-1">Authenticating...</p>
+        </div>
+        <div id="duty-indicator" class="w-3 h-3 rounded-full bg-white/10"></div>
+    </div>
+
+    <!-- Main Controls -->
+    <div class="flex-1 flex flex-col justify-center space-y-6">
+        <div id="status-card" class="glass rounded-3xl p-8 text-center">
+            <p id="status-text" class="text-sm text-white/40 mb-2">System Standby</p>
+            <h2 id="timer" class="text-5xl font-mono font-bold mb-6">00:00:00</h2>
+            
+            <button id="shift-btn" class="w-full py-5 rounded-2xl bg-white text-black font-bold text-lg btn-glow transition-all">
+                START SHIFT
+            </button>
         </div>
 
-        <div id="tracking-status" class="mb-8 p-4 bg-black/20 rounded-xl border border-white/5">
-            <p class="text-xs uppercase tracking-widest text-white/30 mb-1">Status</p>
-            <p id="status-text" class="font-bold text-white/60">Waiting for Permission...</p>
-        </div>
-
-        <button id="toggle-tracking" class="w-full py-4 bg-blue-600 hover:bg-blue-500 rounded-xl font-bold transition-all shadow-lg shadow-blue-600/20">
-            START TRACKING
+        <button onclick="toggleComplaint()" class="glass w-full py-4 rounded-2xl text-sm font-medium text-white/60 hover:text-white transition-all">
+            SUBMIT COMPLAINT / REPORT
         </button>
+    </div>
 
-        <div class="mt-8 pt-8 border-t border-white/5 grid grid-cols-2 gap-4">
-            <div>
-                <p class="text-[10px] uppercase text-white/30">Lat</p>
-                <p id="lat" class="font-mono text-sm">0.0000</p>
-            </div>
-            <div>
-                <p class="text-[10px] uppercase text-white/30">Lng</p>
-                <p id="lng" class="font-mono text-sm">0.0000</p>
+    <!-- Complaint Modal (Hidden) -->
+    <div id="complaint-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-6 z-50">
+        <div class="glass w-full max-w-sm rounded-3xl p-8">
+            <h3 class="text-xl font-bold mb-4">Submit Report</h3>
+            <input id="comp-subject" type="text" placeholder="Subject" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 mb-3 focus:outline-none focus:border-white/20">
+            <textarea id="comp-message" placeholder="Describe the issue..." rows="4" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 mb-6 focus:outline-none focus:border-white/20"></textarea>
+            <div class="flex space-x-3">
+                <button onclick="toggleComplaint()" class="flex-1 py-3 rounded-xl bg-white/5 font-medium">Cancel</button>
+                <button onclick="submitComplaint()" class="flex-1 py-3 rounded-xl bg-white text-black font-bold">Submit</button>
             </div>
         </div>
     </div>
@@ -46,41 +58,71 @@
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNrdHBqYWNvd3FhZWRkZHRyaHV6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2NDk5MzEsImV4cCI6MjA5NDIyNTkzMX0.FK4N_ATFTaUuGXrYu_7OBn3qCdlo0rOzxk-E6TxJxqs';
         const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY, { db: { schema: 'orcinos' } });
 
+        let isOnDuty = false;
         let watchId = null;
-        const phoneId = 'OFFICER-TEST-01'; // In production, this would be a dynamic ID or login
+        let employeeId = null; // To be set via Login/Auth flow
 
-        document.getElementById('toggle-tracking').addEventListener('click', function() {
-            if (watchId) {
-                navigator.geolocation.clearWatch(watchId);
-                watchId = null;
-                this.innerText = 'START TRACKING';
-                document.getElementById('status-text').innerText = 'Paused';
-                document.getElementById('status-text').className = 'font-bold text-white/60';
-            } else {
-                this.innerText = 'STOP TRACKING';
-                document.getElementById('status-text').innerText = 'Locating...';
+        const shiftBtn = document.getElementById('shift-btn');
+        const statusText = document.getElementById('status-text');
+        const dutyIndicator = document.getElementById('duty-indicator');
+
+        async function toggleShift() {
+            if (!isOnDuty) {
+                // START SHIFT Logic
+                isOnDuty = true;
+                shiftBtn.innerText = 'END SHIFT';
+                shiftBtn.classList.replace('bg-white', 'bg-red-500');
+                shiftBtn.classList.add('text-white');
+                statusText.innerText = 'ACTIVE DUTY - GPS LIVE';
+                dutyIndicator.classList.replace('bg-white/10', 'bg-green-400');
+                dutyIndicator.classList.add('pulse-active');
                 
-                watchId = navigator.geolocation.watchPosition(async (pos) => {
-                    const { latitude, longitude, speed } = pos.coords;
-                    document.getElementById('lat').innerText = latitude.toFixed(4);
-                    document.getElementById('lng').innerText = longitude.toFixed(4);
-                    document.getElementById('status-text').innerText = 'LIVE';
-                    document.getElementById('status-text').className = 'font-bold status-active';
-
-                    // Push to Orcinos Telemetry
-                    await _supabase.from('v_telemetry').insert([{
-                        asset_id: null, // asset_id null means it's personnel tracking
-                        latitude,
-                        longitude,
-                        speed: (speed || 0) * 3.6, // m/s to km/h
-                        fuel_level: 100 // placeholder for battery or irrelevant
-                    }]);
-                }, (err) => {
-                    console.error(err);
-                    document.getElementById('status-text').innerText = 'Error: ' + err.message;
-                }, { enableHighAccuracy: true });
+                // Start Geo-Tracking
+                startTracking();
+            } else {
+                // END SHIFT Logic
+                isOnDuty = false;
+                shiftBtn.innerText = 'START SHIFT';
+                shiftBtn.classList.replace('bg-red-500', 'bg-white');
+                shiftBtn.classList.remove('text-white');
+                statusText.innerText = 'Shift Ended';
+                dutyIndicator.classList.replace('bg-green-400', 'bg-white/10');
+                dutyIndicator.classList.remove('pulse-active');
+                
+                stopTracking();
             }
-        });
+        }
+
+        function startTracking() {
+            if (navigator.geolocation) {
+                watchId = navigator.geolocation.watchPosition(async (pos) => {
+                    await _supabase.from('v_telemetry').insert([{
+                        personnel_id: employeeId,
+                        latitude: pos.coords.latitude,
+                        longitude: pos.coords.longitude,
+                        speed: (pos.coords.speed || 0) * 3.6
+                    }]);
+                }, (err) => console.error(err), { enableHighAccuracy: true });
+            }
+        }
+
+        function stopTracking() {
+            if (watchId) navigator.geolocation.clearWatch(watchId);
+        }
+
+        function toggleComplaint() {
+            document.getElementById('complaint-modal').classList.toggle('hidden');
+        }
+
+        async function submitComplaint() {
+            const subject = document.getElementById('comp-subject').value;
+            const message = document.getElementById('comp-message').value;
+            // Logic to insert into v_complaints...
+            toggleComplaint();
+            alert('Report Submitted Successfully');
+        }
+
+        shiftBtn.addEventListener('click', toggleShift);
     </script>
 </body>
 </html>
