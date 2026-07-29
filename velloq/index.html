@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Velloq | Fleet Intelligence</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        'velloq-blue': '#2563eb',
+        'velloq-navy': '#080d1f',
+        'velloq-white': '#ffffff',
+      }
+    }
+  }
+}
+</script>
+<style>
+  body { background: #080d1f; color: white; font-family: sans-serif; }
+  .glass { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
+</style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-center p-10">
+  <div class="max-w-4xl w-full space-y-10 text-center">
+    <div class="flex flex-col items-center gap-6">
+      <img src="https://priscadezigns.org/vela/vela_logo.png" alt="Velloq" class="h-24 w-24 rounded-2xl shadow-[0_0_30px_rgba(37,99,235,0.4)]">
+      <h1 class="text-7xl font-bold tracking-tighter">Velloq</h1>
+      <p class="text-2xl text-blue-400 font-light italic">Fleet Intelligence for the Caribbean.</p>
+    </div>
+    
+    <div class="grid md:grid-cols-3 gap-6">
+      <div class="glass p-8 rounded-3xl">
+        <h3 class="text-xl font-bold mb-4">Direct Data</h3>
+        <p class="text-white/50 text-sm">You own your data. No lock-in.</p>
+      </div>
+      <div class="glass p-8 rounded-3xl">
+        <h3 class="text-xl font-bold mb-4">Privacy-First</h3>
+        <p class="text-white/50 text-sm">200m GPS-Kill rule for homes.</p>
+      </div>
+      <div class="glass p-8 rounded-3xl">
+        <h3 class="text-xl font-bold mb-4">Sierra Link</h3>
+        <p class="text-white/50 text-sm">WhatsApp command center.</p>
+      </div>
+    </div>
+
+    <a href="./app/" class="inline-block bg-blue-600 text-white px-12 py-5 rounded-2xl text-xl font-bold shadow-xl shadow-blue-600/30">Launch Dashboard</a>
+  </div>
+</body>
+</html>
