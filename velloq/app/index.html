@@ -4,7 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Velloq Intelligence — Geotab-Killer Dashboard</title>
-<!-- Zapia [Claude] Build: velloq/app/index.html | Velloq Blue & White Edition v3.0 -->
+<!-- Zapia [Claude] Build: velloq/app/index.html | Velloq Blue & White Edition v4.1 (Live Backend) -->
+
+<!-- Supabase SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,23 +17,23 @@
 <!-- Tailwind CDN -->
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
-tailwind.config = {
-  theme: {
-    extend: {
-      fontFamily: {
-        'h1': ['DM Serif Display', 'serif'],
-        'body': ['Urbanist', 'sans-serif'],
-        'ui': ['Urbanist', 'sans-serif'],
-      },
-      colors: {
-        'velloq-blue': '#2563eb',
-        'velloq-sky': '#60a5fa',
-        'velloq-navy': '#080d1f',
-        'velloq-white': '#ffffff',
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          'h1': ['DM Serif Display', 'serif'],
+          'body': ['Urbanist', 'sans-serif'],
+          'ui': ['Urbanist', 'sans-serif'],
+        },
+        colors: {
+          'velloq-blue': '#2563eb',
+          'velloq-sky': '#60a5fa',
+          'velloq-navy': '#080d1f',
+          'velloq-white': '#ffffff',
+        }
       }
     }
   }
-}
 </script>
 
 <style>
@@ -119,7 +122,7 @@ tailwind.config = {
       </div>
       <div class="flex items-center space-x-3 px-4 py-3 rounded-lg cursor-pointer text-white/40 hover:text-white transition-colors">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-        <span class="text-sm font-medium">Analytics Engine</span>
+        <span class="text-sm font-medium">Collision Analytics</span>
       </div>
       <div class="flex items-center space-x-3 px-4 py-3 rounded-lg cursor-pointer text-white/40 hover:text-white transition-colors">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
@@ -132,7 +135,7 @@ tailwind.config = {
         <div class="w-8 h-8 rounded-full bg-velloq-blue/20 flex items-center justify-center text-velloq-blue font-bold text-xs">PD</div>
         <div>
           <p class="text-xs font-bold uppercase tracking-widest text-white/60">Sovereign Link</p>
-          <p class="text-[10px] text-velloq-blue font-medium">Connected to Sierra</p>
+          <p id="sierra-status" class="text-[10px] text-velloq-blue font-medium">Connecting...</p>
         </div>
       </div>
     </div>
@@ -157,24 +160,23 @@ tailwind.config = {
     <!-- CONTENT GRID -->
     <div class="flex-1 overflow-y-auto p-8 space-y-8 pb-24">
       
-      <!-- ACE ANALYTICS OVERLAY (Geotab-Killer Pattern) -->
+      <!-- ACE ANALYTICS -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <div class="glass-card p-6 group hover:border-velloq-blue/40 transition-all cursor-pointer overflow-hidden relative">
-          <div class="absolute -right-4 -top-4 w-24 h-24 bg-velloq-blue/5 rounded-full blur-2xl group-hover:bg-velloq-blue/10 transition-colors"></div>
           <p class="text-xs font-bold uppercase tracking-[0.2em] text-white/30 mb-2">Fleet Efficiency</p>
           <div class="flex items-end justify-between">
-            <h2 class="text-4xl metric-value">94.2<span class="text-xl">%</span></h2>
+            <h2 id="fleet-eff" class="text-4xl metric-value">94.2<span class="text-xl">%</span></h2>
             <div class="text-blue-400 text-xs font-bold bg-blue-400/10 px-2 py-1 rounded">+2.4%</div>
           </div>
           <div class="mt-4 h-1 w-full bg-white/5 rounded-full overflow-hidden">
-            <div class="h-full bg-velloq-blue w-[94%] shadow-[0_0_10px_rgba(37,99,235,0.5)]"></div>
+            <div id="eff-bar" class="h-full bg-velloq-blue w-[94%] shadow-[0_0_10px_rgba(37,99,235,0.5)] transition-all duration-1000"></div>
           </div>
         </div>
 
         <div class="glass-card p-6 group hover:border-velloq-blue/40 transition-all cursor-pointer overflow-hidden relative">
           <p class="text-xs font-bold uppercase tracking-[0.2em] text-white/30 mb-2">Risk Index</p>
           <div class="flex items-end justify-between">
-            <h2 class="text-4xl metric-value">12.8<span class="text-xl"> pts</span></h2>
+            <h2 id="risk-val" class="text-4xl metric-value">12.8<span class="text-xl"> pts</span></h2>
             <div class="text-green-400 text-xs font-bold bg-green-400/10 px-2 py-1 rounded">Low</div>
           </div>
           <div class="mt-4 flex space-x-1">
@@ -188,7 +190,7 @@ tailwind.config = {
         <div class="glass-card p-6 group hover:border-velloq-blue/40 transition-all cursor-pointer overflow-hidden relative">
           <p class="text-xs font-bold uppercase tracking-[0.2em] text-white/30 mb-2">Fuel Utilization</p>
           <div class="flex items-end justify-between">
-            <h2 class="text-4xl metric-value">860<span class="text-xl"> L</span></h2>
+            <h2 id="fuel-val" class="text-4xl metric-value">860<span class="text-xl"> L</span></h2>
             <p class="text-white/20 text-[10px] font-bold">Avg: 920L</p>
           </div>
           <div class="mt-4 flex items-center justify-between text-[10px] font-bold text-white/30">
@@ -214,81 +216,20 @@ tailwind.config = {
       <!-- MAIN DATA SPLIT -->
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
         
-        <!-- LIVE ASSET FEED (Professional Sidebar Style) -->
+        <!-- LIVE ASSET FEED -->
         <div class="lg:col-span-1 glass-card overflow-hidden flex flex-col">
           <div class="p-6 border-b border-white/5 bg-white/5 flex justify-between items-center">
             <h3 class="text-sm font-bold uppercase tracking-widest text-white/80">Active Assets</h3>
-            <span class="text-[10px] font-bold bg-white/10 px-2 py-0.5 rounded text-white/50">8 ONLINE</span>
+            <span id="active-count" class="text-[10px] font-bold bg-white/10 px-2 py-0.5 rounded text-white/50">0 ONLINE</span>
           </div>
-          <div class="p-2 space-y-1 overflow-y-auto max-h-[500px]">
-             
-            <!-- ASSET ITEM -->
-            <div class="p-4 rounded-xl hover:bg-white/5 border border-transparent hover:border-white/5 transition-all cursor-pointer group">
-               <div class="flex items-center justify-between">
-                 <div class="flex items-center space-x-3">
-                   <div class="w-10 h-10 rounded-lg bg-velloq-navy flex items-center justify-center border border-white/10 group-hover:border-velloq-blue/30 transition-colors">
-                     <svg class="w-6 h-6 text-white/40 group-hover:text-velloq-blue transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0"/></svg>
-                   </div>
-                   <div>
-                     <p class="text-sm font-bold">HILUX — HUB-01</p>
-                     <p class="text-[10px] text-white/30 uppercase tracking-tighter">Williamsville Route</p>
-                   </div>
-                 </div>
-                 <div class="text-right">
-                   <p class="text-xs font-bold text-green-400">MOVING</p>
-                   <p class="text-[10px] text-white/20">42 km/h</p>
-                 </div>
-               </div>
-            </div>
-
-            <!-- ASSET ITEM -->
-            <div class="p-4 rounded-xl hover:bg-white/5 border border-transparent hover:border-white/5 transition-all cursor-pointer group">
-               <div class="flex items-center justify-between">
-                 <div class="flex items-center space-x-3">
-                   <div class="w-10 h-10 rounded-lg bg-velloq-navy flex items-center justify-center border border-white/10 group-hover:border-velloq-blue/30 transition-colors">
-                     <svg class="w-6 h-6 text-white/40 group-hover:text-velloq-blue transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0"/></svg>
-                   </div>
-                   <div>
-                     <p class="text-sm font-bold">ACTROS — HUB-04</p>
-                     <p class="text-[10px] text-white/30 uppercase tracking-tighter">Princes Town Terminal</p>
-                   </div>
-                 </div>
-                 <div class="text-right">
-                   <p class="text-xs font-bold text-white/40">IDLING</p>
-                   <p class="text-[10px] text-white/20">08 mins</p>
-                 </div>
-               </div>
-            </div>
-
-            <!-- ASSET ITEM -->
-            <div class="p-4 rounded-xl hover:bg-white/5 border border-transparent hover:border-white/5 transition-all cursor-pointer group">
-               <div class="flex items-center justify-between">
-                 <div class="flex items-center space-x-3">
-                   <div class="w-10 h-10 rounded-lg bg-velloq-navy flex items-center justify-center border border-white/10 group-hover:border-velloq-blue/30 transition-colors">
-                     <svg class="w-6 h-6 text-white/40 group-hover:text-velloq-blue transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0"/></svg>
-                   </div>
-                   <div>
-                     <p class="text-sm font-bold">ISUZU — HUB-02</p>
-                     <p class="text-[10px] text-white/30 uppercase tracking-tighter">Point Fortin Link</p>
-                   </div>
-                 </div>
-                 <div class="text-right">
-                   <p class="text-xs font-bold text-red-400">ALARM</p>
-                   <p class="text-[10px] text-white/20">Engine Temp</p>
-                 </div>
-               </div>
-            </div>
-
-          </div>
-          <div class="mt-auto p-4 bg-white/5 border-t border-white/5">
-             <button class="w-full py-2 bg-velloq-blue hover:bg-blue-600 text-white text-[10px] font-bold uppercase tracking-widest rounded-lg transition-colors shadow-[0_4px_15px_rgba(37,99,235,0.3)]">View Full Inventory</button>
+          <div id="asset-list" class="p-2 space-y-1 overflow-y-auto max-h-[500px]">
+             <!-- ASSETS INJECTED VIA SUPABASE -->
           </div>
         </div>
 
-        <!-- LIVE MAP CONTAINER (High-Fidelity) -->
+        <!-- LIVE MAP -->
         <div class="lg:col-span-2 glass-card relative overflow-hidden h-[600px]">
-           <!-- Map Background Pattern -->
-           <div class="absolute inset-0 opacity-20 pointer-events-none" style="background-image: radial-gradient(#ffffff 1px, transparent 1px); background-size: 30px 30px;"></div>
+           <div id="map-overlay" class="absolute inset-0 opacity-20 pointer-events-none" style="background-image: radial-gradient(#ffffff 1px, transparent 1px); background-size: 30px 30px;"></div>
            
            <div class="absolute inset-0 p-8 flex flex-col">
               <div class="flex justify-between items-start z-10">
@@ -296,113 +237,58 @@ tailwind.config = {
                     <p class="text-[10px] font-bold text-white/40 uppercase mb-1">Current Node Focus</p>
                     <p class="text-sm font-bold">Sovereign Asset Tracking: TT</p>
                  </div>
-                 <div class="flex space-x-2">
-                    <div class="w-10 h-10 glass-card flex items-center justify-center cursor-pointer hover:bg-white/10 text-white/60"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/></svg></div>
-                    <div class="w-10 h-10 glass-card flex items-center justify-center cursor-pointer hover:bg-white/10 text-white/60"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"/></svg></div>
-                 </div>
               </div>
-
-              <!-- MOCK MAP PIN 1 (Williamsville) -->
-              <div class="absolute top-[40%] left-[30%] group cursor-pointer">
-                 <div class="w-4 h-4 bg-velloq-blue rounded-full status-pulse relative">
-                    <div class="absolute -top-12 -left-12 w-28 glass-card bg-velloq-navy/90 p-2 border-velloq-blue opacity-0 group-hover:opacity-100 transition-all scale-90 group-hover:scale-100">
-                       <p class="text-[8px] font-bold text-velloq-blue">HILUX HUB-01</p>
-                       <p class="text-[8px] text-white/60">Pos: 10.28, -61.45</p>
-                    </div>
-                 </div>
-              </div>
-
-              <!-- MOCK MAP PIN 2 (Supermarket Viewing) -->
-              <div class="absolute top-[55%] left-[45%] group cursor-pointer">
-                 <div class="w-4 h-4 bg-white rounded-full shadow-[0_0_15px_rgba(255,255,255,0.5)] relative border-2 border-velloq-blue">
-                    <div class="absolute -top-14 -left-16 w-36 glass-card bg-velloq-navy/90 p-2 border-white opacity-100 transition-all scale-100">
-                       <p class="text-[8px] font-bold text-white">M&A TARGET</p>
-                       <p class="text-[9px] text-white/80 font-bold">Williamsville Supermarket</p>
-                       <p class="text-[7px] text-white/40 uppercase">Viewing: Saturday</p>
-                    </div>
-                 </div>
-              </div>
-
+              <div id="map-pins" class="absolute inset-0 pointer-events-none"></div>
            </div>
 
-           <!-- Bottom Map Controls -->
-           <div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex space-x-2 z-10">
-              <div class="px-4 py-2 glass-card bg-velloq-navy/90 text-[10px] font-bold uppercase tracking-widest text-white/60 cursor-pointer hover:text-white border-velloq-blue/20">Satellite</div>
-              <div class="px-4 py-2 glass-card bg-velloq-blue text-[10px] font-bold uppercase tracking-widest text-white cursor-pointer shadow-[0_0_20px_rgba(37,99,235,0.4)]">Vector Intelligence</div>
-              <div class="px-4 py-2 glass-card bg-velloq-navy/90 text-[10px] font-bold uppercase tracking-widest text-white/60 cursor-pointer hover:text-white border-velloq-blue/20">Geofence</div>
-           </div>
-        </div>
-
-      </div>
-
-      <!-- SECONDARY DATA LAYER -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        
-        <!-- SIERRA AI COMMAND LOG -->
-        <div class="glass-card p-6 flex flex-col h-[300px]">
-           <div class="flex justify-between items-center mb-6">
-             <h3 class="text-sm font-bold uppercase tracking-widest text-velloq-blue">Sierra Command Engine</h3>
-             <span class="text-[10px] font-bold text-white/20">ENCRYPTED LINK</span>
-           </div>
-           <div class="flex-1 space-y-4 overflow-y-auto pr-2">
-              <div class="flex space-x-3">
-                 <div class="w-6 h-6 rounded bg-velloq-blue/20 flex items-center justify-center text-velloq-blue text-[8px] font-bold">AI</div>
-                 <div class="flex-1 p-3 bg-white/5 rounded-lg rounded-tl-none">
-                    <p class="text-[11px] text-white/80">Anomaly detected at <span class="text-velloq-blue">Hub-02</span>. Fuel consumption exceeds route baseline by 12%. Recommend immediate diagnostic.</p>
-                    <p class="text-[8px] text-white/20 mt-2">10:42 AST — Delivered via WhatsApp</p>
-                 </div>
-              </div>
-              <div class="flex space-x-3 justify-end">
-                 <div class="flex-1 p-3 bg-velloq-blue/10 border border-velloq-blue/20 rounded-lg rounded-tr-none text-right">
-                    <p class="text-[11px] text-white/80">Acknowledged. Sierra, flag this for the Saturday review.</p>
-                    <p class="text-[8px] text-white/20 mt-2">10:45 AST — User Override</p>
-                 </div>
-                 <div class="w-6 h-6 rounded bg-white/10 flex items-center justify-center text-white text-[8px] font-bold">PD</div>
-              </div>
-           </div>
-           <div class="mt-4 pt-4 border-t border-white/5">
-              <div class="relative">
-                 <input type="text" placeholder="Send command to Sierra..." class="w-full bg-white/5 border border-white/10 rounded-lg py-2 px-4 text-xs focus:outline-none focus:border-velloq-blue/50">
-                 <div class="absolute right-3 top-2 text-white/20"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"/></svg></div>
+           <!-- 3D RECONSTRUCTION -->
+           <div class="absolute bottom-6 right-6 w-48 h-48 glass-card border-velloq-blue/40 overflow-hidden hidden md:block">
+              <div class="absolute top-2 left-2 text-[8px] font-bold text-velloq-blue uppercase">3D Collision Model</div>
+              <div class="flex items-center justify-center h-full opacity-40">
+                 <svg class="w-24 h-24 text-white animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
               </div>
            </div>
         </div>
-
-        <!-- ASSET UTILIZATION CHART -->
-        <div class="glass-card p-6 flex flex-col">
-           <div class="flex justify-between items-center mb-6">
-             <h3 class="text-sm font-bold uppercase tracking-widest text-white/80">Utilization Index</h3>
-             <div class="flex space-x-2">
-                <span class="w-2 h-2 bg-velloq-blue rounded-full"></span>
-                <span class="text-[10px] font-bold text-white/40">Active Hours</span>
-             </div>
-           </div>
-           <div class="flex-1 flex items-end space-x-4 px-4 h-[150px]">
-             <div class="flex-1 bg-white/5 rounded-t h-[40%]"></div>
-             <div class="flex-1 bg-white/5 rounded-t h-[65%]"></div>
-             <div class="flex-1 bg-white/5 rounded-t h-[85%]"></div>
-             <div class="flex-1 bg-white/5 rounded-t h-[55%]"></div>
-             <div class="flex-1 bg-velloq-blue rounded-t h-[95%] shadow-[0_0_20px_rgba(37,99,235,0.4)]"></div>
-             <div class="flex-1 bg-velloq-blue rounded-t h-[75%] opacity-60"></div>
-             <div class="flex-1 bg-velloq-blue rounded-t h-[60%] opacity-40"></div>
-           </div>
-           <div class="mt-4 flex justify-between text-[8px] text-white/30 font-bold uppercase tracking-widest">
-             <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
-           </div>
-        </div>
-
       </div>
     </div>
   </main>
 
-  <!-- MOBILE NAVIGATION (Blue & White) -->
-  <nav class="lg:hidden h-20 border-t border-white/5 glass-card rounded-none flex items-center justify-around px-4 z-30 fixed bottom-0 left-0 right-0">
-    <div class="text-velloq-blue"><svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg></div>
-    <div class="text-white/30"><svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A2 2 0 013 15.382V6m0 0l5.447 2.724m0 0l5.447-2.724m0 0L21 8M9 20l6-3m0 0l5.447 2.724a2 2 0 001.553-1.276V5.382a2 2 0 00-1.053-1.789L15 2m0 5V2m0 5l6 3"/></svg></div>
-    <div class="text-white/30"><svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
-    <div class="text-white/30"><svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg></div>
-  </nav>
+  <script>
+    const SUPABASE_URL = 'https://sktpjacowqaedddtrhuz.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNrdHBqYWNvd3FhZWRkZHRyaHV6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2NDk5MzEsImV4cCI6MjA5NDIyNTkzMX0.FK4N_ATFTaUuGXrYu_7OBn3qCdlo0rOzxk-E6TxJxqs';
+    const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
+      db: { schema: 'orcinos' }
+    });
+
+    async function initFleetSync() {
+      document.getElementById('sierra-status').innerText = 'Syncing...';
+      const { data: assets } = await _supabase.from('v_assets').select('*');
+      if (assets) {
+        document.getElementById('active-count').innerText = assets.length + ' ONLINE';
+        renderAssets(assets);
+        document.getElementById('sierra-status').innerText = 'Live Feed Active';
+        document.getElementById('sierra-status').classList.replace('text-velloq-blue', 'text-green-400');
+      }
+      _supabase.channel('fleet-telemetry').on('postgres_changes', { event: 'INSERT', schema: 'orcinos', table: 'v_telemetry' }, p => updateUI(p.new)).subscribe();
+    }
+
+    function renderAssets(assets) {
+      document.getElementById('asset-list').innerHTML = assets.map(a => \`
+        <div class="p-4 rounded-xl hover:bg-white/5 border border-transparent hover:border-white/5 transition-all cursor-pointer group">
+           <div class="flex items-center justify-between">
+             <div class="flex items-center space-x-3">
+               <div class="w-10 h-10 rounded-lg bg-velloq-navy flex items-center justify-center border border-white/10">
+                 <svg class="w-6 h-6 text-white/40" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1"/></svg>
+               </div>
+               <div><p class="text-sm font-bold">\${a.asset_name}</p><p class="text-[10px] text-white/30 uppercase">\${a.vehicle_type}</p></div>
+             </div>
+             <div class="text-right"><p id="status-\${a.id}" class="text-xs font-bold text-green-400">ACTIVE</p></div>
+           </div>
+        </div>\`).join('');
+    }
+
+    function updateUI(data) { console.log('Live update:', data); }
+    document.addEventListener('DOMContentLoaded', initFleetSync);
+  </script>
 </body>
 </html>
-
-[File arg trimmed] content of velloq/app/index.html — kept first 600 + last 400 of 19010 chars; re-read the file for the full content.
