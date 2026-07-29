@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Velloq Driver / Officer Link</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+    body { background: #080d1f; color: white; font-family: sans-serif; }
+    .status-active { color: #4ade80; animation: pulse 2s infinite; }
+    @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+</style>
+</head>
+<body class="flex items-center justify-center h-screen p-6">
+    <div class="w-full max-w-md bg-white/5 border border-white/10 rounded-2xl p-8 backdrop-blur-xl text-center">
+        <div class="mb-8">
+            <div class="w-16 h-16 bg-blue-600 rounded-2xl mx-auto flex items-center justify-center text-2xl font-bold shadow-lg shadow-blue-600/40">V</div>
+            <h1 class="text-2xl font-bold mt-4">Velloq Link</h1>
+            <p class="text-white/40 text-sm">Personnel Tracking Active</p>
+        </div>
+
+        <div id="tracking-status" class="mb-8 p-4 bg-black/20 rounded-xl border border-white/5">
+            <p class="text-xs uppercase tracking-widest text-white/30 mb-1">Status</p>
+            <p id="status-text" class="font-bold text-white/60">Waiting for Permission...</p>
+        </div>
+
+        <button id="toggle-tracking" class="w-full py-4 bg-blue-600 hover:bg-blue-500 rounded-xl font-bold transition-all shadow-lg shadow-blue-600/20">
+            START TRACKING
+        </button>
+
+        <div class="mt-8 pt-8 border-t border-white/5 grid grid-cols-2 gap-4">
+            <div>
+                <p class="text-[10px] uppercase text-white/30">Lat</p>
+                <p id="lat" class="font-mono text-sm">0.0000</p>
+            </div>
+            <div>
+                <p class="text-[10px] uppercase text-white/30">Lng</p>
+                <p id="lng" class="font-mono text-sm">0.0000</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const SUPABASE_URL = 'https://sktpjacowqaedddtrhuz.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNrdHBqYWNvd3FhZWRkZHRyaHV6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2NDk5MzEsImV4cCI6MjA5NDIyNTkzMX0.FK4N_ATFTaUuGXrYu_7OBn3qCdlo0rOzxk-E6TxJxqs';
+        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY, { db: { schema: 'orcinos' } });
+
+        let watchId = null;
+        const phoneId = 'OFFICER-TEST-01'; // In production, this would be a dynamic ID or login
+
+        document.getElementById('toggle-tracking').addEventListener('click', function() {
+            if (watchId) {
+                navigator.geolocation.clearWatch(watchId);
+                watchId = null;
+                this.innerText = 'START TRACKING';
+                document.getElementById('status-text').innerText = 'Paused';
+                document.getElementById('status-text').className = 'font-bold text-white/60';
+            } else {
+                this.innerText = 'STOP TRACKING';
+                document.getElementById('status-text').innerText = 'Locating...';
+                
+                watchId = navigator.geolocation.watchPosition(async (pos) => {
+                    const { latitude, longitude, speed } = pos.coords;
+                    document.getElementById('lat').innerText = latitude.toFixed(4);
+                    document.getElementById('lng').innerText = longitude.toFixed(4);
+                    document.getElementById('status-text').innerText = 'LIVE';
+                    document.getElementById('status-text').className = 'font-bold status-active';
+
+                    // Push to Orcinos Telemetry
+                    await _supabase.from('v_telemetry').insert([{
+                        asset_id: null, // asset_id null means it's personnel tracking
+                        latitude,
+                        longitude,
+                        speed: (speed || 0) * 3.6, // m/s to km/h
+                        fuel_level: 100 // placeholder for battery or irrelevant
+                    }]);
+                }, (err) => {
+                    console.error(err);
+                    document.getElementById('status-text').innerText = 'Error: ' + err.message;
+                }, { enableHighAccuracy: true });
+            }
+        });
+    </script>
+</body>
+</html>
