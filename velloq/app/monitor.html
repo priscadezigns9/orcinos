@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Velloq | Monitor Wall</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        body { background: #080d1f; color: white; font-family: 'Inter', sans-serif; overflow: hidden; }
+        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.05); }
+    </style>
+</head>
+<body class="flex h-screen">
+    <!-- Sidebar: Simplified for Monitoring -->
+    <aside class="w-64 glass flex flex-col border-r border-white/5">
+        <div class="p-6">
+            <div class="flex items-center space-x-3">
+                <div class="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center font-bold text-white shadow-lg shadow-blue-500/20">V</div>
+                <span class="text-xl font-bold tracking-tighter">MONITOR</span>
+            </div>
+        </div>
+        <nav class="flex-1 px-4 space-y-2 mt-4">
+            <div class="flex items-center space-x-3 px-4 py-3 rounded-lg bg-blue-500/10 text-blue-400">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 20l-5.447-2.724A2 2 0 013 15.382V6m0 0l5.447 2.724m0 0l5.447-2.724m0 0L21 8M9 20l6-3m0 0l5.447 2.724a2 2 0 001.553-1.276V5.382a2 2 0 00-1.053-1.789L15 2m0 5V2m0 5l6 3"/></svg>
+                <span class="text-sm font-medium">Live Map</span>
+            </div>
+        </nav>
+        <div class="p-4 border-t border-white/5">
+             <div class="text-[10px] text-white/30 uppercase font-bold tracking-widest mb-4">Tactical Status</div>
+             <div id="active-count" class="text-2xl font-bold text-green-400">0 ONLINE</div>
+        </div>
+    </aside>
+
+    <!-- Main Live Map View -->
+    <main class="flex-1 relative">
+        <div id="map" class="absolute inset-0 bg-slate-900 flex items-center justify-center text-white/10 font-bold text-4xl">
+            [TACTICAL MAP FEED ACTIVE]
+        </div>
+        
+        <!-- Live Assets List -->
+        <div class="absolute right-6 top-6 bottom-6 w-80 glass rounded-2xl overflow-hidden flex flex-col">
+            <div class="p-6 border-b border-white/5">
+                <h3 class="font-bold text-sm">Active Assets</h3>
+            </div>
+            <div id="asset-list" class="flex-1 overflow-y-auto p-4 space-y-3">
+                <!-- Assets populated by Supabase -->
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const SUPABASE_URL = 'https://sktpjacowqaedddtrhuz.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNrdHBqYWNvd3FhZWRkZHRyaHV6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2NDk5MzEsImV4cCI6MjA5NDIyNTkzMX0.FK4N_ATFTaUuGXrYu_7OBn3qCdlo0rOzxk-E6TxJxqs';
+        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY, { db: { schema: 'orcinos' } });
+
+        async function initMonitorSync() {
+            const { data: assets } = await _supabase.from('v_assets').select('*');
+            if (assets) {
+                document.getElementById('active-count').innerText = assets.length + ' ONLINE';
+                renderAssets(assets);
+            }
+            _supabase.channel('fleet-telemetry').on('postgres_changes', { event: 'INSERT', schema: 'orcinos', table: 'v_telemetry' }, p => console.log('Update:', p)).subscribe();
+        }
+
+        function renderAssets(assets) {
+            document.getElementById('asset-list').innerHTML = assets.map(a => `
+                <div class="p-4 rounded-xl bg-white/5 border border-white/10">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-8 h-8 rounded bg-slate-800 flex items-center justify-center">
+                            <svg class="w-4 h-4 text-white/50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1"/></svg>
+                        </div>
+                        <div>
+                            <p class="text-sm font-bold text-white">${a.asset_name}</p>
+                            <p class="text-[10px] text-white/30 uppercase tracking-tighter">${a.vehicle_type}</p>
+                        </div>
+                    </div>
+                </div>`).join('');
+        }
+        document.addEventListener('DOMContentLoaded', initMonitorSync);
+    </script>
+</body>
+</html>
