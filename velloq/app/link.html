@@ -4,202 +4,73 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Velloq Link | Personnel Portal</title>
+    <link rel="manifest" href="manifest.json">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;600;700&display=swap');
-        :root { --vb: #2563eb; --vn: #080d1f; --vw: #ffffff; }
-        body { background: var(--vn); color: var(--vw); font-family: 'Urbanist', sans-serif; -webkit-tap-highlight-color: transparent; overflow-x: hidden; }
-        
-        /* Glassmorphism Base */
-        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08); }
-        
-        /* Claymorphism Accents */
+        body { background: #080d1f; color: white; font-family: 'Urbanist', sans-serif; overflow-x: hidden; }
+        .glass { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.05); }
         .clay-card { 
-            background: rgba(255, 255, 255, 0.05); 
-            border-radius: 40px; 
-            box-shadow: 
-                inset 8px 8px 15px rgba(255,255,255,0.05), 
-                inset -8px -8px 15px rgba(0,0,0,0.2),
-                20px 20px 40px rgba(0,0,0,0.3);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.03); border-radius: 32px; 
+            box-shadow: inset 8px 8px 16px rgba(255,255,255,0.02), inset -8px -8px 16px rgba(0,0,0,0.2), 10px 10px 40px rgba(0,0,0,0.4);
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
-        
-        .clay-btn {
-            background: #2563eb;
-            border-radius: 24px;
-            box-shadow: 
-                inset 4px 4px 8px rgba(255,255,255,0.3), 
-                inset -4px -4px 8px rgba(0,0,0,0.2),
-                0 10px 20px rgba(37, 99, 235, 0.3);
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .clay-btn:active { transform: scale(0.95); box-shadow: inset 2px 2px 4px rgba(0,0,0,0.3); }
-        
-        .status-pill { font-size: 0.65rem; letter-spacing: 0.2em; font-weight: 700; background: rgba(255,255,255,0.05); padding: 6px 16px; border-radius: 100px; color: rgba(255,255,255,0.4); }
-        .pulse { animation: pulse-ring 2s infinite; }
-        @keyframes pulse-ring { 0% { opacity: 1; } 50% { opacity: .4; } 100% { opacity: 1; } }
-        
-        .modal { display: none; position: fixed; inset: 0; background: rgba(8, 13, 31, 0.98); z-index: 100; overflow-y: auto; padding: 24px; }
-        .modal.open { display: flex; flex-direction: column; }
-
-        /* Minimalist SVG Icon Stroke */
-        .icon-stroke { stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; fill: none; }
+        #as { display: none; }
     </style>
 </head>
-<body class="min-h-screen flex flex-col">
-
-    <!-- LOGIN SCREEN -->
-    <div id="ls" class="fixed inset-0 z-[110] bg-[#080d1f] flex flex-col items-center justify-center p-10">
-        <div class="w-full max-w-sm space-y-12 text-center">
-            <div class="space-y-4">
-                <img src="https://priscadezigns.org/vela/vela_logo.png" class="h-24 mx-auto rounded-[32px] shadow-2xl shadow-blue-500/20">
-                <h1 class="text-4xl font-bold tracking-tighter uppercase">Velloq <span class="opacity-20 font-light">Link</span></h1>
-            </div>
-            <div class="space-y-4">
+<body class="min-h-screen">
+    <div id="ls" class="fixed inset-0 z-[100] bg-[#080d1f] flex items-center justify-center p-6">
+        <div class="max-w-md w-full glass p-10 rounded-[2.5rem] text-center">
+            <img src="https://priscadezigns.org/vela/vela_logo.png" class="h-20 mx-auto mb-6 rounded-2xl">
+            <h1 class="text-3xl font-bold tracking-tighter uppercase mb-8">Velloq <span class="opacity-20">Link</span></h1>
+            <div class="space-y-4 text-left">
                 <input id="e" placeholder="Work Email" class="w-full bg-white/5 border border-white/10 rounded-2xl p-5 outline-none focus:border-blue-500">
-                <div class="relative">
-                    <input id="p" type="password" placeholder="Password" class="w-full bg-white/5 border border-white/10 rounded-2xl p-5 outline-none focus:border-blue-500">
-                    <button onclick="x=document.getElementById('p');x.type=x.type==='password'?'text':'password'" class="absolute right-6 top-5 opacity-30">
-                        <svg class="w-5 h-5 icon-stroke"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-                    </button>
-                </div>
-                <button onclick="login()" class="w-full py-5 clay-btn font-bold text-lg">AUTHENTICATE</button>
+                <input id="p" type="password" placeholder="Access Token" class="w-full bg-white/5 border border-white/10 rounded-2xl p-5 outline-none focus:border-blue-500">
+                <button onclick="login()" class="w-full py-5 rounded-2xl bg-blue-600 font-bold text-lg">AUTHENTICATE</button>
             </div>
         </div>
     </div>
-
-    <!-- MAIN APP -->
-    <div id="as" style="display:none" class="flex-1 flex flex-col p-6">
-        <header class="flex items-center justify-between py-6 mb-8">
+    <div id="as" class="flex flex-col min-h-screen p-6 pb-24">
+        <header class="flex justify-between items-center mb-8">
             <div class="flex items-center gap-4">
-                <div class="relative avatar-wrap w-14 h-14 cursor-pointer" onclick="openModal('m-profile')">
-                    <img id="u-img" src="https://ui-avatars.com/api/?name=Jason+Rivers&background=2563eb&color=fff" class="w-full h-full rounded-2xl object-cover border border-white/10">
-                    <div id="d-dot" class="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-white/10 border-4 border-[#080d1f]"></div>
+                <div class="w-14 h-14 rounded-2xl clay-card overflow-hidden">
+                    <img id="u-img" src="" class="w-full h-full object-cover">
                 </div>
                 <div>
-                    <h2 id="u-name" class="font-bold text-xl tracking-tight leading-none">Jason Rivers</h2>
-                    <p class="text-[9px] uppercase tracking-[0.2em] opacity-30 mt-2">Driver · Active Session</p>
+                    <h2 id="u-name" class="font-bold text-xl tracking-tight"></h2>
+                    <p id="u-role" class="text-[10px] opacity-20 uppercase tracking-widest"></p>
                 </div>
             </div>
-            <button onclick="logout()" class="p-4 glass rounded-2xl opacity-40">
-                <svg class="w-5 h-5 icon-stroke"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-            </button>
+            <button onclick="logout()" class="p-4 glass rounded-2xl text-[10px] uppercase font-bold opacity-30">Sign Out</button>
         </header>
-
-        <main class="flex-1 flex flex-col space-y-6 pb-20">
-            <!-- SHIFT TIMER (CLAYMORPISM) -->
-            <div class="clay-card p-10 text-center relative overflow-hidden">
-                <p id="s-label" class="status-pill inline-block mb-6">SYSTEM STANDBY</p>
-                <div id="tmr" class="text-6xl font-bold font-mono tracking-tighter mb-10">00:00:00</div>
-                <button id="s-btn" onclick="tShift()" class="w-full py-6 rounded-[2.5rem] bg-white text-black font-bold text-xl shadow-xl active:scale-95 transition-all">START SHIFT</button>
-                <p id="geo-status" class="text-[8px] opacity-20 uppercase tracking-[0.3em] mt-8">GPS Tracking: INACTIVE</p>
-            </div>
-
-            <!-- ACTION GRID -->
-            <div class="grid grid-cols-2 gap-4">
-                <button onclick="openModal('m-req')" class="glass p-8 rounded-[2.5rem] flex flex-col items-center gap-4">
-                    <svg class="w-8 h-8 text-blue-400 icon-stroke"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-                    <span class="text-[10px] font-bold uppercase tracking-widest opacity-40">Requests</span>
-                </button>
-                <button onclick="openModal('m-rep')" class="glass p-8 rounded-[2.5rem] flex flex-col items-center gap-4">
-                    <svg class="w-8 h-8 text-red-400 icon-stroke"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-                    <span class="text-[10px] font-bold uppercase tracking-widest opacity-40">Report</span>
-                </button>
-            </div>
-        </main>
-    </div>
-
-    <!-- MODALS (Requests & Reports) -->
-    <div id="m-req" class="modal">
-        <div class="flex justify-between items-center mb-10"><h2 class="text-3xl font-bold">HR Service</h2><button onclick="closeModal('m-req')">✕</button></div>
         <div class="space-y-6">
-            <select class="w-full bg-white/5 border border-white/10 p-5 rounded-2xl outline-none"><option>Payslip</option><option>Job Letter</option><option>Leave Request</option></select>
-            <textarea class="w-full bg-white/5 border border-white/10 p-5 rounded-2xl h-40 outline-none" placeholder="Details..."></textarea>
-            <button onclick="alert('Transmitted');closeModal('m-req')" class="w-full py-5 clay-btn font-bold">SUBMIT REQUEST</button>
+            <div class="clay-card p-8">
+                <div class="flex justify-between items-center mb-6"><p class="text-[10px] opacity-20 uppercase font-bold tracking-widest">Duty Status</p><div id="status-tag" class="px-4 py-1 bg-red-500/10 text-red-500 text-[9px] font-bold rounded-full">OFF DUTY</div></div>
+                <div id="timer" class="text-5xl font-bold tracking-tighter mb-8">00:00:00</div>
+                <button id="shift-btn" onclick="toggleShift()" class="w-full py-5 rounded-2xl bg-blue-600 font-bold text-lg">START SHIFT</button>
+            </div>
+            <div class="clay-card p-8"><p class="text-[10px] opacity-20 uppercase font-bold tracking-widest mb-6">Identity Vault</p><div class="space-y-4" id="vault-data"></div></div>
+            <div class="clay-card p-8"><p class="text-[10px] opacity-20 uppercase font-bold tracking-widest mb-6">Digital Requests</p>
+                <div class="grid grid-cols-2 gap-4">
+                    <button class="bg-white/5 p-4 rounded-2xl text-[10px] font-bold text-left">📄 Job Letter</button>
+                    <button class="bg-white/5 p-4 rounded-2xl text-[10px] font-bold text-left">🌴 Leave Request</button>
+                    <button class="bg-white/5 p-4 rounded-2xl text-[10px] font-bold text-left">💰 Payslip</button>
+                    <button class="bg-white/5 p-4 rounded-2xl text-[10px] font-bold text-left">🩺 Sick Leave</button>
+                </div>
+            </div>
         </div>
     </div>
-
-    <div id="m-rep" class="modal">
-        <div class="flex justify-between items-center mb-10"><h2 class="text-3xl font-bold">Incident</h2><button onclick="closeModal('m-rep')">✕</button></div>
-        <div class="space-y-6">
-            <div class="clay-card p-12 text-center" onclick="alert('Cam Active')">📸 Capture Evidence</div>
-            <textarea class="w-full bg-white/5 border border-white/10 p-5 rounded-2xl h-40 outline-none" placeholder="Describe incident..."></textarea>
-            <button onclick="alert('Logged');closeModal('m-rep')" class="w-full py-5 bg-red-600 rounded-[2.5rem] font-bold">SUBMIT REPORT</button>
-        </div>
-    </div>
-
     <script>
-        let timer = null, seconds = 0;
-        
-        window.onload = () => {
-            const u = JSON.parse(localStorage.getItem('v_user'));
-            if(u) { showApp(); checkPersistentShift(); }
-        };
-
-        function login() {
-            const e = document.getElementById('e').value.trim().toLowerCase(), p = document.getElementById('p').value.trim();
-            if(e==='jason.rivers@amber-sim.local' && p==='Jason123') {
-                localStorage.setItem('v_user', JSON.stringify({n: 'Jason Rivers', r: 'Driver'}));
-                showApp();
-            } else alert('Invalid');
-        }
-
-        function showApp() { document.getElementById('ls').style.display='none'; document.getElementById('as').style.display='flex'; }
+        const users = [
+            { e: "priscillanarine@gmail.com", p: "PRISY P", n: "Priscilla Narine", r: "Sovereign / CTO", bir: "BIR-998237-X", nis: "NIS-449201-Z", id: "ID-19940723-5", lic: "LIC-TT-88273", img: "https://ui-avatars.com/api/?name=Priscilla+Narine&background=7c3aed&color=fff", w: {lat: 10.2833, lng: -61.4667} },
+            { e: "jason.rivers@amber-sim.local", p: "Jason123", n: "Jason Rivers", r: "Fleet Driver", bir: "BIR-112233-J", nis: "NIS-445566-K", id: "ID-19900101-J", lic: "LIC-TT-11223", img: "https://ui-avatars.com/api/?name=Jason+Rivers&background=2563eb&color=fff", w: {lat: 10.5167, lng: -61.4167} }
+        ];
+        window.onload = () => { const u = JSON.parse(localStorage.getItem('v_u')); if(u) s(u); };
+        function login() { const e = document.getElementById('e').value.trim().toLowerCase(), p = document.getElementById('p').value.trim(), found = users.find(u => u.e === e && u.p === p); if(found) { localStorage.setItem('v_u', JSON.stringify(found)); s(found); } else alert('Invalid'); }
+        function s(u) { document.getElementById('ls').style.display = 'none'; document.getElementById('as').style.display = 'flex'; document.getElementById('u-name').innerText = u.n; document.getElementById('u-role').innerText = u.r; document.getElementById('u-img').src = u.img; document.getElementById('vault-data').innerHTML = `<div class="flex justify-between text-xs opacity-50"><span>BIR</span> <span class="font-bold">${u.bir}</span></div><div class="flex justify-between text-xs opacity-50"><span>NIS</span> <span class="font-bold">${u.nis}</span></div><div class="flex justify-between text-xs opacity-50"><span>ID</span> <span class="font-bold">${u.id}</span></div><div class="flex justify-between text-xs opacity-50"><span>License</span> <span class="font-bold">${u.lic}</span></div>`; }
         function logout() { localStorage.clear(); location.reload(); }
-        function openModal(id) { document.getElementById(id).classList.add('open'); }
-        function closeModal(id) { document.getElementById(id).classList.remove('open'); }
-
-        function tShift() {
-            const b = document.getElementById('s-btn');
-            if (b.innerText === 'START SHIFT') {
-                const startTime = Date.now();
-                localStorage.setItem('shift_start', startTime);
-                startUI(startTime);
-            } else {
-                localStorage.removeItem('shift_start');
-                stopUI();
-            }
-        }
-
-        function checkPersistentShift() {
-            const start = localStorage.getItem('shift_start');
-            if (start) startUI(parseInt(start));
-        }
-
-        function startUI(startTime) {
-            const b = document.getElementById('s-btn'), d = document.getElementById('d-dot'), l = document.getElementById('s-label'), g = document.getElementById('geo-status');
-            b.innerText = 'END SHIFT'; b.style.background = '#ef4444'; b.style.color = 'white';
-            d.classList.replace('bg-white/10', 'bg-green-400'); d.classList.add('pulse');
-            l.innerText = 'ACTIVE DUTY'; l.style.color = '#4ade80';
-            g.innerText = 'GPS Tracking: ACTIVE (Sovereign Link)';
-            timer = setInterval(() => {
-                const diff = Math.floor((Date.now() - startTime) / 1000);
-                const h = String(Math.floor(diff/3600)).padStart(2,'0'), m = String(Math.floor((diff%3600)/60)).padStart(2,'0'), s = String(diff%60).padStart(2,'0');
-                document.getElementById('tmr').innerText = `${h}:${m}:${s}`;
-            }, 1000);
-            startLocation();
-        }
-
-        function stopUI() {
-            const b = document.getElementById('s-btn'), d = document.getElementById('d-dot'), l = document.getElementById('s-label'), g = document.getElementById('geo-status');
-            b.innerText = 'START SHIFT'; b.style.background = 'white'; b.style.color = 'black';
-            d.classList.replace('bg-green-400', 'bg-white/10'); d.classList.remove('pulse');
-            l.innerText = 'SYSTEM STANDBY'; l.style.color = '';
-            g.innerText = 'GPS Tracking: INACTIVE';
-            clearInterval(timer); document.getElementById('tmr').innerText = '00:00:00';
-            stopLocation();
-        }
-
-        let watchId = null;
-        function startLocation() {
-            if ("geolocation" in navigator) {
-                watchId = navigator.geolocation.watchPosition(p => {
-                    console.log(`Tracking: ${p.coords.latitude}, ${p.coords.longitude}`);
-                    // Simulated transmission to Supabase
-                }, e => console.error(e), { enableHighAccuracy: true });
-            }
-        }
-        function stopLocation() { if(watchId) navigator.geolocation.clearWatch(watchId); }
+        let active = false, interval, sec = 0;
+        function toggleShift() { active = !active; const btn = document.getElementById('shift-btn'), tag = document.getElementById('status-tag'); if(active) { btn.innerText = "STOP SHIFT"; btn.style.background = "#ef4444"; tag.innerText = "ON DUTY"; tag.style.color = "#22c55e"; interval = setInterval(() => { sec++; document.getElementById('timer').innerText = new Date(sec * 1000).toISOString().substr(11, 8); }, 1000); } else { clearInterval(interval); btn.innerText = "START SHIFT"; btn.style.background = "#2563eb"; tag.innerText = "OFF DUTY"; tag.style.color = "#ef4444"; } }
     </script>
 </body>
 </html>
