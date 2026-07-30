@@ -5,76 +5,80 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Velloq | Command Center</title>
     <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;600;700&display=swap');
         body { background: #080d1f; color: white; font-family: 'Urbanist', sans-serif; overflow: hidden; }
         .glass { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(25px); border: 1px solid rgba(255, 255, 255, 0.05); }
         .clay-card { 
-            background: rgba(255, 255, 255, 0.03); border-radius: 32px; 
-            box-shadow: inset 8px 8px 16px rgba(255,255,255,0.02), inset -8px -8px 16px rgba(0,0,0,0.2), 10px 10px 40px rgba(0,0,0,0.4);
+            background: rgba(255, 255, 255, 0.03); border-radius: 24px; 
+            box-shadow: inset 8px 8px 16px rgba(255,255,255,0.02), inset -8px -8px 16px rgba(0,0,0,0.2), 10px 10px 30px rgba(0,0,0,0.3);
             border: 1px solid rgba(255, 255, 255, 0.08);
         }
-        #ls { display: none; }
+        #map { height: 100%; width: 100%; border-radius: 32px; z-index: 1; }
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
     </style>
 </head>
 <body class="min-h-screen flex">
     <div id="ls" class="fixed inset-0 z-[120] bg-[#080d1f] flex items-center justify-center p-6">
         <div class="max-w-md w-full space-y-10 glass p-12 rounded-[3rem] text-center border-white/5">
             <img src="https://priscadezigns.org/vela/vela_logo.png" class="h-24 mx-auto mb-6 rounded-3xl">
-            <h1 class="text-4xl font-bold tracking-tighter uppercase">Velloq <span class="opacity-20 font-light">Command</span></h1>
-            <div class="space-y-4">
+            <h1 class="text-4xl font-bold tracking-tighter uppercase">Velloq <span class="opacity-20">Command</span></h1>
+            <div class="space-y-4 text-left">
                 <input id="e" placeholder="Work Email" class="w-full bg-white/5 border border-white/10 rounded-2xl p-5 outline-none focus:border-blue-500">
                 <input id="p" type="password" placeholder="Access Token" class="w-full bg-white/5 border border-white/10 rounded-2xl p-5 outline-none focus:border-blue-500">
                 <button onclick="login()" class="w-full py-5 rounded-2xl bg-blue-600 font-bold text-lg shadow-xl shadow-blue-600/40">AUTHENTICATE</button>
             </div>
         </div>
     </div>
-
     <div id="md" class="hidden flex-1 flex h-screen">
-        <aside class="w-80 glass border-r border-white/5 flex flex-col p-10 space-y-12">
-            <div class="flex items-center gap-4">
-                <img src="https://priscadezigns.org/vela/vela_logo.png" class="h-10">
-                <span class="font-bold tracking-tighter text-2xl uppercase">Velloq</span>
-            </div>
-            <nav class="flex-1 space-y-4">
-                <div class="p-5 bg-white/5 rounded-2xl font-bold text-blue-400">Tactical Hub</div>
+        <aside class="w-80 glass border-r border-white/5 flex flex-col p-8 space-y-8">
+            <div class="flex items-center gap-4"><img src="https://priscadezigns.org/vela/vela_logo.png" class="h-10"><span class="font-bold tracking-tighter text-2xl uppercase">Velloq</span></div>
+            <nav class="flex-1 space-y-2">
+                <button onclick="v('map')" class="w-full p-4 rounded-xl text-left text-xs font-bold opacity-40 hover:opacity-100">Tactical Map</button>
+                <button onclick="v('personnel')" class="w-full p-4 rounded-xl text-left text-xs font-bold opacity-40 hover:opacity-100">Personnel (20)</button>
+                <button onclick="v('fleet')" class="w-full p-4 rounded-xl text-left text-xs font-bold opacity-40 hover:opacity-100">Fleet Assets (5)</button>
+                <button onclick="v('locations')" class="w-full p-4 rounded-xl text-left text-xs font-bold opacity-40 hover:opacity-100">Locations</button>
             </nav>
-            <div class="pt-10 border-t border-white/5">
-                <p id="un" class="font-bold text-lg"></p>
-                <p id="ur" class="text-[9px] opacity-20 uppercase"></p>
-                <button onclick="logout()" class="mt-6 text-red-500/50 uppercase text-[10px]">Sign Out</button>
-            </div>
+            <div class="pt-8 border-t border-white/5"><p id="un" class="font-bold"></p><p id="ur" class="text-[9px] opacity-20 uppercase tracking-widest"></p><button onclick="lo()" class="mt-4 text-red-500/50 uppercase text-[10px] font-bold">Sign Out</button></div>
         </aside>
-        <main class="flex-1 p-12 overflow-y-auto">
-            <div class="grid grid-cols-3 gap-10">
-                <div class="clay-card p-10"><p class="text-[10px] opacity-20 uppercase font-bold mb-2">Fleet Pulse</p><p class="text-4xl font-bold">20 / 20</p></div>
-            </div>
+        <main class="flex-1 p-8 flex flex-col relative">
+            <header class="flex justify-between items-center mb-8"><h2 id="vt" class="text-3xl font-bold uppercase tracking-tighter">Tactical Map</h2><button id="ac" onclick="oM()" class="hidden px-6 py-3 bg-blue-600 rounded-xl text-[10px] font-bold uppercase">+ Add New Asset</button></header>
+            <div id="content" class="flex-1 relative overflow-hidden"><div id="mv" class="h-full w-full"><div id="map"></div></div><div id="tv" class="hidden h-full overflow-y-auto clay-card p-10"></div></div>
         </main>
     </div>
-
+    <div id="modal" class="hidden fixed inset-0 z-[200] bg-black/80 flex items-center justify-center p-6 backdrop-blur-xl">
+        <div class="max-w-md w-full glass p-12 rounded-[3rem] space-y-6 border-white/5">
+            <h3 class="text-2xl font-bold uppercase tracking-tighter">Register Asset</h3>
+            <div class="space-y-4">
+                <input id="mn" placeholder="Name / Plate" class="w-full bg-white/5 border border-white/10 rounded-2xl p-5 outline-none focus:border-blue-500">
+                <select id="mt" class="w-full bg-white/5 border border-white/10 rounded-2xl p-5 outline-none focus:border-blue-500"><option value="person">Officer</option><option value="vehicle">GAC Vehicle</option><option value="location">Location</option></select>
+                <input id="ma" placeholder="Address (Geocoding Auto-link)" class="w-full bg-white/5 border border-white/10 rounded-2xl p-5 outline-none focus:border-blue-500">
+                <button onclick="sA()" class="w-full py-5 rounded-2xl bg-blue-600 font-bold uppercase text-sm">Deploy Asset</button>
+                <button onclick="cM()" class="w-full text-[10px] opacity-20 font-bold uppercase">Cancel</button>
+            </div>
+        </div>
+    </div>
     <script>
-        const users = [
-            { e: "priscillanarine@gmail.com", p: "PRISY P", n: "Priscilla Narine", r: "Sovereign / CTO" },
-            { e: "alice@amber-sim.local", p: "Alice123", n: "Alice", r: "Sovereign" }
-        ];
-        window.onload = () => {
-            const u = JSON.parse(localStorage.getItem('v_adm'));
-            if (u) { s(u.n, u.r); } else { document.getElementById('ls').style.display = 'flex'; }
-        };
-        function login() {
-            const e = document.getElementById('e').value.trim().toLowerCase(), p = document.getElementById('p').value.trim();
-            const found = users.find(u => u.e === e && u.p === p);
-            if(found) { s(found.n, found.r); localStorage.setItem('v_adm', JSON.stringify({n:found.n,r:found.r})); }
-            else alert('Access Denied');
+        const users = [{ e: "alice@amber-sim.local", p: "Alice123", n: "Alice", r: "Sovereign" }, { e: "amir.narine@amber-sim.local", p: "Amir123", n: "Amir Narine", r: "Admin" }];
+        let map;
+        window.onload = () => { const u = JSON.parse(localStorage.getItem('v_adm')); if (u) { s(u); } else { document.getElementById('ls').style.display = 'flex'; } };
+        function login() { const e = document.getElementById('e').value.trim().toLowerCase(), p = document.getElementById('p').value.trim(); const found = users.find(u => u.e === e && u.p === p); if(found) { localStorage.setItem('v_adm', JSON.stringify(found)); s(found); } else alert('Denied'); }
+        function s(u) { document.getElementById('ls').style.display = 'none'; document.getElementById('md').classList.remove('hidden'); document.getElementById('un').innerText = u.n; document.getElementById('ur').innerText = u.r; if(u.r === 'Sovereign') document.getElementById('ac').classList.remove('hidden'); initMap(); }
+        function initMap() { if(map) return; map = L.map('map', { zoomControl: false }).setView([10.2833, -61.4667], 11); L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png').addTo(map); L.marker([10.2833, -61.4667]).addTo(map).bindPopup('<b>Amber Restaurant</b><br>San Fernando HQ').openPopup(); }
+        function v(t) { document.getElementById('vt').innerText = t.toUpperCase(); const mv = document.getElementById('mv'), tv = document.getElementById('tv'); if(t === 'map') { mv.classList.remove('hidden'); tv.classList.add('hidden'); } else { mv.classList.add('hidden'); tv.classList.remove('hidden'); rT(t); } }
+        function rT(t) { const tv = document.getElementById('tv'); let h = `<table class="w-full text-left"><thead><tr class="text-[10px] opacity-20 uppercase font-bold tracking-widest"><th class="pb-6">Identity</th><th class="pb-6">Role / Plate</th><th class="pb-6">Status</th><th class="pb-6 text-right">Ops</th></tr></thead><tbody class="text-sm">`;
+            if(t === 'personnel') { for(let i=1; i<=20; i++) h += `<tr class="border-t border-white/5"><td class="py-5 font-bold">Officer 100${i}</td><td class="opacity-50">Fleet Driver</td><td class="text-green-500 font-bold">Active</td><td class="text-right opacity-30">Details</td></tr>`; }
+            else if(t === 'fleet') { for(let i=1; i<=5; i++) h += `<tr class="border-t border-white/5"><td class="py-5 font-bold">GAC Vehicle 0${i}</td><td class="opacity-50">PDB 200${i}</td><td class="text-blue-500 font-bold">On Mission</td><td class="text-right text-red-500/50">Remove</td></tr>`; }
+            tv.innerHTML = h + `</tbody></table>`;
         }
-        function s(n, r) {
-            document.getElementById('ls').style.display = 'none';
-            document.getElementById('md').classList.remove('hidden');
-            document.getElementById('un').innerText = n;
-            document.getElementById('ur').innerText = r;
-        }
-        function logout() { localStorage.clear(); location.reload(); }
+        function oM() { document.getElementById('modal').classList.remove('hidden'); }
+        function cM() { document.getElementById('modal').classList.add('hidden'); }
+        function lo() { localStorage.clear(); location.reload(); }
+        function sA() { alert('Asset deployed to grid.'); cM(); }
     </script>
 </body>
 </html>
