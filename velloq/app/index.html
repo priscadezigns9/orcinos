@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Velloq | Command Center</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;600;700&display=swap');
+        :root { --vb: #2563eb; --vn: #080d1f; --vw: #ffffff; }
+        body { background: var(--vn); color: var(--vw); font-family: 'Urbanist', sans-serif; overflow: hidden; }
+        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.05); }
+        .sidebar-item { transition: all 0.3s; border-left: 3px solid transparent; }
+        .sidebar-item.active { background: rgba(37, 99, 235, 0.1); color: #60a5fa; border-left-color: #2563eb; }
+        .metric-card { background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01)); border: 1px solid rgba(255,255,255,0.05); }
+        .pulse { animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(37, 99, 235, 0); } 100% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0); } }
+    </style>
+</head>
+<body class="min-h-screen flex">
+    <div id="ls" class="fixed inset-0 z-[100] bg-[#080d1f] flex items-center justify-center p-6">
+        <div class="max-w-md w-full space-y-8 glass p-10 rounded-[2.5rem]">
+            <div class="text-center">
+                <img src="https://priscadezigns.org/vela/vela_logo.png" class="h-24 mx-auto mb-6 rounded-3xl shadow-2xl shadow-blue-500/20">
+                <h1 class="text-4xl font-bold text-blue-500 tracking-tighter uppercase">VELLOQ</h1>
+            </div>
+            <div class="space-y-4">
+                <input id="e" type="email" placeholder="Work Email" class="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-5 focus:outline-none focus:border-blue-500">
+                <div class="relative">
+                    <input id="p" type="password" placeholder="Password" class="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-5 focus:outline-none focus:border-blue-500">
+                    <button onclick="x=document.getElementById('p');x.type=x.type==='password'?'text':'password'" class="absolute right-6 top-5 opacity-20">👁</button>
+                </div>
+                <button onclick="login()" class="w-full py-5 rounded-2xl bg-blue-600 font-bold text-lg">AUTHENTICATE</button>
+            </div>
+        </div>
+    </div>
+    <div id="md" class="hidden flex-1 flex">
+        <aside class="w-72 glass border-r border-white/5 flex flex-col p-8 space-y-10">
+            <div class="flex items-center gap-4"><img src="https://priscadezigns.org/vela/vela_logo.png" class="h-10"><span class="font-bold tracking-tighter text-2xl">VELLOQ</span></div>
+            <nav class="flex-1 space-y-2">
+                <div class="sidebar-item active p-4 rounded-xl cursor-pointer flex items-center gap-4">🗺️ Fleet Map</div>
+                <div class="sidebar-item p-4 rounded-xl cursor-pointer flex items-center gap-4 opacity-40">📈 Analytics</div>
+                <div id="at" class="sidebar-item p-4 rounded-xl cursor-pointer flex items-center gap-4 opacity-40">⚙️ Management</div>
+            </nav>
+            <div class="pt-10 border-t border-white/5">
+                <p id="un" class="font-bold text-sm"></p><p id="ur" class="text-[9px] opacity-20 uppercase"></p>
+                <button onclick="logout()" class="mt-6 text-[10px] uppercase font-bold text-red-500/50 hover:text-red-500">Sign Out</button>
+            </div>
+        </aside>
+        <main class="flex-1 flex flex-col p-10 overflow-y-auto">
+            <header class="flex justify-between items-center mb-12"><div><h2 class="text-4xl font-bold tracking-tight">Fleet Intelligence</h2><p class="text-white/30 text-sm">Operational Truth Layer</p></div></header>
+            <div class="grid grid-cols-3 gap-8 mb-12">
+                <div class="metric-card p-8 rounded-[2.5rem]"><p class="text-[10px] opacity-30 uppercase font-bold mb-2">Fleet</p><p class="text-4xl font-bold">18/20</p></div>
+                <div class="metric-card p-8 rounded-[2.5rem]"><p class="text-[10px] opacity-30 uppercase font-bold mb-2">Fuel</p><p class="text-4xl font-bold">84%</p></div>
+                <div class="metric-card p-8 rounded-[2.5rem]"><p class="text-[10px] opacity-30 uppercase font-bold mb-2">Alerts</p><p class="text-4xl font-bold text-yellow-400">02</p></div>
+            </div>
+            <div class="flex-1 glass rounded-[3rem] relative overflow-hidden flex items-center justify-center text-white/5 uppercase tracking-[1em] text-4xl">Tactical Map Feed</div>
+        </main>
+    </div>
+    <script>
+        window.onload = () => { const u = JSON.parse(localStorage.getItem('velloq_admin')); if (u) s(u.n, u.r); };
+        function login() {
+            const u = document.getElementById('e').value.trim().toLowerCase(), p = document.getElementById('p').value.trim();
+            if (u === "alice@amber-sim.local" && p === "Alice123") { const user = { n: 'Alice', r: 'Sovereign' }; localStorage.setItem('velloq_admin', JSON.stringify(user)); s(user.n, user.r); }
+            else if (u === "amir.narine@amber-sim.local" && p === "Amir123") { const user = { n: 'Amir', r: 'Admin' }; localStorage.setItem('velloq_admin', JSON.stringify(user)); s(user.n, user.r); document.getElementById('at').style.display = 'none'; }
+            else { alert('Invalid'); }
+        }
+        function s(n, r) { document.getElementById('ls').style.display = 'none'; document.getElementById('md').style.display = 'flex'; document.getElementById('un').innerText = n; document.getElementById('ur').innerText = r; }
+        function logout() { localStorage.removeItem('velloq_admin'); location.reload(); }
+    </script>
+</body>
+</html>
