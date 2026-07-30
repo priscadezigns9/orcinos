@@ -1,165 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Velloq Link | Employee Portal</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <style>
-        :root { --velloq-blue: #2563eb; }
-        body { background: #080d1f; color: white; font-family: 'Inter', sans-serif; }
-        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.05); }
-        .btn-glow:active { transform: scale(0.98); }
-        .pulse-active { animation: pulse 2s infinite; }
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Velloq Link</title>
+<script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="min-h-screen flex flex-col p-6">
-    
-    <!-- LOGIN SCREEN -->
-    <div id="login-screen" class="flex-1 flex flex-col justify-center max-w-sm mx-auto w-full space-y-8">
-        <div class="text-center flex flex-col items-center">
-            <img src="https://priscadezigns.org/vela/vela_logo.png" alt="Velloq" class="h-20 w-20 mb-4 rounded-2xl shadow-[0_0_20px_rgba(37,99,235,0.3)]">
-            <h1 class="text-4xl font-bold tracking-tighter text-blue-500">VELLOQ <span class="text-white/40">LINK</span></h1>
-            <p class="text-white/40 mt-2">Operational Personnel Portal</p>
-        </div>
-        <div class="space-y-4">
-            <input id="email" type="email" placeholder="Work Email" class="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 focus:outline-none focus:border-blue-500 transition-all">
-            <div class="relative">
-                <input id="password" type="password" placeholder="Access Password" class="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 focus:outline-none focus:border-blue-500 transition-all">
-                <button onclick="togglePassword('password')" class="absolute right-6 top-1/2 -translate-y-1/2 text-white/20 hover:text-white/60 transition-colors">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-                </button>
-            </div>
-            <button onclick="login()" class="w-full py-4 rounded-2xl bg-blue-600 font-bold text-lg hover:bg-blue-500 transition-all">SIGN IN</button>
-        </div>
-        <p class="text-[10px] text-center text-white/20 uppercase tracking-widest">Authorized Access Only</p>
-    </div>
-
-    <!-- APP SCREEN (Hidden by default) -->
-    <div id="app-screen" class="hidden flex-1 flex flex-col">
-        <div class="flex justify-between items-center mb-8">
-            <div>
-                <h1 class="text-2xl font-bold tracking-tighter text-blue-500">VELLOQ <span class="text-white/40">LINK</span></h1>
-                <p id="employee-name" class="text-xs text-white/50 uppercase tracking-widest mt-1">Authenticating...</p>
-            </div>
-            <div id="duty-indicator" class="w-3 h-3 rounded-full bg-white/10"></div>
-        </div>
-
-        <div class="flex-1 flex flex-col justify-center space-y-6">
-            <div id="status-card" class="glass rounded-3xl p-8 text-center">
-                <p id="status-text" class="text-sm text-white/40 mb-2 uppercase tracking-widest font-bold">System Standby</p>
-                <h2 id="timer" class="text-5xl font-mono font-bold mb-6">00:00:00</h2>
-                <button id="shift-btn" class="w-full py-5 rounded-2xl bg-white text-black font-bold text-lg btn-glow transition-all">START SHIFT</button>
-            </div>
-            <button onclick="toggleComplaint()" class="glass w-full py-4 rounded-2xl text-sm font-medium text-white/60 hover:text-white transition-all">SUBMIT COMPLAINT / REPORT</button>
-        </div>
-    </div>
-
-    <!-- Modal for Reports... -->
-
-    <script>
-        function togglePassword(id) {
-            const input = document.getElementById(id);
-            input.type = input.type === 'password' ? 'text' : 'password';
-        }
-
-        const SUPABASE_URL = 'https://sktpjacowqaedddtrhuz.supabase.co';
-        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNrdHBqYWNvd3FhZWRkZHRyaHV6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2NDk5MzEsImV4cCI6MjA5NDIyNTkzMX0.FK4N_ATFTaUuGXrYu_7OBn3qCdlo0rOzxk-E6TxJxqs';
-        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY, { db: { schema: 'orcinos' } });
-
-        let isOnDuty = false;
-        let watchId = null;
-        let currentUser = null;
-        let homeCoords = null;
-
-        async function login() {
-            const email = document.getElementById('email').value;
-            const pass = document.getElementById('password').value;
-            const { data, error } = await _supabase.from('v_personnel').select('*').eq('email', email).eq('temporary_password', pass).single();
-            
-            if (data) {
-                currentUser = data;
-                homeCoords = data.home_coords ? data.home_coords.split(',').map(Number) : null;
-                document.getElementById('login-screen').classList.add('hidden');
-                document.getElementById('app-screen').classList.remove('hidden');
-                document.getElementById('employee-name').innerText = data.full_name;
-            } else {
-                alert('Invalid Credentials');
-            }
-        }
-
-        // Distance Helper
-        function getDistance(lat1, lon1, lat2, lon2) {
-            const R = 6371e3;
-            const φ1 = lat1 * Math.PI/180;
-            const φ2 = lat2 * Math.PI/180;
-            const Δφ = (lat2-lat1) * Math.PI/180;
-            const Δλ = (lon2-lon1) * Math.PI/180;
-            const a = Math.sin(Δφ/2) * Math.sin(Δφ/2) + Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ/2) * Math.sin(Δλ/2);
-            return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-        }
-
-        async function toggleShift() {
-            isOnDuty = !isOnDuty;
-            const btn = document.getElementById('shift-btn');
-            const statusText = document.getElementById('status-text');
-            const dutyIndicator = document.getElementById('duty-indicator');
-
-            if (isOnDuty) {
-                btn.innerText = 'END SHIFT';
-                btn.classList.replace('bg-white', 'bg-red-500');
-                btn.classList.add('text-white');
-                statusText.innerText = 'ACTIVE DUTY';
-                dutyIndicator.classList.replace('bg-white/10', 'bg-green-400');
-                dutyIndicator.classList.add('pulse-active');
-                startTracking();
-            } else {
-                btn.innerText = 'START SHIFT';
-                btn.classList.replace('bg-red-500', 'bg-white');
-                btn.classList.remove('text-white');
-                statusText.innerText = 'SYSTEM STANDBY';
-                dutyIndicator.classList.replace('bg-green-400', 'bg-white/10');
-                dutyIndicator.classList.remove('pulse-active');
-                stopTracking();
-            }
-        }
-
-        function startTracking() {
-            if (navigator.geolocation) {
-                watchId = navigator.geolocation.watchPosition(async (pos) => {
-                    const { latitude, longitude, speed } = pos.coords;
-                    
-                    // Home Privacy Logic
-                    if (homeCoords) {
-                        const dist = getDistance(latitude, longitude, homeCoords[0], homeCoords[1]);
-                        if (dist < 200) {
-                            document.getElementById('status-text').innerText = 'AIRPLANE MODE (HOME)';
-                            document.getElementById('status-text').classList.add('text-blue-400');
-                            return; 
-                        } else {
-                            document.getElementById('status-text').classList.remove('text-blue-400');
-                            document.getElementById('status-text').innerText = 'ACTIVE DUTY';
-                        }
-                    }
-
-                    await _supabase.from('v_telemetry').insert([{
-                        personnel_id: currentUser.id,
-                        latitude,
-                        longitude,
-                        speed: (speed || 0) * 3.6,
-                        timestamp: new Date().toISOString()
-                    }]);
-                }, null, { enableHighAccuracy: true });
-            }
-        }
-
-        function stopTracking() {
-            if (watchId) navigator.geolocation.clearWatch(watchId);
-        }
-
-        document.getElementById('shift-btn').addEventListener('click', toggleShift);
-    </script>
+<body class="bg-[#080d1f] text-white flex items-center justify-center min-h-screen p-6">
+<div id="ls" class="max-w-sm w-full space-y-6">
+<div class="text-center"><img src="https://priscadezigns.org/vela/vela_logo.png" class="h-20 mx-auto rounded-2xl mb-4"><h1 class="text-4xl font-bold text-blue-500">VELLOQ <span class="text-white/40">LINK</span></h1></div>
+<div class="space-y-4"><input id="e" placeholder="Work Email" class="w-full bg-white/5 border border-white/10 rounded-2xl p-4"><div class="relative"><input id="p" type="password" placeholder="Password" class="w-full bg-white/5 border border-white/10 rounded-2xl p-4"><button onclick="p=document.getElementById('p');p.type=p.type==='password'?'text':'password'" class="absolute right-4 top-4">👁</button></div><button onclick="l=document.getElementById('e').value.trim().toLowerCase();w=document.getElementById('p').value.trim();if(l==='jason.rivers@amber-sim.local'&&w==='Jason123'){document.getElementById('ls').style.display='none';document.getElementById('as').style.display='flex';}else{alert('Invalid');}" class="w-full py-4 bg-blue-600 rounded-2xl font-bold">SIGN IN</button></div>
+</div>
+<div id="as" style="display:none" class="flex-col items-center space-y-6">
+<h1 class="text-3xl font-bold text-blue-500">WELCOME JASON</h1>
+<div class="grid grid-cols-2 gap-4"><button onclick="alert('Requests: Payslip, Leave, Job Letter')" class="bg-white/5 p-8 rounded-3xl">📄 HR</button><button onclick="alert('Image/Report Sent')" class="bg-white/5 p-8 rounded-3xl">📸 REPORT</button></div>
+<button onclick="t=this;if(t.innerText==='START SHIFT'){t.innerText='END SHIFT';t.style.backgroundColor='#ef4444';}else{t.innerText='START SHIFT';t.style.backgroundColor='#ffffff';}" class="w-64 py-10 bg-white text-black font-bold text-2xl rounded-3xl">START SHIFT</button>
+</div>
 </body>
 </html>
