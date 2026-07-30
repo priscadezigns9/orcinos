@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Velloq Link | Personnel Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Urbanist:wght@300;400;500;600;700&display=swap');
+        :root { --vb: #2563eb; --vn: #080d1f; --vw: #ffffff; }
+        body { background: var(--vn); color: var(--vw); font-family: 'Urbanist', sans-serif; overflow-x: hidden; }
+        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(25px); border: 1px solid rgba(255, 255, 255, 0.08); box-shadow: 0 8px 32px rgba(0,0,0,0.4); }
+        .font-h1 { font-family: 'DM Serif Display', serif; }
+        .modal { display: none; position: fixed; inset: 0; background: rgba(8, 13, 31, 0.98); z-index: 100; overflow-y: auto; }
+        .modal.open { display: flex; animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+        .glow-btn { background: var(--vb); box-shadow: 0 10px 30px rgba(37, 99, 235, 0.4); }
+        .avatar-wrap { position: relative; width: 80px; height: 80px; margin: 0 auto; }
+        .avatar-wrap img { width: 100%; height: 100%; border-radius: 24px; object-fit: cover; border: 2px solid var(--vb); }
+        .input-glass { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 18px 24px; width: 100%; outline: none; transition: 0.3s; }
+        .input-glass:focus { border-color: var(--vb); background: rgba(255,255,255,0.05); }
+    </style>
+</head>
+<body class="min-h-screen">
+    <div id="ls" class="fixed inset-0 z-[110] bg-[#080d1f] flex flex-col items-center justify-center p-10">
+        <div class="w-full max-w-sm space-y-10 text-center">
+            <div class="space-y-4">
+                <img src="https://priscadezigns.org/vela/vela_logo.png" class="h-24 mx-auto rounded-3xl shadow-2xl shadow-blue-500/20">
+                <h1 class="font-h1 text-5xl">Velloq <span class="opacity-20 font-light italic">Link</span></h1>
+            </div>
+            <div class="space-y-4">
+                <input id="e" placeholder="Authorized Email" class="input-glass">
+                <div class="relative">
+                    <input id="p" type="password" placeholder="Access Token" class="input-glass">
+                    <button onclick="x=document.getElementById('p');x.type=x.type==='password'?'text':'password'" class="absolute right-6 top-5 opacity-20">👁</button>
+                </div>
+                <button onclick="login()" class="w-full py-5 rounded-[20px] glow-btn font-bold text-lg">AUTHENTICATE</button>
+            </div>
+        </div>
+    </div>
+    <div id="as" style="display:none" class="flex flex-col min-h-screen p-6 pb-24">
+        <header class="flex items-center justify-between py-6 mb-8">
+            <div class="flex items-center gap-4">
+                <div class="relative">
+                    <img id="u-img" src="https://ui-avatars.com/api/?name=Jason+Rivers&background=2563eb&color=fff" class="w-16 h-16 rounded-[22px] border border-white/10">
+                    <div id="d-dot" class="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-white/10 border-4 border-[#080d1f]"></div>
+                </div>
+                <div>
+                    <h2 id="u-name" class="font-bold text-2xl tracking-tight leading-none">Jason Rivers</h2>
+                    <p class="text-[10px] uppercase tracking-[0.2em] opacity-30 mt-2">Driver · TT-AMB-042</p>
+                </div>
+            </div>
+            <button onclick="openModal('m-profile')" class="w-12 h-12 glass rounded-2xl flex items-center justify-center">⚙️</button>
+        </header>
+        <main class="space-y-6">
+            <div class="glass rounded-[3rem] p-10 text-center relative overflow-hidden">
+                <p id="s-label" class="inline-block bg-white/5 px-4 py-1 rounded-full text-[10px] font-bold tracking-widest opacity-40 mb-4">SYSTEM STANDBY</p>
+                <div id="tmr" class="text-6xl font-bold font-mono tracking-tighter mb-10">00:00:00</div>
+                <button id="s-btn" onclick="tShift()" class="w-full py-6 rounded-[2rem] bg-white text-black font-bold text-xl shadow-2xl transition-all">START SHIFT</button>
+                <p id="geo" class="text-[8px] opacity-20 uppercase tracking-[0.3em] mt-6">GPS Privacy Shield: ACTIVE</p>
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+                <button onclick="openModal('m-req')" class="glass p-8 rounded-[2.5rem] flex flex-col items-center gap-4">📄 <span class="text-[10px] font-bold uppercase tracking-widest">Requests</span></button>
+                <button onclick="openModal('m-rep')" class="glass p-8 rounded-[2.5rem] flex flex-col items-center gap-4">🚨 <span class="text-[10px] font-bold uppercase tracking-widest">Report</span></button>
+            </div>
+        </main>
+    </div>
+    <div id="m-profile" class="modal flex-col p-10">
+        <div class="flex justify-between items-center mb-10"><h2 class="font-h1 text-4xl">Your <span class="opacity-30 italic">Identity</span></h2><button onclick="closeModal('m-profile')">✕</button></div>
+        <div class="space-y-8">
+            <div class="text-center">
+                <div class="avatar-wrap mb-4">
+                    <img id="u-img-lg" src="https://ui-avatars.com/api/?name=Jason+Rivers&background=2563eb&color=fff">
+                    <label class="absolute bottom-0 right-0 w-8 h-8 bg-blue-600 rounded-xl flex items-center justify-center cursor-pointer shadow-lg">📸<input type="file" class="hidden" onchange="uPhoto(this)"></label>
+                </div>
+            </div>
+            <div class="glass p-8 rounded-[2.5rem] space-y-6">
+                <div class="flex justify-between border-b border-white/5 pb-4"><span class="text-xs opacity-30 uppercase font-bold">BIR</span><span class="text-sm">***-***-291</span></div>
+                <div class="flex justify-between border-b border-white/5 pb-4"><span class="text-xs opacity-30 uppercase font-bold">NIS</span><span class="text-sm">*****-4230</span></div>
+                <div class="flex justify-between border-b border-white/5 pb-4"><span class="text-xs opacity-30 uppercase font-bold">License</span><span class="text-sm">DL-729803</span></div>
+                <div class="flex justify-between border-b border-white/5 pb-4"><span class="text-xs opacity-30 uppercase font-bold">Home</span><span class="text-sm">Chaguanas, TT</span></div>
+            </div>
+        </div>
+    </div>
+    <div id="m-req" class="modal flex-col p-10">
+        <div class="flex justify-between items-center mb-10"><h2 class="font-h1 text-4xl">HR <span class="opacity-30 italic">Request</span></h2><button onclick="closeModal('m-req')">✕</button></div>
+        <div class="space-y-6">
+            <select class="input-glass"><option>Payslip (Digital)</option><option>Job Letter</option><option>Sick Leave</option><option>Vacation Leave</option></select>
+            <textarea class="input-glass h-40" placeholder="Notes..."></textarea>
+            <button onclick="alert('Transmitted.');closeModal('m-req')" class="w-full py-5 rounded-3xl glow-btn font-bold">TRANSMIT</button>
+        </div>
+    </div>
+    <div id="m-rep" class="modal flex-col p-10">
+        <div class="flex justify-between items-center mb-10"><h2 class="font-h1 text-4xl">New <span class="opacity-30 italic">Report</span></h2><button onclick="closeModal('m-rep')">✕</button></div>
+        <div class="space-y-6">
+            <div class="p-12 border-2 border-dashed border-white/10 rounded-[2.5rem] text-center" onclick="alert('Camera Active')">📸 Capture Evidence</div>
+            <textarea class="input-glass h-40" placeholder="Details..."></textarea>
+            <button onclick="alert('Logged.');closeModal('m-rep')" class="w-full py-5 rounded-3xl bg-red-600 font-bold shadow-2xl">SUBMIT</button>
+        </div>
+    </div>
+    <script>
+        function openModal(id) { document.getElementById(id).classList.add('open'); }
+        function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+        function login() {
+            const e = document.getElementById('e').value.trim().toLowerCase(), p = document.getElementById('p').value.trim();
+            if(e === "jason.rivers@amber-sim.local" && p === "Jason123") {
+                document.getElementById('ls').style.display='none';
+                document.getElementById('as').style.display='flex';
+            } else { alert('Access Denied'); }
+        }
+        function uPhoto(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = e => { document.getElementById('u-img').src = e.target.result; document.getElementById('u-img-lg').src = e.target.result; };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        let sec = 0, iv = null;
+        function tShift() {
+            const b = document.getElementById('s-btn'), d = document.getElementById('d-dot'), l = document.getElementById('s-label');
+            if (b.innerText === 'START SHIFT') {
+                b.innerText = 'END SHIFT'; b.style.background = '#ef4444'; b.style.color = '#fff';
+                d.classList.replace('bg-white/10', 'bg-green-400'); l.innerText = 'ACTIVE DUTY';
+                iv = setInterval(() => {
+                    sec++; const h = String(Math.floor(sec/3600)).padStart(2,'0'), m = String(Math.floor((sec%3600)/60)).padStart(2,'0'), s = String(sec%60).padStart(2,'0');
+                    document.getElementById('tmr').innerText = `${h}:${m}:${s}`;
+                }, 1000);
+            } else {
+                b.innerText = 'START SHIFT'; b.style.background = '#fff'; b.style.color = '#000';
+                d.classList.replace('bg-green-400', 'bg-white/10'); l.innerText = 'SYSTEM STANDBY';
+                clearInterval(iv); sec = 0; document.getElementById('tmr').innerText = '00:00:00';
+            }
+        }
+    </script>
+</body>
+</html>
