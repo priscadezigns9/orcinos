@@ -12,73 +12,40 @@
         @import url('https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;600;700&display=swap');
         body { background: #080d1f; color: white; font-family: 'Urbanist', sans-serif; overflow: hidden; }
         .glass { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(25px); border: 1px solid rgba(255, 255, 255, 0.05); }
-        .clay-card { 
-            background: rgba(255, 255, 255, 0.03); border-radius: 24px; 
-            box-shadow: inset 8px 8px 16px rgba(255,255,255,0.02), inset -8px -8px 16px rgba(0,0,0,0.2), 10px 10px 30px rgba(0,0,0,0.3);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-        }
+        .clay-card { background: rgba(255, 255, 255, 0.03); border-radius: 24px; box-shadow: inset 8px 8px 16px rgba(255,255,255,0.02), inset -8px -8px 16px rgba(0,0,0,0.2), 10px 10px 30px rgba(0,0,0,0.3); border: 1px solid rgba(255, 255, 255, 0.08); }
         #map { height: 100%; width: 100%; border-radius: 32px; z-index: 1; }
-        ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
+        .dp { transform: translateX(110%); transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+        .dp.open { transform: translateX(0); }
     </style>
 </head>
 <body class="min-h-screen flex">
-    <div id="ls" class="fixed inset-0 z-[120] bg-[#080d1f] flex items-center justify-center p-6">
-        <div class="max-w-md w-full space-y-10 glass p-12 rounded-[3rem] text-center border-white/5">
-            <img src="https://priscadezigns.org/vela/vela_logo.png" class="h-24 mx-auto mb-6 rounded-3xl">
-            <h1 class="text-4xl font-bold tracking-tighter uppercase">Velloq <span class="opacity-20">Command</span></h1>
-            <div class="space-y-4 text-left">
-                <input id="e" placeholder="Work Email" class="w-full bg-white/5 border border-white/10 rounded-2xl p-5 outline-none focus:border-blue-500">
-                <input id="p" type="password" placeholder="Access Token" class="w-full bg-white/5 border border-white/10 rounded-2xl p-5 outline-none focus:border-blue-500">
-                <button onclick="login()" class="w-full py-5 rounded-2xl bg-blue-600 font-bold text-lg shadow-xl shadow-blue-600/40">AUTHENTICATE</button>
-            </div>
-        </div>
-    </div>
-    <div id="md" class="hidden flex-1 flex h-screen">
-        <aside class="w-80 glass border-r border-white/5 flex flex-col p-8 space-y-8">
-            <div class="flex items-center gap-4"><img src="https://priscadezigns.org/vela/vela_logo.png" class="h-10"><span class="font-bold tracking-tighter text-2xl uppercase">Velloq</span></div>
-            <nav class="flex-1 space-y-2">
-                <button onclick="v('map')" class="w-full p-4 rounded-xl text-left text-xs font-bold opacity-40 hover:opacity-100">Tactical Map</button>
-                <button onclick="v('personnel')" class="w-full p-4 rounded-xl text-left text-xs font-bold opacity-40 hover:opacity-100">Personnel (20)</button>
-                <button onclick="v('fleet')" class="w-full p-4 rounded-xl text-left text-xs font-bold opacity-40 hover:opacity-100">Fleet Assets (5)</button>
-                <button onclick="v('locations')" class="w-full p-4 rounded-xl text-left text-xs font-bold opacity-40 hover:opacity-100">Locations</button>
-            </nav>
-            <div class="pt-8 border-t border-white/5"><p id="un" class="font-bold"></p><p id="ur" class="text-[9px] opacity-20 uppercase tracking-widest"></p><button onclick="lo()" class="mt-4 text-red-500/50 uppercase text-[10px] font-bold">Sign Out</button></div>
-        </aside>
-        <main class="flex-1 p-8 flex flex-col relative">
-            <header class="flex justify-between items-center mb-8"><h2 id="vt" class="text-3xl font-bold uppercase tracking-tighter">Tactical Map</h2><button id="ac" onclick="oM()" class="hidden px-6 py-3 bg-blue-600 rounded-xl text-[10px] font-bold uppercase">+ Add New Asset</button></header>
-            <div id="content" class="flex-1 relative overflow-hidden"><div id="mv" class="h-full w-full"><div id="map"></div></div><div id="tv" class="hidden h-full overflow-y-auto clay-card p-10"></div></div>
-        </main>
-    </div>
-    <div id="modal" class="hidden fixed inset-0 z-[200] bg-black/80 flex items-center justify-center p-6 backdrop-blur-xl">
-        <div class="max-w-md w-full glass p-12 rounded-[3rem] space-y-6 border-white/5">
-            <h3 class="text-2xl font-bold uppercase tracking-tighter">Register Asset</h3>
-            <div class="space-y-4">
-                <input id="mn" placeholder="Name / Plate" class="w-full bg-white/5 border border-white/10 rounded-2xl p-5 outline-none focus:border-blue-500">
-                <select id="mt" class="w-full bg-white/5 border border-white/10 rounded-2xl p-5 outline-none focus:border-blue-500"><option value="person">Officer</option><option value="vehicle">GAC Vehicle</option><option value="location">Location</option></select>
-                <input id="ma" placeholder="Address (Geocoding Auto-link)" class="w-full bg-white/5 border border-white/10 rounded-2xl p-5 outline-none focus:border-blue-500">
-                <button onclick="sA()" class="w-full py-5 rounded-2xl bg-blue-600 font-bold uppercase text-sm">Deploy Asset</button>
-                <button onclick="cM()" class="w-full text-[10px] opacity-20 font-bold uppercase">Cancel</button>
-            </div>
-        </div>
-    </div>
+    <div id="ls" class="fixed inset-0 z-[120] bg-[#080d1f] flex items-center justify-center p-6"><div class="max-w-md w-full glass p-12 rounded-[3rem] text-center border-white/5"><img src="https://priscadezigns.org/vela/vela_logo.png" class="h-24 mx-auto mb-6 rounded-3xl">
+    <h1 class="text-4xl font-bold uppercase tracking-tighter mb-10">Velloq <span class="opacity-20">Command</span></h1>
+    <div class="space-y-4"><input id="e" placeholder="Email" class="w-full bg-white/5 border border-white/10 rounded-2xl p-5 outline-none focus:border-blue-500"><input id="p" type="password" placeholder="Access Token" class="w-full bg-white/5 border border-white/10 rounded-2xl p-5 outline-none focus:border-blue-500"><button onclick="login()" class="w-full py-5 rounded-2xl bg-blue-600 font-bold text-lg">AUTHENTICATE</button></div></div></div>
+    <div id="md" class="hidden flex-1 flex h-screen"><aside class="w-80 glass border-r border-white/5 flex flex-col p-8 space-y-8"><div class="flex items-center gap-4"><img src="https://priscadezigns.org/vela/vela_logo.png" class="h-10"><span class="font-bold tracking-tighter text-2xl uppercase">Velloq</span></div><nav class="flex-1 space-y-2"><button onclick="v('map')" class="w-full p-4 rounded-xl text-left text-xs font-bold opacity-40 hover:opacity-100">Tactical Map</button><button onclick="v('personnel')" class="w-full p-4 rounded-xl text-left text-xs font-bold opacity-40 hover:opacity-100">Personnel (20)</button><button onclick="v('fleet')" class="w-full p-4 rounded-xl text-left text-xs font-bold opacity-40 hover:opacity-100">Fleet Assets (5)</button></nav><div class="pt-8 border-t border-white/5"><p id="un" class="font-bold"></p><p id="ur" class="text-[9px] opacity-20 uppercase tracking-widest"></p><button onclick="lo()" class="mt-4 text-red-500/50 uppercase text-[10px] font-bold">Sign Out</button></div></aside>
+    <main class="flex-1 p-8 flex flex-col relative overflow-hidden"><header class="flex justify-between items-center mb-8"><h2 id="vt" class="text-3xl font-bold uppercase tracking-tighter">Tactical Map</h2><button id="ac" onclick="oM()" class="hidden px-6 py-3 bg-blue-600 rounded-xl text-[10px] font-bold uppercase">+ Add New Asset</button></header><div id="ct" class="flex-1 relative overflow-hidden"><div id="mv" class="h-full w-full"><div id="map"></div></div><div id="tv" class="hidden h-full overflow-y-auto clay-card p-10"></div></div>
+    <div id="dp" class="dp fixed top-8 bottom-8 right-8 w-96 glass z-[150] rounded-[3rem] p-10 border-white/10 flex flex-col space-y-8"><div class="flex justify-between items-center"><h3 class="text-xl font-bold uppercase tracking-tighter">Asset Intel</h3><button onclick="cDP()" class="opacity-30">✕</button></div><div id="db" class="flex-1 space-y-6 text-center"></div></div></main></div>
+    <div id="modal" class="hidden fixed inset-0 z-[200] bg-black/80 flex items-center justify-center p-6 backdrop-blur-xl"><div class="max-w-md w-full glass p-12 rounded-[3rem] space-y-6 border-white/5"><h3 class="text-2xl font-bold uppercase">Register Asset</h3><div class="space-y-4"><input id="mn" placeholder="Name / Plate" class="w-full bg-white/5 border border-white/10 rounded-2xl p-5 outline-none focus:border-blue-500"><select id="mt" class="w-full bg-white/5 border border-white/10 rounded-2xl p-5 outline-none focus:border-blue-500"><option value="person">Officer</option><option value="vehicle">GAC Vehicle</option></select><input id="ma" placeholder="Address" class="w-full bg-white/5 border border-white/10 rounded-2xl p-5 outline-none focus:border-blue-500"><button onclick="sA()" class="w-full py-5 rounded-2xl bg-blue-600 font-bold uppercase">Deploy</button><button onclick="cM()" class="w-full text-[10px] opacity-20 uppercase font-bold">Cancel</button></div></div></div>
     <script>
         const users = [{ e: "alice@amber-sim.local", p: "Alice123", n: "Alice", r: "Sovereign" }, { e: "amir.narine@amber-sim.local", p: "Amir123", n: "Amir Narine", r: "Admin" }];
-        let map;
+        const pData = [{n:"Jason Rivers",r:"Driver",e:"jason.rivers@amber-sim.local",ph:"1-868-555-1479"},{n:"Kelly Smith",r:"Driver",e:"kelly.smith@amber-sim.local",ph:"1-868-555-8546"},{n:"David Low",r:"Driver",e:"david.low@amber-sim.local",ph:"1-868-555-7443"},{n:"Sarah Chen",r:"HR Manager",e:"sarah.chen@amber-sim.local",ph:"1-868-555-1235"},{n:"Mark Bass",r:"Dispatcher",e:"mark.bass@amber-sim.local",ph:"1-868-555-1942"},{n:"Anand Maharaj",r:"Chef",e:"anand.maharaj@amber-sim.local",ph:"1-868-555-2641"},{n:"Priya Khan",r:"Sous Chef",e:"priya.khan@amber-sim.local",ph:"1-868-555-5813"},{n:"Michael Williams",r:"Kitchen Staff",e:"michael.williams@amber-sim.local",ph:"1-868-555-2540"},{n:"Tricia Persad",r:"Kitchen Staff",e:"tricia.persad@amber-sim.local",ph:"1-868-555-8854"},{n:"Ricardo Gomez",r:"Kitchen Staff",e:"ricardo.gomez@amber-sim.local",ph:"1-868-555-1320"},{n:"Leah Ali",r:"Server",e:"leah.ali@amber-sim.local",ph:"1-868-555-2689"},{n:"Dwayne Boodoo",r:"Server",e:"dwayne.boodoo@amber-sim.local",ph:"1-868-555-6024"},{n:"Sasha Ramnarine",r:"Server",e:"sasha.ramnarine@amber-sim.local",ph:"1-868-555-1958"},{n:"Chris John",r:"Server",e:"chris.john@amber-sim.local",ph:"1-868-555-3689"},{n:"Maya Thomas",r:"Server",e:"maya.thomas@amber-sim.local",ph:"1-868-555-1105"},{n:"Kevin Pierre",r:"Cleaner",e:"kevin.pierre@amber-sim.local",ph:"1-868-555-9454"},{n:"Renee Joseph",r:"Cleaner",e:"renee.joseph@amber-sim.local",ph:"1-868-555-8414"},{n:"Justin Lal",r:"Security",e:"justin.lal@amber-sim.local",ph:"1-868-555-6077"},{n:"Shana Seepersad",r:"Security",e:"shana.seepersad@amber-sim.local",ph:"1-868-555-7459"}];
+        let map, curU;
         window.onload = () => { const u = JSON.parse(localStorage.getItem('v_adm')); if (u) { s(u); } else { document.getElementById('ls').style.display = 'flex'; } };
-        function login() { const e = document.getElementById('e').value.trim().toLowerCase(), p = document.getElementById('p').value.trim(); const found = users.find(u => u.e === e && u.p === p); if(found) { localStorage.setItem('v_adm', JSON.stringify(found)); s(found); } else alert('Denied'); }
-        function s(u) { document.getElementById('ls').style.display = 'none'; document.getElementById('md').classList.remove('hidden'); document.getElementById('un').innerText = u.n; document.getElementById('ur').innerText = u.r; if(u.r === 'Sovereign') document.getElementById('ac').classList.remove('hidden'); initMap(); }
-        function initMap() { if(map) return; map = L.map('map', { zoomControl: false }).setView([10.2833, -61.4667], 11); L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png').addTo(map); L.marker([10.2833, -61.4667]).addTo(map).bindPopup('<b>Amber Restaurant</b><br>San Fernando HQ').openPopup(); }
+        function login() { const e = document.getElementById('e').value.trim().toLowerCase(), p = document.getElementById('p').value.trim(), f = users.find(u => u.e === e && u.p === p); if(f) { localStorage.setItem('v_adm', JSON.stringify(f)); s(f); } else alert('Denied'); }
+        function s(u) { curU = u; document.getElementById('ls').style.display = 'none'; document.getElementById('md').classList.remove('hidden'); document.getElementById('un').innerText = u.n; document.getElementById('ur').innerText = u.r; if(u.r === 'Sovereign') document.getElementById('ac').classList.remove('hidden'); initMap(); }
+        function initMap() { if(map) return; map = L.map('map', { zoomControl: false }).setView([10.2833, -61.4667], 11); L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png').addTo(map); L.marker([10.2833, -61.4667]).addTo(map).bindPopup('<b>Amber Restaurant HQ</b><br>San Fernando'); }
         function v(t) { document.getElementById('vt').innerText = t.toUpperCase(); const mv = document.getElementById('mv'), tv = document.getElementById('tv'); if(t === 'map') { mv.classList.remove('hidden'); tv.classList.add('hidden'); } else { mv.classList.add('hidden'); tv.classList.remove('hidden'); rT(t); } }
-        function rT(t) { const tv = document.getElementById('tv'); let h = `<table class="w-full text-left"><thead><tr class="text-[10px] opacity-20 uppercase font-bold tracking-widest"><th class="pb-6">Identity</th><th class="pb-6">Role / Plate</th><th class="pb-6">Status</th><th class="pb-6 text-right">Ops</th></tr></thead><tbody class="text-sm">`;
-            if(t === 'personnel') { for(let i=1; i<=20; i++) h += `<tr class="border-t border-white/5"><td class="py-5 font-bold">Officer 100${i}</td><td class="opacity-50">Fleet Driver</td><td class="text-green-500 font-bold">Active</td><td class="text-right opacity-30">Details</td></tr>`; }
-            else if(t === 'fleet') { for(let i=1; i<=5; i++) h += `<tr class="border-t border-white/5"><td class="py-5 font-bold">GAC Vehicle 0${i}</td><td class="opacity-50">PDB 200${i}</td><td class="text-blue-500 font-bold">On Mission</td><td class="text-right text-red-500/50">Remove</td></tr>`; }
+        function rT(t) { const tv = document.getElementById('tv'); let h = `<table class="w-full text-left"><thead><tr class="text-[10px] opacity-20 uppercase font-bold tracking-widest"><th class="pb-6">Identity</th><th class="pb-6">Role</th><th class="pb-6">Status</th><th class="pb-6 text-right">Ops</th></tr></thead><tbody class="text-sm">`;
+            if(t === 'personnel') { pData.forEach(p => h += `<tr class="border-t border-white/5"><td class="py-5 font-bold">${p.n}</td><td class="opacity-50">${p.r}</td><td class="text-green-500 font-bold">Active</td><td class="text-right"><button onclick="oDP('${p.n}')" class="text-blue-400 font-bold mr-4">Intel</button>${curU.r==='Sovereign'?'<button class="text-red-500">✕</button>':''}</td></tr>`); }
+            else if(t === 'fleet') { for(let i=1; i<=5; i++) h += `<tr class="border-t border-white/5"><td class="py-5 font-bold">GAC 0${i}</td><td class="opacity-50">PDB 10${i}</td><td class="text-blue-500 font-bold">Live</td><td class="text-right"><button onclick="oDP('GAC Asset ${i}')" class="text-blue-400 font-bold mr-4">Intel</button>${curU.r==='Sovereign'?'<button class="text-red-500">✕</button>':''}</td></tr>`; }
             tv.innerHTML = h + `</tbody></table>`;
         }
+        function oDP(n) { const db = document.getElementById('db'), p = pData.find(x=>x.n===n) || {n, r:'Fleet Asset', e:'N/A', ph:'N/A'}; db.innerHTML = `<div class="clay-card w-32 h-32 mx-auto overflow-hidden mb-6"><img src="https://ui-avatars.com/api/?name=${p.n}&background=2563eb&color=fff" class="w-full h-full"></div><p class="text-2xl font-bold uppercase">${p.n}</p><p class="text-xs opacity-30 mb-8 uppercase font-bold">${p.r}</p><div class="text-left space-y-4 px-4"><div class="flex justify-between text-xs opacity-50"><span>Email</span> <span>${p.e}</span></div><div class="flex justify-between text-xs opacity-50"><span>Phone</span> <span>${p.ph}</span></div><div class="flex justify-between text-xs opacity-50"><span>Location</span> <span class="text-blue-400 font-bold">GRID SYNCED</span></div></div>`; document.getElementById('dp').classList.add('open'); }
+        function cDP() { document.getElementById('dp').classList.remove('open'); }
         function oM() { document.getElementById('modal').classList.remove('hidden'); }
         function cM() { document.getElementById('modal').classList.add('hidden'); }
         function lo() { localStorage.clear(); location.reload(); }
-        function sA() { alert('Asset deployed to grid.'); cM(); }
+        function sA() { alert('Deployed'); cM(); }
     </script>
 </body>
 </html>
