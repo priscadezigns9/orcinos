@@ -1,0 +1,11 @@
+{
+  "name": "Velloq Command",
+  "short_name": "Velloq",
+  "start_url": "/velloq/app/index.html",
+  "display": "standalone",
+  "background_color": "#080d1f",
+  "theme_color": "#2563eb",
+  "icons": [
+    { "src": "https://priscadezigns.org/vela/vela_logo.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}
