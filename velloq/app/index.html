@@ -4,261 +4,76 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Velloq | Command Center</title>
+    <link rel="manifest" href="manifest.json">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;600;700&display=swap');
-        :root { --vb: #2563eb; --vn: #080d1f; --vw: #ffffff; }
-        body { background: var(--vn); color: var(--vw); font-family: 'Urbanist', sans-serif; overflow: hidden; }
-        
+        body { background: #080d1f; color: white; font-family: 'Urbanist', sans-serif; overflow: hidden; }
         .glass { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(25px); border: 1px solid rgba(255, 255, 255, 0.05); }
         .clay-card { 
-            background: rgba(255, 255, 255, 0.03); 
-            border-radius: 24px; 
-            box-shadow: inset 8px 8px 16px rgba(255,255,255,0.02), inset -8px -8px 16px rgba(0,0,0,0.2), 10px 10px 30px rgba(0,0,0,0.3);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            background: rgba(255, 255, 255, 0.03); border-radius: 32px; 
+            box-shadow: inset 8px 8px 16px rgba(255,255,255,0.02), inset -8px -8px 16px rgba(0,0,0,0.2), 10px 10px 40px rgba(0,0,0,0.4);
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
-        .clay-card:hover { transform: translateY(-5px); border-color: rgba(37, 99, 235, 0.3); }
-        
-        .sidebar-item { transition: all 0.3s; border-radius: 16px; color: rgba(255,255,255,0.3); padding: 16px; cursor: pointer; display: flex; items-center; gap: 12px; }
-        .sidebar-item:hover, .sidebar-item.active { background: rgba(37, 99, 235, 0.1); color: #60a5fa; }
-        
-        .asset-item { border-bottom: 1px solid rgba(255,255,255,0.03); padding: 16px; transition: 0.2s; cursor: pointer; }
-        .asset-item:hover { background: rgba(255,255,255,0.02); }
-        .asset-item.selected { background: rgba(37, 99, 235, 0.1); border-left: 3px solid var(--vb); }
-
-        .status-dot { width: 8px; height: 8px; border-radius: 50%; }
-        .dot-online { background: #4ade80; box-shadow: 0 0 10px #4ade80; }
-        .dot-offline { background: rgba(255,255,255,0.2); }
-
-        .icon-stroke { stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; fill: none; }
-        .shredded { display: none !important; }
-
-        ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
+        #ls { display: none; }
     </style>
 </head>
 <body class="min-h-screen flex">
-
-    <!-- LOGIN SCREEN -->
     <div id="ls" class="fixed inset-0 z-[120] bg-[#080d1f] flex items-center justify-center p-6">
-        <div class="max-w-md w-full space-y-10 glass p-12 rounded-[3rem] text-center border-white/5 shadow-2xl">
-            <div>
-                <img src="https://priscadezigns.org/vela/vela_logo.png" class="h-24 mx-auto mb-6 rounded-3xl shadow-2xl shadow-blue-500/20">
-                <h1 class="text-4xl font-bold tracking-tighter">VELLOQ <span class="opacity-20 font-light">COMMAND</span></h1>
-            </div>
+        <div class="max-w-md w-full space-y-10 glass p-12 rounded-[3rem] text-center border-white/5">
+            <img src="https://priscadezigns.org/vela/vela_logo.png" class="h-24 mx-auto mb-6 rounded-3xl">
+            <h1 class="text-4xl font-bold tracking-tighter uppercase">Velloq <span class="opacity-20 font-light">Command</span></h1>
             <div class="space-y-4">
-                <input id="e" placeholder="Authorized Email" class="w-full bg-white/5 border border-white/10 rounded-2xl p-5 outline-none focus:border-blue-500 transition-all">
-                <div class="relative">
-                    <input id="p" type="password" placeholder="Access Token" class="w-full bg-white/5 border border-white/10 rounded-2xl p-5 outline-none focus:border-blue-500 transition-all">
-                    <button onclick="x=document.getElementById('p');x.type=x.type==='password'?'text':'password'" class="absolute right-6 top-5 opacity-20 hover:opacity-100 transition-opacity">👁</button>
-                </div>
-                <button onclick="login()" class="w-full py-5 rounded-2xl bg-blue-600 font-bold text-lg shadow-xl shadow-blue-600/30 active:scale-95 transition-all">AUTHENTICATE</button>
+                <input id="e" placeholder="Work Email" class="w-full bg-white/5 border border-white/10 rounded-2xl p-5 outline-none focus:border-blue-500">
+                <input id="p" type="password" placeholder="Access Token" class="w-full bg-white/5 border border-white/10 rounded-2xl p-5 outline-none focus:border-blue-500">
+                <button onclick="login()" class="w-full py-5 rounded-2xl bg-blue-600 font-bold text-lg shadow-xl shadow-blue-600/40">AUTHENTICATE</button>
             </div>
         </div>
     </div>
 
-    <!-- MAIN DASHBOARD -->
-    <div id="md" class="hidden flex-1 flex h-screen overflow-hidden">
-        <!-- SIDEBAR -->
-        <aside class="w-20 lg:w-72 glass border-r border-white/5 flex flex-col p-6 space-y-10 overflow-hidden">
-            <div class="flex items-center gap-4 px-2">
-                <img src="https://priscadezigns.org/vela/vela_logo.png" class="h-10 w-10 shadow-lg shadow-blue-500/20 rounded-xl">
-                <span class="hidden lg:block font-bold tracking-tighter text-2xl uppercase">Velloq</span>
+    <div id="md" class="hidden flex-1 flex h-screen">
+        <aside class="w-80 glass border-r border-white/5 flex flex-col p-10 space-y-12">
+            <div class="flex items-center gap-4">
+                <img src="https://priscadezigns.org/vela/vela_logo.png" class="h-10">
+                <span class="font-bold tracking-tighter text-2xl uppercase">Velloq</span>
             </div>
-            <nav class="flex-1 space-y-2 overflow-y-auto">
-                <div class="sidebar-item active">
-                    <svg class="w-6 h-6 icon-stroke"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                    <span class="hidden lg:block font-bold text-sm">Tactical Map</span>
-                </div>
-                <div class="sidebar-item">
-                    <svg class="w-6 h-6 icon-stroke"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
-                    <span class="hidden lg:block font-bold text-sm">Intelligence</span>
-                </div>
-                <div id="at" class="sidebar-item">
-                    <svg class="w-6 h-6 icon-stroke"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-                    <span class="hidden lg:block font-bold text-sm">Personnel</span>
-                </div>
-                <div class="sidebar-item">
-                    <svg class="w-6 h-6 icon-stroke"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-                    <span class="hidden lg:block font-bold text-sm">Fleet Reports</span>
-                </div>
+            <nav class="flex-1 space-y-4">
+                <div class="p-5 bg-white/5 rounded-2xl font-bold text-blue-400">Tactical Hub</div>
             </nav>
-            <div class="pt-6 border-t border-white/5">
-                <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-xl clay-card flex items-center justify-center font-bold text-blue-400">A</div>
-                    <div class="hidden lg:block">
-                        <p id="un" class="font-bold text-sm leading-none"></p>
-                        <p id="ur" class="text-[9px] opacity-20 uppercase tracking-[0.2em] mt-1"></p>
-                    </div>
-                </div>
-                <button onclick="logout()" class="mt-6 text-[10px] font-bold text-red-500/50 hover:text-red-500 transition-colors uppercase tracking-widest px-2">Sign Out</button>
+            <div class="pt-10 border-t border-white/5">
+                <p id="un" class="font-bold text-lg"></p>
+                <p id="ur" class="text-[9px] opacity-20 uppercase"></p>
+                <button onclick="logout()" class="mt-6 text-red-500/50 uppercase text-[10px]">Sign Out</button>
             </div>
         </aside>
-
-        <!-- ASSET LIST (DYNAMIC SIDEBAR) -->
-        <div class="w-80 glass border-r border-white/5 flex flex-col hidden lg:flex">
-            <div class="p-6 border-b border-white/5 space-y-4">
-                <div class="relative">
-                    <input id="asset-search" oninput="filterAssets()" type="text" placeholder="Search Assets..." class="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-10 text-xs focus:border-blue-500 outline-none transition-all">
-                    <span class="absolute left-4 top-3.5 opacity-20">🔍</span>
-                </div>
-                <div class="flex items-center justify-between">
-                    <p class="text-[10px] font-bold uppercase tracking-widest opacity-30">Active Fleet</p>
-                    <span id="active-count" class="text-[10px] font-bold text-green-400 bg-green-400/10 px-2 py-0.5 rounded-full">18 ONLINE</span>
-                </div>
-            </div>
-            <div id="asset-list" class="flex-1 overflow-y-auto">
-                <!-- Assets populated by JS -->
-            </div>
-        </div>
-
-        <!-- MAIN VIEW -->
-        <main class="flex-1 relative flex flex-col overflow-hidden">
-            <!-- HEADER -->
-            <header class="absolute top-8 left-8 right-8 z-10 flex justify-between items-start pointer-events-none">
-                <div class="pointer-events-auto">
-                    <h2 class="text-4xl font-bold tracking-tighter">Tactical Intelligence</h2>
-                    <p class="text-white/20 text-xs mt-1 uppercase tracking-widest">Truth Layer Feed · Chaguanas, Trinidad</p>
-                </div>
-                <div class="flex gap-4 pointer-events-auto">
-                    <div class="clay-card px-8 py-5 text-center">
-                        <p class="text-[9px] opacity-40 uppercase font-bold tracking-[0.2em] mb-1">Risk Alerts</p>
-                        <p class="text-2xl font-bold text-yellow-400">02</p>
-                    </div>
-                    <div class="clay-card px-8 py-5 text-center border-blue-500/20">
-                        <p class="text-[9px] text-blue-400 uppercase font-bold tracking-[0.2em] mb-1">System Health</p>
-                        <p class="text-2xl font-bold">99.9%</p>
-                    </div>
-                </div>
-            </header>
-
-            <!-- TACTICAL MAP -->
-            <div class="flex-1 relative bg-[#060a18]">
-                <!-- MAP MOCKUP -->
-                <div class="absolute inset-0 opacity-20" style="background-image: radial-gradient(circle, rgba(37, 99, 235, 0.1) 1px, transparent 1px); background-size: 40px 40px;"></div>
-                <div id="map-bg" class="absolute inset-0 flex items-center justify-center pointer-events-none">
-                    <div class="text-center opacity-5 select-none">
-                        <p class="text-[200px]">🛰️</p>
-                        <p class="text-xs uppercase tracking-[2em]">Map Feed Authorized</p>
-                    </div>
-                </div>
-                
-                <!-- DYNAMIC MARKERS -->
-                <div id="markers-layer"></div>
-
-                <!-- ASSET DETAIL PANEL (HIDDEN BY DEFAULT) -->
-                <div id="detail-panel" class="absolute bottom-8 left-8 right-8 lg:left-auto lg:w-96 glass rounded-[2.5rem] p-8 hidden pointer-events-auto border-blue-500/20 shadow-[0_40px_100px_rgba(0,0,0,0.6)]">
-                    <div class="flex justify-between items-start mb-6">
-                        <div class="flex items-center gap-4">
-                            <img id="det-img" src="" class="w-14 h-14 rounded-2xl border border-white/10">
-                            <div>
-                                <h3 id="det-name" class="font-bold text-xl leading-none">Name</h3>
-                                <p id="det-role" class="text-[10px] opacity-30 uppercase tracking-widest mt-1">Role</p>
-                            </div>
-                        </div>
-                        <button onclick="closeDetail()" class="text-lg opacity-20 hover:opacity-100">✕</button>
-                    </div>
-                    <div class="grid grid-cols-2 gap-4 mb-6">
-                        <div class="bg-white/5 p-4 rounded-2xl">
-                            <p class="text-[8px] opacity-30 uppercase font-bold mb-1">Odometer</p>
-                            <p id="det-odo" class="font-bold text-sm">0 km</p>
-                        </div>
-                        <div class="bg-white/5 p-4 rounded-2xl">
-                            <p class="text-[8px] opacity-30 uppercase font-bold mb-1">Battery</p>
-                            <p id="det-bat" class="font-bold text-sm text-green-400">98%</p>
-                        </div>
-                    </div>
-                    <button class="w-full py-4 rounded-xl bg-blue-600 font-bold text-xs uppercase tracking-widest shadow-lg shadow-blue-500/20">Remote Command</button>
-                </div>
+        <main class="flex-1 p-12 overflow-y-auto">
+            <div class="grid grid-cols-3 gap-10">
+                <div class="clay-card p-10"><p class="text-[10px] opacity-20 uppercase font-bold mb-2">Fleet Pulse</p><p class="text-4xl font-bold">20 / 20</p></div>
             </div>
         </main>
     </div>
 
     <script>
-        const assets = [
-            { id: 1, n: "Jason Rivers", r: "Driver", s: "ONLINE", x: 45, y: 55, o: "14,203", b: "84%", img: "https://ui-avatars.com/api/?name=Jason+Rivers&background=2563eb&color=fff" },
-            { id: 2, n: "Kelly Smith", r: "Driver", s: "HOME", x: 65, y: 25, o: "8,442", b: "92%", img: "https://ui-avatars.com/api/?name=Kelly+Smith&background=2563eb&color=fff" },
-            { id: 3, n: "David Low", r: "Driver", s: "ONLINE", x: 30, y: 40, o: "22,109", b: "45%", img: "https://ui-avatars.com/api/?name=David+Low&background=2563eb&color=fff" },
-            { id: 4, n: "Sarah Chen", r: "HR Manager", s: "OFFICE", x: 50, y: 50, o: "N/A", b: "100%", img: "https://ui-avatars.com/api/?name=Sarah+Chen&background=2563eb&color=fff" },
-            { id: 5, n: "Anand Maharaj", r: "Chef", s: "ONLINE", x: 15, y: 70, o: "5,120", b: "78%", img: "https://ui-avatars.com/api/?name=Anand+Maharaj&background=2563eb&color=fff" },
-            { id: 6, n: "Priya Khan", r: "Sous Chef", s: "OFFLINE", x: 80, y: 80, o: "1,200", b: "60%", img: "https://ui-avatars.com/api/?name=Priya+Khan&background=2563eb&color=fff" }
+        const users = [
+            { e: "priscillanarine@gmail.com", p: "PRISY P", n: "Priscilla Narine", r: "Sovereign / CTO" },
+            { e: "alice@amber-sim.local", p: "Alice123", n: "Alice", r: "Sovereign" }
         ];
-
-        window.onload = () => { 
-            const u = JSON.parse(localStorage.getItem('v_adm')); 
-            if (u) s(u.n, u.r); 
-            renderAssets(assets);
+        window.onload = () => {
+            const u = JSON.parse(localStorage.getItem('v_adm'));
+            if (u) { s(u.n, u.r); } else { document.getElementById('ls').style.display = 'flex'; }
         };
-
-        function renderAssets(list) {
-            const container = document.getElementById('asset-list');
-            const markerLayer = document.getElementById('markers-layer');
-            container.innerHTML = '';
-            markerLayer.innerHTML = '';
-
-            list.forEach(a => {
-                // List Item
-                const div = document.createElement('div');
-                div.className = `asset-item flex items-center justify-between ${a.s==='ONLINE'?'':'opacity-50'}`;
-                div.innerHTML = `
-                    <div class="flex items-center gap-3">
-                        <img src="${a.img}" class="w-8 h-8 rounded-lg">
-                        <div>
-                            <p class="font-bold text-xs">${a.n}</p>
-                            <p class="text-[9px] opacity-30 uppercase">${a.r}</p>
-                        </div>
-                    </div>
-                    <div class="status-dot ${a.s==='ONLINE'?'dot-online':'dot-offline'}"></div>
-                `;
-                div.onclick = () => selectAsset(a);
-                container.appendChild(div);
-
-                // Marker
-                if(a.s !== 'OFFLINE') {
-                    const mark = document.createElement('div');
-                    mark.className = `absolute w-6 h-6 rounded-full border-4 border-white shadow-2xl cursor-pointer transition-all hover:scale-150 z-20 ${a.s==='ONLINE'?'bg-blue-500':'bg-gray-500'}`;
-                    mark.style.left = a.x + '%';
-                    mark.style.top = a.y + '%';
-                    mark.onclick = () => selectAsset(a);
-                    markerLayer.appendChild(mark);
-                }
-            });
-        }
-
-        function filterAssets() {
-            const query = document.getElementById('asset-search').value.toLowerCase();
-            const filtered = assets.filter(a => a.n.toLowerCase().includes(query) || a.r.toLowerCase().includes(query));
-            renderAssets(filtered);
-        }
-
-        function selectAsset(a) {
-            const panel = document.getElementById('detail-panel');
-            panel.classList.remove('hidden');
-            document.getElementById('det-img').src = a.img;
-            document.getElementById('det-name').innerText = a.n;
-            document.getElementById('det-role').innerText = a.r;
-            document.getElementById('det-odo').innerText = a.o + ' km';
-            document.getElementById('det-bat').innerText = a.b;
-            
-            // Map Visual Shift (Mockup)
-            document.getElementById('map-bg').style.transform = `scale(1.2) translate(${(50-a.x)}%, ${(50-a.y)}%)`;
-            document.getElementById('map-bg').style.transition = 'transform 1s ease';
-        }
-
-        function closeDetail() { 
-            document.getElementById('detail-panel').classList.add('hidden'); 
-            document.getElementById('map-bg').style.transform = `scale(1) translate(0, 0)`;
-        }
-
         function login() {
             const e = document.getElementById('e').value.trim().toLowerCase(), p = document.getElementById('p').value.trim();
-            if(e==='alice@amber-sim.local' && p==='Alice123'){ s('Alice','Sovereign'); localStorage.setItem('v_adm', JSON.stringify({n:'Alice',r:'Sovereign'})); }
-            else if(e==='amir.narine@amber-sim.local' && p==='Amir123'){ s('Amir','Admin'); localStorage.setItem('v_adm', JSON.stringify({n:'Amir',r:'Admin'})); document.getElementById('at').classList.add('shredded'); }
-            else alert('Invalid');
+            const found = users.find(u => u.e === e && u.p === p);
+            if(found) { s(found.n, found.r); localStorage.setItem('v_adm', JSON.stringify({n:found.n,r:found.r})); }
+            else alert('Access Denied');
         }
-
-        function s(n, r) { document.getElementById('ls').style.display='none'; document.getElementById('md').classList.remove('hidden'); document.getElementById('un').innerText = n; document.getElementById('ur').innerText = r; }
+        function s(n, r) {
+            document.getElementById('ls').style.display = 'none';
+            document.getElementById('md').classList.remove('hidden');
+            document.getElementById('un').innerText = n;
+            document.getElementById('ur').innerText = r;
+        }
         function logout() { localStorage.clear(); location.reload(); }
     </script>
 </body>
