@@ -4,36 +4,164 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Velloq Link | Personnel Portal</title>
-    <link rel="manifest" href="manifest.json">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;600;700&display=swap');
-        body { background: #080d1f; color: white; font-family: 'Urbanist', sans-serif; overflow-x: hidden; }
-        .glass { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.05); }
-        .clay-card { background: rgba(255, 255, 255, 0.03); border-radius: 32px; box-shadow: inset 8px 8px 16px rgba(255,255,255,0.02), inset -8px -8px 16px rgba(0,0,0,0.2), 10px 10px 40px rgba(0,0,0,0.4); border: 1px solid rgba(255, 255, 255, 0.08); }
-        #mini-map { height: 200px; width: 100%; border-radius: 24px; margin-top: 1.5rem; z-index: 1; border: 1px solid rgba(255,255,255,0.1); }
-        .eye-btn { position: absolute; right: 20px; top: 50%; transform: translateY(-50%); cursor: pointer; opacity: 0.3; }
-        #as { display: none; }
+        :root { --vb: #2563eb; --vn: #080d1f; --vw: #ffffff; }
+        body { background: var(--vn); color: var(--vw); font-family: 'Urbanist', sans-serif; -webkit-tap-highlight-color: transparent; overflow-x: hidden; }
+        
+        /* Glassmorphism Base */
+        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08); }
+        
+        /* Claymorphism Accents */
+        .clay-card { 
+            background: rgba(255, 255, 255, 0.05); 
+            border-radius: 40px; 
+            box-shadow: 
+                inset 8px 8px 15px rgba(255,255,255,0.05), 
+                inset -8px -8px 15px rgba(0,0,0,0.2),
+                20px 20px 40px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .clay-btn {
+            background: #2563eb;
+            border-radius: 24px;
+            box-shadow: 
+                inset 4px 4px 8px rgba(255,255,255,0.3), 
+                inset -4px -4px 8px rgba(0,0,0,0.2),
+                0 10px 20px rgba(37, 99, 235, 0.3);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .clay-btn:active { transform: scale(0.95); box-shadow: inset 2px 2px 4px rgba(0,0,0,0.3); }
+        
+        .status-pill { font-size: 0.65rem; letter-spacing: 0.2em; font-weight: 700; background: rgba(255,255,255,0.05); padding: 6px 16px; border-radius: 100px; color: rgba(255,255,255,0.4); }
+        .pulse { animation: pulse-ring 2s infinite; }
+        @keyframes pulse-ring { 0% { opacity: 1; } 50% { opacity: .4; } 100% { opacity: 1; } }
+        
+        .modal { display: none; position: fixed; inset: 0; background: rgba(8, 13, 31, 0.98); z-index: 100; overflow-y: auto; padding: 24px; }
+        .modal.open { display: flex; flex-direction: column; }
+
+        /* Minimalist SVG Icon Stroke */
+        .icon-stroke { stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; fill: none; }
     </style>
 </head>
-<body class="min-h-screen">
-    <div id="ls" class="fixed inset-0 z-[100] bg-[#080d1f] flex items-center justify-center p-6"><div class="max-w-md w-full glass p-10 rounded-[2.5rem] text-center"><img src="https://priscadezigns.org/vela/vela_logo.png" class="h-20 mx-auto mb-6 rounded-2xl"><h1 class="text-3xl font-bold uppercase tracking-tighter mb-8">Velloq <span class="opacity-20">Link</span></h1><div class="space-y-4 text-left"><input id="e" placeholder="Email" class="w-full bg-white/5 border border-white/10 rounded-2xl p-5 outline-none focus:border-blue-500"><div class="relative"><input id="p" type="password" placeholder="Password" class="w-full bg-white/5 border border-white/10 rounded-2xl p-5 outline-none focus:border-blue-500"><div onclick="tE('p')" class="eye-btn"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></div></div><button onclick="login()" class="w-full py-5 rounded-2xl bg-blue-600 font-bold text-lg">AUTHENTICATE</button></div></div></div>
-    <div id="as" class="flex flex-col min-h-screen p-6 pb-24"><header class="flex justify-between items-center mb-8"><div class="flex items-center gap-4"><div onclick="document.getElementById('fi').click()" class="relative w-14 h-14 rounded-2xl clay-card overflow-hidden cursor-pointer"><img id="u-img" src="" class="w-full h-full object-cover"><input type="file" id="fi" class="hidden" onchange="uP(event)"></div><div><h2 id="u-name" class="font-bold text-xl"></h2><p id="u-role" class="text-[10px] opacity-20 uppercase tracking-widest"></p></div></div><button onclick="logout()" class="p-4 glass rounded-2xl text-[10px] uppercase font-bold opacity-30">Sign Out</button></header>
-    <div class="space-y-6"><div class="clay-card p-8"><div class="flex justify-between items-center mb-6"><p class="text-[10px] opacity-20 uppercase font-bold">Duty Status</p><div id="st" class="px-4 py-1 bg-red-500/10 text-red-500 text-[9px] font-bold rounded-full uppercase">Off Duty</div></div><div id="timer" class="text-5xl font-bold tracking-tighter mb-8">00:00:00</div><button id="sb" onclick="tS()" class="w-full py-5 rounded-2xl bg-blue-600 font-bold text-lg mb-4 uppercase">Start Shift</button><div id="mini-map"></div><p id="gs" class="text-center text-[10px] opacity-20 uppercase mt-4">GPS Standby</p></div><div class="clay-card p-8"><p class="text-[10px] opacity-20 uppercase font-bold mb-6">Identity Vault</p><div id="vd" class="space-y-4"></div></div></div></div>
+<body class="min-h-screen flex flex-col">
+
+    <!-- LOGIN SCREEN -->
+    <div id="ls" class="fixed inset-0 z-[110] bg-[#080d1f] flex flex-col items-center justify-center p-10">
+        <div class="w-full max-w-sm space-y-12 text-center">
+            <div class="space-y-4">
+                <img src="https://priscadezigns.org/vela/vela_logo.png" class="h-24 mx-auto rounded-[32px] shadow-2xl shadow-blue-500/20">
+                <h1 class="text-4xl font-bold tracking-tighter uppercase">Velloq <span class="opacity-20 font-light">Link</span></h1>
+            </div>
+            <div class="space-y-4">
+                <input id="e" placeholder="Work Email" class="w-full bg-white/5 border border-white/10 rounded-2xl p-5 outline-none focus:border-blue-500">
+                <div class="relative">
+                    <input id="p" type="password" placeholder="Password" class="w-full bg-white/5 border border-white/10 rounded-2xl p-5 outline-none focus:border-blue-500">
+                    <button onclick="x=document.getElementById('p');x.type=x.type==='password'?'text':'password'" class="absolute right-6 top-5 opacity-30">
+                        <svg class="w-5 h-5 icon-stroke"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                    </button>
+                </div>
+                <button onclick="login()" class="w-full py-5 clay-btn font-bold text-lg">AUTHENTICATE</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN APP -->
+    <div id="as" style="display:none" class="flex-1 flex flex-col p-6">
+        <header class="flex items-center justify-between py-6 mb-8">
+            <div class="flex items-center gap-4">
+                <div class="relative avatar-wrap w-14 h-14 cursor-pointer" onclick="openModal('m-profile')">
+                    <img id="u-img" src="https://ui-avatars.com/api/?name=Jason+Rivers&background=2563eb&color=fff" class="w-full h-full rounded-2xl object-cover border border-white/10">
+                    <div id="d-dot" class="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-white/10 border-4 border-[#080d1f]"></div>
+                </div>
+                <div>
+                    <h2 id="u-name" class="font-bold text-xl tracking-tight leading-none">Jason Rivers</h2>
+                    <p class="text-[9px] uppercase tracking-[0.2em] opacity-30 mt-2">Driver · Location Monitoring</p>
+                </div>
+            </div>
+            <button onclick="logout()" class="p-4 glass rounded-2xl opacity-40">
+                <svg class="w-5 h-5 icon-stroke"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+            </button>
+        </header>
+
+        <main class="flex-1 flex flex-col space-y-6 pb-20">
+            <!-- EMPLOYEE DETAILS + LOCATION STATUS -->
+            <div class="clay-card p-8 relative overflow-hidden">
+                <p class="status-pill inline-block mb-6">PERSONNEL PROFILE</p>
+                <div class="space-y-4 text-left">
+                    <div class="flex justify-between border-b border-white/10 pb-3"><span class="text-[10px] uppercase tracking-widest opacity-40">Role</span><strong id="u-role">Driver</strong></div>
+                    <div class="flex justify-between border-b border-white/10 pb-3"><span class="text-[10px] uppercase tracking-widest opacity-40">Assigned duty</span><strong>Amber Operations</strong></div>
+                    <div class="flex justify-between"><span class="text-[10px] uppercase tracking-widest opacity-40">Location status</span><strong id="geo-status" class="text-green-400">REQUESTING ACCESS</strong></div>
+                </div>
+                <p class="text-[9px] opacity-30 uppercase tracking-[0.2em] mt-8">Location sharing is managed by Velloq operations. Contact your supervisor if your device is unavailable.</p>
+            </div>
+
+            <!-- ACTION GRID -->
+            <div class="grid grid-cols-2 gap-4">
+                <button onclick="openModal('m-req')" class="glass p-8 rounded-[2.5rem] flex flex-col items-center gap-4">
+                    <svg class="w-8 h-8 text-blue-400 icon-stroke"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                    <span class="text-[10px] font-bold uppercase tracking-widest opacity-40">Requests</span>
+                </button>
+                <button onclick="openModal('m-rep')" class="glass p-8 rounded-[2.5rem] flex flex-col items-center gap-4">
+                    <svg class="w-8 h-8 text-red-400 icon-stroke"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                    <span class="text-[10px] font-bold uppercase tracking-widest opacity-40">Report</span>
+                </button>
+            </div>
+        </main>
+    </div>
+
+    <!-- MODALS (Requests & Reports) -->
+    <div id="m-req" class="modal">
+        <div class="flex justify-between items-center mb-10"><h2 class="text-3xl font-bold">HR Service</h2><button onclick="closeModal('m-req')">✕</button></div>
+        <div class="space-y-6">
+            <select class="w-full bg-white/5 border border-white/10 p-5 rounded-2xl outline-none"><option>Payslip</option><option>Job Letter</option><option>Leave Request</option></select>
+            <textarea class="w-full bg-white/5 border border-white/10 p-5 rounded-2xl h-40 outline-none" placeholder="Details..."></textarea>
+            <button onclick="alert('Transmitted');closeModal('m-req')" class="w-full py-5 clay-btn font-bold">SUBMIT REQUEST</button>
+        </div>
+    </div>
+
+    <div id="m-rep" class="modal">
+        <div class="flex justify-between items-center mb-10"><h2 class="text-3xl font-bold">Incident</h2><button onclick="closeModal('m-rep')">✕</button></div>
+        <div class="space-y-6">
+            <div class="clay-card p-12 text-center" onclick="alert('Evidence capture requested')"><svg class="w-8 h-8 mx-auto mb-3 icon-stroke"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="12" cy="12" r="3"/><path d="M8 5l1.5-2h5L16 5"/></svg><span class="text-[10px] uppercase tracking-widest opacity-60">Capture Evidence</span></div>
+            <textarea class="w-full bg-white/5 border border-white/10 p-5 rounded-2xl h-40 outline-none" placeholder="Describe incident..."></textarea>
+            <button onclick="alert('Logged');closeModal('m-rep')" class="w-full py-5 bg-red-600 rounded-[2.5rem] font-bold">SUBMIT REPORT</button>
+        </div>
+    </div>
+
     <script>
-        const users = [{ e: "priscillanarine@gmail.com", p: "PRISS123", n: "Priscilla Narine", r: "Sovereign / CTO", bir: "BIR-998237-X", nis: "NIS-449201-Z", id: "ID-19940723-5", lic: "LIC-TT-88273", img: "https://ui-avatars.com/api/?name=Priscilla+Narine&background=7c3aed&color=fff" }, { e: "jason.rivers@amber-sim.local", p: "Jason123", n: "Jason Rivers", r: "Driver", bir: "BIR-112233-J", nis: "NIS-445566-K", id: "ID-19900101-J", lic: "LIC-TT-11223", img: "https://ui-avatars.com/api/?name=Jason+Rivers&background=2563eb&color=fff" }];
-        let map, marker, act = false, iv, sec = 0;
-        window.onload = () => { const u = JSON.parse(localStorage.getItem('v_u')); if(u) s(u); };
-        function tE(id){ const i=document.getElementById(id); i.type=i.type==='password'?'text':'password'; }
-        function login() { const e=document.getElementById('e').value.trim().toLowerCase(), p=document.getElementById('p').value.trim(), f=users.find(u=>u.e === e && u.p === p); if(f){localStorage.setItem('v_u',JSON.stringify(f)); s(f);} else alert('Denied'); }
-        function s(u) { document.getElementById('ls').style.display='none'; document.getElementById('as').style.display='flex'; document.getElementById('u-name').innerText=u.n; document.getElementById('u-role').innerText=u.r; document.getElementById('u-img').src=u.img; document.getElementById('vd').innerHTML = `<div class="flex justify-between text-xs opacity-50"><span>BIR</span> <span class="font-bold">${u.bir}</span></div><div class="flex justify-between text-xs opacity-50"><span>NIS</span> <span class="font-bold">${u.nis}</span></div><div class="flex justify-between text-xs opacity-50"><span>ID</span> <span class="font-bold">${u.id}</span></div><div class="flex justify-between text-xs opacity-50"><span>License</span> <span class="font-bold">${u.lic}</span></div>`; initMap(); }
-        function initMap() { map = L.map('mini-map', { zoomControl: false }).setView([10.1844, -61.5533], 15); L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png').addTo(map); marker = L.circleMarker([10.1844, -61.5533], { color: '#2563eb', radius: 8, fillOpacity: 0.8 }).addTo(map); }
-        function tS() { act = !act; const b = document.getElementById('sb'), t = document.getElementById('st'), g = document.getElementById('gs'); if(act) { b.innerText = "STOP SHIFT"; b.style.background = "#ef4444"; t.innerText = "On Duty"; t.style.color = "#22c55e"; iv = setInterval(() => { sec++; document.getElementById('timer').innerText = new Date(sec * 1000).toISOString().substr(11, 8); tr(); }, 1000); } else { clearInterval(iv); b.innerText = "START SHIFT"; b.style.background = "#2563eb"; t.innerText = "Off Duty"; t.style.color = "#ef4444"; g.innerText = "GPS Standby"; } }
-        function tr() { if (!navigator.geolocation) return; navigator.geolocation.getCurrentPosition((p) => { const { latitude, longitude } = p.coords; marker.setLatLng([latitude, longitude]); map.panTo([latitude, longitude]); document.getElementById('gs').innerText = `Live: ${latitude.toFixed(4)}, ${longitude.toFixed(4)}`; }); }
-        function uP(e) { const f = e.target.files[0]; if(f){ const r = new FileReader(); r.onload = (x) => { document.getElementById('u-img').src = x.target.result; }; r.readAsDataURL(f); } }
+        window.onload = () => {
+            const u = JSON.parse(localStorage.getItem('v_user'));
+            if(u) { showApp(); startLocation(); }
+        };
+
+        function login() {
+            const e = document.getElementById('e').value.trim().toLowerCase(), p = document.getElementById('p').value.trim();
+            if(e==='jason.rivers@amber-sim.local' && p==='Jason123') {
+                localStorage.setItem('v_user', JSON.stringify({n: 'Jason Rivers', r: 'Driver'}));
+                showApp();
+                startLocation();
+            } else alert('Invalid');
+        }
+
+        function showApp() { document.getElementById('ls').style.display='none'; document.getElementById('as').style.display='flex'; }
         function logout() { localStorage.clear(); location.reload(); }
+        function openModal(id) { document.getElementById(id).classList.add('open'); }
+        function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+        let watchId = null;
+        function startLocation() {
+            const status = document.getElementById('geo-status');
+            if (!("geolocation" in navigator)) { status.innerText = 'NOT AVAILABLE'; status.className = 'text-red-400'; return; }
+            watchId = navigator.geolocation.watchPosition(p => {
+                status.innerText = 'MONITORING ACTIVE'; status.className = 'text-green-400';
+                console.log(`Tracking: ${p.coords.latitude}, ${p.coords.longitude}`);
+                // Simulated transmission to Supabase; official attendance is management-controlled.
+            }, e => { status.innerText = e.code === 1 ? 'PERMISSION REQUIRED' : 'SIGNAL UNAVAILABLE'; status.className = 'text-amber-400'; }, { enableHighAccuracy: true, maximumAge: 30000 });
+        }
+        function stopLocation() { if(watchId) navigator.geolocation.clearWatch(watchId); }
     </script>
 </body>
 </html>
