@@ -139,14 +139,24 @@
 
         function login() {
             const e = document.getElementById('e').value.trim().toLowerCase(), p = document.getElementById('p').value.trim();
-            if(e==='jason.rivers@amber-sim.local' && p==='Jason123') {
-                localStorage.setItem('v_user', JSON.stringify({n: 'Jason Rivers', r: 'Driver'}));
+            const accounts = {
+                'priscillanarine@gmail.com': { password: 'PRISS123', n: 'Priscilla Narine', r: 'Administrator' },
+                'jason.rivers@amber-sim.local': { password: 'Jason123', n: 'Jason Rivers', r: 'Driver' }
+            };
+            const account = accounts[e];
+            if(account && account.password === p) {
+                localStorage.setItem('v_user', JSON.stringify({n: account.n, r: account.r}));
                 showApp();
                 startLocation();
-            } else alert('Invalid');
+            } else alert('Invalid email or password');
         }
 
-        function showApp() { document.getElementById('ls').style.display='none'; document.getElementById('as').style.display='flex'; }
+        function showApp() {
+            const u = JSON.parse(localStorage.getItem('v_user') || '{}');
+            document.getElementById('ls').style.display='none'; document.getElementById('as').style.display='flex';
+            const name = document.querySelector('#as h2'); if(name && u.n) name.innerText = u.n;
+            const role = document.getElementById('u-role'); if(role && u.r) role.innerText = u.r;
+        }
         function logout() { localStorage.clear(); location.reload(); }
         function openModal(id) { document.getElementById(id).classList.add('open'); }
         function closeModal(id) { document.getElementById(id).classList.remove('open'); }
