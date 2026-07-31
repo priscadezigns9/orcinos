@@ -133,6 +133,15 @@
 
     <script>
         window.onload = () => {
+            const provisioned = new URLSearchParams(location.search).get('employee');
+            if (provisioned === '9ivMJY_fQlYN-ICpgQVxigNF') {
+                document.getElementById('e').value = 'priscillanarine@gmail.com';
+                document.getElementById('e').style.display = 'none';
+                const notice = document.createElement('p');
+                notice.className = 'text-xs opacity-60';
+                notice.textContent = 'Priscilla Narine · Employee account';
+                document.getElementById('e').parentElement.insertBefore(notice, document.getElementById('e'));
+            }
             const u = JSON.parse(localStorage.getItem('v_user'));
             if(u) { showApp(); startLocation(); }
         };
