@@ -56,14 +56,14 @@
                 <h1 class="text-4xl font-bold tracking-tighter uppercase">Velloq <span class="opacity-20 font-light">Link</span></h1>
             </div>
             <div class="space-y-4">
-                <input id="e" placeholder="Work Email" class="w-full bg-white/5 border border-white/10 rounded-2xl p-5 outline-none focus:border-blue-500">
+                <input id="e" placeholder="Work Email" autocomplete="username" onkeydown="if(event.key==='Enter') document.getElementById('p').focus()" class="w-full bg-white/5 border border-white/10 rounded-2xl p-5 outline-none focus:border-blue-500">
                 <div class="relative">
-                    <input id="p" type="password" placeholder="Password" class="w-full bg-white/5 border border-white/10 rounded-2xl p-5 outline-none focus:border-blue-500">
+                    <input id="p" type="password" placeholder="Password" autocomplete="current-password" onkeydown="if(event.key==='Enter') login()" class="w-full bg-white/5 border border-white/10 rounded-2xl p-5 outline-none focus:border-blue-500">
                     <button onclick="x=document.getElementById('p');x.type=x.type==='password'?'text':'password'" class="absolute right-6 top-5 opacity-30">
                         <svg class="w-5 h-5 icon-stroke"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
                     </button>
                 </div>
-                <button onclick="login()" class="w-full py-5 clay-btn font-bold text-lg">AUTHENTICATE</button>
+                <button onclick="login()" class="w-full py-5 clay-btn font-bold text-lg">LOG IN</button>
             </div>
         </div>
     </div>
