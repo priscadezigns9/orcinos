@@ -116,7 +116,7 @@
     <div id="m-req" class="modal">
         <div class="flex justify-between items-center mb-10"><h2 class="text-3xl font-bold">HR Service</h2><button onclick="closeModal('m-req')">✕</button></div>
         <div class="space-y-6">
-            <select class="w-full bg-white/5 border border-white/10 p-5 rounded-2xl outline-none"><option>Payslip</option><option>Job Letter</option><option>Leave Request</option></select>
+            <select id="hr-type" class="w-full bg-white/5 border border-white/10 p-5 rounded-2xl outline-none"><option>Payslip</option><option>Job Letter</option><option>Sick Leave</option><option>Leave Request</option></select>
             <textarea class="w-full bg-white/5 border border-white/10 p-5 rounded-2xl h-40 outline-none" placeholder="Details..."></textarea>
             <button onclick="alert('Transmitted');closeModal('m-req')" class="w-full py-5 clay-btn font-bold">SUBMIT REQUEST</button>
         </div>
@@ -125,7 +125,8 @@
     <div id="m-rep" class="modal">
         <div class="flex justify-between items-center mb-10"><h2 class="text-3xl font-bold">Incident</h2><button onclick="closeModal('m-rep')">✕</button></div>
         <div class="space-y-6">
-            <div class="clay-card p-12 text-center" onclick="alert('Evidence capture requested')"><svg class="w-8 h-8 mx-auto mb-3 icon-stroke"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="12" cy="12" r="3"/><path d="M8 5l1.5-2h5L16 5"/></svg><span class="text-[10px] uppercase tracking-widest opacity-60">Capture Evidence</span></div>
+            <input id="evidence-camera" type="file" accept="image/*" capture="environment" class="hidden" onchange="showEvidence(this)">
+            <button type="button" class="clay-card p-12 text-center w-full" onclick="document.getElementById('evidence-camera').click()"><svg class="w-8 h-8 mx-auto mb-3 icon-stroke"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="12" cy="12" r="3"/><path d="M8 5l1.5-2h5L16 5"/></svg><span class="text-[10px] uppercase tracking-widest opacity-60">Capture Evidence</span><span id="evidence-status" class="block text-[9px] opacity-40 mt-2">Tap to open camera</span></button>
             <textarea class="w-full bg-white/5 border border-white/10 p-5 rounded-2xl h-40 outline-none" placeholder="Describe incident..."></textarea>
             <button onclick="alert('Logged');closeModal('m-rep')" class="w-full py-5 bg-red-600 rounded-[2.5rem] font-bold">SUBMIT REPORT</button>
         </div>
@@ -184,6 +185,13 @@
             }, e => { status.innerText = e.code === 1 ? 'PERMISSION REQUIRED' : 'SIGNAL UNAVAILABLE'; status.className = 'text-amber-400'; }, { enableHighAccuracy: true, maximumAge: 30000 });
         }
         function stopLocation() { if(watchId) navigator.geolocation.clearWatch(watchId); }
+        function showEvidence(input) {
+            const status = document.getElementById('evidence-status');
+            if (input.files && input.files[0]) {
+                status.innerText = 'PHOTO ATTACHED: ' + input.files[0].name;
+                status.className = 'block text-[9px] text-green-400 mt-2';
+            }
+        }
     </script>
 </body>
 </html>
