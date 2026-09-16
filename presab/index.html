@@ -215,6 +215,7 @@
         <div id="status-dot"></div>
         <span id="status-label">OFFLINE</span>
       </div>
+      <button class="btn btn-export" onclick="openWorkflowChooser()">Switch workflow</button>
       <button class="btn btn-logout" onclick="logout()">Logout</button>
     </div>
   </header>
@@ -312,6 +313,20 @@
 
 <div id="toast"><span class="toast-icon" id="toast-icon"></span><span id="toast-msg"></span></div>
 
+<div class="modal-bg" id="workflow-modal">
+  <div class="modal">
+    <h3>Choose attendance workflow</h3>
+    <p>Keep the existing camera dashboard, or test the new manual and role-based web workflows.</p>
+    <div style="display:grid;gap:10px;">
+      <a class="btn btn-enroll" href="index.html" style="justify-content:center;text-decoration:none;">Camera Dashboard <small style="opacity:.75;">Current V3.0</small></a>
+      <a class="btn btn-export" href="manual.html" style="justify-content:center;text-decoration:none;">Manual Attendance <small style="opacity:.75;">Synthetic data</small></a>
+      <a class="btn btn-export" href="teacher.html" style="justify-content:center;text-decoration:none;">Teacher View</a>
+      <a class="btn btn-export" href="presab_dashboard.html" style="justify-content:center;text-decoration:none;">Administrator View</a>
+    </div>
+    <button class="btn btn-cancel" onclick="closeWorkflowChooser()" style="width:100%;margin-top:14px;justify-content:center;">Cancel</button>
+  </div>
+</div>
+
 <script>
 const ACCESS_CODE = 'PRESAB2026';
 const SB_URL = "https://sazhdnqzaqpqcralmthh.supabase.co";
@@ -341,6 +356,8 @@ if (sessionStorage.getItem('presab_auth') === '1') {
 }
 
 function logout() { sessionStorage.removeItem('presab_auth'); location.reload(); }
+function openWorkflowChooser() { document.getElementById('workflow-modal').classList.add('open'); }
+function closeWorkflowChooser() { document.getElementById('workflow-modal').classList.remove('open'); }
 
 function initApp() {
   document.getElementById('today-date').textContent = new Date().toLocaleDateString('en-TT', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
