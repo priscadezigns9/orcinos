@@ -14,6 +14,7 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Cormorant:ital,wght@0,300;0,400;1,300;1,400&family=Urbanist:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <!-- Socket.io -->
 <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
   :root {
     --purple:      #7c3aed;
@@ -197,10 +198,11 @@
 <div id="gate">
   <div class="gate-card">
     <div class="gate-title">Presab V3.0</div>
-    <p class="gate-sub">Enter Access Code to Manage</p>
-    <div id="gate-error" class="gate-error">Invalid Access Code</div>
-    <input type="password" id="gate-input" class="gate-input" placeholder="••••••••" onkeypress="if(event.key==='Enter') checkGate()">
-    <button class="btn btn-enroll" style="width:100%; justify-content:center; padding:14px;" onclick="checkGate()">Access Dashboard</button>
+    <p class="gate-sub">Sign in to manage attendance</p>
+    <div id="gate-error" class="gate-error">Invalid email or password</div>
+    <input type="email" id="gate-email" class="gate-input" placeholder="Email address" onkeypress="if(event.key==='Enter') checkGate()">
+    <input type="password" id="gate-input" class="gate-input" placeholder="Password" onkeypress="if(event.key==='Enter') checkGate()">
+    <button class="btn btn-enroll" style="width:100%; justify-content:center; padding:14px;" onclick="checkGate()">Sign in</button>
   </div>
 </div>
 
@@ -340,22 +342,26 @@ let backendConnected = false;
 let attendance = [];
 let socket = null;
 
-function checkGate() {
-  if (document.getElementById('gate-input').value.trim().toUpperCase() === ACCESS_CODE) {
-    sessionStorage.setItem('presab_auth', '1');
-    location.reload();
-  } else {
-    document.getElementById('gate-error').classList.add('show');
+const authClient = window.supabase.createClient(SB_URL, SB_KEY);
+async function checkGate() {
+  const email = document.getElementById('gate-email').value.trim();
+  const password = document.getElementById('gate-input').value;
+  const err = document.getElementById('gate-error');
+  err.classList.remove('show');
+  const { error } = await authClient.auth.signInWithPassword({ email, password });
+  if (error) { err.textContent = 'Invalid email or password'; err.classList.add('show'); return; }
+  location.reload();
+}
+async function bootstrapAuth() {
+  const { data: { session } } = await authClient.auth.getSession();
+  if (session) {
+    document.getElementById('gate').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+    initApp();
   }
 }
-
-if (sessionStorage.getItem('presab_auth') === '1') {
-  document.getElementById('gate').style.display = 'none';
-  document.getElementById('app').style.display = 'block';
-  initApp();
-}
-
-function logout() { sessionStorage.removeItem('presab_auth'); location.reload(); }
+bootstrapAuth();
+async function logout() { await authClient.auth.signOut(); location.reload(); }
 function openWorkflowChooser() { document.getElementById('workflow-modal').classList.add('open'); }
 function closeWorkflowChooser() { document.getElementById('workflow-modal').classList.remove('open'); }
 
