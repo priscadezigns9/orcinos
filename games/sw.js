@@ -1,4 +1,4 @@
-const CACHE='rps-duel-v2';
+const CACHE='rps-duel-v3';
 const SHELL=['./rps.html','./manifest.json','./icon-192.png','./icon-512.png'];
 self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(SHELL)).then(()=>self.skipWaiting())));
 self.addEventListener('activate',e=>e.waitUntil(self.clients.claim()));
