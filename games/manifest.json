@@ -2,7 +2,7 @@
   "name": "Rock Paper Scissors — Play with a friend",
   "short_name": "RPS Duel",
   "description": "A quick multiplayer Rock Paper Scissors game with private rooms.",
-  "start_url": "rps-game-v2.html",
+  "start_url": "rps-game-v3.html",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
