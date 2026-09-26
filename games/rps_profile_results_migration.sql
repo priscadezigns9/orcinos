@@ -72,7 +72,7 @@ BEGIN
     IF v_room.result IS NULL THEN
       RETURN jsonb_build_object('finished', false, 'reason', 'round_not_complete');
     END IF;
-    v_target := ceil(v_room.max_rounds::numeric / 2)::integer;
+    v_target := floor(v_room.max_rounds::numeric / 2)::integer + 1;
     IF v_top_score < v_target AND v_room.round_number < v_room.max_rounds THEN
       RETURN jsonb_build_object('finished', false, 'reason', 'match_in_progress');
     END IF;
