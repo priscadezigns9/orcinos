@@ -16,6 +16,8 @@ create table if not exists public.rps_rooms (
   result text check (result is null or result in ('p1','p2','p3','multi','draw')),
   winner_id text,
   winner_ids text[] not null default array[]::text[],
+  match_finished_at timestamptz,
+  match_winner_ids text[] not null default array[]::text[],
   p1_score integer not null default 0,
   p2_score integer not null default 0,
   p3_score integer not null default 0,
