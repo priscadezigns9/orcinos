@@ -35,6 +35,7 @@ create table if not exists public.rps_achievements (
 );
 alter table public.rps_rooms add column if not exists p1_player_id uuid references public.rps_players(id) on delete set null;
 alter table public.rps_rooms add column if not exists p2_player_id uuid references public.rps_players(id) on delete set null;
+alter table public.rps_rooms add column if not exists p3_player_id uuid references public.rps_players(id) on delete set null;
 alter table public.rps_rooms add column if not exists stake integer not null default 0;
 grant select, insert, update on public.rps_players to anon, authenticated;
 grant select, insert, update on public.rps_matches to anon, authenticated;
