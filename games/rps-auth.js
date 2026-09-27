@@ -6,6 +6,30 @@
   let pending = null;
   let captchaToken = '';
   let widgetId = null;
+  const referralStorageKey = 'rps_pending_referral';
+
+  function pendingReferralCode() {
+    try {
+      const fromUrl = new URLSearchParams(window.location.search).get('ref');
+      const candidate = String(fromUrl || localStorage.getItem(referralStorageKey) || '').trim().toUpperCase();
+      if (/^[A-F0-9]{16}$/.test(candidate)) {
+        localStorage.setItem(referralStorageKey, candidate);
+        return candidate;
+      }
+    } catch (error) {}
+    return '';
+  }
+
+  function clearPendingReferralCode() {
+    try { localStorage.removeItem(referralStorageKey); } catch (error) {}
+  }
+
+  function authRedirectTo() {
+    const target = new URL('/games/rps-play.html', window.location.origin);
+    const code = pendingReferralCode();
+    if (code) target.searchParams.set('ref', code);
+    return target.toString();
+  }
 
   function ensureDialog() {
     let dialog = document.getElementById('rpsAuthDialog');
@@ -96,7 +120,7 @@
     try {
       let result;
       if (mode === 'signup') {
-        result = await pending.db.auth.signUp({ email, password, options: { captchaToken, emailRedirectTo: new URL('/games/rps-play.html', window.location.origin).toString() } });
+        result = await pending.db.auth.signUp({ email, password, options: { captchaToken, emailRedirectTo: authRedirectTo() } });
       } else {
         result = await pending.db.auth.signInWithPassword({ email, password, ...(captchaToken ? { captchaToken } : {}) });
       }
@@ -125,7 +149,7 @@
     try {
       const { error } = await pending.db.auth.signInWithOAuth({
         provider: 'google',
-        options: { redirectTo: new URL('/games/rps-play.html', window.location.origin).toString() }
+        options: { redirectTo: authRedirectTo() }
       });
       if (error) throw error;
     } catch (error) {
@@ -149,14 +173,18 @@
     });
   }
 
-  async function getOrCreateProfile(db, username, avatarKey) {
+  async function getOrCreateProfile(db, username, avatarKey, referralCode = null) {
+    const candidate = String(referralCode || pendingReferralCode() || '').trim().toUpperCase();
+    const code = /^[A-F0-9]{16}$/.test(candidate) ? candidate : null;
     const session = await requireSession(db);
     if (!session) return null;
-    const { data, error } = await db.rpc('rps_v2_get_or_create_profile', {
+    const { data, error } = await db.rpc('rps_v2_get_or_create_profile_with_referral', {
       p_username: String(username || '').trim(),
-      p_avatar_key: avatarKey || '🦊'
+      p_avatar_key: avatarKey || '🦊',
+      p_referral_code: code
     });
     if (error) throw error;
+    clearPendingReferralCode();
     localStorage.setItem('rps_username', String(data.username || username || ''));
     return data;
   }
@@ -166,13 +194,14 @@
     if (!session) return null;
     const { data, error } = await db.rpc('rps_v2_get_my_profile');
     if (error) throw error;
+    if (data) clearPendingReferralCode();
     return data || null;
   }
 
   async function signOut(db) {
     const { error } = await db.auth.signOut();
     if (error) throw error;
-    ['rps_username', 'rps_avatar', 'rps_player_id'].forEach(key => localStorage.removeItem(key));
+    ['rps_username', 'rps_avatar', 'rps_player_id', referralStorageKey].forEach(key => localStorage.removeItem(key));
     return true;
   }
 
