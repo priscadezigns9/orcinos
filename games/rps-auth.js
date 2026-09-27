@@ -2,7 +2,7 @@
 (function () {
   'use strict';
 
-  const siteKey = window.RPS_TURNSTILE_SITE_KEY || document.querySelector('meta[name="rps-turnstile-site-key"]')?.content || '';
+  const siteKey = window.RPS_TURNSTILE_SITE_KEY || document.querySelector('meta[name="rps-turnstile-site-key"]')?.content || '0x4AAAAAAFFMkP2iICgYR6Yh';
   let pending = null;
   let captchaToken = '';
   let widgetId = null;
