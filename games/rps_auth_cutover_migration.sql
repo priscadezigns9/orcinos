@@ -45,9 +45,16 @@ ALTER TABLE public.rps_rooms
 
 ALTER TABLE public.rps_players ADD COLUMN IF NOT EXISTS auth_user_id uuid REFERENCES auth.users(id) ON DELETE SET NULL;
 CREATE UNIQUE INDEX IF NOT EXISTS rps_players_auth_user_id_uidx ON public.rps_players(auth_user_id) WHERE auth_user_id IS NOT NULL;
-CREATE UNIQUE INDEX IF NOT EXISTS rps_players_username_ci_uidx ON public.rps_players(lower(username));
-CREATE UNIQUE INDEX IF NOT EXISTS rps_match_history_room_player_uidx ON public.rps_match_history(room_id,player_id);
-CREATE UNIQUE INDEX IF NOT EXISTS rps_share_rewards_player_date_uidx ON public.rps_share_rewards(player_id,reward_date);
+-- Legacy guest profiles may already have duplicate display names. Enforce uniqueness
+-- only among new Auth-owned profiles; profile RPCs below also prevent new names from
+-- colliding with any legacy row.
+CREATE UNIQUE INDEX IF NOT EXISTS rps_players_username_ci_uidx
+  ON public.rps_players(lower(username)) WHERE auth_user_id IS NOT NULL;
+-- Reuse the exact existing unique-index names so we do not add redundant indexes.
+CREATE UNIQUE INDEX IF NOT EXISTS rps_match_history_room_id_player_id_key
+  ON public.rps_match_history(room_id,player_id);
+CREATE UNIQUE INDEX IF NOT EXISTS rps_share_rewards_player_id_reward_date_key
+  ON public.rps_share_rewards(player_id,reward_date);
 ALTER TABLE public.rps_rooms ADD COLUMN IF NOT EXISTS round_winner_player_ids uuid[] NOT NULL DEFAULT ARRAY[]::uuid[];
 
 -- Never cut over while a guest/legacy match is active; this keeps existing sessions from being stranded.
@@ -117,6 +124,12 @@ BEGIN
   END IF;
   v_avatar_key := CASE WHEN v_avatar IN ('starter','rock','paper','scissors') THEN v_avatar ELSE 'starter' END;
   IF v_avatar IN ('starter','rock','paper','scissors') THEN v_avatar := '🦊'; END IF;
+
+  IF NOT EXISTS (SELECT 1 FROM public.rps_players WHERE auth_user_id = v_uid)
+     AND EXISTS (SELECT 1 FROM public.rps_players WHERE lower(username) = lower(v_username)
+                 AND auth_user_id IS DISTINCT FROM v_uid) THEN
+    RAISE EXCEPTION 'Username is already in use' USING ERRCODE='23505';
+  END IF;
 
   INSERT INTO public.rps_players (auth_user_id, guest_token, username, avatar_key, avatar)
   VALUES (v_uid, gen_random_uuid()::text, v_username, v_avatar_key, v_avatar)
@@ -713,6 +726,9 @@ BEGIN
   SELECT * INTO v_player FROM public.rps_players WHERE auth_user_id=v_uid FOR UPDATE;
   IF NOT FOUND THEN RAISE EXCEPTION 'Profile not found' USING ERRCODE='P0002'; END IF;
   IF v_name<>v_player.username AND v_player.username_changed_at IS NOT NULL AND v_player.username_changed_at>now()-interval '60 days' THEN RAISE EXCEPTION 'Username can only be changed every 60 days' USING ERRCODE='55000'; END IF;
+  IF lower(v_name)<>lower(v_player.username) AND EXISTS (
+    SELECT 1 FROM public.rps_players WHERE lower(username)=lower(v_name) AND id<>v_player.id
+  ) THEN RAISE EXCEPTION 'Username is already in use' USING ERRCODE='23505'; END IF;
   UPDATE public.rps_players SET username=v_name,avatar=v_avatar,username_changed_at=CASE WHEN v_name<>v_player.username THEN now() ELSE username_changed_at END,updated_at=now()
     WHERE id=v_player.id RETURNING * INTO v_player;
   RETURN jsonb_build_object('player_id',v_player.id,'username',v_player.username,'avatar',v_player.avatar,'avatar_key',v_player.avatar_key,'username_changed_at',v_player.username_changed_at,
@@ -802,3 +818,4 @@ REVOKE ALL ON FUNCTION public.rps_v2_get_leaderboard(integer) FROM PUBLIC, anon,
 GRANT EXECUTE ON FUNCTION public.rps_v2_get_leaderboard(integer) TO anon, authenticated;
 NOTIFY pgrst, 'reload schema';
 COMMIT;
+
