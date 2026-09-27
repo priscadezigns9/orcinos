@@ -17,6 +17,8 @@
       <form id="rpsAuthForm" method="dialog" style="display:grid;gap:12px;font:14px system-ui,sans-serif">
         <h2 style="margin:0;font-size:22px">Sign in to play</h2>
         <p style="margin:0;color:#aab3c4">Create a secure account to save a new profile and play multiplayer. Existing guest rankings stay visible but cannot be changed.</p>
+        <button type="button" id="rpsAuthGoogle" style="min-height:46px;padding:12px;border:1px solid #58647d;border-radius:10px;background:#fff;color:#202124;font-weight:800">Continue with Google</button>
+        <div aria-hidden="true" style="display:flex;align-items:center;gap:10px;color:#8792a7;font-size:12px"><span style="height:1px;flex:1;background:#39445d"></span>or use email<span style="height:1px;flex:1;background:#39445d"></span></div>
         <label>Email<input id="rpsAuthEmail" type="email" autocomplete="email" required style="display:block;width:100%;box-sizing:border-box;margin-top:5px;padding:12px;border-radius:10px;border:1px solid #39445d;background:#0e131c;color:#fff"></label>
         <label>Password<input id="rpsAuthPassword" type="password" autocomplete="current-password" minlength="8" required style="display:block;width:100%;box-sizing:border-box;margin-top:5px;padding:12px;border-radius:10px;border:1px solid #39445d;background:#0e131c;color:#fff"></label>
         <div id="rpsAuthTurnstile"></div>
@@ -31,9 +33,19 @@
     dialog.querySelector('#rpsAuthCancel').addEventListener('click', () => finish(null));
     dialog.querySelector('#rpsAuthSignIn').addEventListener('click', () => submitAuth('signin'));
     dialog.querySelector('#rpsAuthSignUp').addEventListener('click', () => submitAuth('signup'));
+    dialog.querySelector('#rpsAuthGoogle').addEventListener('click', submitGoogleAuth);
     dialog.addEventListener('cancel', (event) => { event.preventDefault(); finish(null); });
     loadTurnstile();
     return dialog;
+  }
+
+  function setAuthMode(mode) {
+    const dialog = document.getElementById('rpsAuthDialog');
+    if (!dialog) return;
+    const title = dialog.querySelector('h2');
+    const password = dialog.querySelector('#rpsAuthPassword');
+    if (title) title.textContent = mode === 'signup' ? 'Create your account' : 'Sign in to play';
+    if (password) password.autocomplete = mode === 'signup' ? 'new-password' : 'current-password';
   }
 
   function setMessage(text, error) {
@@ -84,7 +96,7 @@
     try {
       let result;
       if (mode === 'signup') {
-        result = await pending.db.auth.signUp({ email, password, options: { captchaToken } });
+        result = await pending.db.auth.signUp({ email, password, options: { captchaToken, emailRedirectTo: new URL('/games/rps-live.html', window.location.origin).toString() } });
       } else {
         result = await pending.db.auth.signInWithPassword({ email, password, ...(captchaToken ? { captchaToken } : {}) });
       }
@@ -106,16 +118,34 @@
     }
   }
 
-  async function requireSession(db) {
+  async function submitGoogleAuth() {
+    if (!pending?.db) return;
+    const button = document.getElementById('rpsAuthGoogle');
+    if (button) button.disabled = true;
+    try {
+      const { error } = await pending.db.auth.signInWithOAuth({
+        provider: 'google',
+        options: { redirectTo: new URL('/games/rps-live.html', window.location.origin).toString() }
+      });
+      if (error) throw error;
+    } catch (error) {
+      setMessage(error?.message || 'Google sign-in could not start. Try email and password instead.', true);
+      if (button) button.disabled = false;
+    }
+  }
+
+  async function requireSession(db, preferredMode = 'signin') {
     const { data, error } = await db.auth.getSession();
     if (error) throw error;
     if (data?.session) return data.session;
     ensureDialog();
     return new Promise(resolve => {
-      pending = { db };
+      pending = { db, preferredMode };
       const dialog = document.getElementById('rpsAuthDialog');
+      setAuthMode(preferredMode);
       if (widgetId === null) loadTurnstile();
       dialog.showModal();
+      dialog.querySelector(preferredMode === 'signup' ? '#rpsAuthSignUp' : '#rpsAuthSignIn')?.focus();
     });
   }
 
