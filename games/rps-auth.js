@@ -96,7 +96,7 @@
     try {
       let result;
       if (mode === 'signup') {
-        result = await pending.db.auth.signUp({ email, password, options: { captchaToken, emailRedirectTo: new URL('/games/rps-live.html', window.location.origin).toString() } });
+        result = await pending.db.auth.signUp({ email, password, options: { captchaToken, emailRedirectTo: new URL('/games/rps-play.html', window.location.origin).toString() } });
       } else {
         result = await pending.db.auth.signInWithPassword({ email, password, ...(captchaToken ? { captchaToken } : {}) });
       }
@@ -125,7 +125,7 @@
     try {
       const { error } = await pending.db.auth.signInWithOAuth({
         provider: 'google',
-        options: { redirectTo: new URL('/games/rps-live.html', window.location.origin).toString() }
+        options: { redirectTo: new URL('/games/rps-play.html', window.location.origin).toString() }
       });
       if (error) throw error;
     } catch (error) {
