@@ -169,5 +169,12 @@
     return data || null;
   }
 
-  window.RPSAuth = { requireSession, getOrCreateProfile, getExistingProfile };
+  async function signOut(db) {
+    const { error } = await db.auth.signOut();
+    if (error) throw error;
+    ['rps_username', 'rps_avatar', 'rps_player_id'].forEach(key => localStorage.removeItem(key));
+    return true;
+  }
+
+  window.RPSAuth = { requireSession, getOrCreateProfile, getExistingProfile, signOut };
 })();
