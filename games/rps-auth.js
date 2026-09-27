@@ -1,0 +1,143 @@
+/* Shared authentication gate for multiplayer RPS. Guest tokens are never accepted as identity. */
+(function () {
+  'use strict';
+
+  const siteKey = window.RPS_TURNSTILE_SITE_KEY || document.querySelector('meta[name="rps-turnstile-site-key"]')?.content || '0x4AAAAAAFFMkP2iICgYR6Yh';
+  let pending = null;
+  let captchaToken = '';
+  let widgetId = null;
+
+  function ensureDialog() {
+    let dialog = document.getElementById('rpsAuthDialog');
+    if (dialog) return dialog;
+    dialog = document.createElement('dialog');
+    dialog.id = 'rpsAuthDialog';
+    dialog.style.cssText = 'width:min(430px,calc(100vw - 28px));border:1px solid #39445d;border-radius:18px;background:#171c27;color:#f8fafc;padding:22px;box-shadow:0 24px 90px #000a';
+    dialog.innerHTML = `
+      <form id="rpsAuthForm" method="dialog" style="display:grid;gap:12px;font:14px system-ui,sans-serif">
+        <h2 style="margin:0;font-size:22px">Sign in to play</h2>
+        <p style="margin:0;color:#aab3c4">Create a secure account to save a new profile and play multiplayer. Existing guest rankings stay visible but cannot be changed.</p>
+        <label>Email<input id="rpsAuthEmail" type="email" autocomplete="email" required style="display:block;width:100%;box-sizing:border-box;margin-top:5px;padding:12px;border-radius:10px;border:1px solid #39445d;background:#0e131c;color:#fff"></label>
+        <label>Password<input id="rpsAuthPassword" type="password" autocomplete="current-password" minlength="8" required style="display:block;width:100%;box-sizing:border-box;margin-top:5px;padding:12px;border-radius:10px;border:1px solid #39445d;background:#0e131c;color:#fff"></label>
+        <div id="rpsAuthTurnstile"></div>
+        <div id="rpsAuthMessage" role="status" aria-live="polite" style="min-height:18px;color:#d5d9e2"></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button type="button" id="rpsAuthSignIn" style="flex:1;padding:12px;border:0;border-radius:10px;background:#efbd3b;color:#17120a;font-weight:800">Sign in</button>
+          <button type="button" id="rpsAuthSignUp" style="flex:1;padding:12px;border:1px solid #58647d;border-radius:10px;background:#232b3a;color:#fff;font-weight:800">Create account</button>
+        </div>
+        <button type="button" id="rpsAuthCancel" style="padding:9px;border:0;background:transparent;color:#aab3c4">Cancel</button>
+      </form>`;
+    document.body.appendChild(dialog);
+    dialog.querySelector('#rpsAuthCancel').addEventListener('click', () => finish(null));
+    dialog.querySelector('#rpsAuthSignIn').addEventListener('click', () => submitAuth('signin'));
+    dialog.querySelector('#rpsAuthSignUp').addEventListener('click', () => submitAuth('signup'));
+    dialog.addEventListener('cancel', (event) => { event.preventDefault(); finish(null); });
+    loadTurnstile();
+    return dialog;
+  }
+
+  function setMessage(text, error) {
+    const node = document.getElementById('rpsAuthMessage');
+    if (node) { node.textContent = text; node.style.color = error ? '#ff9b9b' : '#b7dfbd'; }
+  }
+
+  function loadTurnstile() {
+    if (!siteKey || widgetId !== null) return;
+    if (!window.turnstile) {
+      if (!document.querySelector('script[data-rps-turnstile]')) {
+        const script = document.createElement('script');
+        script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+        script.async = true; script.defer = true; script.dataset.rpsTurnstile = 'true';
+        script.onload = loadTurnstile;
+        document.head.appendChild(script);
+      }
+      return;
+    }
+    const mount = document.getElementById('rpsAuthTurnstile');
+    if (!mount) return;
+    widgetId = window.turnstile.render(mount, {
+      sitekey: siteKey,
+      callback: token => { captchaToken = token; },
+      'expired-callback': () => { captchaToken = ''; },
+      'error-callback': () => { captchaToken = ''; }
+    });
+  }
+
+  function finish(session) {
+    const dialog = document.getElementById('rpsAuthDialog');
+    if (dialog?.open) dialog.close();
+    if (pending) { const resolve = pending; pending = null; resolve(session || null); }
+  }
+
+  async function submitAuth(mode) {
+    if (!pending?.db) return;
+    const dialog = ensureDialog();
+    const email = dialog.querySelector('#rpsAuthEmail').value.trim();
+    const password = dialog.querySelector('#rpsAuthPassword').value;
+    if (!email || !password) { setMessage('Enter your email and password.', true); return; }
+    if (mode === 'signup' && (!siteKey || !captchaToken)) {
+      setMessage('Account creation is paused until the configured Turnstile site key and challenge are available. Sign-in remains available.', true);
+      return;
+    }
+    const buttons = dialog.querySelectorAll('button');
+    buttons.forEach(button => button.disabled = true);
+    try {
+      let result;
+      if (mode === 'signup') {
+        result = await pending.db.auth.signUp({ email, password, options: { captchaToken } });
+      } else {
+        result = await pending.db.auth.signInWithPassword({ email, password, ...(captchaToken ? { captchaToken } : {}) });
+      }
+      if (result.error) throw result.error;
+      const session = result.data?.session || (await pending.db.auth.getSession()).data?.session;
+      if (!session) {
+        captchaToken = '';
+        if (window.turnstile && widgetId !== null) window.turnstile.reset(widgetId);
+        setMessage('Check your email for the confirmation link, then return here and sign in.', false);
+        buttons.forEach(button => button.disabled = false);
+        return;
+      }
+      finish(session);
+    } catch (error) {
+      captchaToken = '';
+      if (window.turnstile && widgetId !== null) window.turnstile.reset(widgetId);
+      setMessage(error?.message || 'Authentication failed. Try again.', true);
+      buttons.forEach(button => button.disabled = false);
+    }
+  }
+
+  async function requireSession(db) {
+    const { data, error } = await db.auth.getSession();
+    if (error) throw error;
+    if (data?.session) return data.session;
+    ensureDialog();
+    return new Promise(resolve => {
+      pending = { db };
+      const dialog = document.getElementById('rpsAuthDialog');
+      if (widgetId === null) loadTurnstile();
+      dialog.showModal();
+    });
+  }
+
+  async function getOrCreateProfile(db, username, avatarKey) {
+    const session = await requireSession(db);
+    if (!session) return null;
+    const { data, error } = await db.rpc('rps_v2_get_or_create_profile', {
+      p_username: String(username || '').trim(),
+      p_avatar_key: avatarKey || '🦊'
+    });
+    if (error) throw error;
+    localStorage.setItem('rps_username', String(data.username || username || ''));
+    return data;
+  }
+
+  async function getExistingProfile(db) {
+    const session = await requireSession(db);
+    if (!session) return null;
+    const { data, error } = await db.rpc('rps_v2_get_my_profile');
+    if (error) throw error;
+    return data || null;
+  }
+
+  window.RPSAuth = { requireSession, getOrCreateProfile, getExistingProfile };
+})();
