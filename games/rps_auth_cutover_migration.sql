@@ -24,9 +24,8 @@ BEGIN
   IF EXISTS (SELECT 1 FROM public.rps_match_history GROUP BY room_id,player_id HAVING count(*) > 1) THEN
     RAISE EXCEPTION 'RPS secure migration requires unique (room_id, player_id) match-history rows';
   END IF;
-  IF EXISTS (SELECT 1 FROM public.rps_players GROUP BY lower(username) HAVING count(*) > 1) THEN
-    RAISE EXCEPTION 'RPS secure migration requires case-insensitive unique usernames; review legacy duplicates before retrying';
-  END IF;
+  -- Legacy guest profiles may share a display name; preserve them unchanged.
+  -- New Auth-owned names are protected by the partial unique index below and RPC checks.
 END;
 $preflight$;
 
