@@ -26,6 +26,7 @@
 
   function authRedirectTo() {
     const target = new URL('/games/rps-play.html', window.location.origin);
+    target.searchParams.set('v', '20260929-profilegate');
     const code = pendingReferralCode();
     if (code) target.searchParams.set('ref', code);
     return target.toString();
