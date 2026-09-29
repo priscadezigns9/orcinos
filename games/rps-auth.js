@@ -158,19 +158,24 @@
     }
   }
 
-  async function requireSession(db, preferredMode = 'signin') {
-    const { data, error } = await db.auth.getSession();
-    if (error) throw error;
-    if (data?.session) return data.session;
+  function openAuthDialog(db, preferredMode = 'signin') {
     ensureDialog();
     return new Promise(resolve => {
       pending = { db, preferredMode };
       const dialog = document.getElementById('rpsAuthDialog');
       setAuthMode(preferredMode);
+      setMessage('', false);
       if (widgetId === null) loadTurnstile();
-      dialog.showModal();
+      if (!dialog.open) dialog.showModal();
       dialog.querySelector(preferredMode === 'signup' ? '#rpsAuthSignUp' : '#rpsAuthSignIn')?.focus();
     });
+  }
+
+  async function requireSession(db, preferredMode = 'signin') {
+    const { data, error } = await db.auth.getSession();
+    if (error) throw error;
+    if (data?.session) return data.session;
+    return openAuthDialog(db, preferredMode);
   }
 
   async function getOrCreateProfile(db, username, avatarKey, referralCode = null) {
@@ -205,5 +210,5 @@
     return true;
   }
 
-  window.RPSAuth = { requireSession, getOrCreateProfile, getExistingProfile, signOut };
+  window.RPSAuth = { openAuthDialog, requireSession, getOrCreateProfile, getExistingProfile, signOut };
 })();
