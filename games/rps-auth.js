@@ -25,11 +25,10 @@
   }
 
   function authRedirectTo() {
-    const target = new URL('/games/rps-play.html', window.location.origin);
-    target.searchParams.set('v', '20260929-profilegate');
-    const code = pendingReferralCode();
-    if (code) target.searchParams.set('ref', code);
-    return target.toString();
+    // Keep the OAuth callback on the exact allowlisted URL. Referral codes are
+    // already saved locally by pendingReferralCode(), so they survive the round trip.
+    pendingReferralCode();
+    return new URL('/games/rps-play.html', window.location.origin).toString();
   }
 
   function ensureDialog() {
