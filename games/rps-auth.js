@@ -203,12 +203,51 @@
     return data || null;
   }
 
+  function startPresence(db, getActivity) {
+    let stopped = false;
+    let inFlight = false;
+    const update = async () => {
+      if (stopped || inFlight) return;
+      let activity = 'online';
+      try { activity = typeof getActivity === 'function' ? getActivity() : getActivity; } catch (error) { activity = 'online'; }
+      if (!['online', 'playing'].includes(activity)) return;
+      inFlight = true;
+      try {
+        const { data, error } = await db.auth.getSession();
+        const user = data?.session?.user;
+        if (!error && user && user.is_anonymous !== true) {
+          await db.rpc('rps_presence_heartbeat', { p_activity: activity });
+        }
+      } catch (error) {}
+      finally { inFlight = false; }
+    };
+    const onVisible = () => { if (!document.hidden) update(); };
+    document.addEventListener('visibilitychange', onVisible);
+    const authResult = db.auth.onAuthStateChange((event, session) => {
+      if (event === 'SIGNED_OUT') {
+        window.setTimeout(() => { try { db.rpc('rps_presence_offline'); } catch (error) {} }, 0);
+      } else if (session) {
+        window.setTimeout(update, 0);
+      }
+    });
+    const subscription = authResult?.data?.subscription;
+    const timer = window.setInterval(update, 25000);
+    update();
+    return () => {
+      stopped = true;
+      window.clearInterval(timer);
+      document.removeEventListener('visibilitychange', onVisible);
+      subscription?.unsubscribe?.();
+    };
+  }
+
   async function signOut(db) {
+    try { await db.rpc('rps_presence_offline'); } catch (error) {}
     const { error } = await db.auth.signOut();
     if (error) throw error;
     ['rps_username', 'rps_avatar', 'rps_player_id', referralStorageKey].forEach(key => localStorage.removeItem(key));
     return true;
   }
 
-  window.RPSAuth = { openAuthDialog, requireSession, getOrCreateProfile, getExistingProfile, signOut };
+  window.RPSAuth = { openAuthDialog, requireSession, getOrCreateProfile, getExistingProfile, signOut, startPresence };
 })();
