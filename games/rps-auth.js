@@ -102,7 +102,7 @@
   function finish(session) {
     const dialog = document.getElementById('rpsAuthDialog');
     if (dialog?.open) dialog.close();
-    if (pending) { const resolve = pending; pending = null; resolve(session || null); }
+    if (pending) { const resolve = pending.resolve; pending = null; resolve(session || null); }
   }
 
   async function submitAuth(mode) {
@@ -165,7 +165,7 @@
   function openAuthDialog(db, preferredMode = 'signin') {
     ensureDialog();
     return new Promise(resolve => {
-      pending = { db, preferredMode };
+      pending = { db, preferredMode, resolve };
       const dialog = document.getElementById('rpsAuthDialog');
       setAuthMode(preferredMode);
       setMessage('', false);
