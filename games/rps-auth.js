@@ -147,11 +147,15 @@
     const button = document.getElementById('rpsAuthGoogle');
     if (button) button.disabled = true;
     try {
-      const { error } = await pending.db.auth.signInWithOAuth({
+      // OAuth may be launched from the setup iframe; redirect the whole page, not the iframe.
+      const { data, error } = await pending.db.auth.signInWithOAuth({
         provider: 'google',
-        options: { redirectTo: authRedirectTo() }
+        options: { redirectTo: authRedirectTo(), skipBrowserRedirect: true }
       });
       if (error) throw error;
+      if (!data?.url) throw new Error('Google sign-in did not return a redirect URL.');
+      const topWindow = window.top || window;
+      topWindow.location.assign(data.url);
     } catch (error) {
       setMessage(error?.message || 'Google sign-in could not start. Try email and password instead.', true);
       if (button) button.disabled = false;
