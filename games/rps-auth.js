@@ -28,7 +28,7 @@
     // Keep the OAuth callback on the exact allowlisted URL. Referral codes are
     // already saved locally by pendingReferralCode(), so they survive the round trip.
     pendingReferralCode();
-    return new URL('/games/rps-play.html', window.location.origin).toString();
+    return new URL('/games/rps-match.html', window.location.origin).toString();
   }
 
   function ensureDialog() {
