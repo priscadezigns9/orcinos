@@ -92,6 +92,11 @@ BEGIN
       SELECT 1 FROM public.rps_special_move_uses u
       WHERE u.room_id=v_room.id AND u.player_id=v_player.id AND u.special='reveal_hand'
     ),
+    'my_reserved_stake',coalesce((
+      SELECT sum(r.stake) FROM public.rps_rooms r
+      WHERE r.status='playing' AND r.match_finished_at IS NULL AND r.stake>0
+        AND v_player.id=ANY(array_remove(ARRAY[r.p1_player_id,r.p2_player_id,r.p3_player_id]::uuid[],NULL))
+    ),0),
     'match_finished',(v_room.match_finished_at IS NOT NULL),
     'match_finished_at',v_room.match_finished_at,'match_winner_ids',v_room.match_winner_ids
   );
@@ -116,6 +121,7 @@ DECLARE
   v_has_scissors boolean;
   v_has_hammer boolean;
   v_rows integer;
+  v_reserved_stake integer := 0;
   v_winning_move text;
   v_winners uuid[] := ARRAY[]::uuid[];
   v_result text;
@@ -123,7 +129,7 @@ DECLARE
 BEGIN
   IF v_uid IS NULL THEN RAISE EXCEPTION 'Authentication required' USING ERRCODE='28000'; END IF;
   IF p_move IS NULL OR p_move NOT IN ('rock','paper','scissors','hammer') THEN RAISE EXCEPTION 'Invalid move' USING ERRCODE='22023'; END IF;
-  SELECT * INTO v_player FROM public.rps_players WHERE auth_user_id=v_uid FOR UPDATE;
+  SELECT * INTO v_player FROM public.rps_players WHERE auth_user_id=v_uid;
   IF NOT FOUND THEN RAISE EXCEPTION 'Profile not found' USING ERRCODE='P0002'; END IF;
   SELECT * INTO v_room FROM public.rps_rooms WHERE id=p_room_id FOR UPDATE;
   IF NOT FOUND THEN RAISE EXCEPTION 'Room not found' USING ERRCODE='P0002'; END IF;
@@ -146,11 +152,15 @@ BEGIN
         WHERE u.room_id=v_room.id AND u.player_id=v_player.id AND u.round_number=v_room.round_number) THEN
         RAISE EXCEPTION 'Only one special move may be used per turn' USING ERRCODE='55000';
       END IF;
-      IF v_player.coins < 300+coalesce(v_room.stake,0) THEN
-        RAISE EXCEPTION 'Hammer costs 300 Chips, and you must keep enough Chips for your room stake' USING ERRCODE='P0001';
+      SELECT coalesce(sum(r.stake),0)::integer INTO v_reserved_stake
+      FROM public.rps_rooms r
+      WHERE r.status='playing' AND r.match_finished_at IS NULL AND r.stake>0
+        AND v_player.id=ANY(array_remove(ARRAY[r.p1_player_id,r.p2_player_id,r.p3_player_id]::uuid[],NULL));
+      IF v_player.coins < 300+v_reserved_stake THEN
+        RAISE EXCEPTION 'Hammer costs 300 Chips; active room stakes must remain covered' USING ERRCODE='P0001';
       END IF;
       UPDATE public.rps_players SET coins=coins-300,updated_at=now()
-        WHERE id=v_player.id AND coins>=300+coalesce(v_room.stake,0);
+        WHERE id=v_player.id AND coins>=300+v_reserved_stake;
       GET DIAGNOSTICS v_rows=ROW_COUNT;
       IF v_rows<>1 THEN RAISE EXCEPTION 'Not enough available RPS Chips for Hammer' USING ERRCODE='P0001'; END IF;
       INSERT INTO public.rps_special_move_uses(room_id,player_id,round_number,special,cost)
@@ -236,9 +246,10 @@ DECLARE
   v_revealed jsonb;
   v_existing jsonb;
   v_rows integer;
+  v_reserved_stake integer := 0;
 BEGIN
   IF v_uid IS NULL THEN RAISE EXCEPTION 'Authentication required' USING ERRCODE='28000'; END IF;
-  SELECT * INTO v_player FROM public.rps_players WHERE auth_user_id=v_uid FOR UPDATE;
+  SELECT * INTO v_player FROM public.rps_players WHERE auth_user_id=v_uid;
   IF NOT FOUND THEN RAISE EXCEPTION 'Profile not found' USING ERRCODE='P0002'; END IF;
   SELECT * INTO v_room FROM public.rps_rooms WHERE id=p_room_id FOR UPDATE;
   IF NOT FOUND THEN RAISE EXCEPTION 'Room not found' USING ERRCODE='P0002'; END IF;
@@ -278,8 +289,12 @@ BEGIN
   ) THEN
     RAISE EXCEPTION 'Wait until every opponent has locked in a move' USING ERRCODE='55000';
   END IF;
-  IF v_player.coins < 500+coalesce(v_room.stake,0) THEN
-    RAISE EXCEPTION 'Reveal Hand costs 500 Chips, and you must keep enough Chips for your room stake' USING ERRCODE='P0001';
+  SELECT coalesce(sum(r.stake),0)::integer INTO v_reserved_stake
+  FROM public.rps_rooms r
+  WHERE r.status='playing' AND r.match_finished_at IS NULL AND r.stake>0
+    AND v_player.id=ANY(array_remove(ARRAY[r.p1_player_id,r.p2_player_id,r.p3_player_id]::uuid[],NULL));
+  IF v_player.coins < 500+v_reserved_stake THEN
+    RAISE EXCEPTION 'Reveal Hand costs 500 Chips; active room stakes must remain covered' USING ERRCODE='P0001';
   END IF;
   SELECT coalesce(jsonb_agg(jsonb_build_object('slot',s.slot,'name',s.display_name,'move',s.move) ORDER BY s.slot),'[]'::jsonb)
     INTO v_revealed
@@ -290,7 +305,7 @@ BEGIN
   ) AS s(slot,player_id,display_name,move)
   WHERE s.player_id IS NOT NULL AND s.player_id<>v_player.id;
   UPDATE public.rps_players SET coins=coins-500,updated_at=now()
-    WHERE id=v_player.id AND coins>=500+coalesce(v_room.stake,0);
+    WHERE id=v_player.id AND coins>=500+v_reserved_stake;
   GET DIAGNOSTICS v_rows=ROW_COUNT;
   IF v_rows<>1 THEN RAISE EXCEPTION 'Not enough available RPS Chips for Reveal Hand' USING ERRCODE='P0001'; END IF;
   INSERT INTO public.rps_special_move_uses(room_id,player_id,round_number,special,cost,revealed_moves)
