@@ -1,4 +1,4 @@
-const CACHE_NAME = 'triplethreat-shell-v1';
+const CACHE_NAME = 'triplethreat-shell-v2';
 const SHELL = [
   '/triplethreat/',
   '/triplethreat/index.html',
@@ -28,4 +28,11 @@ self.addEventListener('fetch', event => {
       event.respondWith(caches.match(request).then(cached => cached || fetch(request)));
     }
   }
+});
+self.addEventListener('notificationclick', event => {
+  event.notification.close();
+  event.waitUntil(self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then(clients => {
+    const client = clients.find(item => item.url.includes('/triplethreat/'));
+    return client ? client.focus() : self.clients.openWindow('/triplethreat/');
+  }));
 });
