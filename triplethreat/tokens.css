@@ -35,8 +35,8 @@
   --color-ma21: oklch(81% 0.13 215);
   --color-ma200: oklch(75% 0.11 300);
 
-  --font-display: -apple-system, BlinkMacSystemFont, "Trebuchet MS", Roboto, Ubuntu, sans-serif;
-  --font-body: -apple-system, BlinkMacSystemFont, "Trebuchet MS", Roboto, Ubuntu, sans-serif;
+  --font-display: "Trebuchet MS", Roboto, Ubuntu, sans-serif;
+  --font-body: "Trebuchet MS", Roboto, Ubuntu, sans-serif;
 
   --space-1: 4px;
   --space-2: 8px;
