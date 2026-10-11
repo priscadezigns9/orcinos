@@ -35,8 +35,8 @@
   --color-ma21: oklch(81% 0.13 215);
   --color-ma200: oklch(75% 0.11 300);
 
-  --font-display: "Trebuchet MS", Roboto, Ubuntu, sans-serif;
-  --font-body: "Trebuchet MS", Roboto, Ubuntu, sans-serif;
+  --font-display: "Space Grotesk", sans-serif;
+  --font-body: "Space Grotesk", sans-serif;
 
   --space-1: 4px;
   --space-2: 8px;
