@@ -1,0 +1,63 @@
+/* Hallmark · macrostructure: Workbench · tone: technical · anchor hue: blue
+ * theme: Midnight · palette: Orcinos charcoal, blue and gold · page: Triple Threat FX
+ * Palette role notes: bullish is mint, bearish is blue; red is intentionally absent.
+ */
+:root {
+  color-scheme: dark;
+
+  --color-canvas: oklch(16.8% 0.024 260);
+  --color-surface: oklch(20.5% 0.027 260);
+  --color-surface-raised: oklch(23.5% 0.03 258);
+  --color-surface-inset: oklch(18.2% 0.025 260);
+  --color-line: oklch(32% 0.026 258);
+  --color-line-strong: oklch(40% 0.035 257);
+  --color-ink: oklch(94% 0.012 255);
+  --color-muted: oklch(72% 0.02 255);
+  --color-subtle: oklch(56% 0.025 255);
+  --color-blue: oklch(73% 0.14 255);
+  --color-blue-soft: oklch(30% 0.065 258);
+  --color-gold: oklch(81% 0.145 84);
+  --color-gold-soft: oklch(32% 0.062 82);
+  --color-up: oklch(73% 0.13 164);
+  --color-down: oklch(72% 0.12 252);
+  --color-warning: oklch(79% 0.135 84);
+  --color-chart-grid: oklch(34% 0.022 258 / 0.58);
+  --color-overlay: oklch(13% 0.022 260 / 0.92);
+  --color-shadow: oklch(0% 0 0 / 0.34);
+  --color-focus: oklch(84% 0.14 84);
+  --color-chart-bg: oklch(18.2% 0.026 260);
+  --color-ma9: oklch(74% 0.14 255);
+  --color-ma21: oklch(80% 0.145 84);
+  --color-ma200: oklch(72% 0.11 300);
+
+  --font-display: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-body: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-xl: 24px;
+  --radius-pill: 999px;
+
+  --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --duration-fast: 140ms;
+  --duration-ui: 190ms;
+
+  /* Small compatibility aliases used by the existing strategy renderer. */
+  --green: var(--color-up);
+  --amber: var(--color-gold);
+  --muted: var(--color-subtle);
+}
