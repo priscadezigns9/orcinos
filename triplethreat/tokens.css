@@ -1,6 +1,6 @@
 /* Hallmark · macrostructure: Workbench · tone: technical · anchor hue: blue
  * theme: Midnight · palette: Orcinos charcoal, blue and cyan · page: Triple Threat FX
- * Palette role notes: bullish is mint, bearish is blue; red is intentionally absent.
+ * Palette role notes: bullish is green, bearish is red.
  */
 :root {
   color-scheme: dark;
@@ -23,8 +23,8 @@
   --color-blue-soft: oklch(40% 0.07 258 / 0.38);
   --color-accent: oklch(76% 0.14 215);
   --color-accent-soft: oklch(38% 0.075 215 / 0.38);
-  --color-up: oklch(73% 0.13 164);
-  --color-down: oklch(72% 0.12 252);
+  --color-up: oklch(72% 0.17 145);
+  --color-down: oklch(65% 0.19 25);
   --color-warning: var(--color-accent);
   --color-chart-grid: oklch(68% 0.022 258 / 0.16);
   --color-overlay: oklch(13% 0.022 260 / 0.58);
