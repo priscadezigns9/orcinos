@@ -141,7 +141,7 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid 
 <script>
 (()=>{
 'use strict';
-const PAIRS=['USD/CAD','GBP/AUD','NZD/USD','EUR/GBP','CHF/JPY','AUD/USD','USD/CHF'];
+const PAIRS=['USD/CAD','GBP/AUD','EUR/GBP','CHF/JPY','AUD/USD','USD/CHF'];
 const INTERVALS={M15:{api:'15min',ms:900000},H1:{api:'1h',ms:3600000},H4:{api:'4h',ms:14400000}};
 const $=id=>document.getElementById(id);
 const state={pair:'USD/CAD',frame:'M15',ma:'EMA',data:{M15:[],H1:[],H4:[]},key:sessionStorage.getItem('ttfx_key')||localStorage.getItem('ttfx_key')||'',busy:false,timer:null,lastSuccess:null,activeCandidate:'',cache:new Map(),zoomBars:72,panOffset:0};
