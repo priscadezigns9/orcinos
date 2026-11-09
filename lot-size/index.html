@@ -64,7 +64,7 @@ goatPayLater:{items:[['Forex leverage','1:100 evaluation / 1:50 funded'],['Profi
  exness:{items:[['Forex leverage','Not set'],['Daily max loss','Not set'],['Max overall loss','Not set'],['Consistency score','Not set']],note:'Exness profile is a placeholder; account-specific trading limits have not been added.'}
 };
 function renderAccountRules(){let d=accountRuleData[$('account').value]||accountRuleData.exness;$('accountRules').innerHTML=d.items.map(([k,v])=>'<div class="ruleItem"><span>'+k+':</span> <strong>'+v+'</strong></div>').join('');$('rulesNote').textContent=d.note}
-const riskDefaults={instant:'10',competition:'',mavenInstant:'15',mavenChallenge:'100',goatInstant:'',goatPayLater:'',exness:''};
+const riskDefaults={instant:'10',competition:'',mavenInstant:'15',mavenChallenge:'100',goatInstant:'10',goatPayLater:'',exness:''};
 function set(){let a=$('account').value;return a==='instant'?instant:a==='competition'?competition:a==='mavenInstant'?mavenInstant:a==='mavenChallenge'?mavenChallenge:a==='goatInstant'?goatInstant:a==='goatPayLater'?goatPayLater:Object.fromEntries(exness.map(x=>[x,{}]))}
 function populate(){renderAccountRules();let s=$('pair'),old=s.value,data=set();s.innerHTML='';Object.keys(data).forEach(name=>{let o=document.createElement('option');o.value=name;o.textContent=name;s.appendChild(o)});if(old&&data[old])s.value=old;load()}
 function changeAccount(){ $('risk').value=riskDefaults[$('account').value]??''; populate() }
