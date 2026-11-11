@@ -3,7 +3,7 @@
 <head>
  <meta charset="UTF-8" />
  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
- <title>ORCINOS | Your Caribbean AI Assistant</title>
+ <title>Orcinos | Focused Digital Products</title>
  <style>
  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
  :root {
@@ -239,6 +239,23 @@
  text-decoration: none;
  }
  .footer-contact a:hover { text-decoration: underline; }
+
+ .products { width:min(1100px,calc(100% - 48px)); margin:0 auto 96px; }
+ .products-head { max-width:680px; margin:0 auto 32px; text-align:center; }
+ .section-kicker,.product-type { color:var(--blue-light); font-size:.72rem; font-weight:700; letter-spacing:.12em; }
+ .products-head h2 { margin:12px 0; color:var(--text); font-size:clamp(1.8rem,4vw,2.8rem); letter-spacing:-.035em; }
+ .products-head>p:last-child { color:var(--muted); line-height:1.6; }
+ .product-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; }
+ .product-card { display:flex; flex-direction:column; min-height:218px; padding:24px; color:inherit; text-decoration:none; border:1px solid var(--border); border-radius:16px; background:var(--card-bg); transition:transform .2s,border-color .2s,background .2s; }
+ .product-card:hover { transform:translateY(-3px); border-color:rgba(56,189,248,.32); background:rgba(255,255,255,.065); }
+ .product-card h3 { margin:14px 0 8px; color:var(--text); font-size:1.3rem; }
+ .product-card p { margin-bottom:20px; color:var(--muted); font-size:.9rem; line-height:1.55; }
+ .product-link { margin-top:auto; color:var(--blue-light); font-size:.88rem; font-weight:650; }
+ .product-link b { margin-left:5px; }
+ .banner { display:block; text-decoration:none; }
+ @media(max-width:900px){.product-grid{grid-template-columns:repeat(2,minmax(0,1fr));}}
+ @media(max-width:600px){.products{width:calc(100% - 32px);margin-bottom:64px}.product-grid{grid-template-columns:minmax(0,1fr)}.product-card{min-height:185px}}
+
  /* ── FOOTER ── */
  footer {
  border-top: 1px solid var(--border);
@@ -397,25 +414,25 @@
  <img src="https://raw.githubusercontent.com/priscadezigns9/orcinos/main/logos/ORCINOS_DEFINITIVE_2026.png" alt="Orcinos" />
  </a>
  <ul class="nav-links">
- <li><a href="https://orcinos.com/products.html">API Docs</a></li>
+ <li><a href="#products">Products</a></li>
  <li><a href="/login.html">Sign In</a></li>
  </ul>
  </nav>
  <!-- ANNOUNCEMENT BANNER -->
- <div class="banner">
- <span>🎉</span>
- Orcinos Neural Connector v2 is live — WhatsApp, Outlook & Google Calendar integrations now available. Click for details.
- </div>
+ <a class="banner" href="#products">
+ <span>Explore</span>
+ A collection of focused digital products
+ </a>
  <!-- HERO -->
  <main>
  <div class="hero">
  <div class="hero-left">
  <div class="wordmark">orcinos</div>
- <div class="tagline">Intelligence for the Caribbean.</div>
+ <div class="tagline">Digital tools for different parts of life.</div>
  <div class="cta-group">
- <a href="/login.html" class="cta-btn primary">
- <span class="cta-title">Start Now</span>
- <span class="cta-desc">Free access to Orcinos.<br>Experience your Caribbean AI.</span>
+ <a href="#products" class="cta-btn primary">
+ <span class="cta-title">Explore the products</span>
+ <span class="cta-desc">Choose a focused tool for driving, traffic, attendance, markets or play.</span>
  </a>
  
  </div>
@@ -423,19 +440,35 @@
  
  </div>
  </main>
+ <section class="products" id="products" aria-labelledby="products-title">
+  <div class="products-head">
+   <p class="section-kicker">THE ORCINOS COLLECTION</p>
+   <h2 id="products-title">One collection. Different jobs.</h2>
+   <p>Explore each product on its own terms and go straight to the tool you need.</p>
+  </div>
+  <div class="product-grid">
+   <a class="product-card" href="/lens/index.html"><span class="product-type">TRAFFIC TOOLS</span><h3>Oplix</h3><p>Traffic monitoring and intersection tools built around camera feeds.</p><span class="product-link">Explore Oplix <b aria-hidden="true">↗</b></span></a>
+   <a class="product-card" href="/drive.html"><span class="product-type">DRIVING TOOLS</span><h3>Motiq</h3><p>Driving, trip-recording and vehicle-diagnostics tools.</p><span class="product-link">Explore Motiq <b aria-hidden="true">↗</b></span></a>
+   <a class="product-card" href="/presab/"><span class="product-type">ATTENDANCE</span><h3>Presab</h3><p>An attendance dashboard for managing people and attendance records.</p><span class="product-link">Explore Presab <b aria-hidden="true">↗</b></span></a>
+   <a class="product-card" href="/triplethreat/"><span class="product-type">MARKET MONITOR</span><h3>Triple Threat FX</h3><p>A forex chart and strategy monitor for reviewing closed candles.</p><span class="product-link">Explore Triple Threat FX <b aria-hidden="true">↗</b></span></a>
+   <a class="product-card" href="/games/rps-live.html"><span class="product-type">GAME</span><h3>Rock, Paper, Scissors</h3><p>Practice against a bot or play matches with other players.</p><span class="product-link">Play Rock, Paper, Scissors <b aria-hidden="true">↗</b></span></a>
+  </div>
+ </section>
  <!-- FOOTER -->
  <footer>
  <div class="footer-top">
  <div class="footer-brand">
  <img src="https://raw.githubusercontent.com/priscadezigns9/orcinos/main/logos/ORCINOS_DEFINITIVE_2026.png" alt="Orcinos" class="footer-logo-img" />
- <p class="footer-tagline">Intelligence for the Caribbean.</p>
+ <p class="footer-tagline">Focused digital products, each with its own purpose.</p>
  
  </div>
  <div class="footer-col">
  <h4>Products</h4>
  <ul>
- <li><a href="/login.html?next=/chat.html">Orcinos Chat</a></li>
+ 
  <li><a href="/lens/index.html">Oplix</a></li>
+ <li><a href="/triplethreat/">Triple Threat FX</a></li>
+ <li><a href="/games/rps-live.html">Rock, Paper, Scissors</a></li>
  <li><a href="/drive.html">Motiq</a></li>
  <li><a href="/presab/">Presab</a></li>
  </ul>
