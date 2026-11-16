@@ -1,0 +1,26 @@
+{
+  "id": "/highman-minimart/",
+  "name": "Highman Minimart",
+  "short_name": "Highman",
+  "description": "Highman Minimart sales and inventory workspace",
+  "start_url": "/highman-minimart/",
+  "scope": "/highman-minimart/",
+  "display": "standalone",
+  "background_color": "#f5f6f8",
+  "theme_color": "#14367d",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/highman-minimart/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/highman-minimart/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
