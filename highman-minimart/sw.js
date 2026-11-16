@@ -1,4 +1,4 @@
-const VERSION='highman-shell-v1';
+const VERSION='highman-shell-v2';
 const SHELL=[
   '/highman-minimart/',
   '/highman-minimart/manifest.webmanifest',
@@ -6,7 +6,8 @@ const SHELL=[
   '/highman-minimart/icons/icon-512.png',
   '/logos/ORCINOS_DEFINITIVE_2026.png',
   '/logos/orcinos_icon.png',
-  '/payroll/supabase-js.js'
+  '/payroll/supabase-js.js',
+  '/highman-minimart/html5-qrcode.min.js'
 ];
 self.addEventListener('install',event=>{
   event.waitUntil(caches.open(VERSION).then(cache=>cache.addAll(SHELL)).then(()=>self.skipWaiting()));
