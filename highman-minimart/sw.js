@@ -1,4 +1,4 @@
-const VERSION='highman-shell-v2';
+const VERSION='highman-shell-v3';
 const SHELL=[
   '/highman-minimart/',
   '/highman-minimart/manifest.webmanifest',
